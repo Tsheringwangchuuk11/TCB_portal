@@ -1,0 +1,74 @@
+@charset "UTF-8";
+.top_bar {
+	padding: 3px;
+	background-color: #fff;
+}
+.top_bar span {
+	color: #333366;
+}
+.top_bar button {
+	background-color: #333366;
+	color: #fff;
+	margin-right: -60px;
+	float: right;
+}
+.top_bar button:hover {
+	background-color: #333366;
+	color: #fff;
+}
+
+/* Nav Bar */
+.custom_navbar {
+	padding-top: 45px;
+}
+.navbar-light .navbar-brand span {
+	font-size: 17px;
+	color: #333366;
+}
+nav span{
+	color:#333366;
+	float: left;
+	font-size: 0.9em;
+	font-weight: 700; 
+	margin: 5px 0 0;
+	text-transform: uppercase;
+	width: 100%;
+	padding-bottom: 5px; 
+}
+.topnav li {
+	margin: -7px;
+}
+.dropdown:hover>.dropdown-menu {
+	display: block;
+}
+.dropdown-menu {
+	border: none;
+}
+.dropdown-menu a:hover {
+	border-radius: 2px;
+	border-top: 2px solid #333366;
+	background-color: #333366;
+	color: #fff;
+}
+.media-body i {
+	padding-right: 5px;
+}
+
+.portal .my {
+	width: 70px;
+	border-width: 3px;
+	border-color: #8a9345;
+	padding-bottom: 25px;
+}
+.portal p {
+	font-size: 20px;
+}
+.portal .fa-color {
+	color: #8a9345;
+}
+
+/* Footer */
+.footer_color a {
+   color: #333366;
+}
+

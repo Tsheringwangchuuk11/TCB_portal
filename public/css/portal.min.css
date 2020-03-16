@@ -1,0 +1,6 @@
+@charset "UTF-8";/*!
+.layout-top-nav .wrapper .main-header .brand-image.brand-image-height {
+    margin-top: -.5rem;
+     margin-right: .2rem; 
+    height: 162px;
+}
