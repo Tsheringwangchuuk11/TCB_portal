@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>TCB</title>
   <!-- Font Awesome Icons -->
   <link href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}" rel="stylesheet">

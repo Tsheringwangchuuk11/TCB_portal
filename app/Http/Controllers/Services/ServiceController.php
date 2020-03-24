@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Services;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\ServiceModel;
 use DB;
 
 class ServiceController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -23,17 +23,6 @@ class ServiceController extends Controller
 
         $page_link=str_replace("-", '/', $request->page_link);
         return view($page_link, compact('location'));
-    }
-
-    public function addDocuments(Request $request)
-    {
-        // $document_id = $this->ServiceModel->getFileUploadID();
-        // $file = $request->file('files');
-        // $filename = $file->getClientOriginalName();
-        // dd($filename);
-        $file = "yess";
-        // return json_encode(array('data'=>$document_id));
-        return response()->json(['data' => $file]);
     }
 
     /**
@@ -54,7 +43,7 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         // dd('yass');
     }
 
     /**
