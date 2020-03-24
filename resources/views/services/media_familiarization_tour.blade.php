@@ -5,7 +5,7 @@
     <div class="card-header bg-success">
         <h4 class="card-title">Bhutan Media Familarization Registration </h4>
     </div>
-    <form class="form" role="form" action="{{ url('new-license/store') }}" method="POST" enctype="multipart/form-data">
+    <form class="form" role="form" action="{{ url('service-create/store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="card-body">
             <div class="row">

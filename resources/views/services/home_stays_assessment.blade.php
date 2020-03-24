@@ -5,7 +5,7 @@
   <div class="card-header bg-success">
     <div class="card-title">Village Home Stay Registration</div>
   </div>
-  <form action="{{ url('home-stay-registation/store') }}" class="form-horizontal" method="POST" enctype="multipart/form-data">
+  <form action="{{ url('service-create/store') }}" class="form-horizontal" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="card-body">
       <div class="row">

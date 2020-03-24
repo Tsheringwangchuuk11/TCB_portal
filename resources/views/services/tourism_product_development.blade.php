@@ -5,8 +5,12 @@
     <div class="card-header bg-success">
        <h4 class="card-title">Infrastructure And Product Development Fund</h4>
    </div>
-   <form class="form" role="form" action="{{ url('new-license/store') }}" method="POST" enctype="multipart/form-data">
+   <form class="form" role="form" action="{{ url('service-create/store') }}" method="POST" enctype="multipart/form-data">
     @csrf
+    @foreach ($idInfos as $idInfo)
+    <input type="hidden" name="service_id" value="{{ $idInfo->service_id }}" id="service_id">
+    <input type="hidden" name="module_id" value="{{ $idInfo->module_id }}" id="service_id">
+    @endforeach 
     <div class="card-body">
         <div class="row">
             <div class="col-md-12">

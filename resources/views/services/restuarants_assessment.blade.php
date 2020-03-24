@@ -139,7 +139,7 @@
         </div>
       </div>
       <div id="field_wrapper1"></div>
-      <div align="right">
+      <div class="float:right">
         <span class="btn btn-success btn-sm" id="add1"> <i class="fas fa-plus fa-sm"><span> Add</span></i> </span>
       </div>
 

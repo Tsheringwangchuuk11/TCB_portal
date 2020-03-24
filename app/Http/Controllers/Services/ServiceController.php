@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Services;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\ServiceModel;
+use App\Http\Requests\CreateServiceRequest;
+use App\Models\Services\ServiceModel;
 use DB;
-
+use File;
 class ServiceController extends Controller
 {
     /**
@@ -14,26 +15,28 @@ class ServiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct(ServiceModel $serviceModel)
+    {
+       $this->serviceModel = $serviceModel;
+    }
     public function index(Request $request)
     {
         // fetching location
-        $location = DB::table("t_location as t1")
-        ->select('t1.location_id','t1.location_name')
-        ->get();
-
         $page_link=str_replace("-", '/', $request->page_link);
-        return view($page_link, compact('location'));
+        $idInfos=DB::table('t_module_service_mapping as t1')
+                    ->select('t1.module_id','t1.service_id')
+                    ->where('t1.page_link',$page_link)
+                    ->get();
+        $starCategoryLists=DB::table('t_star_category')
+                             ->select('star_category_id','star_category_name')
+                             ->get();
+        return view($page_link, compact('location','idInfos','starCategoryLists'));
     }
 
     public function addDocuments(Request $request)
     {
-        // $document_id = $this->ServiceModel->getFileUploadID();
-        // $file = $request->file('files');
-        // $filename = $file->getClientOriginalName();
-        // dd($filename);
-        $file = "yess";
-        // return json_encode(array('data'=>$document_id));
-        return response()->json(['data' => $file]);
+    
+    
     }
 
     /**
@@ -52,9 +55,10 @@ class ServiceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateServiceRequest $request)
     {
-        //
+        $saveData = $this->serviceModel->saveApplicantDetails($request);
+        return redirect()->back()->with('msg','Data save successfully');
     }
 
     /**

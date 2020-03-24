@@ -2,6 +2,7 @@
 <html lang="{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
   <meta charset="utf-8">
+  <meta name="csrf_token" content="{{csrf_token()}}">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>TCB</title>
@@ -283,6 +284,7 @@
 <!-- ChartJS -->
 <script src="{{ asset('plugins/chart.js/Chart.min.js') }}"></script>
 <!-- fileupload -->
+<script src="{{ asset('fileupload/jquery.ui.widget.js') }}"></script>
 <script src="{{ asset('fileupload/jquery.fileupload.js') }}"></script>
 <!-- CommonUtil -->
 <script src="{{ asset('js/commonUtil.js') }}"></script>
