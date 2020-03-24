@@ -251,6 +251,7 @@
   </div>    
 </form>
 </div>
+@endsection
 @section('page_scripts')
 <!-- room type -->
 <script>
@@ -327,6 +328,4 @@
     });
   });
 </script>
-
-@endsection
 @endsection

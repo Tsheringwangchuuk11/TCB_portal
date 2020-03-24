@@ -4,11 +4,8 @@ namespace App\Http\Controllers\Services;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-<<<<<<< HEAD
-=======
 use App\Http\Requests\CreateServiceRequest;
 use App\Models\Services\ServiceModel;
->>>>>>> aee54b6e84cf59a3e0bf1db8c2aeb28e34553a75
 use DB;
 use File;
 class ServiceController extends Controller
@@ -37,15 +34,6 @@ class ServiceController extends Controller
         return view($page_link, compact('location','idInfos','starCategoryLists'));
     }
 
-<<<<<<< HEAD
-=======
-    public function addDocuments(Request $request)
-    {
-    
-    
-    }
-
->>>>>>> aee54b6e84cf59a3e0bf1db8c2aeb28e34553a75
     /**
      * Show the form for creating a new resource.
      *
@@ -64,12 +52,9 @@ class ServiceController extends Controller
      */
     public function store(CreateServiceRequest $request)
     {
-<<<<<<< HEAD
          // dd('yass');
-=======
         $saveData = $this->serviceModel->saveApplicantDetails($request);
         return redirect()->back()->with('msg','Data save successfully');
->>>>>>> aee54b6e84cf59a3e0bf1db8c2aeb28e34553a75
     }
 
     /**
