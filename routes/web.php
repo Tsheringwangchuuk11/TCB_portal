@@ -20,7 +20,8 @@ Route::get('/', function () {
 
  Route::get('/home/get-services', 'HomeController@getServices');
  Route::get('/home/get-modules', 'HomeController@getModules');
-
+// fileupload
+ Route::post('documentattach', 'Services\FileUploadController@addDocuments');
 // services
  Route::resource('service-create/{page_link}', 'Services\ServiceController');
 
