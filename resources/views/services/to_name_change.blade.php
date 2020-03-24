@@ -6,7 +6,7 @@
   <div class="card-header bg-success">
     <h4 class="card-title">Name Change of Tour Operator</h4>
   </div>
-  <form action="{{ url('tour_operator_name_change/store') }}" method="POST" enctype="multipart/form-data">
+  <form action="{{ url('service-create/store') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="card-body">
       <div class="row">

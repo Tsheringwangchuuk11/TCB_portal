@@ -4,8 +4,13 @@ namespace App\Http\Controllers\Services;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+<<<<<<< HEAD
+=======
+use App\Http\Requests\CreateServiceRequest;
+use App\Models\Services\ServiceModel;
+>>>>>>> aee54b6e84cf59a3e0bf1db8c2aeb28e34553a75
 use DB;
-
+use File;
 class ServiceController extends Controller
 {
 
@@ -14,17 +19,33 @@ class ServiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct(ServiceModel $serviceModel)
+    {
+       $this->serviceModel = $serviceModel;
+    }
     public function index(Request $request)
     {
         // fetching location
-        $location = DB::table("t_location as t1")
-        ->select('t1.location_id','t1.location_name')
-        ->get();
-
         $page_link=str_replace("-", '/', $request->page_link);
-        return view($page_link, compact('location'));
+        $idInfos=DB::table('t_module_service_mapping as t1')
+                    ->select('t1.module_id','t1.service_id')
+                    ->where('t1.page_link',$page_link)
+                    ->get();
+        $starCategoryLists=DB::table('t_star_category')
+                             ->select('star_category_id','star_category_name')
+                             ->get();
+        return view($page_link, compact('location','idInfos','starCategoryLists'));
     }
 
+<<<<<<< HEAD
+=======
+    public function addDocuments(Request $request)
+    {
+    
+    
+    }
+
+>>>>>>> aee54b6e84cf59a3e0bf1db8c2aeb28e34553a75
     /**
      * Show the form for creating a new resource.
      *
@@ -41,9 +62,14 @@ class ServiceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateServiceRequest $request)
     {
+<<<<<<< HEAD
          // dd('yass');
+=======
+        $saveData = $this->serviceModel->saveApplicantDetails($request);
+        return redirect()->back()->with('msg','Data save successfully');
+>>>>>>> aee54b6e84cf59a3e0bf1db8c2aeb28e34553a75
     }
 
     /**

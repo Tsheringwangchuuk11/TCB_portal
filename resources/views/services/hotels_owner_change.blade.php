@@ -5,7 +5,7 @@
   <div class="card-header bg-success">
     <h4 class="card-title">Ownership Change For Tourist Hotels</h4>
   </div>
-  <form action="{{ url('tourist_standard_hotels/store') }}" method="POST" enctype="multipart/form-data">
+  <form action="{{ url('service-create/store') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="card-body">
       <div class="form-row">

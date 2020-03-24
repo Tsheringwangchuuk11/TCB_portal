@@ -21,13 +21,6 @@ Route::get('/', function () {
  Route::get('/home/get-services', 'HomeController@getServices');
  Route::get('/home/get-modules', 'HomeController@getModules');
 
-// fileuploads
- // Route::match(array('GET','POST'), '/documentattach', 'Services\FileUploadController@addDocuments');
-//  Route::post('documentattach', [
-//  	'as' => 'document',
-//     'uses' => 'Services\FileUploadController@addDocuments'
-// ]);
- Route::post('documentattach', 'Services\FileUploadController@addDocuments');
 // services
  Route::resource('service-create/{page_link}', 'Services\ServiceController');
 
