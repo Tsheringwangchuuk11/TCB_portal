@@ -5,7 +5,7 @@
     <div class="card-header bg-success">
         <h4 class="card-title"> Propertetor Card Form </h4>
     </div>
-    <form action="{{ url('new-license/store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ url('service-create/store') }}" method="POST" enctype="multipart/form-data">
      @csrf
         <div class="card-body">
             <div class="row">

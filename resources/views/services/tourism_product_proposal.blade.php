@@ -5,7 +5,7 @@
   <div class="card-header bg-success">
     <h3 class="card-title">Tourism Product Proposal Form</h3>
   </div>
-  <form action="{{ url('tourism_product_proposal/store') }}" method="POST" enctype="multipart/form-data">
+  <form action="{{ url('service-create/store') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="card-body">
      <h5>Proponent Details</h5>

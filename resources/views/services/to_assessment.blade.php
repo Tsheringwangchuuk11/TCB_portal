@@ -11,7 +11,7 @@
       <p class="text-danger pt-3">Note: (*) fields are required</p>
     </div>
   </div>
-  <form action="{{ url('tour_operator_office/store') }}" method="POST" enctype="multipart/form-data">
+  <form action="{{ url('service-create/store') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="card-body" style="margin-top: -20px;">
       <div class="row">

@@ -11,7 +11,7 @@
     </div>
   </div>
 
-  <form action="{{ url('tour_operator_office/store') }}" method="POST" enctype="multipart/form-data">
+  <form action="{{ url('service-create/store') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="card-body">
       <h5>Person or Firm submitting Application (“Complainant”)</h5>
