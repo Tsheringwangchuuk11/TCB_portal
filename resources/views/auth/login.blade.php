@@ -28,10 +28,10 @@
             <div class="card-body login-card-body">
                  <p class="login-box-msg">Sign in to start your session</p>
                     <form method="POST" action="{{ route('login') }}">
-                        @csrf        
+                        @csrf
                             <div class="input-group mb-3">
-                                <input id="email" type="email" class="form-control @error('user_email') is-invalid @enderror" name="user_email" value="{{ old('user_email') }}" required autocomplete="email" autofocus  placeholder="Email">
-                                    @error('user_email')
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus  placeholder="Email">
+                                    @error('email')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -43,8 +43,8 @@
                                 </div>
                             </div>
                             <div class="input-group mb-3">
-                                <input id="password" type="password" class="form-control @error('user_pass') is-invalid @enderror" name="user_pass" required autocomplete="current-password" placeholder="Password">
-                                    @error('user_pass')
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="Password">
+                                    @error('password')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -65,7 +65,7 @@
                                     </div>
                                 </div>
                             <!-- /.col -->
-                                <div class="col-4"> 
+                                <div class="col-4">
                                     <button type="submit" class="btn btn-primary btn-block">Sign In</button>
                                 </div>
                             <!-- /.col -->
