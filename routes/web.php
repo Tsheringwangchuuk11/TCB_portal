@@ -22,6 +22,7 @@ Route::get('/', function () {
  Route::get('/home/get-modules', 'HomeController@getModules');
 // fileupload
  Route::post('documentattach', 'Services\FileUploadController@addDocuments');
+ Route::post('deletefile', 'Services\FileUploadController@deleteFile');
 // services
  Route::resource('service-create/{page_link}', 'Services\ServiceController');
 

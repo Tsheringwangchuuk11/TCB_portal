@@ -18,8 +18,16 @@ class FileUploadController extends Controller
 	public function addDocuments(Request $request)
 	{
 		if($request->hasFile('filename')){
-			$documentId = $this->file_model->getFileUploadDtls($request);          
-			return response()->json(['data' => $documentId]);
+			$document = $this->file_model->getFileUploadDtls($request);
+			return json_encode(array('data'=>$document));          
+		}
+	}
+
+	public function deleteFile(Request $request){
+		if($request->id){
+			$this->file_model->deleteFile($request);
+			$data = 'success';
+			return response()->json($data);
 		}
 	}
 }
