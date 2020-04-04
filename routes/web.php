@@ -20,9 +20,9 @@ Route::group(['namespace' => 'FrontEnd'], function () {
 });
 
 Route::group(['middleware' => ['auth']], function () {
-	Route::get('dashboard', 'HomeController@getDashboard');
+	Route::get('dashboard', 'HomeController@getDashboard')->name('dashboard');
 	Route::get('profile', 'HomeController@getProfile');
-    Route::get('change-password', 'HomeController@getChangePassword');
+    Route::get('change-password', 'HomeController@getChangePassword')->name('change-password');
     Route::post('change-password', 'HomeController@postChangePassword');
 
     //routes for system administrations
