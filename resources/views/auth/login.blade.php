@@ -28,7 +28,7 @@
             <div class="card-body login-card-body">
                  <p class="login-box-msg">Sign in to start your session</p>
                     <form method="POST" action="{{ route('login') }}">
-                        @csrf        
+                        @csrf
                             <div class="input-group mb-3">
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus  placeholder="Email">
                                     @error('email')
@@ -65,7 +65,7 @@
                                     </div>
                                 </div>
                             <!-- /.col -->
-                                <div class="col-4"> 
+                                <div class="col-4">
                                     <button type="submit" class="btn btn-primary btn-block">Sign In</button>
                                 </div>
                             <!-- /.col -->
