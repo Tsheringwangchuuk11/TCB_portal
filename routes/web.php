@@ -20,7 +20,8 @@ Route::get('/', function () {
 
  Route::get('/home/get-services', 'HomeController@getServices');
  Route::get('/home/get-modules', 'HomeController@getModules');
-
+//checkList
+Route::post('service-create/get-checklist', 'Services\ServiceController@getCheckList');
 // services
   Route::resource('service-create/{page_link}', 'Services\ServiceController');
  

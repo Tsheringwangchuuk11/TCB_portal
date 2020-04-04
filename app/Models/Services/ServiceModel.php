@@ -155,6 +155,23 @@ class ServiceModel extends Model
 				
 		
     }
+public function getCheckList($request){
+	$starCategoryId=$request->star_category_id;
+	$moduleId=$request->module_id;
+	$sql=DB::table('t_checklist_standard as t1')
+			 ->leftjoin('t_checklist_standard_mapping as t2','t1.checklist_id','=','t2.checklist_id')
+			 ->leftjoin('t_basic_standard as t3','t2.standard_id','=','t3.standard_id')
+			 ->leftjoin('t_checklist_area as t4','t1.checklist_area_id','=','t4.checklist_area_id')
+			 ->leftjoin('t_checklist_chapter as t5','t4.checklist_ch_id','=','t5.checklist_ch_id')
+			 ->select('t5.checklist_ch_id','t4.checklist_area_id','t4.checklist_area', 't1.checklist_standard','t1.checklist_pts', 't3.standard_code',
+			 DB::raw("(SELECT count(checklist_area_id) FROM t_checklist_standard
+                          WHERE checklist_area_id= t4.checklist_area_id
+                        ) as totalcount"))
+			 ->where('t5.module_id', $moduleId AND 't2.star_category_id',$starCategoryId)
+			 ->orderBy('t5.checklist_ch_id')
+			 ->get();
+			 return $sql;
+			}
 
+			
 }
-// ends ServiceModel

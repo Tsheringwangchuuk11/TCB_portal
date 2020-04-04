@@ -6,17 +6,17 @@
   <div class="card-header bg-success">
     <h4 class="card-title">Registration of Tourist Standard Hotels</h4>
   </div>
-  <form action="{{ url('service-create/store') }}" method="POST" files="true" enctype="multipart/form-data">
+  <form action="{{ url('service-create/store') }}" method="POST" files="true" id="formdata" enctype="multipart/form-data">
     @csrf
     @foreach ($idInfos as $idInfo)
     <input type="hidden" name="service_id" value="{{ $idInfo->service_id }}" id="service_id">
-    <input type="hidden" name="module_id" value="{{ $idInfo->module_id }}" id="service_id">
+    <input type="hidden" name="module_id" value="{{ $idInfo->module_id }}" id="module_id">
     @endforeach 
     <div class="card-body">
       <div class="form-row">
         <div class="form-group col-md-5">
           <label>Registration Type <span class="text-danger">*</span></label>
-          <select class="form-control select2bs4" name="star_category_id" style="width: 100%;">
+          <select class="form-control select2bs4" name="star_category_id" style="width: 100%;" id="star_category_id">
             <option value="">-select-</option>
             @foreach ($starCategoryLists as $starCategoryList)
           <option value="{{$starCategoryList->star_category_id}}">{{$starCategoryList->star_category_name}}</option>
@@ -182,74 +182,9 @@
           </div>
         </div>
       </div>
-
       <h5>Checklist</h5>
-      <!-- General/Exterior/Location/Building/Rooms -->
-      <div class="card collapsed-card">
-        <div class="card-header" data-card-widget="collapse">
-          <span>General/Exterior/Location/Building/Rooms</span>
-          <div class="card-tools">
-            <button type="button" class="btn btn-tool" ><i class="fas fa-plus"></i>
-            </button>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="row">
-            <div class="col-md-12">
-              <table class="table table order-list table-bordered" id="dataTable">
-                <tbody>
-                  <tr>
-                    <td>Area</td>
-                    <td>Standard</td>
-                    <td>Checklist</td>
-                  </tr>    
-                  <tr>
-                    <td rowspan="2">General Impression</td>             
-                    <td>Accommodation should be in clean and good condition (entry requirement for 3-5*),in harmony with the natural and built up environment and in conformity with planning, environmental and construction laws-with layout and class meeting the image of the respective *rating –required certifications, documents, checked</td> 
-                    <td><input type="checkbox"> <span class="text-danger">*</span></td>
-                  </tr>
-                  </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-        <!-- /.card-body -->
-      </div>
-
-      <div class="card collapsed-card">
-        <div class="card-header" data-card-widget="collapse">
-          <span>Fittings/Furniture/Equipment</span>
-          <div class="card-tools">
-            <button type="button" class="btn btn-tool"><i class="fas fa-plus"></i>
-            </button>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="row">
-            <div class="col-md-12">
-              <table class="table table order-list table-bordered" id="dataTable">
-                <tbody>
-                  <tr>
-                    <td>Area</td>
-                    <td>Standard</td>
-                    <td>Checklist</td>
-                  </tr>    
-                  <tr>
-                    <td rowspan="2">Sanitary comfort</td>             
-                    <td>Remark: Hot and cold running water 24 hrs is an entry requirement to the classification and applies to 3– 5*</td> 
-                    <td><input type="checkbox"></td>
-                  </tr>
-                  <tr>
-                    <td>50 % of the rooms with shower/WC or bath/WCfor the rest on same floor level</td>
-                    <td><input type="checkbox"></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-
+      <div id="showdivid"></div>
+     
       <div class="card collapsed-card">
         <div class="card-header" data-card-widget="collapse">
           <span>Service Facilities</span>
@@ -261,7 +196,7 @@
         <div class="card-body">
           <div class="row">
             <div class="col-md-12">
-              <table class="table table order-list table-bordered" id="dataTable">
+              <table class="table table order-list table-bordered" id="">
                 <tbody>
                   <tr>
                     <td>Area</td>
@@ -295,7 +230,7 @@
         <div class="card-body">
           <div class="row">
             <div class="col-md-12">
-              <table class="table table order-list table-bordered" id="dataTable">
+              <table class="table table order-list table-bordered" id="">
                 <tbody>
                   <tr>
                     <td>Area</td>
@@ -329,7 +264,7 @@
         <div class="card-body">
           <div class="row">
             <div class="col-md-12">
-              <table class="table table order-list table-bordered" id="dataTable">
+              <table class="table table order-list table-bordered" id="">
                 <tbody>
                   <tr>
                     <td>Area</td>
@@ -363,7 +298,7 @@
         <div class="card-body">
           <div class="row">
             <div class="col-md-12">
-              <table class="table table order-list table-bordered" id="dataTable">
+              <table class="table table order-list table-bordered" id="">
                 <tbody>
                   <tr>
                     <td>Area</td>
@@ -397,7 +332,7 @@
         <div class="card-body">
           <div class="row">
             <div class="col-md-12">
-              <table class="table table order-list table-bordered" id="dataTable">
+              <table class="table table order-list table-bordered" id="">
                 <tbody>
                   <tr>
                     <td>Area</td>
@@ -431,7 +366,7 @@
         <div class="card-body">
           <div class="row">
             <div class="col-md-12">
-              <table class="table table order-list table-bordered" id="dataTable">
+              <table class="table table order-list table-bordered" id="">
                 <tbody>
                   <tr>
                     <td>Area</td>
@@ -465,7 +400,7 @@
         <div class="card-body">
           <div class="row">
             <div class="col-md-12">
-              <table class="table table order-list table-bordered" id="dataTable">
+              <table class="table table order-list table-bordered" id="">
                 <tbody>
                   <tr>
                     <td>Area</td>
@@ -499,7 +434,7 @@
         <div class="card-body">
           <div class="row">
             <div class="col-md-12">
-              <table class="table table order-list table-bordered" id="dataTable">
+              <table class="table table order-list table-bordered" id="">
                 <tbody>
                   <tr>
                     <td>Area</td>
@@ -533,7 +468,7 @@
         <div class="card-body">
           <div class="row">
             <div class="col-md-12">
-              <table class="table table order-list table-bordered" id="dataTable">
+              <table class="table table order-list table-bordered" id="">
                 <tbody>
                   <tr>
                     <td>Area</td>
@@ -605,6 +540,39 @@
       $('#line1'+id1).remove();
     }
   }
+  /*$('#star_category_id').on('change',function(ev){
+     // debugger;
+    var starCategoryId=$("#star_category_id").val();
+    var module_id=$("#module_id").val();
+    var url="{{ url('service-create/get-checklist') }}";
+        $.ajax({
+        url: url,
+        type: "GET",
+        data : {starCategoryId:starCategoryId,moduleId : module_id},
+        dataType: "JSON",
+        success:function(data) {
+            console.log(data);
+            for(var i=0; i < data.length; i++){
+               var tr_str = '<tr>' +
+                   '<td>' + data[i].checklist_area  + '</td>' +
+                   '<td>' +  data[i].checklist_standard + '</td>' +
+                   '<td>'+ data[i].checklist_pts + '</td>' +
+                   '<td>' + data[i].standard_code + '</td>' +
+               '</tr>';
+               $('#dataTable tbody').append(tr_str);
+          }
+        }
+     });
+  })*/
+  $('#star_category_id').on('change',function(ev){
+    var star_category_id=$("#star_category_id").val();
+    var url="{{ url('service-create/get-checklist') }}";
+    var options = {target:'#showdivid',
+    url:url,
+    type:'POST',
+    data: $("#formdata").serialize()};
+    $("#formdata").ajaxSubmit(options);
+    })
   
 </script>   
 @endsection
