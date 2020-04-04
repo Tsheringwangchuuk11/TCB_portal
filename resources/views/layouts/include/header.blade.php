@@ -29,12 +29,8 @@
     <ul class="navbar-nav ml-auto">
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item dropdown">
-		    {{-- <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-          <i class="far fa-user"></i>
-          <span class="">{{ auth()->user()->name }}</span>
-        </a> --}}
         <a href="#" class="nav-link dropdown-toggle" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-          <i class="far fa-user"></i> <span class="">{{ auth()->user()->name }}</span>
+          <i class="far fa-user"></i> <span class="">{{ auth()->user()->user_name }}</span>
           <i class="fas fa-sign-out-alt"></i> Sign Out
         </a>
       </li>
