@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TUserRole extends Model
 {
-    protected $table = 't_user_logs';
+    protected $table = 't_user_roles';
     protected $guarded = ['id'];
 
     public function user()

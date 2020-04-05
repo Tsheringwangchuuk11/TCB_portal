@@ -47,9 +47,9 @@ class ModuleController extends Controller
      */
     public function index(Request $request)
     {
-        $priviliges = $request->instance();
+        $privileges = $request->instance();
         $modules = TSystemMenu::select('id', 'name', 'icon')->paginate(50);
-        return view('system-settings.modules.index', compact('modules', 'priviliges'));
+        return view('system-settings.modules.index', compact('modules', 'privileges'));
     }
 
     /**

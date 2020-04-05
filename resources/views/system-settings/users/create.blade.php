@@ -5,11 +5,11 @@
 @csrf
 <div class="row">
 	<div class="col-md-4">
-		<div class="box box-default">
-			<div class="box-header">
-                <h3 class="box-title">General Information</h3>
+		<div class="card">
+			<div class="card-header">
+                <h3 class="card-title">General Information</h3>
 			</div>
-			<div class="box-body">
+			<div class="card-body">
 				<div class="form-group">
 					<label for="name">Name *</label>
 					<input type="text" name="name" class="form-control required" value="{{ old('name')}}" />
@@ -18,11 +18,11 @@
 		</div>
 	</div>
 	<div class="col-md-4">
-		<div class="box box-default">
-			<div class="box-header">
-				<h3 class="box-title">Username & Password *</h3>
+		<div class="card">
+			<div class="card-header">
+				<h3 class="card-title">Username & Password *</h3>
 			</div>
-			<div class="box-body">
+			<div class="card-body">
 				<div class="form-group">
 					<label for="username">Username (Email) *</label>
 					<input type="text" name="username" class="form-control required email" value="{{ old('username')}}" autocomplete="off"/>
@@ -43,11 +43,11 @@
 		</div>
 	</div>
 	<div class="col-md-4">
-		<div class="box box-default">
-			<div class="box-header">
-				<h3 class="box-title">Assign Roles *</h3>
+		<div class="card">
+			<div class="card-header">
+				<h3 class="card-title">Assign Roles *</h3>
 			</div>
-			<div class="box-body no-padding">
+			<div class="card-body no-padding">
 				<table id="user-roles" class="table table-striped table-condensed">
 					<thead>
 						<tr>
@@ -73,9 +73,9 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="box-footer text-center">
-				<button type="submit" class="btn btn-success margin-r-5 btn-flat btn-sm"><i class="fa fa-upload"></i> CREATE USER</button>
-				<a href="{{ url('system/users') }}" class="btn btn-danger btn-flat btn-sm"><i class="fa fa-undo"></i> CANCEL</a>
+			<div class="card-footer text-center">
+				<button type="submit" class="btn btn-success margin-r-5 btn-flat btn-sm"><i class="fas fa-upload"></i> CREATE USER</button>
+				<a href="{{ url('system/users') }}" class="btn btn-danger btn-flat btn-sm"><i class="fas fa-undo"></i> CANCEL</a>
 			</div>
 		</div>
 	</div>

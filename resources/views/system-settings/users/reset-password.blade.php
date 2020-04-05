@@ -5,8 +5,8 @@
 @csrf
     <div class="row">
         <div class="col-md-4">
-            <div class="box box-default">
-                <div class="box-body box-profile">
+            <div class="card">
+                <div class="card-body card-profile">
                     <img class="profile-user-img img-responsive img-circle" src="{{ asset($user->avatar ? get_image($user->avatar, 128, 128) : asset('images/no-image.jpg')) }}" alt="User profile picture">
                     <h3 class="profile-username text-center">{{ $user->name }}</h3>
                     <p class="text-muted text-center">{{ $user->mobile_no }}</p>
@@ -22,11 +22,11 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="box box-default">
-                <div class="box-header">
-                    <h3 class="box-title">Assigned Role(s)</h3>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Assigned Role(s)</h3>
                 </div>
-                <div class="box-body no-padding">
+                <div class="card-body no-padding">
                     <table class="table table-striped">
                         <thead>
                             <th class="text-center">#</th>
@@ -45,11 +45,11 @@
             </div>
         </div>
         <div class="col-md-4 col-xs-12">
-            <div class="box box-default">
-                <div class="box-header">
-                    <h3 class="box-title">Reset Password</h3>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Reset Password</h3>
                 </div>
-                <div class="box-body">
+                <div class="card-body">
                     <div class="form-group">
                         <label for="name">New Password</label>
                         <input type="password" name="new_password" class="form-control required" value="" />
@@ -59,8 +59,8 @@
                         <input type="password" name="confirm_password" class="form-control required" value="" />
                     </div>
                 </div>
-                <div class="box-footer text-center">
-                    <button type="submit" class="btn btn-success btn-flat btn-sm"><i class="fa fa-upload"></i> RESET PASSWORD</button>
+                <div class="card-footer text-center">
+                    <button type="submit" class="btn btn-success btn-flat btn-sm"><i class="fas fa-upload"></i> RESET PASSWORD</button>
                     <a href="{{ url('system/users') }}" class="btn btn-danger btn-flat btn-sm"><i class="fa fa-undo"></i> CANCEL</a>
                 </div>
             </div>

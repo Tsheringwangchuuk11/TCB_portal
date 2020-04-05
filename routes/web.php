@@ -36,6 +36,12 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('resend-verification-codes', 'ResendVerificationCodeController');
     });
 
+    //create route by grouping..example like below.
+    //routes for master
+    Route::group(['prefix' => 'master', 'namespace' => 'Master'], function() {
+
+    });
+
     // fileupload
     Route::post('documentattach', 'Services\FileUploadController@addDocuments');
     Route::post('deletefile', 'Services\FileUploadController@deleteFile');

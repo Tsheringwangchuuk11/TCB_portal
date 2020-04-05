@@ -11,7 +11,7 @@ class UserController extends Controller
 {
     private $rules = [
         'name' => 'required',
-        'username' => 'required|email|unique:users,email',
+        'username' => 'required|email|unique:t_users,email',
         'password' => 'required|min:6',
         'confirm_password' => 'required|same:password',
         'profile_pic' => 'mimes:jpeg,jpg,png,bmp|max:2048'
@@ -31,10 +31,10 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $priviliges = $request->instance();
+        $privileges = $request->instance();
         $users = User::filter($request)->orderBy('user_name')->paginate(30);
 
-        return view('system-settings.users.index', compact('users', 'priviliges'));
+        return view('system-settings.users.index', compact('users', 'privileges'));
     }
 
     /**
@@ -72,11 +72,11 @@ class UserController extends Controller
 
             $user = new User;
 
-            $user->name = $request->name;
+            $user->user_name = $request->name;
             $user->email = $request->username;
             $user->password = bcrypt($request->password);
             $user->is_verified = 1;
-            $user->is_active = 1;
+            $user->user_status = 1;
             $user->avatar = isset($imageSource) ? $imageSource : null;
             $user->created_by = auth()->user()->id;
 
@@ -104,7 +104,7 @@ class UserController extends Controller
      */
     public function show($id, Request $request)
     {
-        $instance = $request->instance(); //we need to pull the priviliges from the instance
+        $instance = $request->instance(); //we need to pull the privileges from the instance
         $canUpdate = (integer) $instance->edit;
         $user = User::with('roles', 'userLogs')->findOrFail($id);
         return view('system-settings.users.show', compact('user', 'canUpdate'));
@@ -139,7 +139,7 @@ class UserController extends Controller
             return redirect()->back()->with('msg_error', 'You need to atleast select one role');
         }
 
-        $this->rules['username'] = 'required|unique:users,email,' . $id;
+        $this->rules['username'] = 'required|unique:t_users,email,' . $id;
         $this->rules['password'] = '';
         $this->rules['confirm_password'] = '';
 
@@ -191,11 +191,11 @@ class UserController extends Controller
 
         $disable = false;
 
-        if($user->is_active == 1){
+        if($user->user_status == 1){
             $disable = true;
-            $user->is_active = 0;
+            $user->user_status = 0;
         } else {
-            $user->is_active = 1;
+            $user->user_status = 1;
         }
 
         $user->save();
@@ -209,7 +209,7 @@ class UserController extends Controller
 
     public function getResetPassword(Request $request, $id)
     {
-        $instance = $request->instance(); //we need to pull the priviliges from the instance
+        $instance = $request->instance(); //we need to pull the privileges from the instance
         $canUpdate = (integer) $instance->edit;
         $user = User::with('roles')->findOrFail($id);
 

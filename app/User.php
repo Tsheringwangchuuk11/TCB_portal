@@ -35,7 +35,7 @@ class User extends Authenticatable
 
     public function isActive()
     {
-        return $this->is_active == self::IS_ACTIVE;
+        return $this->user_status == self::IS_ACTIVE;
     }
 
     //Notifications
