@@ -46,12 +46,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('documentattach', 'Services\FileUploadController@addDocuments');
     Route::post('deletefile', 'Services\FileUploadController@deleteFile');
 
- Route::get('/home/get-services', 'HomeController@getServices');
- Route::get('/home/get-modules', 'HomeController@getModules');
-//checkList
-Route::post('service-create/get-checklist', 'Services\ServiceController@getCheckList');
-// services
-  Route::resource('service-create/{page_link}', 'Services\ServiceController');
+    Route::get('/home/get-services', 'HomeController@getServices');
+    Route::get('/home/get-modules', 'HomeController@getModules');
+    //checkList
+    Route::post('service-create/get-checklist', 'Services\ServiceController@getCheckList');
+    // services
+    Route::resource('service-create/{page_link}', 'Services\ServiceController');
 });
 
 
