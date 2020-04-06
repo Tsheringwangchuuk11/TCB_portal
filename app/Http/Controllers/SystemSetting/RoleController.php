@@ -23,9 +23,9 @@ class RoleController extends Controller
      */
     public function index(Request $request)
     {
-        $priviliges = $request->instance();
+        $privileges = $request->instance();
         $roles = TRole::orderBy('id')->select('id','name')->get();
-        return view('system-settings.roles.index', compact('roles', 'priviliges'));
+        return view('system-settings.roles.index', compact('roles', 'privileges'));
     }
 
     /**
@@ -81,7 +81,7 @@ class RoleController extends Controller
     public function show($id)
     {
         $role = TRole::findOrFail($id);
-        $modules = \DB::select("select `t1`.`name` as `top_menu`, `t2`.`id` as `sub_menu_id`, `t2`.`name` as `sub_menu`, `t3`.`view`, `t3`.`create`, `t3`.`edit`, `t3`.`delete` from (`system_menus` as `t1` join `system_sub_menus` as `t2` on `t1`.`id` = `t2`.`system_menu_id`) left join `role_permissions` as `t3` on `t2`.`id` = `t3`.`system_sub_menu_id` and `t3`.`role_id` = ? order by t1.display_order", array($id));
+        $modules = \DB::select("select `t1`.`name` as `top_menu`, `t2`.`id` as `sub_menu_id`, `t2`.`name` as `sub_menu`, `t3`.`view`, `t3`.`create`, `t3`.`edit`, `t3`.`delete` from (`t_system_menus` as `t1` join `t_system_sub_menus` as `t2` on `t1`.`id` = `t2`.`system_menu_id`) left join `t_privileges` as `t3` on `t2`.`id` = `t3`.`system_sub_menu_id` and `t3`.`role_id` = ? order by t1.display_order", array($id));
         return view('system-settings.roles.show', compact('role', 'modules'));
     }
 
@@ -94,7 +94,7 @@ class RoleController extends Controller
     public function edit($id)
     {
         $role = TRole::findOrFail($id);
-        $modules = \DB::select("select `t1`.`name` as `top_menu`, `t2`.`id` as `sub_menu_id`, `t2`.`name` as `sub_menu`, `t3`.`view`, `t3`.`create`, `t3`.`edit`, `t3`.`delete` from (`system_menus` as `t1` join `system_sub_menus` as `t2` on `t1`.`id` = `t2`.`system_menu_id`) left join `role_permissions` as `t3` on `t2`.`id` = `t3`.`system_sub_menu_id` and `t3`.`role_id` = ? order by t1.display_order", array($id));
+        $modules = \DB::select("select `t1`.`name` as `top_menu`, `t2`.`id` as `sub_menu_id`, `t2`.`name` as `sub_menu`, `t3`.`view`, `t3`.`create`, `t3`.`edit`, `t3`.`delete` from (`t_system_menus` as `t1` join `t_system_sub_menus` as `t2` on `t1`.`id` = `t2`.`system_menu_id`) left join `t_privileges` as `t3` on `t2`.`id` = `t3`.`system_sub_menu_id` and `t3`.`role_id` = ? order by t1.display_order", array($id));
         return view('system-settings.roles.edit', compact('role', 'modules'));
     }
 

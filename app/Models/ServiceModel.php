@@ -133,7 +133,8 @@ class ServiceModel extends Model
 		}
 				
 		
-    }
+	}
+
 
 }
 // ends ServiceModel

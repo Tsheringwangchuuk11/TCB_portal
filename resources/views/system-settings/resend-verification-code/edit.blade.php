@@ -6,11 +6,11 @@
 @method('PUT')
     <div class="row">
         <div class="col-md-4 col-xs-12">
-            <div class="box box-default">
-                <div class="box-header">
-                    <h3 class="box-title">Resend Verification Code</h3>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Resend Verification Code</h3>
                 </div>
-                <div class="box-body">
+                <div class="card-body">
                     <div class="form-group">
                         <label for="name">Name</label>
                         <input type="text" class="form-control" value="{{ $user->name }}" readonly>
@@ -28,7 +28,7 @@
                         <input type="password" name="confirm_password" class="form-control required confirmpassword">
                     </div>
                 </div>
-                <div class="box-footer">
+                <div class="card-footer">
                     <button type="submit" class="btn btn-flat btn-success"><i class="fa fa-upload"></i> RESEND CODE</button>
                     <a href="{{ url('system/resend-verification-codes') }}" class="btn btn-flat btn-danger"><i class="fa fa-undo"></i> CANCEL</a>
                 </div>

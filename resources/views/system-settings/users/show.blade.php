@@ -1,14 +1,14 @@
 @extends('layouts.manager')
 @section('page-title', 'Showing User Details')
 @section('buttons')
-    <a href="{{ url('change-password')}}" class="btn bg-olive btn-sm btn-flat"><i class="fa fa-key"></i> Change Password</a>
-    <a href="{{ url('system/users')}}" class="btn bg-olive btn-sm btn-flat"><i class="fa fa-reply"></i> Back to User List</a>
+    <a href="{{ url('change-password')}}" class="btn bg-olive btn-sm btn-flat"><i class="fas fa-key"></i> Change Password</a>
+    <a href="{{ url('system/users')}}" class="btn bg-olive btn-sm btn-flat"><i class="fas fa-reply"></i> Back to User List</a>
 @endsection
 @section('content')
 <div class="row">
     <div class="col-md-4">
-        <div class="box box-default">
-            <div class="box-body box-profile">
+        <div class="card">
+            <div class="card-body card-profile">
                 <img class="profile-user-img img-responsive img-circle" src="{{ asset($user->avatar ? get_image($user->avatar, 128, 128) : asset('images/no-image.jpg')) }}" alt="User profile picture">
                 <h3 class="profile-username text-center">{{ $user->name }}</h3>
                 <p class="text-muted text-center">{{ $user->mobile_no }}</p>
@@ -22,17 +22,17 @@
                 </ul>
                 <hr>
                 @if ($canUpdate === 1)
-                    <a href="{{ url('system/users/' . $user->id . '/edit') }}" class="btn btn-success btn-block btn-flat"><b><i class="fa fa-edit"></i> Edit Record</b></a>
+                    <a href="{{ url('system/users/' . $user->id . '/edit') }}" class="btn btn-success btn-block btn-flat"><b><i class="fas fa-edit"></i> Edit Record</b></a>
                 @endif
             </div>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="box box-default">
-            <div class="box-header">
-                <h3 class="box-title">Assigned Role(s)</h3>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Assigned Role(s)</h3>
             </div>
-            <div class="box-body no-padding">
+            <div class="card-body no-padding">
                 <table class="table table-striped">
                     <thead>
                         <th class="text-center">#</th>
@@ -53,11 +53,11 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <div class="box no-padding box-default">
-            <div class="box-header">
-                <h3 class="box-title">Login Audit</h3>
+        <div class="card no-paddcard">
+            <div class="card-header">
+                <h3 class="card-title">Login Audit</h3>
             </div>
-            <div class="box-body">
+            <div class="card-body">
                 <table class="table table-striped">
                     <thead>
                         <tr>

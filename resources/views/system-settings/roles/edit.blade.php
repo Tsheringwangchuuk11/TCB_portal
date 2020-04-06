@@ -8,11 +8,11 @@
 @method('PUT')
 <div class="row">
 	<div class="col-md-3">
-		<div class="box box-default">
-            <div class="box-header">
-                <h3 class="box-title">Update Role</h3>
+		<div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Update Role</h3>
             </div>
-			<div class="box-body">
+			<div class="card-body">
 				<div class="form-group">
 					<label for="name">Role Name</label>
 					<input type="text" name="role_name" class="form-control required" value="{{old('role_name', $role->name)}}" />
@@ -25,14 +25,14 @@
 		</div>
 	</div>
 	<div class="col-md-9">
-		<div class="box box-default">
-			<div class="box-header">
-                <h3 class="box-title">Add / Edit Permissions</h3>
-                <div class="box-tools pull-right">
-                    <a href="{{ url('system/roles')}}" class="btn bg-olive btn-sm btn-flat"><i class="fa fa-reply"></i> Back to Role List</a>
+		<div class="card">
+			<div class="card-header">
+                <h3 class="card-title">Add / Edit Permissions</h3>
+                <div class="card-tools pull-right">
+                    <a href="{{ url('system/roles')}}" class="btn bg-olive btn-sm btn-flat"><i class="fas fa-reply"></i> Back to Role List</a>
                 </div>
 			</div>
-			<div class="box-body no-padding">
+			<div class="card-body no-padding">
 				<table id="set-access" class="table table-condensed table-striped">
 					<thead>
 						<th>Main Module</th>
@@ -99,16 +99,16 @@
 					</tbody>
 				</table>
             </div>
-            <div class="box-footer text-center">
-                <button type="submit" class="btn btn-success btn-flat btn-sm"><i class="fa fa-upload"></i> UPDATE ROLE</button>
-                <a href="{{ url('system/roles') }}" class="btn btn-danger btn-flat btn-sm"><i class="fa fa-undo"></i> CANCEL</a>
+            <div class="card-footer text-center">
+                <button type="submit" class="btn btn-success btn-flat btn-sm"><i class="fas fa-upload"></i> UPDATE ROLE</button>
+                <a href="{{ url('system/roles') }}" class="btn btn-danger btn-flat btn-sm"><i class="fas fa-undo"></i> CANCEL</a>
             </div>
 		</div>
 	</div>
 </div>
 </form>
 @endsection
-@section('extra_scripts')
+@section('scripts')
 <script>
 $(document).ready(function(){
 	$('.all-priviliges').on('click',function(){

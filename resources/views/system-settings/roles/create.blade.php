@@ -5,11 +5,11 @@
 @csrf
 <div class="row">
 	<div class="col-md-3">
-		<div class="box box-default">
-			<div class="box-header">
-                <h3 class="box-title">Add Module</h3>
+		<div class="card">
+			<div class="card-header">
+                <h3 class="card-title">Add Module</h3>
 			</div>
-			<div class="box-body">
+			<div class="card-body">
 				<div class="form-group">
 					<label for="name">Role Name</label>
 					<input type="text" name="role_name" class="form-control required" value="{{old('role_name')}}" />
@@ -22,11 +22,11 @@
 		</div>
 	</div>
 	<div class="col-md-9">
-		<div class="box box-default">
-			<div class="box-header">
-				<h3 class="box-title">Add Permission</h3>
+		<div class="card">
+			<div class="card-header">
+				<h3 class="card-title">Add Permission</h3>
 			</div>
-			<div class="box-body no-padding">
+			<div class="card-body">
 				<table id="set-access" class="table table-condensed">
 					<thead>
 						<th>Main Module</th>
@@ -99,16 +99,16 @@
 					</tbody>
 				</table>
             </div>
-            <div class="box-footer text-center">
-                <button type="submit" class="btn btn-success btn-flat btn-sm"><i class="fa fa-upload"></i> CREATE ROLE</button>
-                <a href="{{ url('system/roles') }}" class="btn btn-danger btn-flat btn-sm"><i class="fa fa-undo"></i> CANCEL</a>
+            <div class="card-footer text-center">
+                <button type="submit" class="btn btn-success btn-flat btn-sm"><i class="fas fa-upload"></i> CREATE ROLE</button>
+                <a href="{{ url('system/roles') }}" class="btn btn-danger btn-flat btn-sm"><i class="fas fa-undo"></i> CANCEL</a>
             </div>
 		</div>
 	</div>
 </div>
 </form>
 @endsection
-@section('extra_scripts')
+@section('scripts')
 <script>
 $(document).ready(function(){
 	$('.all-priviliges').on('click',function(){

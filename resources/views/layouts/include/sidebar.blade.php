@@ -18,51 +18,34 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item">
-            <a href="{{ route('dashboard') }}" class="nav-link">Dashboard</a>
+            <a href="{{ route('dashboard') }}" class="nav-link"><i class="nav-icon fas fa-tachometer-alt"></i>Dashboard</a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('change-password') }}" class="nav-link">Change Password</a>
+            <a href="{{ route('change-password') }}" class="nav-link"><i class="nav-icon fas fa-key"></i> Change Password</a>
           </li>
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <p>
-                Master
-              </p>
-              <i class="right fas fa-angle-left"></i>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="nav-link"><i class="far fa-circle nav-icon"></i> Module1</a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link"><i class="far fa-circle nav-icon"></i> Module2</a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link"><i class="far fa-circle nav-icon"></i> Module3</a>
-              </li>
-            </ul>
-          </li>
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-
           @php $lastTopMenu = ""; @endphp
           @foreach ($menus->where('display_type', 'side') as $menu)
-            <li class="nav-item has-treeview">
-              <a href="#" class="nav-link">
-                <span>{{ $menu->name }}</span>
-                <i class="right fas fa-angle-left"></i>
-              </a>
-              <ul class="nav nav-treeview">
-                @foreach ($menu->systemSubMenus as $systemSubMenu)
-                    <li class="nav-item">
-                        <a href="{{ url($systemSubMenu->route) }}" class="nav-link {{ Route::currentRouteNamed($systemSubMenu->route) ? 'active' : '' }}">
-                          <i class="far fa-circle nav-icon"></i>{{ $systemSubMenu->name }}
+              @foreach ($menu->systemSubMenus as $systemSubMenu)
+                  @if($menu->name != $lastTopMenu)
+                      @if($lastTopMenu != "")
+                          </ul></li>
+                      @endif
+                      <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                          <i class="nav-icon fas {{ $menu->icon }}"></i>
+                            <span>{{ $menu->name }}</span>
+                            <i class="right fas fa-angle-left"></i>
                         </a>
-                    </li>
-                @endforeach
-              </ul>
-            </li>
-          @endforeach
+                      <ul class="nav nav-treeview">
+                  @endif
+                  <li class="nav-item">
+                      <a href="{{ url($systemSubMenu->route) }}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>{{ $systemSubMenu->name }}
+                      </a>
+                  </li>
+                  @php $lastTopMenu = $menu->name; @endphp
+              @endforeach
+            @endforeach
       </nav>
       <!-- /.sidebar-menu -->
     </div>

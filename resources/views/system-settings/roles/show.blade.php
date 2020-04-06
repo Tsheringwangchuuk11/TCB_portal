@@ -3,14 +3,14 @@
 @section('content')
 <div class="row">
     <div class="col-md-12">
-        <div class="box no-padding box-default">
-            <div class="box-header">
-                <h3 class="box-title">Showing role details and permissions for <strong class="text-danger">{{ $role->name }}</strong></h3>
-                <div class="box-tools pull-right">
-                    <a href="{{ url('system/roles')}}" class="btn bg-olive btn-sm btn-flat"><i class="fa fa-reply"></i> Back to Role List</a>
+        <div class="card p-0">
+            <div class="card-header">
+                <h3 class="card-title">Showing role details and permissions for <strong class="text-danger">{{ $role->name }}</strong></h3>
+                <div class="card-tools pull-right">
+                    <a href="{{ url('system/roles')}}" class="btn bg-olive btn-sm btn-flat"><i class="fas fa-reply"></i> Back to Role List</a>
                 </div>
             </div>
-            <div class="box-body">
+            <div class="card-body">
                 <table id="set-access" class="table table-condensed table-striped">
                     <thead>
                         <th>Main Module</th>

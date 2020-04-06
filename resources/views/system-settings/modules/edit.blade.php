@@ -1,16 +1,16 @@
 @extends('layouts.manager')
 @section('page-title', 'Edit Modules and Sub Modules')
 @section('content')
+<form action="{{ url('system/modules/' . $module->id) }}" method="POST">
+@csrf
+@method('PUT')
 <div class="row">
-    <form action="{{ url('system/modules/' . $module->id) }}" method="POST">
-	@csrf
-	@method('PUT')
 		<div class="col-md-4">
-			<div class="box box-default">
-				<div class="box-header">
-					<h3 class="box-title">Update Module</h3>
+			<div class="card">
+				<div class="card-header">
+					<h3 class="card-title">Update Module</h3>
 				</div>
-				<div class="box-body">
+				<div class="card-body">
 					<div class="form-group">
 						<label for="name">Main Module Name *</label>
 						<input type="text" name="main_module_name" class="form-control required" value="{{old('main_module_name', $module->name)}}" />
@@ -36,11 +36,11 @@
 			</div>
 		</div>
 		<div class="col-md-8">
-			<div class="box box-default">
-				<div class="box-header">
-					<h3 class="box-title">Update / Add Module</h3>
+			<div class="card">
+				<div class="card-header">
+					<h3 class="card-title">Update / Add Module</h3>
 				</div>
-				<div class="box-body no-padding">
+				<div class="card-body p-0">
 					<table id="sub-module" class="table table-condensed table-striped">
 						<thead>
 							<th class="text-center">#</th>
@@ -52,7 +52,7 @@
 							@foreach($module->systemSubMenus as $subModule)
 								<tr>
 									<td class="text-center">
-										<a href="#" class="delete-table-row btn btn-danger btn-sm"><i class="fa fa-times"></i></a>
+										<a href="#" class="delete-table-row btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
 									</td>
 									<td>
 										<input type="hidden" name="submodules[AAAA{{$subModule->id}}][sub_module_id]" class="resetKeyForNew" value="{{ $subModule->id }}" />
@@ -69,7 +69,7 @@
 							@if ($module->systemSubMenus->isEmpty())
 								<tr>
 									<td class="text-center">
-										<a href="#" class="delete-table-row btn btn-danger btn-sm"><i class="fa fa-times"></i></a>
+										<a href="#" class="delete-table-row btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
 									</td>
 									<td>
 										<input type="hidden" name="submodules[AAAAA][sub_module_id]" class="resetKeyForNew" />
@@ -86,18 +86,18 @@
 							<tr class="notremovefornew">
 								<td colspan="3"></td>
 								<td class="text-center">
-									<a href="#" class="add-table-row btn bg-purple btn-sm"><i class="fa fa-plus"></i> Add New Row</a>
+									<a href="#" class="add-table-row btn bg-purple btn-sm"><i class="fas fa-plus"></i> Add New Row</a>
 								</td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
-				<div class="box-footer text-center">
+				<div class="card-footer text-center">
 					<button type="submit" class="btn btn-success btn-flat btn-sm"><i class="fa fa-upload"></i> UPDATE MODULE</button>
-					<a href="{{ url('system/modules') }}" class="btn btn-danger btn-flat btn-sm"><i class="fa fa-undo"></i> CANCEL</a>
+					<a href="{{ url('system/modules') }}" class="btn btn-danger btn-flat btn-sm"><i class="fas fa-undo"></i> CANCEL</a>
 				</div>
 			</div>
 		</div>
-    </form>
-</div>
+	</div>
+</form>
 @endsection

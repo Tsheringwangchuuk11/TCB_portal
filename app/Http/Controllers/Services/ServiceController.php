@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateServiceRequest;
 use App\Models\Services\ServiceModel;
+use App\Models\Services\CheckListArea;
+use App\Models\Services\CheckListStandard;
 use DB;
 use File;
 class ServiceController extends Controller
@@ -22,16 +24,24 @@ class ServiceController extends Controller
     }
     public function index(Request $request)
     {
-        // fetching location
+
         $page_link=str_replace("-", '/', $request->page_link);
         $idInfos=DB::table('t_module_service_mapping as t1')
-                    ->select('t1.module_id','t1.service_id')
-                    ->where('t1.page_link',$page_link)
-                    ->get();
+            ->join('t_service_master as t2', 't2.service_id', '=', 't1.service_id')
+            ->join('t_module_master as t3', 't3.module_id', '=', 't1.module_id')
+            ->select('t1.module_id','t1.service_id','t2.service_name','t3.module_name')
+            ->where('t1.page_link',$page_link)
+            ->get();
+
+        $checklistchapter=DB::table('t_checklist_chapter')
+            ->select('checklist_ch_id', 'checklist_ch_name')
+            ->get();
+
         $starCategoryLists=DB::table('t_star_category')
-                             ->select('star_category_id','star_category_name')
-                             ->get();
-        return view($page_link, compact('location','idInfos','starCategoryLists'));
+            ->select('star_category_id','star_category_name')
+            ->get(); 
+              
+        return view($page_link, compact('idInfos','starCategoryLists','checklistchapter'));
     }
 
     /**
@@ -100,5 +110,16 @@ class ServiceController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public static function getCheckListArea($id){
+
+        $area = CheckListArea::getCheckListArea($id);
+        return $area;
+    }
+
+    public static function getCheckListStandard($id){
+        $standard = CheckListStandard::where('checklist_area_id', $id)->get();
+        return $standard;
     }
 }
