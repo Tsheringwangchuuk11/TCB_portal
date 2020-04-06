@@ -27,20 +27,21 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('/json-dropdown', 'HomeController@getDropdownLists');
 
     //routes for system administrations
-Route::group(['prefix' => 'system', 'namespace' => 'SystemSetting'], function() {
-    Route::get('users/reset-password/{id}', 'UserController@getResetPassword');
-    Route::post('users/reset-password/{id}', 'UserController@postResetPassword');
-    Route::resource('modules', 'ModuleController');
-    Route::resource('roles', 'RoleController');
-    Route::post('users/disable-toggle', 'UserController@postDisableToggle');
-    Route::resource('users', 'UserController');
-    Route::resource('resend-verification-codes', 'ResendVerificationCodeController');
-});
+    Route::group(['prefix' => 'system', 'namespace' => 'SystemSetting'], function() {
+        Route::get('users/reset-password/{id}', 'UserController@getResetPassword');
+        Route::post('users/reset-password/{id}', 'UserController@postResetPassword');
+        Route::resource('modules', 'ModuleController');
+        Route::resource('roles', 'RoleController');
+        Route::post('users/disable-toggle', 'UserController@postDisableToggle');
+        Route::resource('users', 'UserController');
+        Route::resource('resend-verification-codes', 'ResendVerificationCodeController');
+    });
 
-    //create route by grouping..example like below.
-    //routes for masters
-    Route::group(['prefix' => 'master', 'namespace' => 'Master'], function() {
-
+    //routes for new application
+    Route::group(['prefix' => 'application', 'namespace' => 'Application'], function() {
+        Route::resource('new-application', 'ServiceController');
+        // services
+        // Route::resource('service-create/{page_link}', 'ServiceController');
     });
 
     // fileupload
@@ -50,9 +51,7 @@ Route::group(['prefix' => 'system', 'namespace' => 'SystemSetting'], function() 
     Route::get('/home/get-services', 'HomeController@getServices');
     Route::get('/home/get-modules', 'HomeController@getModules');
     //checkList
-    Route::post('service-create/get-checklist', 'Services\ServiceController@getCheckList');
-    // services
-    Route::resource('service-create/{page_link}', 'Services\ServiceController');
+    
 });
 
 
