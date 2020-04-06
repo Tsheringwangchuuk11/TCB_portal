@@ -37,7 +37,7 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     //create route by grouping..example like below.
-    //routes for master
+    //routes for masters
     Route::group(['prefix' => 'master', 'namespace' => 'Master'], function() {
 
     });
