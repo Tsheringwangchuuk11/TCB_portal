@@ -54,7 +54,7 @@ class CreateServiceRequest extends FormRequest
             'staff_area_id'=>'required',
             'hotel_div_id'=>'required',
             'staff_name'=>'required',
-            'staff_gender'=>'required',
+            'staff_gender'=>'required'
         ];
     }
 }

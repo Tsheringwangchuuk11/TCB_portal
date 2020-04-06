@@ -1,3 +1,4 @@
+@php use App\Http\Controllers\Services\ServiceController; @endphp
 @if (count($chapterList) > 0)
     @foreach ($chapterList as $chapterList)
         <div class="card collapsed-card">
@@ -21,11 +22,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $chapterarea = App\Http\Controllers\Services\ServiceController::getChapterAreaList($chapterList->checklist_ch_id, $starCategoryId);?>
+                            <?php $chapterarea =ServiceController::getChapterAreaList($chapterList->checklist_ch_id, $starCategoryId);?>
                             @if (count($chapterarea) > 0)
                                 @foreach ($chapterarea as $chapterarea)
                                     @if($chapterList->checklist_ch_id === $chapterarea->checklist_ch_id)
-                                        <?php $standard = App\Http\Controllers\Services\ServiceController::getStandardList($starCategoryId,$chapterarea->checklist_area_id);?>
+                                        <?php $standard =ServiceController::getStandardList($starCategoryId,$chapterarea->checklist_area_id);?>
                                         @if (count($standard) > 0)
                                             @php($i=1)
                                             @foreach ($standard as $standard)

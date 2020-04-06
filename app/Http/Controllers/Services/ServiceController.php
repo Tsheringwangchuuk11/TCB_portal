@@ -5,15 +5,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateServiceRequest;
 use App\Models\Services\ServiceModel;
-use App\Models\Services\StarCategoryModel;
-use App\Models\Services\CheckListStandardModel;
-use App\Models\Services\CheckListChapterModel;
-use App\Models\Services\CheckListAreaModel;
-use App\HotelChapter;
+use App\Models\Services\CheckListArea;
+use App\Models\Services\CheckListStandard;
 use DB;
 use File;
 class ServiceController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -48,19 +46,24 @@ class ServiceController extends Controller
     }
     public function index(Request $request)
     {
-        // fetching location
+
         $page_link=str_replace("-", '/', $request->page_link);
         $idInfos=DB::table('t_module_service_mapping as t1')
-                    ->select('t1.module_id','t1.service_id')
-                    ->where('t1.page_link',$page_link)
-                    ->get();
-        $starCategoryLists=StarCategoryModel::all('star_category_id','star_category_name');
-        return view($page_link, compact('idInfos','starCategoryLists'));
-    }
-    public function addDocuments(Request $request)
-    {
-    
-    
+            ->join('t_service_master as t2', 't2.service_id', '=', 't1.service_id')
+            ->join('t_module_master as t3', 't3.module_id', '=', 't1.module_id')
+            ->select('t1.module_id','t1.service_id','t2.service_name','t3.module_name')
+            ->where('t1.page_link',$page_link)
+            ->get();
+
+        $checklistchapter=DB::table('t_checklist_chapter')
+            ->select('checklist_ch_id', 'checklist_ch_name')
+            ->get();
+
+        $starCategoryLists=DB::table('t_star_category')
+            ->select('star_category_id','star_category_name')
+            ->get(); 
+              
+        return view($page_link, compact('idInfos','starCategoryLists','checklistchapter'));
     }
 
     /**
@@ -81,6 +84,7 @@ class ServiceController extends Controller
      */
     public function store(CreateServiceRequest $request)
     {
+         // dd('yass');
         $saveData = $this->serviceModel->saveApplicantDetails($request);
         return redirect()->back()->with('msg','Data save successfully');
     }
@@ -128,5 +132,16 @@ class ServiceController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public static function getCheckListArea($id){
+
+        $area = CheckListArea::getCheckListArea($id);
+        return $area;
+    }
+
+    public static function getCheckListStandard($id){
+        $standard = CheckListStandard::where('checklist_area_id', $id)->get();
+        return $standard;
     }
 }
