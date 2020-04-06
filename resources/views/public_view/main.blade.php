@@ -289,6 +289,9 @@
 <script src="{{ asset('fileupload/jquery.fileupload.js') }}"></script>
 <!-- CommonUtil -->
 <script src="{{ asset('js/commonUtil.js') }}"></script>
+<script src="{{ asset('js/jquery.form.js') }}"></script>
+
+
 @yield('page_scripts')
 <script>
   function loadServices(id) 

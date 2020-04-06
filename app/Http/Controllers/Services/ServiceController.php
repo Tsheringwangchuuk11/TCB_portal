@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Services;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateServiceRequest;
@@ -21,6 +20,29 @@ class ServiceController extends Controller
     public function __construct(ServiceModel $serviceModel)
     {
        $this->serviceModel = $serviceModel;
+    }
+    public function getCheckList(Request $request){
+    //$checkList = $this->serviceModel->getCheckList($request);
+    
+    $moduleId=$request->module_id;
+    $starCategoryId=$request->star_category_id;
+    $chapterList=CheckListChapterModel::where('module_id',$moduleId)->get();
+    return view('checklist', compact('chapterList','starCategoryId'));
+    }
+
+    public static function getChapterAreaList($chapterId,$starCategoryId){
+        $chapterarea = HotelChapter::getChapter($starCategoryId,$chapterId);
+        return  $chapterarea;
+    }
+
+    public static function getStandardList($starCategoryId,$checkListAreaId){
+        $standard =DB::table('t_checklist_standard as t1')
+                    ->leftjoin('t_checklist_standard_mapping as t2','t1.checklist_id','=','t2.checklist_id')
+                    ->leftjoin('t_basic_standard as t3','t2.standard_id','=','t3.standard_id')
+                    ->select('t1.checklist_standard','t1.checklist_pts', 't3.standard_code','t1.checklist_area_id')
+                    ->where('t2.star_category_id', $starCategoryId AND 't1.checklist_area_id',$checkListAreaId)
+                    ->get();
+        return  $standard;
     }
     public function index(Request $request)
     {
