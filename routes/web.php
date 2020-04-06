@@ -41,6 +41,7 @@ Route::group(['prefix' => 'system', 'namespace' => 'SystemSetting'], function() 
     //routes for masters
     Route::group(['prefix' => 'master', 'namespace' => 'Master'], function() {
 
+
     });
 
     // fileupload
