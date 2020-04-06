@@ -26,15 +26,15 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('change-password', 'HomeController@postChangePassword');
 
     //routes for system administrations
-    Route::group(['prefix' => 'system', 'namespace' => 'SystemSetting'], function() {
-        Route::get('users/reset-password/{id}', 'UserController@getResetPassword');
-        Route::post('users/reset-password/{id}', 'UserController@postResetPassword');
-        Route::resource('modules', 'ModuleController');
-        Route::resource('roles', 'RoleController');
-        Route::post('users/disable-toggle', 'UserController@postDisableToggle');
-        Route::resource('users', 'UserController');
-        Route::resource('resend-verification-codes', 'ResendVerificationCodeController');
-    });
+Route::group(['prefix' => 'system', 'namespace' => 'SystemSetting'], function() {
+    Route::get('users/reset-password/{id}', 'UserController@getResetPassword');
+    Route::post('users/reset-password/{id}', 'UserController@postResetPassword');
+    Route::resource('modules', 'ModuleController');
+    Route::resource('roles', 'RoleController');
+    Route::post('users/disable-toggle', 'UserController@postDisableToggle');
+    Route::resource('users', 'UserController');
+    Route::resource('resend-verification-codes', 'ResendVerificationCodeController');
+});
 
     //create route by grouping..example like below.
     //routes for master
