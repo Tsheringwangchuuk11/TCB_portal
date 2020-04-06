@@ -38,7 +38,7 @@ Route::group(['prefix' => 'system', 'namespace' => 'SystemSetting'], function() 
 });
 
     //create route by grouping..example like below.
-    //routes for masters
+    //routes for master
     Route::group(['prefix' => 'master', 'namespace' => 'Master'], function() {
 
     });
