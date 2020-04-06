@@ -41,7 +41,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => 'application', 'namespace' => 'Application'], function() {
         Route::resource('new-application', 'ServiceController');
         // services
-        // Route::resource('service-create/{page_link}', 'ServiceController');
+        Route::resource('service-create/{page_link}', 'ServiceController');
+
     });
 
     // fileupload
