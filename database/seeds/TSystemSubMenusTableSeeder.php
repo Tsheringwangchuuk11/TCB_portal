@@ -18,6 +18,7 @@ class TSystemSubMenusTableSeeder extends Seeder
 		    ['id' => 3, 'system_menu_id' => 1, 'name' => 'Users', 'route' => 'system/users', 'display_order' => 3],
             ['id' => 4, 'system_menu_id' => 1, 'name' => 'Resend Verification Code', 'route' => 'system/resend-verification-codes', 'display_order' => 4],
 
+            ['id' => 5, 'system_menu_id' => 2, 'name' => 'Application', 'route' => 'application/new-application', 'display_order' => 1],
             //Master
             // ['id' => 5, 'system_menu_id' => 2, 'name' => 'Dzongkhag', 'route' => 'master/dzongkhags', 'display_order' => 1],
 		    // ['id' => 6, 'system_menu_id' => 2, 'name' => 'Banks', 'route' => 'master/banks', 'display_order' => 2],
