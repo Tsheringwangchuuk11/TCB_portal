@@ -16,8 +16,8 @@ class Dropdown extends Model
 		$value = $db_table->orderBy( $id,'asc')->pluck($name,  $id)->all();		
 		return $value;
 	}
+	public static function getDropdowns($tableName, $id, $name, $parentId, $parentNameId){
 
-	public static function commonDropdownLists($tableName, $id, $name, $parentId, $parentNameId){
 		$db_table = DB::table($tableName);
 		if($parentId != 0){
 			$db_table->where($parentNameId, $parentId);
