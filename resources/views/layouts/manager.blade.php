@@ -8,7 +8,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>@yield('title')</title>
-       
+
 
 		<!-- Styles -->
 		<link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -73,8 +73,9 @@
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
-            </div>            
+            </div>
             @yield('scripts')
+            @include('layouts.include.alert_message')
         </div>
     </body>
 </html>
