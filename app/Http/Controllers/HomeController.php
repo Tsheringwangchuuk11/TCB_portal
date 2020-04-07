@@ -66,24 +66,4 @@ class HomeController extends Controller
 		$cities = Dropdown::getDropdownLists($table_name, $id, $name, $parent_id, $parent_name_id);
 		return response()->json($cities);
 	}
-
-    // public function getServices(Request $request)
-    // {
-    //     $moduleId = $request->moduleId;
-    //     $servicelist=DB::table("t_module_service_mapping as t1")
-    //     ->join('t_service_master as t2', 't2.service_id', '=', 't1.service_id')
-    //     ->select('t1.page_link', 't2.service_name')
-    //     ->where('module_id', $moduleId)
-    //     ->get()
-    //     ->pluck("service_name","page_link");
-    //     return json_encode(array('data'=>$servicelist));
-    // }
-
-    // public function getModules(){
-    //     $servicemodule = DB::table("t_module_master as t1")
-    //     ->select('t1.module_id','t1.module_name')
-    //     ->get();
-    //     return view('services/modules/module_services',compact('servicemodule'));
-
-    // }
-}
+ }

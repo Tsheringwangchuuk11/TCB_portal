@@ -1,11 +1,11 @@
 <?php
 
 namespace App\Http\Controllers\Application;
-
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use DB;
+use App\Models\Services;
+use App\Models\Dropdown;
 class ServiceController extends Controller
 {
 
@@ -16,79 +16,24 @@ class ServiceController extends Controller
         $this->middleware('permission:application/new-application,edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:application/new-application,delete', ['only' => 'destroy']);
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    
+    public function getModules()
     {
-        return view('application.new-application.index');
+        $servicemodules = Dropdown::commonDropdownLists("t_module_master","module_id","module_name","0","0");
+        return view('services/modules/module_services',compact('servicemodules'));  
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function getServices(Request $request)
     {
-        //
+        $servicelist = Services::getServiceLists($request);
+        return json_encode(array('data'=>$servicelist));
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    
+    public function getServiceForm($page_link)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $page_link=str_replace("-", '/',$page_link);
+        $idInfos = Services::getIdInfo($page_link);
+        $starCategoryLists = Dropdown::commonDropdownLists("t_star_category","star_category_id","star_category_name","0","0");
+        return view($page_link, compact('idInfos','starCategoryLists'));
     }
 }

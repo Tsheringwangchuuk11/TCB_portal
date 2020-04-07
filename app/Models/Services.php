@@ -1,14 +1,35 @@
 <?php
 
-namespace App\Models\Services;
-
+namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
-use DB;
+use Illuminate\Support\Facades\DB;
 
-class ServiceModel extends Model
+class Services extends Model
 {
 
-    //generate application_no
+	public static function getServiceLists($request){
+		
+		$moduleId=$request->moduleId;
+		$query=DB::table("t_module_service_mapping as t1")
+        ->join('t_service_master as t2', 't2.service_id', '=', 't1.service_id')
+        ->select('t1.page_link', 't2.service_name')
+        ->where('module_id', $moduleId)
+        ->get()
+		->pluck("service_name","page_link");
+		return $query;
+
+	}
+	public static function getIdInfo($page_link){
+		$idInfos=DB::table('t_module_service_mapping as t1')
+        ->join('t_service_master as t2', 't2.service_id', '=', 't1.service_id')
+        ->join('t_module_master as t3', 't3.module_id', '=', 't1.module_id')
+        ->select('t1.module_id','t1.service_id','t2.service_name','t3.module_name')
+        ->where('t1.page_link',$page_link)
+		->get();
+		return $idInfos;
+	}
+
+	//generate application_no
 	private function generateApplNo($serviceId,$moduleId)
 	{
 		$lastApplNo = $this->getSequenceNo($serviceId);
@@ -37,6 +58,7 @@ class ServiceModel extends Model
 		$application_no .= $newApplNo;
 		return $application_no;
 	}
+
 	private function getSequenceNo($serviceId){
         $lastapplNo=DB::table('t_application_last_serial_number as t1')
         ->select('t1.last_application_no','t1.id')
@@ -44,6 +66,7 @@ class ServiceModel extends Model
         ->orderBy('id', 'DESC')->first();
         return $lastapplNo;
 	}
+	
 	 //accessors
      public function getLicense_dateAttribute($value){
 		return date('m/d/Y', strtotime($value));

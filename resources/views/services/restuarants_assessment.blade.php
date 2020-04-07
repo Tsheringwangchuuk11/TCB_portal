@@ -1,4 +1,4 @@
-@extends('public_view.main')
+@extends('layouts.manager')
 @section('page-title','New : Tourist Standard Restuarant Assessment')
 @section('content')
 <div class="card">

@@ -1,4 +1,4 @@
-@extends('public_view.main')
+@extends('layouts.manager')
 @section('page-title','New : Bhutan Media Familarization')
 @section('content')
 <div class="card">

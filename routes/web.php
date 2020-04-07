@@ -39,20 +39,15 @@ Route::group(['middleware' => ['auth']], function () {
 
     //routes for new application
     Route::group(['prefix' => 'application', 'namespace' => 'Application'], function() {
-        Route::resource('new-application', 'ServiceController');
-        // services
-        Route::resource('service-create/{page_link}', 'ServiceController');
+		Route::get('new-application', 'ServiceController@getModules');
+		Route::get('get-services', 'ServiceController@getServices');
+        Route::get('service-create/{page_link}', 'ServiceController@getServiceForm');
 
     });
 
     // fileupload
     Route::post('documentattach', 'Services\FileUploadController@addDocuments');
-    Route::post('deletefile', 'Services\FileUploadController@deleteFile');
-
-    Route::get('/home/get-services', 'HomeController@getServices');
-    Route::get('/home/get-modules', 'HomeController@getModules');
-    //checkList
-    
+    Route::post('deletefile', 'Services\FileUploadController@deleteFile');    
 });
 
 

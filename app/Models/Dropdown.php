@@ -9,12 +9,20 @@ class Dropdown extends Model
 {
     //
 	public static function getDropdownLists($tableName, $id, $name, $parentId, $parentNameId){
-
 		$db_table = DB::table($tableName);
 		if($parentId != 0){
 			$db_table->where($parentNameId, $parentId);
 		}
 		$value = $db_table->orderBy( $id,'asc')->pluck($name,  $id)->all();		
+		return $value;
+	}
+
+	public static function commonDropdownLists($tableName, $id, $name, $parentId, $parentNameId){
+		$db_table = DB::table($tableName);
+		if($parentId != 0){
+			$db_table->where($parentNameId, $parentId);
+		}
+		$value = $db_table->orderBy( $id,'asc')->get();		
 		return $value;
 	}
 }
