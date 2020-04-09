@@ -33,7 +33,25 @@ class ServiceController extends Controller
     {
         $page_link=str_replace("-", '/',$page_link);
         $idInfos = Services::getIdInfo($page_link);
+
         $starCategoryLists = Dropdown::getDropdowns("t_star_category","star_category_id","star_category_name","0","0");
-        return view($page_link, compact('idInfos','starCategoryLists'));
+
+        $checklistchapter=DB::table('t_checklist_chapter')
+            ->select('checklist_ch_id', 'checklist_ch_name')
+            ->get();
+            
+        return view($page_link, compact('idInfos','starCategoryLists','checklistchapter'));
+        
+    }
+
+    public static function getCheckListArea($id)
+    {
+        $area = Services::getCheckListArea($id);
+        return $area;
+    }
+
+    public static function getCheckListStandard($id){
+        $standard = Services::getCheckListStandard($id);
+        return $standard;
     }
 }
