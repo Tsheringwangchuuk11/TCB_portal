@@ -241,7 +241,7 @@
 	</form>
 </div>
 @endsection
-@section('page_scripts')
+@section('scripts')
 <!-- room type -->
 <script>
 	$(document).ready(function(){
@@ -298,7 +298,7 @@
 			add: function(e, data) {
 				data.submit();
 			},
-			url: "{{ url('documentattach') }}",
+			url: "{{ url('application/documentattach') }}",
 			type: 'POST',
 			headers: {
 				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -330,7 +330,7 @@
 			var fileId = fileId;
 			var url = url;
 			$.ajax({
-				url  : "{{ url('deletefile') }}",
+				url  : "{{ url('application/deletefile') }}",
 				type : "POST",
 				headers: {
 					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

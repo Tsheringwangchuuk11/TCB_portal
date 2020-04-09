@@ -54,4 +54,8 @@ class ServiceController extends Controller
         $standard = Services::getCheckListStandard($id);
         return $standard;
     }
+    public function getCheckList(Request $request){
+        $moduleId=$request->module_id;
+        dd($moduleId);
+    }
 }

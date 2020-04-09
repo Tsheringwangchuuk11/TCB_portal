@@ -16,7 +16,7 @@
       <div class="form-row">
         <div class="form-group col-md-5">
           <label>Registration Type <span class="text-danger">*</span></label>
-          <select class="form-control select2bs4" name="star_category_id" style="width: 100%;" id="star_category_id">
+          <select class="form-control" name="star_category_id" id="star_category_id">
             <option value="">-select-</option>
             @foreach ($starCategoryLists as $starCategoryList)
           <option value="{{$starCategoryList->star_category_id}}">{{$starCategoryList->star_category_name}}</option>
@@ -499,7 +499,7 @@
   </form>
 </div>
 @endsection
-@section('page_scripts')
+@section('scripts')
 <script>
     $(document).ready(function(){ 
       id=1;
@@ -564,15 +564,16 @@
         }
      });
   })*/
-  $('#star_category_id').on('change',function(ev){
-    var star_category_id=$("#star_category_id").val();
-    var url="{{ url('service-create/get-checklist') }}";
-    var options = {target:'#showdivid',
-    url:url,
-    type:'POST',
-    data: $("#formdata").serialize()};
-    $("#formdata").ajaxSubmit(options);
-    })
-  
+  $(document).ready(function(){
+      $('#star_category_id').on('change',function(ev){
+        var star_category_id=$("#star_category_id").val();
+        var url="{{ url('application/get-checklist') }}";
+        var options = {target:'#showdivid',
+        url:url,
+        type:'POST',
+        data: $("#formdata").serialize()};
+        $("#formdata").ajaxSubmit(options);
+        });
+  });
 </script>   
 @endsection
