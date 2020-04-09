@@ -17,6 +17,6 @@ class TRole extends Model
 
     public function rolePermissions()
     {
-        return $this->hasMany(TPrivilege::class, 'role_id');
+        return $this->hasMany(TRolePrivilege::class, 'role_id');
     }
 }

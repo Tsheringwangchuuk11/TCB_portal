@@ -4,14 +4,20 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TPrivilege extends Model
+class TRolePrivilege extends Model
 {
-    protected $table = 't_privileges';
+    //t_role_privileges
+    protected $table = 't_role_privileges';
     protected $guarded = ['id'];
 
     //relationships
     public function systemSubMenu()
     {
         return $this->belongsTo(TSystemSubMenu::class, 'system_sub_menu_id');
+    }
+
+    public function systemSubMenuDivision()
+    {
+        return $this->belongsTo(TSystemSubMenu::class, 'service_id');
     }
 }

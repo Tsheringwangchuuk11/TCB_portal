@@ -22,7 +22,7 @@
             <a href="{{ route('change-password') }}" class="nav-link"><i class="nav-icon fas fa-key"></i> Change Password</a>
           </li>
           @php $lastTopMenu = ""; @endphp
-          @foreach ($menus->where('display_type', 'side') as $menu)
+          @foreach ($menus as $menu)
               @foreach ($menu->systemSubMenus as $systemSubMenu)
                   @if($menu->name != $lastTopMenu)
                       @if($lastTopMenu != "")

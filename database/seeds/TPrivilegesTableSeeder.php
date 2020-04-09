@@ -11,7 +11,7 @@ class TPrivilegesTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('t_privileges')->insert([
+        DB::table('t_role_privileges')->insert([
             //system settings
 		    ['role_id' => 1, 'system_sub_menu_id' => 1, 'view' => 1, 'create' => 1, 'edit' => 1, 'delete' => 1, 'created_by' => 1],
 		    ['role_id' => 1, 'system_sub_menu_id' => 2, 'view' => 1, 'create' => 1, 'edit' => 1, 'delete' => 1, 'created_by' => 1],
