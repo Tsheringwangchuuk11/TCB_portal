@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Services;
+namespace App\Http\Controllers\Application;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Services\FileUploadModel;
+use App\Models\FileUpload;
 
 class FileUploadController extends Controller
 {
 
-	public function __construct(FileUploadModel $file_model)
+	public function __construct(FileUpload $file_model)
     {    
        $this->file_model = $file_model;
    }

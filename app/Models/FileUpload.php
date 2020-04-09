@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models\Services;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use DB;
 
-class FileUploadModel extends Model
+class FileUpload extends Model
 {
     
 	public $table = 't_document_dtls';
