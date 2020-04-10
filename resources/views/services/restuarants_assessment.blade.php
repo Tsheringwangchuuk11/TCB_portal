@@ -190,12 +190,12 @@
 										<th>Criteria</th>
 										<th>Checklist</th>
 									</tr>
-									<?php $area = App\Http\Controllers\Services\ServiceController::getCheckListArea($list->checklist_ch_id);?>
+									<?php $area = App\Http\Controllers\Application\ServiceController::getCheckListArea($list->checklist_ch_id);?>
 									@if($area)
 									@foreach($area as $areas)
-										<?php $standard = App\Http\Controllers\Services\ServiceController::getCheckListStandard($areas->checklist_area_id);?>
+										<?php $standard = App\Http\Controllers\Application\ServiceController::getCheckListStandard($areas->checklist_area_id);?>
 										@if($standard)
-										@php ($i=1)
+										@php($i=1)
 											@foreach($standard as $standards)
 											<tr>
 												@if($i==1)             
@@ -203,7 +203,7 @@
 												@endif
 												<td>{{ $standards->checklist_standard }}</td> 
 												<td><input type="checkbox"> <span class="text-danger">*</span></td>
-												@php ($i++)
+												@php($i++)
 											</tr>
 											@endforeach <!-- checklist standard forloop ends -->
 										@endif <!-- checklist standard if ends -->
@@ -241,7 +241,7 @@
 	</form>
 </div>
 @endsection
-@section('page_scripts')
+@section('scripts')
 <!-- room type -->
 <script>
 	$(document).ready(function(){
@@ -298,7 +298,7 @@
 			add: function(e, data) {
 				data.submit();
 			},
-			url: "{{ url('documentattach') }}",
+			url: "{{ url('application/documentattach') }}",
 			type: 'POST',
 			headers: {
 				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -330,7 +330,7 @@
 			var fileId = fileId;
 			var url = url;
 			$.ajax({
-				url  : "{{ url('deletefile') }}",
+				url  : "{{ url('application/deletefile') }}",
 				type : "POST",
 				headers: {
 					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

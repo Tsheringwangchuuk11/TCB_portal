@@ -1,7 +1,7 @@
 <?php
 return [
     "module_display_type" => [
-        'side' => 'Side',
-        'top' => 'Top',
+        'service' => 'service',
+        'module' => 'module',
     ],
 ];
