@@ -18,7 +18,6 @@ class CreateTSystemMenusTable extends Migration
             $table->string('name');
             $table->string('icon');
             $table->unsignedInteger('display_order');
-            $table->string('display_type')->nullable();
             $table->timestamps();
         });
     }
