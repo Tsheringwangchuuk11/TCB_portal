@@ -38,64 +38,51 @@
 						<th class="text-center">Delete</th>
 					</thead>
 					<tbody>
-						<?php $currentTopMenu = ''; ?>
-						@foreach($modules as $module)
-                            @if($module->name != $currentTopMenu && $currentTopMenu != '')
-                            <thead>
-                                <tr>
-                                    <th>Main Module</th>
-                                    <th>Sub Module</th>
-                                    <th class="text-center"><strong>All</strong></th>
-                                    <th class="text-center"><strong>View</strong></th>
-                                    <th class="text-center"><strong>Create</strong></th>
-                                    <th class="text-center"><strong>Edit</strong></th>
-                                    <th class="text-center"><strong>Delete</strong></th>
-                                </tr>
-                            </thead>
-							@endif
-							@foreach($module->systemSubMenus as $subMenu)
-								<tr>
-									<td>
-									{{ $module->name != $currentTopMenu ? $module->name : '' }}
-									</td>
-									<td>
-									<input type="hidden" name="permission_role[menu-{{$subMenu->id}}][sub_menu_id]" value="{{ $subMenu->id }}" disabled="disabled" class="module-id resetKeyForNew" />
-									{{ $subMenu->name }}
-									</td>
-									<td class="text-center">
-										<label>
-											<input type="checkbox" name="all" class="all-priviliges" value="1"/>
-											<span class="lbl"></span>
-										</label>
-									</td>
-									<td class="text-center">
-										<label>
-											<input type="checkbox" name="permission_role[menu-{{$subMenu->id}}][view]" class="check-perm resetKeyForNew ace ace-checkbox-2" value="1"/>
-											<span class="lbl"></span>
-										</label>
-									</td>
-									<td class="text-center">
-										<label>
-											<input type="checkbox" name="permission_role[menu-{{$subMenu->id}}][create]" class="check-perm resetKeyForNew ace ace-checkbox-2" value="1"/>
-											<span class="lbl"></span>
-										</label>
-									</td>
-									<td class="text-center">
-										<label>
-											<input type="checkbox" name="permission_role[menu-{{$subMenu->id}}][edit]" class="check-perm resetKeyForNew ace ace-checkbox-2" value="1"/>
-											<span class="lbl"></span>
-										</label>
-									</td>
-									<td class="text-center">
-										<label>
-											<input type="checkbox" name="permission_role[menu-{{$subMenu->id}}][delete]" class="check-perm resetKeyForNew ace ace-checkbox-2" value="1"/>
-											<span class="lbl"></span>
-										</label>
-									</td>
-								</tr>
-							<?php $currentTopMenu = $module->name; ?>
+							<?php $currentTopMenu = ''; ?>
+							@foreach($modules as $module)
+								@foreach($module->systemSubMenus as $subMenu)
+									<tr>
+										<td>
+										<strong>{{ $module->name != $currentTopMenu ? $module->name : '' }}</strong>
+										</td>
+										<td>
+										<input type="hidden" name="permission_role[menu-{{$subMenu->id}}][sub_menu_id]" value="{{ $subMenu->id }}" disabled="disabled" class="module-id resetKeyForNew" />
+										{{ $subMenu->name }}
+										</td>
+										<td class="text-center">
+											<label>
+												<input type="checkbox" name="all" class="all-priviliges" value="1"/>
+												<span class="lbl"></span>
+											</label>
+										</td>
+										<td class="text-center">
+											<label>
+												<input type="checkbox" name="permission_role[menu-{{$subMenu->id}}][view]" class="check-perm resetKeyForNew ace ace-checkbox-2" value="1"/>
+												<span class="lbl"></span>
+											</label>
+										</td>
+										<td class="text-center">
+											<label>
+												<input type="checkbox" name="permission_role[menu-{{$subMenu->id}}][create]" class="check-perm resetKeyForNew ace ace-checkbox-2" value="1"/>
+												<span class="lbl"></span>
+											</label>
+										</td>
+										<td class="text-center">
+											<label>
+												<input type="checkbox" name="permission_role[menu-{{$subMenu->id}}][edit]" class="check-perm resetKeyForNew ace ace-checkbox-2" value="1"/>
+												<span class="lbl"></span>
+											</label>
+										</td>
+										<td class="text-center">
+											<label>
+												<input type="checkbox" name="permission_role[menu-{{$subMenu->id}}][delete]" class="check-perm resetKeyForNew ace ace-checkbox-2" value="1"/>
+												<span class="lbl"></span>
+											</label>
+										</td>
+									</tr>
+								<?php $currentTopMenu = $module->name; ?>
+								@endforeach
 							@endforeach
-						@endforeach
 					</tbody>
 				</table>
             </div>

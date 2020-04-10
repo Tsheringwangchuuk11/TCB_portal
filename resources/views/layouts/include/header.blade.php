@@ -25,18 +25,38 @@
       </div>
     </form>
 
-    <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-      <!-- Notifications Dropdown Menu -->
-      <li class="nav-item dropdown">
-        <a href="#" class="nav-link dropdown-toggle" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-          <i class="far fa-user"></i> <span class="">{{ auth()->user()->user_name }}</span>
-          <i class="fas fa-sign-out-alt"></i> Sign Out
-        </a>
-      </li>
-    </ul>
-    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-			@csrf
-		</form>
+        <!-- profile -->
+        <li class="nav-item dropdown">
+          <a class="nav-link" data-toggle="dropdown" href="#">
+            <i class="far fa-user"></i>
+            <span>{{ auth()->user()->user_name }}</span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+            <a href="#" class="dropdown-item">
+                <div class="media">
+                  <img src="{{ asset(auth()->user()->avatar ? get_image(auth()->user()->avatar, 80, 80) : asset('img/user-photo/no-image.jpg')) }}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+                  <div class="media-body">
+                    <h3 class="dropdown-item-title">
+                        {{ auth()->user()->user_name }}
+                    </h3>
+                    <p class="text-sm">Last Login {{ auth()->user()->last_login }}</p>
+                  </div>
+                </div>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="{{ url('profile') }}" class="btn btn-success btn-sm btn-flat">
+                <i class="fas fa-user"></i> Profile
+            </a>
+            <span class="float-right">
+                <a href="{{ route('logout') }}" class="btn btn-danger btn-sm btn-flat"
+                        onclick="event.preventDefault();
+                        document.getElementById('logout-form').submit();">
+                    <i class="fas fa-sign-out"></i> Sign Out
+                </a>
+            </span>
+          </div>
+        </li>
+      </ul>
   </nav>
   <!-- /.navbar -->
