@@ -45,7 +45,7 @@ $.widget.bridge('uibutton', $.ui.button)
 <script src="{{ asset('fileupload/jquery.fileupload.js') }}"></script>
 <!-- CommonUtil -->
 <script src="{{ asset('js/commonUtil.js') }}"></script>
-<script src="{{ asset('js/common.js') }}"></script>
+<script src="{{ asset('js/commonToAll.js') }}"></script>
 <script src="{{ asset('js/validation.js') }}"></script>
 <script src="{{ asset('js/jquery.form.js') }}"></script>
 

@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\TSystemSubMenu;
-use App\TPrivilege;
+use App\TRolePrivilege;
 use Closure;
 
 class CheckAccessibility
@@ -25,7 +25,7 @@ class CheckAccessibility
 
         $userRoles = auth()->user()->roles()->pluck('role_id')->toArray();
         $menuId = TSystemSubMenu::where('route', $route)->pluck('id')->first();
-        $accessibilities = TPrivilege::where('system_sub_menu_id', $menuId)->whereIn('role_id', $userRoles)->select('view', 'create', 'edit', 'delete')->first();
+        $accessibilities = TRolePrivilege::where('system_sub_menu_id', $menuId)->whereIn('role_id', $userRoles)->select('view', 'create', 'edit', 'delete')->first();
 
         if (!$accessibilities) {
             abort(403);
