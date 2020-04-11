@@ -1,9 +1,10 @@
-@php use App\Http\Controllers\Services\ServiceController; @endphp
-@if (count($chapterList) > 0)
-    @foreach ($chapterList as $chapterList)
+@php use App\Http\Controllers\Application\ServiceController; @endphp
+@if ($chapters->count() > 0)
+<h5>Checklist</h5>
+    @foreach ($chapters as $chapter)
         <div class="card collapsed-card">
             <div class="card-header" data-card-widget="collapse">
-                <span>{{$chapterList->checklist_ch_name}}</span>
+                <span>{{$chapter->checklist_ch_name}}</span>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool"><i class="fas fa-plus"></i>
                     </button>
@@ -17,27 +18,33 @@
                             <tr>
                                 <td>Area</td>
                                 <td>Standard</td>
-                                <td>Point</td>
-                                <td>Checklist</td>
+                                <td colspan="2">Points</td>
+                                <td colspan="2">Rating</td>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $chapterarea =ServiceController::getChapterAreaList($chapterList->checklist_ch_id, $starCategoryId);?>
-                            @if (count($chapterarea) > 0)
-                                @foreach ($chapterarea as $chapterarea)
-                                    @if($chapterList->checklist_ch_id === $chapterarea->checklist_ch_id)
-                                        <?php $standard =ServiceController::getStandardList($starCategoryId,$chapterarea->checklist_area_id);?>
-                                        @if (count($standard) > 0)
+                            <?php $chapterareas =ServiceController::getChapterAreaList($chapter->checklist_ch_id,$starCategoryId);?>
+                            @if ($chapterareas->count() > 0)
+                                @foreach ($chapterareas as $chapterarea)
+                                    @if($chapter->checklist_ch_id === $chapterarea->checklist_ch_id)
+                                        <?php $standards =ServiceController::getStandardList($starCategoryId,$chapterarea->checklist_area_id);?>
+                                        @if ($standards->count() > 0)
                                             @php($i=1)
-                                            @foreach ($standard as $standard)
+                                            @foreach ($standards as $standard)
                                                 @if($standard->checklist_area_id === $chapterarea->checklist_area_id)
                                                     <tr>
                                                         @if ($i==1)
                                                         <td rowspan="{{$chapterarea->count}}">{{$chapterarea->checklist_area}}</td>
                                                         @endif
-                                                        <td>{{$standard->checklist_standard}}</td>
+                                                    <td>{{$standard->checklist_standard}}</td>
                                                         <td>{{$standard->checklist_pts}}</td>
+                                                        <td><input type="checkbox" name="checklist_id[]" value="{{$standard->checklist_id}}" id="points"></td>
                                                         <td>{{$standard->standard_code}}</td>
+                                                        @if ($standard->standard_id===1)
+                                                        <td><input type="checkbox" name="rates[]" value="{{$standard->checklist_pts}}" id="rates"><span class="text-danger">*</span></td>
+                                                        @else
+                                                        <td><input type="checkbox" name="rates[]" value="{{$standard->checklist_pts}}" id="rates"></td>
+                                                        @endif
                                                         @php($i++)
                                                     </tr>
                                                 @endif

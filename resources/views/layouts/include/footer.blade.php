@@ -8,8 +8,6 @@
 <script type="text/javascript">
 	var appUrl = "{{ url('/') }}/";
 </script>
-<!-- Scripts -->
-<script src="{{ asset('js/app.js') }}" defer></script>
 <!-- jQuery -->
 <script src="{{ asset('plugins/jquery/jquery.min.js') }}" type="text/javascript"></script>
 <!-- jQuery UI 1.11.4 -->
@@ -49,4 +47,5 @@ $.widget.bridge('uibutton', $.ui.button)
 <script src="{{ asset('js/commonUtil.js') }}"></script>
 <script src="{{ asset('js/commonToAll.js') }}"></script>
 <script src="{{ asset('js/validation.js') }}"></script>
+<script src="{{ asset('js/jquery.form.js') }}"></script>
 
