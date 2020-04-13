@@ -14,8 +14,8 @@ class FileUpload extends Model
 	public function getFileUploadDtls($request){
 
 		if($file = $request->file('filename')){
-            $module_name = $request->module_name;
-            $service_name = $request->service_name;
+            $module_name = $request->module_id;
+            $service_name = $request->service_id;
             $year = date('Y');
             $date = date('zHis');
             $filename = $file->getClientOriginalName();
