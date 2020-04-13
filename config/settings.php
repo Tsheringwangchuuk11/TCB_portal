@@ -1,7 +1,7 @@
 <?php
 return [
     "module_display_type" => [
-        'service' => 'service',
-        'module' => 'module',
+        'service' => 'Service',
+        'module' => 'Module',
     ],
 ];

@@ -76,7 +76,7 @@ class Services extends Model
 		}
  
     //insert into t_application
-	public function scopeSaveApplicantDetails($request){
+	public function saveApplicantDetails($request){
 		$serviceId=$request->service_id;
 		$moduleId=$request->module_id;
 		$application_no = $this->generateApplNo($serviceId,$moduleId);

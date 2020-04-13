@@ -10,12 +10,13 @@ use App\Models\Dropdown;
 class ServiceController extends Controller
 {
 
-    public function __construct()
+    public function __construct(Services $services)
     {
         $this->middleware('permission:application/new-application,view', ['only' => ['index', 'show']]);
         $this->middleware('permission:application/new-application,create', ['only' => ['create', 'store']]);
         $this->middleware('permission:application/new-application,edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:application/new-application,delete', ['only' => 'destroy']);
+        $this->services = $services;
 
     }
     public function getModules()
@@ -66,10 +67,8 @@ class ServiceController extends Controller
         return $standards;
     }
 
-    public function SaveNewApplication(Request $request){  
-        $checklist_id=$request->checklist_pts;
-		dd($checklist_id);
-      $savedata=Services::SaveApplicantDetails($request);
+    public function saveNewApplication(Request $request){  
+        $saveData = $this->services->saveApplicantDetails($request);
     }
 
     public static function getCheckListChapters($id){
