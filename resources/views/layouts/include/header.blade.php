@@ -28,14 +28,14 @@
       <li class="dropdown user user-menu">
           <a href="#" data-toggle="dropdown">
           <img src="{{ URL::to('dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image">
-          <span style="color:#f4f6f9;">{{ Auth::user()->user_name }}</span>
+          <span style="color:#f4f6f9;">{{ auth()->user()->user_name }}</span>
           </a>
           <ul class="dropdown-menu dropdown-menu-right">
               <!-- User image -->
               <!-- Menu Body -->
               <li class="user-body bg-info text-center">
                 <img src="{{ URL::to('dist/img/user2-160x160.jpg') }}" class="img-size-50 mr-3 img-circle" alt="User Image">
-                <h3>{{ Auth::user()->user_name }}</h3>
+                <h5>{{ auth()->user()->user_name }}</h5>
                 <p class="text-center">
                    Last Login: {{ auth()->user()->last_login}}
                 </p>
