@@ -19,5 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(TPrivilegesTableSeeder::class);
         $this->call(TDivisionTableSeeder::class);
         $this->call(TServiceTableSeeder::class);
+        $this->call(ModuleMasterTableSeeder::class);
+        $this->call(StarCategoryTableSeeder::class);
     }
 }
