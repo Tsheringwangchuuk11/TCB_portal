@@ -177,46 +177,49 @@
 			<h5>Inspector’s Checklist</h5>
 			<!-- General/Exterior/Location/Building/Rooms -->
 			<div class="card">
-				@foreach($checklistchapter as $list)
-				<div class="card-header">
-					<span>{{ $list->checklist_ch_name }}</span>
-				</div>
-				<div class="card-body">
-					<div class="row">
-						<div class="col-md-12">
-							<table class="table table-bordered table" id="dataTable">
-								<tbody>
-									<tr>        
-										<th>Area</th>
-										<th>Criteria</th>
-										<th>Checklist</th>
-									</tr>
-									<?php $area = ServiceController::getCheckListArea($list->checklist_ch_id);?>
-									@if($area)
-									@foreach($area as $areas)
-										<?php $standard = ServiceController::getCheckListStandard($areas->checklist_area_id);?>
-										@if($standard)
-										@php($i=1)
-											@foreach($standard as $standards)
-											<tr>
-												@if($i==1)             
-												<td rowspan="{{ $areas->count1 }}">{{ $areas->checklist_name }}</td>
-												@endif
-												<td>{{ $standards->checklist_standard }}</td> 
-												<td><input type="checkbox"> <span class="text-danger">*</span></td>
-												@php($i++)
-											</tr>
-											@endforeach <!-- checklist standard forloop ends -->
-										@endif <!-- checklist standard if ends -->
-									@endforeach <!-- checklist area forloop ends -->
-									@endif <!-- checklist area if ends -->
-								</tbody>
-							</table>
+			<?php $chapter = ServiceController::getCheckListChapters($idInfo->module_id);?>
+				@if($chapter)
+					@foreach($chapter as $chapters)
+					<div class="card-header">
+						<span>{{ $chapters->checklist_ch_name }}</span>
+					</div>
+					<div class="card-body">
+						<div class="row">
+							<div class="col-md-12">
+								<table class="table table-bordered table" id="dataTable">
+									<tbody>
+										<tr>        
+											<th>Area</th>
+											<th>Criteria</th>
+											<th>Checklist</th>
+										</tr>
+										<?php $area = ServiceController::getCheckListAreas($chapters->checklist_ch_id);?>
+										@if($area)
+										@foreach($area as $areas)
+											<?php $standard = ServiceController::getCheckListStandards($areas->checklist_area_id);?>
+											@if($standard)
+											@php($i=1)
+												@foreach($standard as $standards)
+												<tr>
+													@if($i==1)             
+													<td rowspan="{{ $areas->count1 }}">{{ $areas->checklist_name }}</td>
+													@endif
+													<td>{{ $standards->checklist_standard }}</td> 
+													<td><input type="checkbox"> <span class="text-danger">*</span></td>
+													@php($i++)
+												</tr>
+												@endforeach <!-- checklist standard forloop ends -->
+											@endif <!-- checklist standard if ends -->
+										@endforeach <!-- checklist area forloop ends -->
+										@endif <!-- checklist area if ends -->
+									</tbody>
+								</table>
+							</div>
 						</div>
 					</div>
-				</div>
-				@endforeach
-				<!-- /.card-body -->
+					<!-- /.card-body -->
+					@endforeach
+				@endif
 			</div>
 
 			<div class="row">

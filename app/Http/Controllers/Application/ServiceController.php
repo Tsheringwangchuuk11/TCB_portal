@@ -71,4 +71,20 @@ class ServiceController extends Controller
 		dd($checklist_id);
       $savedata=Services::SaveApplicantDetails($request);
     }
+
+    public static function getCheckListChapters($id){
+        $checklistchapter=Services::getChapterList($id);
+        return $checklistchapter;
+    }
+
+    public static function getCheckListAreas($id)
+    {
+        $area = Services::getCheckListAreas($id);
+        return $area;
+    }
+
+    public static function getCheckListStandards($id){
+        $standard = Services::getCheckListStandards($id);
+        return $standard;
+    }
 }
