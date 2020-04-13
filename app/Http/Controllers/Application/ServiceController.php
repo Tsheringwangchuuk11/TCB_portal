@@ -34,21 +34,9 @@ class ServiceController extends Controller
     {
         $page_link=str_replace("-", '/',$page_link);
         $idInfos = Services::getIdInfo($page_link);
-<<<<<<< HEAD
-
         $starCategoryLists = Dropdown::getDropdowns("t_star_category","star_category_id","star_category_name","0","0");
-
-        $dzongkhagLists = Dropdown::getDropdowns("t_dzongkhag_master","dzongkhag_id","dzongkhag_name","0","0");
-
-        $checklistchapter=DB::table('t_checklist_chapter')
-            ->select('checklist_ch_id', 'checklist_ch_name')
-            ->get();
-            
-        return view($page_link, compact('idInfos','starCategoryLists','checklistchapter','dzongkhagLists'));
-=======
-        $starCategoryLists = Dropdown::getDropdowns("t_star_category","star_category_id","star_category_name","0","0");    
-        return view($page_link, compact('idInfos','starCategoryLists'));
->>>>>>> 5cc1d1f2c47c0b8e8a0945098d3dddc42ea62e69
+        $dzongkhagLists = Dropdown::getDropdowns("t_dzongkhag_master","dzongkhag_id","dzongkhag_name","0","0");    
+        return view($page_link, compact('idInfos','starCategoryLists','dzongkhagLists'));
         
     }
 
