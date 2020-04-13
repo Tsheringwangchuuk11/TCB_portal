@@ -14,4 +14,9 @@ class TSystemSubMenu extends Model
     {
         return $this->belongsTo(TSystemMenu::class, 'system_menu_id');
     }
+
+    public function systemDivision()
+    {
+        return $this->belongsTo(TService::class, 'division_id');
+    }
 }

@@ -38,31 +38,21 @@
 						<th>Main Module</th>
 						<th>Sub Module</th>
 						<th class="text-center">All</th>
-						<th class="text-center">Show Menu</th>
+						<th class="text-center">View</th>
 						<th class="text-center">Create</th>
 						<th class="text-center">Edit</th>
 						<th class="text-center">Delete</th>
 					</thead>
 					<tbody>
-						<?php $currentTopMenu = ''; ?>
-						@foreach($modules as $module)
-							@if($module->top_menu != $currentTopMenu && $currentTopMenu != '')
-							<thead>
-								<th><strong>Main</strong> Module</th>
-								<th><strong>Sub</strong> Module</th>
-								<th class="text-center"><strong>All</strong></th>
-								<th class="text-center"><strong>View</strong></th>
-								<th class="text-center"><strong>Create</strong></th>
-								<th class="text-center"><strong>Edit</strong></th>
-								<th class="text-center"><strong>Delete</strong></th>
-							</thead>
-							@endif
+							<?php $currentTopMenu = ''; ?>
+							@foreach($modules as $module)
 							<tr>
-								<td>{{ $module->top_menu != $currentTopMenu ? $module->top_menu : '' }}</td>
+								<td><strong>{{ $module->top_menu != $currentTopMenu ? $module->top_menu : '' }}</strong></td>
 								<td>
 									<input type="hidden" name="permission_role[menu-{{$module->sub_menu_id}}][sub_menu_id]" value="{{ $module->sub_menu_id }}" {{ (int)$module->view == 1 || (int)$module->create == 1 || (int)$module->edit == 1 || (int)$module->delete == 1 ? '' : 'disabled'}} class="module-id resetKeyForNew" />
 									{{ $module->sub_menu }}
 								</td>
+								@if($module->flag == 'M')
 								<td class="text-center">
 									<label>
 										<input type="checkbox" name="all" class="all-priviliges ace ace-checkbox-2" value="1" {{ (int)$module->view == 1 && (int)$module->create == 1 && (int)$module->edit == 1 && (int)$module->delete == 1 ? 'checked' : '' }}/>
@@ -93,6 +83,18 @@
 										<span class="lbl"></span>
 									</label>
 								</td>
+								@else
+								<td class="text-center"></td>
+								<td class="text-center">
+									<label>
+										<input type="checkbox" name="permission_role[menu-{{$module->sub_menu_id}}][view]" class="check-perm resetKeyForNew ace ace-checkbox-2" value="1" {{ (int)$module->view == 1 ? 'checked' : '' }} />
+										<span class="lbl"></span>
+									</label>
+								</td>
+								<td class="text-center"></td>
+								<td class="text-center"></td>
+								<td class="text-center"></td>
+								@endif
 							</tr>
 						<?php $currentTopMenu = $module->top_menu; ?>
 						@endforeach

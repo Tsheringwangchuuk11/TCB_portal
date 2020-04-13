@@ -8,24 +8,23 @@ class Services extends Model
 {
 
 	public static function getServiceLists($request){
-		
 		$moduleId=$request->moduleId;
 		$query=DB::table("t_module_service_mapping as t1")
-        ->join('t_service_master as t2', 't2.service_id', '=', 't1.service_id')
-        ->select('t1.page_link', 't2.service_name')
-        ->where('module_id', $moduleId)
-        ->get()
-		->pluck("service_name","page_link");
+				->join('t_service_master as t2', 't2.service_id', '=', 't1.service_id')
+				->select('t1.page_link', 't2.service_name')
+				->where('module_id', $moduleId)
+				->get()
+				->pluck("service_name","page_link");
 		return $query;
 
 	}
 	public static function getIdInfo($page_link){
 		$idInfos=DB::table('t_module_service_mapping as t1')
-        ->join('t_service_master as t2', 't2.service_id', '=', 't1.service_id')
-        ->join('t_module_master as t3', 't3.module_id', '=', 't1.module_id')
-        ->select('t1.module_id','t1.service_id','t2.service_name','t3.module_name')
-        ->where('t1.page_link',$page_link)
-		->get();
+					->join('t_service_master as t2', 't2.service_id', '=', 't1.service_id')
+					->join('t_module_master as t3', 't3.module_id', '=', 't1.module_id')
+					->select('t1.module_id','t1.service_id','t2.service_name','t3.module_name')
+					->where('t1.page_link',$page_link)
+					->get();
 		return $idInfos;
 	}
 
@@ -39,8 +38,8 @@ class Services extends Model
 		$application_no = "";
 		$newApplNo=$applNo+1;
 		$sql=DB::table('t_application_last_serial_number as t1')
-		->where('t1.service_id',$serviceId)
-		->update(['t1.last_application_no' =>$newApplNo ]);
+				->where('t1.service_id',$serviceId)
+				->update(['t1.last_application_no' =>$newApplNo ]);
 		$newApplNo=str_pad($newApplNo,7,0,STR_PAD_LEFT);
 		
 			if($moduleIdLength!=2){
@@ -61,23 +60,23 @@ class Services extends Model
 
 	private function getSequenceNo($serviceId){
         $lastapplNo=DB::table('t_application_last_serial_number as t1')
-        ->select('t1.last_application_no','t1.id')
-        ->where('t1.service_id',$serviceId)
-        ->orderBy('id', 'DESC')->first();
+						->select('t1.last_application_no','t1.id')
+						->where('t1.service_id',$serviceId)
+						->orderBy('id', 'DESC')->first();
         return $lastapplNo;
 	}
 	
 	 //accessors
-     public function getLicense_dateAttribute($value){
-		return date('m/d/Y', strtotime($value));
-		}
+	public function getLicense_dateAttribute($value){
+	     return date('m/d/Y', strtotime($value));
+	}
 	  //mututor
 	  public function setLicense_dateAttribute($value){
 		$this->attributes['dob'] = date('Y-m-d', strtotime($value));
 		}
  
     //insert into t_application
-	public function saveApplicantDetails($request){
+	public function scopeSaveApplicantDetails($request){
 		$serviceId=$request->service_id;
 		$moduleId=$request->module_id;
 		$application_no = $this->generateApplNo($serviceId,$moduleId);
@@ -121,7 +120,7 @@ class Services extends Model
 						 'house_no'=>$house_no,'town_distance'=>$town_distance,'road_distance'=>$road_distance,'condition'=>$condition,
 						 'validity_date'=>$validity_date,'flat_no'=>$flat_no,'building_no'=>$building_no,'submissiond_date'=>now()]);
 	
-//insert into child table
+//insert into t_room_application
 		       
 		$room_type_id=$request->room_type_id;
 		$room_no=$request->room_no;
@@ -136,7 +135,7 @@ class Services extends Model
 				DB::table('t_room_application')->insert($arrData);
 			}
 		}
-
+//insert into t_staff_application
 		$staff_area_id=$request->staff_area_id;
 		$hotel_div_id=$request->hotel_div_id;
 		$staff_name=$request->staff_name;
@@ -155,29 +154,62 @@ class Services extends Model
 			}
 		}
 				
+//insert into t_checklist_application
 		
 	}
 
 	public static function getCheckListArea($id)
 	{
 		$area = DB::table('t_checklist_area as t1')
-            ->leftJoin('t_checklist_standard as t2', 't2.checklist_area_id', '=', 't1.checklist_area_id')
-            ->select('t1.checklist_area_id','t1.checklist_name', DB::raw("COUNT('t2.checklist_area_id') as total1"))
-            ->where('t1.checklist_ch_id', $id)
-            ->groupBy('t1.checklist_area_id', 't1.checklist_name')
-            ->get();
+					->leftJoin('t_checklist_standard as t2', 't2.checklist_area_id', '=', 't1.checklist_area_id')
+					->select('t1.checklist_area_id','t1.checklist_name', DB::raw("COUNT('t2.checklist_area_id') as total1"))
+					->where('t1.checklist_ch_id', $id)
+					->groupBy('t1.checklist_area_id', 't1.checklist_name')
+					->get();
         return $area;
 	}
 
 	public static function getCheckListStandard($id)
 	{
 		$standard = DB::table('t_checklist_standard as t1')
-            ->select('t1.checklist_id','t1.checklist_standard')
-            ->where('t1.checklist_area_id', $id)
-            ->get();
+					->select('t1.checklist_id','t1.checklist_standard')
+					->where('t1.checklist_area_id', $id)
+					->get();
         return $standard;
 	}
 
 
-			
+	public static function getCheckListChapter($request){
+		$moduleId = $request->module_id;
+		$starCategoryId = $request->star_category_id;
+		$chapter = DB::table('t_checklist_chapter as t1')
+		            ->leftJoin('t_star_category as t2', 't1.module_id', '=', 't2.module_id')
+					->select('t1.checklist_ch_id','t1.checklist_ch_name')
+					->where('t2.star_category_id', $starCategoryId)
+					->where('t1.module_id',$moduleId)
+					->get();
+        return $chapter;
+	}	
+	
+	public static function getChapterArea($chapterId,$starCategoryId){
+		$query = DB::table('t_checklist_standard_mapping as t1')
+					->leftjoin('t_checklist_standard as t2','t1.checklist_id','=','t2.checklist_id')
+					->leftjoin('t_checklist_area as t3','t2.checklist_area_id','=','t3.checklist_area_id')
+					->select(DB::raw('count(t2.checklist_area_id) as count'),'t2.checklist_area_id','t3.checklist_area','t3.checklist_ch_id')
+					->where('t1.star_category_id', $starCategoryId)
+					->where('t3.checklist_ch_id',$chapterId)
+					->groupBy('t2.checklist_area_id','t3.checklist_area','t3.checklist_ch_id')
+					->get();
+        return $query;
+	}
+	public static function getStandards($starCategoryId,$checkListAreaId){
+		$query =DB::table('t_checklist_standard as t1')
+                    ->leftjoin('t_checklist_standard_mapping as t2','t1.checklist_id','=','t2.checklist_id')
+                    ->leftjoin('t_basic_standard as t3','t2.standard_id','=','t3.standard_id')
+                    ->select('t3.standard_id','t1.checklist_id','t1.checklist_standard','t1.checklist_pts', 't3.standard_code','t1.checklist_area_id')
+					->where('t2.star_category_id', $starCategoryId)
+					->where('t1.checklist_area_id',$checkListAreaId)
+					->get();
+        return  $query;
+	}
 }
