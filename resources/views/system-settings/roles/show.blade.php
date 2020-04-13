@@ -23,33 +23,32 @@
                     <tbody>
                         <?php $currentTopMenu = ''; ?>
                         @foreach($modules as $module)
-                            @if($module->top_menu != $currentTopMenu && $currentTopMenu != '')
-                            <thead>
-                                <th><strong>Main</strong> Module</th>
-                                <th><strong>Sub</strong> Module</th>
-                                <th class="text-center"><strong>View</strong></th>
-                                <th class="text-center"><strong>Create</strong></th>
-                                <th class="text-center"><strong>Edit</strong></th>
-                                <th class="text-center"><strong>Delete</strong></th>
-                            </thead>
-                            @endif
                             <tr>
-                                <td>{{ $module->top_menu != $currentTopMenu ? $module->top_menu : '' }}</td>
+                                <td><strong>{{ $module->top_menu != $currentTopMenu ? $module->top_menu : '' }}</strong></td>
                                 <td>
                                     {{ $module->sub_menu }}
                                 </td>
-                                <td class="text-center">
-                                    {!! $module->view == 1 ? '<i class="fa fa-check text-green"></i>' : '<i class="fa fa-times text-red"></i>' !!}
-                                </td>
-                                <td class="text-center">
-                                    {!! $module->create == 1 ? '<i class="fa fa-check text-green"></i>' : '<i class="fa fa-times text-red"></i>' !!}
-                                </td>
-                                <td class="text-center">
-                                    {!! $module->edit == 1 ? '<i class="fa fa-check text-green"></i>' : '<i class="fa fa-times text-red"></i>' !!}
-                                </td>
-                                <td class="text-center">
-                                    {!! $module->delete == 1 ? '<i class="fa fa-check text-green"></i>' : '<i class="fa fa-times text-red"></i>' !!}
-                                </td>
+                                @if($module->flag == 'M')
+                                    <td class="text-center">
+                                        {!! $module->view == 1 ? '<i class="fa fa-check text-green"></i>' : '<i class="fa fa-times text-red"></i>' !!}
+                                    </td>
+                                    <td class="text-center">
+                                        {!! $module->create == 1 ? '<i class="fa fa-check text-green"></i>' : '<i class="fa fa-times text-red"></i>' !!}
+                                    </td>
+                                    <td class="text-center">
+                                        {!! $module->edit == 1 ? '<i class="fa fa-check text-green"></i>' : '<i class="fa fa-times text-red"></i>' !!}
+                                    </td>
+                                    <td class="text-center">
+                                        {!! $module->delete == 1 ? '<i class="fa fa-check text-green"></i>' : '<i class="fa fa-times text-red"></i>' !!}
+                                    </td>
+                                @else
+                                    <td class="text-center">
+                                        {!! $module->view == 1 ? '<i class="fa fa-check text-green"></i>' : '<i class="fa fa-times text-red"></i>' !!}
+                                    </td>
+                                    <td class="text-center"></td>
+                                    <td class="text-center"></td>
+                                    <td class="text-center"></td>
+                                @endif
                             </tr>
                         <?php $currentTopMenu = $module->top_menu; ?>
                         @endforeach

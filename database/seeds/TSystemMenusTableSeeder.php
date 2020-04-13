@@ -12,8 +12,8 @@ class TSystemMenusTableSeeder extends Seeder
     public function run()
     {
         DB::table('t_system_menus')->insert([
-            ['id' => 1, 'name' => 'System Administration', 'icon' => 'fa-cogs', 'display_type' => 'side', 'display_order' => 1],
-            ['id' => 2, 'name' => 'Application', 'icon' => 'fa-cogs', 'display_type' => 'side', 'display_order' => 2],
+            ['id' => 1, 'name' => 'System Administration', 'icon' => 'fa-cogs', 'display_order' => 1],
+            ['id' => 2, 'name' => 'Application', 'icon' => 'fa-cogs', 'display_order' => 2],
         ]);
     }
 }

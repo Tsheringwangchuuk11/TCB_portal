@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTPrivilegesTable extends Migration
+class CreateTRolePrivilegesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateTPrivilegesTable extends Migration
      */
     public function up()
     {
-        Schema::create('t_privileges', function (Blueprint $table) {
+        Schema::create('t_role_privileges', function (Blueprint $table) {
             $table->BigIncrements('id');
             $table->unsignedBigInteger('role_id')->index();
             $table->unsignedBigInteger('system_sub_menu_id')->index();
@@ -38,6 +38,6 @@ class CreateTPrivilegesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('t_privileges');
+        Schema::dropIfExists('t_role_privileges');
     }
 }

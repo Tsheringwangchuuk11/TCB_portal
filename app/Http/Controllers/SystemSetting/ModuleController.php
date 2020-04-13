@@ -5,27 +5,27 @@ namespace App\Http\Controllers\SystemSetting;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\TSystemMenu;
+use App\TService;
 use App\TSystemSubMenu;
-use App\TPrivilege;
+use App\TRolePrivilege;
 
 class ModuleController extends Controller
 {
     private $rules = [
-        'main_module_name' => 'required',
-        'module_icon' => 'required',
-        'module_display_order' => 'required|integer',
-        'module_display_type' => 'required',
+        'main_module_name' => 'required_if:module_display,module',
+        'module_icon' => 'required_if:module_display,module',
+        'module_display_order' => 'required_if:module_display,module',
+        'service_id' => 'required_if:module_display,service',
         'submodules.*.sub_module_name' => 'required',
         'submodules.*.route' => 'required',
         'submodules.*.display_order' => 'required|integer',
     ];
 
     private $messages = [
-        'main_module_name.required' => 'Main Module Name field is required',
-        'module_icon.required' => 'Module Icon field is required',
-        'module_display_order.required' => 'Display Order field is required',
-        'module_display_order.integer' => 'Display Order field must be a valid number',
-        'module_display_type.required' => 'Display Type field is required',
+        // 'main_module_name.required' => 'Main Module Name field is required',
+        // 'module_icon.required' => 'Module Icon field is required',
+        // 'module_display_order.required' => 'Display Order field is required',
+        // 'module_display_order.integer' => 'Display Order field must be a valid number',
         'submodules.*.sub_module_name.required' => 'Sub Module Name field is required',
         'submodules.*.route.required' => 'Route field is required',
         'submodules.*.display_order.required' => 'Display Order field is required',
@@ -59,7 +59,8 @@ class ModuleController extends Controller
      */
     public function create()
     {
-        return view('system-settings.modules.create');
+        $services = TService::orderBy('name')->get();
+        return view('system-settings.modules.create', compact('services'));
     }
 
     /**
@@ -73,13 +74,13 @@ class ModuleController extends Controller
         $this->validate($request, $this->rules, $this->messages);
 
         \DB::transaction(function () use ($request) {
+            if($request->module_display == 'module'){
 
             $module = new TSystemMenu;
 
             $module->name = $request->main_module_name;
             $module->icon = $request->module_icon;
             $module->display_order = $request->module_display_order;
-            $module->display_type = $request->module_display_type;
             $module->save();
 
             $subModules = [];
@@ -91,9 +92,20 @@ class ModuleController extends Controller
                     'display_order' => $value['display_order']
                 ];
             }
-
             $module->systemSubMenus()->createMany($subModules);
+            }else{
 
+            // $subMenuModel = new TSystemSubMenu;
+            foreach($request->submodules as $key => $value){
+                $subModules[] = [
+                    'name' => $value['sub_module_name'],
+                    'route' => $value['route'],
+                    'display_order' => $value['display_order'],
+                    'service_id' => $request->service_id,
+                ];
+            }
+            TSystemSubMenu::insert($subModules);
+            }
         });
 
         return redirect('system/modules')->with('msg_success', 'Module successfully created');
@@ -119,7 +131,8 @@ class ModuleController extends Controller
     public function edit($id)
     {
         $module = TSystemMenu::with('systemSubMenus')->findOrFail($id);
-        return view('system-settings.modules.edit', compact('module'));
+        $services = TService::orderBy('name')->get();
+        return view('system-settings.modules.edit', compact('module', 'services'));
     }
 
     /**
@@ -139,7 +152,6 @@ class ModuleController extends Controller
             $module->name = $request->main_module_name;
             $module->icon = $request->module_icon;
             $module->display_order = $request->module_display_order;
-            $module->display_type = $request->module_display_type;
             $module->save();
 
             //collect the ids of the SystemSubMenu table into an array from the database
@@ -158,7 +170,7 @@ class ModuleController extends Controller
             $uniqueSubModuleIds = array_merge(array_diff($subModuleIdsFromTheDatabase, $subModuleIdsFromRequest), array_diff($subModuleIdsFromRequest, $subModuleIdsFromTheDatabase));
 
             //before deleting the sub module, first we need to remove the role allocated to the particular module from the role permission table
-            TPrivilege::whereIn('system_sub_menu_id', $uniqueSubModuleIds)->delete();
+            TRolePrivilege::whereIn('system_sub_menu_id', $uniqueSubModuleIds)->delete();
 
             //after that remove the deleted sub module from the system_sub_menus table
             TSystemSubMenu::whereIn('id', $uniqueSubModuleIds)->delete();
