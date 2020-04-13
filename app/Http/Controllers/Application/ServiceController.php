@@ -36,11 +36,13 @@ class ServiceController extends Controller
 
         $starCategoryLists = Dropdown::getDropdowns("t_star_category","star_category_id","star_category_name","0","0");
 
+        $dzongkhagLists = Dropdown::getDropdowns("t_dzongkhag_master","dzongkhag_id","dzongkhag_name","0","0");
+
         $checklistchapter=DB::table('t_checklist_chapter')
             ->select('checklist_ch_id', 'checklist_ch_name')
             ->get();
             
-        return view($page_link, compact('idInfos','starCategoryLists','checklistchapter'));
+        return view($page_link, compact('idInfos','starCategoryLists','checklistchapter','dzongkhagLists'));
         
     }
 
