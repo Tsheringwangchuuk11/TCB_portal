@@ -43,7 +43,7 @@ Route::group(['middleware' => ['auth']], function () {
 		Route::get('get-services', 'ServiceController@getServices');
         Route::get('service-create/{page_link}', 'ServiceController@getServiceForm');
         Route::post('get-chapters', 'ServiceController@getCheckListChapter');
-        Route::post('save-application', 'ServiceController@SaveNewApplication');
+        Route::post('save-application', 'ServiceController@saveNewApplication');
 
         // fileupload
         Route::post('documentattach', 'FileUploadController@addDocuments');
