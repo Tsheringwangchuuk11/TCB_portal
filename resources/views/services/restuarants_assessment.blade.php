@@ -1,6 +1,7 @@
 @extends('layouts.manager')
 @section('page-title','New : Tourist Standard Restuarant Assessment')
-@section('content')
+@section('content') 
+@php use App\Http\Controllers\Application\ServiceController; @endphp
 <div class="card">
 	<div class="card-header bg-success">
 		<h3 class="card-title">Registration of Tourist Standard Restuarant</h3>
@@ -8,15 +9,15 @@
 	<form action="{{ url('') }}" method="POST" enctype="multipart/form-data">
 		@csrf
 		@foreach ($idInfos as $idInfo)
-		<input type="hidden" name="module_name" value="{{ $idInfo->module_name }}">
-		<input type="hidden" name="service_name" value="{{ $idInfo->service_name }}">
+		<input type="hidden" name="module_id" value="{{ $idInfo->module_name }}">
+		<input type="hidden" name="service_id" value="{{ $idInfo->service_name }}">
 		@endforeach
 		<div class="card-body">
 			<div class="row">
 				<div class="col-md-5">
 					<div class="form-group">
 						<label for="">License Number <span class="text-danger">*</span> </label>
-						<input type="number" class="form-control" name="license_number" id="" autocomplete="off" required>
+						<input type="number" class="form-control" name="license_no" id="" autocomplete="off" required>
 					</div>
 				</div>
 				<div class="col-md-5 offset-md-2">
@@ -36,7 +37,7 @@
 				<div class="col-md-5 offset-md-2">
 					<div class="form-group">
 						<label for="">Owner <span class="text-danger">*</span> </label>
-						<input type="text" class="form-control" name="accomodation" autocomplete="off" required>
+						<input type="text" class="form-control" name="owner" autocomplete="off" required>
 					</div>
 				</div>
 			</div>
@@ -50,7 +51,7 @@
 				<div class="col-md-5 offset-md-2">
 					<div class="form-group">
 						<label for="">Contact No <span class="text-danger">*</span> </label>
-						<input type="number" class="form-control" name="phone_number" id="" autocomplete="off" required>
+						<input type="number" class="form-control" name="contact_no" id="" autocomplete="off" required>
 					</div>
 				</div>
 			</div>
@@ -72,7 +73,7 @@
 				<div class="col-md-5">
 					<div class="form-group">
 						<label for="">Internet Homepage <span class="text-danger">*</span> </label>
-						<input type="text" class="form-control" name="internet" autocomplete="off" required>
+						<input type="text" class="form-control" name="internet_url" autocomplete="off" required>
 					</div>
 				</div>
 				<div class="col-md-5 offset-md-2">
@@ -86,7 +87,7 @@
 				<div class="col-md-5">
 					<div class="form-group">
 						<label for="">Location <span class="text-danger">*</span> </label>
-						<select class="form-control select2bs4" required>
+						<select class="form-control select2bs4" name="location_id" required>
 							<option selected="selected">-Select-</option>
 							
 						</select>
@@ -190,16 +191,16 @@
 										<th>Criteria</th>
 										<th>Checklist</th>
 									</tr>
-									<?php $area = App\Http\Controllers\Application\ServiceController::getCheckListArea($list->checklist_ch_id);?>
+									<?php $area = ServiceController::getCheckListArea($list->checklist_ch_id);?>
 									@if($area)
 									@foreach($area as $areas)
-										<?php $standard = App\Http\Controllers\Application\ServiceController::getCheckListStandard($areas->checklist_area_id);?>
+										<?php $standard = ServiceController::getCheckListStandard($areas->checklist_area_id);?>
 										@if($standard)
 										@php($i=1)
 											@foreach($standard as $standards)
 											<tr>
 												@if($i==1)             
-												<td rowspan="{{ $areas->total1 }}">{{ $areas->checklist_name }}</td>
+												<td rowspan="{{ $areas->count1 }}">{{ $areas->checklist_name }}</td>
 												@endif
 												<td>{{ $standards->checklist_standard }}</td> 
 												<td><input type="checkbox"> <span class="text-danger">*</span></td>
