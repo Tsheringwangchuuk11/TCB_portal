@@ -158,18 +158,27 @@ class Services extends Model
 
 	}
 
-	public static function getCheckListArea($id)
+	public static function getChapterList($id)
+	{
+		$checklistchapter = DB::table('t_checklist_chapter')
+			->select('checklist_ch_id', 'checklist_ch_name')
+			->where('module_id', $id)
+			->get();
+		return $checklistchapter;
+	}
+
+	public static function getCheckListAreas($id)
 	{
 		$area = DB::table('t_checklist_area as t1')
 					->leftJoin('t_checklist_standard as t2', 't2.checklist_area_id', '=', 't1.checklist_area_id')
-					->select('t1.checklist_area_id','t1.checklist_name', DB::raw("COUNT('t2.checklist_area_id') as total1"))
+					->select('t1.checklist_area_id','t1.checklist_name', DB::raw("COUNT('t2.checklist_area_id') as count1"))
 					->where('t1.checklist_ch_id', $id)
 					->groupBy('t1.checklist_area_id', 't1.checklist_name')
 					->get();
         return $area;
 	}
 
-	public static function getCheckListStandard($id)
+	public static function getCheckListStandards($id)
 	{
 		$standard = DB::table('t_checklist_standard as t1')
 					->select('t1.checklist_id','t1.checklist_standard')

@@ -67,7 +67,24 @@ class ServiceController extends Controller
         return $standards;
     }
 
-    public function saveNewApplication(Request $request){
+
+    public function saveNewApplication(Request $request){        
         $saveData = $this->services->saveApplicantDetails($request);
+    }
+
+    public static function getCheckListChapters($id){
+        $checklistchapter=Services::getChapterList($id);
+        return $checklistchapter;
+    }
+
+    public static function getCheckListAreas($id)
+    {
+        $area = Services::getCheckListAreas($id);
+        return $area;
+    }
+
+    public static function getCheckListStandards($id){
+        $standard = Services::getCheckListStandards($id);
+        return $standard;
     }
 }
