@@ -155,6 +155,19 @@ class Services extends Model
 		}
 				
 //insert into t_checklist_application
+
+//update application_no in t_document_dtls
+		$documentId = $request->files;
+		if(isset($documentId)){
+			foreach($documentId as $key => $value)
+			{
+				dd($documentId[$key]);
+				$data = array(
+					'application_no' => $application_no
+				);
+				DB::table('t_document_dtls')->where('document_id', $documentId[$key])->update($data);
+			}
+		}
 		
 	}
 

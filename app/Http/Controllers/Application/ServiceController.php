@@ -68,7 +68,7 @@ class ServiceController extends Controller
     }
 
     public function saveNewApplication(Request $request){  
-        dd($request->all());
+        // dd($request->all());
         $saveData = $this->services->saveApplicantDetails($request);
     }
 
