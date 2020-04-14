@@ -70,4 +70,8 @@ class ServiceController extends Controller
     public function saveNewApplication(Request $request){  
         $saveData = $this->services->saveApplicantDetails($request);
     }
+    public function getDropdown($id){
+        $gewogLists = Dropdown::getDropdowns("t_gewog_master","gewog_id","gewog_name",$id,"dzongkhag_id");
+        return json_encode(array('data'=>$gewogLists));
+    }
 }

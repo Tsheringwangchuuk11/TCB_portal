@@ -73,7 +73,8 @@ var tcb = function(){
         RandomKey:randomKey,
         AddNewRow:addNewRow,
         Initialize:initialize
-    }
+    };
+    
 }();
 $(document).ready(function(){
     tcb.Initialize();

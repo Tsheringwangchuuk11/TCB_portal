@@ -5,7 +5,7 @@
   <div class="card-header bg-success">
     <h4 class="card-title">Technical Clearance Registration</h4>
   </div>
-  <form action="{{ url('service-create/store') }}" method="POST" enctype="multipart/form-data">
+  <form action="{{ url('application/save-application') }}" method="POST" enctype="multipart/form-data">
     @csrf
     @foreach ($idInfos as $idInfo)
     <input type="hidden" name="service_id" value="{{ $idInfo->service_id }}" id="service_id">
@@ -38,10 +38,11 @@
             <div class="col-md-5 offset-md-2">
               <div class="form-group">
                 <label for="">Dzongkhag<span class="text-danger"> *</span></label>
-                <select  name="location_id" class="form-control select2bs4 required">
+                <select  name="dzongkhag_id" id="dzongkhag_id" class="form-control" onchange="gewogdropdown(this.value);">
                   <option value="" selected="selected"></option>
-                  <option value="1">Bumthang</option>
-                  <option value="2">Chukha</option>
+                  @foreach ($dzongkhagLists as $dzongkhagList)
+                    <option value="{{ $dzongkhagList->dzongkhag_id }}">{{ $dzongkhagList->dzongkhag_name }}</option>
+                  @endforeach
                 </select>
               </div>                                       
             </div>
@@ -50,10 +51,8 @@
             <div class="col-md-5">
               <div class="form-group">
                 <label for="">Gewog<span class="text-danger"> *</span></label>
-                <select  name="Location_id" class="form-control custom-select required">
-                  <option value="">-Select-</option>
-                  <option value="1">Chokhor</option>
-                </select>                                        
+                <select  name="gewog" class="form-control custom-select required" id="gewog">
+                </select>                                    
               </div>
             </div>
             <div class="col-md-5 offset-md-2">
