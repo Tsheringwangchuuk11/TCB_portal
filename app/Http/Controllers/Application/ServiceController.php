@@ -21,8 +21,8 @@ class ServiceController extends Controller
     }
     public function getModules()
     {
-        $servicemodules = Dropdown::getDropdowns("t_module_master","module_id","module_name","0","0");
-        return view('services/modules/module_services',compact('servicemodules'));  
+        $servicemodules = Dropdown::getDropdowns("t_module_masters","id","module_name","0","0");
+        return view('services/modules/module_services',compact('servicemodules'));
     }
 
     public function getServices(Request $request)
@@ -30,15 +30,15 @@ class ServiceController extends Controller
         $servicelist = Services::getServiceLists($request);
         return json_encode(array('data'=>$servicelist));
     }
-    
+
     public function getServiceForm($page_link)
     {
         $page_link=str_replace("-", '/',$page_link);
         $idInfos = Services::getIdInfo($page_link);
-        $starCategoryLists = Dropdown::getDropdowns("t_star_category","star_category_id","star_category_name","0","0");
-        $dzongkhagLists = Dropdown::getDropdowns("t_dzongkhag_master","dzongkhag_id","dzongkhag_name","0","0");    
+        $starCategoryLists = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
+        $dzongkhagLists = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
         return view($page_link, compact('idInfos','starCategoryLists','dzongkhagLists'));
-        
+
     }
 
     public static function getCheckListArea($id)
@@ -67,24 +67,12 @@ class ServiceController extends Controller
         return $standards;
     }
 
-    public function saveNewApplication(Request $request){  
-        // dd($request->all());
+
+    public function saveNewApplication(Request $request){
         $saveData = $this->services->saveApplicantDetails($request);
     }
-
-    public static function getCheckListChapters($id){
-        $checklistchapter=Services::getChapterList($id);
-        return $checklistchapter;
-    }
-
-    public static function getCheckListAreas($id)
-    {
-        $area = Services::getCheckListAreas($id);
-        return $area;
-    }
-
-    public static function getCheckListStandards($id){
-        $standard = Services::getCheckListStandards($id);
-        return $standard;
+    public function getDropdown($id){
+        $gewogLists = Dropdown::getDropdowns("t_gewog_master","gewog_id","gewog_name",$id,"dzongkhag_id");
+        return json_encode(array('data'=>$gewogLists));
     }
 }

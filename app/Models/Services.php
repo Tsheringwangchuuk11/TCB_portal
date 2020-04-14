@@ -10,19 +10,19 @@ class Services extends Model
 	public static function getServiceLists($request){
 		$moduleId=$request->moduleId;
 		$query=DB::table("t_module_service_mapping as t1")
-				->join('t_service_master as t2', 't2.service_id', '=', 't1.service_id')
-				->select('t1.page_link', 't2.service_name')
-				->where('module_id', $moduleId)
+				->join('t_services as t2', 't2.id', '=', 't1.service_id')
+				->select('t1.page_link', 't2.name')
+				->where('t1.module_id', $moduleId)
 				->get()
-				->pluck("service_name","page_link");
+				->pluck("name","page_link");
 		return $query;
 
 	}
 	public static function getIdInfo($page_link){
 		$idInfos=DB::table('t_module_service_mapping as t1')
-					->join('t_service_master as t2', 't2.service_id', '=', 't1.service_id')
-					->join('t_module_master as t3', 't3.module_id', '=', 't1.module_id')
-					->select('t1.module_id','t1.service_id','t2.service_name','t3.module_name')
+					->join('t_services as t2', 't2.id', '=', 't1.service_id')
+					->join('t_module_masters as t3', 't3.id', '=', 't1.module_id')
+					->select('t1.module_id','t1.service_id','t2.name','t3.module_name')
 					->where('t1.page_link',$page_link)
 					->get();
 		return $idInfos;
@@ -41,18 +41,18 @@ class Services extends Model
 				->where('t1.service_id',$serviceId)
 				->update(['t1.last_application_no' =>$newApplNo ]);
 		$newApplNo=str_pad($newApplNo,7,0,STR_PAD_LEFT);
-		
+
 			if($moduleIdLength!=2){
 				$application_no = "0";
-				$application_no .= $moduleId;                
+				$application_no .= $moduleId;
 			}else{
 				$application_no = $moduleId;
 			}
 			if($serviceIdLength!=2){
 				$application_no .= "0";
-				$application_no.= $serviceId; 
+				$application_no.= $serviceId;
 			}else{
-				$application_no.= $serviceId; 
+				$application_no.= $serviceId;
 			}
 		$application_no .= $newApplNo;
 		return $application_no;
@@ -65,7 +65,7 @@ class Services extends Model
 						->orderBy('id', 'DESC')->first();
         return $lastapplNo;
 	}
-	
+
 	 //accessors
 	public function getLicense_dateAttribute($value){
 	     return date('m/d/Y', strtotime($value));
@@ -74,7 +74,7 @@ class Services extends Model
 	  public function setLicense_dateAttribute($value){
 		$this->attributes['dob'] = date('Y-m-d', strtotime($value));
 		}
- 
+
     //insert into t_application
 	public function saveApplicantDetails($request){
 		$serviceId=$request->service_id;
@@ -119,18 +119,18 @@ class Services extends Model
 						 'fax'=>$fax,'address'=>$address,'internet_url'=>$internet_url,'bed_no'=>$bed_no,'thram_no'=>$thram_no,
 						 'house_no'=>$house_no,'town_distance'=>$town_distance,'road_distance'=>$road_distance,'condition'=>$condition,
 						 'validity_date'=>$validity_date,'flat_no'=>$flat_no,'building_no'=>$building_no,'submissiond_date'=>now()]);
-	
+
 //insert into t_room_application
-		       
+
 		$room_type_id=$request->room_type_id;
 		$room_no=$request->room_no;
 		if(isset($room_type_id)){
 			foreach($room_type_id as $key => $value)
-			{		
-				$arrData = array( 
+			{
+				$arrData = array(
 					'application_no' => $application_no,
-					'room_type_id'   => $room_type_id[$key], 
-					'room_no'        => $room_no[$key], 
+					'room_type_id'   => $room_type_id[$key],
+					'room_no'        => $room_no[$key],
 				);
 				DB::table('t_room_application')->insert($arrData);
 			}
@@ -142,20 +142,21 @@ class Services extends Model
 		$staff_gender=$request->staff_gender;
 		if(isset($staff_area_id)){
 			foreach($staff_area_id as $key => $value)
-			{		
-				$arrData = array( 
+			{
+				$arrData = array(
 					'application_no'  => $application_no,
-					'staff_area_id'   => $staff_area_id[$key], 
-					'hotel_div_id'    => $hotel_div_id[$key], 
+					'staff_area_id'   => $staff_area_id[$key],
+					'hotel_div_id'    => $hotel_div_id[$key],
 					'staff_name'      => $staff_name[$key],
-					'staff_gender'    => $staff_gender[$key], 
+					'staff_gender'    => $staff_gender[$key],
 				);
 				DB::table('t_staff_application')->insert($arrData);
 			}
 		}
-				
+
 //insert into t_checklist_application
 
+<<<<<<< HEAD
 //update application_no in t_document_dtls
 		$documentId = $request->files;
 		if(isset($documentId)){
@@ -169,6 +170,8 @@ class Services extends Model
 			}
 		}
 		
+=======
+>>>>>>> 9b860072995a140dd04b84a7391e0a2e32804c28
 	}
 
 	public static function getChapterList($id)
@@ -211,8 +214,8 @@ class Services extends Model
 					->where('t1.module_id',$moduleId)
 					->get();
         return $chapter;
-	}	
-	
+	}
+
 	public static function getChapterArea($chapterId,$starCategoryId){
 		$query = DB::table('t_checklist_standard_mapping as t1')
 					->leftjoin('t_checklist_standard as t2','t1.checklist_id','=','t2.checklist_id')
