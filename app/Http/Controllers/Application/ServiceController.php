@@ -35,8 +35,8 @@ class ServiceController extends Controller
     {
         $page_link=str_replace("-", '/',$page_link);
         $idInfos = Services::getIdInfo($page_link);
-        $starCategoryLists = Dropdown::getDropdowns("t_star_category","star_category_id","star_category_name","0","0");
-        $dzongkhagLists = Dropdown::getDropdowns("t_dzongkhag_master","dzongkhag_id","dzongkhag_name","0","0");
+        $starCategoryLists = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
+        $dzongkhagLists = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
         return view($page_link, compact('idInfos','starCategoryLists','dzongkhagLists'));
 
     }

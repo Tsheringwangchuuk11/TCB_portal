@@ -20,9 +20,9 @@ class Services extends Model
 	}
 	public static function getIdInfo($page_link){
 		$idInfos=DB::table('t_module_service_mapping as t1')
-					->join('t_service_master as t2', 't2.service_id', '=', 't1.service_id')
-					->join('t_module_master as t3', 't3.module_id', '=', 't1.module_id')
-					->select('t1.module_id','t1.service_id','t2.service_name','t3.module_name')
+					->join('t_services as t2', 't2.id', '=', 't1.service_id')
+					->join('t_module_masters as t3', 't3.id', '=', 't1.module_id')
+					->select('t1.module_id','t1.service_id','t2.name','t3.module_name')
 					->where('t1.page_link',$page_link)
 					->get();
 		return $idInfos;

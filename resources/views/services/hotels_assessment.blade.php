@@ -19,7 +19,7 @@
           <select class="form-control" name="star_category_id" id="star_category_id">
             <option value="">-select-</option>
             @foreach ($starCategoryLists as $starCategoryList)
-          <option value="{{$starCategoryList->star_category_id}}">{{$starCategoryList->star_category_name}}</option>
+          <option value="{{$starCategoryList->id}}">{{$starCategoryList->star_category_name}}</option>
             @endforeach
           </select>
           <span class="text-danger">{{ $errors->first('star_category_id') }}</span>

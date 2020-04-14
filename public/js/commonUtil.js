@@ -19,9 +19,10 @@ function gewogdropdown(id) {
                      $('#gewog').empty();
                      $('#gewog').focus;
                      $('#gewog').append('<option value="">-- Select  gewog--</option>'); 
-                     $.each(data, function(key, value){
-                     $('#gewog').append('<option value="'+ key +'">' + value+ '</option>');
-                 });
+                     for (var i = 0; i < data.length; i++) {  
+                        dropdown += '<option value="' + data[i].gewog_id + '">' + data[i].gewog_name + '</option>';  
+                    }  
+                    $("#gewog").html(dropdown); 
               }else{
                  $('#gewog').empty();
                   }
