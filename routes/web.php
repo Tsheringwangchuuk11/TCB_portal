@@ -49,7 +49,11 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('documentattach', 'FileUploadController@addDocuments');
         Route::post('deletefile', 'FileUploadController@deleteFile');
 
-    });    
+
+        // tasklist
+        Route::resource('tasklist', 'TasklistController');
+
+    });
 });
 
 
