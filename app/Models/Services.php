@@ -10,7 +10,7 @@ class Services extends Model
 	public static function getServiceLists($request){
 		$moduleId=$request->moduleId;
 		$query=DB::table("t_module_service_mapping as t1")
-				->leftJoin('t_services as t2', 't2.id', '=', 't1.service_id')
+				->join('t_services as t2', 't2.id', '=', 't1.service_id')
 				->select('t1.page_link', 't2.name')
 				->where('t1.module_id', $moduleId)
 				->get()

@@ -68,7 +68,7 @@ class ServiceController extends Controller
     }
 
 
-    public function saveNewApplication(Request $request){        
+    public function saveNewApplication(Request $request){
         $saveData = $this->services->saveApplicantDetails($request);
     }
 
