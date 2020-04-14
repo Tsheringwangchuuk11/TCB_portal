@@ -155,9 +155,7 @@ class Services extends Model
 		}
 
 //insert into t_checklist_application
-
-<<<<<<< HEAD
-//update application_no in t_document_dtls
+		//update application_no in t_document_dtls
 		$documentId = $request->files;
 		if(isset($documentId)){
 			foreach($documentId as $key => $value)
@@ -170,8 +168,7 @@ class Services extends Model
 			}
 		}
 		
-=======
->>>>>>> 9b860072995a140dd04b84a7391e0a2e32804c28
+
 	}
 
 	public static function getChapterList($id)
