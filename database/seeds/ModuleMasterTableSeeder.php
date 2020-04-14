@@ -11,7 +11,7 @@ class ModuleMasterTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('module_masters')->insert([
+        DB::table('t_module_masters')->insert([
             ['id' => 1, 'module_name' => 'Tourist Standard Hotel', 'module_code' => 'TS', 'created_by' => 1],
             ['id' => 2, 'module_name' => 'Village Home Stay', 'module_code' => 'VHS', 'created_by' => 1],
             ['id' => 3, 'module_name' => 'Restaurant', 'module_code' => 'R', 'created_by' => 1],

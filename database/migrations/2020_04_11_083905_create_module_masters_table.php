@@ -13,7 +13,7 @@ class CreateModuleMastersTable extends Migration
      */
     public function up()
     {
-        Schema::create('module_masters', function (Blueprint $table) {
+        Schema::create('t_module_masters', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('module_name');
             $table->string('module_code');

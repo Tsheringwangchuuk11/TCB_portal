@@ -20,7 +20,7 @@
                                 <select name="modules" id="modules_id" class="form-control" onchange="loadServices(this.value);">
                                     <option value="">- Select Service Module -</option>
                                     @foreach ($servicemodules as $servicemodule)
-                                    <option value="{{ $servicemodule->module_id }}"> {{ $servicemodule->module_name }}</option>
+                                    <option value="{{ $servicemodule->id }}"> {{ $servicemodule->module_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -42,7 +42,7 @@
 @endsection
 @section('scripts')
 <script>
-    function loadServices(id) 
+    function loadServices(id)
     {
       var modules_id=id;
       if(modules_id)
@@ -53,10 +53,10 @@
           data : {moduleId : modules_id},
           dataType: "JSON",
           success:function(data1) {
-            if(data1){ 
+            if(data1){
               $('#list_id').empty();
-              $('#list_id').focus; 
-              var list = "<ul>";                  
+              $('#list_id').focus;
+              var list = "<ul>";
               $.each(data1.data,function(index,row){
                var url = '{{ url("application/service-create", "page_link") }}';
                var page_link=""+index+"";
@@ -82,7 +82,7 @@
     $(function () {
       //Initialize Select2 Elements
       $('.select2').select2()
-  
+
       //Initialize Select2 Elements
       $('.select2bs4').select2({
         theme: 'bootstrap4'
