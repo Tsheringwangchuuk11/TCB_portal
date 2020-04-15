@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTDzongkhagMastersTable extends Migration
+class CreateTGewogMasters extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class CreateTDzongkhagMastersTable extends Migration
      */
     public function up()
     {
-        Schema::create('t_dzongkhag_masters', function (Blueprint $table) {
+        Schema::create('t_gewog_masters', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('dzongkhag_name');
+            $table->string('gewog_name');
+            $table->unsignedBigInteger('dzongkhag_id');
+            $table->foreign('dzongkhag_id')->references('id')->on('t_dzongkhag_masters');
         });
     }
 
@@ -26,6 +28,6 @@ class CreateTDzongkhagMastersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('t_dzongkhag_masters');
+        Schema::dropIfExists('t_gewog_masters');
     }
 }
