@@ -21,5 +21,10 @@ class DatabaseSeeder extends Seeder
         $this->call(TServiceTableSeeder::class);
         $this->call(ModuleMasterTableSeeder::class);
         $this->call(StarCategoryTableSeeder::class);
+        $this->call(ModuleServiceSeeder::class);
+        $this->call(DzongkhagMasterSeeder::class);
+        $this->call(GewogMasterSeeder::class);
+        $this->call(StaffAreasSeeder::class);
+
     }
 }
