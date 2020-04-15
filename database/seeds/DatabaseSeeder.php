@@ -22,5 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ModuleMasterTableSeeder::class);
         $this->call(StarCategoryTableSeeder::class);
         $this->call(ModuleServiceSeeder::class);
+        $this->call(HotelDivisionTableSeeder::class);
+        $this->call(RoomTypeTableSeeder::class);
     }
 }
