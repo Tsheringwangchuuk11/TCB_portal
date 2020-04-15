@@ -15,14 +15,14 @@ class CreateTDocumentsTable extends Migration
     {
         Schema::create('t_documents', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('application_no');
+            $table->string('application_no',20)->index();
             $table->string('document_for');
             $table->string('document_type');
             $table->string('document_name');
             $table->string('upload_url');
             $table->timestamps();
 
-            $table->foreign('application_no')->references('id')->on('t_applications');
+            $table->foreign('application_no')->references('application_no')->on('t_applications');
         });
     }
 
