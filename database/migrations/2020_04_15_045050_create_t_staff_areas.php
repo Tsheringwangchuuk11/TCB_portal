@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTDzongkhagMastersTable extends Migration
+class CreateTStaffAreas extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateTDzongkhagMastersTable extends Migration
      */
     public function up()
     {
-        Schema::create('t_dzongkhag_masters', function (Blueprint $table) {
+        Schema::create('t_staff_areas', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('dzongkhag_name');
+            $table->string('staff_area_name',500)->nullable();
         });
     }
 
@@ -26,6 +26,6 @@ class CreateTDzongkhagMastersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('t_dzongkhag_masters');
+        Schema::dropIfExists('t_staff_areas');
     }
 }
