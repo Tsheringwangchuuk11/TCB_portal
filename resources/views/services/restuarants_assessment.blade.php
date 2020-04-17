@@ -9,8 +9,8 @@
     <form action="{{ url('application/save-application') }}" method="POST" enctype="multipart/form-data">
         @csrf
         @foreach ($idInfos as $idInfo)
-        <input type="hidden" name="module_id" value="{{ $idInfo->module_name }}">
-        <input type="hidden" name="service_id" value="{{ $idInfo->service_name }}">
+        <input type="hidden" name="module_id" value="{{ $idInfo->module_id }}">
+        <input type="hidden" name="service_id" value="{{ $idInfo->service_id }}">
         @endforeach
         <div class="card-body">
             <div class="row">
@@ -114,7 +114,7 @@
             <div class="row" id="row1">
                 <div class="col-md-3">
                     <div class="form-group">
-                        <select class="form-control" required>
+                        <select class="form-control" name="staff_area_id[]" required>
                             <option selected="selected">-select-</option>
                             <option>Lodging</option>
                             <option>Food & Beverage</option>
@@ -127,7 +127,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <select class="form-control" required>
+                        <select class="form-control" name="hotel_div_id[]" required>
                             <option selected="selected">-select-</option>
                             <option>Reception</option>
                             <option>Reservation</option>
@@ -138,12 +138,12 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <input type="text" class="form-control" name="name" autocomplete="off" required>
+                        <input type="text" class="form-control" name="staff_name[]" autocomplete="off" required>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <select class="form-control" required>
+                        <select class="form-control" name="staff_gender[]" required>
                             <option selected="selected">-select-</option>
                             <option>Male</option>
                             <option>Female</option>

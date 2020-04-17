@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class Dropdown extends Model
 {
-    //
+
 	public static function getDropdownLists($tableName, $id, $name, $parentId, $parentNameId){
 		$db_table = DB::table($tableName);
 		if($parentId != 0){
