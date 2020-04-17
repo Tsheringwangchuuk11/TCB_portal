@@ -22,7 +22,7 @@ class CreateTCheckListStandardMappingsTable extends Migration
             $table->unsignedBigInteger('created_by')->index();
             $table->unsignedBigInteger('updated_by')->nullable()->index();
             $table->timestamps();
-            $table->foreign('star_category_id')->references('id')->on('star_categories');
+            $table->foreign('star_category_id')->references('id')->on('t_star_categories');
             $table->foreign('checklist_id')->references('id')->on('t_check_list_standards');
             $table->foreign('standard_id')->references('id')->on('t_basic_standards');
             $table->foreign('created_by')->references('id')->on('t_users');

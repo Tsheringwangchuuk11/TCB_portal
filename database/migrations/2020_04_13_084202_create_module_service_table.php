@@ -19,7 +19,6 @@ class CreateModuleServiceTable extends Migration
             $table->unsignedBigInteger('service_id')->index();
             $table->string('page_link', 500);
             $table->timestamps();
-
             $table->foreign('module_id')->references('id')->on('t_module_masters');
             $table->foreign('service_id')->references('id')->on('t_services');
         });

@@ -21,7 +21,7 @@ class CreateTCheckListChaptersTable extends Migration
             $table->unsignedBigInteger('created_by')->index();
             $table->unsignedBigInteger('updated_by')->nullable()->index();
             $table->timestamps();
-            $table->foreign('module_id')->references('id')->on('module_masters');
+            $table->foreign('module_id')->references('id')->on('t_module_masters');
             $table->foreign('created_by')->references('id')->on('t_users');
             $table->foreign('updated_by')->references('id')->on('t_users');
         });

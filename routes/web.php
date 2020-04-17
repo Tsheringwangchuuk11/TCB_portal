@@ -37,6 +37,15 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('resend-verification-codes', 'ResendVerificationCodeController');
     });
 
+    //routes for masters
+    Route::group(['prefix' => 'master', 'namespace' => 'Master'], function() {
+        Route::resource('checklist-chapters', 'ChecklistChapterController');
+        Route::resource('checklist-areas', 'ChecklistAreaController');
+        Route::resource('checklist-standards', 'ChecklistStandardController');
+        Route::resource('basic-standards', 'BasicStandardController');
+        Route::resource('checklist-standard-mappings', 'ChecklistStandardMappingController');
+    });
+
     //routes for new application
     Route::group(['prefix' => 'application', 'namespace' => 'Application'], function() {
 		Route::get('new-application', 'ServiceController@getModules');

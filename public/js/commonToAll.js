@@ -68,6 +68,17 @@ var tcb = function(){
                 }
             }
         });
+
+        $(document).on('keyup', 'input[type="text"].numeric-only', function(){
+			if($(this).val() != ""){
+				if(isNaN($(this).val()) || $(this).val() < 0) {
+                    $('#alertMessage').find('p.alert-message').html("Invalid input. Only numbers are accepted.");
+                    $('#alertMessage').modal('show');
+                    $(this).val(0);
+                    return false;
+				}
+			}
+        });
     }
     return{
         RandomKey:randomKey,

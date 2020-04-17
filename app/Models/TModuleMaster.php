@@ -4,8 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TBasicStandard extends Model
+class TModuleMaster extends Model
 {
-    protected $table = 't_basic_standards';
+    protected $table = 't_module_masters';
     protected $guarded = ['id'];
 }
