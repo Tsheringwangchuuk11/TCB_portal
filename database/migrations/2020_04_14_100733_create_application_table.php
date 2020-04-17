@@ -17,7 +17,7 @@ class CreateApplicationTable extends Migration
             $table->string('application_no', 20)->primary();
             $table->unsignedBigInteger('module_id')->index();
             $table->unsignedBigInteger('service_id')->index();
-            $table->integer('cid_no')->index();
+            $table->bigInteger('cid_no')->index();
             $table->string('name', 250)->nullable();
             $table->string('name_one', 250)->nullable();
             $table->string('name_two', 250)->nullable();
@@ -40,9 +40,10 @@ class CreateApplicationTable extends Migration
             $table->string('town_distance',250)->nullable();
             $table->string('road_distance', 250)->nullable();
             $table->string('condition',250)->nullable();
-            $table->date('validity_date');
+            $table->date('validity_date')->nullable();
             $table->string('flat_no', 20)->nullable();
             $table->string('building_no', 20)->nullable();
+
 
         });
     }

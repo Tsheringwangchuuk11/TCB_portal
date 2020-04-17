@@ -11,6 +11,8 @@
     @foreach ($idInfos as $idInfo)
     <input type="hidden" name="service_id" value="{{ $idInfo->service_id }}" id="service_id">
     <input type="hidden" name="module_id" value="{{ $idInfo->module_id }}" id="module_id">
+    <input type="hidden" name="service_name" value="{{ $idInfo->name }}" id="service_id">
+    <input type="hidden" name="module_name" value="{{ $idInfo->module_name }}" id="module_id">
     @endforeach 
     <div class="card-body">
       <div class="form-row">
@@ -26,12 +28,12 @@
         </div>
         <div class="form-group col-md-5 offset-md-2">
           <label for="">License Number <span class="text-danger">*</span> </label>
-          <input type="number" class="form-control" name="license_no" id="" autocomplete="off">
+          <input type="text" class="form-control" name="license_no" id="license_no" autocomplete="off">
           <span class="text-danger">{{ $errors->first('license_no') }}</span>
         </div>
         <div class="form-group col-md-5">
           <label for="">License Date <span class="text-danger">*</span> </label>
-          <input type="date" class="form-control" name="license_date" id="" autocomplete="off">
+          <input type="date" class="form-control" name="license_date" autocomplete="off">
           <span class="text-danger">{{ $errors->first('license_date') }}</span>
         </div>
         <div class="form-group col-md-5 offset-md-2">
@@ -45,36 +47,41 @@
           <span class="text-danger">{{ $errors->first('owner') }}</span>
         </div>
         <div class="form-group col-md-5 offset-md-2">
+          <label for="">CID:<span class="text-danger">*</span> </label>
+          <input type="text" class="form-control" name="cid_no" autocomplete="off">
+          <span class="text-danger">{{ $errors->first('cid_no') }}</span>
+        </div>
+        <div class="form-group col-md-5">
           <label for="">Address <span class="text-danger">*</span> </label>
           <input type="text" class="form-control" name="address" autocomplete="off">
           <span class="text-danger">{{ $errors->first('address') }}</span>
         </div>
-        <div class="form-group col-md-5">
+        <div class="form-group col-md-5 offset-md-2">
           <label for="">Contact No <span class="text-danger">*</span> </label>
-          <input type="number" class="form-control" name="contact_no" id="" autocomplete="off">
+          <input type="text" class="form-control" name="contact_no" id="contact_no" autocomplete="off">
           <span class="text-danger">{{ $errors->first('contact_no') }}</span>
         </div>
-        <div class="form-group col-md-5 offset-md-2">
+        <div class="form-group col-md-5">
           <label for="">Fax <span class="text-danger">*</span> </label>
           <input type="text" class="form-control" name="fax" autocomplete="off">
           <span class="text-danger">{{ $errors->first('fax') }}</span>
         </div>
-        <div class="form-group col-md-5">
+        <div class="form-group col-md-5 offset-md-2">
           <label for="">Email <span class="text-danger">*</span> </label>
           <input type="email" class="form-control" name="email" autocomplete="off">
           <span class="text-danger">{{ $errors->first('email') }}</span>
         </div>
-        <div class="form-group col-md-5 offset-md-2">
+        <div class="form-group col-md-5">
           <label for="">Internet Homepage <span class="text-danger">*</span> </label>
           <input type="text" class="form-control" name="internet_url" autocomplete="off">
           <span class="text-danger">{{ $errors->first('internet_url') }}</span>
         </div>
-        <div class="form-group col-md-5">
+        <div class="form-group col-md-5 offset-md-2">
           <label for="">Number of Beds <span class="text-danger">*</span> </label>
           <input type="number" class="form-control" name="bed_no" autocomplete="off">
           <span class="text-danger">{{ $errors->first('bed_no') }}</span>
         </div>
-        <div class="form-group col-md-5 offset-md-2">
+        <div class="form-group col-md-5">
           <label for="">Location <span class="text-danger">*</span> </label>
           <select class="form-control select2bs4" name="location_id">
             <option value="">-Select-</option>
@@ -98,9 +105,9 @@
         <div class="form-group col-md-5">
           <select class="form-control" name="room_type_id[]" id="room_type_id">
             <option value=""> -Select Room- </option>
-            <option value="1">Single</option>
-            <option value="2">Double</option>
-            <option value="3">Suites</option>
+            @foreach ($roomTypeLists as $roomTypeList)
+               <option value="{{ $roomTypeList->id }}">{{ $roomTypeList->room_name }}</option>
+            @endforeach
           </select>
           <span class="text-danger">{{ $errors->first('room_type_id') }}</span>
         </div>
@@ -133,23 +140,19 @@
         <div class="row">
         <div class="form-group col-md-3">
           <select class="form-control" name="staff_area_id[]" id="staff_area_id">
-            <option value="">-select-</option>
-            <option value="1">Lodging</option>
-            <option value="2">Food & Beverage</option>
-            <option value="3">Recreation,Other</option>
-            <option value="4">Administration</option>
-            <option value="5">Sales & Marketing</option>
-            <option value="6">Pomec (Property Operation & Maintance)</option>
+			<option value="">-select-</option>
+			@foreach ($staffAreaLists as $staffAreaList)
+			     <option value="{{ $staffAreaList->id }}"> {{ $staffAreaList->staff_area_name }}</option>
+			@endforeach
           </select>
           <span class="text-danger">{{ $errors->first('staff_area_id') }}</span>
         </div>
         <div class="form-group col-md-3">
-          <select class="form-control" name="hotel_div_id" id="hotel_div_id">
+          <select class="form-control" name="hotel_div_id[]" id="hotel_div_id">
             <option value="">-select-</option>
-            <option value="1">Reception</option>
-            <option value="2">Reservation</option>
-            <option value="3">Front-Office</option>
-            <option value="4">Housekeeping</option>
+            @foreach ($hotelDivisionLists as $hotelDivisionList)
+			     <option value="{{ $hotelDivisionList->id }}"> {{ $hotelDivisionList->hotel_div_name }}</option>
+			@endforeach
           </select>
           <span class="text-danger">{{ $errors->first('hotel_div_id') }}</span>
         </div>
@@ -160,8 +163,9 @@
         <div class="form-group col-md-2">
           <select class="form-control" name="staff_gender[]" id="staff_gender">
             <option value="">-select-</option>
-            <option value="M">Male</option>
-            <option value="F">Female</option>
+			@foreach (config()->get('settings.gender') as $k => $v)
+			<option value="{{ $k }}" {{ old('gender') == $k ? 'selected' : '' }}>{{ $v }}</option>
+			@endforeach
           </select>
           <span class="text-danger">{{ $errors->first('staff_gender') }}</span>
         </div>
@@ -169,19 +173,12 @@
       </div>
       <div id="field_wrapper1"></div>
         <span class="btn btn-success btn-sm float-right" id="add1"> <i class="fas fa-plus fa-sm">Add</i> </span>
-      <div class="row">
-        <div class="col-md-12">
-          <p><span>Please attach additional sheets where necessary like pictures of buildings.</span></p>
-          <div class="mb-3 mt-2">
-            <span class="btn btn-success fileinput-button btn-sm">
-              <i class="fas fa-plus fa-sm"></i>
-              <span>Add files...</span>
-              <!-- The file input field used as target for the file upload widget -->
-              <input  type="file" name="file[]" id="file" multiple>
-            </span>
+        <div class="row">
+          <div class="col-md-12">
+            <p><span>Please attach additional sheets where necessary like pictures of buildings.</span></p>
+            @include('services/fileupload/fileupload')
           </div>
         </div>
-      </div>
       <div id="showdivid"></div>
     </div> <!-- card body ends -->
     <div class="card-footer text-center">
