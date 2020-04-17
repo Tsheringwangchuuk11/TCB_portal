@@ -38,17 +38,17 @@ class BasicStandardController extends Controller
      */
     public function store(Request $request)
     {
-            $checklistAreaID = $request->checklist_area_id;
+            $basicStandardID = $request->basic_standard_id_;
             $rule = [
-                'checklist_chapter' => 'required',
-                'checklist_area_name' => 'required',
+                'standard_code' => 'required',
+                'standard_desc' => 'required',
             ];
             $validator = Validator::make($request->all(), $rule);
             if($validator->passes()){
-                $checklistArea   =   TCheckListArea::updateOrCreate(['id' => $checklistAreaID],
-                    ['checklist_ch_id' => $request->checklist_chapter, 'checklist_area' => $request->checklist_area_name, 'is_active'=> $request->status == 'yes' ? '1' : 0, 'created_by'=> auth()->user()->id ]);
+                $basicStandard   =   TBasicStandard::updateOrCreate(['id' => $basicStandardID],
+                    ['standard_code' => $request->standard_code, 'standard_desc' => $request->standard_desc, 'created_by'=> auth()->user()->id ]);
 
-			return response()->json($checklistArea);
+			return response()->json($basicStandard);
             }
 
             return response()->json(['error' => $validator->errors()->all() ]);
@@ -57,14 +57,14 @@ class BasicStandardController extends Controller
 
     public function edit($id)
     {
-        $checklistArea = TCheckListArea::where('id', $id)->first();
+        $basicStandard = TBasicStandard::where('id', $id)->first();
 
-		return response()->json($checklistArea);
+		return response()->json($basicStandard);
     }
    //delete
     public function destroy($id)
     {
-        $checklistArea = TCheckListArea::where('id', $id)->delete();
-		return response()->json($checklistArea);
+        $basicStandard = TBasicStandard::where('id', $id)->delete();
+		return response()->json($basicStandard);
     }
 }
