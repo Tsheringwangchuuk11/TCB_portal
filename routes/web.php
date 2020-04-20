@@ -49,10 +49,14 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('documentattach', 'FileUploadController@addDocuments');
         Route::post('deletefile', 'FileUploadController@deleteFile');
 
+    });
 
-        // tasklist
+    //routes for task list
+    Route::group(['prefix' => 'tasklist', 'namespace' => 'Tasklist'], function() {
         Route::resource('tasklist', 'TasklistController');
-
+        Route::get('claimApplication', 'TasklistController@claimApplication');
+        Route::get('releaseApplication', 'TasklistController@releaseApplication');
+        Route::get('openApplication', 'TasklistController@openApplication');
     });
 });
 
