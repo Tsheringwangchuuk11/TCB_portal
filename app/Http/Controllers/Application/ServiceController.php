@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use DB;
 use App\Models\Services;
 use App\Models\Dropdown;
+use App\Models\WorkFlowDetails;
+use App\Models\TaskDetails;
 class ServiceController extends Controller
 {
 
@@ -72,9 +74,9 @@ class ServiceController extends Controller
 
 
     public function saveNewApplication(Request $request){
-        DB::transaction(function () use ($request) {
+        $application_no = $this->services->generateApplNo($request);
+        DB::transaction(function () use ($request, $application_no) {
             //insert into t_application
-            $application_no = $this->services->generateApplNo($request);
             $data=new Services;
             $data->application_no=$application_no;
             $data->module_id=$request->module_id;
@@ -112,7 +114,25 @@ class ServiceController extends Controller
             $this->services->insertIntoStaffApplication($request,$application_no);
             $this->services->updateDocumentDetails($request,$application_no);
 
-        });
+            //insert into t_workflow_dtls
+            $status_name='SUBMITTED';
+            $status = WorkFlowDetails::getStatus($status_name);
+            $update=new WorkFlowDetails;
+            $update->application_no=$application_no;
+            $update->status_id=$status[0]->id;
+            $update->user_id=auth()->user()->id;
+            $update->save();
 
+            //insert into t_task_dtls
+            $status_name='INITIATED';
+            $status = WorkFlowDetails::getStatus($status_name);
+            $assignPrivId =TaskDetails::getAssignPrivId($request->service_id);
+            $update=new TaskDetails;
+            $update->application_no=$application_no;
+            $update->status_id=$status[0]->id;
+            $update->assigned_priv_id=$assignPrivId[0]->id;
+            $update->save();
+        });
+        return redirect('application/new-application')->with('appl_info', 'Your application has been submitted successfully and your application number is :'.$application_no);
     }
 }

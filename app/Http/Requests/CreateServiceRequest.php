@@ -22,7 +22,7 @@ class CreateServiceRequest extends FormRequest
     public function rules()
     {
         return [
-            'cid_no'=>'required',
+            'cid_no'=>'required|min:11',
             'name'=>'required',
             'name_one'=>'required',
             'name_two'=>'required',
@@ -32,7 +32,7 @@ class CreateServiceRequest extends FormRequest
             'tentative_cons'=>'required',
             'tentative_com'=>'required',
             'drawing_date'=>'required',
-            'email'=>'required',
+            'email'=>'required|email',
             'star_category_id'=>'required',
             'license_no'=>'required',
             'license_date'=>'required',

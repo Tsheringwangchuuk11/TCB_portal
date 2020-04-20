@@ -18,8 +18,8 @@
       <div class="form-row">
         <div class="form-group col-md-5">
           <label>Registration Type <span class="text-danger">*</span></label>
-          <select class="form-control" name="star_category_id" id="star_category_id">
-            <option value="">-select-</option>
+          <select class="form-control select2bs4" name="star_category_id" id="star_category_id" style="width: 100%;">
+            <option value="">- Select -</option>
             @foreach ($starCategoryLists as $starCategoryList)
           <option value="{{$starCategoryList->id}}">{{$starCategoryList->star_category_name}}</option>
             @endforeach
@@ -28,7 +28,7 @@
         </div>
         <div class="form-group col-md-5 offset-md-2">
           <label for="">License Number <span class="text-danger">*</span> </label>
-          <input type="text" class="form-control" name="license_no" id="license_no" autocomplete="off">
+          <input type="text" class="form-control" name="license_no" autocomplete="off">
           <span class="text-danger">{{ $errors->first('license_no') }}</span>
         </div>
         <div class="form-group col-md-5">
@@ -47,8 +47,8 @@
           <span class="text-danger">{{ $errors->first('owner') }}</span>
         </div>
         <div class="form-group col-md-5 offset-md-2">
-          <label for="">CID:<span class="text-danger">*</span> </label>
-          <input type="text" class="form-control" name="cid_no" autocomplete="off">
+          <label for="">CID No.<span class="text-danger">*</span> </label>
+          <input type="text" class="form-control numeric-only" name="cid_no" autocomplete="off">
           <span class="text-danger">{{ $errors->first('cid_no') }}</span>
         </div>
         <div class="form-group col-md-5">
@@ -58,7 +58,7 @@
         </div>
         <div class="form-group col-md-5 offset-md-2">
           <label for="">Contact No <span class="text-danger">*</span> </label>
-          <input type="text" class="form-control" name="contact_no" id="contact_no" autocomplete="off">
+          <input type="text" class="form-control numeric-only" name="contact_no" autocomplete="off">
           <span class="text-danger">{{ $errors->first('contact_no') }}</span>
         </div>
         <div class="form-group col-md-5">
@@ -68,7 +68,7 @@
         </div>
         <div class="form-group col-md-5 offset-md-2">
           <label for="">Email <span class="text-danger">*</span> </label>
-          <input type="email" class="form-control" name="email" autocomplete="off">
+          <input type="email" class="form-control email" name="email" autocomplete="off">
           <span class="text-danger">{{ $errors->first('email') }}</span>
         </div>
         <div class="form-group col-md-5">
@@ -78,13 +78,13 @@
         </div>
         <div class="form-group col-md-5 offset-md-2">
           <label for="">Number of Beds <span class="text-danger">*</span> </label>
-          <input type="number" class="form-control" name="bed_no" autocomplete="off">
+          <input type="text" class="form-control numeric-only" name="bed_no" autocomplete="off">
           <span class="text-danger">{{ $errors->first('bed_no') }}</span>
         </div>
         <div class="form-group col-md-5">
           <label for="">Location <span class="text-danger">*</span> </label>
           <select class="form-control select2bs4" name="location_id">
-            <option value="">-Select-</option>
+            <option value="">- Select -</option>
             <option value="1">Tashigang</option>
           </select>
           <span class="text-danger">{{ $errors->first('location_id') }}</span>
@@ -104,7 +104,7 @@
       <div class="row">
         <div class="form-group col-md-5">
           <select class="form-control" name="room_type_id[]" id="room_type_id">
-            <option value=""> -Select Room- </option>
+            <option value=""> - Select Room - </option>
             @foreach ($roomTypeLists as $roomTypeList)
                <option value="{{ $roomTypeList->id }}">{{ $roomTypeList->room_name }}</option>
             @endforeach
@@ -140,7 +140,7 @@
         <div class="row">
         <div class="form-group col-md-3">
           <select class="form-control" name="staff_area_id[]" id="staff_area_id">
-			<option value="">-select-</option>
+			<option value="">- Select -</option>
 			@foreach ($staffAreaLists as $staffAreaList)
 			     <option value="{{ $staffAreaList->id }}"> {{ $staffAreaList->staff_area_name }}</option>
 			@endforeach
@@ -149,7 +149,7 @@
         </div>
         <div class="form-group col-md-3">
           <select class="form-control" name="hotel_div_id[]" id="hotel_div_id">
-            <option value="">-select-</option>
+            <option value="">- Select -</option>
             @foreach ($hotelDivisionLists as $hotelDivisionList)
 			     <option value="{{ $hotelDivisionList->id }}"> {{ $hotelDivisionList->hotel_div_name }}</option>
 			@endforeach
@@ -162,7 +162,7 @@
         </div>
         <div class="form-group col-md-2">
           <select class="form-control" name="staff_gender[]" id="staff_gender">
-            <option value="">-select-</option>
+            <option value="">- Select -</option>
 			@foreach (config()->get('settings.gender') as $k => $v)
 			<option value="{{ $k }}" {{ old('gender') == $k ? 'selected' : '' }}>{{ $v }}</option>
 			@endforeach

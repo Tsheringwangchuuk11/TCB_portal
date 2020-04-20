@@ -86,6 +86,4 @@ function deletefile(id,fileId,url){
    }
 }
 
-$("#license_no").numeric({ negative: false });
-$("#cid_no").numeric({ negative: false });
 
