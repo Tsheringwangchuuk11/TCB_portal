@@ -3,37 +3,33 @@ $(document).ready(function(){
     $("#bs4-slide-carousel").carousel();
  });
 
-function gewogdropdown(id) {
-    var dzongkhagId=id;
-     if(dzongkhagId) {
-      $.ajax({
-               url:'/application/gewog-list/'+dzongkhagId,
-               type: "GET",
-               headers: {
-                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                 },
-               dataType: "json",
-               success:function(data) {
-                  console.log(data);
-                    if(data){
-                     $('#gewog').empty();
-                     $('#gewog').focus;
-                     $('#gewog').append('<option value="">-- Select  gewog--</option>'); 
-                     for (var i = 0; i < data.length; i++) {  
-                        dropdown += '<option value="' + data[i].gewog_id + '">' + data[i].gewog_name + '</option>';  
-                    }  
-                    $("#gewog").html(dropdown); 
-              }else{
-                 $('#gewog').empty();
-                  }
-               }
+ $(document).ready(function(){
+   $('#dzongkhag_id').on('change',function(e) {
+      var dzongkhag_id = e.target.value;
+      if(dzongkhag_id){
+         $("#location_id option:gt(0)").remove();	
+         $.ajax({			   
+            url:'/json-dropdown',
+            type:"GET",
+            data: {
+               table_name: 't_gewog_masters',
+                       id: 'id',
+                     name: 'gewog_name',
+                parent_id: dzongkhag_id,
+           parent_name_id: 'dzongkhag_id'					 
+            },
+            success:function (data) {	
+            $('#location_id').append('<option value=""> -Select- </option>'); 
+            $.each(data, function(key, value) {
+               $('select[name="location_id"]').append('<option value="'+ key +'">'+ value +'</option>');
             });
-         }else{
-       $('#gewog').empty();
-      }
-}
-
-
+            }
+         });
+      }else{
+         $("#location_id option:gt(0)").remove();	
+      }		 
+   });
+});
 //  fileupload
 var count=0, deleteId;
 $(function () {
@@ -52,8 +48,8 @@ $(function () {
       success: function (data) {
             jQuery.each(data.data, function(index, row) {
                $('#files').append('<div class="image_wrap">'
-                  +'<input type="hidden" name="files['+row.document_id+']" value="'+row.document_id+'"/><strong>'+row.document_name+'</strong>'
-                  +' <span onClick="deletefile(this.id,\'' + row.document_id + '\',\'' + row.upload_url + '\')" id="deleteId'+count+'" class="delete-line btn btn-danger btn-sm" data-file_id="'+row.document_id+'">'
+                  +'<input type="hidden" name="documentId[]" value="'+row.id+'"/><strong>'+row.document_name+'</strong>'
+                  +' <span onClick="deletefile(this.id,\'' + row.id + '\',\'' + row.upload_url + '\')" id="deleteId'+count+'" class="delete-line btn btn-danger btn-sm" data-file_id="'+row.id+'">'
                   +'<i class="fas fa-trash-alt"></i> Delete</span></div>'); 
                count++;                        
             });
@@ -89,3 +85,5 @@ function deletefile(id,fileId,url){
       });
    }
 }
+
+

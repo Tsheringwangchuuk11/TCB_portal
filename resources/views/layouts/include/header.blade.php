@@ -29,6 +29,7 @@
           <a href="#" data-toggle="dropdown">
           <img src="{{ URL::to('dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image">
           <span style="color:#f4f6f9;">{{ auth()->user()->user_name }}</span>
+          
           </a>
           <ul class="dropdown-menu dropdown-menu-right">
               <!-- User image -->

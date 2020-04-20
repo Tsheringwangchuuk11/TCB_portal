@@ -22,7 +22,7 @@ class CreateTasklistTable extends Migration
             $table->timestamps();
 
             $table->foreign('application_no')->references('application_no')->on('t_applications');
-            $table->foreign('assigned_priv_id')->references('id')->on('t_role_privileges');
+            $table->foreign('assigned_priv_id')->references('id')->on('t_system_sub_menus');
             $table->foreign('status_id')->references('id')->on('t_status_masters');
 
         });

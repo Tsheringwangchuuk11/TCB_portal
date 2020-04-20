@@ -4,4 +4,10 @@ return [
         'service' => 'Service',
         'module' => 'Module',
     ],
+
+    "gender" => [
+        'M' => 'Male',
+        'F' => 'Female',
+    ],
+
 ];

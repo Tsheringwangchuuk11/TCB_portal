@@ -61,7 +61,7 @@
 									<td>
 										<input type="text" name="submodules[AAAA{{$subModule->id}}][route]" class="required form-control input-sm resetKeyForNew" value="{{ $subModule->route }}" />
 									</td>
-									<td width="8%">
+									<td width="25%">
 										<input type="text" name="submodules[AAAA{{$subModule->id}}][display_order]" class="required form-control number input-sm resetKeyForNew" value="{{ $subModule->display_order }}" />
 									</td>
 								</tr>
@@ -78,7 +78,7 @@
 									<td>
 										<input type="text" name="submodules[AAAAA][route]" class="required form-control input-sm resetKeyForNew" />
 									</td>
-									<td width="8%">
+									<td width="25%">
 										<input type="text" name="submodules[AAAAA][display_order]" class="required form-control number input-sm resetKeyForNew" />
 									</td>
 								</tr>

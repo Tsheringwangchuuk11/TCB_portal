@@ -37,6 +37,15 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('resend-verification-codes', 'ResendVerificationCodeController');
     });
 
+    //routes for masters
+    Route::group(['prefix' => 'master', 'namespace' => 'Master'], function() {
+        Route::resource('checklist-chapters', 'ChecklistChapterController');
+        Route::resource('checklist-areas', 'ChecklistAreaController');
+        Route::resource('checklist-standards', 'ChecklistStandardController');
+        Route::resource('basic-standards', 'BasicStandardController');
+        Route::resource('checklist-standard-mappings', 'ChecklistStandardMappingController');
+    });
+
     //routes for new application
     Route::group(['prefix' => 'application', 'namespace' => 'Application'], function() {
 		Route::get('new-application', 'ServiceController@getModules');
@@ -44,7 +53,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('service-create/{page_link}', 'ServiceController@getServiceForm');
         Route::post('get-chapters', 'ServiceController@getCheckListChapter');
         Route::post('save-application', 'ServiceController@saveNewApplication');
-        Route::get('gewog-list/{id}', 'ServiceController@getDropdown');
         // fileupload
         Route::post('documentattach', 'FileUploadController@addDocuments');
         Route::post('deletefile', 'FileUploadController@deleteFile');

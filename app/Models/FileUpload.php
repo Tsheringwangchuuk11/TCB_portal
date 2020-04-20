@@ -8,14 +8,14 @@ use DB;
 class FileUpload extends Model
 {
     
-	public $table = 't_document_dtls';
+	public $table = 't_documents';
 
     // save file
 	public function getFileUploadDtls($request){
 
 		if($file = $request->file('filename')){
-            $module_name = $request->module_id;
-            $service_name = $request->service_id;
+            $module_name = $request->module_name;
+            $service_name = $request->service_name;
             $year = date('Y');
             $date = date('zHis');
             $filename = $file->getClientOriginalName();
@@ -28,10 +28,10 @@ class FileUpload extends Model
             	'document_name'  => $filename,
             	'upload_url'  => $filepath
             );
-            $last_id = DB::table('t_document_dtls')->insertGetId($data1);
-            $fileinfo = DB::table('t_document_dtls')
-                ->select('document_name','document_id','upload_url')
-                ->where('document_id',$last_id)
+            $last_id = DB::table('t_documents')->insertGetId($data1);
+            $fileinfo = DB::table('t_documents')
+                ->select('document_name','id','upload_url')
+                ->where('id',$last_id)
                 ->get();
             return $fileinfo;
         }
@@ -43,8 +43,6 @@ class FileUpload extends Model
         $url = $request->url;
         $year = date('Y');
         unlink($url);
-        DB::table('t_document_dtls')->where('document_id', $id)->delete();
+        DB::table('t_documents')->where('id', $id)->delete();
     }
-
-
 }

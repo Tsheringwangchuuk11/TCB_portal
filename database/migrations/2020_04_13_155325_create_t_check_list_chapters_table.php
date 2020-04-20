@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateModuleServiceTable extends Migration
+class CreateTCheckListChaptersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,17 @@ class CreateModuleServiceTable extends Migration
      */
     public function up()
     {
-        Schema::create('t_module_service_mapping', function (Blueprint $table) {
+        Schema::create('t_check_list_chapters', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('module_id')->index();
-            $table->unsignedBigInteger('service_id')->index();
-            $table->string('page_link', 500);
+            $table->string('checklist_ch_name');
+            $table->boolean('is_active')->default(0);
+            $table->unsignedBigInteger('created_by')->index();
+            $table->unsignedBigInteger('updated_by')->nullable()->index();
             $table->timestamps();
             $table->foreign('module_id')->references('id')->on('t_module_masters');
-            $table->foreign('service_id')->references('id')->on('t_services');
+            $table->foreign('created_by')->references('id')->on('t_users');
+            $table->foreign('updated_by')->references('id')->on('t_users');
         });
     }
 
@@ -31,6 +34,6 @@ class CreateModuleServiceTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('t_module_service_mapping');
+        Schema::dropIfExists('t_check_list_chapters');
     }
 }

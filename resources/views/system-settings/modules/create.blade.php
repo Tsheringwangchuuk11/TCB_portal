@@ -71,7 +71,7 @@
                                 <td>
                                     <input type="text" name="submodules[AAAAA][route]" class="required form-control resetKeyForNew" />
                                 </td>
-                                <td width="8%">
+                                <td width="20%">
                                     <input type="text" name="submodules[AAAAA][display_order]" class="required form-control number resetKeyForNew" />
                                 </td>
                             </tr>
