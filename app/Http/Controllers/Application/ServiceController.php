@@ -72,7 +72,10 @@ class ServiceController extends Controller
         return $standards;
     }
 
-
+    public function getOwnerShipDetails($licenseNo){
+         $data=Services::getOwnerShipDetails($licenseNo);
+         return response()->json($data);
+    }
     public function saveNewApplication(Request $request){
         $application_no = $this->services->generateApplNo($request);
         DB::transaction(function () use ($request, $application_no) {
@@ -110,9 +113,55 @@ class ServiceController extends Controller
             $data->fax=$request->fax;
             $data->drawing_date=$request->drawing_date;
             $data->save();
-            $this->services->insertIntoRoomApplication($request,$application_no);
-            $this->services->insertIntoStaffApplication($request,$application_no);
-            $this->services->updateDocumentDetails($request,$application_no);
+            
+            //insert into t_room_applications
+            $room_type_id=$request->room_type_id;
+		    $room_no=$request->room_no;
+		    $roomAppData = [];
+            if(isset($room_type_id)){
+                foreach($room_type_id as $key => $value){
+                $roomAppData[] = [
+                        'application_no' => $application_no,
+                          'room_type_id' => $room_type_id[$key],
+                               'room_no' => $room_no[$key],
+                    ];
+                 }
+                 
+                $this->services->insertIntoRoomApplication($roomAppData);
+            }
+
+            //insert into t_staff_applications
+            $staff_area_id=$request->staff_area_id;
+            $hotel_div_id=$request->hotel_div_id;
+            $staff_name=$request->staff_name;
+            $staff_gender=$request->staff_gender;
+            $staffAppData = [];
+            if(isset($staff_area_id)){
+				foreach($staff_area_id as $key => $value)
+				{
+                    $roomAppData[] = [    
+                    'application_no'  => $application_no,
+					'staff_area_id'   => $staff_area_id[$key],
+					'hotel_div_id'    => $hotel_div_id[$key],
+					'staff_name'      => $staff_name[$key],
+					'staff_gender'    => $staff_gender[$key],
+                    ];
+                }
+                $this->services->insertIntoStaffApplication($staffAppData);
+            }
+
+	        //update application_no in t_documents
+            $documentId = $request->documentId;
+             $documentData=[];
+             if(isset($documentId)){
+                foreach($documentId as $key => $value)
+                {
+                    $documentData=[
+                        'application_no' => $application_no
+                    ];
+                }
+                $this->services->updateDocumentDetails($documentData);
+            }
 
             //insert into t_workflow_dtls
             $status_name='SUBMITTED';

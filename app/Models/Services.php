@@ -11,14 +11,17 @@ class Services extends Model
 	public $incrementing=false;
 	public $timestamps = false;
 
-	 //accessors
-	 public function getLicense_dateAttribute($value){
-		return date('m/d/Y', strtotime($value));
+	public function setLicenseDateAttribute($value)
+    {
+
+        $this->attributes['license_date'] = date('Y-m-d', strtotime($value));
     }
-	 //mututor
-	 public function setLicense_dateAttribute($value){
-	   $this->attributes['dob'] = date('Y-m-d', strtotime($value));
-	   }
+
+    public function getLicenseDateAttribute($value)
+    {
+		return $value ? date('d-m-Y', strtotime($value)) : null;
+	}
+	
 	public static function getServiceLists($request){
 		$moduleId=$request->moduleId;
 		$query=DB::table("t_module_service_mapping as t1")
@@ -142,57 +145,26 @@ class Services extends Model
 					->get();
         return  $query;
 	}
+
+	public static function getOwnerShipDetails($licenseNo){
+		$query=DB::table('t_applications as t1')
+		->leftjoin('t_star_categories as t2','t2.id','=','t1.star_category_id')
+		->where('t1.license_no',$licenseNo)
+		->get();
+		return $query;
+	}
 	
-	//insert into t_room_applications
-	public function insertIntoRoomApplication($request, $application_no){
-		$room_type_id=$request->room_type_id;
-        $room_no=$request->room_no;
-            if(isset($room_type_id)){
-                foreach($room_type_id as $key => $value)
-                {
-                    $arrData = array(
-                        'application_no' => $application_no,
-                        'room_type_id'   => $room_type_id[$key],
-                        'room_no'        => $room_no[$key],
-                    );
-                    DB::table('t_room_applications')->insert($arrData);
-                }
-			}
+	public function insertIntoRoomApplication($roomAppData){
+		
+		DB::table('t_room_applications')->insert($roomAppData);
 	}
 
-	//insert into t_staff_applications
-	public function insertIntoStaffApplication($request, $application_no){
-		$staff_area_id=$request->staff_area_id;
-		$hotel_div_id=$request->hotel_div_id;
-		$staff_name=$request->staff_name;
-		$staff_gender=$request->staff_gender;
-			if(isset($staff_area_id)){
-				foreach($staff_area_id as $key => $value)
-				{
-					$arrData = array(
-						'application_no'  => $application_no,
-						'staff_area_id'   => $staff_area_id[$key],
-						'hotel_div_id'    => $hotel_div_id[$key],
-						'staff_name'      => $staff_name[$key],
-						'staff_gender'    => $staff_gender[$key],
-					);
-					DB::table('t_staff_applications')->insert($arrData);
-				}
-			}
+	public function insertIntoStaffApplication($staffAppData){
+		DB::table('t_staff_applications')->insert($staffAppData);		
 	}
 
-	//update application_no in t_documents
-	public function updateDocumentDetails($request, $application_no){
-		$documentId = $request->documentId;
-		if(isset($documentId)){
-			foreach($documentId as $key => $value)
-			{
-				$data = array(
-					'application_no' => $application_no
-				);
-				DB::table('t_documents')->where('id', $documentId[$key])->update($data);
-			}
-		}
+	public function updateDocumentDetails($documentData){
+		DB::table('t_documents')->where('id', $documentId[$key])->update($documentData);
 	}
 
 }
