@@ -1,9 +1,9 @@
 @extends('layouts.manager')
-@section('page-title','New : Tourist Standard Hotel Ownership Change')
+@section('page-title','New : Tourist Standard Hotel License Renew')
 @section('content')
 <div class="card">
     <div class="card-header bg-success">
-        <h4 class="card-title">Ownership Change For Tourist Hotels</h4>
+        <h4 class="card-title">Tourist Standard Hotel License Renew</h4>
     </div>
     <form action="{{ url('application/save-application') }}" method="POST" enctype="multipart/form-data">
         @csrf
@@ -16,22 +16,21 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-12">
-                    <h5>Previous Owner Information</h5>
                     <div class="row">
                         <div class="form-group col-md-5">
                             <label for="">License Number <span class="text-danger"> *</span> </label>
-                            <input type="text" class="form-control" name="license_no" onchange="getOwnerChangeDetails(this.value)">
+                            <input type="text" class="form-control" name="license_number" onchange="getOwnerChangeDetails(this.value)">
                         </div>
                         <div class="form-group col-md-5 offset-md-2">
                             <label>Registration Type</label>
-                            <input type="text" class="form-control" name="old_star_category_id" id="old_star_category_id" readonly="true">
-                            <input type="hidden" class="form-control" name="star_category_id" id="star_category_id" readonly="true">
+                            <input type="text" class="form-control" name="star_category_name" id="star_category_name" readonly="true">
+                            <input type="hidden" class="form-control" name="star_category_id" id="star_category_id">
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-md-5">
-                            <label for="">License Date </label>
-                            <input type="text" class="form-control" name="license_date" id="license_date" readonly="true">
+                            <label for="">License Date <span class="text-danger"> *</span> </label>
+                            <input type="date" class="form-control" name="license_date">
                         </div>
                         <div class="form-group col-md-5 offset-md-2">
                             <label for="">Name </label>
@@ -41,21 +40,21 @@
                     <div class="row">
                         <div class="form-group col-md-5">
                             <label for="">Owner </label>
-                            <input type="text" class="form-control" name="old_owner" id="old_owner" readonly="true">
+                            <input type="text" class="form-control" name="owner" id="owner" readonly="true">
                         </div>
                         <div class="form-group col-md-5 offset-md-2">
-                            <label for="">CID No. </label>
-                            <input type="text" class="form-control" name="old_cid_no" id="old_cid_no" readonly="true">
+                            <label for="">Address </label>
+                            <input type="text" class="form-control" name="address" id="address"readonly="true">
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-md-5">
-                            <label for="">Address </label>
-                            <input type="text" class="form-control" name="old_address" id="old_address" readonly="true">
+                            <label for="">CID No. </label>
+                            <input type="text" class="form-control" name="cid_no" id="cid_no" readonly="true">
                         </div>
                         <div class="form-group col-md-5 offset-md-2">
                             <label for="">Contact No. </label>
-                            <input type="text" class="form-control" name="old_contact_no" id="old_contact_no" readonly="true">
+                            <input type="text" class="form-control" name="contact_no" id="contact_no" readonly="true">
                         </div>
                     </div>
                     <div class="row">
@@ -65,7 +64,7 @@
                         </div>
                         <div class="form-group col-md-5 offset-md-2">
                             <label for="">Email </label>
-                            <input type="email" class="form-control" name="old_email" id="old_email" readonly="true">
+                            <input type="email" class="form-control" name="email" id="email" readonly="true">
                         </div>
                     </div>
                     <div class="row">
@@ -84,36 +83,6 @@
                             <input type="text" class="form-control" name="location_id" id="location_id" readonly="true">
                         </div>
                     </div>
-                    <h5>New Owner Information</h5>
-                    <div class="row">
-                        <div class="form-group col-md-5">
-                            <label for="">Name <span class="text-danger"> *</span></label>
-                            <input type="text" class="form-control" name="owner">
-                        </div>
-                        <div class="form-group col-md-5 offset-md-2">
-                            <label for="">CID No. <span class="text-danger"> *</span></label>
-                            <input type="text" class="form-control" name="cid_no">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-5">
-                            <label for="">Address <span class="text-danger"> *</span></label>
-                            <input type="text" class="form-control" name="address">
-                        </div>
-                        <div class="form-group col-md-5 offset-md-2">
-                            <label for="">Contact No.<span class="text-danger"> *</span></label>
-                            <input type="text" class="form-control" name="contact_no">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-5">
-                            <label for="">Email <span class="text-danger"> *</span></label>
-                            <input type="email" class="form-control" name="email">
-                        </div>
-                    </div>
-                    <h5>File Attachment<span class="text-danger"> *</span></h5>
-                    <h6> <strong>Required supporting documents:</strong></h6>
-                    @include('services/fileupload/fileupload')
                 </div>
             </div>
         </div>
@@ -140,21 +109,19 @@
                  },
                dataType: "json",
                success:function(data) {
-                $('#old_star_category_id').val(data[0].star_category_name);
+                $('#star_category_name').val(data[0].star_category_name);
                 $('#star_category_id').val(data[0].star_category_id);
-                $('#license_date').val(data[0].license_date);
                 $('#name').val(data[0].name);
-                $('#old_owner').val(data[0].owner);
-                $('#old_cid_no').val(data[0].cid_no);
-                $('#old_contact_no').val(data[0].contact_no);
-                $('#old_address').val(data[0].address);
+                $('#owner').val(data[0].owner);
+                $('#cid_no').val(data[0].cid_no);
+                $('#contact_no').val(data[0].contact_no);
+                $('#address').val(data[0].address);
                 $('#fax').val(data[0].fax);
-                $('#old_email').val(data[0].email);
+                $('#email').val(data[0].email);
                 $('#internet_url').val(data[0].internet_url);
                 $('#bed_no').val(data[0].bed_no);
                 $('#location_id').val(data[0].location_id);
                } 
             });
         }
-
 </script>

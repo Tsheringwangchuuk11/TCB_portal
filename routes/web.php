@@ -53,11 +53,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('service-create/{page_link}', 'ServiceController@getServiceForm');
         Route::post('get-chapters', 'ServiceController@getCheckListChapter');
         Route::post('save-application', 'ServiceController@saveNewApplication');
+        Route::get('get-ownership-details/{id}', 'ServiceController@getOwnerShipDetails');
         // fileupload
         Route::post('documentattach', 'FileUploadController@addDocuments');
         Route::post('deletefile', 'FileUploadController@deleteFile');
-
-
         // tasklist
         Route::resource('tasklist', 'TasklistController');
 
