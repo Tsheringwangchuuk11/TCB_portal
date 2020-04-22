@@ -13,7 +13,7 @@ class WorkFlowDetails extends Model
        $query=\DB::table('t_status_masters as t1')
                  ->select('id')
                  ->where('status_name',$status_name)
-                 ->get();
+                 ->first();
         return $query;
     }
 }
