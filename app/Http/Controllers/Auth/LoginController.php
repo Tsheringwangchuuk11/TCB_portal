@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -28,7 +29,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = 'dashboard';
+    //protected $redirectTo = 'dashboard';
 
     /**
      * Create a new controller instance.
@@ -118,5 +119,13 @@ class LoginController extends Controller
             'login_ip' => $request->ip(),
             'user_agent' => $request->server('HTTP_USER_AGENT')
         ]);
+    }
+    public function redirectTo()
+    {
+        if (sizeof(\auth()->user()->roles()->pluck('role_id')->toArray()) > 1){
+            return '/tasklist/tasklist';
+        }
+
+        return '/dashboard';
     }
 }

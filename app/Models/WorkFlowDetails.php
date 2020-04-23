@@ -16,4 +16,29 @@ class WorkFlowDetails extends Model
                  ->first();
         return $query;
     }
+    public static function saveWorkFlowDtlsAudit($applicationNo){
+        $status = \DB::insert('INSERT INTO t_workflow_dtls_audits (
+                                  workflow_dtls_id,
+                                  application_no,
+                                  status_id,
+                                  user_id,
+                                  role_id,
+                                  remarks,
+                                  updated_at,
+                                  created_at
+                                ) 
+                                SELECT 
+                                  id,
+                                  application_no,
+                                  status_id,
+                                  user_id,
+                                  role_id,
+                                  remarks,
+                                  updated_at,
+                                  NOW() 
+                                FROM
+                                  t_workflow_dtls 
+                                WHERE application_no = ? ', [$applicationNo]);
+        return $status;
+    }
 }
