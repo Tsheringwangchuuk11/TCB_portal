@@ -19,9 +19,10 @@ class ModuleServiceSeeder extends Seeder
             ['module_id' => 1, 'service_id' => 4, 'page_link' => 'services/hotels_assessment'],
             ['module_id' => 1, 'service_id' => 5, 'page_link' => 'technical-clearance4/create'],
             ['module_id' => 1, 'service_id' => 6, 'page_link' => 'technical-clearance5/create'],
-            ['module_id' => 1, 'service_id' => 7, 'page_link' => 'technical-clearance6/create'],
-            ['module_id' => 1, 'service_id' => 8, 'page_link' => 'technical-clearance7/create'],
+            ['module_id' => 1, 'service_id' => 7, 'page_link' => 'services/hotels_license_renew'],
+            ['module_id' => 1, 'service_id' => 8, 'page_link' => 'services/hotels_license_cancel'],
             ['module_id' => 1, 'service_id' => 9, 'page_link' => 'services/hotels_owner_change'],
+            ['module_id' => 1, 'service_id' => 10, 'page_link' => 'services/hotels_name_change'],
             ['module_id' => 2, 'service_id' => 4, 'page_link' => 'services/home_stays_assessment'],
             ['module_id' => 2, 'service_id' => 7, 'page_link' => 'technical-clearance10/create'],
             ['module_id' => 2, 'service_id' => 8, 'page_link' => 'technical-clearance11/create'],
@@ -48,7 +49,6 @@ class ModuleServiceSeeder extends Seeder
             ['module_id' => 7, 'service_id' => 14, 'page_link' => 'services/media_familiarization_tour'],
             ['module_id' => 6, 'service_id' => 20, 'page_link' => 'services/grievance'],
             ['module_id' => 4, 'service_id' => 21, 'page_link' => 'services/to_new _license'],
-
         ]);
     }
 }

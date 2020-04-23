@@ -5,23 +5,29 @@
   <div class="card-header bg-success">
     <h4 class="card-title">Village Home Stay Ownership Change</h4>
   </div> 
-  <form action="{{ url('service-create/store') }}" class="form-horizontal" method="POST" enctype="multipart/form-data">
+  <form action="{{ url('application/save-application') }}" class="form-horizontal" method="POST" enctype="multipart/form-data">
     @csrf
+    @foreach ($idInfos as $idInfo)
+    <input type="hidden" name="service_id" value="{{ $idInfo->service_id }}" id="service_id">
+    <input type="hidden" name="module_id" value="{{ $idInfo->module_id }}" id="module_id">
+    <input type="hidden" name="service_name" value="{{ $idInfo->name }}" id="service_name">
+    <input type="hidden" name="module_name" value="{{ $idInfo->module_name }}" id="module_name">
+    @endforeach 
     <div class="card-body">
       <div class="row">
         <div class="col-md-12">
-          <h6 class="" style="color:#312e70">Applicant’s details</h6>
+          <h5>Personal Details</h6>
           <div class="row">
             <div class="col-md-5">
               <div class="form-group">
                 <label for="">Name</label>
-                <input type="text" class="form-control" name="name" value="">
+                <input type="text" class="form-control" name="name">
               </div>
             </div>
             <div class="col-md-5 offset-md-2">
               <div class="form-group ">
                 <label for="">CID No.</label>
-                <input type="number" class="form-control" name="cid" id="cid" value="">
+                <input type="text" class="form-control numeric_only" name="cid_no">
               </div>
             </div>
           </div>
@@ -29,13 +35,13 @@
             <div class="col-md-5">
               <div class="form-group">
                 <label for="">Contact No. </label>
-                <input type="number" class="form-control" name="phone_number" id="phone_number" value="">
+                <input type="number" class="form-control" name="contact_no">
               </div>
             </div>
             <div class="col-md-5 offset-md-2">
               <div class="form-group">
                 <label for="">Email</label>
-                <input type="email" class="form-control" name="email" value="">
+                <input type="email" class="form-control" name="email">
               </div>
             </div>
           </div>
@@ -43,19 +49,19 @@
             <div class="col-md-5">
               <div class="form-group">
                 <label for="">Dzongkhag</label>
-                <select class="form-control select2bs4" style="width: 100%;" value="">
-                  <option value="1" selected="selected">-select-</option>
-                  <option value="">Thimphu</option>
-                  <option value="2">Paro</option>
+                <select  name="dzongkhag_id" id="dzongkhag_id" class="form-control select2bs4" style="width: 100%;">
+                  <option value=""> -Select-</option>
+                  @foreach ($dzongkhagLists as $dzongkhagList)
+                    <option value="{{ $dzongkhagList->id }}">{{ $dzongkhagList->dzongkhag_name }}</option>
+                  @endforeach
                 </select>
               </div>
             </div>
             <div class="col-md-5 offset-md-2">
               <div class="form-group">
                 <label for="">Gewog</label>
-                <select class="form-control select2bs4" style="width: 100%;">
-                  <option value="1" selected="selected" value="">-select-</option>
-                </select>
+                <select  name="location_id" class="form-control select2bs4" id="location_id" style="width: 100%;">
+                </select> 
               </div>
             </div>
           </div>
@@ -63,15 +69,15 @@
             <div class="col-md-5">
               <div class="form-group">
                 <label for="">Chiwog</label>
-                <select class="form-control select2bs4" style="width: 100%;">
-                  <option value="1" selected="selected" value="">-select-</option>
+                <select class="form-control select2bs4" name="chiwog" style="width: 100%;">
+                  <option value="">-select-</option>
                 </select>
               </div>
             </div>
             <div class="col-md-5 offset-md-2">
               <div class="form-group">
                 <label for="">Village </label>
-                <input type="text" class="form-control" name="village" value="">
+                <input type="text" class="form-control" name="village">
               </div>
             </div>
           </div>
@@ -94,26 +100,26 @@
             <div class="col-md-5">
               <div class="form-group">
                 <label for="">Distance from the nearest town/urban centre (hrs or kms)</label>
-                <input type="text" class="form-control" name="distance1" value="" disabled>
+                <input type="text" class="form-control" name="town_distance">
               </div>
             </div>
             <div class="col-md-5 offset-md-2">
               <div class="form-group">
                 <label for="">Distance from the main road (hrs or kms)</label>
-                <input type="text" class="form-control" name="distance2" value="" disabled>
+                <input type="text" class="form-control" name="road_distance">
               </div>
             </div>
             <div class="col-md-5">
               <div class="form-group">
                 <label for="">Condition of the pathway to house from the road point</label>
-                <input type="text" class="form-control" name="distance3" value="" disabled>
+                <input type="text" class="form-control" name="condition">
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="card-footer" align="center">
+    <div class="card-footer text-center">
       <button type="submit"class="btn btn-success"><li class="fas fa-check"></li> APPLY</button>
       <button type="reset" class="btn btn-danger"><li class="fas fa-times"></li> RESET</button>
     </div>

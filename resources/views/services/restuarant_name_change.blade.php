@@ -5,20 +5,20 @@
   <div class="card-header bg-success">
     <h3 class="card-title">Name Change for Tourist Standard Restuarant</h3>
   </div>
-  <form action="{{ url('service-create/store') }}" method="POST" enctype="multipart/form-data">
+  <form action="{{ url('application/save-application') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="card-body">
       <div class="row">
         <div class="col-md-5">
           <div class="form-group">
             <label for="">License Number </label>
-            <input type="number" class="form-control" name="license_number" disabled>
+            <input type="text" class="form-control" name="license_no" readonly="true">
           </div>
         </div>
         <div class="col-md-5 offset-md-2">
           <div class="form-group">
             <label for="">License Date </label>
-            <input type="date" class="form-control" name="license_date" disabled>
+            <input type="date" class="form-control" name="license_date" readonly="true">
           </div>
         </div>
       </div>
@@ -26,13 +26,13 @@
         <div class="col-md-5">
           <div class="form-group">
             <label for="">Name </label>
-            <input type="text" class="form-control" name="name" value="">
+            <input type="text" class="form-control" name="name">
           </div>
         </div>
         <div class="col-md-5 offset-md-2">
           <div class="form-group">
             <label for="">Owner <span class="text-danger">*</span> </label>
-            <input type="text" class="form-control" name="accomodation" disabled>
+            <input type="text" class="form-control" name="owner" readonly="true">
           </div>
         </div>
       </div>
@@ -40,13 +40,13 @@
         <div class="col-md-5">
           <div class="form-group">
             <label for="">Address </label>
-            <input type="text" class="form-control" name="address" disabled>
+            <input type="text" class="form-control" name="address" readonly="true">
           </div>
         </div>
         <div class="col-md-5 offset-md-2">
           <div class="form-group">
             <label for="">Contact No </label>
-            <input type="number" class="form-control" name="phone_number" disabled>
+            <input type="number" class="form-control" name="contact_no" readonly="true">
           </div>
         </div>
       </div>
@@ -54,13 +54,13 @@
         <div class="col-md-5">
           <div class="form-group">
             <label for="">Fax </label>
-            <input type="text" class="form-control" name="fax" disabled>
+            <input type="text" class="form-control" name="fax" readonly="true">
           </div>
         </div>
         <div class="col-md-5 offset-md-2">
           <div class="form-group">
             <label for="">Email </label>
-            <input type="email" class="form-control" name="email" disabled>
+            <input type="email" class="form-control" name="email" readonly="true">
           </div>
         </div>
       </div>
@@ -68,13 +68,13 @@
         <div class="col-md-5">
           <div class="form-group">
             <label for="">Internet Homepage </label>
-            <input type="text" class="form-control" name="internet" disabled>
+            <input type="text" class="form-control" name="internet_url" readonly="true">
           </div>
         </div>
         <div class="col-md-5 offset-md-2">
           <div class="form-group">
             <label for="">Number of Beds </label>
-            <input type="number" class="form-control" name="bed_no" disabled>
+            <input type="number" class="form-control" name="bed_no" readonly="true">
           </div>
         </div>
       </div>

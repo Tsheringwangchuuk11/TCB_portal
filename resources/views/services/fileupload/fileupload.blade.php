@@ -5,7 +5,7 @@
             <span>Add files...</span>
             <!-- The file input field used as target for the file upload widget -->
             <input id="fileuploaded" type="file" name="filename" multiple> 
-        </span>
+        </span><br>
         <div id="progress" class="progress">
             <div class="progress-bar bg-success"></div>
         </div>
