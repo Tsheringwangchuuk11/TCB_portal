@@ -13,6 +13,8 @@
 		<!-- Styles -->
             <!-- Font Awesome Icons -->
         <link href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
+        <!-- DataTables -->
+        <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
         <!-- Theme style -->
         <link href="{{ asset('dist/css/adminlte.min.css') }}" rel="stylesheet" type="text/css">
         <!-- overlayScrollbars -->

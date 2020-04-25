@@ -43,6 +43,7 @@ class CreateApplicationTable extends Migration
             $table->date('validity_date')->nullable();
             $table->string('flat_no', 20)->nullable();
             $table->string('building_no', 20)->nullable();
+            $table->string('company_name', 250)->nullable();
 
 
         });

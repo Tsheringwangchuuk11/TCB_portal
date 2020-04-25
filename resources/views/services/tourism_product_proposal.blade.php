@@ -9,7 +9,9 @@
     @csrf
     <div class="card-body">
      <h5>Proponent Details</h5>
-     <div class="form-row">
+     <div class="row">
+       <div class="col-md-12">
+         <div class="row">
       <div class="form-group col-md-5">
         <label for="">Name <span class="text-danger">*</span> </label>
         <input type="text" class="form-control" name="name" id="" autocomplete="off" required>
@@ -18,14 +20,15 @@
         <label for="">Address <span class="text-danger">*</span> </label>
         <input type="text" class="form-control" name="address" id="" autocomplete="off" required>
       </div>
+         </div>
+         <div class="row">
       <div class="form-group col-md-5">
         <label for="">Contact Number <span class="text-danger">*</span> </label>
         <input type="number" class="form-control" name="contact_no" autocomplete="off" required>
       </div>
-    </div>
-
+         </div>
     <h5>Product Details</h5>
-    <div class="form-row">
+    <div class="row">
       <div class="form-group col-md-5">
         <label for="">Type <span class="text-danger">*</span> </label>
         <select class="form-control select2bs4" required>
@@ -41,6 +44,7 @@
       </div>
     </div>
   </div>
+    </div>
   <div class="card-footer text-center">
     <button type="submit"class="btn btn-success btn-sm"><i class="fa fa-check fa-sm"></i> APPLY</button>
     <button type="reset"class="btn btn-danger btn-sm"><i class="fa fa-times fa-sm"></i> RESET</button>

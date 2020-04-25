@@ -9,7 +9,9 @@
     @csrf
     @foreach ($idInfos as $idInfo)
     <input type="hidden" name="service_id" value="{{ $idInfo->service_id }}" id="service_id">
-    <input type="hidden" name="module_id" value="{{ $idInfo->module_id }}" id="service_id">
+    <input type="hidden" name="module_id" value="{{ $idInfo->module_id }}" id="module_id">
+    <input type="hidden" name="service_name" value="{{ $idInfo->name }}" id="service_name">
+    <input type="hidden" name="module_name" value="{{ $idInfo->module_name }}" id="module_name">
     @endforeach 
     <div class="card-body">
         <div class="row">
@@ -19,13 +21,13 @@
                     <div class="col-md-5">
                         <div class="form-group">
                             <label for="">Events Title<span class="text-danger"> *</span></label>
-                            <input type="text" class="form-control required" name="event_titles" autocomplete="off">
+                            <input type="text" class="form-control" name="event_titles" autocomplete="off">
                         </div>
                     </div>
                     <div class="col-md-5 offset-md-2">
                         <div class="form-group">
                             <label for="">Financial year<span class="text-danger"> *</span></label>
-                            <input type="text" class="form-control required" name="finacial_year" id="designation" autocomplete="off">
+                            <input type="text" class="form-control required" name="finacial_year" autocomplete="off">
                         </div>
                     </div>
                 </div>
@@ -33,13 +35,13 @@
                     <div class="col-md-5">
                         <div class="form-group">
                             <label for="">Location<span class="text-danger"> *</label>
-                                <input type="text" class="form-control required" name="location" autocomplete="off" >
+                                <input type="text" class="form-control" name="location_id" autocomplete="off" >
                             </div>
                         </div>
                         <div class="col-md-5 offset-md-2">
                             <div class="form-group">
                                 <label for="">Date<span class="text-danger"> *</span></label>
-                                <input type="text" class="form-control required" name="date" autocomplete="off">
+                                <input type="text" class="form-control" name="date" autocomplete="off">
                             </div>
                         </div>
                     </div>
@@ -48,14 +50,14 @@
                     <div class="row">
                         <div class="col-md-5">
                             <div class="form-group">
-                                <label for="">Addres<span class="text-danger"> *</span></label>
-                                <input type="text" name="address" class="form-control required" autocomplete="off">
+                                <label for="">Address<span class="text-danger"> *</span></label>
+                                <input type="text" name="address" class="form-control" autocomplete="off">
                             </div>
                         </div>
                         <div class="col-md-5 offset-md-2">
                             <div class="form-group">
                                 <label for="">Contact No. <span class="text-danger"> *</span></label>
-                                <input type="text" name="contact_no" class="form-control required" autocomplete="off">
+                                <input type="text" name="contact_no" class="form-control numeric-only" autocomplete="off">
                             </div>
                         </div>
                     </div>
@@ -63,7 +65,7 @@
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label for="">Email<span class="text-danger"> *</span></label>
-                                <input type="email" class="form-control required" name="email" autocomplete="off" >
+                                <input type="email" class="form-control" name="email" autocomplete="off" >
                             </div>
                         </div>
                     </div>
@@ -192,7 +194,6 @@
                             <li>
                                 <em>Endorsement letter from Association of Bhutanese Tour Operators (ABTO)/Tour Operator
                                 </em>
-
                             </li>
                         </ol>
                         <span class="btn btn-success btn-sm fileinput-button">

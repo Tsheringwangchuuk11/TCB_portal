@@ -45,3 +45,14 @@
     </div>
 </div>
 @endif
+@if(Session::has('appl_info'))
+<div class="row">
+    <div class="col-md-12">
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <i class="fa fa-check"></i>
+            {{ Session::get('appl_info') }}
+        </div>
+    </div>
+</div>
+@endif
