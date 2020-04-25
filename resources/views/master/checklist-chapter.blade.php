@@ -13,7 +13,9 @@
 							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
 							<i class="icon fas fa-check"></i>
 						</div>
+						@if ($privileges["create"] == 1)
 						<a href="javascript:void(0)" class="btn btn-success mb-2 float-right" id="create_new_checklist">Add Checklist Chapter</a>
+						@endif
 						<table id="example2" class="table table-bordered table-hover">
 							<thead>
 								<tr>
@@ -35,9 +37,13 @@
                                     <td>{{ $checklistChapter->checklist_ch_name }}</td>
                                     <td class="text-center">{!! $checklistChapter->isActive() == 1 ? '<i class="fas fa-check text-green"></i>' : '<i class="fas fa-times text-red"></i>' !!}</td>
                                     <td class="text-center">
+										@if ($privileges["edit"] == 1)
                                         <a href="javascript:void(0)" id="edit_checklist" data-id="{{ $checklistChapter->id }}" class="btn btn-sm btn-info">Edit</a>
-                                        <a href="javascript:void(0)" id="delete_checklist" data-id="{{ $checklistChapter->id }}" class="btn btn-sm btn-danger delete_checklist">Delete</a>
-                                    </td>
+										@endif
+										@if ($privileges["delete"] == 1)
+										<a href="javascript:void(0)" id="delete_checklist" data-id="{{ $checklistChapter->id }}" class="btn btn-sm btn-danger delete_checklist">Delete</a>
+										@endif
+									</td>
                                 </tr>
                                 @empty
                                 <tr>
@@ -71,7 +77,7 @@
                             <input type="hidden" name="checklist_id" id="checklist_id" />
                             <div class="form-group">
                                 <label for="" >Module *</label>
-                                <select name="service_module" class="form-control required select2" id="module">
+                                <select name="service_module" class="form-control required select2bs4" id="module">
                                     <option value="">---SELECT---</option>
                                     @foreach ($serviceModules as $serviceModule)
                                     <option value="{{ $serviceModule->id }}" {{ old('service_module') == $serviceModule->id ? 'selected' : '' }}>{{ $serviceModule->module_name }}</option>

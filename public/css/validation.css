@@ -1,0 +1,13 @@
+/*error message */
+.has-error .select2-container--default .select2-selection--single,
+.has-error .select2-selection .select2-selection--single{
+	border: 1px solid #dd4b39;
+}
+.has-success .select2-container--default .select2-selection--single,
+.has-success .select2-selection .select2-selection--single{
+	border: 1px solid #00a65a;
+}
+.hide{
+    display: none;
+}
+
