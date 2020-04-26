@@ -75,18 +75,16 @@
                                     <td class="text-center">
                                         <label>
                                             <input type="checkbox" name="checklist[AAAAA{{$key}}][mandatory]" class="check-perm resetKeyForNew ace ace-checkbox-2" value="1"/>
-                                            <input type="hidden" name="checklist[AAAAA{{$key}}][mandatory]" class="check-perm resetKeyForNew ace ace-checkbox-2" value="0"/>
+                                            <input type="hidden" name="checklist[AAAAA{{$key}}][mandatory1]" class="check-perm resetKeyForNew ace ace-checkbox-2" value="0"/>
                                             <span class="lbl"></span>
                                         </label>
                                     </td>
                                     <td width="20%">
                                         <select  name="checklist[AAAAA{{$key}}][status]" class="form-control resetKeyForNew select">
-                                            {{-- <option value="">-Select-</option> --}}
-                                            @if($detail->pivot->is_active == 0)
-                                            <option value="No">No</option>
-                                            @else
-                                            <option value="Yes">Yes</option>
-                                            @endif
+                                            <option value="">-Select-</option>
+                                            @foreach (Config::get('settings.status') as $k => $v)
+                                            <option value="{{ $k }}" {{ old('status', $detail->pivot->is_active) == $k ? 'selected' : '' }}>{{ $v }}</option>
+                                            @endforeach
                                         </select>
                                     </td>
                                 </tr>

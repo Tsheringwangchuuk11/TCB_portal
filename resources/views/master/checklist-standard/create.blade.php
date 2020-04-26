@@ -70,17 +70,18 @@
                                         </select>
                                     </td>
                                     <td class="text-center">
-                                        <label>
+                                        {{-- <label> --}}
                                             <input type="checkbox" name="checklist[AAAAA][mandatory]" class="check-perm resetKeyForNew ace ace-checkbox-2" value="1"/>
-                                            <input type="hidden" name="checklist[AAAAA][mandatory]" class="check-perm resetKeyForNew ace ace-checkbox-2" value="0"/>
-                                            <span class="lbl"></span>
-                                        </label>
+                                            <input type="hidden" name="checklist[AAAAA][mandatory1]" class="check-perm resetKeyForNew ace ace-checkbox-2" value="0"/>
+                                            {{-- <span class="lbl"></span> --}}
+                                        {{-- </label>/ --}}
                                     </td>
                                     <td width="20%">
                                         <select  name="checklist[AAAAA][status]" class="form-control resetKeyForNew select">
                                             <option value="">-Select-</option>
-                                            <option value="Yes">Yes</option>
-                                            <option value="No">No</option>
+                                            @foreach (Config::get('settings.status') as $k => $v)
+                                            <option value="{{ $k }}" {{ old('status') == $k ? 'selected' : '' }}>{{ $v }}</option>
+                                            @endforeach
                                         </select>
                                     </td>
                                 </tr>
