@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Application;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateServiceRequest;
 use Illuminate\Http\Request;
-use DB;
 use App\Models\Services;
 use App\Models\Dropdown;
 use App\Models\WorkFlowDetails;
 use App\Models\TaskDetails;
+use DB;
 class ServiceController extends Controller
 {
 
@@ -36,13 +36,13 @@ class ServiceController extends Controller
     public function getServiceForm($page_link)
     {
         $page_link=str_replace("-", '/',$page_link);
-        $idInfos = Services::getIdInfo($page_link);
-        $starCategoryLists = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
-        $dzongkhagLists = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
-        $roomTypeLists = Dropdown::getDropdowns("t_room_types","id","room_name","0","0");
-        $staffAreaLists = Dropdown::getDropdowns("t_staff_areas","id","staff_area_name","0","0");
-        $hotelDivisionLists = Dropdown::getDropdowns("t_hotel_divisions","id","hotel_div_name","0","0");
-        return view($page_link, compact('idInfos','starCategoryLists','dzongkhagLists','roomTypeLists','staffAreaLists','hotelDivisionLists'));
+        $data['idInfos'] = Services::getIdInfo($page_link);
+        $data['starCategoryLists'] = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
+        $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+        $data['roomTypeLists'] = Dropdown::getDropdowns("t_room_types","id","room_name","0","0");
+        $data['staffAreaLists'] = Dropdown::getDropdowns("t_staff_areas","id","staff_area_name","0","0");
+        $data['hotelDivisionLists'] = Dropdown::getDropdowns("t_hotel_divisions","id","hotel_div_name","0","0");
+       return view($page_link, $data);
 
     }
 
@@ -139,7 +139,7 @@ class ServiceController extends Controller
             if(isset($staff_area_id)){
 				foreach($staff_area_id as $key => $value)
 				{
-                    $roomAppData[] = [    
+                    $staffAppData[] = [    
                     'application_no'  => $application_no,
 					'staff_area_id'   => $staff_area_id[$key],
 					'hotel_div_id'    => $hotel_div_id[$key],
@@ -151,36 +151,23 @@ class ServiceController extends Controller
             }
 
 	        //update application_no in t_documents
-            $documentId = $request->documentId;
-             $documentData=[];
-             if(isset($documentId)){
-                foreach($documentId as $key => $value)
-                {
-                    $documentData=[
-                        'application_no' => $application_no
-                    ];
-                }
-                $this->services->updateDocumentDetails($documentData);
-            }
+             $documentId = $request->documentId;
+             $this->services->updateDocumentDetails($documentId,$application_no);
 
             //insert into t_workflow_dtls
-            $status_name='SUBMITTED';
-            $status = WorkFlowDetails::getStatus($status_name);
             $update=new WorkFlowDetails;
             $update->application_no=$application_no;
-            $update->status_id=$status[0]->id;
+            $update->status_id=WorkFlowDetails::getStatus('SUBMITTED')->id;
             $update->user_id=auth()->user()->id;
             $update->save();
 
             //insert into t_task_dtls
-            $status_name='INITIATED';
-            $status = WorkFlowDetails::getStatus($status_name);
-            $assignPrivId =TaskDetails::getAssignPrivId($request->service_id);
             $update=new TaskDetails;
             $update->application_no=$application_no;
-            $update->status_id=$status[0]->id;
-            $update->assigned_priv_id=$assignPrivId[0]->id;
+            $update->status_id=WorkFlowDetails::getStatus('INITIATED')->id;
+            $update->assigned_priv_id=TaskDetails::getAssignPrivId($request->service_id)->id;
             $update->save();
+           
         });
         return redirect('application/new-application')->with('appl_info', 'Your application has been submitted successfully and your application number is :'.$application_no);
     }

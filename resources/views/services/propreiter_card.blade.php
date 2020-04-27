@@ -7,12 +7,10 @@
     </div>
     <form action="{{ url('application/save-application') }}" method="POST" enctype="multipart/form-data">
      @csrf
-     @foreach ($idInfos as $idInfo)
-     <input type="hidden" name="service_id" value="{{ $idInfo->service_id }}" id="service_id">
-     <input type="hidden" name="module_id" value="{{ $idInfo->module_id }}" id="module_id">
-     <input type="hidden" name="service_name" value="{{ $idInfo->name }}" id="service_name">
-     <input type="hidden" name="module_name" value="{{ $idInfo->module_name }}" id="module_name">
-     @endforeach 
+     <input type="hidden" name="service_id" value="{{ $idInfos->service_id }}" id="service_id">
+     <input type="hidden" name="module_id" value="{{ $idInfos->module_id }}" id="module_id">
+     <input type="hidden" name="service_name" value="{{ $idInfos->name }}" id="service_name">
+     <input type="hidden" name="module_name" value="{{ $idInfos->module_name }}" id="module_name">
         <div class="card-body">
             <div class="row">
                 <div class="col-md-12">
@@ -20,13 +18,13 @@
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label  for="" >Name<span class="text-danger"> *</span></label>
-                                <input type="text" class="form-control" name="name" autocomplete="off">
+                                <input type="text" class="form-control required" name="name" autocomplete="off">
                             </div>
                         </div>
                         <div class="col-md-5 offset-md-2">
                             <div class="form-group">
                                 <label for="">CID No.<span class="text-danger"> *</span></label>
-                                <input type="text" class="form-control numeric-only" name="cid_no" autocomplete="off">
+                                <input type="text" class="form-control numeric-only required" name="cid_no" autocomplete="off">
                             </div>
                         </div>
                     </div>
@@ -34,13 +32,13 @@
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label for="">Company Name<span class="text-danger"> *</span></label>
-                                <input type="text" class="form-control" name="company_name" autocomplete="off">
+                                <input type="text" class="form-control required" name="company_name" autocomplete="off">
                             </div>
                         </div>
                         <div class="col-md-5 offset-md-2">
                             <div class="form-group">
                                 <label for="">Trade License No.<span class="text-danger"> *</span></label>
-                                <input type="text" class="form-control" name="license_no" autocomplete="off" >
+                                <input type="text" class="form-control required" name="license_no" autocomplete="off" >
                             </div>
                         </div>
                     </div>
@@ -48,13 +46,13 @@
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label  for="">Phone No.<span class="text-danger"> *</span></label>
-                                    <input type="text" class="form-control numeric-only" name="contact_no" autocomplete="off">
+                                    <input type="text" class="form-control numeric-only required" name="contact_no" autocomplete="off">
                             </div>
                         </div>
                         <div class="col-md-5 offset-md-2">
                             <div class="form-group">
                                 <label for="">Email<span class="text-danger"> *</span></label>
-                                <input type="email" name="email" class="form-control" autocomplete="off">
+                                <input type="email" name="email" class="form-control required" autocomplete="off">
                             </div>
                         </div>
                     </div>
@@ -62,13 +60,13 @@
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label for="">validity Date<span class="text-danger"> *</span></label>
-                                <input type="text" class="form-control" name="validity_date" autocomplete="off" >
+                                <input type="text" class="form-control required" name="validity_date" autocomplete="off" >
                             </div>
                         </div>
                         <div class="col-md-5 offset-md-2">
                             <div class="form-group">
                                 <label  for="">Office Location<span class="text-danger"> *</span></label>
-                                <input type="text" name="proposed_location" class="form-control" autocomplete="off">
+                                <input type="text" name="proposed_location" class="form-control required" autocomplete="off">
                             </div>
                         </div>
                     </div>

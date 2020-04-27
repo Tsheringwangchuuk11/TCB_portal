@@ -61,7 +61,4 @@ class TasklistController extends Controller
         return response()->json(['status'=>'false', 'msg' => ' Application number: '.$request->application_no.' has not been unassigned']);
 
     }
-    public function openApplication(){
-        return response()->json('openApplication');
-    }
 }
