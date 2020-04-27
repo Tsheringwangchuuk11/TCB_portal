@@ -19,8 +19,8 @@ class CreateWorkflowAuditsTable extends Migration
             $table->string('application_no', 20)->index();
             $table->unsignedBigInteger('status_id')->index();
             $table->unsignedBigInteger('user_id')->index();
-            $table->unsignedBigInteger('role_id')->index();
-            $table->string('remarks', 500);
+            $table->unsignedBigInteger('role_id')->index()->nullable();
+            $table->string('remarks', 500)->nullable();
             $table->timestamps();
 
             $table->foreign('workflow_dtls_id')->references('id')->on('t_workflow_dtls');
