@@ -18,13 +18,12 @@
                     </div>
                     <div class="form-group col-md-5 offset-md-2">
                         <label>Registration Type <span class="text-danger">*</span></label>
-                        <select class="form-control required" name="star_category_id" id="star_category_id" style="width: 100%;">
+                        <select class="form-control select2bs4 required" name="star_category_id" id="star_category_id" style="width: 100%;">
                             <option value="">- Select -</option>
                             @foreach ($starCategoryLists as $starCategoryList)
                             <option value="{{ $starCategoryList->id }}" {{ old('star_category_id', $appInfos->star_category_id) == $starCategoryList->id ? 'selected' : '' }}> {{ $starCategoryList->star_category_name }}</option>
                             @endforeach
                         </select>
-                        <input type="text" class="form-control" name="star_category_name" value="{{ $appInfos->star_category_name }}" autocomplete="off">
                     </div>
                 </div>
                 <div class="row">
@@ -168,7 +167,7 @@
                         <span>{{ $documentInfo->document_name }}</span>
                     </div>
                     <div class="form-group col-md-6">
-                        <span>{{ $documentInfo->document_name }}</span>
+                    <span><a href="{{ URL::to($documentInfo->upload_url) }}">{{ $documentInfo->document_name }}</a></span>
                     </div>
                     @empty
                     <div class="form-group col-md-12">
