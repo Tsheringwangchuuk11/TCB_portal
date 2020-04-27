@@ -85,6 +85,7 @@ class ServiceController extends Controller
             $data->module_id=$request->module_id;
             $data->service_id=$request->service_id;
             $data->name=$request->name;
+            $data->end_user_id=auth()->user()->id;
             $data->cid_no=$request->cid_no;
             $data->name_one=$request->name_one;
             $data->name_two=$request->name_two;

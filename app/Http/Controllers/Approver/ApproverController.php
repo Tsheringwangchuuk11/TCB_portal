@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Services;
 use App\Models\WorkFlowDetails;
+use App\Models\Dropdown;
 class ApproverController extends Controller
 {
     public function __construct()
@@ -18,6 +19,7 @@ class ApproverController extends Controller
     }
 
     public function openApplication($applicationNo,$serviceId,$moduleId){
+        $data['starCategoryLists'] = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
          $data['appInfos']=Services::getApplicantDetails($applicationNo);
          $data['roomInfos']=Services::getRoomDetails($applicationNo);
          $data['staffInfos']=Services::getStaffDetails($applicationNo);

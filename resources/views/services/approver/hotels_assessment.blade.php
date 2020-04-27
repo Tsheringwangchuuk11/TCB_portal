@@ -18,6 +18,12 @@
                     </div>
                     <div class="form-group col-md-5 offset-md-2">
                         <label>Registration Type <span class="text-danger">*</span></label>
+                        <select class="form-control required" name="star_category_id" id="star_category_id" style="width: 100%;">
+                            <option value="">- Select -</option>
+                            @foreach ($starCategoryLists as $starCategoryList)
+                            <option value="{{ $starCategoryList->id }}" {{ old('star_category_id', $appInfos->star_category_id) == $starCategoryList->id ? 'selected' : '' }}> {{ $starCategoryList->star_category_name }}</option>
+                            @endforeach
+                        </select>
                         <input type="text" class="form-control" name="star_category_name" value="{{ $appInfos->star_category_name }}" autocomplete="off">
                     </div>
                 </div>
@@ -134,7 +140,12 @@
                             <input type="text" class="form-control" name="staff_name" autocomplete="off" value="{{$staffInfo->staff_name}}">
                         </div>
                         <div class="form-group col-md-3">
-                            <input type="text" class="form-control" name="staff_gender" autocomplete="off" value="{{$staffInfo->staff_gender}}">
+                            <select  name="staff_gender" class="form-control required">
+                                <option value="">---SELECT---</option>
+                                @foreach (config()->get('settings.gender') as $k => $v)
+                                <option value="{{ $k }}" {{ old('gender', $staffInfo->staff_gender) == $k ? 'selected' : '' }}>{{ $v }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div> 
                     @empty
