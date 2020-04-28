@@ -13,7 +13,9 @@
 							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
 							<i class="icon fas fa-check"></i>
 						</div>
+						@if ($privileges["create"] == 1)
 						<a href="javascript:void(0)" class="btn btn-success mb-2 float-right" id="create_new_checklist_area">Add Checklist Area</a>
+						@endif
 						<table id="example2" class="table table-bordered table-hover">
 							<thead>
 								<tr>
@@ -35,9 +37,13 @@
                                     <td>{{ $checklistArea->checklist_area }}</td>
                                     <td class="text-center">{!! $checklistArea->isActive() == 1 ? '<i class="fas fa-check text-green"></i>' : '<i class="fas fa-times text-red"></i>' !!}</td>
                                     <td class="text-center">
+										@if ($privileges["edit"] == 1)
                                         <a href="javascript:void(0)" id="edit_checklist_area" data-id="{{ $checklistArea->id }}" class="btn btn-sm btn-info">Edit</a>
-                                        <a href="javascript:void(0)" id="delete_checklist_area" data-id="{{ $checklistArea->id }}" class="btn btn-sm btn-danger delete_checklist_area">Delete</a>
-                                    </td>
+										@endif
+										@if ($privileges["delete"] == 1)
+										<a href="javascript:void(0)" id="delete_checklist_area" data-id="{{ $checklistArea->id }}" class="btn btn-sm btn-danger delete_checklist_area">Delete</a>
+										@endif
+									</td>
                                 </tr>
                                 @empty
                                 <tr>
@@ -71,7 +77,7 @@
                             <input type="hidden" name="checklist_area_id" id="checklist_area_id" />
                             <div class="form-group">
                                 <label for="" >Checklist Chapter *</label>
-                                <select name="checklist_chapter" class="form-control required select2" id="checklist">
+                                <select name="checklist_chapter" class="form-control required select2bs4" id="checklist">
                                     <option value="">---SELECT---</option>
                                     @foreach ($checklistChapters as $checklistChapter)
                                     <option value="{{ $checklistChapter->id }}" {{ old('checklist_chapter') == $checklistChapter->id ? 'selected' : '' }}>{{ $checklistChapter->checklist_ch_name }}</option>

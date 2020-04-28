@@ -1,6 +1,17 @@
 
 $(document).ready(function(){
     $("#bs4-slide-carousel").carousel();
+    $(function() {
+      $('#drawing_date').daterangepicker({
+      singleDatePicker: true,
+      showDropdowns: true,
+      autoUpdateInput: false,
+   });
+      $('#drawing_date').on('apply.daterangepicker', function(ev, picker) {
+          $(this).val(picker.startDate.format('MM/DD/YYYY'));
+      });
+   
+   });
  });
 
  $(document).ready(function(){
@@ -85,5 +96,7 @@ function deletefile(id,fileId,url){
       });
    }
 }
+
+
 
 

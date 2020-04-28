@@ -13,7 +13,9 @@
 							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
 							<i class="icon fas fa-check"></i>
 						</div>
+						@if ($privileges["create"] == 1)
 						<a href="javascript:void(0)" class="btn btn-success mb-2 float-right" id="create_new_standard_mapping">Add Standard Mapping</a>
+						@endif
 						<table id="example2" class="table table-bordered table-hover">
 							<thead>
 								<tr>
@@ -37,9 +39,13 @@
                                     <td>{{ $standardMapping->basicStandard->standard_code}}</td>
                                     <td class="text-center">{!! $standardMapping->isActive() == 1 ? '<i class="fas fa-check text-green"></i>' : '<i class="fas fa-times text-red"></i>' !!}</td>
                                     <td class="text-center">
+										@if ($privileges["edit"] == 1)
                                         <a href="javascript:void(0)" id="edit_standard_mapping" data-id="{{ $standardMapping->id }}" class="btn btn-sm btn-info">Edit</a>
-                                        <a href="javascript:void(0)" id="delete_standard_mapping" data-id="{{ $standardMapping->id }}" class="btn btn-sm btn-danger delete_standard_mapping">Delete</a>
-                                    </td>
+										@endif
+										@if ($privileges["delete"] == 1)
+										<a href="javascript:void(0)" id="delete_standard_mapping" data-id="{{ $standardMapping->id }}" class="btn btn-sm btn-danger delete_standard_mapping">Delete</a>
+										@endif
+									</td>
                                 </tr>
                                 @empty
                                 <tr>
@@ -73,7 +79,7 @@
                             <input type="hidden" name="standard_mapping_id" id="standard_mapping_id" />
                             <div class="form-group">
                                 <label for="" >Star Category *</label>
-                                <select name="star_category" class="form-control required select2" id="starCategory">
+                                <select name="star_category" class="form-control required select2bs4" id="starCategory">
                                     <option value="">---SELECT---</option>
                                     @foreach ($starCategories as $starCategory)
                                     <option value="{{ $starCategory->id }}" {{ old('star_category') == $starCategory->id ? 'selected' : '' }}>{{ $starCategory->star_category_name }}</option>

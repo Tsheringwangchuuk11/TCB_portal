@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
         $this->call(StatusSeeder::class);
         $this->call(LastApplicationNumberSeeder::class);
         $this->call(RoomTypesSeeder::class);
+        $this->call(BasicStandardTableSeeder::class);
 
     }
 }

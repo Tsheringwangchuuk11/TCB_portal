@@ -13,7 +13,9 @@
 							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
 							<i class="icon fas fa-check"></i>
 						</div>
+						@if ($privileges["create"] == 1)
 						<a href="javascript:void(0)" class="btn btn-success mb-2 float-right" id="create_new_basic_stanadard">Add Basic Standard</a>
+						@endif
 						<table id="example2" class="table table-bordered table-hover">
 							<thead>
 								<tr>
@@ -33,9 +35,13 @@
                                     <td>{{ $basicStandard->standard_code }}</td>
                                     <td>{{ $basicStandard->standard_desc }}</td>
                                     <td class="text-center">
+										@if ($privileges["edit"] == 1)
                                         <a href="javascript:void(0)" id="edit_basic_standard" data-id="{{ $basicStandard->id }}" class="btn btn-sm btn-info">Edit</a>
-                                        <a href="javascript:void(0)" id="delete_basic_standard" data-id="{{ $basicStandard->id }}" class="btn btn-sm btn-danger delete_basic_standard">Delete</a>
-                                    </td>
+										@endif
+										@if ($privileges["delete"] == 1)
+										<a href="javascript:void(0)" id="delete_basic_standard" data-id="{{ $basicStandard->id }}" class="btn btn-sm btn-danger delete_basic_standard">Delete</a>
+										@endif
+									</td>
                                 </tr>
                                 @empty
                                 <tr>

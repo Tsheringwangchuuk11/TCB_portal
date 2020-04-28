@@ -35,12 +35,24 @@
         <!-- Jquery fileupload -->
         <link href="{{ asset('fileupload/jquery.fileupload.css') }}" rel="stylesheet" type="text/css">
 
+        {{-- <link rel="stylesheet" href="{{ asset('css/validation.css') }}"> --}}
     <!-- daterange picker -->
     <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css')}}">
         <style>
             .hide{
                 display: none;
             }
+
+            .form-group .help-block{
+	font-size: 11px;
+	color: #dd4b39;
+	position: absolute;
+	top: 5px;
+	width: 100%;
+	right: 0;
+	text-align: right;
+	z-index: 9;
+}
         </style>
     </head>
     <body class="hold-transition sidebar-mini layout-fixed">

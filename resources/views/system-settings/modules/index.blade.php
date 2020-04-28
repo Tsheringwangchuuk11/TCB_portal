@@ -1,8 +1,8 @@
 @extends('layouts.manager')
-@section('page-title', 'System Modules')
+@section('page-title', 'Main Menu')
 @section('buttons')
     @if ((int)$privileges["create"] == 1)
-        <a href="{{ url('system/modules/create')}}" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Add Module</a>
+        <a href="{{ url('system/modules/create')}}" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Add Menu</a>
     @endif
 @endsection
 @section('content')
@@ -16,7 +16,7 @@
                     <tr>
                         <th class="text-center">#</th>
                         <th class="text-center">Icon</th>
-                        <th>Modules</th>
+                        <th>Menus</th>
                         <th class="text-center"><i class="fas fa-cog"></i> Action</th>
                     </tr>
 				</thead>
@@ -34,7 +34,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="4" class="text-danger text-center">No modules to be displayed</td>
+                            <td colspan="4" class="text-danger text-center">No menus to be displayed</td>
                         </tr>
                     @endforelse
 				</tbody>
