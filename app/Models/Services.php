@@ -38,7 +38,7 @@ class Services extends Model
 					->join('t_module_masters as t3', 't3.id', '=', 't1.module_id')
 					->select('t1.module_id','t1.service_id','t2.name','t3.module_name')
 					->where('t1.page_link',$page_link)
-					->get();
+					->first();
 		return $idInfos;
 	}
 
@@ -150,7 +150,7 @@ class Services extends Model
 		$query=DB::table('t_applications as t1')
 		->leftjoin('t_star_categories as t2','t2.id','=','t1.star_category_id')
 		->where('t1.license_no',$licenseNo)
-		->get();
+		->first();
 		return $query;
 	}
 	
@@ -163,8 +163,51 @@ class Services extends Model
 		DB::table('t_staff_applications')->insert($staffAppData);		
 	}
 
-	public function updateDocumentDetails($documentData){
-		DB::table('t_documents')->where('id', $documentId[$key])->update($documentData);
+	public function updateDocumentDetails($documentId,$application_no){
+		if(isset($documentId)){
+			foreach($documentId as $key => $value)
+			{
+				$data = array(
+					'application_no' => $application_no
+				);
+				DB::table('t_documents')->where('id', $documentId[$key])->update($data);
+			}
+		}
 	}
 
+	public static function getApplicantDetails($applicationNo){
+		$query=DB::table('t_applications as t1')
+		->leftjoin('t_star_categories as t2','t2.id','=','t1.star_category_id')
+		->where('t1.application_no',$applicationNo)
+		->first();
+		return $query;
+	}
+
+	public static function getRoomDetails($applicationNo){
+		$query=DB::table('t_room_applications as t1')
+		->leftjoin('t_applications as t3','t3.application_no','=','t1.application_no')
+		->leftjoin('t_room_types as t2','t2.id','=','t1.room_type_id')
+		->where('t1.application_no',$applicationNo)
+		->get();
+		return $query;
+	}
+
+	public static function getStaffDetails($applicationNo){
+		$query=DB::table('t_staff_applications as t1')
+		->leftjoin('t_applications as t4','t4.application_no','=','t1.application_no')
+		->leftjoin('t_staff_areas as t2','t2.id','=','t1.staff_area_id')
+		->leftjoin('t_hotel_divisions as t3','t3.id','=','t1.hotel_div_id')
+		->where('t1.application_no',$applicationNo)
+		->get();
+		return $query;
+	}
+
+	public static function getDocumentDetails($applicationNo){
+		$query=DB::table('t_documents as t1')
+		->leftjoin('t_applications as t2','t2.application_no','=','t1.application_no')
+		->where('t1.application_no',$applicationNo)
+		->get();
+		return $query;
+
+	}
 }

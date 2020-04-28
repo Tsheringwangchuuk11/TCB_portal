@@ -7,12 +7,10 @@
     </div>
     <form action="{{ url('application/save-application') }}" method="POST" enctype="multipart/form-data">
         @csrf
-        @foreach ($idInfos as $idInfo)
-        <input type="hidden" name="service_id" value="{{ $idInfo->service_id }}" id="service_id">
-        <input type="hidden" name="module_id" value="{{ $idInfo->module_id }}" id="module_id">
-        <input type="hidden" name="service_name" value="{{ $idInfo->name }}" id="service_name">
-        <input type="hidden" name="module_name" value="{{ $idInfo->module_name }}" id="module_name">
-        @endforeach 
+        <input type="hidden" name="service_id" value="{{ $idInfos->service_id }}" id="service_id">
+        <input type="hidden" name="module_id" value="{{ $idInfos->module_id }}" id="module_id">
+        <input type="hidden" name="service_name" value="{{ $idInfos->name }}" id="service_name">
+        <input type="hidden" name="module_name" value="{{ $idInfos->module_name }}" id="module_name">
         <div class="card-body">
             <div class="row">
                 <div class="col-md-12">
@@ -140,19 +138,19 @@
                  },
                dataType: "json",
                success:function(data) {
-                $('#old_star_category_id').val(data[0].star_category_name);
-                $('#star_category_id').val(data[0].star_category_id);
-                $('#license_date').val(data[0].license_date);
-                $('#name').val(data[0].name);
-                $('#old_owner').val(data[0].owner);
-                $('#old_cid_no').val(data[0].cid_no);
-                $('#old_contact_no').val(data[0].contact_no);
-                $('#old_address').val(data[0].address);
-                $('#fax').val(data[0].fax);
-                $('#old_email').val(data[0].email);
-                $('#internet_url').val(data[0].internet_url);
-                $('#bed_no').val(data[0].bed_no);
-                $('#location_id').val(data[0].location_id);
+                $('#old_star_category_id').val(data.star_category_name);
+                $('#star_category_id').val(data.star_category_id);
+                $('#license_date').val(data.license_date);
+                $('#name').val(data.name);
+                $('#old_owner').val(data.owner);
+                $('#old_cid_no').val(data.cid_no);
+                $('#old_contact_no').val(data.contact_no);
+                $('#old_address').val(data.address);
+                $('#fax').val(data.fax);
+                $('#old_email').val(data.email);
+                $('#internet_url').val(data.internet_url);
+                $('#bed_no').val(data.bed_no);
+                $('#location_id').val(data.location_id);
                } 
             });
         }

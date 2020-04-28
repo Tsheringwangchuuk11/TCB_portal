@@ -7,12 +7,10 @@
   </div>
   <form role="form" action="{{ url('service-create/store') }}" method="POST" id="new_license" enctype="multipart/form-data">
     @csrf
-    @foreach ($idInfos as $idInfo)
-    <input type="hidden" name="service_id" value="{{ $idInfo->service_id }}" id="service_id">
-    <input type="hidden" name="module_id" value="{{ $idInfo->module_id }}" id="module_id">
-    <input type="hidden" name="service_name" value="{{ $idInfo->name }}" id="service_name">
-    <input type="hidden" name="module_name" value="{{ $idInfo->module_name }}" id="module_name">
-    @endforeach 
+    <input type="hidden" name="service_id" value="{{ $idInfos->service_id }}" id="service_id">
+    <input type="hidden" name="module_id" value="{{ $idInfos->module_id }}" id="module_id">
+    <input type="hidden" name="service_name" value="{{ $idInfos->name }}" id="service_name">
+    <input type="hidden" name="module_name" value="{{ $idInfos->module_name }}" id="module_name">
     <div class="card-body">
       <div class="row">
         <div class="col-md-12">

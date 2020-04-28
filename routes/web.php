@@ -66,7 +66,12 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('tasklist', 'TasklistController');
         Route::get('claimApplication', 'TasklistController@claimApplication');
         Route::get('releaseApplication', 'TasklistController@releaseApplication');
-        Route::get('openApplication', 'TasklistController@openApplication');
+    });
+    //routes for approver
+    Route::group(['prefix' => 'verification', 'namespace' => 'Approver'], function() {
+        Route::get('openApplication/{applicationNo}/{serviceId}/{moduleId}', 'ApproverController@openApplication');
+        Route::post('approve-application', 'ApproverController@approveNewApplication');
+
     });
 });
 

@@ -73,8 +73,8 @@
 
                                                 </i>
                                             </a>
-
-                                            <a href="javascript:void(0)" data-toggle="tooltip" title="{{ $myTask->application_no }} - Open" onclick="openApplication('{{ $myTask->application_no }}')">
+                                            <a href="{{ url('verification/openApplication',['applicationNo'=>$myTask->application_no, 'serviceId'=>$myTask->service_id,'moduleId'=>$myTask->module_id]) }}" data-toggle="tooltip" title="{{ $myTask->application_no }} - Open">
+                                            {{-- <a href="javascript:void(0)" data-toggle="tooltip" title="{{ $myTask->application_no }} - Open" onclick="openApplication('{{ $myTask->application_no }}', '{{ $myTask->service_id }}', '{{ $myTask->module_id }}')"> --}}
                                                 {{ $myTask->application_no }}
                                             </a>
                                         </td>
@@ -227,15 +227,16 @@
             });
 
         }
-        function openApplication(applicationNo){
+        function openApplication(applicationNo,serviceId, moduleId){
             $.ajax({
-                url:"{{ url('tasklist/openApplication') }}",
+                url:"{{ url('verification/openApplication') }}",
                 type:"GET",
                 data: {
-                    id:'hi',
+                    application_no : applicationNo,
+                    service_id : serviceId,
+                    module_id : moduleId
                 },
-                success:function (data) {
-                    alert(data);
+                success:function (result) {
                 }
             });
 

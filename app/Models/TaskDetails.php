@@ -13,7 +13,7 @@ class TaskDetails extends Model
        $query=\DB::table('t_system_sub_menus as t1')
                  ->select('id')
                  ->where('service_id',$serviceId)
-                 ->get();
+                 ->first();
         return $query;
     }
     public static function getTasklists($priviligeIds, $statusId, $userId){

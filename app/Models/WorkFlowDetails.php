@@ -41,4 +41,16 @@ class WorkFlowDetails extends Model
                                 WHERE application_no = ? ', [$applicationNo]);
         return $status;
     }
+
+    public static function getEndUserApplicationDtls(){
+        $applicationDtls = \DB::table('t_workflow_dtls')
+                                ->leftJoin('t_applications','t_workflow_dtls.application_no','=','t_applications.application_no')
+                                ->leftJoin('t_status_masters','t_workflow_dtls.status_id','=','t_status_masters.id')
+                                ->leftJoin('t_module_masters','t_applications.module_id','=','t_module_masters.id')
+                                ->leftJoin('t_services','t_applications.service_id','=','t_services.id')
+                                ->orderBy('t_workflow_dtls.created_at', 'asc')
+                                ->select('t_workflow_dtls.application_no','t_applications.module_id','t_module_masters.module_name','t_applications.service_id','t_services.name','t_workflow_dtls.created_at','t_status_masters.status_name','t_workflow_dtls.updated_at','t_workflow_dtls.remarks')
+                                ->get();
+        return $applicationDtls;
+    }
 }
