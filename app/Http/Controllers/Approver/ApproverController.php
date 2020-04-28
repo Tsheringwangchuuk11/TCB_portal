@@ -19,7 +19,7 @@ class ApproverController extends Controller
     }
 
     public function openApplication($applicationNo,$serviceId,$moduleId){
-        $data['starCategoryLists'] = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
+         $data['starCategoryLists'] = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
          $data['appInfos']=Services::getApplicantDetails($applicationNo);
          $data['roomInfos']=Services::getRoomDetails($applicationNo);
          $data['staffInfos']=Services::getStaffDetails($applicationNo);

@@ -35,9 +35,9 @@
         <!-- Jquery fileupload -->
         <link href="{{ asset('fileupload/jquery.fileupload.css') }}" rel="stylesheet" type="text/css">
 
-        {{-- <link rel="stylesheet" href="{{ asset('css/validation.css') }}"> --}}
-    <!-- daterange picker -->
-    <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css')}}">
+        <link rel="stylesheet" href="{{ asset('css/validation.css') }}">
+        <!-- daterange picker -->
+        <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css')}}">
         <style>
             .hide{
                 display: none;
