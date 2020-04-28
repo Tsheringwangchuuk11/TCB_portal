@@ -5,7 +5,7 @@
 {{ csrf_field() }}
 <div class="row">
     <div class="col-md-4 col-xs-12">
-        <div class="card">
+        <div class="card card-primary">
             <div class="card-header">
                 <h3 class="card-title">Update Your Password</h3>
             </div>

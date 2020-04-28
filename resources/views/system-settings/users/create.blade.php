@@ -5,7 +5,7 @@
 @csrf
 <div class="row">
 	<div class="col-md-4">
-		<div class="card">
+		<div class="card card-primary">
 			<div class="card-header">
                 <h3 class="card-title">General Information</h3>
 			</div>
@@ -18,7 +18,7 @@
 		</div>
 	</div>
 	<div class="col-md-4">
-		<div class="card">
+		<div class="card card-primary">
 			<div class="card-header">
 				<h3 class="card-title">Username & Password *</h3>
 			</div>
@@ -43,7 +43,7 @@
 		</div>
 	</div>
 	<div class="col-md-4">
-		<div class="card">
+		<div class="card card-primary">
 			<div class="card-header">
 				<h3 class="card-title">Assign Roles *</h3>
 			</div>
@@ -74,7 +74,7 @@
 				</table>
 			</div>
 			<div class="card-footer text-center">
-				<button type="submit" class="btn btn-success margin-r-5 btn-flat btn-sm"><i class="fas fa-upload"></i> CREATE USER</button>
+				<button type="submit" class="btn btn-success margin-r-5 btn-flat btn-sm"><i class="fas fa-check"></i> CREATE USER</button>
 				<a href="{{ url('system/users') }}" class="btn btn-danger btn-flat btn-sm"><i class="fas fa-undo"></i> CANCEL</a>
 			</div>
 		</div>

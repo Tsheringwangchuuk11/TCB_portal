@@ -66,7 +66,13 @@ class ChecklistChapterController extends Controller
    //delete
     public function destroy($id)
     {
-        $checklist = TCheckListChapter::where('id', $id)->delete();
-		return response()->json($checklist);
+        try {
+            $checklistChapter = TCheckListChapter::findOrFail($id);
+            $checklistChapter->delete();
+
+            return redirect('master/checklist-chapters')->with('msg_success', 'checklist chapter successfully deleted');
+        } catch(\Exception $exception){
+            return redirect()->back()->with('msg_error', 'This checklist chapter  cannot be deleted as it is link in other data.');
+        }
     }
 }

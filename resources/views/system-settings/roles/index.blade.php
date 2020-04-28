@@ -6,7 +6,7 @@
     @endif
 @endsection
 @section('content')
-<div class="card">
+<div class="card card-primary">
 	<div class="card-header">
 	</div>
 	<div class="card-body p-0">
@@ -30,7 +30,7 @@
                                 <a href="{{ url('system/roles/' . $role->id . '/edit') }}" class="btn bg-purple btn-xs btn-flat" title="Edit"><i class="fas fa-edit"></i> Edit</a>
                                 @endif
                                 @if((int)$privileges->delete == 1)
-                                <a href="#" class="formConfirm btn btn-xs btn-flat btn-danger" title="Delete">
+                                <a href="#" class="form-confirm  btn btn-xs btn-flat btn-danger" title="Delete">
                                     <i class="fas fa-trash"></i> Delete
                                     <a data-form="#frmDelete-{!! $role->id !!}" data-title="Delete {!! $role->name !!}" data-message="Are you sure you want to delete this role?"></a>
                                 </a>
@@ -51,5 +51,5 @@
 		</div>
 	</div>
 </div>
-@include('layouts.include.confirm_delete')
+@include('layouts.include.confirm-delete')
 @endsection

@@ -50,4 +50,5 @@ $.widget.bridge('uibutton', $.ui.button)
 <script src="{{ asset('js/commonToAll.js') }}"></script>
 <script src="{{ asset('js/validation.js') }}"></script>
 <script src="{{ asset('js/jquery.form.js') }}"></script>
+<script src="{{ asset('js/confirm-delete.js') }}"></script>
 

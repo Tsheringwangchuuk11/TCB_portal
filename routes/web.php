@@ -42,8 +42,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('checklist-chapters', 'ChecklistChapterController');
         Route::resource('checklist-areas', 'ChecklistAreaController');
         Route::resource('checklist-standards', 'ChecklistStandardController');
-        Route::resource('basic-standards', 'BasicStandardController');
-        Route::resource('checklist-standard-mappings', 'ChecklistStandardMappingController');
     });
 
     //routes for new application

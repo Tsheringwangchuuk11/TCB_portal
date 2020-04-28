@@ -1,21 +1,18 @@
-<div class="modal fade" id="delete-form" data-backdrop="static" data-keyboard="false">
+<div class="modal fade" id="form-confirm">
     <div class="modal-dialog">
-        <div class="modal-content bg-danger">
+        <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Delete </h4>
+                <h4 class="modal-title" id="form-title"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-            {{ Form::open() }}
-            @method('DELETE')
-            <div class="modal-body">
-                Are you sure you want to delete<span id="type-name" style="font-weight:bold"></span>?
+            <div class="modal-body" id="form-body">
+                <p></p>
             </div>
             <div class="modal-footer text-right">
-                <a href="{{ url()->current() }}" class="btn btn-sm btn-danger">CANCEL</a>
-                <button type="submit" class="btn btn-sm btn-danger">Confirm Delete</button>
+                <button type="submit" class="btn btn-danger btn-sm" id="form-submit"><i class="fas fa-check"></i> PROCEED</button>
             </div>
-            {{ Form::close() }}
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
