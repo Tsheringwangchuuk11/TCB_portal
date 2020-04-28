@@ -27,10 +27,6 @@ class ChecklistStandardController extends Controller
     {
         $privileges = $request->instance();
         $checklistStandards = TCheckListStandard::orderBy('id')->with('checklistArea')->paginate(10);
-        // $checklistStandardCount = TCheckListStandard::count();
-        // $checklistAreas = Dropdown::getDropdowns("t_check_list_areas","id","checklist_area","0","0");
-        // $starCategories = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
-        // $basicStandards = Dropdown::getDropdowns("t_basic_standards","id","standard_code","0","0");
 
         return view('master.checklist-standard.index', compact('privileges', 'checklistStandards'));
     }
@@ -52,7 +48,6 @@ class ChecklistStandardController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->all());
         $rule = [
                 'checklist_area' => 'required',
                 'checklist_standard_name' => 'required',
@@ -77,7 +72,7 @@ class ChecklistStandardController extends Controller
                         $checklists[] = [
                             'star_category_id' => $value['star_category'],
                             'standard_id' => $value['basic_standard'],
-                            'mandatory' => $value['mandatory1']== 0 ? 1 : 0,
+                            'mandatory' => $value['mandatory'],
                             'is_active' => $value['status'],
                             'created_by'=> auth()->user()->id
                         ];
@@ -108,8 +103,8 @@ class ChecklistStandardController extends Controller
 
     public function update(Request $request, $id)
     {
-        dd($request->all());
 
+        // dd($request->all());
         $rule = [
             'checklist_area' => 'required',
             'checklist_standard_name' => 'required',
@@ -134,14 +129,13 @@ class ChecklistStandardController extends Controller
                     $checklists[] = [
                         'star_category_id' => $value['star_category'],
                         'standard_id' => $value['basic_standard'],
-                        'mandatory' => $value['mandatory1']== 0 ? 1 : 0,
+                        'mandatory' => $value['mandatory'],
                         'is_active' => $value['status'],
                         'created_by'=> auth()->user()->id,
                         'updated_by'=> auth()->user()->id,
                     ];
                 }
-                $checklistStandard->standardMapping()->detach($checklists);
-                $checklistStandard->standardMapping()->attach($checklists);
+                $checklistStandard->standardMapping()->sync($checklists);
             });
          }
     return redirect('master/checklist-standards')->with('msg_success', 'checklist standard updated successfully');
@@ -149,7 +143,7 @@ class ChecklistStandardController extends Controller
     }
 
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         try {
             $checklistStandard = TCheckListStandard::findOrFail($id);
@@ -160,6 +154,7 @@ class ChecklistStandardController extends Controller
             return redirect()->back()->with('msg_error', 'This checklist standard  cannot be deleted as it is link in other data.');
         }
     }
+
 //     public function store(Request $request)
 //     {
 //             $checklistStandardID = $request->checklist_standard_id;

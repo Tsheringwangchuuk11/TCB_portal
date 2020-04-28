@@ -21,14 +21,12 @@ class TSystemSubMenusTableSeeder extends Seeder
             ['id' => 5, 'system_menu_id' => 2, 'name' => 'Checklist Chapter', 'route' => 'master/checklist-chapters', 'display_order' => 1],
             ['id' => 6, 'system_menu_id' => 2, 'name' => 'Checklist Area', 'route' => 'master/checklist-areas', 'display_order' => 2],
             ['id' => 7, 'system_menu_id' => 2, 'name' => 'Checklist Standard', 'route' => 'master/checklist-standards', 'display_order' => 3],
-            ['id' => 8, 'system_menu_id' => 2, 'name' => 'Basic Standard', 'route' => 'master/basic-standards', 'display_order' => 4],
-            ['id' => 9, 'system_menu_id' => 2, 'name' => 'Checklist Standard Mapping', 'route' => 'master/checklist-standard-mappings', 'display_order' => 5],
 
             //application
-            ['id' => 10, 'system_menu_id' => 3, 'name' => 'Application', 'route' => 'application/new-application', 'display_order' => 1],
+            ['id' => 8, 'system_menu_id' => 3, 'name' => 'Application', 'route' => 'application/new-application', 'display_order' => 1],
 
             //Tasklist
-            ['id' => 11, 'system_menu_id' => 4, 'name' => 'Tasklist', 'route' => 'tasklist/tasklist', 'display_order' => 1],
+            ['id' => 9, 'system_menu_id' => 4, 'name' => 'Tasklist', 'route' => 'tasklist/tasklist', 'display_order' => 1],
         ]);
     }
 }

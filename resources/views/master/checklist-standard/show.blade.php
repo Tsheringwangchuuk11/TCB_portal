@@ -15,16 +15,16 @@
             <div class="card-body card-profile">
                 <ul class="list-group list-group-unbordered">
                     <li class="list-group-item">
-                        <b>Checklist Area</b> <a class="pull-right">{{ $checklistStandard->checklistArea->checklist_area  }}</a>
+                        <b>Checklist Area</b> <a class="float-right">{{ $checklistStandard->checklistArea->checklist_area  }}</a>
                     </li>
                     <li class="list-group-item">
-                        <b>Checklist Standard Name</b> <a class="pull-right">{{ $checklistStandard->checklist_standard }}</a>
+                        <b>Checklist Standard Name</b> <a class="float-right">{{ $checklistStandard->checklist_standard }}</a>
                     </li>
                     <li class="list-group-item">
-                        <b>Checklist Points</b> <a class="pull-right">{{ $checklistStandard->checklist_pts }}</a>
+                        <b>Checklist Points</b> <a class="float-right">{{ $checklistStandard->checklist_pts }}</a>
                     </li>
                     <li class="list-group-item">
-                        <b>Status</b><a class="pull-right text-capitalize">{!! $checklistStandard->isActive() == 1 ? '<i class="fas fa-check text-green"></i>' : '<i class="fas fa-times text-red"></i>' !!} </a>
+                        <b>Status</b><a class="float-right text-capitalize">{!! $checklistStandard->isActive() == 1 ? '<i class="fas fa-check text-green"></i>' : '<i class="fas fa-times text-red"></i>' !!} </a>
                     </li>
                 </ul>
             </div>
@@ -44,7 +44,7 @@
                                 <th>Star Category</th>
                                 <th>Basic Standaard Code</th>
                                 <th>Mandatory</th>
-                                <th class="text-right">Staus</th>
+                                <th>Staus</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -53,8 +53,8 @@
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $detail->star_category_name }}</td>
                                     <td>{{ $detail->code }}</td>
-                                    <td>{{ $detail->pivot->mandatory }}</td>
-                                    <td class="text-right">{{ $detail->pivot->is_active }}</td>
+                                    <td>{{ $detail->pivot->mandatory == 1 ? 'Yes' :'No' }}</td>
+                                    <td>{{ $detail->pivot->is_active == 1 ? 'Yes' :'No' }}</td>
                                 </tr>
                             @empty
                                 <tr>

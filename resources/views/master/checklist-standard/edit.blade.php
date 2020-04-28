@@ -73,11 +73,12 @@
                                         </select>
                                     </td>
                                     <td class="text-center">
-                                        <label>
-                                            <input type="checkbox" name="checklist[AAAAA{{$key}}][mandatory]" class="check-perm resetKeyForNew ace ace-checkbox-2" value="1"/>
-                                            <input type="hidden" name="checklist[AAAAA{{$key}}][mandatory1]" class="check-perm resetKeyForNew ace ace-checkbox-2" value="0"/>
-                                            <span class="lbl"></span>
-                                        </label>
+                                        <select  name="checklist[AAAAA{{$key}}][mandatory]" class="form-control resetKeyForNew select">
+                                            <option value="">-Select-</option>
+                                            @foreach (Config::get('settings.status') as $k => $v)
+                                            <option value="{{ $k }}" {{ old('mandatory', $detail->pivot->mandatory) == $k ? 'selected' : '' }}>{{ $v }}</option>
+                                            @endforeach
+                                        </select>
                                     </td>
                                     <td width="20%">
                                         <select  name="checklist[AAAAA{{$key}}][status]" class="form-control resetKeyForNew select">
@@ -89,6 +90,45 @@
                                     </td>
                                 </tr>
                                 @endforeach
+                                @if ($checklistStandard->standardMapping->isEmpty())
+                                <tr>
+                                    <td class="text-center">
+                                        <a href="#" class="delete-table-row btn btn-danger btn-sm"><i class="fa fa-times"></i></a>
+                                    </td>
+                                    <td>
+                                        <select name="checklist[AAAAA][star_category]" id="star" class="form-control resetKeyForNew required select star">
+                                            <option value="">Select Star Category</option>
+                                            @foreach ($starCategories as $starCategory)
+                                                <option value="{{ $starCategory->id }}" data-id={{ $starCategory->id }} data-name="{{ $starCategory->star_category_name }}">{{ $starCategory->star_category_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="checklist[AAAAA][basic_standard]" class="form-control resetKeyForNew select required">
+                                            <option value="">Select Basic Standard</option>
+                                            @foreach ($basicStandards as $basicStandard)
+                                                <option value="{{ $basicStandard->id }}" data-id={{ $basicStandard->id }} data-name="{{ $basicStandard->standard_code }}">{{ $basicStandard->standard_code }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td class="text-center">
+                                        <select  name="checklist[AAAAA][mandatory]" class="form-control resetKeyForNew select">
+                                            <option value="">-Select-</option>
+                                            @foreach (Config::get('settings.status') as $k => $v)
+                                            <option value="{{ $k }}">{{ $v }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td width="20%">
+                                        <select  name="checklist[AAAAA][status]" class="form-control resetKeyForNew select">
+                                            <option value="">-Select-</option>
+                                            @foreach (Config::get('settings.status') as $k => $v)
+                                            <option value="{{ $k }}">{{ $v }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                </tr>
+                                @endif
                                 <tr class="notremovefornew">
                                     <td colspan="4"></td>
                                     <td class="text-center">

@@ -16,10 +16,12 @@ $(document).ready(function () {
             } else {
                 $('#alertMessage').find('p.alert-message').html("The selected data is already in the list. Select other");
                 $('#alertMessage').modal('show');
-                currentRow.closest('tr').find('select.star').val("");
+                currentRow.closest('tr').find('select.star').val('');
                 return false;
             }
         }
     });
-    starTypeIdArray = currentRow.val('null');
+    // starTypeIdArray = currentRow.val('null');
+
+
 });

@@ -8,7 +8,7 @@
 @section('content')
     <div class="row">
         <div class="col-12">
-            <div class="card">
+            <div class="card card-primary">
                 <div class="card-header">
                     <h3 class="card-title">Checklist Standards</h3>
                 </div>
@@ -39,16 +39,7 @@
                                     @if ((int)$privileges->edit == 1)
                                     <a href="{{ url('master/checklist-standards/' . $checklistStandard->id . '/edit') }}" class="btn bg-purple btn-xs btn-flat" title="Edit"><i class="fas fa-edit"></i> Edit</a>
                                     @endif
-                                    @if((int)$privileges->delete == 1)
-                                    <a href="#" class="formConfirm btn btn-xs btn-flat btn-danger" title="Delete">
-                                        <i class="fas fa-trash"></i> Delete
-                                        <a data-form="#frmDelete-{!! $checklistStandard->id !!}" data-title="Delete {!! $checklistStandard->checklist_standard !!}" data-message="Are you sure you want to delete this checklistStandard?"></a>
-                                    </a>
-                                    <form action="{{ url('master/checklist-standards/' . $checklistStandard->id) }}" method="POST" id="{{ 'frmDelete-'.$checklistStandard->id }}">
-                                        @csrf
-                                        @method('DELETE')
-                                    </form>
-                                    @endif
+                                    <button class="btn btn-xs btn-danger delete-form" data-toggle="modal" data-target="#delete-form" data-id="{{ $checklistStandard->id }}" data-name="{{ $checklistStandard->name }}"><i class="fas fa-trash-alt"></i> Delete</button>
                                 </td>
                             </tr>
                             @empty
@@ -66,6 +57,7 @@
             </div>
         </div>
     </div>
+    @include('layouts.include.confirm-delete')
 @endsection
 @section('scripts')
 <script type="text/javascript" src="{{ asset('js/checklist.js') }}"></script>
