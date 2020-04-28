@@ -26,25 +26,42 @@
     <div class="col-12">
         <div class="card">
             <!-- /.card-header -->
-            <div class="card-body table-responsive p-0">
-                <table class="table table-hover table-bordered text-nowrap">
+            <div class="card-body">
+                <table class="table table-hover table-bordered" id="endUsersTableId">
                     <thead>
                         <tr>
-                            <td>Application ID</td>
-                            <td>Service Name</td>
-                            <td>Submission Date</td>
-                            <td>Status</td>
-                            <td>Approved Date</td>
-                            <td>Reason</td>
-                            <td>Action</td>
+                            <th>Application ID</th>
+                            <th>Module Name</th>
+                            <th>Service Name</th>
+                            <th>Submission Date</th>
+                            <th>Current Status</th>
+                            <th>Approved Date</th>
+                            <th>Remarks</th>
                         </tr>
                     </thead>
-                    <tbody></tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="7" class="text-center text-danger">No data availlable</td>
-                        </tr>
-                    </tfoot>
+                     @if(isset($endUserApplicantDtls))
+                        <tbody>
+                            @foreach($endUserApplicantDtls as $endUserApplicantDtl)
+                                <tr>
+                                    <td>{{ $endUserApplicantDtl->application_no }}</td>
+                                    <td>{{ $endUserApplicantDtl->module_name }}</td>
+                                    <td>{{ $endUserApplicantDtl->name }}</td>
+                                    <td>{{ $endUserApplicantDtl->created_at }}</td>
+                                    <td>{{ $endUserApplicantDtl->status_name }}</td>
+                                    <td>{{ $endUserApplicantDtl->updated_at }}</td>
+                                    <td>{{ $endUserApplicantDtl->remarks }}</td>
+                                </tr>
+                                @endforeach
+                        </tbody>
+                         <tfoot>
+                         </tfoot>
+                    @else
+                        <tfoot>
+                            <tr>
+                                <td colspan="7" class="text-center text-danger">No data availlable</td>
+                            </tr>
+                        </tfoot>
+                    @endif
                 </table>
             </div>
             <!-- /.card-body -->
@@ -52,4 +69,18 @@
         <!-- /.card -->
     </div>
 </div>
+@endsection
+@section('scripts')
+    <script>
+        $(function () {
+            $('#endUsersTableId').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            });
+        });
+    </script>
 @endsection

@@ -122,8 +122,15 @@ class LoginController extends Controller
     }
     public function redirectTo()
     {
+
         if (sizeof(\auth()->user()->roles()->pluck('role_id')->toArray()) > 1){
             return '/tasklist/tasklist';
+        }
+        $roles = auth()->user()->roles()->get();
+
+        $roleId = 0;
+        foreach ($roles as $role){
+            $roleId = $role->id;
         }
 
         return '/dashboard';
