@@ -57,6 +57,7 @@ $(function () {
       autoUpload: true,
       dataType : 'json',
       success: function (data) {
+         console.log(data);
             jQuery.each(data.data, function(index, row) {
                $('#files').append('<div class="image_wrap">'
                   +'<input type="hidden" name="documentId[]" value="'+row.id+'"/><strong>'+row.document_name+'</strong>'
