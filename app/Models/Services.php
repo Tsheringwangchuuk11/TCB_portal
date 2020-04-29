@@ -115,19 +115,19 @@ class Services extends Model
 	public static function getCheckListChapter($request){
 		$moduleId = $request->module_id;
 		$starCategoryId = $request->star_category_id;
-		$chapter = DB::table('t_checklist_chapter as t1')
-		            ->leftJoin('t_star_category as t2', 't1.module_id', '=', 't2.module_id')
-					->select('t1.checklist_ch_id','t1.checklist_ch_name')
-					->where('t2.star_category_id', $starCategoryId)
+		$chapter = DB::table('t_check_list_chapters as t1')
+		            ->leftJoin('t_star_categories as t2', 't1.module_id', '=', 't2.module_id')
+					->select('t1.id','t1.checklist_ch_name')
+					->where('t2.id', $starCategoryId)
 					->where('t1.module_id',$moduleId)
 					->get();
         return $chapter;
 	}
 
 	public static function getChapterArea($chapterId,$starCategoryId){
-		$query = DB::table('t_checklist_standard_mapping as t1')
-					->leftjoin('t_checklist_standard as t2','t1.checklist_id','=','t2.checklist_id')
-					->leftjoin('t_checklist_area as t3','t2.checklist_area_id','=','t3.checklist_area_id')
+		$query = DB::table('t_check_list_standard_mappings as t1')
+					->leftjoin('t_check_list_standards as t2','t1.checklist_id','=','t2.id')
+					->leftjoin('t_check_list_areas as t3','t2.checklist_area_id','=','t3.id')
 					->select(DB::raw('count(t2.checklist_area_id) as count'),'t2.checklist_area_id','t3.checklist_area','t3.checklist_ch_id')
 					->where('t1.star_category_id', $starCategoryId)
 					->where('t3.checklist_ch_id',$chapterId)
@@ -136,10 +136,10 @@ class Services extends Model
         return $query;
 	}
 	public static function getStandards($starCategoryId,$checkListAreaId){
-		$query =DB::table('t_checklist_standard as t1')
-                    ->leftjoin('t_checklist_standard_mapping as t2','t1.checklist_id','=','t2.checklist_id')
-                    ->leftjoin('t_basic_standard as t3','t2.standard_id','=','t3.standard_id')
-                    ->select('t3.standard_id','t1.checklist_id','t1.checklist_standard','t1.checklist_pts', 't3.standard_code','t1.checklist_area_id')
+		$query =DB::table('t_check_list_standards as t1')
+                    ->leftjoin('t_check_list_standard_mappings as t2','t1.id','=','t2.checklist_id')
+                    ->leftjoin('t_basic_standards as t3','t2.standard_id','=','t3.id')
+                    ->select('t3.id','t2.checklist_id','t1.checklist_standard','t1.checklist_pts', 't3.standard_code','t1.checklist_area_id')
 					->where('t2.star_category_id', $starCategoryId)
 					->where('t1.checklist_area_id',$checkListAreaId)
 					->get();

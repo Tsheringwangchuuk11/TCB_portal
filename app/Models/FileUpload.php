@@ -21,7 +21,7 @@ class FileUpload extends Model
             $filename = $file->getClientOriginalName();
             $fileextension = $file->getClientOriginalExtension(); //get file extension
             $filepath = 'MyDocument/'.$module_name.'/'.$service_name.'/'.$year.'/'.$filename.$date;
-			$file->move($filepath); //make folder MyDocument
+			$file->move('MyDocument/'.$module_name.'/'.$service_name.'/'.$year, $filename.$date); //make folder MyDocument
 
             $data1 = array(
             	'document_type'  => $fileextension,
@@ -46,3 +46,4 @@ class FileUpload extends Model
         DB::table('t_documents')->where('id', $id)->delete();
     }
 }
+

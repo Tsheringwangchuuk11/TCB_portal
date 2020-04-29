@@ -38,7 +38,6 @@
         </div>
       </section>
     </div>
-@include('layouts.include.confirm_delete')
 @endsection
 @section('scripts')
 <script>

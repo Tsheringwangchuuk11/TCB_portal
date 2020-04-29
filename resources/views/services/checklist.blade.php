@@ -23,36 +23,36 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $chapterareas =ServiceController::getChapterAreaList($chapter->checklist_ch_id,$starCategoryId);?>
+                        <?php $chapterareas =ServiceController::getChapterAreaList($chapter->id,$starCategoryId);?>
                             @if ($chapterareas->count() > 0)
-                                @foreach ($chapterareas as $chapterarea)
-                                    @if($chapter->checklist_ch_id === $chapterarea->checklist_ch_id)
-                                        <?php $standards =ServiceController::getStandardList($starCategoryId,$chapterarea->checklist_area_id);?>
-                                        @if ($standards->count() > 0)
-                                            @php($i=1)
-                                            @foreach ($standards as $standard)
-                                                @if($standard->checklist_area_id === $chapterarea->checklist_area_id)
-                                                    <tr>
-                                                        @if ($i==1)
-                                                        <td rowspan="{{$chapterarea->count}}">{{$chapterarea->checklist_area}}</td>
-                                                        @endif
-                                                    <td>{{$standard->checklist_standard}}</td>
-                                                        <td>{{$standard->checklist_pts}}</td>
-                                                        <td><input type="checkbox" name="checklist_id[]" value="{{$standard->checklist_id}}" id="points"></td>
-                                                        <td>{{$standard->standard_code}}</td>
-                                                        @if ($standard->standard_id===1)
-                                                        <td><input type="checkbox" name="rates[]" value="{{$standard->checklist_pts}}" id="rates"><span class="text-danger">*</span></td>
-                                                        @else
-                                                        <td><input type="checkbox" name="rates[]" value="{{$standard->checklist_pts}}" id="rates"></td>
-                                                        @endif
-                                                        @php($i++)
-                                                    </tr>
-                                                @endif
-                                            @endforeach
+                                    @foreach ($chapterareas as $chapterarea)
+                                        @if($chapter->id === $chapterarea->checklist_ch_id)
+                                            <?php $standards =ServiceController::getStandardList($starCategoryId,$chapterarea->checklist_area_id);?>
+                                            @if ($standards->count() > 0)
+                                                @php($i=1)
+                                                @foreach ($standards as $standard)
+                                                    @if($standard->checklist_area_id === $chapterarea->checklist_area_id)
+                                                        <tr>
+                                                            @if ($i==1)
+                                                            <td rowspan="{{$chapterarea->count}}">{{$chapterarea->checklist_area}}</td>
+                                                            @endif
+                                                        <td>{{$standard->checklist_standard}}</td>
+                                                            <td>{{$standard->checklist_pts}}</td>
+                                                            <td><input type="checkbox" name="checklist_id[]" value="{{$standard->checklist_id}}" id="points"></td>
+                                                            <td>{{$standard->standard_code}}</td>
+                                                            @if ($standard->id===1)
+                                                            <td><input type="checkbox" name="rates[]" value="{{$standard->checklist_pts}}" id="rates"><span class="text-danger">*</span></td>
+                                                            @else
+                                                            <td><input type="checkbox" name="rates[]" value="{{$standard->checklist_pts}}" id="rates"></td>
+                                                            @endif
+                                                            @php($i++)
+                                                        </tr>
+                                                    @endif
+                                                @endforeach
+                                            @endif
                                         @endif
-                                    @endif
-                                @endforeach
-                            @endif
+                                    @endforeach
+                                @endif
                         </tbody>
                         </table>
                     </div>

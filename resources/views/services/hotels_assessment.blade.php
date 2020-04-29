@@ -184,6 +184,7 @@
                 </div>
                 <div id="field_wrapper1"></div>
                 <span class="btn btn-success btn-sm float-right" id="add1"> <i class="fas fa-plus fa-sm">Add</i> </span>
+                <div id="showdivid"></div>
                 <h5>File Attachment<span class="text-danger"> *</span></h5>
                 <h6> <strong>Required supporting documents:</strong></h6>
                 <ol>
@@ -192,7 +193,6 @@
                     </li>
                 </ol>
                 @include('services/fileupload/fileupload')
-                <div id="showdivid"></div>
                 <!-- card body ends -->
             </div>
         </div>
@@ -225,6 +225,8 @@
         $('#line'+id).remove();
       }
     }
+</script>
+<script>
     $(document).ready(function(){
     id1=1;
     $("#add1").click(function(){
