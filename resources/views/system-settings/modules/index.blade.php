@@ -6,7 +6,7 @@
     @endif
 @endsection
 @section('content')
-<div class="card">
+<div class="card card-primary">
 	<div class="card-header">
 	</div>
 	<div class="card-body p-0">
@@ -42,5 +42,4 @@
 		</div>
 	</div>
 </div>
-@include('layouts.include.confirm_delete')
 @endsection

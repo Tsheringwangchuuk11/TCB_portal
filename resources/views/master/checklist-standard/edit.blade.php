@@ -6,7 +6,7 @@
     @method('PUT')
     <div class="row">
         <div class="col-md-10">
-            <div class="card">
+            <div class="card card-primary">
                 <div class="card-header">
                     <h3 class="card-title">Checklist Standard</h3>
                 </div>

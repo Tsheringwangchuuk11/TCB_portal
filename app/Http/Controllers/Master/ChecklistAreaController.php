@@ -62,7 +62,13 @@ class ChecklistAreaController extends Controller
    //delete
     public function destroy($id)
     {
-        $checklistArea = TCheckListArea::where('id', $id)->delete();
-		return response()->json($checklistArea);
+        try {
+            $checklistArea = TCheckListArea::findOrFail($id);
+            $checklistArea->delete();
+
+            return redirect('master/checklist-areas')->with('msg_success', 'checklist area successfully deleted');
+        } catch(\Exception $exception){
+            return redirect()->back()->with('msg_error', 'This checklist area  cannot be deleted as it is link in other data.');
+        }
     }
 }

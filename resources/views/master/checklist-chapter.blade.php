@@ -4,7 +4,7 @@
     <section class="content">
 		<div class="row">
 			<div class="col-12">
-				<div class="card">
+				<div class="card card-primary">
 					<div class="card-header">
 						<h3 class="card-title">Checklist Chapters</h3>
 					</div>
@@ -38,10 +38,17 @@
                                     <td class="text-center">{!! $checklistChapter->isActive() == 1 ? '<i class="fas fa-check text-green"></i>' : '<i class="fas fa-times text-red"></i>' !!}</td>
                                     <td class="text-center">
 										@if ($privileges["edit"] == 1)
-                                        <a href="javascript:void(0)" id="edit_checklist" data-id="{{ $checklistChapter->id }}" class="btn btn-sm btn-info">Edit</a>
+                                        <a href="javascript:void(0)" id="edit_checklist" data-id="{{ $checklistChapter->id }}" class="btn btn-sm btn-info"> <i class="fas fa-edit"></i>Edit</a>
 										@endif
-										@if ($privileges["delete"] == 1)
-										<a href="javascript:void(0)" id="delete_checklist" data-id="{{ $checklistChapter->id }}" class="btn btn-sm btn-danger delete_checklist">Delete</a>
+										@if((int)$privileges->delete == 1)
+										<a href="#" class="form-confirm  btn btn-sm btn-danger" title="Delete">
+											<i class="fas fa-trash"></i> Delete
+											<a data-form="#frmDelete-{!! $checklistChapter->id !!}" data-title="Delete {!! $checklistChapter->checklist_ch_name !!}" data-message="Are you sure you want to delete this checklist chapter?"></a>
+										</a>
+										<form action="{{ url('master/checklist-chapters/' . $checklistChapter->id) }}" method="POST" id="{{ 'frmDelete-'.$checklistChapter->id }}">
+											@csrf
+											@method('DELETE')
+										</form>
 										@endif
 									</td>
                                 </tr>
@@ -109,6 +116,7 @@
 			</div>
 		</div>
 	</div>
+	@include('layouts.include.confirm-delete')
 @endsection
 @section('scripts')
 <script>
@@ -143,8 +151,8 @@
                       }
 
 					 var checklist = '<tr id="checklist_id_' + data.id + '"><td class="text-center">'+slNo+'</td><td>' + moduleName + '</td><td>' + data.checklist_ch_name + '</td><td class="text-center">' + (data.is_active == 1 ? '<i class="fas fa-check text-green"></i>' : '<i class="fas fa-times text-red"></i>') + '</td>';
-                        checklist += '<td class="text-center"><a href="javascript:void(0)" id="edit_checklist" data-id="' + data.id + '" class="btn btn-info btn-sm"> Edit</a> ';
-                        checklist += '<a href="javascript:void(0)" id="delete_checklist" data-id="' + data.id + '" class="btn btn-danger delete_checklist btn-sm"> Delete</a></td></tr>';
+                        checklist += '<td class="text-center"><a href="javascript:void(0)" id="edit_checklist" data-id="' + data.id + '" class="btn btn-info btn-sm"><i class="fas fa-edit"></i> Edit</a> ';
+                        checklist += '<a href="javascript:void(0)" id="delete_checklist" data-id="' + data.id + '" class="btn btn-danger delete_checklist btn-sm"><i class="fas fa-trash"></i> Delete</a></td></tr>';
 
 					  if (actionType == "create-checklist") {
 						  $('#checklist_body_id').append(checklist);
@@ -202,23 +210,23 @@
 		});
 		$('#btn-save').html('Save Changes');
 	}
-	//delete
-	 $('body').on('click', '.delete_checklist', function () {
-        var checklist_id = $(this).data("id");
+	// //delete
+	//  $('body').on('click', '.delete_checklist', function () {
+    //     var checklist_id = $(this).data("id");
 
-        if(confirm("Are You sure want to delete !")){
-			$.ajax({
-				type: "DELETE",
-				url: "{{ url('master/checklist-chapters')}}"+'/'+checklist_id,
-				success: function (data) {
-					$("#checklist_id_" + checklist_id).remove();
-				},
-				error: function (data) {
-					console.log('Error:', data);
-				}
-			});
-		}
-    });
+    //     if(confirm("Are You sure want to delete !")){
+	// 		$.ajax({
+	// 			type: "DELETE",
+	// 			url: "{{ url('master/checklist-chapters')}}"+'/'+checklist_id,
+	// 			success: function (data) {
+	// 				$("#checklist_id_" + checklist_id).remove();
+	// 			},
+	// 			error: function (data) {
+	// 				console.log('Error:', data);
+	// 			}
+	// 		});
+	// 	}
+    // });
   });
 </script>
 @endsection

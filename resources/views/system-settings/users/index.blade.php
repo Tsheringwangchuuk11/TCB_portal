@@ -6,7 +6,7 @@
 @endif
 @endsection
 @section('content')
-<div class="card">
+<div class="card card-primary">
 	<div class="card-body p-0">
 		<div class="table-responsive">
 			<table class="table table-striped table-bordered m-0">
@@ -30,7 +30,7 @@
                             <td>{{ $user->last_login }}</td>
                             <td class="text-center">{!! $user->isActive() == 1 ? '<i class="fas fa-check text-green"></i>' : '<i class="fas fa-times text-red"></i>' !!}</td>
                             <td class="text-center">
-                                <a href="#" class="formConfirm btn btn-xs btn-flat {{ $user->isActive() == 1 ? 'btn-danger' : 'btn-success' }}">
+                                <a href="#" class="form-confirm  btn btn-xs btn-flat {{ $user->isActive() == 1 ? 'btn-danger' : 'btn-success' }}">
                                     <i class="fa fa-times"></i> @if ($user->isActive() == 1) Disable @else Enable @endif
                                     <a data-form="#frmDelete-{!! $user->id !!}" data-title="Disable {!! $user->name !!}" data-message="Are you sure you want to @if ($user->isActive() == 1) disable @else enable @endif this user?"></a>
                                 </a>
@@ -58,5 +58,5 @@
         </div>
 	</div>
 </div>
-@include('layouts.include.confirm_delete')
+@include('layouts.include.confirm-delete')
 @endsection
