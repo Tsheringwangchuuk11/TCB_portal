@@ -5,7 +5,7 @@
 @csrf
     <div class="row">
         <div class="col-md-10">
-            <div class="card card-primary">
+            <div class="card card-secondary">
                 <div class="card-header">
                     <h3 class="card-title">Checklist Standard</h3>
                 </div>
@@ -21,7 +21,7 @@
                     </div>
                     <div class="form-group">
                         <label for="">Checklist Standard Name*</label>
-                        <input type="text" id= "checklist_standard_name" name="checklist_standard_name" class="form-control required">
+                        <textarea name="checklist_standard_name" rows="3" class="form-control required"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="">Checklist Point</label>

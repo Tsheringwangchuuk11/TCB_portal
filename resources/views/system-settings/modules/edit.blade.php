@@ -6,11 +6,20 @@
 @method('PUT')
 <div class="row">
 		<div class="col-md-4">
-			<div class="card card-primary">
+			<div class="card card-secondary">
 				<div class="card-header">
 					<h3 class="card-title">Update Menu</h3>
 				</div>
 				<div class="card-body">
+					<div class="form-group">
+                        <label for="">Select Menu/Service *</label>
+                        <select name="module_display" class="form-control required service-module">
+                            <option value="">--SELECT---</option>
+                            @foreach (config()->get('settings.module_display_type') as $k => $v)
+                            <option value="{{$k}}" {{ old('module_display_type') == $k ? 'selected' : '' }}>{{$v}}</option>
+                            @endforeach
+                        </select>
+                    </div>
 					<div class="form-group">
 						<label for="name">Main Menu Name *</label>
 						<input type="text" name="main_module_name" class="form-control required" value="{{old('main_module_name', $module->name)}}" />
@@ -23,20 +32,22 @@
 						<label for="name">Display Order *</label>
 						<input type="text" name="module_display_order" class="form-control required" value="{{old('module_display_order', $module->display_order)}}" />
 					</div>
+					@if($module->systemSubMenus->service_id)
 					<div class="form-group">
-                        <label for="">Menu Display Type *</label>
-                        <select name="module_display_type" class="form-control required">
-                            <option value="">--SELECT---</option>
-                            @foreach (config()->get('settings.module_display_type') as $k => $v)
-                            <option value="{{$k}}" {{ old('module_display_type', $module->display_type) == $k ? 'selected' : '' }}>{{$v}}</option>
-                            @endforeach
-                        </select>
-                    </div>
+						<label for="">Select Services *</label>
+						<select name="service_id" class="form-control service">
+							<option value="">---SELECT---</option>
+							@foreach ($services as $service)
+							<option value="{{ $service->id }}" {{ old('service', $$module->systemSubMenus->service_id) == $service->id ? 'selected' : '' }}>{{ $service->name }}</option>
+							@endforeach
+						</select>
+					</div>
+					@endif
 				</div>
 			</div>
 		</div>
 		<div class="col-md-8">
-			<div class="card card-primary">
+			<div class="card card-secondary">
 				<div class="card-header">
 					<h3 class="card-title">Update / Add Menu</h3>
 				</div>

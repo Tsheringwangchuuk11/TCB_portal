@@ -6,7 +6,7 @@
     @method('PUT')
     <div class="row">
         <div class="col-md-10">
-            <div class="card card-primary">
+            <div class="card card-secondary">
                 <div class="card-header">
                     <h3 class="card-title">Checklist Standard</h3>
                 </div>
@@ -22,7 +22,7 @@
                     </div>
                     <div class="form-group">
                         <label for="">Checklist Standard Name*</label>
-                        <input type="text" id= "checklist_standard_name" name="checklist_standard_name" class="form-control required" value="{{old('checklist_standard_name', $checklistStandard->checklist_standard)}}" />
+                        <textarea name="checklist_standard_name" rows="3" class="form-control required">{{old('checklist_standard_name', $checklistStandard->checklist_standard)}}</textarea>
                     </div>
                     <div class="form-group">
                         <label for="">Checklist Point</label>
@@ -140,7 +140,7 @@
                     </div>
                 </div>
                 <div class="card-footer text-center">
-                    <button type="submit" class="btn btn-success margin-r-5 btn-flat btn-sm"><i class="fas fa-check"></i> CREATE CHECKLIST STANDARD</button>
+                    <button type="submit" class="btn btn-success margin-r-5 btn-flat btn-sm"><i class="fas fa-check"></i> EDIT CHECKLIST STANDARD</button>
                     <a href="{{ url('master/checklist-standards') }}" class="btn btn-danger btn-flat btn-sm"><i class="fas fa-undo"></i> CANCEL</a>
                 </div>
             </div>

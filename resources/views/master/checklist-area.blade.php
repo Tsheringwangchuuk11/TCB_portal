@@ -4,7 +4,7 @@
     <section class="content">
 		<div class="row">
 			<div class="col-12">
-				<div class="card card-primary">
+				<div class="card card-secondary">
 					<div class="card-header">
 						<h3 class="card-title">Checklist Areas</h3>
 					</div>

@@ -24,7 +24,7 @@
 <h6><i class="fas fa-arrow-circle-right"></i> Lastest Applications</h6>
 <div class="row">
     <div class="col-12">
-        <div class="card">
+        <div class="card card-secondary">
             <!-- /.card-header -->
             <div class="card-body">
                 <table class="table table-hover table-bordered" id="endUsersTableId">

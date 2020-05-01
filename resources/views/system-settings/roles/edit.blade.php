@@ -8,7 +8,7 @@
 @method('PUT')
 <div class="row">
 	<div class="col-md-3">
-		<div class="card card-primary">
+		<div class="card card-secondary">
             <div class="card-header">
                 <h3 class="card-title">Update Role</h3>
             </div>
@@ -25,7 +25,7 @@
 		</div>
 	</div>
 	<div class="col-md-9">
-		<div class="card card-primary">
+		<div class="card card-secondary">
 			<div class="card-header">
                 <h3 class="card-title">Add / Edit Permissions</h3>
                 <div class="card-tools pull-right">

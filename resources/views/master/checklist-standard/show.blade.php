@@ -8,7 +8,7 @@
 @section('content')
 <div class="row">
     <div class="col-md-4">
-        <div class="card card-primary">
+        <div class="card card-secondary">
             <div class="card-header">
                 <h3 class="card-title">checklist Standard Info.</h3>
             </div>
@@ -31,7 +31,7 @@
         </div>
     </div>
     <div class="col-md-8">
-        <div class="card card-primary">
+        <div class="card card-secondary">
             <div class="card-header">
                 <h3 class="card-title">Checklist Standard Mapping</h3>
             </div>
