@@ -126,7 +126,7 @@ class ServiceController extends Controller
             $data->fax=$request->fax;
             $data->drawing_date=$request->drawing_date;
             $data->save();
-            
+
             //insert into t_room_applications
             $room_type_id=$request->room_type_id;
 		    $room_no=$request->room_no;
@@ -139,7 +139,7 @@ class ServiceController extends Controller
                                'room_no' => $room_no[$key],
                     ];
                  }
-                 
+
                 $this->services->insertIntoRoomApplication($roomAppData);
             }
 
@@ -152,7 +152,7 @@ class ServiceController extends Controller
             if(isset($staff_area_id)){
 				foreach($staff_area_id as $key => $value)
 				{
-                    $staffAppData[] = [    
+                    $staffAppData[] = [
                     'application_no'  => $application_no,
 					'staff_area_id'   => $staff_area_id[$key],
 					'hotel_div_id'    => $hotel_div_id[$key],
@@ -194,7 +194,7 @@ class ServiceController extends Controller
             $update->status_id=WorkFlowDetails::getStatus('INITIATED')->id;
             $update->assigned_priv_id=TaskDetails::getAssignPrivId($request->service_id)->id;
             $update->save();
-           
+
         });
         return redirect('application/new-application')->with('appl_info', 'Your application has been submitted successfully and your application number is :'.$application_no);
     }

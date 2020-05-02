@@ -6,7 +6,7 @@
 @method('PUT')
 <div class="row">
 	<div class="col-md-4">
-		<div class="card card-primary">
+		<div class="card card-secondary">
 			<div class="card-header">
 				<h3 class="card-title">General Information</h3>
 			</div>
@@ -19,7 +19,7 @@
 		</div>
 	</div>
 	<div class="col-md-4">
-		<div class="card card-primary">
+		<div class="card card-secondary">
 			<div class="card-header">
 				<h3 class="card-title">Username & Password *</h3>
 			</div>
@@ -42,7 +42,7 @@
 		</div>
 	</div>
 	<div class="col-md-4">
-		<div class="card card-primary">
+		<div class="card card-secondary">
 			<div class="card-header">
 				<h3 class="card-title">Assign Roles *</h3>
 			</div>

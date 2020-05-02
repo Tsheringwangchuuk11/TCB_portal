@@ -4,6 +4,7 @@ namespace App\Http\Controllers\SystemSetting;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Dropdown;
 use App\TSystemMenu;
 use App\TService;
 use App\TSystemSubMenu;
@@ -22,10 +23,6 @@ class ModuleController extends Controller
     ];
 
     private $messages = [
-        // 'main_module_name.required' => 'Main Module Name field is required',
-        // 'module_icon.required' => 'Module Icon field is required',
-        // 'module_display_order.required' => 'Display Order field is required',
-        // 'module_display_order.integer' => 'Display Order field must be a valid number',
         'submodules.*.sub_module_name.required' => 'Sub Module Name field is required',
         'submodules.*.route.required' => 'Route field is required',
         'submodules.*.display_order.required' => 'Display Order field is required',
@@ -59,7 +56,7 @@ class ModuleController extends Controller
      */
     public function create()
     {
-        $services = TService::orderBy('name')->get();
+        $services = Dropdown::getDropdowns("t_services","id","name","0","0");
         return view('system-settings.modules.create', compact('services'));
     }
 
@@ -131,7 +128,9 @@ class ModuleController extends Controller
     public function edit($id)
     {
         $module = TSystemMenu::with('systemSubMenus')->findOrFail($id);
-        $services = TService::orderBy('name')->get();
+        return response()->json($module->systemSubMenus);
+        $services = Dropdown::getDropdowns("t_services","id","name","0","0");
+
         return view('system-settings.modules.edit', compact('module', 'services'));
     }
 

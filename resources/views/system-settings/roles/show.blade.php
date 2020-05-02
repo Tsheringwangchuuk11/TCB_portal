@@ -3,7 +3,7 @@
 @section('content')
 <div class="row">
     <div class="col-md-12">
-        <div class="card p-0 card-primary">
+        <div class="card p-0 card-secondary">
             <div class="card-header">
                 <h3 class="card-title">Showing role details and permissions for <strong class="text-danger">{{ $role->name }}</strong></h3>
                 <div class="card-tools pull-right">

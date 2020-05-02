@@ -26,7 +26,7 @@ class TSystemSubMenusTableSeeder extends Seeder
             ['id' => 8, 'system_menu_id' => 3, 'name' => 'Application', 'route' => 'application/new-application', 'display_order' => 1],
 
             //Tasklist
-            ['id' => 9, 'system_menu_id' => 4, 'name' => 'Tasklist', 'route' => 'tasklist/tasklist', 'display_order' => 1],
+            ['id' => 9, 'system_menu_id' => 1, 'name' => 'Tasklist', 'route' => 'tasklist/tasklist', 'display_order' => 1],
         ]);
     }
 }

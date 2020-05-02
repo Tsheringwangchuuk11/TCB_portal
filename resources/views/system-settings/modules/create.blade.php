@@ -5,7 +5,7 @@
     @csrf
     <div class="row">
         <div class="col-xs-12 col-md-3">
-            <div class="card card-primary">
+            <div class="card card-secondary">
                 <div class="card-header">
                     <h3 class="card-title">Add Menu</h3>
                 </div>
@@ -48,7 +48,7 @@
             </div>
         </div>
         <div class="col-xs-12 col-md-9">
-            <div class="card card-primary">
+            <div class="card card-secondary">
                 <div class="card-header">
                     <h3 class="card-title">Add Sub Menus</h3>
                 </div>

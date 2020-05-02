@@ -6,7 +6,7 @@
     @endif
 @endsection
 @section('content')
-<div class="card card-primary">
+<div class="card card-secondary">
     <div class="card-header">
         <h3 class="card-title">Checklist Standards</h3>
     </div>
@@ -15,23 +15,23 @@
             <table class="table table-bordered table-hover">
                 <thead>
                     <tr>
-                        <th class="text-center">#</th>
-                        <th>Checklist Area</th>
-                        <th>Checklist Standard Name</th>
-                        <th>Checklist Points</th>
-                        <th>Status</th>
-                        <th class="text-center">Action</th>
+                        <th width="2%" class="text-center">#</th>
+                        <th width="10%">Checklist Area</th>
+                        <th width="30%">Checklist Standard Name</th>
+                        <th width="5%">Checklist Points</th>
+                        <th width="5%">Status</th>
+                        <th width="18%" class="text-center">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($checklistStandards as $checklistStandard)
                         <tr>
-                            <td class="text-center">{{ $loop->iteration}}</td>
-                            <td>{{ $checklistStandard->checklistArea->checklist_area}}</td>
-                            <td>{{ $checklistStandard->checklist_standard }}</td>
-                            <td>{{ $checklistStandard->checklist_pts }}</td>
+                            <td width="2%" class="text-center">{{ $loop->iteration}}</td>
+                            <td width="10%">{{ $checklistStandard->checklistArea->checklist_area}}</td>
+                            <td style="word-break:break-all">{!! nl2br($checklistStandard->checklist_standard) !!}</td>
+                            <td width="5%">{{ $checklistStandard->checklist_pts }}</td>
                             <td class="text-center">{!! $checklistStandard->isActive() == 1 ? '<i class="fas fa-check text-green"></i>' : '<i class="fas fa-times text-red"></i>' !!}</td>
-                            <td class="text-center">
+                            <td width="18%" class="text-center">
                                 <a href="{{ url('master/checklist-standards/' . $checklistStandard->id) }}" class="btn btn-primary btn-sm" title="Detail"><i class="fas fa-list"></i> Detail</a>
                                 @if ((int)$privileges->edit == 1)
                                 <a href="{{ url('master/checklist-standards/' . $checklistStandard->id . '/edit') }}" class="btn btn-sm btn-info" title="Edit"><i class="fas fa-edit"></i> Edit</a>

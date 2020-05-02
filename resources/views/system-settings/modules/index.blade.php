@@ -6,7 +6,7 @@
     @endif
 @endsection
 @section('content')
-<div class="card card-primary">
+<div class="card card-secondary">
 	<div class="card-header">
 	</div>
 	<div class="card-body p-0">
@@ -28,7 +28,7 @@
                             <td>{!! $module->name !!}</td>
                             <td class="text-center">
                                 @if ((int)$privileges->edit == 1)
-                                <a href="{{ url('system/modules/' . $module->id . '/edit') }}" class="btn bg-purple btn-xs btn-flat" title="Edit"><i class="fas fa-edit"></i> Edit</a>
+                                <a href="{{ url('system/modules/' . $module->id . '/edit') }}" class="btn btn-primary btn-sm" title="Edit"><i class="fas fa-edit"></i> Edit</a>
                                 @endif
                             </td>
                         </tr>
