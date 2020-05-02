@@ -5,7 +5,7 @@
   <div class="card-header bg-success">
     <div class="card-title">Village Home Stay Registration</div>
   </div>
-  <form action="{{ url('application/save-application') }}" class="form-horizontal" method="POST" enctype="multipart/form-data">
+  <form action="{{ url('application/save-application') }}" class="form-horizontal" method="POST" enctype="multipart/form-data" id="formdata">
     @csrf
     <input type="hidden" name="service_id" value="{{ $idInfos->service_id }}" id="service_id">
     <input type="hidden" name="module_id" value="{{ $idInfos->module_id }}" id="module_id">
@@ -116,105 +116,52 @@
           </div>
           <h5>Details Of The Family Members Residing In The Same House</h5>
           <div class="row">
-            <div class="col-md-12">
-              <table class="table table order-list table-bordered" id="dataTable">
-                <tbody>
-                  <tr><td>Name</td>
-                    <td>Relationship with the applicant</td>
-                    <td>Age</td>
-                    <td>Gender</td>
-                    <td></td>
-                  </tr>    
-                  <tr>
-                    <td><input type="text" id="fname" class="form-control required" name="name" autocomplete="off" required>
-                    </td>              
-                    <td><input  type="text" id="frelation" class="form-control required" name="relation" autocomplete="off" required>
-                    </td> 
-                    <td><input  type="number" id="fage" class="form-control required" name="age" autocomplete="off" required>
-                    </td>              
-                    <td>
-                      <select name="gender" id="fgender" class="form-control select2bs4 required">
-                        <option value="">- Select -</option>
-                          @foreach (config()->get('settings.gender') as $k => $v)
-                          <option value="{{ $k }}" {{ old('gender') == $k ? 'selected' : '' }}>{{ $v }}</option>
-                          @endforeach
-                      </select>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-success btn-xs tooltip-top" title="Add More" id="addrow"><i class="fas fa-plus"> Add</i></button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+            <div class="form-group col-md-3">
+                <label>Name <span class="text-danger">*</span></label>
             </div>
-          </div>
-
-          <h5>Self-assessment form (Annexure II)</h5>
+            <div class="form-group col-md-3">
+                <label>Relationship with the applicant <span class="text-danger">*</span></label>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="">Age <span class="text-danger">*</span> </label>
+            </div>
+            <div class="form-group col-md-3">
+                <label>Gender <span class="text-danger">*</span></label>
+            </div>
+        </div>
+        <div id="row">
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <input type="text" class="form-control" name="member_name[]">
+                </div>
+                <div class="form-group col-md-3">
+                    <select class="form-control required" name="relation_type_id[]" id="hotel_div_id">
+                        <option value="">- Select -</option>
+                        @foreach ($relationTypes as $relationType)
+                        <option value="{{ $relationType->id }}"> {{ $relationType->relation_type }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <input type="text" class="form-control required" name="member_age[]" autocomplete="off" id="staff_name">
+                </div>
+                <div class="form-group col-md-2">
+                    <select class="form-control required" name="member_gender[]" id="staff_gender">
+                        <option value="">- Select -</option>
+                        @foreach (config()->get('settings.gender') as $k => $v)
+                        <option value="{{ $k }}" {{ old('gender') == $k ? 'selected' : '' }}>{{ $v }}</option>
+                        @endforeach
+                    </select>
+                    <span class="text-danger">{{ $errors->first('staff_gender') }}</span>
+                </div>
+            </div>
+        </div>
+        <div id="adddiv"></div>
+        <span class="btn btn-success btn-sm float-right" id="add"> <i class="fas fa-plus fa-sm">Add</i> </span>
+          <h5>Self-assessment Check List</h5>
           <div class="row">
             <div class="col-md-12">
-              <p><strong>M:</strong> Parameters with M are mandatory requirements for the VHS to be approved</p>
-              <p><strong>D:</strong> Parameters with D are desirable and recommended to be in place</p>
-              <table class="table table table-bordered" id="dataTable">
-                <tbody>
-                  <tr>
-                    <td>Areas</td>
-                    <td>Parameters</td>
-                    <td>Checklist</td>
-                  </tr> 
-                  <!-- general -->
-                  <tr>
-                    <td rowspan="6">General</td>
-                    <td>VHS is in a traditional building or house and conforms to the architecture of the locality (M)</td>
-                    <td><input type="checkbox" name=""><span class="text-danger"> *</span></td>
-                  </tr> 
-                  <tr>
-                    <td>VHS is managed by family residing in the same house (M)</td>
-                    <td><input type="checkbox" name=""><span class="text-danger"> *</span></td>
-                  </tr>
-                  <tr>
-                    <td>VSurrounding is pleasant, safe and clean (M)</td>
-                    <td><input type="checkbox" name=""><span class="text-danger"> *</span></td>
-                  </tr>
-                  <tr>
-                    <td>Personal hygiene of the host family is good (M)</td>
-                    <td><input type="checkbox" name=""><span class="text-danger"> *</span></td>
-                  </tr>
-                  <tr>
-                    <td>Access to the house from the road point is convenient and safe (M)</td>
-                    <td><input type="checkbox" name=""><span class="text-danger"> *</span></td>
-                  </tr>
-                  <tr>
-                    <td>Basic heating/cooling facilities depending on the climatic condition (M)</td>
-                    <td><input type="checkbox" name=""><span class="text-danger"> *</span></td>
-                  </tr>
-                  <!-- guest rooms -->
-                  <tr>
-                    <td rowspan="6">Guest rooms</td>
-                    <td>No of guest rooms does not exceed 5 (M)</td>
-                    <td><input type="checkbox" name=""><span class="text-danger"> *</span></td>
-                  </tr> 
-                  <tr>
-                    <td>Altar room is not used as guest room (M)</td>
-                    <td><input type="checkbox" name=""><span class="text-danger"> *</span></td>
-                  </tr>
-                  <tr>
-                    <td>Guest rooms are clean and well-maintained with proper ventilation (M)</td>
-                    <td><input type="checkbox" name=""><span class="text-danger"> *</span></td>
-                  </tr>
-                  <tr>
-                    <td>Mattresses, blankets, pillows and linens are clean and comfortable (M)</td>
-                    <td><input type="checkbox" name=""><span class="text-danger"> *</span></td>
-                  </tr>
-                  <tr>
-                    <td>Dressing mirror and wardrobe are provided (D)</td>
-                    <td><input type="checkbox" name=""></td>
-                  </tr>
-                  <tr>
-                    <td>Hanger/hook is provided (M)</td>
-                    <td><input type="checkbox" name=""><span class="text-danger"> *</span></td>
-                  </tr>
-                </tbody>
-              </table>
+              <div id="showdivid"></div>
             </div>
           </div>
           <h5>File Attachment<span class="text-danger"> *</span></h5>
@@ -246,34 +193,36 @@
 @endsection
 @section('scripts')
 <script>
- $(document).ready(function () {
-  var counter = 0;
-  $("#addrow").on("click", function () {
-    var name = $("#fname").val();
-    var gender = $("#fgender").val();
-    var age= $("#fage").val();
-    var relation= $("#frelation").val();
-    var newRow = $("<tr>");
-    var cols = "";
-    cols += '<td><input type="text" class="form-control" name="name[]' + counter + '" value="'+ name +' " /></td>';
-    cols += '<td><input type="text" class="form-control" name="relation[]' + counter + '" value="'+ relation +' "/></td>';
-    cols += '<td><input type="text" class="form-control" name="age[]' + counter + '" value="'+ age +' "/></td>';
-    cols += '<td><select class="form-control" name="gender[]' + counter + '" value="'+ gender +' "><option value="Male">Male</option><option value="Female">Female</option></select></td>';
-    cols += '<td><button type="button" class="btn btn-danger btn-xs tooltip-top" id="delete" title="Delete"><li class="fas fa-trash"></li></button></td>';
-    newRow.append(cols);
-    $("table.order-list").append(newRow);
-    counter++;
-    $("#fname").val('');
-    $("#frelation").val('');
-    $("#fage").val('');
-    $("#fgender").val('');
-  });
-  $("table.order-list").on("click", "#delete", function (event) {
-    $(this).closest("tr").remove();       
-    counter -= 1
-  });
-
+    $(document).ready(function(){ 
+      id=1;
+      $("#add").click(function(){
+        $("#row").clone().attr('id', 'row'+id).after("#id").appendTo("#adddiv").find("input[type='text']").val("");
+        $addRow ='<div id="remove'+id+'" class="btn-group" style=" margin-top:-50px; float:right">' 
+        +'<span id="remove" onClick="removeForm('+id+')"' 
+        +'class="btn btn-danger btn-sm"><i class="fas fa-trash-alt fa-sm"></i> Delete</span></div>'
+        +'<div id="line'+id+'"></div>';
+        $('#adddiv').append($addRow);
+        id++;
+      });
+    });
+  
+    function removeForm(id){  
+      if (confirm('Are you sure you want to delete this form?')){
+        $('#row'+id).remove();
+        $('#remove'+id).remove();
+        $('#line'+id).remove();
+      }
+    }
+$(document).ready(function () {
+function loadChecklistDetails() {
+    var url="{{ url('application/get-homestaychapters') }}";
+		var options = {target:'#showdivid',
+        url:url,
+        type:'POST',
+        data: $("#formdata").serialize()};
+        $("#formdata").ajaxSubmit(options);
+  }
+window.onload=loadChecklistDetails();
 });
-
 </script>
 @endsection

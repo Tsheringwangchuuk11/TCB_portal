@@ -112,8 +112,7 @@
                         <label for="">Number of Room<span class="text-danger">*</span> </label>
                     </div>
                 </div>
-                <div id="row">
-                    <div class="row">
+                    <div class="row" id="rowId">
                         <div class="form-group col-md-5">
                             <select class="form-control required" name="room_type_id[]" id="room_type_id">
                                 <option value=""> - Select Room - </option>
@@ -128,7 +127,6 @@
                             <span class="text-danger">{{ $errors->first('room_no') }}</span>
                         </div>
                     </div>
-                </div>
                 <div id="adddiv"></div>
                 <span class="btn btn-success btn-sm float-right" id="add"> <i class="fas fa-plus fa-sm">Add</i></span>
                 <!-- staff -->
@@ -147,8 +145,7 @@
                         <label>Gender <span class="text-danger">*</span></label>
                     </div>
                 </div>
-                <div id="row1">
-                    <div class="row">
+                    <div class="row" id="rowId1">
                         <div class="form-group col-md-3">
                             <select class="form-control required" name="staff_area_id[]" id="staff_area_id">
                                 <option value="">- Select -</option>
@@ -181,7 +178,6 @@
                             <span class="text-danger">{{ $errors->first('staff_gender') }}</span>
                         </div>
                     </div>
-                </div>
                 <div id="field_wrapper1"></div>
                 <span class="btn btn-success btn-sm float-right" id="add1"> <i class="fas fa-plus fa-sm">Add</i> </span>
                 <div id="showdivid"></div>
@@ -208,7 +204,7 @@
     $(document).ready(function(){ 
       id=1;
       $("#add").click(function(){
-        $("#row").clone().attr('id', 'row'+id).after("#id").appendTo("#adddiv").find("input[type='text']").val("");
+        $("#rowId").clone().attr('id', 'rowId'+id).after("#id").appendTo("#adddiv").find("input[type='text']").val("");
         $addRow ='<div id="remove'+id+'" class="btn-group" style=" margin-top:-50px; float:right">' 
         +'<span id="remove" onClick="removeForm('+id+')"' 
         +'class="btn btn-danger btn-sm"><i class="fas fa-trash-alt fa-sm"></i> Delete</span></div>'
@@ -220,7 +216,7 @@
   
     function removeForm(id){  
       if (confirm('Are you sure you want to delete this form?')){
-        $('#row'+id).remove();
+        $('#rowId'+id).remove();
         $('#remove'+id).remove();
         $('#line'+id).remove();
       }
@@ -230,7 +226,7 @@
     $(document).ready(function(){
     id1=1;
     $("#add1").click(function(){
-      $("#row1").clone().attr('id', 'row1'+id1).after("#id").appendTo("#field_wrapper1").find("input[type='text']").val("");
+      $("#rowId1").clone().attr('id', 'rowId1'+id1).after("#id").appendTo("#field_wrapper1").find("input[type='text']").val("");
       $addRow1 ='<div id="remove1'+id1+'" class="btn-group" style=" margin-top:-50px; float:right">' 
       +'<span id="remove1" onClick="removeForm1('+id1+')"' 
       +'class="btn btn-danger btn-sm"><i class="fas fa-trash-alt fa-sm"></i> Delete</span></div>'
@@ -241,7 +237,7 @@
   });
   function removeForm1(id1){  
     if (confirm('Are you sure you want to delete this form?')){
-      $('#row1'+id1).remove();
+      $('#rowId1'+id1).remove();
       $('#remove1'+id1).remove();
       $('#line1'+id1).remove();
     }

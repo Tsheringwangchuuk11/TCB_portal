@@ -20,4 +20,9 @@ class TCheckListArea extends Model
     {
         return $this->is_active == self::IS_ACTIVE;
     }
+
+    public function checkListStandards(){
+        return $this->hasMany(TCheckListStandard::class,'checklist_area_id');
+
+    }
 }

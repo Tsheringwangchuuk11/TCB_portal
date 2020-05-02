@@ -20,6 +20,11 @@ class TCheckListStandard extends Model
         return $this->is_active == self::IS_ACTIVE;
     }
 
+    public function checklistStandardMapping()
+    {
+        return $this->hasMany(TCheckListStandardMapping::class, 'checklist_id');
+    }
+
     //Relationships
     public function standardMapping()
     {
@@ -29,4 +34,5 @@ class TCheckListStandard extends Model
             ->select('t_star_categories.star_category_name', 't_basic_standards.standard_code as code', 't_check_list_standard_mappings.is_active', 't_check_list_standard_mappings.mandatory')
             ->withTimestamps();
     }
+    
 }

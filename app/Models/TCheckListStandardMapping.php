@@ -30,4 +30,5 @@ class TCheckListStandardMapping extends Model
     {
         return $this->is_active == self::IS_ACTIVE;
     }
+   
 }

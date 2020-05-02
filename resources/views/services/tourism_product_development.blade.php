@@ -209,7 +209,7 @@
         </form>
     </div>
     @endsection
-    @section('page_scripts')
+    @section('scripts')
     <script>
         $(document).ready(function () {
             bsCustomFileInput.init();
