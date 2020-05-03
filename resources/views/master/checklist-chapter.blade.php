@@ -21,7 +21,7 @@
 								<tr>
                                     <th class="text-center">#</th>
                                     <th>Module</th>
-                                    <th>Checklist Name</th>
+                                    <th>Chapter Name</th>
                                     <th>Status</th>
                                     <th class="text-center">Action</th>
                                 </tr>
@@ -92,7 +92,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="">Checklist Name*</label>
+                                <label for="">Chapter Name*</label>
                                 <input type="text" id= "checklist_name" name="checklist_name" class="form-control required">
                             </div>
                             <div class="form-group">
