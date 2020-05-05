@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class RenameTaxColumn extends Migration
+class CreateTEmploymentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class RenameTaxColumn extends Migration
      */
     public function up()
     {
-        Schema::table('t_applications', function (Blueprint $table) {
-            $table->renameColumn('tax', 'fax');
-            //
+        Schema::create('t_employments', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('employment_name')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -26,9 +27,6 @@ class RenameTaxColumn extends Migration
      */
     public function down()
     {
-        Schema::table('t_applications', function (Blueprint $table) {
-            $table->renameColumn('fax', 'tax');
-
-        });
+        Schema::dropIfExists('t_employments');
     }
 }
