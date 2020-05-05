@@ -11,14 +11,17 @@ class Services extends Model
 	public $incrementing=false;
 	public $timestamps = false;
 
-	 //accessors
-	 public function getLicense_dateAttribute($value){
-		return date('m/d/Y', strtotime($value));
+	public function setLicenseDateAttribute($value)
+    {
+
+        $this->attributes['license_date'] = date('Y-m-d', strtotime($value));
     }
-	 //mututor
-	 public function setLicense_dateAttribute($value){
-	   $this->attributes['dob'] = date('Y-m-d', strtotime($value));
-	   }
+
+    public function getLicenseDateAttribute($value)
+    {
+		return $value ? date('d-m-Y', strtotime($value)) : null;
+	}
+	
 	public static function getServiceLists($request){
 		$moduleId=$request->moduleId;
 		$query=DB::table("t_module_service_mapping as t1")
@@ -35,7 +38,7 @@ class Services extends Model
 					->join('t_module_masters as t3', 't3.id', '=', 't1.module_id')
 					->select('t1.module_id','t1.service_id','t2.name','t3.module_name')
 					->where('t1.page_link',$page_link)
-					->get();
+					->first();
 		return $idInfos;
 	}
 
@@ -112,19 +115,19 @@ class Services extends Model
 	public static function getCheckListChapter($request){
 		$moduleId = $request->module_id;
 		$starCategoryId = $request->star_category_id;
-		$chapter = DB::table('t_checklist_chapter as t1')
-		            ->leftJoin('t_star_category as t2', 't1.module_id', '=', 't2.module_id')
-					->select('t1.checklist_ch_id','t1.checklist_ch_name')
-					->where('t2.star_category_id', $starCategoryId)
+		$chapter = DB::table('t_check_list_chapters as t1')
+		            ->leftJoin('t_star_categories as t2', 't1.module_id', '=', 't2.module_id')
+					->select('t1.id','t1.checklist_ch_name')
+					->where('t2.id', $starCategoryId)
 					->where('t1.module_id',$moduleId)
 					->get();
         return $chapter;
 	}
 
 	public static function getChapterArea($chapterId,$starCategoryId){
-		$query = DB::table('t_checklist_standard_mapping as t1')
-					->leftjoin('t_checklist_standard as t2','t1.checklist_id','=','t2.checklist_id')
-					->leftjoin('t_checklist_area as t3','t2.checklist_area_id','=','t3.checklist_area_id')
+		$query = DB::table('t_check_list_standard_mappings as t1')
+					->leftjoin('t_check_list_standards as t2','t1.checklist_id','=','t2.id')
+					->leftjoin('t_check_list_areas as t3','t2.checklist_area_id','=','t3.id')
 					->select(DB::raw('count(t2.checklist_area_id) as count'),'t2.checklist_area_id','t3.checklist_area','t3.checklist_ch_id')
 					->where('t1.star_category_id', $starCategoryId)
 					->where('t3.checklist_ch_id',$chapterId)
@@ -133,57 +136,34 @@ class Services extends Model
         return $query;
 	}
 	public static function getStandards($starCategoryId,$checkListAreaId){
-		$query =DB::table('t_checklist_standard as t1')
-                    ->leftjoin('t_checklist_standard_mapping as t2','t1.checklist_id','=','t2.checklist_id')
-                    ->leftjoin('t_basic_standard as t3','t2.standard_id','=','t3.standard_id')
-                    ->select('t3.standard_id','t1.checklist_id','t1.checklist_standard','t1.checklist_pts', 't3.standard_code','t1.checklist_area_id')
+		$query =DB::table('t_check_list_standards as t1')
+                    ->leftjoin('t_check_list_standard_mappings as t2','t1.id','=','t2.checklist_id')
+                    ->leftjoin('t_basic_standards as t3','t2.standard_id','=','t3.id')
+                    ->select('t3.id','t2.checklist_id','t1.checklist_standard','t1.checklist_pts', 't3.standard_code','t1.checklist_area_id')
 					->where('t2.star_category_id', $starCategoryId)
 					->where('t1.checklist_area_id',$checkListAreaId)
 					->get();
         return  $query;
 	}
+
+	public static function getOwnerShipDetails($licenseNo){
+		$query=DB::table('t_applications as t1')
+		->leftjoin('t_star_categories as t2','t2.id','=','t1.star_category_id')
+		->where('t1.license_no',$licenseNo)
+		->first();
+		return $query;
+	}
 	
-	//insert into t_room_applications
-	public function insertIntoRoomApplication($request, $application_no){
-		$room_type_id=$request->room_type_id;
-        $room_no=$request->room_no;
-            if(isset($room_type_id)){
-                foreach($room_type_id as $key => $value)
-                {
-                    $arrData = array(
-                        'application_no' => $application_no,
-                        'room_type_id'   => $room_type_id[$key],
-                        'room_no'        => $room_no[$key],
-                    );
-                    DB::table('t_room_applications')->insert($arrData);
-                }
-			}
+	public function insertIntoRoomApplication($roomAppData){
+		
+		DB::table('t_room_applications')->insert($roomAppData);
 	}
 
-	//insert into t_staff_applications
-	public function insertIntoStaffApplication($request, $application_no){
-		$staff_area_id=$request->staff_area_id;
-		$hotel_div_id=$request->hotel_div_id;
-		$staff_name=$request->staff_name;
-		$staff_gender=$request->staff_gender;
-			if(isset($staff_area_id)){
-				foreach($staff_area_id as $key => $value)
-				{
-					$arrData = array(
-						'application_no'  => $application_no,
-						'staff_area_id'   => $staff_area_id[$key],
-						'hotel_div_id'    => $hotel_div_id[$key],
-						'staff_name'      => $staff_name[$key],
-						'staff_gender'    => $staff_gender[$key],
-					);
-					DB::table('t_staff_applications')->insert($arrData);
-				}
-			}
+	public function insertIntoStaffApplication($staffAppData){
+		DB::table('t_staff_applications')->insert($staffAppData);		
 	}
 
-	//update application_no in t_documents
-	public function updateDocumentDetails($request, $application_no){
-		$documentId = $request->documentId;
+	public function updateDocumentDetails($documentId,$application_no){
 		if(isset($documentId)){
 			foreach($documentId as $key => $value)
 			{
@@ -195,4 +175,39 @@ class Services extends Model
 		}
 	}
 
+	public static function getApplicantDetails($applicationNo){
+		$query=DB::table('t_applications as t1')
+		->leftjoin('t_star_categories as t2','t2.id','=','t1.star_category_id')
+		->where('t1.application_no',$applicationNo)
+		->first();
+		return $query;
+	}
+
+	public static function getRoomDetails($applicationNo){
+		$query=DB::table('t_room_applications as t1')
+		->leftjoin('t_applications as t3','t3.application_no','=','t1.application_no')
+		->leftjoin('t_room_types as t2','t2.id','=','t1.room_type_id')
+		->where('t1.application_no',$applicationNo)
+		->get();
+		return $query;
+	}
+
+	public static function getStaffDetails($applicationNo){
+		$query=DB::table('t_staff_applications as t1')
+		->leftjoin('t_applications as t4','t4.application_no','=','t1.application_no')
+		->leftjoin('t_staff_areas as t2','t2.id','=','t1.staff_area_id')
+		->leftjoin('t_hotel_divisions as t3','t3.id','=','t1.hotel_div_id')
+		->where('t1.application_no',$applicationNo)
+		->get();
+		return $query;
+	}
+
+	public static function getDocumentDetails($applicationNo){
+		$query=DB::table('t_documents as t1')
+		->leftjoin('t_applications as t2','t2.application_no','=','t1.application_no')
+		->where('t1.application_no',$applicationNo)
+		->get();
+		return $query;
+
+	}
 }

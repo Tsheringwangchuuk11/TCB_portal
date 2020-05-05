@@ -7,7 +7,7 @@
 @section('content')
 <div class="row">
     <div class="col-md-4">
-        <div class="card">
+        <div class="card card-secondary">
             <div class="card-body card-profile">
                 <img class="profile-user-img img-responsive img-circle" src="{{ asset($user->avatar ? get_image($user->avatar, 128, 128) : asset('images/no-image.jpg')) }}" alt="User profile picture">
                 <h3 class="profile-username text-center">{{ $user->name }}</h3>
@@ -28,7 +28,7 @@
         </div>
     </div>
     <div class="col-md-4">
-        <div class="card">
+        <div class="card card-secondary">
             <div class="card-header">
                 <h3 class="card-title">Assigned Role(s)</h3>
             </div>
@@ -53,7 +53,7 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <div class="card no-paddcard">
+        <div class="card card-secondary">
             <div class="card-header">
                 <h3 class="card-title">Login Audit</h3>
             </div>

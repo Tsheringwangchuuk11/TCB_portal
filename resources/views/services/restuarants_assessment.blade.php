@@ -8,22 +8,22 @@
     </div>
     <form action="{{ url('application/save-application') }}" method="POST" enctype="multipart/form-data">
         @csrf
-        @foreach ($idInfos as $idInfo)
-        <input type="hidden" name="module_id" value="{{ $idInfo->module_id }}">
-        <input type="hidden" name="service_id" value="{{ $idInfo->service_id }}">
-        @endforeach
+        <input type="hidden" name="service_id" value="{{ $idInfos->service_id }}" id="service_id">
+        <input type="hidden" name="module_id" value="{{ $idInfos->module_id }}" id="module_id">
+        <input type="hidden" name="service_name" value="{{ $idInfos->name }}" id="service_name">
+        <input type="hidden" name="module_name" value="{{ $idInfos->module_name }}" id="module_name">
         <div class="card-body">
             <div class="row">
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="">License Number <span class="text-danger">*</span> </label>
-                        <input type="number" class="form-control" name="license_no" id="" autocomplete="off" required>
+                        <input type="text" class="form-control" name="license_no" autocomplete="off">
                     </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
                     <div class="form-group">
                         <label for="">License Date <span class="text-danger">*</span> </label>
-                        <input type="date" class="form-control" name="license_date" id="" autocomplete="off" required>
+                        <input type="date" class="form-control" name="license_date" autocomplete="off">
                     </div>
                 </div>
             </div>
@@ -31,65 +31,69 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="">Name <span class="text-danger">*</span> </label>
-                        <input type="text" class="form-control" name="name" autocomplete="off" required>
+                        <input type="text" class="form-control" name="name" autocomplete="off">
                     </div>
                 </div>
-                <div class="col-md-5 offset-md-2">
+                <div class="form-group col-md-5 offset-md-2">
+                    <label for="">CID No.<span class="text-danger">*</span> </label>
+                    <input type="text" class="form-control numeric-only" name="cid_no" autocomplete="off">
+                    <span class="text-danger">{{ $errors->first('cid_no') }}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5">
                     <div class="form-group">
                         <label for="">Owner <span class="text-danger">*</span> </label>
                         <input type="text" class="form-control" name="owner" autocomplete="off" required>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-5">
+                <div class="col-md-5 offset-md-2">
                     <div class="form-group">
                         <label for="">Address <span class="text-danger">*</span> </label>
-                        <input type="text" class="form-control" name="address" autocomplete="off" required>
+                        <input type="text" class="form-control" name="address" autocomplete="off">
                     </div>
                 </div>
-                <div class="col-md-5 offset-md-2">
+            </div>
+            <div class="row">
+                <div class="col-md-5">
                     <div class="form-group">
                         <label for="">Contact No <span class="text-danger">*</span> </label>
-                        <input type="number" class="form-control" name="contact_no" id="" autocomplete="off" required>
+                        <input type="text" class="form-control numeric-only" name="contact_no" autocomplete="off">
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-5">
+                <div class="col-md-5 offset-md-2">
                     <div class="form-group">
                         <label for="">Fax <span class="text-danger">*</span> </label>
-                        <input type="text" class="form-control" name="fax" autocomplete="off" required>
+                        <input type="text" class="form-control" name="fax" autocomplete="off">
                     </div>
                 </div>
-                <div class="col-md-5 offset-md-2">
+            </div>
+            <div class="row">
+                <div class="col-md-5">
                     <div class="form-group">
                         <label for="">Email <span class="text-danger">*</span> </label>
-                        <input type="email" class="form-control" name="email" autocomplete="off" required>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-5">
-                    <div class="form-group">
-                        <label for="">Internet Homepage <span class="text-danger">*</span> </label>
-                        <input type="text" class="form-control" name="internet_url" autocomplete="off" required>
+                        <input type="email" class="form-control" name="email" autocomplete="off">
                     </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
                     <div class="form-group">
-                        <label for="">Number of Beds <span class="text-danger">*</span> </label>
-                        <input type="number" class="form-control" name="bed_no" autocomplete="off" required>
+                        <label for="">Internet Homepage <span class="text-danger">*</span> </label>
+                        <input type="text" class="form-control" name="internet_url" autocomplete="off">
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-5">
                     <div class="form-group">
+                        <label for="">Number of Beds <span class="text-danger">*</span> </label>
+                        <input type="text" class="form-control numeric-only" name="bed_no" autocomplete="off">
+                    </div>
+                </div>
+                <div class="col-md-5 offset-md-2">
+                    <div class="form-group">
                         <label for="">Location <span class="text-danger">*</span> </label>
-                        <select class="form-control select2bs4" name="location_id" required>
-                            <option selected="selected">-Select-</option>
-                            
+                        <select class="form-control select2bs4" name="location_id" style="width: 100%;">
+                            <option value="">-Select-</option>
                         </select>
                     </div>
                 </div>
@@ -115,24 +119,20 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <select class="form-control" name="staff_area_id[]" required>
-                            <option selected="selected">-select-</option>
-                            <option>Lodging</option>
-                            <option>Food & Beverage</option>
-                            <option>Recreation,Other</option>
-                            <option>Administration</option>
-                            <option>Sales & Marketing</option>
-                            <option>Pomec (Property Operation & Maintance)</option>
+                            <option value="">-Select-</option>
+                            @foreach ($staffAreaLists as $staffAreaList)
+                                <option value="{{ $staffAreaList->id }}"> {{ $staffAreaList->staff_area_name }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <select class="form-control" name="hotel_div_id[]" required>
-                            <option selected="selected">-select-</option>
-                            <option>Reception</option>
-                            <option>Reservation</option>
-                            <option>Front-Office</option>
-                            <option>Housekeeping</option>
+                            <option value="">-Select-</option>
+                             @foreach ($hotelDivisionLists as $hotelDivisionList)
+                                <option value="{{ $hotelDivisionList->id }}"> {{ $hotelDivisionList->hotel_div_name }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -141,88 +141,42 @@
                         <input type="text" class="form-control" name="staff_name[]" autocomplete="off" required>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="form-group">
                         <select class="form-control" name="staff_gender[]" required>
-                            <option selected="selected">-select-</option>
-                            <option>Male</option>
-                            <option>Female</option>
+                            <option value="">-Select-</option>
+                            @foreach (config()->get('settings.gender') as $k => $v)
+                            <option value="{{ $k }}" {{ old('gender') == $k ? 'selected' : '' }}>{{ $v }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
             </div>
             <div id="field_wrapper1"></div>
             <span class="btn btn-success btn-sm float-right" id="add1"> <i class="fas fa-plus fa-sm"> Add</i> </span>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <p><span>Please attach additional sheets where necessary like pictures of the office.</span></p>
-                    @include('services/fileupload/fileupload')
-                </div>
-            </div>
-
             <h5>Inspector’s Checklist</h5>
-            <div class="card">
-                <?php $chapter = ServiceController::getCheckListChapters($idInfo->module_id);?>
-                @if($chapter)
-                @foreach($chapter as $chapters)
-                <div class="card-header">
-                    <span>{{ $chapters->checklist_ch_name }}</span>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <table class="table table-bordered table" id="dataTable">
-                                <tbody>
-                                    <tr>        
-                                        <th>Area</th>
-                                        <th>Criteria</th>
-                                        <th>Checklist</th>
-                                    </tr>
-                                    <?php $area = ServiceController::getCheckListAreas($chapters->checklist_ch_id);?>
-                                    @if($area)
-                                    @foreach($area as $areas)
-                                    <?php $standard = ServiceController::getCheckListStandards($areas->checklist_area_id);?>
-                                    @if($standard)
-                                    @php($i=1)
-                                    @foreach($standard as $standards)
-                                    <tr>
-                                        @if($i==1)             
-                                        <td rowspan="{{ $areas->count1 }}">{{ $areas->checklist_name }}</td>
-                                        @endif
-                                        <td>{{ $standards->checklist_standard }}</td> 
-                                        <td><input type="checkbox"> <span class="text-danger">*</span></td>
-                                        @php($i++)
-                                    </tr>
-                                    @endforeach <!-- checklist standard forloop ends -->
-                                    @endif <!-- checklist standard if ends -->
-                                    @endforeach <!-- checklist area forloop ends -->
-                                    @endif <!-- checklist area if ends -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.card-body -->
-                @endforeach
-                @endif
-            </div>
-
             <div class="row">
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="">Inspectors Name <span class="text-danger">*</span> </label>
-                        <input type="text" class="form-control" name="inspector_name" id="" autocomplete="off" required>
+                        <input type="text" class="form-control" name="inspector_name" autocomplete="off">
                     </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
                     <div class="form-group">
                         <label for="">Inspection Date <span class="text-danger">*</span> </label>
-                        <input type="date" class="form-control" name="inspector_date" id="" autocomplete="off" required>
+                        <input type="date" class="form-control" name="inspector_date" autocomplete="off">
                     </div>
                 </div>
             </div>
-
+        <h5>File Attachment<span class="text-danger"> *</span></h5>
+        <h6> <strong>Required supporting documents:</strong></h6>
+        <ol>
+            <li>
+                <em>Please attach additional sheets where necessary like pictures of the office</em>   
+           </li>
+        </ol>  
+        @include('services/fileupload/fileupload')
         </div> <!-- card body ends -->
         <div class="card-footer text-center">
             <button type="submit"class="btn btn-success"><i class="fa fa-check"></i> APPLY</button>

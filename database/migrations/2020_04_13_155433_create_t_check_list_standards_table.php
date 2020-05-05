@@ -11,12 +11,13 @@ class CreateTCheckListStandardsTable extends Migration
      *
      * @return void
      */
+
     public function up()
     {
         Schema::create('t_check_list_standards', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('checklist_area_id')->index();
-            $table->string('checklist_standard');
+            $table->text('checklist_standard');
             $table->string('checklist_pts')->nullable();
             $table->boolean('is_active')->default(0);
             $table->unsignedBigInteger('created_by')->index();

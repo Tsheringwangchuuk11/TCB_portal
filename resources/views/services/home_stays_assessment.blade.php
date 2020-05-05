@@ -5,23 +5,27 @@
   <div class="card-header bg-success">
     <div class="card-title">Village Home Stay Registration</div>
   </div>
-  <form action="{{ url('service-create/store') }}" class="form-horizontal" method="POST" enctype="multipart/form-data">
+  <form action="{{ url('application/save-application') }}" class="form-horizontal" method="POST" enctype="multipart/form-data">
     @csrf
+    <input type="hidden" name="service_id" value="{{ $idInfos->service_id }}" id="service_id">
+    <input type="hidden" name="module_id" value="{{ $idInfos->module_id }}" id="module_id">
+    <input type="hidden" name="service_name" value="{{ $idInfos->name }}" id="service_name">
+    <input type="hidden" name="module_name" value="{{ $idInfos->module_name }}" id="module_name">
     <div class="card-body">
       <div class="row">
         <div class="col-md-12">
-          <h5>Applicant’s details</h5>
+          <h5>Personal Details</h5>
           <div class="row">
             <div class="col-md-5">
               <div class="form-group">
                 <label for="">Name<span class="text-danger"> *</span></label>
-                <input type="text" class="form-control required" name="name" autocomplete="off" required>
+                <input type="text" class="form-control required" name="name" autocomplete="off">
               </div>
             </div>
             <div class="col-md-5 offset-md-2">
               <div class="form-group ">
                 <label for="">CID No.<span class="text-danger"> *</span></label>
-                <input type="number" class="form-control" name="cid" id="cid" autocomplete="off" required>
+                <input type="text" class="form-control numeric-only required" name="cid" autocomplete="off">
               </div>
             </div>
           </div>
@@ -29,13 +33,13 @@
             <div class="col-md-5">
               <div class="form-group">
                 <label for="">Contact No.<span class="text-danger"> *</span> </label>
-                <input type="number" class="form-control" name="phone_number" id="phone_number" autocomplete="off" required>
+                <input type="text" class="form-control numeric-only required" name="phone_number" autocomplete="off">
               </div>
             </div>
             <div class="col-md-5 offset-md-2">
               <div class="form-group">
                 <label for="">Email</label>
-                <input type="email" class="form-control" name="email" autocomplete="off">
+                <input type="email" class="form-control email required" name="email" autocomplete="off">
               </div>
             </div>
           </div>
@@ -43,19 +47,19 @@
             <div class="col-md-5">
               <div class="form-group">
                 <label for="">Dzongkhag<span class="text-danger"> *</span></label>
-                <select class="form-control select2bs4" style="width: 100%;" required>
-                  <option value="1" selected="selected">-select-</option>
-                  <option value="">Thimphu</option>
-                  <option value="2">Paro</option>
+                <select class="form-control select2bs4 required" style="width: 100%;" required>
+                    <option value=""> -Select-</option>
+                    @foreach ($dzongkhagLists as $dzongkhagList)
+                      <option value="{{ $dzongkhagList->id }}">{{ $dzongkhagList->dzongkhag_name }}</option>
+                    @endforeach
                 </select>
               </div>
             </div>
             <div class="col-md-5 offset-md-2">
               <div class="form-group">
                 <label for="">Gewog<span class="text-danger"> *</span></label>
-                <select class="form-control select2bs4" style="width: 100%;" required>
-                  <option value="1" selected="selected">-select-</option>
-                </select>
+                    <select  name="location_id" class="form-control select2bs4 required" id="location_id" style="width: 100%;">
+                    </select>                
               </div>
             </div>
           </div>
@@ -63,7 +67,7 @@
             <div class="col-md-5">
               <div class="form-group">
                 <label for="">Chiwog<span class="text-danger"> *</span></label>
-                <select class="form-control select2bs4" style="width: 100%;" required>
+                <select class="form-control select2bs4 required" style="width: 100%;" required>
                   <option value="1" selected="selected">-select-</option>
                 </select>
               </div>
@@ -71,7 +75,7 @@
             <div class="col-md-5 offset-md-2">
               <div class="form-group">
                 <label for="">Village <span class="text-danger"> *</span></label>
-                <input type="text" class="form-control" name="village" required>
+                <input type="text" class="form-control required" name="village" required>
               </div>
             </div>
           </div>
@@ -79,13 +83,13 @@
             <div class="col-md-5">
               <div class="form-group">
                 <label for="">Thram No.<span class="text-danger"> *</span> </label>
-                <input type="text" class="form-control" name="thram_no" required>
+                <input type="text" class="form-control required" name="thram_no" required>
               </div>
             </div>
             <div class="col-md-5 offset-md-2">
               <div class="form-group">
                 <label for="">House No.<span class="text-danger"> *</span></label>
-                <input type="text" class="form-control" name="house_no" required>
+                <input type="text" class="form-control required" name="house_no" required>
               </div>
             </div>
           </div>
@@ -94,32 +98,19 @@
             <div class="col-md-5">
               <div class="form-group">
                 <label for="">Distance from the nearest town/urban centre (hrs or kms)<span class="text-danger"> *</span></label>
-                <input type="text" class="form-control" name="distance1" autocomplete="off" required>
+                <input type="text" class="form-control required" name="distance1" autocomplete="off" required>
               </div>
             </div>
             <div class="col-md-5 offset-md-2">
               <div class="form-group">
                 <label for="">Distance from the main road (hrs or kms)<span class="text-danger"> *</span></label>
-                <input type="text" class="form-control" name="distance2" autocomplete="off" required>
+                <input type="text" class="form-control required" name="distance2" autocomplete="off" required>
               </div>
             </div>
             <div class="col-md-5">
               <div class="form-group">
                 <label for="">Condition of the pathway to house from the road point<span class="text-danger"> *</span></label>
-                <input type="text" class="form-control" name="distance3" autocomplete="off" required>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12">
-              <p><span>Please attach additional sheets where necessary like pictures of buildings,no objection letter from the head of the family, authentication letter from the gewog, recommendation letter from the dzongkhag and the letter of undertaking.</span></p>
-              <div class="mb-3 mt-2">
-                <span class="btn btn-success fileinput-button btn-sm">
-                  <i class="fas fa-plus fa-sm"></i>
-                  <span>Add files...</span>
-                  <!-- The file input field used as target for the file upload widget -->
-                  <input id="fileupload" type="file" name="files[]" multiple="">
-                </span>
+                <input type="text" class="form-control required" name="distance3" autocomplete="off" required>
               </div>
             </div>
           </div>
@@ -135,17 +126,18 @@
                     <td></td>
                   </tr>    
                   <tr>
-                    <td><input type="text" id="fname" class="form-control" name="name" autocomplete="off" required>
+                    <td><input type="text" id="fname" class="form-control required" name="name" autocomplete="off" required>
                     </td>              
-                    <td><input  type="text" id="frelation" class="form-control" name="relation" autocomplete="off" required>
+                    <td><input  type="text" id="frelation" class="form-control required" name="relation" autocomplete="off" required>
                     </td> 
-                    <td><input  type="number" id="fage" class="form-control" name="age" autocomplete="off" required>
+                    <td><input  type="number" id="fage" class="form-control required" name="age" autocomplete="off" required>
                     </td>              
                     <td>
-                      <select name="gender" id="fgender" class="form-control select2bs4" required>
-                        <option value="" selected>-select-</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option> 
+                      <select name="gender" id="fgender" class="form-control select2bs4 required">
+                        <option value="">- Select -</option>
+                          @foreach (config()->get('settings.gender') as $k => $v)
+                          <option value="{{ $k }}" {{ old('gender') == $k ? 'selected' : '' }}>{{ $v }}</option>
+                          @endforeach
                       </select>
                     </td>
                     <td>
@@ -225,6 +217,23 @@
               </table>
             </div>
           </div>
+          <h5>File Attachment<span class="text-danger"> *</span></h5>
+          <h6> <strong>Required supporting documents:</strong></h6>
+          <ol>
+            <li>
+              <em>Pictures of buildings</em>
+            </li>
+            <li>
+              <em>No objection letter from the head of the family </em>
+            </li>
+            <li>
+              <em>Authentication letter from the gewog</em>
+            </li>
+            <li>
+              <em>Recommendation letter from the dzongkhag and the letter of undertaking</em>
+            </li>
+          </ol>
+          @include('services/fileupload/fileupload')
         </div>
       </div>
     </div>
@@ -235,7 +244,7 @@
   </form>
 </div>
 @endsection
-@section('page_scripts')
+@section('scripts')
 <script>
  $(document).ready(function () {
   var counter = 0;

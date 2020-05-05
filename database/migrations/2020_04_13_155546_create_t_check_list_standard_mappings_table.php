@@ -19,6 +19,7 @@ class CreateTCheckListStandardMappingsTable extends Migration
             $table->unsignedBigInteger('checklist_id')->index();
             $table->unsignedBigInteger('standard_id')->index();
             $table->boolean('is_active')->default(0);
+            $table->boolean('mandatory')->default(0);
             $table->unsignedBigInteger('created_by')->index();
             $table->unsignedBigInteger('updated_by')->nullable()->index();
             $table->timestamps();

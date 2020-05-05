@@ -6,7 +6,7 @@
 @endif
 @endsection
 @section('content')
-<div class="card">
+<div class="card card-secondary">
 	<div class="card-body p-0">
 		<div class="table-responsive">
 			<table class="table table-striped table-bordered m-0">
@@ -30,7 +30,7 @@
                             <td>{{ $user->last_login }}</td>
                             <td class="text-center">{!! $user->isActive() == 1 ? '<i class="fas fa-check text-green"></i>' : '<i class="fas fa-times text-red"></i>' !!}</td>
                             <td class="text-center">
-                                <a href="#" class="formConfirm btn btn-xs btn-flat {{ $user->isActive() == 1 ? 'btn-danger' : 'btn-success' }}">
+                                <a href="#" class="form-confirm  btn btn-sm {{ $user->isActive() == 1 ? 'btn-danger' : 'btn-success' }}">
                                     <i class="fa fa-times"></i> @if ($user->isActive() == 1) Disable @else Enable @endif
                                     <a data-form="#frmDelete-{!! $user->id !!}" data-title="Disable {!! $user->name !!}" data-message="Are you sure you want to @if ($user->isActive() == 1) disable @else enable @endif this user?"></a>
                                 </a>
@@ -38,11 +38,11 @@
                                     @csrf
                                     <input type="hidden" name="id", value="{{ $user->id }}">
                                 </form>
-                                <a href="{{ url('system/users/' . $user->id) }}" class="btn btn-primary btn-xs btn-flat" title="Detail"><i class="fas fa-list"></i> Detail</a>
+                                <a href="{{ url('system/users/' . $user->id) }}" class="btn btn-primary btn-sm" title="Detail"><i class="fas fa-list"></i> Detail</a>
                                 @if ((int)$privileges["edit"] == 1)
-                                    <a href="{{ url('system/users/' . $user->id . '/edit') }}" class="btn bg-purple btn-xs btn-flat" title="Edit"><i class="fas fa-edit"></i> Edit</a>
+                                    <a href="{{ url('system/users/' . $user->id . '/edit') }}" class="btn btn-info btn-sm" title="Edit"><i class="fas fa-edit"></i> Edit</a>
                                 @endif
-                                <a href="{{ url('system/users/reset-password/' . $user->id) }}" class="btn btn-warning btn-xs btn-flat"><i class="fas fa-list"></i> Reset Password</a>
+                                <a href="{{ url('system/users/reset-password/' . $user->id) }}" class="btn btn-warning btn-sm"><i class="fas fa-list"></i> Reset Password</a>
                             </td>
                         </tr>
                         @empty
@@ -58,5 +58,5 @@
         </div>
 	</div>
 </div>
-@include('layouts.include.confirm_delete')
+@include('layouts.include.confirm-delete')
 @endsection

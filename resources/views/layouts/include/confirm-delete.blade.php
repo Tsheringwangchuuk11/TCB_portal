@@ -1,4 +1,4 @@
-<div class="modal fade" id="form_confirm">
+<div class="modal fade" id="form-confirm">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">

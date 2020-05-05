@@ -17,6 +17,7 @@ class CreateApplicationTable extends Migration
             $table->string('application_no', 20)->primary();
             $table->unsignedBigInteger('module_id')->index();
             $table->unsignedBigInteger('service_id')->index();
+            $table->unsignedBigInteger('end_user_id')->index();
             $table->bigInteger('cid_no')->index();
             $table->string('name', 250)->nullable();
             $table->string('name_one', 250)->nullable();
@@ -43,8 +44,8 @@ class CreateApplicationTable extends Migration
             $table->date('validity_date')->nullable();
             $table->string('flat_no', 20)->nullable();
             $table->string('building_no', 20)->nullable();
-
-
+            $table->string('company_name', 250)->nullable();
+            $table->foreign('end_user_id')->references('id')->on('t_users');
         });
     }
 

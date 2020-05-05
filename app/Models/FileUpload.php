@@ -46,3 +46,4 @@ class FileUpload extends Model
         DB::table('t_documents')->where('id', $id)->delete();
     }
 }
+

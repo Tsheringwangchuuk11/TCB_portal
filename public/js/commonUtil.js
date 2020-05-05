@@ -1,6 +1,17 @@
 
 $(document).ready(function(){
     $("#bs4-slide-carousel").carousel();
+    $(function() {
+      $('#drawing_date').daterangepicker({
+      singleDatePicker: true,
+      showDropdowns: true,
+      autoUpdateInput: false,
+   });
+      $('#drawing_date').on('apply.daterangepicker', function(ev, picker) {
+          $(this).val(picker.startDate.format('MM/DD/YYYY'));
+      });
+   
+   });
  });
 
  $(document).ready(function(){
@@ -46,6 +57,7 @@ $(function () {
       autoUpload: true,
       dataType : 'json',
       success: function (data) {
+         console.log(data);
             jQuery.each(data.data, function(index, row) {
                $('#files').append('<div class="image_wrap">'
                   +'<input type="hidden" name="documentId[]" value="'+row.id+'"/><strong>'+row.document_name+'</strong>'
@@ -86,6 +98,6 @@ function deletefile(id,fileId,url){
    }
 }
 
-$("#license_no").numeric({ negative: false });
-$("#cid_no").numeric({ negative: false });
+
+
 

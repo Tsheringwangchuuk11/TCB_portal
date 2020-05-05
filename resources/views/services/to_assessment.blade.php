@@ -6,25 +6,24 @@
   <div class="card-header bg-success">
     <h4 class="card-title">Tour Operator Assessment/Monitoring Form</h4>
   </div>
-  <div class="row">
-    <div class="col-md-12">
-      <p class="text-danger pt-3">Note: (*) fields are required</p>
-    </div>
-  </div>
-  <form action="{{ url('service-create/store') }}" method="POST" enctype="multipart/form-data">
+  <form action="{{ url('application/save-application') }}" method="POST" enctype="multipart/form-data">
     @csrf
-    <div class="card-body" style="margin-top: -20px;">
+    <input type="hidden" name="service_id" value="{{ $idInfos->service_id }}" id="service_id">
+    <input type="hidden" name="module_id" value="{{ $idInfos->module_id }}" id="module_id">
+    <input type="hidden" name="service_name" value="{{ $idInfos->name }}" id="service_name">
+    <input type="hidden" name="module_name" value="{{ $idInfos->module_name }}" id="module_name">
+    <div class="card-body">
       <div class="row">
         <div class="col-md-5">
           <div class="form-group">
             <label for="">Name of the Tour Company <span class="text-danger">*</span> </label>
-            <input type="text" class="form-control" name="name" autocomplete="off" required>
+            <input type="text" class="form-control" name="company_name" autocomplete="off">
           </div>
         </div>
         <div class="col-md-5 offset-md-2">
           <div class="form-group">
             <label for="">Location <span class="text-danger">*</span> </label>
-            <input type="text" class="form-control" name="location" autocomplete="off" required>
+            <input type="text" class="form-control" name="proposed_location" autocomplete="off">
           </div>
         </div>
       </div>
@@ -32,13 +31,13 @@
         <div class="col-md-5">
           <div class="form-group">
             <label for="">Name of the proprietor/s <span class="text-danger">*</span> </label>
-            <input type="text" class="form-control" name="proprietor" autocomplete="off" required>
+            <input type="text" class="form-control" name="owner" autocomplete="off">
           </div>
         </div>
         <div class="col-md-5 offset-md-2">
           <div class="form-group">
             <label for="">Telephone/Mobile No. <span class="text-danger">*</span> </label>
-            <input type="number" class="form-control" name="phone_number" id="" autocomplete="off" required>
+            <input type="text" class="form-control" name="contact_no" autocomplete="off">
           </div>
         </div>
       </div>

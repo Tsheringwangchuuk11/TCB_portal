@@ -9,4 +9,9 @@ return [
         'M' => 'Male',
         'F' => 'Female',
     ],
+
+    "status" => [
+        1 => 'Yes',
+        0 => 'No',
+    ],
 ];

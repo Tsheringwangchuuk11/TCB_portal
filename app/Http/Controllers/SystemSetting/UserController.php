@@ -153,7 +153,7 @@ class UserController extends Controller
 
             $user = User::findOrFail($id);
 
-            $user->name = $request->name;
+            $user->user_name = $request->name;
             $user->email = $request->username;
             $user->avatar = isset($imageSource) ? $imageSource : null;
             $user->updated_by = auth()->user()->id;

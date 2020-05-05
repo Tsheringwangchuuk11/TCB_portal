@@ -4,7 +4,7 @@
     <section class="content">
 		<div class="row">
 			<div class="col-12">
-				<div class="card">
+				<div class="card card-secondary">
 					<div class="card-header">
 						<h3 class="card-title">Checklist Areas</h3>
 					</div>
@@ -13,7 +13,9 @@
 							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
 							<i class="icon fas fa-check"></i>
 						</div>
+						@if ($privileges["create"] == 1)
 						<a href="javascript:void(0)" class="btn btn-success mb-2 float-right" id="create_new_checklist_area">Add Checklist Area</a>
+						@endif
 						<table id="example2" class="table table-bordered table-hover">
 							<thead>
 								<tr>
@@ -35,9 +37,20 @@
                                     <td>{{ $checklistArea->checklist_area }}</td>
                                     <td class="text-center">{!! $checklistArea->isActive() == 1 ? '<i class="fas fa-check text-green"></i>' : '<i class="fas fa-times text-red"></i>' !!}</td>
                                     <td class="text-center">
-                                        <a href="javascript:void(0)" id="edit_checklist_area" data-id="{{ $checklistArea->id }}" class="btn btn-sm btn-info">Edit</a>
-                                        <a href="javascript:void(0)" id="delete_checklist_area" data-id="{{ $checklistArea->id }}" class="btn btn-sm btn-danger delete_checklist_area">Delete</a>
-                                    </td>
+										@if ($privileges["edit"] == 1)
+                                        <a href="javascript:void(0)" id="edit_checklist_area" data-id="{{ $checklistArea->id }}" class="btn btn-sm btn-info"> <i class="fas fa-edit"></i>Edit</a>
+										@endif
+										@if((int)$privileges->delete == 1)
+										<a href="#" class="form-confirm  btn btn-sm btn-danger" title="Delete">
+											<i class="fas fa-trash"></i> Delete
+											<a data-form="#frmDelete-{!! $checklistArea->id !!}" data-title="Delete {!! $checklistArea->checklist_area !!}" data-message="Are you sure you want to delete this checklist area?"></a>
+										</a>
+										<form action="{{ url('master/checklist-areas/' . $checklistArea->id) }}" method="POST" id="{{ 'frmDelete-'.$checklistArea->id }}">
+											@csrf
+											@method('DELETE')
+										</form>
+										@endif
+									</td>
                                 </tr>
                                 @empty
                                 <tr>
@@ -71,7 +84,7 @@
                             <input type="hidden" name="checklist_area_id" id="checklist_area_id" />
                             <div class="form-group">
                                 <label for="" >Checklist Chapter *</label>
-                                <select name="checklist_chapter" class="form-control required" id="checklist">
+                                <select name="checklist_chapter" class="form-control required select2bs4" id="checklist">
                                     <option value="">---SELECT---</option>
                                     @foreach ($checklistChapters as $checklistChapter)
                                     <option value="{{ $checklistChapter->id }}" {{ old('checklist_chapter') == $checklistChapter->id ? 'selected' : '' }}>{{ $checklistChapter->checklist_ch_name }}</option>
@@ -103,6 +116,7 @@
 			</div>
 		</div>
 	</div>
+	@include('layouts.include.confirm-delete')
 @endsection
 @section('scripts')
 <script>
@@ -137,8 +151,8 @@
                       }
 
 					 var checklist = '<tr id="checklist_area_id_' + data.id + '"><td class="text-center">'+slNo+'</td><td>' + checklistName + '</td><td>' + data.checklist_area + '</td><td class="text-center">' + (data.is_active == 1 ? '<i class="fas fa-check text-green"></i>' : '<i class="fas fa-times text-red"></i>') + '</td>';
-                        checklist += '<td class="text-center"><a href="javascript:void(0)" id="edit_checklist_area" data-id="' + data.id + '" class="btn btn-info btn-sm"> Edit</a> ';
-                        checklist += '<a href="javascript:void(0)" id="delete_checklist_area" data-id="' + data.id + '" class="btn btn-danger delete_checklist_area btn-sm"> Delete</a></td></tr>';
+                        checklist += '<td class="text-center"><a href="javascript:void(0)" id="edit_checklist_area" data-id="' + data.id + '" class="btn btn-info btn-sm">  <i class="fas fa-edit"></i> Edit</a> ';
+                        checklist += '<a href="javascript:void(0)" id="delete_checklist_area" data-id="' + data.id + '" class="btn btn-danger delete_checklist_area btn-sm"><i class="fas fa-trash"></i> Delete</a></td></tr>';
 
 					  if (actionType == "create-checklist-area") {
 						  $('#checklist_area_body_id').append(checklist);
@@ -196,23 +210,6 @@
 		});
 		$('#btn-save').html('Save Changes');
 	}
-	//delete
-	 $('body').on('click', '.delete_checklist_area', function () {
-        var checklist_area_id = $(this).data("id");
-
-        if(confirm("Are You sure want to delete !")){
-			$.ajax({
-				type: "DELETE",
-				url: "{{ url('master/checklist-areas')}}"+'/'+checklist_area_id,
-				success: function (data) {
-					$("#checklist_area_id_" + checklist_area_id).remove();
-				},
-				error: function (data) {
-					console.log('Error:', data);
-				}
-			});
-		}
-    });
   });
 </script>
 @endsection

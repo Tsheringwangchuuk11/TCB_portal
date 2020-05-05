@@ -1,7 +1,7 @@
 @extends('layouts.manager')
 @section('page-title', 'Resend Verification Code')
 @section('content')
-<div class="card">
+<div class="card card-secondary">
 	<div class="card-body p-0">
 		<div class="table-responsive">
 			<table class="table table-striped table-bordered m-0">
@@ -40,5 +40,4 @@
         </div>
 	</div>
 </div>
-@include('layouts.include.confirm_delete')
 @endsection

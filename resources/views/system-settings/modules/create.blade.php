@@ -1,17 +1,17 @@
 @extends('layouts.manager')
-@section('page-title', 'Create Modules and Sub Modules')
+@section('page-title', 'Create Menus and Sub Menu')
 @section('content')
 <form action="{{ url('system/modules') }}" method="POST">
     @csrf
     <div class="row">
         <div class="col-xs-12 col-md-3">
-            <div class="card">
+            <div class="card card-secondary">
                 <div class="card-header">
-                    <h3 class="card-title">Add Module</h3>
+                    <h3 class="card-title">Add Menu</h3>
                 </div>
                 <div class="card-body">
                     <div class="form-group">
-                        <label for="">Select Module/Service *</label>
+                        <label for="">Select Menu/Service *</label>
                         <select name="module_display" class="form-control required service-module">
                             <option value="">--SELECT---</option>
                             @foreach (config()->get('settings.module_display_type') as $k => $v)
@@ -32,11 +32,11 @@
                     </div>
                     <div class="module hide">
                         <div class="form-group">
-                            <label for="">Main Module Name *</label>
+                            <label for="">Main Menu Name *</label>
                             <input type="text" name="main_module_name" class="form-control name" value="{{ old('main_module_name') }}" />
                         </div>
                         <div class="form-group">
-                            <label for="">Module Icon *</label>
+                            <label for="">Menu Icon *</label>
                             <input type="text" name="module_icon" class="form-control icon" value="{{ old('module_icon') }}" placeholder="example: fa-check"/>
                         </div>
                         <div class="form-group">
@@ -48,15 +48,15 @@
             </div>
         </div>
         <div class="col-xs-12 col-md-9">
-            <div class="card">
+            <div class="card card-secondary">
                 <div class="card-header">
-                    <h3 class="card-title">Add Sub Modules</h3>
+                    <h3 class="card-title">Add Sub Menus</h3>
                 </div>
                 <div class="box-body no-padding">
                     <table id="sub-module" class="table table-condensed table-striped">
                         <thead>
                             <th class="text-center">#</th>
-                            <th>Sub Module Name *</th>
+                            <th>Sub Menu Name *</th>
 							<th>Route *</th>
 							<th>Order *</th>
                         </thead>
@@ -85,7 +85,7 @@
                     </table>
                 </div>
                 <div class="card-footer text-center">
-                    <button type="submit" class="btn btn-success btn-flat btn-sm"><i class="fa fa-upload"></i> CREATE MODULE</button>
+                    <button type="submit" class="btn btn-success btn-flat btn-sm"><i class="fas fa-check"></i> CREATE MENU</button>
                     <a href="{{ url('system/modules') }}" class="btn btn-danger btn-flat btn-sm"><i class="fa fa-undo"></i> CANCEL</a>
                 </div>
             </div>

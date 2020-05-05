@@ -6,7 +6,7 @@
 @method('PUT')
     <div class="row">
         <div class="col-md-4 col-xs-12">
-            <div class="card">
+            <div class="card card-secondary">
                 <div class="card-header">
                     <h3 class="card-title">Resend Verification Code</h3>
                 </div>

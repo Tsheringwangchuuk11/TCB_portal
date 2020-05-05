@@ -12,6 +12,8 @@
 <script src="{{ asset('plugins/jquery/jquery.min.js') }}" type="text/javascript"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }}"></script>
+<script src="{{ asset('plugins/datatables/jquery.dataTables.js') }}"></script>
+<script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script>
 <script>
 $.widget.bridge('uibutton', $.ui.button)
 </script>
@@ -48,4 +50,5 @@ $.widget.bridge('uibutton', $.ui.button)
 <script src="{{ asset('js/commonToAll.js') }}"></script>
 <script src="{{ asset('js/validation.js') }}"></script>
 <script src="{{ asset('js/jquery.form.js') }}"></script>
+<script src="{{ asset('js/confirm-delete.js') }}"></script>
 

@@ -7,10 +7,10 @@
   </div>
   <form role="form" action="{{ url('service-create/store') }}" method="POST" id="new_license" enctype="multipart/form-data">
     @csrf
-    @foreach ($idInfos as $idInfo)
-    <input type="hidden" name="service_id" value="{{ $idInfo->service_id }}" id="service_id">
-    <input type="hidden" name="module_id" value="{{ $idInfo->module_id }}" id="service_id">
-    @endforeach 
+    <input type="hidden" name="service_id" value="{{ $idInfos->service_id }}" id="service_id">
+    <input type="hidden" name="module_id" value="{{ $idInfos->module_id }}" id="module_id">
+    <input type="hidden" name="service_name" value="{{ $idInfos->name }}" id="service_name">
+    <input type="hidden" name="module_name" value="{{ $idInfos->module_name }}" id="module_name">
     <div class="card-body">
       <div class="row">
         <div class="col-md-12">
@@ -25,7 +25,7 @@
             <div class="col-md-5 offset-md-2">
               <div class="form-group">
                 <label for="">CID No <span class="text-danger"> *</span></label>
-                <input type="text" class="form-control" name="cid" id="cid" autocomplete="off">
+                <input type="text" class="form-control numeric-only" name="cid_no" autocomplete="off">
               </div>
             </div>
           </div>
@@ -39,10 +39,11 @@
             <div class="col-md-5 offset-md-2">
               <div class="form-group">
                 <label for="">Gender<span class="text-danger"> *</span></label>
-                <select  name="gender" class="form-control custom-select">
-                  <option value="">-Select-</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
+                <select class="form-control" name="staff_gender[]" id="staff_gender">
+                  <option value="">- Select -</option>
+                  @foreach (config()->get('settings.gender') as $k => $v)
+                  <option value="{{ $k }}" {{ old('gender') == $k ? 'selected' : '' }}>{{ $v }}</option>
+                  @endforeach
                 </select>
               </div>
             </div>
@@ -51,23 +52,19 @@
             <div class="col-md-5">
               <div class="form-group">
                 <label for="">Dzongkhag<span class="text-danger"> *</span></label>
-                <select name="dzongkhag" class="form-control select2bs4" style="width: 100%;">
-                  <option selected="selected">-select-</option>
-                  <option>Alaska</option>
-                  <option>California</option>
-                  <option>Delaware</option>
-                  <option>Tennessee</option>
-                  <option>Texas</option>
-                  <option>Washington</option>
-                </select>
+                <select  name="dzongkhag_id" id="dzongkhag_id" class="form-control select2bs4" style="width: 100%;">
+                    <option value=""> -Select-</option>
+                    @foreach ($dzongkhagLists as $dzongkhagList)
+                      <option value="{{ $dzongkhagList->id }}">{{ $dzongkhagList->dzongkhag_name }}</option>
+                    @endforeach
+                  </select>
               </div>
             </div>
             <div class="col-md-5 offset-md-2">
               <div class="form-group">
                 <label for="">Gewog<span class="text-danger"> *</span></label>
-                <select  name="gewog" class="form-control custom-select">
-                  <option value="">-Select-</option>
-                </select>
+                <select  name="location_id" class="form-control select2bs4" id="location_id" style="width: 100%;">
+                </select> 
               </div>
             </div>
           </div>
@@ -105,13 +102,13 @@
             <div class="col-md-5">
               <div class="form-group">
                 <label for="">Name<span class="text-danger"> *</span></label>
-                <input type="text" class="form-control" name="pname" autocomplete="off">
+                <input type="text" class="form-control" name="partner_name" autocomplete="off">
               </div>
             </div>
             <div class="col-md-5 offset-md-2">
               <div class="form-group">
                 <label for="">CID No.<span class="text-danger"> *</span></label>
-                <input type="text" class="form-control" name="pcid" id="cid" autocomplete="off">
+                <input type="text" class="form-control" name="partner_cid_no" id="cid" autocomplete="off">
               </div>
             </div>
           </div>
@@ -119,16 +116,17 @@
             <div class="col-md-5">
               <div class="form-group">
                 <label for="">DOB<span class="text-danger"> *</span></label>
-                <input type="text" class="form-control datepicker" name="pdate_of_birth" id="pdate_of_birth" autocomplete="off" placeholder="Select date" readonly="true" >
+                <input type="text" class="form-control" name="partner_date_of_birth" id="pdate_of_birth" autocomplete="off" placeholder="Select date" readonly="true" >
               </div>
             </div>
             <div class="col-md-5 offset-md-2">
               <div class="form-group">
                 <label for="">Gender<span class="text-danger"> *</span></label>
-                <select  name="pgender" class="form-control custom-select">
+                <select  name="pgender" class="form-control" name="partner_gender">
                   <option value="">-Select-</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
+                  @foreach (config()->get('settings.gender') as $k => $v)
+                  <option value="{{ $k }}" {{ old('gender') == $k ? 'selected' : '' }}>{{ $v }}</option>
+                  @endforeach
                 </select>
               </div>
             </div>
@@ -137,17 +135,19 @@
             <div class="col-md-5">
               <div class="form-group">
                 <label for="">Dzongkhag<span class="text-danger"> *</span></label>
-                <select  name="pdzongkhag" class="form-control">
-                  <option value="">-Select-</option>
-                </select>
+                <select  name="dzongkhag_id" id="dzongkhag_id" class="form-control select2bs4" style="width: 100%;">
+                    <option value=""> -Select-</option>
+                    @foreach ($dzongkhagLists as $dzongkhagList)
+                      <option value="{{ $dzongkhagList->id }}">{{ $dzongkhagList->dzongkhag_name }}</option>
+                    @endforeach
+                  </select>
               </div>
             </div>
             <div class="col-md-5 offset-md-2">
               <div class="form-group">
                 <label for="">Gewog<span class="text-danger"> *</span></label>
-                <select  name="pgewog" class="form-control custom-select">
-                  <option value="">-Select-</option>
-                </select>
+                <select  name="location_id" class="form-control select2bs4" id="location_id" style="width: 100%;">
+                </select> 
               </div>
             </div>
           </div>
@@ -155,13 +155,13 @@
             <div class="col-md-5">
               <div class="form-group">
                 <label for="">Village <span class="text-danger"> *</span></label>
-                <input type="text" class="form-control" name="pvillage" autocomplete="off" placeholder="Parmanent Address" >
+                <input type="text" class="form-control" name="partner_village" autocomplete="off" placeholder="Parmanent Address" >
               </div>
             </div>
             <div class="col-md-5 offset-md-2">
               <div class="form-group">
                 <label for="">Flat No. <span class="text-danger"> *</span></label>
-                <input type="text" class="form-control" name="pflat_no" autocomplete="off" placeholder="Residential Address">
+                <input type="text" class="form-control" name="partner_flat_no" autocomplete="off" placeholder="Residential Address">
 
               </div>
             </div>
@@ -171,13 +171,13 @@
            <div class="col-md-5">
             <div class="form-group">
               <label for="">Building No.<span class="text-danger"> *</span></label>
-              <input type="text" class="form-control" name="pbuilding_no" autocomplete="off" placeholder="Residential Address">
+              <input type="text" class="form-control" name="partner_building_no" autocomplete="off" placeholder="Residential Address">
             </div>
           </div>
           <div class="col-md-5 offset-md-2">
             <div class="form-group">
               <label for="">Location<span class="text-danger"> *</span></label>
-              <input type="text" class="form-control" name="plocation" autocomplete="off" placeholder="Residential Address">
+              <input type="text" class="form-control" name="partner_location" autocomplete="off" placeholder="Residential Address">
             </div>
           </div>
         </div>
@@ -192,7 +192,7 @@
           <div class="col-md-5 offset-md-2">
             <div class="form-group">
               <label for="">Location<span class="text-danger"> *</span></label>
-              <input type="text" class="form-control" name="cname" autocomplete="off">
+              <input type="text" class="form-control" name="company_location" autocomplete="off">
             </div>
           </div>
         </div>
@@ -201,13 +201,13 @@
           <div class="col-md-5">
             <div class="form-group">
               <label for="">Building No<span class="text-danger"> *</span></label>
-              <input type="text" class="form-control" name="cbuilding_no" rows="3" autocomplete="off">
+              <input type="text" class="form-control" name="company_building_no" rows="3" autocomplete="off">
             </div>
           </div>
           <div class="col-md-5 offset-md-2">
             <div class="form-group">
               <label for="">Flat No<span class="text-danger"> *</span></label>
-              <input type="text" class="form-control" name="cflat_no" rows="3" autocomplete="off">
+              <input type="text" class="form-control" name="company_flat_no" rows="3" autocomplete="off">
             </div>
           </div>
         </div>
@@ -215,13 +215,13 @@
           <div class="col-md-5">
             <div class="form-group">
               <label for="">Postal Address<span class="text-danger"> *</span></label>
-              <input type="text" class="form-control" name="cflat_no" rows="3" autocomplete="off">
+              <input type="text" class="form-control" name="company_postal_address" rows="3" autocomplete="off">
             </div>
           </div>
           <div class="col-md-5 offset-md-2">
             <div class="form-group">
               <label for="">Contact No<span class="text-danger"> *</span></label>
-              <input type="text" class="form-control" name="cntact_number" rows="3" autocomplete="off">
+              <input type="text" class="form-control" name="company_contact_no" rows="3" autocomplete="off">
             </div>
           </div>
         </div>
@@ -249,11 +249,7 @@
             <em>Declaration signed by the applicant that he/she is not a Civil Servant, employee of a Government Controlled Organization or Corporate Body as set out in Annexure A of TRR 2017 </em>      
           </li>
         </ol>
-        <span class="btn btn-success btn-sm fileinput-button">
-          <i class="fas fa-plus"></i>
-          <span>Add files...</span>
-          <input id="fileupload" type="file" name="files[]" multiple="">
-        </span>
+        @include('services/fileupload/fileupload')
       </div>
     </div>
   </div>
@@ -265,7 +261,7 @@
 </div>
 @endsection
 
-@section('page_scripts')
+@section('scripts')
 <script>
   $(function() {
 

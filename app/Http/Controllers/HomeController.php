@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Dropdown;
+use App\Models\WorkFlowDetails;
 class HomeController extends Controller
 {
     /**
@@ -23,7 +24,9 @@ class HomeController extends Controller
      */
     public function getDashboard()
     {
-        return view('dashboard');
+        $endUserApplicantDtls = WorkFlowDetails::getEndUserApplicationDtls();
+
+        return view('dashboard', compact('endUserApplicantDtls'));
     }
 
 
