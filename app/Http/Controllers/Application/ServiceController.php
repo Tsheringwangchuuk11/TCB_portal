@@ -177,6 +177,26 @@ class ServiceController extends Controller
                 $this->services->insertIntoCheckListApplication($checklistData);
             }
 
+             //insert into t_member_applications
+             $member_name=$request->member_name;
+             $relation_type_id=$request->relation_type_id;
+             $member_age=$request->member_age;
+             $member_gender=$request->member_gender;
+             $membersDetailsData = [];
+
+             if(isset($member_name)){
+				foreach($member_name as $key => $value)
+				{
+                    $membersDetailsData[] = [    
+                    'application_no'  => $application_no,
+                    'member_name'   => $member_name[$key],
+                    'relation_type_id'   => $relation_type_id[$key],
+                    'member_age'   => $member_age[$key],
+                    'member_gender'   => $member_gender[$key]
+                    ];
+                }
+                $this->services->insertMemberApplication($membersDetailsData);
+            }
 	        //update application_no in t_documents
              $documentId = $request->documentId;
              $this->services->updateDocumentDetails($documentId,$application_no);

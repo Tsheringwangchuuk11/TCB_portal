@@ -18,7 +18,7 @@ $(document).ready(function(){
    $('#dzongkhag_id').on('change',function(e) {
       var dzongkhag_id = e.target.value;
       if(dzongkhag_id){
-         $("#location_id option:gt(0)").remove();	
+         $("#gewog_id option:gt(0)").remove();	
          $.ajax({			   
             url:'/json-dropdown',
             type:"GET",
@@ -29,17 +29,43 @@ $(document).ready(function(){
                 parent_id: dzongkhag_id,
            parent_name_id: 'dzongkhag_id'					 
             },
-            success:function (data) {	
-            $('#location_id').append('<option value=""> -Select- </option>'); 
+            success:function (data) {
             $.each(data, function(key, value) {
-               $('select[name="location_id"]').append('<option value="'+ key +'">'+ value +'</option>');
+               $('select[name="gewog_id"]').append('<option value="'+ key +'">'+ value +'</option>');
             });
             }
          });
       }else{
-         $("#location_id option:gt(0)").remove();	
+         $("#gewog_id option:gt(0)").remove();	
+         $("#chiwog_id option:gt(0)").remove();	
       }		 
    });
+
+   $('#gewog_id').on('change',function(e) {
+      var gewog_id = e.target.value;
+      if(gewog_id){
+         $("#chiwog_id option:gt(0)").remove();	
+         $.ajax({			   
+            url:'/json-dropdown',
+            type:"GET",
+            data: {
+               table_name: 't_chiwog_masters',
+                       id: 'chiwog_id',
+                     name: 'chiwog_name',
+                parent_id: gewog_id,
+           parent_name_id: 'gewog_id'					 
+            },
+            success:function (data) {
+            $.each(data, function(key, value) {
+               $('select[name="chiwog_id"]').append('<option value="'+ key +'">'+ value +'</option>');
+            });
+            }
+         });
+      }else{
+         $("#chiwog_id option:gt(0)").remove();	
+      }		 
+   });
+
 });
 //  fileupload
 var count=0, deleteId;

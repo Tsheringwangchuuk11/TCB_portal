@@ -128,8 +128,12 @@ class Services extends Model
 		DB::table('t_staff_applications')->insert($staffAppData);		
 	}
 	
-	public function insertIntoCheckListApplication($checklistData){
-		DB::table('t_checklist_applications')->insert($checklistData);		
+	public function insertIntoCheckListApplication($membersDetailsData){
+		DB::table('t_checklist_applications')->insert($membersDetailsData);		
+	}
+
+	public function insertMemberApplication($checklistData){
+		DB::table('t_member_applications')->insert($checklistData);		
 	}
 
 	public function updateDocumentDetails($documentId,$application_no){

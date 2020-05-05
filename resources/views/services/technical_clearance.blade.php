@@ -1,9 +1,9 @@
 @extends('layouts.manager')
-@section('page-title','New : Technical Clearance')
+@section('page-title','Technical Clearance Registration')
 @section('content')
 <div class="card">
   <div class="card-header bg-success">
-    <h4 class="card-title">Technical Clearance Registration</h4>
+    <h4 class="card-title">General Information</h4>
   </div>
   <form action="{{ url('application/save-application') }}" method="POST" enctype="multipart/form-data" id="form_data">
     @csrf
@@ -53,9 +53,8 @@
             <div class="col-md-5">
               <div class="form-group">
                 <label for="">Gewog<span class="text-danger"> *</span></label>
-                <select  name="location_id" class="form-control select2bs4 required" id="location_id" style="width: 100%;">
+                <select  name="gewog_id" class="form-control select2bs4 required" id="gewog_id" style="width: 100%;">
                 </select> 
-                <span class="text-danger">{{ $errors->first('location_id') }}</span>                 
               </div>
             </div>
             <div class="col-md-5 offset-md-2">

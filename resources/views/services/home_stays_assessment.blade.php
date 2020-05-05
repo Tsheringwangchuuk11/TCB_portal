@@ -1,195 +1,207 @@
 @extends('layouts.manager')
-@section('page-title','New : Village Home Stay Assessment')
+@section('page-title','Village Home Stay Assessment')
 @section('content')
-<div class="card">
-  <div class="card-header bg-success">
-    <div class="card-title">Village Home Stay Registration</div>
-  </div>
-  <form action="{{ url('application/save-application') }}" class="form-horizontal" method="POST" enctype="multipart/form-data" id="formdata">
+<form action="{{ url('application/save-application') }}" class="form-horizontal" method="POST" enctype="multipart/form-data" id="formdata">
     @csrf
     <input type="hidden" name="service_id" value="{{ $idInfos->service_id }}" id="service_id">
     <input type="hidden" name="module_id" value="{{ $idInfos->module_id }}" id="module_id">
     <input type="hidden" name="service_name" value="{{ $idInfos->name }}" id="service_name">
     <input type="hidden" name="module_name" value="{{ $idInfos->module_name }}" id="module_name">
-    <div class="card-body">
-      <div class="row">
-        <div class="col-md-12">
-          <h5>Personal Details</h5>
-          <div class="row">
-            <div class="col-md-5">
-              <div class="form-group">
-                <label for="">Name<span class="text-danger"> *</span></label>
-                <input type="text" class="form-control required" name="name" autocomplete="off">
-              </div>
-            </div>
-            <div class="col-md-5 offset-md-2">
-              <div class="form-group ">
-                <label for="">CID No.<span class="text-danger"> *</span></label>
-                <input type="text" class="form-control numeric-only required" name="cid" autocomplete="off">
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-5">
-              <div class="form-group">
-                <label for="">Contact No.<span class="text-danger"> *</span> </label>
-                <input type="text" class="form-control numeric-only required" name="phone_number" autocomplete="off">
-              </div>
-            </div>
-            <div class="col-md-5 offset-md-2">
-              <div class="form-group">
-                <label for="">Email</label>
-                <input type="email" class="form-control email required" name="email" autocomplete="off">
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-5">
-              <div class="form-group">
-                <label for="">Dzongkhag<span class="text-danger"> *</span></label>
-                <select class="form-control select2bs4 required" style="width: 100%;" required>
-                    <option value=""> -Select-</option>
-                    @foreach ($dzongkhagLists as $dzongkhagList)
-                      <option value="{{ $dzongkhagList->id }}">{{ $dzongkhagList->dzongkhag_name }}</option>
-                    @endforeach
-                </select>
-              </div>
-            </div>
-            <div class="col-md-5 offset-md-2">
-              <div class="form-group">
-                <label for="">Gewog<span class="text-danger"> *</span></label>
-                    <select  name="location_id" class="form-control select2bs4 required" id="location_id" style="width: 100%;">
-                    </select>                
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-5">
-              <div class="form-group">
-                <label for="">Chiwog<span class="text-danger"> *</span></label>
-                <select class="form-control select2bs4 required" style="width: 100%;" required>
-                  <option value="1" selected="selected">-select-</option>
-                </select>
-              </div>
-            </div>
-            <div class="col-md-5 offset-md-2">
-              <div class="form-group">
-                <label for="">Village <span class="text-danger"> *</span></label>
-                <input type="text" class="form-control required" name="village" required>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-5">
-              <div class="form-group">
-                <label for="">Thram No.<span class="text-danger"> *</span> </label>
-                <input type="text" class="form-control required" name="thram_no" required>
-              </div>
-            </div>
-            <div class="col-md-5 offset-md-2">
-              <div class="form-group">
-                <label for="">House No.<span class="text-danger"> *</span></label>
-                <input type="text" class="form-control required" name="house_no" required>
-              </div>
-            </div>
-          </div>
-          <h5>Locations</h5>
-          <div class="row">
-            <div class="col-md-5">
-              <div class="form-group">
-                <label for="">Distance from the nearest town/urban centre (hrs or kms)<span class="text-danger"> *</span></label>
-                <input type="text" class="form-control required" name="distance1" autocomplete="off" required>
-              </div>
-            </div>
-            <div class="col-md-5 offset-md-2">
-              <div class="form-group">
-                <label for="">Distance from the main road (hrs or kms)<span class="text-danger"> *</span></label>
-                <input type="text" class="form-control required" name="distance2" autocomplete="off" required>
-              </div>
-            </div>
-            <div class="col-md-5">
-              <div class="form-group">
-                <label for="">Condition of the pathway to house from the road point<span class="text-danger"> *</span></label>
-                <input type="text" class="form-control required" name="distance3" autocomplete="off" required>
-              </div>
-            </div>
-          </div>
-          <h5>Details Of The Family Members Residing In The Same House</h5>
-          <div class="row">
-            <div class="form-group col-md-3">
-                <label>Name <span class="text-danger">*</span></label>
-            </div>
-            <div class="form-group col-md-3">
-                <label>Relationship with the applicant <span class="text-danger">*</span></label>
-            </div>
-            <div class="form-group col-md-3">
-                <label for="">Age <span class="text-danger">*</span> </label>
-            </div>
-            <div class="form-group col-md-3">
-                <label>Gender <span class="text-danger">*</span></label>
-            </div>
-        </div>
-        <div id="row">
-            <div class="row">
-                <div class="form-group col-md-3">
-                    <input type="text" class="form-control" name="member_name[]">
-                </div>
-                <div class="form-group col-md-3">
-                    <select class="form-control required" name="relation_type_id[]" id="hotel_div_id">
-                        <option value="">- Select -</option>
-                        @foreach ($relationTypes as $relationType)
-                        <option value="{{ $relationType->id }}"> {{ $relationType->relation_type }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group col-md-3">
-                    <input type="text" class="form-control required" name="member_age[]" autocomplete="off" id="staff_name">
-                </div>
-                <div class="form-group col-md-2">
-                    <select class="form-control required" name="member_gender[]" id="staff_gender">
-                        <option value="">- Select -</option>
-                        @foreach (config()->get('settings.gender') as $k => $v)
-                        <option value="{{ $k }}" {{ old('gender') == $k ? 'selected' : '' }}>{{ $v }}</option>
-                        @endforeach
-                    </select>
-                    <span class="text-danger">{{ $errors->first('staff_gender') }}</span>
-                </div>
-            </div>
-        </div>
-        <div id="adddiv"></div>
-        <span class="btn btn-success btn-sm float-right" id="add"> <i class="fas fa-plus fa-sm">Add</i> </span>
-          <h5>Self-assessment Check List</h5>
-          <div class="row">
-            <div class="col-md-12">
-              <div id="showdivid"></div>
-            </div>
-          </div>
-          <h5>File Attachment<span class="text-danger"> *</span></h5>
-          <h6> <strong>Required supporting documents:</strong></h6>
-          <ol>
-            <li>
-              <em>Pictures of buildings</em>
-            </li>
-            <li>
-              <em>No objection letter from the head of the family </em>
-            </li>
-            <li>
-              <em>Authentication letter from the gewog</em>
-            </li>
-            <li>
-              <em>Recommendation letter from the dzongkhag and the letter of undertaking</em>
-            </li>
-          </ol>
-          @include('services/fileupload/fileupload')
-        </div>
-      </div>
-    </div>
-    <div class="card-footer text-center" >
-      <button type="submit"class="btn btn-success"><li class="fas fa-check"></li> APPLY</button>
-      <button type="reset" class="btn btn-danger"><li class="fas fa-times"></li> RESET</button>
-    </div>
-  </form>
-</div>
+	<div class="card">
+		<div class="card-header">
+			<h4 class="card-title">Personal Details</h4>
+		</div>
+		<div class="card-body">
+			<div class="row">
+				<div class="col-md-5">
+				  <div class="form-group">
+					<label for="">Name<span class="text-danger"> *</span></label>
+					<input type="text" class="form-control required" name="name" autocomplete="off">
+				  </div>
+				</div>
+				<div class="col-md-5 offset-md-2">
+				  <div class="form-group ">
+					<label for="">CID No.<span class="text-danger"> *</span></label>
+					<input type="text" class="form-control numeric-only required" name="cid_no" autocomplete="off">
+				  </div>
+				</div>
+			  </div>
+			  <div class="row">
+				<div class="col-md-5">
+				  <div class="form-group">
+					<label for="">Contact No.<span class="text-danger"> *</span> </label>
+					<input type="text" class="form-control numeric-only required" name="contact_no" autocomplete="off">
+				  </div>
+				</div>
+				<div class="col-md-5 offset-md-2">
+				  <div class="form-group">
+					<label for="">Email</label>
+					<input type="email" class="form-control email required" name="email" autocomplete="off">
+				  </div>
+				</div>
+			  </div>
+			  <div class="row">
+				<div class="col-md-5">
+				  <div class="form-group">
+					<label for="">Dzongkhag<span class="text-danger"> *</span></label>
+					<select class="form-control select2bs4 required" name="dzongkhag_id" id="dzongkhag_id" style="width: 100%;">
+						<option value=""> -Select-</option>
+						@foreach ($dzongkhagLists as $dzongkhagList)
+						  <option value="{{ $dzongkhagList->id }}">{{ $dzongkhagList->dzongkhag_name }}</option>
+						@endforeach
+					</select>
+				  </div>
+				</div>
+				<div class="col-md-5 offset-md-2">
+				  <div class="form-group">
+					<label for="">Gewog<span class="text-danger"> *</span></label>
+						<select  name="gewog_id" class="form-control select2bs4" id="gewog_id" style="width: 100%;">
+							<option value=""> -Select-</option>
+	
+						</select>                
+				  </div>
+				</div>
+			  </div>
+			  <div class="row">
+				<div class="col-md-5">
+				  <div class="form-group">
+					<label for="">Chiwog<span class="text-danger"> *</span></label>
+					<select  name="chiwog_id" class="form-control select2bs4" id="chiwog_id" style="width: 100%;">
+						<option value=""> -Select-</option>
+					</select>
+				  </div>
+				</div>
+				<div class="col-md-5 offset-md-2">
+				  <div class="form-group">
+					<label for="">Village <span class="text-danger"> *</span></label>
+					<input type="text" class="form-control required" name="location_id" required>
+				  </div>
+				</div>
+			  </div>
+			  <div class="row">
+				<div class="col-md-5">
+				  <div class="form-group">
+					<label for="">Thram No.<span class="text-danger"> *</span> </label>
+					<input type="text" class="form-control required" name="thram_no" required>
+				  </div>
+				</div>
+				<div class="col-md-5 offset-md-2">
+				  <div class="form-group">
+					<label for="">House No.<span class="text-danger"> *</span></label>
+					<input type="text" class="form-control required" name="house_no" required>
+				  </div>
+				</div>
+			  </div>
+		</div>
+	</div>
+
+	<div class="card">
+		<div class="card-header">
+			 <h4 class="card-title">Locations</h4>
+		</div>
+		<div class="card-body">
+			<div class="row">
+				<div class="col-md-5">
+				  <div class="form-group">
+					<label for="">Distance from the nearest town/urban centre (hrs or kms)<span class="text-danger"> *</span></label>
+					<input type="text" class="form-control required" name="town_distance" autocomplete="off" required>
+				  </div>
+				</div>
+				<div class="col-md-5 offset-md-2">
+				  <div class="form-group">
+					<label for="">Distance from the main road (hrs or kms)<span class="text-danger"> *</span></label>
+					<input type="text" class="form-control required" name="road_distance" autocomplete="off" required>
+				  </div>
+				</div>
+				<div class="col-md-5">
+				  <div class="form-group">
+					<label for="">Condition of the pathway to house from the road point<span class="text-danger"> *</span></label>
+					<input type="text" class="form-control required" name="condition" autocomplete="off" required>
+				  </div>
+				</div>
+			  </div>
+		</div>
+	</div>
+
+	<div class="card">
+		<div class="card-header">
+			 <h4 class="card-title">Details Of The Family Members Residing In The Same House</h4>
+		</div>
+		<div class="card-body">
+			<div class="row">
+				<div class="form-group col-md-3">
+					<label>Name <span class="text-danger">*</span></label>
+				</div>
+				<div class="form-group col-md-3">
+					<label>Relationship with the applicant <span class="text-danger">*</span></label>
+				</div>
+				<div class="form-group col-md-3">
+					<label for="">Age <span class="text-danger">*</span> </label>
+				</div>
+				<div class="form-group col-md-3">
+					<label>Gender <span class="text-danger">*</span></label>
+				</div>
+			</div>
+			<div id="row">
+				<div class="row">
+					<div class="form-group col-md-3">
+						<input type="text" class="form-control" name="member_name[]">
+					</div>
+					<div class="form-group col-md-3">
+						<select class="form-control required" name="relation_type_id[]" id="hotel_div_id">
+							<option value="">- Select -</option>
+							@foreach ($relationTypes as $relationType)
+							<option value="{{ $relationType->id }}"> {{ $relationType->relation_type }}</option>
+							@endforeach
+						</select>
+					</div>
+					<div class="form-group col-md-3">
+						<input type="text" class="form-control required" name="member_age[]" autocomplete="off" id="staff_name">
+					</div>
+					<div class="form-group col-md-2">
+						<select class="form-control required" name="member_gender[]" id="staff_gender">
+							<option value="">- Select -</option>
+							@foreach (config()->get('settings.gender') as $k => $v)
+							<option value="{{ $k }}" {{ old('gender') == $k ? 'selected' : '' }}>{{ $v }}</option>
+							@endforeach
+						</select>
+					</div>
+				</div>
+			</div>
+			<div id="adddiv"></div>
+			<span class="btn btn-success btn-sm float-right" id="add"> <i class="fas fa-plus fa-sm">Add</i> </span>
+		</div>
+	</div>
+
+	<div id="showdivid"></div>
+	<div class="card">
+		<div class="card-header">
+			 <h4 class="card-title">File Attachment</h4>
+		</div>
+		<div class="card-body">
+			<h6> <strong>Required supporting documents:</strong></h6>
+			<ol>
+			  <li>
+				<em>Pictures of buildings</em>
+			  </li>
+			  <li>
+				<em>No objection letter from the head of the family </em>
+			  </li>
+			  <li>
+				<em>Authentication letter from the gewog</em>
+			  </li>
+			  <li>
+				<em>Recommendation letter from the dzongkhag and the letter of undertaking</em>
+			  </li>
+			</ol>
+			@include('services/fileupload/fileupload')
+		</div>
+		<div class="card-footer text-center" >
+			<button type="submit"class="btn btn-success"><li class="fas fa-check"></li> APPLY</button>
+			<button type="reset" class="btn btn-danger"><li class="fas fa-times"></li> RESET</button>
+		  </div>
+	</div>
+</form>
 @endsection
 @section('scripts')
 <script>
