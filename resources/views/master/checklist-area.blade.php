@@ -71,7 +71,7 @@
                             <input type="hidden" name="checklist_area_id" id="checklist_area_id" />
                             <div class="form-group">
                                 <label for="" >Checklist Chapter *</label>
-                                <select name="checklist_chapter" class="form-control required select2" id="checklist">
+                                <select name="checklist_chapter" class="form-control required" id="checklist">
                                     <option value="">---SELECT---</option>
                                     @foreach ($checklistChapters as $checklistChapter)
                                     <option value="{{ $checklistChapter->id }}" {{ old('checklist_chapter') == $checklistChapter->id ? 'selected' : '' }}>{{ $checklistChapter->checklist_ch_name }}</option>

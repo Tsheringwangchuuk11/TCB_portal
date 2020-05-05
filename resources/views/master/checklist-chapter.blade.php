@@ -71,7 +71,7 @@
                             <input type="hidden" name="checklist_id" id="checklist_id" />
                             <div class="form-group">
                                 <label for="" >Module *</label>
-                                <select name="service_module" class="form-control required select2" id="module">
+                                <select name="service_module" class="form-control required" id="module">
                                     <option value="">---SELECT---</option>
                                     @foreach ($serviceModules as $serviceModule)
                                     <option value="{{ $serviceModule->id }}" {{ old('service_module') == $serviceModule->id ? 'selected' : '' }}>{{ $serviceModule->module_name }}</option>
