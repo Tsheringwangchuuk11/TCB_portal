@@ -1,5 +1,5 @@
 @extends('layouts.manager')
-@section('page-title','New : Home Stay Name Change')
+@section('page-title','Home Stay Name Change')
 @section('content')
 <div class="card">
   <div class="card-header bg-success">

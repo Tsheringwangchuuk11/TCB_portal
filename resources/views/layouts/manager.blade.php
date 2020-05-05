@@ -67,7 +67,7 @@
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-md-8">
-                                    <h1 class="m-0 text-dark">@yield('page-title')</h1>
+                                    <h4 class="m-0 text-dark">@yield('page-title')</h4>
                                 </div>
                                 <div class="col-md-4 text-right">
                                     @yield('buttons')

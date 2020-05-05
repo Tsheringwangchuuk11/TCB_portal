@@ -1,5 +1,5 @@
 @extends('layouts.manager')
-@section('page-title','New : Tourist Standard Restuarant Assessment')
+@section('page-title','Tourist Standard Restuarant Assessment')
 @section('content') 
 @php use App\Http\Controllers\Application\ServiceController; @endphp
 <div class="card">
@@ -84,12 +84,6 @@
             </div>
             <div class="row">
                 <div class="col-md-5">
-                    <div class="form-group">
-                        <label for="">Number of Beds <span class="text-danger">*</span> </label>
-                        <input type="text" class="form-control numeric-only" name="bed_no" autocomplete="off">
-                    </div>
-                </div>
-                <div class="col-md-5 offset-md-2">
                     <div class="form-group">
                         <label for="">Location <span class="text-danger">*</span> </label>
                         <select class="form-control select2bs4" name="location_id" style="width: 100%;">

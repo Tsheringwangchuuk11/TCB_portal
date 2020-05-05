@@ -23,7 +23,6 @@ class TasklistController extends Controller
         $privilegeIds = TRolePrivilege::whereIn('role_id', $roles)->orderBy('system_sub_menu_id', 'asc')->select('system_sub_menu_id')->get();
         $groupTasklists = TaskDetails::getTasklists($privilegeIds, $releaseId->id, 0);
         $myTasklists = TaskDetails::getTasklists($privilegeIds,$claimId->id, $user_id);
-
         return view('services.tasklist.tasklist',compact('groupTasklists','myTasklists'));
     }
     public function claimApplication(Request $request){

@@ -1,5 +1,5 @@
 @extends('layouts.manager')
-@section('page-title','New : Bhutan Media Familarization')
+@section('page-title','Bhutan Media Familarization')
 @section('content')
 <div class="card">
     <div class="card-header bg-success">

@@ -1,5 +1,5 @@
 @extends('layouts.manager')
-@section('page-title','New : Tourism Product Development')
+@section('page-title','Tourism Product Development')
 @section('content')
 <div class="card">
     <div class="card-header bg-success">
@@ -209,7 +209,7 @@
         </form>
     </div>
     @endsection
-    @section('page_scripts')
+    @section('scripts')
     <script>
         $(document).ready(function () {
             bsCustomFileInput.init();

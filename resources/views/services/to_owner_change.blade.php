@@ -1,5 +1,5 @@
 @extends('layouts.manager')
-@section('page-title','New : Tour Operator Ownership Change')
+@section('page-title','Tour Operator Ownership Change')
 @section('content')
 
 <div class="card">

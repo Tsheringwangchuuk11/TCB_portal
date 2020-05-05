@@ -8,6 +8,8 @@ use App\Models\Services;
 use App\Models\Dropdown;
 use App\Models\WorkFlowDetails;
 use App\Models\TaskDetails;
+use App\Models\TCheckListChapter;
+use App\Models\TCheckListStandard;
 use DB;
 class ServiceController extends Controller
 {
@@ -42,7 +44,8 @@ class ServiceController extends Controller
         $data['roomTypeLists'] = Dropdown::getDropdowns("t_room_types","id","room_name","0","0");
         $data['staffAreaLists'] = Dropdown::getDropdowns("t_staff_areas","id","staff_area_name","0","0");
         $data['hotelDivisionLists'] = Dropdown::getDropdowns("t_hotel_divisions","id","hotel_div_name","0","0");
-       return view($page_link, $data);
+        $data['relationTypes'] = Dropdown::getDropdowns("t_relation_types","id","relation_type","0","0");
+        return view($page_link, $data);
 
     }
 
@@ -58,20 +61,29 @@ class ServiceController extends Controller
     }
     public static function getCheckListChapter(Request $request){
         $starCategoryId=$request->star_category_id;
-        $chapters=Services::getCheckListChapter($request);
-        return view('services/checklist', compact('chapters','starCategoryId'));
+        $moduleId = $request->module_id;
+
+        $checklistDtls =  TCheckListChapter::with(['chapterAreas' => function($q) use($starCategoryId){
+            $q->with(['checkListStandards'=> function($query) use($starCategoryId){
+                $query->leftJoin('t_check_list_standard_mappings','t_check_list_standards.id','=','t_check_list_standard_mappings.checklist_id')
+                    ->leftJoin('t_basic_standards','t_check_list_standard_mappings.standard_id','=','t_basic_standards.id')
+                    ->where('t_check_list_standard_mappings.star_category_id','=',$starCategoryId);
+            }]);
+        }])->where('module_id','=',$request->module_id)
+        ->get();
+        return view('services/hotel_checklist', compact('checklistDtls'));
     }
 
-    public static function getChapterAreaList($chapterId,$starCategoryId){
-        $chapterAreas=Services::getChapterArea($chapterId,$starCategoryId);
-        return $chapterAreas;
-
+    public function getHomeStayCheckListChapter(Request $request){
+            $checklistDtls =  TCheckListChapter::with(['chapterAreas' => function($q){
+                $q->with(['checkListStandards'=> function($query){
+                    $query->leftJoin('t_check_list_standard_mappings','t_check_list_standards.id','=','t_check_list_standard_mappings.checklist_id')
+                        ->leftJoin('t_basic_standards','t_check_list_standard_mappings.standard_id','=','t_basic_standards.id');
+                }]);
+            }])->where('module_id','=',$request->module_id)
+            ->get();
+        return view('services/homestay_checklist', compact('checklistDtls'));
     }
-    public static function getStandardList($starCategoryId,$checkListAreaId){
-        $standards=Services::getStandards($starCategoryId,$checkListAreaId);
-        return $standards;
-    }
-
     public function getOwnerShipDetails($licenseNo){
          $data=Services::getOwnerShipDetails($licenseNo);
          return response()->json($data);
@@ -151,6 +163,40 @@ class ServiceController extends Controller
                 $this->services->insertIntoStaffApplication($staffAppData);
             }
 
+            //insert into t_checklist_applications
+             $checklist_id=$request->checklist_id;
+             $checklistData = [];
+            if(isset($checklist_id)){
+				foreach($checklist_id as $key => $value)
+				{
+                    $checklistData[] = [    
+                    'application_no'  => $application_no,
+					'checklist_id'   => $checklist_id[$key]
+                    ];
+                }
+                $this->services->insertIntoCheckListApplication($checklistData);
+            }
+
+             //insert into t_member_applications
+             $member_name=$request->member_name;
+             $relation_type_id=$request->relation_type_id;
+             $member_age=$request->member_age;
+             $member_gender=$request->member_gender;
+             $membersDetailsData = [];
+
+             if(isset($member_name)){
+				foreach($member_name as $key => $value)
+				{
+                    $membersDetailsData[] = [    
+                    'application_no'  => $application_no,
+                    'member_name'   => $member_name[$key],
+                    'relation_type_id'   => $relation_type_id[$key],
+                    'member_age'   => $member_age[$key],
+                    'member_gender'   => $member_gender[$key]
+                    ];
+                }
+                $this->services->insertMemberApplication($membersDetailsData);
+            }
 	        //update application_no in t_documents
              $documentId = $request->documentId;
              $this->services->updateDocumentDetails($documentId,$application_no);

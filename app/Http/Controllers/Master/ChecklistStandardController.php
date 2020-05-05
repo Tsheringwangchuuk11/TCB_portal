@@ -148,7 +148,6 @@ class ChecklistStandardController extends Controller
         try {
             $checklistStandard = TCheckListStandard::findOrFail($id);
             $checklistStandard->delete();
-
             return redirect('master/checklist-standards')->with('msg_success', 'checklist standard successfully deleted');
         } catch(\Exception $exception){
             return redirect()->back()->with('msg_error', 'This checklist standard  cannot be deleted as it is link in other data.');

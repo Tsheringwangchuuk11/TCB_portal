@@ -1,5 +1,5 @@
 @extends('layouts.manager')
-@section('page-title','New : Propreiter Card')
+@section('page-title','Propreiter Card')
 @section('content')
 <div class="card">
     <div class="card-header bg-success">

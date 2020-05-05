@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Services;
 use App\Models\WorkFlowDetails;
 use App\Models\Dropdown;
+use App\Models\TCheckListChapter;
+
 class ApproverController extends Controller
 {
     public function __construct()
@@ -24,7 +26,20 @@ class ApproverController extends Controller
          $data['roomInfos']=Services::getRoomDetails($applicationNo);
          $data['staffInfos']=Services::getStaffDetails($applicationNo);
          $data['documentInfos']=Services::getDocumentDetails($applicationNo);
-         return view('services.approver.hotels_assessment',$data);
+         $starCategoryIdId=Services::getApplicantDetails($applicationNo)->star_category_id;
+
+         $data['checklistDtls'] =  TCheckListChapter::with(['chapterAreas' => function($q) use($applicationNo,$starCategoryIdId){
+            $q->with(['checkListStandards'=> function($query) use($applicationNo,$starCategoryIdId){
+                $query->leftJoin('t_check_list_standard_mappings','t_check_list_standards.id','=','t_check_list_standard_mappings.checklist_id')
+                    ->leftJoin('t_basic_standards','t_check_list_standard_mappings.standard_id','=','t_basic_standards.id')
+                    ->leftJoin('t_checklist_applications','t_check_list_standards.id','=','t_checklist_applications.checklist_id')
+                    ->where('t_checklist_applications.application_no','=',$applicationNo)
+                    ->where('t_check_list_standard_mappings.star_category_id','=',$starCategoryIdId);
+            }]);
+        }])->where('module_id','=',$moduleId)
+        ->get();
+
+        return view('services.approver.hotels_assessment',$data);
 
     }
 

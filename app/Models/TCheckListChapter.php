@@ -20,4 +20,9 @@ class TCheckListChapter extends Model
     {
         return $this->is_active == self::IS_ACTIVE;
     }
+
+    public function chapterAreas()
+    {
+        return $this->hasMany(TCheckListArea::class, 'checklist_ch_id');
+    }
 }

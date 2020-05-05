@@ -1,5 +1,5 @@
 @extends('layouts.manager')
-@section('page-title','New : Tourism Product Proposal')
+@section('page-title','Tourism Product Proposal')
 @section('content')
 <div class="card">
   <div class="card-header bg-success">
