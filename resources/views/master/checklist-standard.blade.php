@@ -6,7 +6,7 @@
 			<div class="col-12">
 				<div class="card card-primary">
 					<div class="card-header">
-						<h3 class="card-title">Checklist Standards</h3>
+						<h3 class="card-title">Checklist Standard List</h3>
 					</div>
 					<div class="card-body">
 						<div class="alert alert-success alert-dismissible" id="success_msg_id" style="display:none">

@@ -8,6 +8,7 @@
 @section('content')
 <div class="card card-secondary">
 	<div class="card-header">
+        <h3 class="card-title">System Role List</h3>
 	</div>
 	<div class="card-body p-0">
 		<div class="table-responsive">

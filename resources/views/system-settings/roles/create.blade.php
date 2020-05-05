@@ -2,30 +2,35 @@
 @section('page-title', 'Create Role and Permissions')
 @section('content')
 <form action="{{ url('system/roles') }}" method="POST">
-@csrf
-<div class="row">
-	<div class="col-md-3">
+	@csrf
+	<div class="col-md-12">
 		<div class="card card-secondary">
 			<div class="card-header">
-                <h3 class="card-title">Add Module</h3>
+				<h3 class="card-title">Add Role</h3>
 			</div>
 			<div class="card-body">
-				<div class="form-group">
-					<label for="name">Role Name</label>
-					<input type="text" name="role_name" class="form-control required" value="{{old('role_name')}}" />
-				</div>
-				<div class="form-group">
-					<label for="name">Role Description</label>
-					<textarea name="role_description" class="form-control" rows="6">{{old('role_description')}}</textarea>
+				<div class="row">
+					<div class="col-md-5">
+						<div class="form-group">
+							<label for="name">Role Name</label>
+							<input type="text" name="role_name" class="form-control required" value="{{old('role_name')}}" />
+						</div>
+					</div>
+					<div class="col-md-7">
+						<div class="form-group">
+							<label for="name">Role Description</label>
+							<textarea name="role_description" class="form-control" rows="6">{{old('role_description')}}</textarea>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="col-md-9">
+	<div class="col-md-12">
 		<div class="card card-secondary">
 			<div class="card-header">
-				<h3 class="card-title">Add Permission</h3>
-			</div>
+				<h3 class="card-title">Add Add Permission</h3>
+			</div>					
 			<div class="card-body">
 				<table id="set-access" class="table table-condensed">
 					<thead>
@@ -85,14 +90,13 @@
 							@endforeach
 					</tbody>
 				</table>
-            </div>
-            <div class="card-footer text-center">
-                <button type="submit" class="btn btn-success btn-flat btn-sm"><i class="fas fa-check"></i> CREATE ROLE</button>
-                <a href="{{ url('system/roles') }}" class="btn btn-danger btn-flat btn-sm"><i class="fas fa-undo"></i> CANCEL</a>
-            </div>
+			</div>
+			<div class="card-footer text-center">
+				<button type="submit" class="btn btn-success btn-flat btn-sm"><i class="fas fa-check"></i> CREATE ROLE</button>
+				<a href="{{ url('system/roles') }}" class="btn btn-danger btn-flat btn-sm"><i class="fas fa-undo"></i> CANCEL</a>
+			</div>
 		</div>
-	</div>
-</div>
+	</div>	
 </form>
 @endsection
 @section('scripts')

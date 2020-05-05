@@ -22,7 +22,7 @@ class ResendVerificationCodeController extends Controller
     public function index(Request $request)
     {
         $privileges = $request->instance();
-        $users = User::filter($request)->where('is_verified', 0)->orderBy('name')->paginate(30);
+        $users = User::filter($request)->where('is_verified', 0)->orderBy('user_name')->paginate(30);
 
         return view('system-settings.resend-verification-code.index', compact('users', 'privileges'));
     }

@@ -2,6 +2,9 @@
 @section('page-title', 'Resend Verification Code')
 @section('content')
 <div class="card card-secondary">
+    <div class="card-header">
+        <h3 class="card-title">User List</h3>
+    </div>
 	<div class="card-body p-0">
 		<div class="table-responsive">
 			<table class="table table-striped table-bordered m-0">

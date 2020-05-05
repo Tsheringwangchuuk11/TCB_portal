@@ -4,27 +4,32 @@
 @endsection
 @section('content')
 <form action="{{ url('system/roles/' . $role->id) }}" method="POST">
-@csrf
-@method('PUT')
-<div class="row">
-	<div class="col-md-3">
+	@csrf
+	@method('PUT')
+	<div class="col-md-12">
 		<div class="card card-secondary">
             <div class="card-header">
                 <h3 class="card-title">Update Role</h3>
             </div>
 			<div class="card-body">
-				<div class="form-group">
-					<label for="name">Role Name</label>
-					<input type="text" name="role_name" class="form-control required" value="{{old('role_name', $role->name)}}" />
-				</div>
-				<div class="form-group">
-					<label for="name">Role Description</label>
-					<textarea name="role_description" class="form-control">{{old('role_description', $role->description)}}</textarea>
+				<div class="row">
+					<div class="col-md-5">
+						<div class="form-group">
+							<label for="name">Role Name</label>
+							<input type="text" name="role_name" class="form-control required" value="{{old('role_name', $role->name)}}" />
+						</div>
+					</div>
+					<div class="col-md-7">
+						<div class="form-group">
+							<label for="name">Role Description</label>
+							<textarea name="role_description" class="form-control">{{old('role_description', $role->description)}}</textarea>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="col-md-9">
+	<div class="col-md-12">
 		<div class="card card-secondary">
 			<div class="card-header">
                 <h3 class="card-title">Add / Edit Permissions</h3>
@@ -107,7 +112,6 @@
             </div>
 		</div>
 	</div>
-</div>
 </form>
 @endsection
 @section('scripts')

@@ -1,25 +1,27 @@
 @extends('layouts.manager')
 @section('page-title', 'Create Menus and Sub Menu')
-@section('content')
+@section('content')         
 <form action="{{ url('system/modules') }}" method="POST">
-    @csrf
-    <div class="row">
-        <div class="col-xs-12 col-md-3">
-            <div class="card card-secondary">
-                <div class="card-header">
-                    <h3 class="card-title">Add Menu</h3>
-                </div>
-                <div class="card-body">
-                    <div class="form-group">
-                        <label for="">Select Menu/Service *</label>
-                        <select name="module_display" class="form-control required service-module">
-                            <option value="">--SELECT---</option>
-                            @foreach (config()->get('settings.module_display_type') as $k => $v)
-                            <option value="{{$k}}" {{ old('module_display_type') == $k ? 'selected' : '' }}>{{$v}}</option>
-                            @endforeach
-                        </select>
+    @csrf    
+    <div class="col-md-12">        
+        <div class="card card-secondary">  
+            <div class="card-header">
+                <h3 class="card-title">Add Menu</h3>
+            </div>          
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">                                                
+                        <div class="form-group">
+                            <label for="">Select Menu/Service *</label>
+                            <select name="module_display" class="form-control required service-module">
+                                <option value="">--SELECT---</option>
+                                @foreach (config()->get('settings.module_display_type') as $k => $v)
+                                <option value="{{$k}}" {{ old('module_display_type') == $k ? 'selected' : '' }}>{{$v}}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
-                    <div class="service hide">
+                    <div class="col-md-6  service hide">
                         <div class="form-group">
                             <label for="">Select Services *</label>
                             <select name="service_id" class="form-control service">
@@ -29,36 +31,42 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>
-                    <div class="module hide">
+                    </div>                                      
+                    <div class="col-md-6 module hide">
                         <div class="form-group">
                             <label for="">Main Menu Name *</label>
                             <input type="text" name="main_module_name" class="form-control name" value="{{ old('main_module_name') }}" />
                         </div>
+                    </div>
+                    <div class="col-md-6 module hide">
                         <div class="form-group">
                             <label for="">Menu Icon *</label>
                             <input type="text" name="module_icon" class="form-control icon" value="{{ old('module_icon') }}" placeholder="example: fa-check"/>
                         </div>
+                    </div>                             
+                    <div class="col-md-6 module hide">
                         <div class="form-group">
                             <label for="">Display Order *</label>
                             <input type="text" name="module_display_order" class="form-control number display" value="{{ old('module_display_order') }}" />
-                    </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-xs-12 col-md-9">
-            <div class="card card-secondary">
-                <div class="card-header">
-                    <h3 class="card-title">Add Sub Menus</h3>
-                </div>
+    </div>
+    <div class="col-md-12">        
+        <div class="card card-secondary">  
+            <div class="card-header">
+                <h3 class="card-title">Add Sub Menu</h3>
+            </div>           
+            <div class="card-body">                                                   
                 <div class="box-body no-padding">
                     <table id="sub-module" class="table table-condensed table-striped">
                         <thead>
                             <th class="text-center">#</th>
                             <th>Sub Menu Name *</th>
-							<th>Route *</th>
-							<th>Order *</th>
+                            <th>Route *</th>
+                            <th>Order *</th>
                         </thead>
                         <tbody>
                             <tr>
@@ -76,7 +84,7 @@
                                 </td>
                             </tr>
                             <tr class="notremovefornew">
-                                <td colspan="3"></td>
+                                <td colspan="3s"></td>
                                 <td class="text-center">
                                     <a href="#" class="add-table-row btn bg-purple btn-sm"><i class="fa fa-plus"></i> Add New Row</a>
                                 </td>
@@ -89,7 +97,7 @@
                     <a href="{{ url('system/modules') }}" class="btn btn-danger btn-flat btn-sm"><i class="fa fa-undo"></i> CANCEL</a>
                 </div>
             </div>
-        </div>
+        </div>            
     </div>
 </form>
 @endsection
