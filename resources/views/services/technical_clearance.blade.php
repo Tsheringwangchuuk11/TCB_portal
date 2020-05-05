@@ -16,7 +16,7 @@
             <div class="col-md-5">
               <div class="form-group">
                 <label for="" >Name<span class="text-danger"> *</span></label>
-                <input type="text" class="form-control required" name="name" autocomplete="off">
+                <input type="text" class="form-control required" name="applicant_name" autocomplete="off">
                 <span class="text-danger">{{ $errors->first('name') }}</span>
               </div>
             </div>
@@ -32,7 +32,7 @@
             <div class="col-md-5">
               <div class="form-group">
                 <label for="">Proposed location for construction.<span class="text-danger"> *</span></label>
-                <input type="text" class="form-control required" name="proposed_location" autocomplete="off" >
+                <input type="text" class="form-control required" name="location" autocomplete="off" >
                 <span class="text-danger">{{ $errors->first('proposed_location') }}</span>
               </div>
             </div>
@@ -69,7 +69,7 @@
             <div class="col-md-5">
               <div class="form-group">
                 <label for="">No of rooms proposed<span class="text-danger"> *</span></label>
-                <input type="text" class="form-control required" name="bed_no" autocomplete="off" >
+                <input type="text" class="form-control required" name="number" autocomplete="off" >
                 <span class="text-danger">{{ $errors->first('bed_no') }}</span>                 
 
               </div>

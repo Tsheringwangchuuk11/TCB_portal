@@ -38,12 +38,12 @@
                 </div>
                 <div class="row">
                     <div class="form-group col-md-5">
-                        <label for="">Name <span class="text-danger">*</span> </label>
-                        <input type="text" class="form-control" name="name"  value="{{ $appInfos->name }}" autocomplete="off">
+                        <label for="">Hotel Name <span class="text-danger">*</span> </label>
+                        <input type="text" class="form-control" name="company_title_name"  value="{{ $appInfos->name }}" autocomplete="off">
                     </div>
                     <div class="form-group col-md-5 offset-md-2">
-                        <label for="">Owner</label>
-                        <input type="text" class="form-control" name="owner" value="{{ $appInfos->owner }}" autocomplete="off">
+                        <label for="">Owner Name</label>
+                        <input type="text" class="form-control" name="owner_name" value="{{ $appInfos->owner }}" autocomplete="off">
                     </div>
                 </div>
                 <div class="row">
@@ -73,13 +73,13 @@
                     </div>
                     <div class="form-group col-md-5 offset-md-2">
                         <label for="">Internet Homepage</label>
-                        <input type="text" class="form-control" name="internet_url" value="{{ $appInfos->internet_url }}" autocomplete="off">
+                        <input type="text" class="form-control" name="webpage_url" value="{{ $appInfos->internet_url }}" autocomplete="off">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-5">
                         <label for="">Number of Beds</label>
-                        <input type="text" class="form-control numeric-only" name="bed_no" value="{{ $appInfos->bed_no }}" autocomplete="off">
+                        <input type="text" class="form-control numeric-only" name="number" value="{{ $appInfos->bed_no }}" autocomplete="off">
                     </div>
                     <div class="form-group col-md-5 offset-md-2">
                         <label for="">Location</label>
