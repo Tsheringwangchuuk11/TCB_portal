@@ -38,10 +38,10 @@
                                     <td class="text-center">{!! $checklistArea->isActive() == 1 ? '<i class="fas fa-check text-green"></i>' : '<i class="fas fa-times text-red"></i>' !!}</td>
                                     <td class="text-center">
 										@if ($privileges["edit"] == 1)
-                                        <a href="javascript:void(0)" id="edit_checklist_area" data-id="{{ $checklistArea->id }}" class="btn btn-sm btn-info"> <i class="fas fa-edit"></i>Edit</a>
+                                        <a href="javascript:void(0)" id="edit_checklist_area" data-id="{{ $checklistArea->id }}" class="btn btn-sm btn-outline-info"> <i class="fas fa-edit"></i>Edit</a>
 										@endif
 										@if((int)$privileges->delete == 1)
-										<a href="#" class="form-confirm  btn btn-sm btn-danger" title="Delete">
+										<a href="#" class="form-confirm btn-sm btn btn-outline-danger" title="Delete">
 											<i class="fas fa-trash"></i> Delete
 											<a data-form="#frmDelete-{!! $checklistArea->id !!}" data-title="Delete {!! $checklistArea->checklist_area !!}" data-message="Are you sure you want to delete this checklist area?"></a>
 										</a>
@@ -84,7 +84,7 @@
 							<input type="hidden" name="checklist_area_id" id="checklist_area_id" />
 							<div class="form-group">
 								<label for="" >Module *</label>
-								<select name="service_module" class="form-control required select2bs4" id="module">
+								<select name="service_module" class="form-control required select2bs4 module" id="module">
 									<option value="">---SELECT---</option>
 									@foreach ($serviceModules as $serviceModule)
 									<option value="{{ $serviceModule->id }}" {{ old('service_module') == $serviceModule->id ? 'selected' : '' }}>{{ $serviceModule->module_name }}</option>
@@ -92,13 +92,10 @@
 								</select>
 							</div>
                             <div class="form-group">
-                                <label for="" >Checklist Chapter *</label>
-                                <select name="checklist_chapter" class="form-control required select2bs4" id="checklist">
-                                    <option value="">---SELECT---</option>
-                                    @foreach ($checklistChapters as $checklistChapter)
-                                    <option value="{{ $checklistChapter->id }}" {{ old('checklist_chapter') == $checklistChapter->id ? 'selected' : '' }}>{{ $checklistChapter->checklist_ch_name }}</option>
-                                    @endforeach
-                                </select>
+								<label for="" >Checklist Chapter *</label>
+								<select name="checklist_chapter" class="form-control checklist_chapter select2bs4" disabled>
+									<option value="">---SELECT MODULE FIRST---</option>
+								</select>                               
                             </div>
                             <div class="form-group">
                                 <label for="">Checklist Area Name*</label>
@@ -117,8 +114,8 @@
                             </div>
                         </div>
                         <div class="modal-footer" style="margin-bottom:-14px;">
-                            <input type="button" id="btn-save" class="btn btn-success btn-flat margin-r-5" value="create-checklist-area"/>
-                            <button type="button" class="btn btn-flat btn-close btn-danger float-left" data-dismiss="modal">Close</button>
+                            <input type="button" id="btn-save" class="btn btn-outline-success btn-flat margin-r-5" value="create-checklist-area"/>
+                            <button type="button" class="btn btn-flat btn-close btn-outline-danger float-left" data-dismiss="modal">Close</button>
                         </div>
                     </form>
 				</div>
@@ -136,6 +133,42 @@
 				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 			}
 		});
+
+		 //select a module and accordingly get the chapter associated with it using ajax request
+		 $('select.module').on('change', function(e){
+			var selectedModule = $('option:selected', this).val();			
+						
+			//check if module is selected or not
+			if (selectedModule.length > 0) {
+				$.ajax({
+					type: 'GET',
+					url:"{{ url('master/checklist-areas/module') }}",
+					dataType: 'JSON',
+					data: { moduleId: selectedModule },
+				
+					beforeSend: function(){
+						$('#ajax-loading-container').removeClass('hide');
+					},
+					complete: function() {
+						$('#ajax-loading-container').addClass('hide');
+					},
+
+					success: function(data) {
+						console.log(data);
+						$('select.checklist_chapter').empty().removeAttr('disabled', false);
+						$('select.checklist_chapter').append('<option value="">---SELECT ONE---</option>');
+						for (i = 0; i < data.length; i++) {
+							$('select.checklist_chapter').append('<option value="' + data[i].id + '">' + data[i].checklist_ch_name + '</option>');
+						}
+					}
+				});
+			} else {
+				$('select.checklist_chapter').empty().attr('disabled', true);
+				$('select.checklist_chapter').append('<option value="">---SELECT MODULE FIRST---</option>');
+			}
+		});
+
+
 	  $('#btn-save').click(function(e){
 		e.preventDefault();
 		//create
@@ -160,8 +193,9 @@
                       }
 
 					 var checklist = '<tr id="checklist_area_id_' + data.id + '"><td class="text-center">'+slNo+'</td><td>' + checklistName + '</td><td>' + data.checklist_area + '</td><td class="text-center">' + (data.is_active == 1 ? '<i class="fas fa-check text-green"></i>' : '<i class="fas fa-times text-red"></i>') + '</td>';
-                        checklist += '<td class="text-center"><a href="javascript:void(0)" id="edit_checklist_area" data-id="' + data.id + '" class="btn btn-info btn-sm">  <i class="fas fa-edit"></i> Edit</a> ';
-                        checklist += '<a href="javascript:void(0)" id="delete_checklist_area" data-id="' + data.id + '" class="btn btn-danger delete_checklist_area btn-sm"><i class="fas fa-trash"></i> Delete</a></td></tr>';
+                        checklist += '<td class="text-center"><a href="javascript:void(0)" id="edit_checklist_area" data-id="' + data.id + '" class="btn btn-outline-info btn-sm">  <i class="fas fa-edit"></i> Edit</a> ';
+                        checklist += '<a href="javascript:void(0)" id="delete_checklist_area" data-id="' + data.id + '"class ="btn btn-outline-danger delete_checklist_area btn-sm"><i class="fas fa-trash"></i> Delete</a></td></tr>';
+						
 
 					  if (actionType == "create-checklist-area") {
 						  $('#checklist_area_body_id').append(checklist);

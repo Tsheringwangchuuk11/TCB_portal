@@ -38,10 +38,10 @@
                                     <td class="text-center">{!! $checklistChapter->isActive() == 1 ? '<i class="fas fa-check text-green"></i>' : '<i class="fas fa-times text-red"></i>' !!}</td>
                                     <td class="text-center">
 										@if ($privileges["edit"] == 1)
-                                        <a href="javascript:void(0)" id="edit_checklist" data-id="{{ $checklistChapter->id }}" class="btn btn-sm btn-info"> <i class="fas fa-edit"></i>Edit</a>
+                                        <a href="javascript:void(0)" id="edit_checklist" data-id="{{ $checklistChapter->id }}" class="btn btn-sm btn-outline-info"> <i class="fas fa-edit"></i>Edit</a>
 										@endif
 										@if((int)$privileges->delete == 1)
-										<a href="#" class="form-confirm  btn btn-sm btn-danger" title="Delete">
+										<a href="#" class="form-confirm  btn btn-sm btn-outline-danger" title="Delete">
 											<i class="fas fa-trash"></i> Delete
 											<a data-form="#frmDelete-{!! $checklistChapter->id !!}" data-title="Delete {!! $checklistChapter->checklist_ch_name !!}" data-message="Are you sure you want to delete this checklist chapter?"></a>
 										</a>
@@ -84,7 +84,7 @@
                             <input type="hidden" name="checklist_id" id="checklist_id" />
                             <div class="form-group">
                                 <label for="" >Module *</label>
-                                <select name="service_module" class="form-control required select2bs4" id="module">
+                                <select name="service_module" class="form-control module required select2bs4" id="module">
                                     <option value="">---SELECT---</option>
                                     @foreach ($serviceModules as $serviceModule)
                                     <option value="{{ $serviceModule->id }}" {{ old('service_module') == $serviceModule->id ? 'selected' : '' }}>{{ $serviceModule->module_name }}</option>
@@ -108,8 +108,8 @@
                             </div>
                         </div>
                         <div class="modal-footer" style="margin-bottom:-14px;">
-                            <input type="button" id="btn-save" class="btn btn-success btn-flat margin-r-5" value="create-checklist"/>
-                            <button type="button" class="btn btn-flat btn-close btn-danger float-left" data-dismiss="modal">Close</button>
+                            <input type="button" id="btn-save" class="btn btn-outline-success btn-flat margin-r-5" value="create-checklist"/>
+                            <button type="button" class="btn btn-flat btn-close btn-outline-danger float-left" data-dismiss="modal">Close</button>
                         </div>
                     </form>
 				</div>
@@ -145,14 +145,15 @@
 				  }else{
                       var slNo = 0;
 					  if(actionType == "create-checklist"){
+						
 						slNo = totalChecklistCount+1;
 					  }else{
 						slNo = $('#hidden_id_'+data.id).val();
                       }
 
 					 var checklist = '<tr id="checklist_id_' + data.id + '"><td class="text-center">'+slNo+'</td><td>' + moduleName + '</td><td>' + data.checklist_ch_name + '</td><td class="text-center">' + (data.is_active == 1 ? '<i class="fas fa-check text-green"></i>' : '<i class="fas fa-times text-red"></i>') + '</td>';
-                        checklist += '<td class="text-center"><a href="javascript:void(0)" id="edit_checklist" data-id="' + data.id + '" class="btn btn-info btn-sm"><i class="fas fa-edit"></i> Edit</a> ';
-                        checklist += '<a href="javascript:void(0)" id="delete_checklist" data-id="' + data.id + '" class="btn btn-danger delete_checklist btn-sm"><i class="fas fa-trash"></i> Delete</a></td></tr>';
+                        checklist += '<td class="text-center"><a href="javascript:void(0)" id="edit_checklist" data-id="' + data.id + '" class="btn btn-outline-info btn-sm"><i class="fas fa-edit"></i> Edit</a> ';
+                        checklist += '<a href="javascript:void(0)" id="delete_checklist" data-id="' + data.id + '" class="btn btn-outline-danger delete_checklist btn-sm"><i class="fas fa-trash"></i> Delete</a></td></tr>';
 
 					  if (actionType == "create-checklist") {
 						  $('#checklist_body_id').append(checklist);
@@ -160,9 +161,11 @@
 						  $("#checklist_id_" + data.id).replaceWith(checklist);
 					  }
 						$('#checklistForm').trigger("reset");
+						$("#module").val(null).trigger("change");
 						$('#error_msg_id').hide();
 						$('#ajax-crud-modal').modal('hide');
 						$('#btn-save').html('Save Changes');
+						
 						$('#success_msg_id').html('');
 						$('#success_msg_id').show();
 						$('#success_msg_id').html('checklist name: '+data.checklist_ch_name+' has been successfully saved!');

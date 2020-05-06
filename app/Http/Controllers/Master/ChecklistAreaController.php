@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\TCheckListChapter;
 use App\Models\TCheckListArea;
 use App\Models\Dropdown;
 use Validator;
@@ -71,5 +72,12 @@ class ChecklistAreaController extends Controller
         } catch(\Exception $exception){
             return redirect()->back()->with('msg_error', 'This checklist area  cannot be deleted as it is link in other data.');
         }
+    }
+
+    //get checklist chapter
+    public function getChapter(Request $request)
+    {                
+        $chapters = TCheckListChapter::where('module_id', $request->moduleId)->get();
+        return response()->json($chapters);
     }
 }

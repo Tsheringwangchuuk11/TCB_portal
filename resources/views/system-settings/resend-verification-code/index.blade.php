@@ -26,7 +26,7 @@
                             <td class="text-center">{!! $user->isActive() == 1 ? '<i class="fas fa-check text-green"></i>' : '<i class="fas fa-times text-red"></i>' !!}</td>
                             <td class="text-center">
                                 @if ((int)$privileges->edit== 1)
-                                    <a href="{{ url('system/resend-verification-codes/' . $user->id . '/edit') }}" class="btn bg-purple btn-xs btn-flat margin-r-5"><i class="fas fa-edit"></i> Resend Code</a>
+                                    <a href="{{ url('system/resend-verification-codes/' . $user->id . '/edit') }}" class="btn bg-outline-purple btn-xs btn-flat margin-r-5"><i class="fas fa-edit"></i> Resend Code</a>
                                 @endif
                             </td>
                         </tr>
