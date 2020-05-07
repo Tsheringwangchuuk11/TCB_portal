@@ -18,7 +18,7 @@
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label  for="" >Name<span class="text-danger"> *</span></label>
-                                <input type="text" class="form-control required" name="name" autocomplete="off">
+                                <input type="text" class="form-control required" name="applicant_name" autocomplete="off">
                             </div>
                         </div>
                         <div class="col-md-5 offset-md-2">
@@ -32,7 +32,7 @@
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label for="">Company Name<span class="text-danger"> *</span></label>
-                                <input type="text" class="form-control required" name="company_name" autocomplete="off">
+                                <input type="text" class="form-control required" name="company_title_name" autocomplete="off">
                             </div>
                         </div>
                         <div class="col-md-5 offset-md-2">
@@ -60,13 +60,13 @@
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label for="">validity Date<span class="text-danger"> *</span></label>
-                                <input type="text" class="form-control required" name="validity_date" autocomplete="off" >
+                                <input type="date" class="form-control required" name="validity_date" autocomplete="off" >
                             </div>
                         </div>
                         <div class="col-md-5 offset-md-2">
                             <div class="form-group">
                                 <label  for="">Office Location<span class="text-danger"> *</span></label>
-                                <input type="text" name="proposed_location" class="form-control required" autocomplete="off">
+                                <input type="text" name="location" class="form-control required" autocomplete="off">
                             </div>
                         </div>
                     </div>

@@ -18,6 +18,7 @@ class CreateTOfficeApplicationsTable extends Migration
             $table->string('application_no')->nullable()->index();
             $table->unsignedBigInteger('office_id')->index();
             $table->boolean('office_status')->default(0);
+            $table->text('office_info_remarks')->nullable();
 
             $table->foreign('application_no')->references('application_no')->on('t_applications');
             $table->foreign('office_id')->references('id')->on('t_offices');

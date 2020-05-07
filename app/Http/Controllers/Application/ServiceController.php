@@ -45,6 +45,12 @@ class ServiceController extends Controller
         $data['staffAreaLists'] = Dropdown::getDropdowns("t_staff_areas","id","staff_area_name","0","0");
         $data['hotelDivisionLists'] = Dropdown::getDropdowns("t_hotel_divisions","id","hotel_div_name","0","0");
         $data['relationTypes'] = Dropdown::getDropdowns("t_relation_types","id","relation_type","0","0");
+        $data['officeInfos'] = Services::getOfficeInfoDetails();
+        $data['officeEquipments'] = Services::getOfficeEquipmentDetails('O');
+        $data['trekkingEquipments'] = Services::getOfficeEquipmentDetails('T');
+        $data['communicationFacilities'] = Services::getOfficeEquipmentDetails('C');
+        $data['employments'] = Services::getEmploymentDetails();
+        $data['transportations'] = Services::getTransportationDetails();
         return view($page_link, $data);
 
     }
@@ -96,12 +102,13 @@ class ServiceController extends Controller
             $data->application_no=$application_no;
             $data->module_id=$request->module_id;
             $data->service_id=$request->service_id;
-            $data->name=$request->name;
+            $data->applicant_name=$request->applicant_name;
             $data->end_user_id=auth()->user()->id;
             $data->cid_no=$request->cid_no;
-            $data->name_one=$request->name_one;
-            $data->name_two=$request->name_two;
-            $data->proposed_location=$request->proposed_location;
+            $data->company_title_name=$request->company_title_name;
+            $data->company_name_one=$request->company_name_one;
+            $data->company_name_two=$request->company_name_two;
+            $data->location=$request->location;
             $data->location_id=$request->location_id;
             $data->contact_no=$request->contact_no;
             $data->tentative_cons=$request->tentative_cons;
@@ -110,10 +117,10 @@ class ServiceController extends Controller
             $data->email=$request->email;
             $data->star_category_id=$request->star_category_id;
             $data->license_no=$request->license_no;
-            $data->owner=$request->owner;
+            $data->owner_name=$request->owner_name;
             $data->address=$request->address;
-            $data->internet_url=$request->internet_url;
-            $data->bed_no=$request->bed_no;
+            $data->webpage_url=$request->webpage_url;
+            $data->number=$request->number;
             $data->thram_no=$request->thram_no;
             $data->house_no=$request->house_no;
             $data->town_distance=$request->town_distance;
@@ -124,7 +131,17 @@ class ServiceController extends Controller
             $data->building_no=$request->building_no;
             $data->license_date=$request->license_date;
             $data->fax=$request->fax;
-            $data->drawing_date=$request->drawing_date;
+            $data->gender=$request->gender;
+            $data->dob=$request->dob;
+            $data->applicant_flat_no=$request->applicant_flat_no;
+            $data->applicant_building_no=$request->applicant_building_no;
+            $data->applicant_location=$request->applicant_location;
+            $data->date=$request->date;
+            $data->from_date=$request->from_date;
+            $data->to_date=$request->to_date;
+            $data->financial_year=$request->financial_year;
+            $data->gewog_id=$request->gewog_id;
+            $data->village_id=$request->village_id;
             $data->save();
 
             //insert into t_room_applications
@@ -188,16 +205,154 @@ class ServiceController extends Controller
 				foreach($member_name as $key => $value)
 				{
                     $membersDetailsData[] = [    
-                    'application_no'  => $application_no,
-                    'member_name'   => $member_name[$key],
-                    'relation_type_id'   => $relation_type_id[$key],
-                    'member_age'   => $member_age[$key],
-                    'member_gender'   => $member_gender[$key]
+                    'application_no'    => $application_no,
+                    'member_name'       => $member_name[$key],
+                    'relation_type_id'  => $relation_type_id[$key],
+                    'member_age'        => $member_age[$key],
+                    'member_gender'     => $member_gender[$key]
                     ];
                 }
                 $this->services->insertMemberApplication($membersDetailsData);
             }
-	        //update application_no in t_documents
+            
+             //insert into t_partner_applications
+             $partnerDetailsData = [];
+             if(isset($_POST['partner_name'])){
+                    $partnerDetailsData[] = [    
+                    'application_no'       => $application_no,
+                    'partner_name'         => $request->partner_name,
+                    'partner_cid_no'       => $request->partner_cid_no,
+                    'partner_gender'       => $request->partner_gender,
+                    'partner_dob'          => date('Y-m-d', strtotime($value)),
+                    'partner_flat_no'      => $request->partner_flat_no,
+                    'partner_building_no'  => $request->partner_building_no,
+                    'partner_location'     => $request->partner_location,
+                    'partner_village_id'   => $request->partner_village_id
+                    ];
+                $this->services->insertPartnerApplication($partnerDetailsData);
+            }
+
+             // insert into t_partner_applications
+             $companyInfoDetailsData = [];
+             if(isset($_POST['company_name'])){				
+                    $companyInfoDetailsData[] = [    
+                    'application_no'           => $application_no,
+                    'company_name'             => $request->company_name,
+                    'company_location'         => $request->company_location,
+                    'company_building_no'      => $request->company_building_no,
+                    'company_flat_no'          => $request->company_flat_no,
+                    'company_postal_address'   => $request->company_postal_address,
+                    'company_contact_no'       => $request->company_contact_no
+                    ];
+                $this->services->insertCompanyInfo($companyInfoDetailsData);
+            }
+
+            //insert into office application
+		    $officeInfoData = [];
+            if(isset($_POST['office_id'])){
+                foreach($request->office_id as $key => $value){
+                $officeInfoData[] = [
+                        'application_no' => $application_no,
+                        'office_id' => $request->office_id[$key],
+                        'office_status' =>$request->office_status[$key],
+                    ];
+                 }
+
+                $this->services->insertOfficeApplication($officeInfoData);
+            }
+
+            //insert into office equipment application
+		    $officeEquipmentData = [];
+            if(isset($_POST['equipment_id'])){
+                foreach($request->equipment_id as $key => $value){
+                $officeEquipmentData[] = [
+                        'application_no' => $application_no,
+                        'equipment_id' => $request->equipment_id[$key],
+                        'equipment_status' =>$request->equipment_status[$key],
+                    ];
+                 }
+
+                $this->services->insertOfficeEquipmentApplication($officeEquipmentData);
+            }
+
+             //insert into employment application
+		    $employmentData = [];
+            if(isset($_POST['employment_id'])){
+                foreach($request->employment_id as $key => $value){
+                $employmentData[] = [
+                        'application_no' => $application_no,
+                        'employment_id' => $request->employment_id[$key],
+                        'employment_status' =>$request->employment_status[$key],
+                        'nationality' =>  $request->nationality[$key],
+
+                    ];
+                 }
+
+                $this->services->insertEmploymentApplication($employmentData);
+            }
+
+            //insert into employment application
+            $transportationData = [];
+            if(isset($_POST['vehicle_id'])){
+                foreach($request->vehicle_id as $key => $value){
+                $transportationData[] = [
+                        'application_no' => $application_no,
+                        'vehicle_id' => $request->vehicle_id[$key],
+                        'transport_status' => $request->transport_status[$key],
+                        'fitness' =>  $request->fitness[$key],
+
+                    ];
+                    }
+
+                $this->services->insertTransportationApplication($transportationData);
+            }
+
+              // insert into t_organizer_applications
+              $organizerInfoData = [];
+              if(isset($_POST['organizer_name'])){				
+                     $organizerInfoData[] = [    
+                     'application_no'  => $application_no,
+                     'organizer_name'  => $request->organizer_name,
+                     'organizer_address' => $request->organizer_address,
+                     'organizer_phone' => $request->organizer_phone,
+                     'organizer_email' => $request->organizer_email,
+                     'organizer_type'   => $request->organizer_type,
+                     'amount_requested' => $request->amount_requested
+                     ];
+                 $this->services->insertOrganizerInfo($organizerInfoData);
+             }
+
+            //insert into employment application
+            $eventItemData = [];
+            if(isset($_POST['items_name'])){
+                foreach($request->items_name as $key => $value){
+                $eventItemData[] = [
+                        'application_no' => $application_no,
+                        'items_name' => $request->items_name[$key],
+                        'item_costs' => $request->item_costs[$key],
+
+                    ];
+                }
+
+                $this->services->insertEventItemsApplication($eventItemData);
+            }
+            
+            //insert intot_product_applications
+            $productItemData = [];
+            if(isset($_POST['type'])){
+                $productItemData[] = [
+                        'application_no' => $application_no,
+                        'type' => $request->type,
+                        'location' => $request->location,
+                        'Objective' => $request->Objective,
+                        'product_des' => $request->product_des,
+                        'project_cost' => $request->project_cost,
+                        'timeline' => $request->timeline,
+                        'contribution' => $request->contribution,
+                    ];
+                $this->services->insertProductItemsApplication($productItemData);
+            }
+            //update application_no in t_documents
              $documentId = $request->documentId;
              $this->services->updateDocumentDetails($documentId,$application_no);
 
