@@ -6,7 +6,7 @@
 			<div class="col-12">
 				<div class="card card-secondary">
 					<div class="card-header">
-						<h3 class="card-title">Checklist Areas</h3>
+						<h3 class="card-title">Checklist Area List</h3>
 					</div>
 					<div class="card-body">
 						<div class="alert alert-success alert-dismissible" id="success_msg_id" style="display:none">
@@ -81,7 +81,16 @@
                     <form action="{{ url('master/checklist-areas') }}" method="POST" id="checklistForm">
                         @csrf
                         <div class="modal-body" id="frm_body">
-                            <input type="hidden" name="checklist_area_id" id="checklist_area_id" />
+							<input type="hidden" name="checklist_area_id" id="checklist_area_id" />
+							<div class="form-group">
+								<label for="" >Module *</label>
+								<select name="service_module" class="form-control required select2bs4" id="module">
+									<option value="">---SELECT---</option>
+									@foreach ($serviceModules as $serviceModule)
+									<option value="{{ $serviceModule->id }}" {{ old('service_module') == $serviceModule->id ? 'selected' : '' }}>{{ $serviceModule->module_name }}</option>
+									@endforeach
+								</select>
+							</div>
                             <div class="form-group">
                                 <label for="" >Checklist Chapter *</label>
                                 <select name="checklist_chapter" class="form-control required select2bs4" id="checklist">

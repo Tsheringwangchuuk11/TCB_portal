@@ -127,11 +127,10 @@ class ModuleController extends Controller
      */
     public function edit($id)
     {
-        $module = TSystemMenu::with('systemSubMenus')->findOrFail($id);
-        return response()->json($module->systemSubMenus);
-        $services = Dropdown::getDropdowns("t_services","id","name","0","0");
+        $module = TSystemMenu::with('systemSubMenus')->findOrFail($id);        
+        // $services = Dropdown::getDropdowns("t_services","id","name","0","0");
 
-        return view('system-settings.modules.edit', compact('module', 'services'));
+        return view('system-settings.modules.edit', compact('module'));
     }
 
     /**

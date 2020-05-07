@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTChecklistApplicationsTable extends Migration
+class CreateTMarketApplicationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateTChecklistApplicationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('t_checklist_applications', function (Blueprint $table) {
+        Schema::create('t_market_applications', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('application_no')->index();
-            $table->unsignedBigInteger('checklist_id');
-            $table->string('checklist_pts')->nullable();
-            $table->text('remarks')->nullable();
+            $table->unsignedBigInteger('country_id')->index()->nullable();
+            $table->string('city')->nullable();
+
             $table->foreign('application_no')->references('application_no')->on('t_applications');
-            $table->foreign('checklist_id')->references('id')->on('t_check_list_standards');
+            $table->foreign('country_id')->references('id')->on('t_country_masters');
         });
     }
 
@@ -31,6 +31,6 @@ class CreateTChecklistApplicationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('t_checklist_applications');
+        Schema::dropIfExists('t_market_applications');
     }
 }

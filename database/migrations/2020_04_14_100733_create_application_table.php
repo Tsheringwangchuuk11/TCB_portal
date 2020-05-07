@@ -22,6 +22,7 @@ class CreateApplicationTable extends Migration
             $table->string('applicant_name', 250)->nullable();
             $table->char('gender', 1)->nullable();
             $table->date('dob')->nullable();
+            $table->string('designation', 250)->nullable();
             $table->string('applicant_flat_no', 20)->nullable();
             $table->string('applicant_building_no', 20)->nullable();
             $table->string('applicant_location', 250)->nullable();
@@ -52,11 +53,19 @@ class CreateApplicationTable extends Migration
             $table->string('flat_no', 20)->nullable();
             $table->string('building_no', 20)->nullable();
             $table->bigInteger('village_id')->index()->nullable();
-            $table->bigInteger('gewog_id')->nullable();
+            $table->bigInteger('gewog_id')->index()->nullable();
+            $table->string('city', 250)->nullable();
+            $table->bigInteger('country_id')->index()->nullable();
+            $table->text('visit_purpose')->nullable();
+            $table->boolean('sell_destination')->default(0);
+            $table->boolean('sell_bhutan')->default(0);
+            $table->year('destination_year')->nullable();
+            $table->year('bhutan_year')->nullable();
             $table->date('date')->nullable();
             $table->date('from_date')->nullable();
             $table->date('to_date')->nullable();
             $table->year('financial_year')->nullable();
+            $table->text('remarks')->nullable();
             //$table->string('financial_year', 4)->nullable();
             $table->foreign('end_user_id')->references('id')->on('t_users');
         });

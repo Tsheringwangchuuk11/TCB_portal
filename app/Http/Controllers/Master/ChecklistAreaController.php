@@ -30,8 +30,9 @@ class ChecklistAreaController extends Controller
         $checklistAreas = TCheckListArea::orderBy('id')->with('checklistChapter')->paginate(10);
         $checklistAreaCount = TCheckListArea::count();
         $checklistChapters = Dropdown::getDropdowns("t_check_list_chapters","id","checklist_ch_name","0","0");
+        $serviceModules = Dropdown::getDropdowns("t_module_masters","id","module_name","0","0");
 
-        return view('master.checklist-area', compact('privileges', 'checklistAreas', 'checklistAreaCount', 'checklistChapters'));
+        return view('master.checklist-area', compact('privileges', 'checklistAreas', 'checklistAreaCount', 'checklistChapters', 'serviceModules'));
     }
 
     public function store(Request $request)

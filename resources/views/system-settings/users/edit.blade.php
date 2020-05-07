@@ -1,47 +1,58 @@
 @extends('layouts.manager')
 @section('page-title', 'Edit User')
+@section('buttons')    
+    <a href="{{ url('system/users')}}" class="btn bg-olive btn-sm btn-flat"><i class="fas fa-reply"></i> Back to User List</a>
+@endsection
 @section('content')
 <form action="{{ url('system/users/' . $user->id) }}" method="POST" enctype="multipart/form-data">
 @csrf
 @method('PUT')
-<div class="row">
-	<div class="col-md-4">
+	<div class="col-md-12">	
 		<div class="card card-secondary">
 			<div class="card-header">
 				<h3 class="card-title">General Information</h3>
 			</div>
 			<div class="card-body">
-				<div class="form-group">
-					<label for="name">Name *</label>
-					<input type="text" name="name" class="form-control required" value="{{ old('name', $user->name) }}" />
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="name">Name *</label>
+							<input type="text" name="name" class="form-control required" value="{{ old('name', $user->name) }}" />
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="username">Username (Email) *</label>
+							<input type="text" name="username" class="form-control required email" value="{{ old('username', $user->email) }}" />
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<span class="profile-picture">
+								<label for="main_photo">Current Profile Picture</label>
+								<img src="{{ URL::to('dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image">								
+							</span>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="exampleInputFile">Profile Picture (Max Size : 2 MB)</label>
+							<div class="input-group">
+								<div class="custom-file">
+								<input type="file" class="custom-file-input" id="exampleInputFile">
+								<label class="custom-file-label" for="exampleInputFile">Choose file</label>
+								</div>
+								<div class="input-group-append">
+								<span class="input-group-text" id="">Upload</span>
+								</div>
+							</div>
+						</div>	
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="col-md-4">
-		<div class="card card-secondary">
-			<div class="card-header">
-				<h3 class="card-title">Username & Password *</h3>
-			</div>
-			<div class="card-body">
-				<div class="form-group">
-					<label for="username">Username (Email) *</label>
-					<input type="text" name="username" class="form-control required email" value="{{ old('username', $user->email) }}" />
-				</div>
-				<div class="form-group">
-			        <span class="profile-picture">
-			        	<label for="main_photo">Current Profile Picture</label>
-			        	<img src="{{ asset($user->avatar ? get_image($user->avatar, 80, 80) : asset('images/no-image.jpg')) }}" class="img-responsive" />
-			        </span>
-			    </div>
-				<div class="form-group">
-					<label for="confirm_password">Profile Picture (Max Size : 2 MB)</label>
-					<input type="file" name="profile_pic" class="form-control" />
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="col-md-4">
+	</div>	
+	<div class="col-md-12">
 		<div class="card card-secondary">
 			<div class="card-header">
 				<h3 class="card-title">Assign Roles *</h3>
