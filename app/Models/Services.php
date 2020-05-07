@@ -14,10 +14,54 @@ class Services extends Model
 	public function setLicenseDateAttribute($value)
     {
 
-        $this->attributes['license_date'] = date('Y-m-d', strtotime($value));
+        $this->attributes['license_date'] = $value ? date('Y-m-d', strtotime($value)) : null;
     }
 
     public function getLicenseDateAttribute($value)
+    {
+		return $value ? date('d-m-Y', strtotime($value)) : null;
+	}
+
+	public function setDobAttribute($value)
+    {
+
+        $this->attributes['dob'] = $value ? date('Y-m-d', strtotime($value)) : null;
+    }
+
+    public function getDobAttribute($value)
+    {
+		return $value ? date('d-m-Y', strtotime($value)) : null;
+	}
+
+	public function setDrawingDateAttribute($value)
+    {
+
+        $this->attributes['drawing_date'] = $value ? date('Y-m-d', strtotime($value)) : null;
+    }
+
+    public function getDrawingDateAttribute($value)
+    {
+		return $value ? date('d-m-Y', strtotime($value)) : null;
+	}
+
+	public function setFromDateAttribute($value)
+    {
+
+        $this->attributes['from_date'] = $value ? date('Y-m-d', strtotime($value)) : null;
+    }
+
+    public function getFromDateAttribute($value)
+    {
+		return $value ? date('d-m-Y', strtotime($value)) : null;
+	}
+
+	public function setValidatyDateAttribute($value)
+    {
+
+        $this->attributes['validity_date'] = $value ? date('Y-m-d', strtotime($value)) : null;
+    }
+
+    public function getValidatyDateAttribute($value)
     {
 		return $value ? date('d-m-Y', strtotime($value)) : null;
 	}
@@ -125,16 +169,69 @@ class Services extends Model
 	}
 
 	public function insertIntoStaffApplication($staffAppData){
+
 		DB::table('t_staff_applications')->insert($staffAppData);		
 	}
 	
 	public function insertIntoCheckListApplication($membersDetailsData){
+
 		DB::table('t_checklist_applications')->insert($membersDetailsData);		
 	}
 
 	public function insertMemberApplication($checklistData){
+
 		DB::table('t_member_applications')->insert($checklistData);		
 	}
+
+    public function insertPartnerApplication($partnerDetailsData){
+
+		DB::table('t_partner_applications')->insert($partnerDetailsData);		
+	}
+	 
+	public function insertCompanyInfo($companyInfoDetailsData){
+
+		DB::table('t_company_infomations')->insert($companyInfoDetailsData);		
+
+	}
+	 public function insertOfficeApplication($officeInfoData){
+
+		DB::table('t_office_applications')->insert($officeInfoData);		
+
+	 }
+
+	 public function insertOfficeEquipmentApplication($officeEquipmentData){
+
+		DB::table('t_equipment_applications')->insert($officeEquipmentData);		
+
+	 }
+
+	 public function insertEmploymentApplication($employmentData){
+
+		DB::table('t_employment_applications')->insert($employmentData);		
+
+	 }
+
+	 public function insertTransportationApplication($transportationData){
+
+		DB::table('t_transport_applications')->insert($transportationData);		
+
+	 }
+	 public function insertOrganizerInfo($organizerInfoData){
+
+		DB::table('t_organizer_applications')->insert($organizerInfoData);		
+
+	 }
+	 public function insertEventItemsApplication($eventItemData){
+
+		DB::table('t_item_applications')->insert($eventItemData);		
+
+	 }
+
+	 public function insertProductItemsApplication($productItemData){
+
+		DB::table('t_product_applications')->insert($productItemData);		
+
+	 }
 
 	public function updateDocumentDetails($documentId,$application_no){
 		if(isset($documentId)){
@@ -182,5 +279,35 @@ class Services extends Model
 		->get();
 		return $query;
 
+	}
+
+	public static function getOfficeInfoDetails(){
+		$query=DB::table('t_offices as t1')
+		->select('t1.id','t1.office_name')
+		->get();
+		return $query;
+
+	}
+	
+	public static function getOfficeEquipmentDetails($equipmentType){
+		$query=DB::table('t_equipments as t1')
+		->select('t1.id','t1.equipment_name','t1.equipment_type')
+		->where('t1.equipment_type',$equipmentType)
+		->get();
+		return $query;
+
+	}
+	public static function getEmploymentDetails(){
+		$query=DB::table('t_employments as t1')
+		->select('t1.id','t1.employment_name')
+		->get();
+		return $query;
+	}
+
+	public static function getTransportationDetails(){
+		$query=DB::table('t_vehicles as t1')
+		->select('t1.id','t1.vehicle_name')
+		->get();
+		return $query;
 	}
 }

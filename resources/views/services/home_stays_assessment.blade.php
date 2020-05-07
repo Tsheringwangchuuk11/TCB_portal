@@ -16,7 +16,7 @@
 				<div class="col-md-5">
 				  <div class="form-group">
 					<label for="">Name<span class="text-danger"> *</span></label>
-					<input type="text" class="form-control required" name="name" autocomplete="off">
+					<input type="text" class="form-control required" name="applicant_name" autocomplete="off">
 				  </div>
 				</div>
 				<div class="col-md-5 offset-md-2">
@@ -74,7 +74,7 @@
 				<div class="col-md-5 offset-md-2">
 				  <div class="form-group">
 					<label for="">Village <span class="text-danger"> *</span></label>
-					<input type="text" class="form-control required" name="location_id" required>
+					<input type="text" class="form-control required" name="village_id" required>
 				  </div>
 				</div>
 			  </div>

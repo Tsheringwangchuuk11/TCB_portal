@@ -38,7 +38,6 @@ class ApproverController extends Controller
             }]);
         }])->where('module_id','=',$moduleId)
         ->get();
-
         return view('services.approver.hotels_assessment',$data);
 
     }

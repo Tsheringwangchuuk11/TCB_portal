@@ -32,13 +32,13 @@
                             <input type="text" class="form-control" name="license_date" id="license_date" readonly="true">
                         </div>
                         <div class="form-group col-md-5 offset-md-2">
-                            <label for="">Name </label>
-                            <input type="text" class="form-control" name="name" id="name" readonly="true">
+                            <label for="">Hotel Name </label>
+                            <input type="text" class="form-control" name="company_title_name" id="company_title_name" readonly="true">
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-md-5">
-                            <label for="">Owner </label>
+                            <label for="">Owner Name</label>
                             <input type="text" class="form-control" name="old_owner" id="old_owner" readonly="true">
                         </div>
                         <div class="form-group col-md-5 offset-md-2">
@@ -69,11 +69,11 @@
                     <div class="row">
                         <div class="form-group col-md-5">
                             <label for="">Internet Homepage </label>
-                            <input type="text" class="form-control" name="internet_url" id="internet_url" readonly="true">
+                            <input type="text" class="form-control" name="webpage_url" id="webpage_url" readonly="true">
                         </div>
                         <div class="form-group col-md-5 offset-md-2">
                             <label for="">Number of Beds </label>
-                            <input type="number" class="form-control" name="bed_no" id="bed_no" readonly="true">
+                            <input type="number" class="form-control" name="number" id="number" readonly="true">
                         </div>
                     </div>
                     <div class="row">
@@ -85,8 +85,8 @@
                     <h5>New Owner Information</h5>
                     <div class="row">
                         <div class="form-group col-md-5">
-                            <label for="">Name <span class="text-danger"> *</span></label>
-                            <input type="text" class="form-control" name="owner">
+                            <label for="">Owner Name <span class="text-danger"> *</span></label>
+                            <input type="text" class="form-control" name="owner_name">
                         </div>
                         <div class="form-group col-md-5 offset-md-2">
                             <label for="">CID No. <span class="text-danger"> *</span></label>
@@ -141,15 +141,15 @@
                 $('#old_star_category_id').val(data.star_category_name);
                 $('#star_category_id').val(data.star_category_id);
                 $('#license_date').val(data.license_date);
-                $('#name').val(data.name);
-                $('#old_owner').val(data.owner);
+                $('#company_title_name').val(data.company_title_name);
+                $('#old_owner').val(data.owner_name);
                 $('#old_cid_no').val(data.cid_no);
                 $('#old_contact_no').val(data.contact_no);
                 $('#old_address').val(data.address);
                 $('#fax').val(data.fax);
                 $('#old_email').val(data.email);
-                $('#internet_url').val(data.internet_url);
-                $('#bed_no').val(data.bed_no);
+                $('#webpage_url').val(data.webpage_url);
+                $('#number').val(data.number);
                 $('#location_id').val(data.location_id);
                } 
             });

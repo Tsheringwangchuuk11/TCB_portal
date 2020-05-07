@@ -19,6 +19,7 @@ class CreateTTransportApplicationsTable extends Migration
             $table->unsignedBigInteger('vehicle_id')->nullable()->index();
             $table->boolean('transport_status')->default(0);
             $table->boolean('fitness')->default(0);
+            $table->text('transportation_remarks')->nullable();
 
             $table->foreign('application_no')->references('application_no')->on('t_applications');
             $table->foreign('vehicle_id')->references('id')->on('t_vehicles');

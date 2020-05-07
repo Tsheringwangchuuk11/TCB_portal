@@ -23,7 +23,7 @@ class CreateTPartnerApplicationsTable extends Migration
             $table->string('partner_flat_no', 20)->nullable();
             $table->string('partner_building_no', 20)->nullable();
             $table->string('partner_location', 250)->nullable();
-            $table->unsignedBigInteger('village_id')->index()->nullable();
+            $table->unsignedBigInteger('partner_village_id')->index()->nullable();
             $table->foreign('application_no')->references('application_no')->on('t_applications');
         });
     }

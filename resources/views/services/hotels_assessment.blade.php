@@ -44,35 +44,9 @@
             </div>
             <div class="row">
                 <div class="form-group col-md-5">
-                    <label for="">Internet Homepage <span class="text-danger">*</span> </label>
-                    <input type="text" class="form-control required" name="webpage_url" autocomplete="off">
-                    <span class="text-danger">{{ $errors->first('internet_url') }}</span>
-                </div>
-                <div class="form-group col-md-5 offset-md-2">
-                    <label for="">Number of Beds <span class="text-danger">*</span> </label>
-                    <input type="text" class="form-control numeric-only required" name="number" autocomplete="off">
-                    <span class="text-danger">{{ $errors->first('bed_no') }}</span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-md-5">
-                    <label for="">Location <span class="text-danger">*</span> </label>
-                    <select class="form-control select2bs4 required" name="location_id">
-                        <option value="">- Select -</option>
-                    </select>
-                    <span class="text-danger">{{ $errors->first('location_id') }}</span>
-                </div>
-                <div class="form-group col-md-5 offset-md-2">
-                    <label for="">Fax <span class="text-danger">*</span> </label>
-                    <input type="text" class="form-control required" name="fax" autocomplete="off">
-                    <span class="text-danger">{{ $errors->first('fax') }}</span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-md-5 ">
-                    <label for="">Owner Name <span class="text-danger">*</span> </label>
+                    <label for="">Owner Name<span class="text-danger">*</span> </label>
                     <input type="text" class="form-control required" name="owner_name" autocomplete="off">
-                    <span class="text-danger">{{ $errors->first('owner') }}</span>
+                    <span class="text-danger">{{ $errors->first('owner_name') }}</span>
                 </div>
                 <div class="form-group col-md-5 offset-md-2">
                     <label for="">CID No.<span class="text-danger">*</span> </label>
@@ -97,6 +71,28 @@
                     <label for="">Email <span class="text-danger">*</span> </label>
                     <input type="email" class="form-control email required" name="email" autocomplete="off">
                     <span class="text-danger">{{ $errors->first('email') }}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-5">
+                    <label for="">Internet Homepage <span class="text-danger">*</span> </label>
+                    <input type="text" class="form-control required" name="webpage_url" autocomplete="off">
+                    <span class="text-danger">{{ $errors->first('internet_url') }}</span>
+                </div>
+                <div class="form-group col-md-5 offset-md-2">
+                    <label for="">Number of Beds <span class="text-danger">*</span> </label>
+                    <input type="text" class="form-control numeric-only required" name="number" autocomplete="off">
+                    <span class="text-danger">{{ $errors->first('bed_no') }}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-5">
+                    <label for="">Location <span class="text-danger">*</span> </label>
+                    <select class="form-control select2bs4 required" name="location_id">
+                        <option value="">- Select -</option>
+                        <option value="1">Tashigang</option>
+                    </select>
+                    <span class="text-danger">{{ $errors->first('location_id') }}</span>
                 </div>
             </div>
         </div>
@@ -219,9 +215,9 @@
       id=1;
       $("#add").click(function(){
         $("#rowId").clone().attr('id', 'rowId'+id).after("#id").appendTo("#adddiv").find("input[type='text']").val("");
-        $addRow ='<div id="remove'+id+'" class="btn-group" style=" margin-top:-50px; float:right">' 
+        $addRow ='<span id="remove'+id+'" class="btn-group" style=" margin-top:-50px; float:right">' 
         +'<span id="remove" onClick="removeForm('+id+')"' 
-        +'class="btn btn-danger btn-sm"><i class="fas fa-trash-alt fa-sm"></i> Delete</span></div>'
+        +'class="btn btn-danger btn-sm"><i class="fas fa-trash-alt fa-sm"></i> Delete</span></span>'
         +'<div id="line'+id+'"></div>';
         $('#adddiv').append($addRow);
         id++;
@@ -241,9 +237,9 @@
     id1=1;
     $("#add_more").click(function(){
       $("#rowId1").clone().attr('id', 'rowId1'+id1).after("#id").appendTo("#field_wrapper1").find("input[type='text']").val("");
-      $addRow1 ='<div id="remove1'+id1+'" class="btn-group" style=" margin-top:-50px; float:right">' 
+      $addRow1 ='<span id="remove1'+id1+'" class="btn-group" style=" margin-top:-50px; float:right">' 
       +'<span id="remove1" onClick="removeForm1('+id1+')"' 
-      +'class="btn btn-danger btn-sm"><i class="fas fa-trash-alt fa-sm"></i> Delete</span></div>'
+      +'class="btn btn-danger btn-sm"><i class="fas fa-trash-alt fa-sm"></i> Delete</span></span>'
       +'<div id="line1'+id1+'"></div>';
       $('#field_wrapper1').append($addRow1);
       id1++;
