@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTChecklistApplicationsTable extends Migration
+class CreateTChannelApplicationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,16 @@ class CreateTChecklistApplicationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('t_checklist_applications', function (Blueprint $table) {
+        Schema::create('t_channel_applications', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('application_no')->index();
-            $table->unsignedBigInteger('checklist_id');
-            $table->string('checklist_pts')->nullable();
-            $table->text('remarks')->nullable();
+            $table->unsignedBigInteger('channel_type_id')->index()->nullable();
+            $table->string('channel_name')->nullable();
+            $table->string('circulation')->nullable();
+            $table->string('target_audience')->nullable();
+
             $table->foreign('application_no')->references('application_no')->on('t_applications');
-            $table->foreign('checklist_id')->references('id')->on('t_check_list_standards');
+            $table->foreign('channel_type_id')->references('id')->on('t_channel_types');
         });
     }
 
@@ -31,6 +33,6 @@ class CreateTChecklistApplicationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('t_checklist_applications');
+        Schema::dropIfExists('t_channel_applications');
     }
 }
