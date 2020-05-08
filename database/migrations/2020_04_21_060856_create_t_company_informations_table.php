@@ -18,8 +18,8 @@ class CreateTCompanyInformationsTable extends Migration
             $table->string('application_no')->index();
             $table->string('company_name',250)->nullable();
             $table->string('company_location',250)->nullable();
-            $table->bigInteger('company_building_no')->nullable();
-            $table->bigInteger('company_flat_no')->nullable();
+            $table->string('company_building_no',100)->nullable();
+            $table->string('company_flat_no',100)->nullable();
             $table->string('company_postal_address')->nullable();
             $table->bigInteger('company_contact_no')->nullable();
             $table->foreign('application_no')->references('application_no')->on('t_applications');

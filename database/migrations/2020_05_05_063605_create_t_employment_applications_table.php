@@ -19,6 +19,7 @@ class CreateTEmploymentApplicationsTable extends Migration
             $table->unsignedBigInteger('employment_id')->nullable()->index();
             $table->boolean('employment_status')->default(0);
             $table->char('nationality',1)->nullable();
+            $table->text('employment_remarks')->nullable();
 
             $table->foreign('application_no')->references('application_no')->on('t_applications');
             $table->foreign('employment_id')->references('id')->on('t_employments');

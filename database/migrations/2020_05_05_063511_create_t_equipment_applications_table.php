@@ -18,7 +18,7 @@ class CreateTEquipmentApplicationsTable extends Migration
             $table->string('application_no')->nullable()->index();
             $table->unsignedBigInteger('equipment_id')->nullable()->index();
             $table->boolean('equipment_status')->default(0);
-
+            $table->text('equipment_remarks')->nullable();
             $table->foreign('application_no')->references('application_no')->on('t_applications');
             $table->foreign('equipment_id')->references('id')->on('t_equipments');
         });
