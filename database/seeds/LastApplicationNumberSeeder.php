@@ -25,13 +25,15 @@ class LastApplicationNumberSeeder extends Seeder
             ['id' => 11, 'last_application_no' => 0, 'service_id' => 11],
             ['id' => 12, 'last_application_no' => 0, 'service_id' => 12],
             ['id' => 13, 'last_application_no' => 0, 'service_id' => 13],
-            ['id' => 14, 'last_application_no' => 0, 'service_id' => 15],
+            ['id' => 14, 'last_application_no' => 0, 'service_id' => 14],
+            ['id' => 15, 'last_application_no' => 0, 'service_id' => 15],
             ['id' => 16, 'last_application_no' => 0, 'service_id' => 16],
             ['id' => 17, 'last_application_no' => 0, 'service_id' => 17],
             ['id' => 18, 'last_application_no' => 0, 'service_id' => 18],
             ['id' => 19, 'last_application_no' => 0, 'service_id' => 19],
             ['id' => 20, 'last_application_no' => 0, 'service_id' => 20],
             ['id' => 21, 'last_application_no' => 0, 'service_id' => 21],
+            ['id' => 22, 'last_application_no' => 0, 'service_id' => 22],
         ]);
     }
 }

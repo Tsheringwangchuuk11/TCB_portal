@@ -19,4 +19,9 @@ return [
         'P' => 'Public Agency',
         'O' => 'Other',
     ],
+    "type" => [
+        'type1' => 'Type1',
+        'type2' => 'Type2',
+        'type3' => 'Type3',
+    ],
 ];

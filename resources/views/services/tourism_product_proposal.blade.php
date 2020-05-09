@@ -47,12 +47,12 @@
       <div class="row">
         <div class="form-group col-md-5">
           <label for="">Type <span class="text-danger">*</span> </label>
-          <select class="form-control select2bs4" name="type" required>
-            <option value="" selected="selected">-select-</option>
-            <option value="1">Implementing modality</option>
-            <option value="2">Product summary</option>
-            <option value="3">Activities and/or results framework</option>
-          </select>
+          <select  name="staff_gender" class="form-control required">
+            <option value="">---SELECT---</option>
+            @foreach (config()->get('settings.type') as $k => $v)
+            <option value="{{ $k }}" {{ old('type') == $k ? 'selected' : '' }}>{{ $v }}</option>
+            @endforeach
+        </select>
         </div>
         <div class="form-group col-md-5 offset-md-2">
           <label for="">Location <span class="text-danger">*</span> </label>
@@ -62,7 +62,7 @@
       <div class="row">
           <div class="form-group col-md-5">
             <label for="">Objective<span class="text-danger">*</span></label>
-            <input type="text" class="form-control" name="Objective" autocomplete="off">  
+            <input type="text" class="form-control" name="objective" autocomplete="off">  
         </div> 
         <div class="form-group col-md-5 offset-md-2">
             <label for="">Product description in detail<span class="text-danger">*</span></label>

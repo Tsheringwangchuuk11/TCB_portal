@@ -8,7 +8,7 @@
   <form action="{{ url('application/save-application') }}" method="POST" enctype="multipart/form-data" id="form_data">
     @csrf
     <input type="hidden" name="service_id" value="{{ $idInfos->service_id }}" id="service_id">
-    <input type="hidden" name="module_id" value="{{ $idInfos->module_id }}" id="service_id">
+    <input type="hidden" name="module_id" value="{{ $idInfos->module_id }}" id="module_id">
     <div class="card-body">
       <div class="row">
         <div class="col-md-12">

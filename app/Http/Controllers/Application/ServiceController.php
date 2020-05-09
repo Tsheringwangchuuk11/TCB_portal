@@ -45,12 +45,14 @@ class ServiceController extends Controller
         $data['staffAreaLists'] = Dropdown::getDropdowns("t_staff_areas","id","staff_area_name","0","0");
         $data['hotelDivisionLists'] = Dropdown::getDropdowns("t_hotel_divisions","id","hotel_div_name","0","0");
         $data['relationTypes'] = Dropdown::getDropdowns("t_relation_types","id","relation_type","0","0");
-        $data['officeInfos'] = Services::getOfficeInfoDetails();
+        $data['officeInfos'] = Dropdown::getDropdowns("t_offices","id","office_name","0","0");
         $data['officeEquipments'] = Services::getOfficeEquipmentDetails('O');
         $data['trekkingEquipments'] = Services::getOfficeEquipmentDetails('T');
         $data['communicationFacilities'] = Services::getOfficeEquipmentDetails('C');
-        $data['employments'] = Services::getEmploymentDetails();
-        $data['transportations'] = Services::getTransportationDetails();
+        $data['employments'] = Dropdown::getDropdowns("t_employments","id","employment_name","0","0");
+        $data['transportations'] = Dropdown::getDropdowns("t_vehicles","id","vehicle_name","0","0");
+        $data['channelTypes'] = Dropdown::getDropdowns("t_channel_types","id","channel_type","0","0");
+        $data['countries'] = Dropdown::getDropdowns("t_country_masters","id","country_name","0","0");
         return view($page_link, $data);
 
     }
@@ -142,6 +144,13 @@ class ServiceController extends Controller
             $data->financial_year=$request->financial_year;
             $data->gewog_id=$request->gewog_id;
             $data->village_id=$request->village_id;
+            $data->city=$request->city;
+            $data->country_id=$request->country_id;
+            $data->visit_purpose=$request->visit_purpose;
+            $data->sell_destination=$request->sell_destination;
+            $data->sell_bhutan=$request->sell_bhutan;
+            $data->destination_year=$request->destination_year;
+            $data->bhutan_year=$request->bhutan_year;
             $data->save();
 
             //insert into t_room_applications
@@ -171,10 +180,10 @@ class ServiceController extends Controller
 				{
                     $staffAppData[] = [
                     'application_no'  => $application_no,
-					'staff_area_id'   => $staff_area_id[$key],
-					'hotel_div_id'    => $hotel_div_id[$key],
-					'staff_name'      => $staff_name[$key],
-					'staff_gender'    => $staff_gender[$key],
+					 'staff_area_id'  => $staff_area_id[$key],
+					  'hotel_div_id'  => $hotel_div_id[$key],
+					    'staff_name'  => $staff_name[$key],
+					  'staff_gender'  => $staff_gender[$key],
                     ];
                 }
                 $this->services->insertIntoStaffApplication($staffAppData);
@@ -188,7 +197,7 @@ class ServiceController extends Controller
 				{
                     $checklistData[] = [    
                     'application_no'  => $application_no,
-					'checklist_id'   => $checklist_id[$key]
+					  'checklist_id'  => $checklist_id[$key]
                     ];
                 }
                 $this->services->insertIntoCheckListApplication($checklistData);
@@ -205,11 +214,11 @@ class ServiceController extends Controller
 				foreach($member_name as $key => $value)
 				{
                     $membersDetailsData[] = [    
-                    'application_no'    => $application_no,
-                    'member_name'       => $member_name[$key],
+                      'application_no'  => $application_no,
+                         'member_name'  => $member_name[$key],
                     'relation_type_id'  => $relation_type_id[$key],
-                    'member_age'        => $member_age[$key],
-                    'member_gender'     => $member_gender[$key]
+                          'member_age'  => $member_age[$key],
+                       'member_gender'  => $member_gender[$key]
                     ];
                 }
                 $this->services->insertMemberApplication($membersDetailsData);
@@ -219,42 +228,27 @@ class ServiceController extends Controller
              $partnerDetailsData = [];
              if(isset($_POST['partner_name'])){
                     $partnerDetailsData[] = [    
-                    'application_no'       => $application_no,
-                    'partner_name'         => $request->partner_name,
-                    'partner_cid_no'       => $request->partner_cid_no,
-                    'partner_gender'       => $request->partner_gender,
-                    'partner_dob'          => date('Y-m-d', strtotime($value)),
-                    'partner_flat_no'      => $request->partner_flat_no,
-                    'partner_building_no'  => $request->partner_building_no,
-                    'partner_location'     => $request->partner_location,
-                    'partner_village_id'   => $request->partner_village_id
+                         'application_no'   => $application_no,
+                           'partner_name'   => $request->partner_name,
+                         'partner_cid_no'   => $request->partner_cid_no,
+                         'partner_gender'   => $request->partner_gender,
+                            'partner_dob'   => date('Y-m-d', strtotime($request->partner_dob)),
+                        'partner_flat_no'   => $request->partner_flat_no,
+                    'partner_building_no'   => $request->partner_building_no,
+                       'partner_location'   => $request->partner_location,
+                     'partner_village_id'   => $request->partner_village_id
                     ];
                 $this->services->insertPartnerApplication($partnerDetailsData);
             }
-
-             // insert into t_partner_applications
-             $companyInfoDetailsData = [];
-             if(isset($_POST['company_name'])){				
-                    $companyInfoDetailsData[] = [    
-                    'application_no'           => $application_no,
-                    'company_name'             => $request->company_name,
-                    'company_location'         => $request->company_location,
-                    'company_building_no'      => $request->company_building_no,
-                    'company_flat_no'          => $request->company_flat_no,
-                    'company_postal_address'   => $request->company_postal_address,
-                    'company_contact_no'       => $request->company_contact_no
-                    ];
-                $this->services->insertCompanyInfo($companyInfoDetailsData);
-            }
-
+ 
             //insert into office application
 		    $officeInfoData = [];
             if(isset($_POST['office_id'])){
                 foreach($request->office_id as $key => $value){
                 $officeInfoData[] = [
-                        'application_no' => $application_no,
-                        'office_id' => $request->office_id[$key],
-                        'office_status' =>$request->office_status[$key],
+                        'application_no'   => $application_no,
+                             'office_id'   => $request->office_id[$key],
+                         'office_status'   =>$request->office_status[$key],
                     ];
                  }
 
@@ -266,8 +260,8 @@ class ServiceController extends Controller
             if(isset($_POST['equipment_id'])){
                 foreach($request->equipment_id as $key => $value){
                 $officeEquipmentData[] = [
-                        'application_no' => $application_no,
-                        'equipment_id' => $request->equipment_id[$key],
+                          'application_no' => $application_no,
+                            'equipment_id' => $request->equipment_id[$key],
                         'equipment_status' =>$request->equipment_status[$key],
                     ];
                  }
@@ -280,10 +274,10 @@ class ServiceController extends Controller
             if(isset($_POST['employment_id'])){
                 foreach($request->employment_id as $key => $value){
                 $employmentData[] = [
-                        'application_no' => $application_no,
-                        'employment_id' => $request->employment_id[$key],
-                        'employment_status' =>$request->employment_status[$key],
-                        'nationality' =>  $request->nationality[$key],
+                           'application_no'  => $application_no,
+                            'employment_id'  => $request->employment_id[$key],
+                        'employment_status'  =>$request->employment_status[$key],
+                              'nationality'  =>  $request->nationality[$key],
 
                     ];
                  }
@@ -296,10 +290,10 @@ class ServiceController extends Controller
             if(isset($_POST['vehicle_id'])){
                 foreach($request->vehicle_id as $key => $value){
                 $transportationData[] = [
-                        'application_no' => $application_no,
-                        'vehicle_id' => $request->vehicle_id[$key],
+                          'application_no' => $application_no,
+                              'vehicle_id' => $request->vehicle_id[$key],
                         'transport_status' => $request->transport_status[$key],
-                        'fitness' =>  $request->fitness[$key],
+                                 'fitness' =>  $request->fitness[$key],
 
                     ];
                     }
@@ -311,13 +305,13 @@ class ServiceController extends Controller
               $organizerInfoData = [];
               if(isset($_POST['organizer_name'])){				
                      $organizerInfoData[] = [    
-                     'application_no'  => $application_no,
-                     'organizer_name'  => $request->organizer_name,
-                     'organizer_address' => $request->organizer_address,
-                     'organizer_phone' => $request->organizer_phone,
-                     'organizer_email' => $request->organizer_email,
-                     'organizer_type'   => $request->organizer_type,
-                     'amount_requested' => $request->amount_requested
+                        'application_no'   => $application_no,
+                        'organizer_name'   => $request->organizer_name,
+                     'organizer_address'   => $request->organizer_address,
+                       'organizer_phone'   => $request->organizer_phone,
+                       'organizer_email'   => $request->organizer_email,
+                        'organizer_type'   => $request->organizer_type,
+                      'amount_requested'   => $request->amount_requested
                      ];
                  $this->services->insertOrganizerInfo($organizerInfoData);
              }
@@ -328,8 +322,8 @@ class ServiceController extends Controller
                 foreach($request->items_name as $key => $value){
                 $eventItemData[] = [
                         'application_no' => $application_no,
-                        'items_name' => $request->items_name[$key],
-                        'item_costs' => $request->item_costs[$key],
+                           'items_name'  => $request->items_name[$key],
+                           'item_costs'  => $request->item_costs[$key],
 
                     ];
                 }
@@ -342,16 +336,73 @@ class ServiceController extends Controller
             if(isset($_POST['type'])){
                 $productItemData[] = [
                         'application_no' => $application_no,
-                        'type' => $request->type,
-                        'location' => $request->location,
-                        'Objective' => $request->Objective,
-                        'product_des' => $request->product_des,
-                        'project_cost' => $request->project_cost,
-                        'timeline' => $request->timeline,
-                        'contribution' => $request->contribution,
+                                 'type'  => $request->type,
+                             'location'  => $request->location,
+                            'objective'  => $request->objective,
+                          'product_des'  => $request->product_des,
+                         'project_cost'  => $request->project_cost,
+                             'timeline'  => $request->timeline,
+                         'contribution'  => $request->contribution,
                     ];
                 $this->services->insertProductItemsApplication($productItemData);
             }
+
+            //insert intot t_channel_applications
+            $channelInfoData = [];
+            if(isset($_POST['channel_name'])){
+                foreach($request->channel_name as $key => $value){
+                    $channelInfoData[] = [
+                         'application_no'  => $application_no,
+                        'channel_type_id'  => $request->channel_type_id[$key],
+                           'channel_name'  => $request->channel_name[$key],
+                            'circulation'  => $request->circulation[$key],
+                        'target_audience'  => $request->target_audience[$key],
+                    ];
+                }
+                $this->services->insertChannelApplication($channelInfoData);
+            }
+            
+            //insert intot t_dist_channel_applications
+            $channelCoverageData = [];
+            if(isset($_POST['area_coverage'])){
+                foreach($request->area_coverage as $key => $value){
+                    $channelCoverageData[] = [
+                        'application_no'  => $application_no,
+                         'area_coverage'  => $request->area_coverage[$key],
+                         'channel_name'   => $request->channel[$key],
+                         'channel_link'   => $request->channel_link[$key],
+                      'channel_type_id'   => $request->channel_type[$key],
+                        'intended_date'   =>date('Y-m-d', strtotime($request->intended_date[$key])),
+
+                    ];
+                }
+                $this->services->insertChannelCoverageApplication($channelCoverageData);
+            }
+
+             //insert intot t_channel_applications
+             $marketingInfoData = [];
+             if(isset($_POST['country'])){
+                 foreach($request->country as $key => $value){
+                     $marketingInfoData[] = [
+                          'application_no'  => $application_no,
+                              'country_id'  => $request->country[$key],
+                                    'city'  => $request->city_name[$key],
+                     ];
+                 }
+                 $this->services->insertMarketingInfoApplication($marketingInfoData);
+             }
+
+              //insert intot t_activity_applications
+              $marketinActivitiesData = [];
+              if(isset($_POST['activities'])){
+                  foreach($request->activities as $key => $value){
+                      $marketinActivitiesData[] = [
+                           'application_no'  => $application_no,
+                               'activities'  => $request->activities[$key],
+                      ];
+                  }
+                  $this->services->insertMarketingActivitiesApplication($marketinActivitiesData);
+              }
             //update application_no in t_documents
              $documentId = $request->documentId;
              $this->services->updateDocumentDetails($documentId,$application_no);
