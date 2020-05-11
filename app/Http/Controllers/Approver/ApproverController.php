@@ -8,7 +8,8 @@ use App\Models\Services;
 use App\Models\WorkFlowDetails;
 use App\Models\Dropdown;
 use App\Models\TCheckListChapter;
-
+use App\Models\TechnicalClearance;
+use App\Models\TaskDetails;
 class ApproverController extends Controller
 {
     public function __construct()
@@ -93,9 +94,33 @@ class ApproverController extends Controller
             return view('services.approver.approve_to_new _license',$data);
         }
     }
-
-    public function approveNewApplication(Request $request){
+        
+    //Approval function for technical clearance application
+    public function hotelTechnicalClearanceApplication(Request $request){
+       // return response()->json($data);        
+        \DB::transaction(function () use ($request) {
         $approveId = WorkFlowDetails::getStatus('APPROVED');
         $rejectId = WorkFlowDetails::getStatus('REJECTED');
+        $completedId= WorkFlowDetails::getStatus('COMPLETED');
+
+         if($request->status =='APPROVED'){
+
+            TechnicalClearance::create($request->all());
+
+            $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
+            $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
+                       ->update(['status_id' => $approveId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
+
+            $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
+            $updateworkflow=TaskDetails::where('application_no',$request->application_no)
+                                    ->update(['status_id' => $completedId->id]);
+        }else{
+            $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
+            $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
+            ->update(['status_id' => $rejectId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
+            }
+        });
+        return redirect('tasklist/tasklist')->with('msg_success', 'Application successfully approved');
+
     }
 }

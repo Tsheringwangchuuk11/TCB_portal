@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class WorkFlowDetails extends Model
 {
     protected $table='t_workflow_dtls';
+    protected $guarded = [];
 
     public static function getStatus($status_name)
     {
