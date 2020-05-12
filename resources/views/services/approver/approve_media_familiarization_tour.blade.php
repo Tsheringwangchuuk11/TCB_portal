@@ -1,12 +1,10 @@
 @extends('layouts.manager')
 @section('page-title','Bhutan Media Familarization')
 @section('content')
-<form action="{{ url('application/save-application') }}" method="POST" files="true" id="formdata" enctype="multipart/form-data">
+<form action="{{ url('verification/approve-application') }}" method="POST" files="true" id="formdata" enctype="multipart/form-data">
     @csrf
-    <input type="hidden" name="service_id" value="{{ $idInfos->service_id }}" id="service_id">
-    <input type="hidden" name="module_id" value="{{ $idInfos->module_id }}" id="module_id">
-    <input type="hidden" name="service_name" value="{{ $idInfos->name }}" id="service_name">
-    <input type="hidden" name="module_name" value="{{ $idInfos->module_name }}" id="module_name">
+    <input type="hidden" class="form-control" name="module_id" value="{{ $applicantInfo->module_id }}">
+    <input type="hidden" class="form-control" name="service_id" value="{{ $applicantInfo->service_id }}">
     <div class="card">
         <div class="card-header">
              <h4 class="card-title">Personal Information</h4>
@@ -15,83 +13,89 @@
             <div class="row">
                 <div class="col-md-5">
                     <div class="form-group">
-                        <label for="">Name<span clas="text-danger"> *</span></label>
-                        <input type="text" class="form-control required" name="applicant_name" autocomplete="off">
+                        <label for="">Application Number<span clas="text-danger"> *</span></label>
+                        <input type="text" class="form-control" name="application_no" value="{{ $applicantInfo->application_no }}" readonly="true">
                     </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
                     <div class="form-group">
-                        <label for="">CID <span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control required" name="cid_no" autocomplete="off">
+                        <label for="">Name<span clas="text-danger"> *</span></label>
+                        <input type="text" class="form-control" name="applicant_name" value="{{ $applicantInfo->applicant_name }}">
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-5">
                     <div class="form-group">
-                        <label for="">Designation <span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control required" name="designation" autocomplete="off">
+                        <label for="">CID <span class="text-danger"> *</span></label>
+                        <input type="text" class="form-control" name="cid_no" value="{{ $applicantInfo->cid_no }}">
                     </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
                     <div class="form-group">
-                        <label for="">Email <span class="text-danger"> *<span></label>
-                            <input type="text" class="form-control required" name="email" autocomplete="off" >
-                        </div>
+                        <label for="">Designation <span class="text-danger"> *</span></label>
+                        <input type="text" class="form-control" name="designation" value="{{ $applicantInfo->designation }}">
                     </div>
+                </div>
                 </div>
                 <div class="row">
                     <div class="col-md-5">
                         <div class="form-group">
-                            <label for="">Website<span class="text-danger"> *</span></label>
-                            <input type="text" class="form-control required" name="webpage_url" autocomplete="off">
-                        </div>
-                    </div>
-                    <div class="col-md-5 offset-md-2">
-                        <div class="form-group">
-                            <label for="">Agency Name <span class="text-danger"> *</span></label>
-                            <input type="text" name="company_title_name" class="form-control required" autocomplete="off">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-5">
-                        <div class="form-group">
-                            <label for="">Agency Address <span class="text-danger"> *</span></label>
-                            <input type="text" name="address" class="form-control required" autocomplete="off">
-                        </div>
-                    </div>
-                    <div class="col-md-5 offset-md-2">
-                        <div class="form-group">
-                            <label for="">City <span class="text-danger"> *<span></label>
-                                <input type="text" class="form-control required" name="city" autocomplete="off" >
+                            <label for="">Email <span class="text-danger"> *<span></label>
+                                <input type="text" class="form-control" name="email" value="{{ $applicantInfo->email }}">
                             </div>
                         </div>
+                    <div class="col-md-5 offset-md-2">
+                        <div class="form-group">
+                            <label for="">Website<span class="text-danger"> *</span></label>
+                            <input type="text" class="form-control" name="webpage_url" value="{{ $applicantInfo->webpage_url }}">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="">Agency Name <span class="text-danger"> *</span></label>
+                            <input type="text" name="company_title_name" class="form-control" value="{{ $applicantInfo->company_title_name }}">
+                        </div>
+                    </div>
+                    <div class="col-md-5 offset-md-2">
+                        <div class="form-group">
+                            <label for="">Agency Address <span class="text-danger"> *</span></label>
+                            <input type="text" name="address" class="form-control" value="{{ $applicantInfo->address }}">
+                        </div>
+                    </div>
                     </div>
                     <div class="row">
                         <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="">City <span class="text-danger"> *<span></label>
+                                    <input type="text" class="form-control" name="city" value="{{ $applicantInfo->city }}">
+                                </div>
+                            </div>
+                        <div class="col-md-5 offset-md-2">
                             <div class="form-group">
                                 <label for="">Country <span class="text-danger"> *</span></label>
                                 <select  name="country_id" class="form-control select2bs4" style="width: 100%;">
                                     <option value=""> -Select-</option>
                                     @foreach ($countries as $country)
-                                      <option value="{{ $country->id }}">{{ $country->country_name }}</option>
+                                      <option value="{{ $country->id }}" {{ old('country_id', $country->id) == $applicantInfo->country_id ? 'selected' : '' }}>{{ $country->country_name }}</option>
                                     @endforeach
                                   </select>
-                            </div>
-                        </div>
-                        <div class="col-md-5 offset-md-2">
-                            <div class="form-group">
-                                <label for=""> From Date <span class="text-danger"> *</span></label><small class="text-danger text-right">[ Intended date of travel ]</small>
-                                <input type="text" class="form-control required" name="from_date" id="from_date" autocomplete="off" placeholder="Select Date" readonly="true"> 
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-5">
                             <div class="form-group">
+                                <label for=""> From Date <span class="text-danger"> *</span></label><small class="text-danger text-right">[ Intended date of travel ]</small>
+                                <input type="text" class="form-control" name="from_date" value="{{ $applicantInfo->from_date }}"> 
+                            </div>
+                        </div>
+                        <div class="col-md-5 offset-md-2">
+                            <div class="form-group">
                                 <label for="">To Date <span class="text-danger"> *</span></label><small class="text-danger text-right">[ Intended date of travel ]</small>
-                                <input type="text" class="form-control datepicker required" name="to_date" id="to_date" autocomplete="off" placeholder="Select Date" readonly="true">
+                                <input type="text" class="form-control datepicker" name="to_date" value="{{ $applicantInfo->to_date }}">
                             </div>
                         </div>
                     </div>
@@ -114,15 +118,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($channelTypes as $channelType)
+                            @foreach ($channelTypesInfos as $channelTypesInfo)
                             <tr>        
-                                <td>{{ $channelType->channel_type}}</td>
+                                <td>{{ $channelTypesInfo->channel_type}}</td>
                                 <td>
-                                <input type='hidden' name='channel_type_id[]'value="{{ $channelType->id }}" class='form-control'>
-                                <input type='text' name='channel_name[]' class='form-control'>
+                                <input type='hidden' name='channel_type_id[]' value="{{ $channelTypesInfo->channel_type_id }}" class='form-control'>
+                                <input type='text' name='channel_name[]' value="{{ $channelTypesInfo->channel_name }}" class='form-control'>
                                 </td>
-                                <td><input type='text' name='circulation[]' class='form-control'></td>
-                                <td><input type='text' name='target_audience[]' class='form-control'></td>
+                                <td><input type='text' name='circulation[]' value="{{ $channelTypesInfo->circulation }}" class='form-control'></td>
+                                <td><input type='text' name='target_audience[]' value="{{ $channelTypesInfo->target_audience }}" class='form-control'></td>
                             </tr>  
                             @endforeach
                         </tbody>
@@ -139,31 +143,33 @@
             <div class="row">
                 <div class="col-md-12">                            
                     <table class="table table-bordered table-sm" id="dataTable"> 
-                        <tbody>                                   <thead>
+                        <tbody> 
                             <tr>        
                                 <td>Mention all area/topic of Bhutan coverage</td>
                                 <td>Channel Name </td>
                                 <td>Channel Link </td>
                                 <td>Channel Type</td>
                                 <td>Intended Date of Feature </td>
-                                <td></td>
                             </tr>
+                            @forelse ($channelCoverages as $channelCoverage)
                             <tr>
-                                <td><input  type="text" id="c_coverage" class="form-control" name="area_coverage[]" autocomplete="off"/></td>
-                                <td><input type="text" id="c_name" class="form-control" name="channel[]" autocomplete="off"></td>              
-                                <td><input  type="text" id="c_link" class="form-control" name="channel_link[]" autocomplete="off"/></td> 
+                            <td><input  type="text"  class="form-control" name="area_coverage[]" value="{{ $channelCoverage->area_coverage }}"></td>
+                                <td><input type="text" class="form-control" name="channel[]" value="{{ $channelCoverage->channel_name }}" ></td>              
+                                <td><input  type="text" class="form-control" name="channel_link[]" value="{{ $channelCoverage->channel_link }}"></td> 
                                 <td>
-                                    <select class="form-control required" name="channel_type[]" id="room_type_id">
+                                    <select class="form-control" name="channel_type[]">
                                         <option value=""> - Select - </option>
                                         @foreach ($channelTypes as $channelType)
-                                        <option value="{{ $channelType->id }}">{{ $channelType->channel_type }}</option>
+                                        <option value="{{ $channelType->id }}" {{ old('channel_type', $channelType->id) == $channelCoverage->channel_type_id ? 'selected' : '' }}>{{ $channelType->channel_type }}</option>
                                         @endforeach
                                     </select>   
-                                <td><input  type="text" id="c_date" class="form-control" name="intended_date[]" autocomplete="off" readonly="true"/></td>
-                                <td>
-                                 <button type="button" class="btn btn-success btn-xs tooltip-top" title="Add More" id="addrow"><i class="fas fa-plus"></i></button>
-                                </td>
+                                <td><input  type="text" class="form-control" name="intended_date[]" value="{{ $channelCoverage->intended_date }}" ></td>
+                                
                             </tr>
+                            @empty
+                                <p class="text-danger text-center"> No Data Available</p>
+                            @endforelse
+                           
                         </tbody>
                     </table>
                 </div>
@@ -173,37 +179,39 @@
 
     <div class="card">
         <div class="card-header">
-             <h4 class="card-title">File Attachment</h4>
+             <h4 class="card-title">Document Attachment</h4>
         </div>
         <div class="card-body">
-            <strong> Required supporting documents:</strong>
-            <ol>
-                <li>
-                    <em>Address your application to the Director, Tourism Council of Bhutan (In English)</em>      
-                </li>
-                <li>
-                    <em>Recommendation letter from the head of the agency (In English)
-                    </em><br>  
-                    a.Include designation/role of your staff visiting Bhutan 
-                </li>
-                <li>
-                    <em>Route your application through a registered Bhutanese tour operator </em>      
-                </li>
-                <li>
-                    <em>All members of the approved media FAM tour must meet relevant officials from the Tourism Council of Bhutan, preferably towards the end of your Bhutan trip</em>      
-                </li>
-                <li>
-                    <em>After your Bhutan visit you must submit copy/copies of your coverage to the Tourism Council of Bhutan. You can email Bhutan coverage to <a href="info@tourism.gov.bt">info@tourism.gov.bt</a><em>      
-                    </li>
-                    <li>
-                        <em>You hereby agree to give permission to the Tourism Council of Bhutan to use the coverage(s) (print, online and TV) on Bhutan to promote Bhutan. TCB and its partners will only use for promotion of Bhutan only.<em>      
-                        </li>
-                    </ol>
-                    @include('services/fileupload/fileupload')
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label>Title</label>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Download Files</label>
+                </div>
+                @forelse ($documentInfos as $documentInfo)
+                <div class="form-group col-md-6">
+                    <span>{{ $documentInfo->document_name }}</span>
+                </div>
+                <div class="form-group col-md-6">
+                <span><a href="{{ URL::to($documentInfo->upload_url) }}">{{ $documentInfo->document_name }}</a></span>
+                </div>
+                @empty
+                <div class="form-group col-md-12">
+                    <p>No data availlable</p>
+                </div>
+                @endforelse                
+            </div>
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label for="">Remarks <span class="text-danger">*</span> </label>
+                    <textarea type="text" class="form-control" name="remarks" row="3"></textarea>
+                </div>
+            </div>
         </div>
         <div class="card-footer text-center">
-            <button type="submit"class="btn btn-success btn-sm"><li class="fas fa-check"></li> APPLY</button>
-            <button type="reset" class="btn btn-danger btn-sm"><li class="fas fa-times"></li> RESET</button>
+            <button type="submit"class="btn btn-success"><i class="fa fa-check"></i> APPROVE</button>
+            <a href="#" class="btn btn-danger"><li class="fas fa-times fa-sm"></li> CANCEL</a>
         </div>
     </div>
 @endsection

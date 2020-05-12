@@ -49,6 +49,8 @@ class ModuleServiceSeeder extends Seeder
             ['module_id' => 7, 'service_id' => 14, 'page_link' => 'services/media_familiarization_tour'],
             ['module_id' => 6, 'service_id' => 20, 'page_link' => 'services/grievance'],
             ['module_id' => 4, 'service_id' => 21, 'page_link' => 'services/to_new _license'],
+            ['module_id' => 7, 'service_id' => 22, 'page_link' => 'services/tour_operator_fam'],
+
         ]);
     }
 }

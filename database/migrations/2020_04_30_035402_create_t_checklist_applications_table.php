@@ -17,7 +17,7 @@ class CreateTChecklistApplicationsTable extends Migration
             $table->bigIncrements('id');
             $table->string('application_no')->index();
             $table->unsignedBigInteger('checklist_id');
-            $table->string('checklist_pts')->nullable();
+            // $table->string('checklist_pts')->nullable();
             $table->text('remarks')->nullable();
             $table->foreign('application_no')->references('application_no')->on('t_applications');
             $table->foreign('checklist_id')->references('id')->on('t_check_list_standards');
