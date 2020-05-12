@@ -1,485 +1,280 @@
 @extends('layouts.manager')
 @section('page-title','Tour Operator Assessment')
 @section('content')
-
-<div class="card">
-  <div class="card-header bg-success">
-    <h4 class="card-title">Tour Operator Assessment/Monitoring Form</h4>
-  </div>
-  <form action="{{ url('application/save-application') }}" method="POST" enctype="multipart/form-data">
+<form action="{{ url('application/save-application') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <input type="hidden" name="service_id" value="{{ $idInfos->service_id }}" id="service_id">
     <input type="hidden" name="module_id" value="{{ $idInfos->module_id }}" id="module_id">
     <input type="hidden" name="service_name" value="{{ $idInfos->name }}" id="service_name">
     <input type="hidden" name="module_name" value="{{ $idInfos->module_name }}" id="module_name">
-    <div class="card-body">
-      <div class="row">
-        <div class="col-md-5">
-          <div class="form-group">
-            <label for="">Name of the Tour Company <span class="text-danger">*</span> </label>
-            <input type="text" class="form-control" name="company_name" autocomplete="off">
-          </div>
+    <div class="card">
+        <div class="card-header">
+             <h4 class="card-title">General Information</h4>
         </div>
-        <div class="col-md-5 offset-md-2">
-          <div class="form-group">
-            <label for="">Location <span class="text-danger">*</span> </label>
-            <input type="text" class="form-control" name="proposed_location" autocomplete="off">
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-5">
-          <div class="form-group">
-            <label for="">Name of the proprietor/s <span class="text-danger">*</span> </label>
-            <input type="text" class="form-control" name="owner" autocomplete="off">
-          </div>
-        </div>
-        <div class="col-md-5 offset-md-2">
-          <div class="form-group">
-            <label for="">Telephone/Mobile No. <span class="text-danger">*</span> </label>
-            <input type="text" class="form-control" name="contact_no" autocomplete="off">
-          </div>
-        </div>
-      </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label for="">Name of the Tour Company <span class="text-danger">*</span> </label>
+                    <input type="text" class="form-control" name="company_title_name" autocomplete="off">
+                  </div>
+                </div>
+                <div class="col-md-5 offset-md-2">
+                  <div class="form-group">
+                    <label for="">Location <span class="text-danger">*</span> </label>
+                    <input type="text" class="form-control" name="location" autocomplete="off">
+                  </div>
+                </div>
+            </div>
 
-      <!-- Tour Operator's License -->
-      <div class="row">
-        <div class="col-md-12">
-          <h5>Tour Operator's License</h5>
+            <div class="row">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label for="">Name of the proprietor/s <span class="text-danger">*</span> </label>
+                    <input type="text" class="form-control" name="owner_name" autocomplete="off">
+                  </div>
+                </div>
+                <div class="col-md-5 offset-md-2">
+                  <div class="form-group">
+                    <label for="">Telephone/Mobile No. <span class="text-danger">*</span> </label>
+                    <input type="text" class="form-control" name="contact_no" autocomplete="off">
+                  </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label for="">Owner CID<span class="text-danger">*</span> </label>
+                    <input type="text" class="form-control" name="cid_no" autocomplete="off">
+                  </div>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-5">
-          <div class="form-group">
-            <label>License details <span class="text-danger">*</span> </label>
-            <input type="radio" name="license" required> Valid
-            <input type="radio" name="license" required> Invalid
-          </div>
+    </div>
+    {{-- <div class="card">
+        <div class="card-header">
+                <h4 class="card-title">Tour Operator's License</h4>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <div class="form-group">
-            <label for="">Remarks: </label>
-            <textarea class="form-control" name="license_r" rows="2" autocomplete="off"></textarea>
-          </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                    <label>License details <span class="text-danger">*</span> </label>
+                    <input type="radio" name="license" required> Valid
+                    <input type="radio" name="license" required> Invalid
+                    </div>
+                </div>
+                </div>
+                <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                    <label for="">Remarks: </label>
+                    <textarea class="form-control" name="license_remarks" rows="2" autocomplete="off"></textarea>
+                    </div>
+                </div>
+                </div>
         </div>
-      </div>
+    </div> --}}
 
-      <!-- Office -->
-      <div class="row">
-        <div class="col-md-12">
-          <h5>Office</h5>
+    <div class="card">
+        <div class="card-header">
+                <h4 class="card-title">Office Information</h4>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-5">
-          <div class="form-group">
-            <label for="">Office Space <span class="text-danger">*</span> </label>
-            <input type="radio" name="office" required> Separate Premises          
-            <input type="radio" name="office" required> With Residence
-          </div>
+        <div class="card-body">
+            <div class="row">
+                @foreach ($officeInfos as $officeInfo)
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @if ($officeInfo->id ===1)
+                        <label for=""> {{ $officeInfo->office_name }}<span class="text-danger">*</span> </label>
+                        <input type="hidden" name="office_id[]" value="{{ $officeInfo->id}}" class="form-control">       
+                        <input type="checkbox" name="office_status[]" value="0"> Separate Premises          
+                        <input type="checkbox" name="office_status[]" vlaue="1"> With Residence
+                        @elseif($officeInfo->id ===2)
+                        <label for=""> {{ $officeInfo->office_name }}<span class="text-danger">*</span> </label>
+                        <input type="hidden" name="office_id[]" value="{{ $officeInfo->id}}" class="form-control">       
+                        <input type="checkbox" name="office_status[]" value="1"> Proper Demarcation          
+                        <input type="checkbox" name="office_status[]" value="0">  No Demarcation
+                        @elseif($officeInfo->id ===3)
+                        <label for=""> {{ $officeInfo->office_name }}<span class="text-danger">*</span> </label>
+                        <input type="hidden" name="office_id[]" value="{{ $officeInfo->id}}" class="form-control">       
+                        <input type="checkbox" name="office_status[]" value="1"> Yes      
+                        <input type="checkbox" name="office_status[]" value="0"> No
+                        @endif
+                    </div>
+                </div>
+                @endforeach
+            </div>
+            {{-- <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                    <label for="">Remarks: </label>
+                    <textarea class="form-control" name="office_r" rows="2" autocomplete="off"></textarea>
+                    </div>
+                </div>
+            </div> --}}
+    </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+                <h4 class="card-title">Office Equipment</h4>
         </div>
-        <div class="col-md-5 offset-md-2">
-          <div class="form-group">
-            <label for="">If Attached with Residence <span class="text-danger">*</span></label>
-            <input type="radio" name="residence"> Proper Demarcation
-            <input type="radio" name="residence"> No Demarcation
-          </div>
+        <div class="card-body">
+            <div class="row">
+                @foreach ($officeEquipments as $officeEquipment)
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for=""> {{ $officeEquipment->equipment_name }}<span class="text-danger">*</span> </label>
+                        <input type="hidden" name="equipment_id[]" value="{{ $officeEquipment->id}}" class="form-control">       
+                        <input type="checkbox" name="equipment_status[]" value="1"> Yes          
+                        <input type="checkbox" name="equipment_status[]" value="0"> No
+                    </div>
+                </div>
+                @endforeach
+            </div>      
+            {{-- <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                <label for="">Remarks: </label>
+                <textarea class="form-control" name="equipment_remarks" rows="2" autocomplete="off"></textarea>
+                </div>
+            </div>
+            </div> --}}
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-5">
-          <div class="form-group">
-            <label for="">Proper Sign Board <span class="text-danger">*</span> </label>
-            <input type="radio" name="signboard" required> Yes
-            <input type="radio" name="signboard" required> No
-          </div>
-        </div>
-        <div class="col-md-12">
-          <div class="form-group">
-            <label for="">Remarks: </label>
-            <textarea class="form-control" name="office_r" rows="2" autocomplete="off"></textarea>
-          </div>
-        </div>
-      </div>
-
-      <!-- Office Equipment -->
-      <div class="row">
-        <div class="col-md-12">
-          <h5>Office Equipment</h5>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-5">
-          <div class="form-group">
-            <label for="">Computers <span class="text-danger">*</span> </label>
-            <input type="radio" name="computer" required> Yes          
-            <input type="radio" name="computer" required> No
-          </div>
-        </div>
-        <div class="col-md-5 offset-md-2">
-          <div class="form-group">
-            <label for="">Printers <span class="text-danger">*</span> </label>
-            <input type="radio" name="printer" required> Yes
-            <input type="radio" name="printer" required> No
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-5">
-          <div class="form-group">
-            <label for="">Photocopy Machine <span class="text-danger">*</span> </label>
-            <input type="radio" name="photocopy"> Yes
-            <input type="radio" name="photocopy"> No
-          </div>
-        </div>
-        <div class="col-md-5 offset-md-2">
-          <div class="form-group">
-            <label for="">Appropriate Office Furniture <span class="text-danger">*</span> </label>
-            <input type="radio" name="furniture" required> Yes
-            <input type="radio" name="furniture" required> No
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <div class="form-group">
-            <label for="">Remarks: </label>
-            <textarea class="form-control" name="equipment_r" rows="2" autocomplete="off"></textarea>
-          </div>
-        </div>
-      </div>
-
-      <!-- Communication Facilities -->
-      <div class="row">
-        <div class="col-md-12">
-          <h5>Communication Facilities</h5>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-5">
-          <div class="form-group">
-            <label for="">Proper Postal Address <span class="text-danger">*</span> </label>
-            <input type="radio" name="postal"> Yes
-            <input type="radio" name="postal"> No
-          </div>
-        </div>
-        <div class="col-md-5 offset-md-2">
-          <div class="form-group">
-            <label for="">Internet Connection <span class="text-danger">*</span> </label>
-            <input type="radio" name="in_connection" required> Yes          
-            <input type="radio" name="in_connection" required> No
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-5">
-          <div class="form-group">
-            <label for="">Proper Email Address <span class="text-danger">*</span> </label>
-            <input type="radio" name="email" required> Yes
-            <input type="radio" name="email" required> No
-          </div>
-        </div>
-        <div class="col-md-5 offset-md-2">
-          <div class="form-group">
-            <label for="">Functional Website <span class="text-danger">*</span> </label>
-            <input type="radio" name="website" required> Yes
-            <input type="radio" name="website" required> No
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <div class="form-group">
-            <label for="">Remarks: </label>
-            <textarea class="form-control" name="communication_r" rows="2" autocomplete="off"></textarea>
-          </div>
-        </div>
-      </div>
-
-      <!-- Employment -->
-      <div class="row">
-        <div class="col-md-12">
-         <h5>Employment</h5>
-       </div>
-     </div>
-
-     <div class="row">
-       <div class="col-md-5">
-         <div class="form-group">
-          <label for="">Managing Director/CEO <span class="text-danger">*</span> </label>
-          <input type="radio" name="radio1"> Yes
-          <input type="radio" name="radio1"> No
-          <input type="radio" name="radio1"> Bhutanese
-          <input type="radio" name="radio1"> Foreigner
-        </div>
-      </div>
-      <div class="col-md-5 offset-md-2">
-        <div class="form-group">
-          <label for="">General Manager <span class="text-danger">*</span> </label>
-          <input type="radio" name="radio1"> Yes          
-          <input type="radio" name="radio1"> No
-          <input type="radio" name="radio1"> Bhutanese
-          <input type="radio" name="radio1"> Foreigner
-        </div>
-      </div>
     </div>
 
-    <div class="row">
-     <div class="col-md-5">
-       <div class="form-group">
-        <label for="">Finance/Administration Officer <span class="text-danger">*</span> </label>
-        <input type="radio" name="radio1"> Yes          
-        <input type="radio" name="radio1"> No
-        <input type="radio" name="radio1"> Bhutanese
-        <input type="radio" name="radio1"> Foreigner
-      </div>
+    <div class="card">
+        <div class="card-header">
+                <h4 class="card-title">Communication Facilities</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                @foreach ($communicationFacilities as $communicationFacilitie)
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for=""> {{ $communicationFacilitie->equipment_name }}<span class="text-danger">*</span> </label>
+                        <input type="hidden" name="equipment_id[]" value="{{ $communicationFacilitie->id}}" class="form-control">       
+                        <input type="checkbox" name="equipment_status[]" value="1"> Yes          
+                        <input type="checkbox" name="equipment_status[]" value="0"> No
+                    </div>
+                </div>
+                @endforeach
+            </div>      
+            {{-- <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                <label for="">Remarks: </label>
+                <textarea class="form-control" name="facilities_remarks" rows="2" autocomplete="off"></textarea>
+                </div>
+            </div>
+            </div> --}}
+        </div>
     </div>
-    <div class="col-md-5 offset-md-2">
-      <div class="form-group">
-        <label for="">Tour/trekking Guides <span class="text-danger">*</span> </label>
-        <input type="radio" name="radio1"> Yes          
-        <input type="radio" name="radio1"> No
-        <input type="radio" name="radio1"> Valid License
-        <input type="radio" name="radio1"> Invalid License
-      </div>
+    <div class="card">
+        <div class="card-header">
+                <h4 class="card-title">Employment</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                @foreach ($employments as $employment)
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for=""> {{ $employment->employment_name }}<span class="text-danger">*</span> </label>
+                        <input type="hidden" name="employment_id[]" value="{{ $employment->id}}" class="form-control">       
+                        <input type="checkbox" name="employment_status[]" value="1"> Yes
+                        <input type="checkbox" name="employment_status[]" value="0"> No
+                        <input type="checkbox" name="nationality[]" value="B"> Bhutanese
+                        <input type="checkbox" name="nationality[]" value="F"> Foreigner
+                    </div>
+                </div>
+                @endforeach
+            </div>      
+            {{-- <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                <label for="">Remarks: </label>
+                <textarea class="form-control" name="employment_remarks" rows="2" autocomplete="off"></textarea>
+                </div>
+            </div>
+            </div> --}}
+        </div>
     </div>
-  </div>
-
-  <div class="row">
-   <div class="col-md-5">
-    <div class="form-group">
-      <label for="">Operation/Reservation Managers <span class="text-danger">*</span> </label>
-      <input type="radio" name="radio1"> Yes
-      <input type="radio" name="radio1"> No
-      <input type="radio" name="radio1"> Bhutanese
-      <input type="radio" name="radio1"> Foreigner
+    <div class="card">
+        <div class="card-header">
+                <h4 class="card-title">Trekking Equipments</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                @foreach ($trekkingEquipments as $trekkingEquipment)
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for=""> {{ $trekkingEquipment->equipment_name }}<span class="text-danger">*</span> </label>
+                        <input type="hidden" name="equipment_id[]" value="{{ $trekkingEquipment->id }}" class="form-control">       
+                        <input type="checkbox" name="equipment_status[]" value="1"> Yes          
+                        <input type="checkbox" name="equipment_status[]" value="0"> No
+                    </div>
+                </div>
+                @endforeach
+            </div>      
+            {{-- <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                <label for="">Remarks: </label>
+                <textarea class="form-control" name="trecking_remarks" rows="2" autocomplete="off"></textarea>
+                </div>
+            </div>
+            </div> --}}
+        </div>
     </div>
-  </div>
-  <div class="col-md-5 offset-md-2">
-    <div class="form-group">
-      <label for="">Accountant  <span class="text-danger">*</span> </label>
-      <input type="radio" name="radio1"> Yes          
-      <input type="radio" name="radio1"> No
-      <input type="radio" name="radio1"> Bhutanese
-      <input type="radio" name="radio1"> Foreigner
+    <div class="card">
+        <div class="card-header">
+                <h4 class="card-title">Transportation</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                @foreach ($transportations as $transportation)
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for=""> {{ $transportation->vehicle_name }}<span class="text-danger">*</span> </label>
+                        <input type="hidden" name="vehicle_id[]" value="{{ $transportation->id}}" class="form-control">       
+                        <input type="checkbox" name="transport_status[]" value="1"> Yes
+                        <input type="checkbox" name="transport_status[]" value="0"> No
+                        <input type="checkbox" name="fitness[]" value="1"> Valid Fitness
+                        <input type="checkbox" name="fitness[]" value="0"> Invalid Fitness
+                    </div>
+                </div>
+                @endforeach
+            </div>      
+            {{-- <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                <label for="">Remarks: </label>
+                <textarea class="form-control" name="transportation_remarks" rows="2" autocomplete="off"></textarea>
+                </div>
+            </div>
+            </div> --}}
+        </div>
     </div>
-  </div>
-</div>
-
-<div class="row">
- <div class="col-md-5">
-  <div class="form-group">
-    <label for="">Assistant Managers <span class="text-danger">*</span> </label>
-    <input type="radio" name="radio1"> Yes          
-    <input type="radio" name="radio1"> No
-    <input type="radio" name="radio1"> Bhutanese
-    <input type="radio" name="radio1"> Foreigner
-  </div>
-</div>
-<div class="col-md-5 offset-md-2">
-  <div class="form-group">
-    <label for="">Office Assistants <span class="text-danger">*</span> </label>
-    <input type="radio" name="radio1"> Yes          
-    <input type="radio" name="radio1"> No
-    <input type="radio" name="radio1"> Bhutanese
-    <input type="radio" name="radio1"> Foreigner
-  </div>
-</div>
-</div>
-<div class="row">
- <div class="col-md-5">
-  <div class="form-group">
-    <label for="">Ticketing Staff <span class="text-danger">*</span> </label>
-    <input type="radio" name="radio1"> Yes
-    <input type="radio" name="radio1"> No
-    <input type="radio" name="radio1"> Bhutanese
-    <input type="radio" name="radio1"> Foreigner
-  </div>
-</div>
-<div class="col-md-5 offset-md-2">
-  <div class="form-group">
-    <label for="">Drivers <span class="text-danger">*</span> </label>
-    <input type="radio" name="radio1"> Yes          
-    <input type="radio" name="radio1"> No
-    <input type="radio" name="radio1"> Valid License
-    <input type="radio" name="radio1"> Invalid License
-  </div>
-</div>
-</div>
-<div class="row">
- <div class="col-md-5">
-  <div class="form-group">
-    <label for="">Trekking Cooks <span class="text-danger">*</span> </label>
-    <input type="radio" name="radio1"> Yes          
-    <input type="radio" name="radio1"> No
-    <input type="radio" name="radio1"> Bhutanese
-    <input type="radio" name="radio1"> Foreigner
-  </div>
-</div>
-<div class="col-md-5 offset-md-2">
-  <div class="form-group">
-    <label for="">Trek Assistants <span class="text-danger">*</span> </label>
-    <input type="radio" name="radio1"> Yes          
-    <input type="radio" name="radio1"> No
-    <input type="radio" name="radio1"> Bhutanese
-    <input type="radio" name="radio1"> Foreigner
-  </div>
-</div>
-</div>
-<div class="row">
- <div class="col-md-12">
-  <div class="form-group">
-    <label for="">Remarks: </label>
-    <textarea class="form-control" name="distance3" rows="2" autocomplete="off"></textarea>
-  </div>
-</div>
-</div>
-
-<!-- Trekking Equipments -->
-<div class="row">
-  <div class="col-md-12">
-    <h5>Trekking Equipments</h5>
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-5">
-    <div class="form-group">
-      <label for="">Sleeping tents <span class="text-danger">*</span> </label>
-      <input type="radio" name="radio1"> Yes
-      <input type="radio" name="radio1"> No
+    <div class="card">
+        <div class="card-header">
+             <h4 class="card-title">File Attachment</h4>
+        </div>
+        <div class="card-body">
+            <h6> <strong>Required supporting documents:</strong></h6>
+            <ol>
+                <li>
+                    <em>A copy of the valid trade license.</em>      
+                </li>
+                <li>
+                    <em>A copy of the letter of authorization from the building owner stating that the applicant is authorized to operate the office in his/her property or ownership certificate in case of own building</em>      
+                </li>
+            </ol>
+            @include('services/fileupload/fileupload')
+        </div>
+        <div class="card-footer text-center">
+            <button type="submit"class="btn btn-success"><i class="fa fa-check"></i> APPLY</button>
+            <button type="reset"class="btn btn-danger"><i class="fa fa-times"></i> RESET</button>
+        </div>
     </div>
-  </div>
-  <div class="col-md-5 offset-md-2">
-    <div class="form-group">
-      <label for="">Dining tents <span class="text-danger">*</span> </label>
-      <input type="radio" name="radio1" required> Yes          
-      <input type="radio" name="radio1" required> No
-    </div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-5">
-    <div class="form-group">
-      <label for="">Toilet tents <span class="text-danger">*</span> </label>
-      <input type="radio" name="radio1" required> Yes
-      <input type="radio" name="radio1" required> No
-    </div>
-  </div>
-  <div class="col-md-5 offset-md-2">
-    <div class="form-group">
-      <label for="">Trekking Chairs & Tables <span class="text-danger">*</span> </label>
-      <input type="radio" name="radio1" required> Yes
-      <input type="radio" name="radio1" required> No
-    </div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-5">
-    <div class="form-group">
-      <label for="">Kitchen Equipments <span class="text-danger">*</span> </label>
-      <input type="radio" name="radio1" required> Yes
-      <input type="radio" name="radio1" required> No
-    </div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-12">
-    <div class="form-group">
-      <label for="">Remarks: </label>
-      <textarea class="form-control" name="distance3" rows="2" autocomplete="off"></textarea>
-    </div>
-  </div>
-</div>
-
-<!-- Transportation -->
-<div class="row">
-  <div class="col-md-12">
-    <h5>Transportation</h5>
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-5">
-    <div class="form-group">
-      <label for="">Coaster Bus <span class="text-danger">*</span> </label>
-      <input type="radio" name="radio1"> Yes
-      <input type="radio" name="radio1"> No
-      <input type="radio" name="radio1"> Valid Fitness
-      <input type="radio" name="radio1"> Invalid Fitness
-    </div>
-  </div>
-  <div class="col-md-5 offset-md-2">
-    <div class="form-group">
-      <label for="">Hiace/Mini Bus <span class="text-danger">*</span> </label>
-      <input type="radio" name="radio1"> Yes          
-      <input type="radio" name="radio1"> No
-      <input type="radio" name="radio1"> Valid Fitness
-      <input type="radio" name="radio1"> Invalid Fitness
-    </div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-5">
-    <div class="form-group">
-      <label for="">SUVs <span class="text-danger">*</span> </label>
-      <input type="radio" name="radio1"> Yes          
-      <input type="radio" name="radio1"> No
-      <input type="radio" name="radio1"> Valid Fitness
-      <input type="radio" name="radio1"> Invalid Fitness
-    </div>
-  </div>
-  <div class="col-md-5 offset-md-2">
-    <div class="form-group">
-      <label for="">Cars <span class="text-danger">*</span> </label>
-      <input type="radio" name="radio1"> Yes          
-      <input type="radio" name="radio1"> No
-      <input type="radio" name="radio1"> Valid Fitness
-      <input type="radio" name="radio1"> Invalid Fitness
-    </div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-5">
-    <div class="form-group">
-      <label for="">Office Pool Vehicle <span class="text-danger">*</span> </label>
-      <input type="radio" name="radio1"> Yes
-      <input type="radio" name="radio1"> No
-      <input type="radio" name="radio1"> Valid Fitness
-      <input type="radio" name="radio1"> Invalid Fitness
-    </div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-12">
-    <div class="form-group">
-      <label for="">Remarks: </label>
-      <textarea class="form-control" name="distance3" rows="2" autocomplete="off"></textarea>
-    </div>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-md-12">
-    <p><span>Please attach additional sheets where necessary like pictures of the office, and office sign board.</span></p>
-    <div class="mb-3 mt-2">
-      <span class="btn btn-success fileinput-button btn-sm">
-        <i class="fas fa-plus fa-sm"></i>
-        <span>Add files...</span>
-        <!-- The file input field used as target for the file upload widget -->
-        <input id="fileupload" type="file" name="files[]" multiple="">
-      </span>
-    </div>
-  </div>
-</div>
-
-</div> <!-- card body ends -->
-
-<div class="card-footer text-center">
-  <button type="submit"class="btn btn-success"><li class="fas fa-check"></li> APPLY</button>
-  <button type="reset"class="btn btn-danger"><li class="fas fa-times"></li> RESET</button>
-</div>
-</form>
-</div>
-
+<form>
 @endsection

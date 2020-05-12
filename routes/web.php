@@ -68,7 +68,7 @@ Route::group(['middleware' => ['auth']], function () {
     //routes for approver
     Route::group(['prefix' => 'verification', 'namespace' => 'Approver'], function() {
         Route::get('openApplication/{applicationNo}/{serviceId}/{moduleId}', 'ApproverController@openApplication');
-        Route::post('approve-application', 'ApproverController@approveNewApplication');
+        Route::post('approve-application', 'ApproverController@hotelTechnicalClearanceApplication');
 
     });
 });

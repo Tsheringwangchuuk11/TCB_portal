@@ -30,6 +30,10 @@ class DatabaseSeeder extends Seeder
         $this->call(LastApplicationNumberSeeder::class);
         $this->call(RoomTypesSeeder::class);
         $this->call(BasicStandardTableSeeder::class);
-
+        $this->call(EmploymentSeeder::class);
+        $this->call(OfficeInfoSeeder::class);
+        $this->call(EquipmentSeeder::class);
+        $this->call(VehicleSeeder::class);
+        $this->call(ChannelTypesSeeder::class);
     }
 }

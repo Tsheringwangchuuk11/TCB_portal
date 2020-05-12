@@ -14,10 +14,64 @@ class Services extends Model
 	public function setLicenseDateAttribute($value)
     {
 
-        $this->attributes['license_date'] = date('Y-m-d', strtotime($value));
+        $this->attributes['license_date'] = $value ? date('Y-m-d', strtotime($value)) : null;
     }
 
     public function getLicenseDateAttribute($value)
+    {
+		return $value ? date('d-m-Y', strtotime($value)) : null;
+	}
+
+	public function setDobAttribute($value)
+    {
+
+        $this->attributes['dob'] = $value ? date('Y-m-d', strtotime($value)) : null;
+    }
+
+    public function getDobAttribute($value)
+    {
+		return $value ? date('d-m-Y', strtotime($value)) : null;
+	}
+
+	public function setDrawingDateAttribute($value)
+    {
+
+        $this->attributes['drawing_date'] = $value ? date('Y-m-d', strtotime($value)) : null;
+    }
+
+    public function getDrawingDateAttribute($value)
+    {
+		return $value ? date('d-m-Y', strtotime($value)) : null;
+	}
+
+	public function setFromDateAttribute($value)
+    {
+
+        $this->attributes['from_date'] = $value ? date('Y-m-d', strtotime($value)) : null;
+    }
+
+    public function getFromDateAttribute($value)
+    {
+		return $value ? date('d-m-Y', strtotime($value)) : null;
+	}
+
+public function setToDateAttribute($value)
+    {
+
+        $this->attributes['to_date'] = $value ? date('Y-m-d', strtotime($value)) : null;
+    }
+
+    public function getToDateAttribute($value)
+    {
+		return $value ? date('d-m-Y', strtotime($value)) : null;
+	}
+	public function setValidatyDateAttribute($value)
+    {
+
+        $this->attributes['validity_date'] = $value ? date('Y-m-d', strtotime($value)) : null;
+    }
+
+    public function getValidatyDateAttribute($value)
     {
 		return $value ? date('d-m-Y', strtotime($value)) : null;
 	}
@@ -125,17 +179,85 @@ class Services extends Model
 	}
 
 	public function insertIntoStaffApplication($staffAppData){
+
 		DB::table('t_staff_applications')->insert($staffAppData);		
 	}
 	
 	public function insertIntoCheckListApplication($membersDetailsData){
+
 		DB::table('t_checklist_applications')->insert($membersDetailsData);		
 	}
 
 	public function insertMemberApplication($checklistData){
+
 		DB::table('t_member_applications')->insert($checklistData);		
 	}
 
+    public function insertPartnerApplication($partnerDetailsData){
+
+		DB::table('t_partner_applications')->insert($partnerDetailsData);		
+	}
+	 public function insertOfficeApplication($officeInfoData){
+
+		DB::table('t_office_applications')->insert($officeInfoData);		
+
+	 }
+
+	 public function insertOfficeEquipmentApplication($officeEquipmentData){
+
+		DB::table('t_equipment_applications')->insert($officeEquipmentData);		
+
+	 }
+
+	 public function insertEmploymentApplication($employmentData){
+
+		DB::table('t_employment_applications')->insert($employmentData);		
+
+	 }
+
+	 public function insertTransportationApplication($transportationData){
+
+		DB::table('t_transport_applications')->insert($transportationData);		
+
+	 }
+	 public function insertOrganizerInfo($organizerInfoData){
+
+		DB::table('t_organizer_applications')->insert($organizerInfoData);		
+
+	 }
+	 public function insertEventItemsApplication($eventItemData){
+
+		DB::table('t_item_applications')->insert($eventItemData);		
+
+	 }
+
+	 public function insertProductItemsApplication($productItemData){
+
+		DB::table('t_product_applications')->insert($productItemData);		
+
+	 }
+
+	 public function insertChannelApplication($channelInfoData){
+
+		DB::table('t_channel_applications')->insert($channelInfoData);	
+
+	 }
+
+	 public function insertChannelCoverageApplication($channelCoverageData){
+
+		DB::table('t_dist_channel_applications')->insert($channelCoverageData);	
+
+	 }
+	 public function insertMarketingInfoApplication($marketingInfoData){
+
+		DB::table('t_market_applications')->insert($marketingInfoData);	
+
+		}
+
+	public function insertMarketingActivitiesApplication($marketinActivitiesData){
+
+			DB::table('t_activity_applications')->insert($marketinActivitiesData);	
+	}
 	public function updateDocumentDetails($documentId,$application_no){
 		if(isset($documentId)){
 			foreach($documentId as $key => $value)
@@ -150,7 +272,7 @@ class Services extends Model
 
 	public static function getApplicantDetails($applicationNo){
 		$query=DB::table('t_applications as t1')
-		->leftjoin('t_star_categories as t2','t2.id','=','t1.star_category_id')
+		->leftjoin('t_gewog_masters as t3','t1.gewog_id','=','t3.id')
 		->where('t1.application_no',$applicationNo)
 		->first();
 		return $query;
@@ -182,5 +304,107 @@ class Services extends Model
 		->get();
 		return $query;
 
+	}
+	public static function getOfficeEquipmentDetails($equipmentType){
+		$query=DB::table('t_equipments as t1')
+		->select('t1.id','t1.equipment_name','t1.equipment_type')
+		->where('t1.equipment_type',$equipmentType)
+		->get();
+		return $query;
+	}
+
+	public static function getPartnerInfoDetails($applicationNo){
+		$query=DB::table('t_applications as t1')
+		->leftjoin('t_partner_applications as t2','t2.application_no','=','t1.application_no')
+		->select('t2.partner_name','t2.partner_cid_no','t2.partner_gender','t2.partner_dob','t2.partner_flat_no',
+		't2.partner_building_no','t2.partner_location','t2.partner_village_id')
+		->where('t1.application_no',$applicationNo)
+		->first();
+		return $query;
+	}
+
+	public static function getProductInfoDetails($applicationNo){
+		$query=DB::table('t_applications as t1')
+		->leftjoin('t_product_applications as t2','t2.application_no','=','t1.application_no')
+		->select('t2.type','t2.location','t2.objective','t2.product_des','t2.project_cost',
+		't2.timeline','t2.contribution')
+		->where('t1.application_no',$applicationNo)
+		->first();
+		return $query;
+	}
+	public static function getChannelInfoDetails($applicationNo){
+		$query=DB::table('t_applications as t1')
+		->leftjoin('t_channel_applications as t2','t2.application_no','=','t1.application_no')
+		->leftjoin('t_channel_types as t3','t2.channel_type_id','=','t3.id')
+		->select('t2.channel_name','t2.channel_type_id','t2.circulation','t2.target_audience','t3.channel_type')
+		->where('t1.application_no',$applicationNo)
+		->get();
+		return $query;
+	}
+
+	public static function getChannelCoverageInfoDetails($applicationNo){
+		$query=DB::table('t_applications as t1')
+		->leftjoin('t_dist_channel_applications as t2','t2.application_no','=','t1.application_no')
+		->select('t2.area_coverage','t2.channel_name','t2.channel_link','t2.channel_type_id','t2.intended_date')
+		->where('t1.application_no',$applicationNo)
+		->get();
+		return $query;
+	}
+
+	public static function getOrganizerInfoDetails($applicationNo){
+		$query=DB::table('t_applications as t1')
+		->leftjoin('t_organizer_applications as t2','t2.application_no','=','t1.application_no')
+		->select('t2.id','t2.organizer_name','t2.organizer_address','t2.organizer_phone','t2.organizer_email','t2.organizer_type','t2.amount_requested')
+		->where('t1.application_no',$applicationNo)
+		->first();
+		return $query;
+	}
+	public static function getItemInfoDetails($applicationNo){
+		$query=DB::table('t_applications as t1')
+		->leftjoin('t_item_applications as t2','t2.application_no','=','t1.application_no')
+		->select('t2.id','t2.items_name','t2.item_costs')
+		->where('t1.application_no',$applicationNo)
+		->get();
+		return $query;
+	}
+
+	public static function getOfficeInfoDetails($applicationNo){
+		$query=DB::table('t_applications as t1')
+		->leftjoin('t_office_applications as t2','t2.application_no','=','t1.application_no')
+		->leftjoin('t_offices as t3','t2.office_id','=','t3.id')
+		->select('t2.id','t2.office_id','t2.office_status','t3.office_name')
+		->where('t1.application_no',$applicationNo)
+		->get();
+		return $query;
+	}
+	public static function 	getOfficeEquipmentInfoDetails($applicationNo,$equipmentType){
+		$query=DB::table('t_applications as t1')
+		->leftjoin('t_equipment_applications as t2','t2.application_no','=','t1.application_no')
+		->leftjoin('t_equipments as t3','t2.equipment_id','=','t3.id')
+		->select('t2.id','t2.equipment_id','t2.equipment_status','t3.equipment_type','t3.equipment_name')
+		->where('t1.application_no',$applicationNo)
+		->where('t3.equipment_type',$equipmentType)
+		->get();
+		return $query;
+	}
+
+	public static function getEmploymentInfoDetails($applicationNo){
+		$query=DB::table('t_applications as t1')
+		->leftjoin('t_employment_applications as t2','t2.application_no','=','t1.application_no')
+		->leftjoin('t_employments as t3','t2.employment_id','=','t3.id')
+		->select('t2.id','t2.employment_id','t2.employment_status','t2.nationality','t3.employment_name')
+		->where('t1.application_no',$applicationNo)
+		->get();
+		return $query;
+	}
+
+	public static function getTransportationInfoDetails($applicationNo){
+		$query=DB::table('t_applications as t1')
+		->leftjoin('t_transport_applications as t2','t2.application_no','=','t1.application_no')
+		->leftjoin('t_vehicles as t3','t2.vehicle_id','=','t3.id')
+		->select('t2.id','t2.vehicle_id','t2.transport_status','t2.fitness','t3.vehicle_name')
+		->where('t1.application_no',$applicationNo)
+		->get();
+		return $query;
 	}
 }

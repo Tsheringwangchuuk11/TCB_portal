@@ -14,4 +14,14 @@ return [
         1 => 'Yes',
         0 => 'No',
     ],
+    "organizerType" => [
+        'N' => 'Non-Profit',
+        'P' => 'Public Agency',
+        'O' => 'Other',
+    ],
+    "type" => [
+        'type1' => 'Type1',
+        'type2' => 'Type2',
+        'type3' => 'Type3',
+    ],
 ];

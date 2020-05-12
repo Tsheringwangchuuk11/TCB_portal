@@ -33,6 +33,8 @@ class TServiceTableSeeder extends Seeder
             ['id' => 19, 'division_id' => 2, 'name' => 'Proposal form', 'created_by' => 1],
             ['id' => 20, 'division_id' => 4, 'name' => 'Grevience Redressal', 'created_by' => 1],
             ['id' => 21, 'division_id' => 3, 'name' => 'New License', 'created_by' => 1],
+            ['id' => 22, 'division_id' => 5, 'name' => 'Tour Operater FAM', 'created_by' => 1],
+
         ]);
     }
 }

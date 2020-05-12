@@ -31,14 +31,14 @@
                             <input type="date" class="form-control" name="license_date">
                         </div>
                         <div class="form-group col-md-5 offset-md-2">
-                            <label for="">Name </label>
-                            <input type="text" class="form-control" name="name" id="name" readonly="true">
+                            <label for="">Hotel Name </label>
+                            <input type="text" class="form-control" name="company_title_name" id="company_title_name" readonly="true">
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-md-5">
-                            <label for="">Owner </label>
-                            <input type="text" class="form-control" name="owner" id="owner" readonly="true">
+                            <label for="">Owner Name</label>
+                            <input type="text" class="form-control" name="owner_name" id="owner_name" readonly="true">
                         </div>
                         <div class="form-group col-md-5 offset-md-2">
                             <label for="">Address </label>
@@ -68,11 +68,11 @@
                     <div class="row">
                         <div class="form-group col-md-5">
                             <label for="">Internet Homepage </label>
-                            <input type="text" class="form-control" name="internet_url" id="internet_url" readonly="true">
+                            <input type="text" class="form-control" name="webpage_url" id="webpage_url" readonly="true">
                         </div>
                         <div class="form-group col-md-5 offset-md-2">
                             <label for="">Number of Beds </label>
-                            <input type="number" class="form-control" name="bed_no" id="bed_no" readonly="true">
+                            <input type="number" class="form-control" name="number" id="number" readonly="true">
                         </div>
                     </div>
                     <div class="row">
@@ -109,15 +109,15 @@
                success:function(data) {
                 $('#star_category_name').val(data.star_category_name);
                 $('#star_category_id').val(data.star_category_id);
-                $('#name').val(data.name);
-                $('#owner').val(data.owner);
+                $('#company_title_name').val(data.company_title_name);
+                $('#owner_name').val(data.owner_name);
                 $('#cid_no').val(data.cid_no);
                 $('#contact_no').val(data.contact_no);
                 $('#address').val(data.address);
                 $('#fax').val(data.fax);
                 $('#email').val(data.email);
-                $('#internet_url').val(data.internet_url);
-                $('#bed_no').val(data.bed_no);
+                $('#webpage_url').val(data.webpage_url);
+                $('#number').val(data.number);
                 $('#location_id').val(data.location_id);
                } 
             });
