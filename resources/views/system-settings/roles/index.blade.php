@@ -26,13 +26,13 @@
                             <td class="text-center">{{ $loop->iteration }}</td>
                             <td>{!! $role->name !!}</td>
                             <td class="text-center">
-                                <a href="{{ url('system/roles/' . $role->id) }}" class=" btn btn-outline-primary btn-sm" title="Detail"><i class="fas fa-list"></i> Detail</a>
+                                <a href="{{ url('system/roles/' . $role->id) }}" class=" btn btn-outline-primary btn-sm" title="Detail"><i class="fas fa-list"></i></a>
                                 @if ((int)$privileges->edit == 1)
-                                <a href="{{ url('system/roles/' . $role->id . '/edit') }}" class="btn btn-outline-info btn-sm" title="Edit"><i class="fas fa-edit"></i> Edit</a>
+                                <a href="{{ url('system/roles/' . $role->id . '/edit') }}" class="btn btn-outline-info btn-sm" title="Edit"><i class="fas fa-edit"></i></a>
                                 @endif
                                 @if((int)$privileges->delete == 1)
                                 <a href="#" class="form-confirm  btn btn-sm btn-outline-danger" title="Delete">
-                                    <i class="fas fa-trash"></i> Delete
+                                    <i class="fas fa-trash"></i>
                                     <a data-form="#frmDelete-{!! $role->id !!}" data-title="Delete {!! $role->name !!}" data-message="Are you sure you want to delete this role?"></a>
                                 </a>
                                 <form action="{{ url('system/roles/' . $role->id) }}" method="POST" id="{{ 'frmDelete-'.$role->id }}">

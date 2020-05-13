@@ -27,40 +27,40 @@ class ChecklistAreaController extends Controller
      */
     public function index(Request $request)
     {
-        $privileges = $request->instance();
+        $privileges = $request->instance();        
         $checklistAreas = TCheckListArea::orderBy('id')->with('checklistChapter')->paginate(10);
-        $checklistAreaCount = TCheckListArea::count();
-        $checklistChapters = Dropdown::getDropdowns("t_check_list_chapters","id","checklist_ch_name","0","0");
+        $checklistAreaCount = TCheckListArea::count();        
         $serviceModules = Dropdown::getDropdowns("t_module_masters","id","module_name","0","0");
 
-        return view('master.checklist-area', compact('privileges', 'checklistAreas', 'checklistAreaCount', 'checklistChapters', 'serviceModules'));
+        return view('master.checklist-area', compact('privileges', 'checklistAreas', 'checklistAreaCount', 'serviceModules'));
     }
 
     public function store(Request $request)
     {
-            $checklistAreaID = $request->checklist_area_id;
-            $rule = [
-                'checklist_chapter' => 'required',
-                'checklist_area_name' => 'required',
-            ];
-            $validator = Validator::make($request->all(), $rule);
-            if($validator->passes()){
-                $checklistArea   =   TCheckListArea::updateOrCreate(['id' => $checklistAreaID],
-                    ['checklist_ch_id' => $request->checklist_chapter, 'checklist_area' => $request->checklist_area_name, 'is_active'=> $request->status == 'yes' ? '1' : 0, 'created_by'=> auth()->user()->id ]);
+        $checklistAreaID = $request->checklist_area_id;
+        $rule = [
+            'checklist' => 'required',
+            'checklist_area_name' => 'required',
+        ];
+        $validator = Validator::make($request->all(), $rule);
+        if($validator->passes()){
+            $checklistArea   =   TCheckListArea::updateOrCreate(['id' => $checklistAreaID],
+                ['checklist_ch_id' => $request->checklist, 'checklist_area' => $request->checklist_area_name, 'is_active'=> $request->status == 'yes' ? '1' : 0, 'created_by'=> auth()->user()->id ]);
 
-			return response()->json($checklistArea);
-            }
+        return response()->json($checklistArea);
+        }
 
-            return response()->json(['error' => $validator->errors()->all() ]);
+        return response()->json(['error' => $validator->errors()->all() ]);
     }
 
 
     public function edit($id)
     {
-        $checklistArea = TCheckListArea::where('id', $id)->first();
+        $checklistArea = TCheckListArea::with('checklistChapter.serviceModule')->where('id', $id)->first();        
 
 		return response()->json($checklistArea);
     }
+
    //delete
     public function destroy($id)
     {
@@ -74,10 +74,11 @@ class ChecklistAreaController extends Controller
         }
     }
 
-    //get checklist chapter
+    //get chapter
     public function getChapter(Request $request)
     {                
         $chapters = TCheckListChapter::where('module_id', $request->moduleId)->get();
         return response()->json($chapters);
     }
+    
 }

@@ -38,11 +38,11 @@
                                     <td class="text-center">{!! $checklistChapter->isActive() == 1 ? '<i class="fas fa-check text-green"></i>' : '<i class="fas fa-times text-red"></i>' !!}</td>
                                     <td class="text-center">
 										@if ($privileges["edit"] == 1)
-                                        <a href="javascript:void(0)" id="edit_checklist" data-id="{{ $checklistChapter->id }}" class="btn btn-sm btn-outline-info"> <i class="fas fa-edit"></i>Edit</a>
+                                        <a href="javascript:void(0)" id="edit_checklist" data-id="{{ $checklistChapter->id }}" class="btn btn-sm btn-outline-info" title="Edit"> <i class="fas fa-edit"></i></a>
 										@endif
 										@if((int)$privileges->delete == 1)
 										<a href="#" class="form-confirm  btn btn-sm btn-outline-danger" title="Delete">
-											<i class="fas fa-trash"></i> Delete
+											<i class="fas fa-trash"></i>
 											<a data-form="#frmDelete-{!! $checklistChapter->id !!}" data-title="Delete {!! $checklistChapter->checklist_ch_name !!}" data-message="Are you sure you want to delete this checklist chapter?"></a>
 										</a>
 										<form action="{{ url('master/checklist-chapters/' . $checklistChapter->id) }}" method="POST" id="{{ 'frmDelete-'.$checklistChapter->id }}">
@@ -152,8 +152,8 @@
                       }
 
 					 var checklist = '<tr id="checklist_id_' + data.id + '"><td class="text-center">'+slNo+'</td><td>' + moduleName + '</td><td>' + data.checklist_ch_name + '</td><td class="text-center">' + (data.is_active == 1 ? '<i class="fas fa-check text-green"></i>' : '<i class="fas fa-times text-red"></i>') + '</td>';
-                        checklist += '<td class="text-center"><a href="javascript:void(0)" id="edit_checklist" data-id="' + data.id + '" class="btn btn-outline-info btn-sm"><i class="fas fa-edit"></i> Edit</a> ';
-                        checklist += '<a href="javascript:void(0)" id="delete_checklist" data-id="' + data.id + '" class="btn btn-outline-danger delete_checklist btn-sm"><i class="fas fa-trash"></i> Delete</a></td></tr>';
+                        checklist += '<td class="text-center"><a href="javascript:void(0)" id="edit_checklist" data-id="' + data.id + '" class="btn btn-outline-info btn-sm" title="Edit"><i class="fas fa-edit"></i></a> ';
+                        checklist += '<a href="javascript:void(0)" id="delete_checklist" data-id="' + data.id + '" class="btn btn-outline-danger delete_checklist btn-sm" title="Delete"><i class="fas fa-trash"></i></a></td></tr>';
 
 					  if (actionType == "create-checklist") {
 						  $('#checklist_body_id').append(checklist);

@@ -29,7 +29,7 @@
                             <td>{!! $module->name !!}</td>
                             <td class="text-center">
                                 @if ((int)$privileges->edit == 1)
-                                <a href="{{ url('system/modules/' . $module->id . '/edit') }}" class="btn btn-outline-info btn-sm" title="Edit"><i class="fas fa-edit"></i> Edit</a>
+                                <a href="{{ url('system/modules/' . $module->id . '/edit') }}" class="btn btn-outline-info btn-sm" title="Edit"><i class="fas fa-edit"></i></a>
                                 @endif
                             </td>
                         </tr>

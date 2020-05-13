@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Master;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TCheckListStandard;
+use App\Models\TCheckListChapter;
+use App\Models\TCheckListArea;
 use App\Models\Dropdown;
 use Validator;
 
@@ -36,8 +38,9 @@ class ChecklistStandardController extends Controller
         $checklistAreas = Dropdown::getDropdowns("t_check_list_areas","id","checklist_area","0","0");
         $starCategories = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
         $basicStandards = Dropdown::getDropdowns("t_basic_standards","id","standard_code","0","0");
-
-        return view('master.checklist-standard.create', compact('checklistAreas', 'starCategories', 'basicStandards'));
+        $serviceModules = Dropdown::getDropdowns("t_module_masters","id","module_name","0","0");
+        
+        return view('master.checklist-standard.create', compact('checklistAreas', 'starCategories', 'basicStandards', 'serviceModules'));
     }
     /**
      * Store a newly created resource in storage.
@@ -93,18 +96,17 @@ class ChecklistStandardController extends Controller
 
     public function edit($id)
     {
-        $checklistStandard =TCheckListStandard::with('standardMapping')->findOrFail($id);
+        $checklistStandard =TCheckListStandard::with('checklistArea.checklistChapter.serviceModule', 'standardMapping')->findOrFail($id);        
         $checklistAreas = Dropdown::getDropdowns("t_check_list_areas","id","checklist_area","0","0");
         $starCategories = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
         $basicStandards = Dropdown::getDropdowns("t_basic_standards","id","standard_code","0","0");
+        $serviceModules = Dropdown::getDropdowns("t_module_masters","id","module_name","0","0");
 
-        return view('master.checklist-standard.edit', compact('checklistStandard', 'checklistAreas', 'starCategories', 'basicStandards'));
+        return view('master.checklist-standard.edit', compact('checklistStandard', 'checklistAreas', 'starCategories', 'basicStandards', 'serviceModules'));
     }
 
     public function update(Request $request, $id)
-    {
-
-        // dd($request->all());
+    {                
         $rule = [
             'checklist_area' => 'required',
             'checklist_standard_name' => 'required',
@@ -154,48 +156,24 @@ class ChecklistStandardController extends Controller
         }
     }
 
-//     public function store(Request $request)
-//     {
-//             $checklistStandardID = $request->checklist_standard_id;
-//             $rule = [
-//                 'checklist_area' => 'required',
-//                 'checklist_standard_name' => 'required',
-//             ];
-//             $validator = Validator::make($request->all(), $rule);
-//             if($validator->passes()){
-//                 $checklistStandard   =   TCheckListStandard::updateOrCreate(['id' => $checklistStandardID],
-//                     ['checklist_area_id' => $request->checklist_area, 'checklist_standard' => $request->checklist_standard_name, 'checklist_pts' => $request->checklist_point, 'is_active'=> $request->status == 'yes' ? '1' : 0, 'created_by'=> auth()->user()->id ]);
+    /**
+    * get checklist chapter     
+    */
+    public function getChapter(Request $request)
+    {                
+        $chapters = TCheckListChapter::where('module_id', $request->moduleId)->get();
+        return response()->json($chapters);
+    }
 
-//                     $checklists = [];
+    /**
+    * get checklist standard     
+    */    
+    public function getChecklistArea(Request $request)
+    {                
+        $checklistAreas = TCheckListArea::where('checklist_ch_id', $request->checklistId)->get();
+        return response()->json($checklistAreas);
+    }
 
-//             foreach($request->checklist as $key => $value){
-//                 $checklists[] = [
-//                     'star_category_id' => $value['star_category'],
-//                     'standard_id' => $value['basic_standard'],
-//                     'mandatory' => $value['mandatory']== 1 ? 1 : 0,
-//                     'is_active' => $value['status'] == 'yes' ? 1 : 0,
-//                     'created_by'=> auth()->user()->id
-//                 ];
-//             }
-//             $checklistStandard->standardMapping()->createMany($checklists);
-
-// 			return response()->json($checklistStandard);
-//             }
-
-//             return response()->json(['error' => $validator->errors()->all() ]);
-//     }
-
-
-//     public function edit($id)
-//     {
-//         $checklistStandard = TCheckListStandard::where('id', $id)->first();
-
-// 		return response()->json($checklistStandard);
-//     }
-//    //delete
-//     public function destroy($id)
-//     {
-//         $checklistStandard = TCheckListStandard::where('id', $id)->delete();
-// 		return response()->json($checklistStandard);
-//     }
 }
+
+
