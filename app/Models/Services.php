@@ -172,92 +172,12 @@ public function setToDateAttribute($value)
 		->first();
 		return $query;
 	}
-	
-	public function insertIntoRoomApplication($roomAppData){
-		
-		DB::table('t_room_applications')->insert($roomAppData);
-	}
 
-	public function insertIntoStaffApplication($staffAppData){
-
-		DB::table('t_staff_applications')->insert($staffAppData);		
-	}
-	
-	public function insertIntoCheckListApplication($membersDetailsData){
-
-		DB::table('t_checklist_applications')->insert($membersDetailsData);		
-	}
-
-	public function insertMemberApplication($checklistData){
-
-		DB::table('t_member_applications')->insert($checklistData);		
-	}
-
-    public function insertPartnerApplication($partnerDetailsData){
-
-		DB::table('t_partner_applications')->insert($partnerDetailsData);		
-	}
-	 public function insertOfficeApplication($officeInfoData){
-
-		DB::table('t_office_applications')->insert($officeInfoData);		
-
-	 }
-
-	 public function insertOfficeEquipmentApplication($officeEquipmentData){
-
-		DB::table('t_equipment_applications')->insert($officeEquipmentData);		
-
-	 }
-
-	 public function insertEmploymentApplication($employmentData){
-
-		DB::table('t_employment_applications')->insert($employmentData);		
-
-	 }
-
-	 public function insertTransportationApplication($transportationData){
-
-		DB::table('t_transport_applications')->insert($transportationData);		
-
-	 }
-	 public function insertOrganizerInfo($organizerInfoData){
-
-		DB::table('t_organizer_applications')->insert($organizerInfoData);		
-
-	 }
-	 public function insertEventItemsApplication($eventItemData){
-
-		DB::table('t_item_applications')->insert($eventItemData);		
-
-	 }
-
-	 public function insertProductItemsApplication($productItemData){
-
-		DB::table('t_product_applications')->insert($productItemData);		
-
-	 }
-
-	 public function insertChannelApplication($channelInfoData){
-
-		DB::table('t_channel_applications')->insert($channelInfoData);	
-
-	 }
-
-	 public function insertChannelCoverageApplication($channelCoverageData){
-
-		DB::table('t_dist_channel_applications')->insert($channelCoverageData);	
-
-	 }
-	 public function insertMarketingInfoApplication($marketingInfoData){
-
-		DB::table('t_market_applications')->insert($marketingInfoData);	
-
+	public function insertDetails($tableName,$data){
+		 $flag=DB::table($tableName)->insert($data);	
+		 return $flag;
 		}
 
-	public function insertMarketingActivitiesApplication($marketinActivitiesData){
-
-			DB::table('t_activity_applications')->insert($marketinActivitiesData);	
-	}
 	public function updateDocumentDetails($documentId,$application_no){
 		if(isset($documentId)){
 			foreach($documentId as $key => $value)
@@ -406,5 +326,12 @@ public function setToDateAttribute($value)
 		->where('t1.application_no',$applicationNo)
 		->get();
 		return $query;
+	}
+
+	public static function getLastInsertedId($tableName, $data){
+		//$id = DB::table($tableName)->insertGetId($data);
+		 DB::table($tableName)->insert($data);
+		 $id =DB::getPdo()->lastInsertId();
+		return $id;
 	}
 }

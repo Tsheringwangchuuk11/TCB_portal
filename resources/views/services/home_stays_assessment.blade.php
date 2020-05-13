@@ -16,13 +16,13 @@
 				<div class="col-md-5">
 				  <div class="form-group">
 					<label for="">Name<span class="text-danger"> *</span></label>
-					<input type="text" class="form-control required" name="applicant_name" autocomplete="off">
+					<input type="text" class="form-control required" name="applicant_name" value="{{ old('applicant_name') }}" autocomplete="off">
 				  </div>
 				</div>
 				<div class="col-md-5 offset-md-2">
 				  <div class="form-group ">
 					<label for="">CID No.<span class="text-danger"> *</span></label>
-					<input type="text" class="form-control numeric-only required" name="cid_no" autocomplete="off">
+					<input type="text" class="form-control numeric-only required" name="cid_no"  value="{{ old('cid_no') }}" autocomplete="off">
 				  </div>
 				</div>
 			  </div>
@@ -30,13 +30,13 @@
 				<div class="col-md-5">
 				  <div class="form-group">
 					<label for="">Contact No.<span class="text-danger"> *</span> </label>
-					<input type="text" class="form-control numeric-only required" name="contact_no" autocomplete="off">
+					<input type="text" class="form-control numeric-only required" name="contact_no" value="{{ old('contact_no') }}" autocomplete="off">
 				  </div>
 				</div>
 				<div class="col-md-5 offset-md-2">
 				  <div class="form-group">
 					<label for="">Email</label>
-					<input type="email" class="form-control email required" name="email" autocomplete="off">
+					<input type="email" class="form-control email required" name="email" value="{{ old('email') }}" autocomplete="off">
 				  </div>
 				</div>
 			  </div>
@@ -47,7 +47,7 @@
 					<select class="form-control select2bs4 required" name="dzongkhag_id" id="dzongkhag_id" style="width: 100%;">
 						<option value=""> -Select-</option>
 						@foreach ($dzongkhagLists as $dzongkhagList)
-						  <option value="{{ $dzongkhagList->id }}">{{ $dzongkhagList->dzongkhag_name }}</option>
+						<option value="{{ $dzongkhagList->id }}" {{ old('dzongkhag_id') == $dzongkhagList->dzongkhag_id ? 'selected' : '' }}>{{ $dzongkhagList->dzongkhag_name }}</option>
 						@endforeach
 					</select>
 				  </div>
@@ -82,13 +82,13 @@
 				<div class="col-md-5">
 				  <div class="form-group">
 					<label for="">Thram No.<span class="text-danger"> *</span> </label>
-					<input type="text" class="form-control required" name="thram_no" required>
+					<input type="text" class="form-control required" name="thram_no" value="{{ old('thram_no') }}"  required>
 				  </div>
 				</div>
 				<div class="col-md-5 offset-md-2">
 				  <div class="form-group">
 					<label for="">House No.<span class="text-danger"> *</span></label>
-					<input type="text" class="form-control required" name="house_no" required>
+					<input type="text" class="form-control required" name="house_no" value="{{ old('house_no') }}"  required>
 				  </div>
 				</div>
 			  </div>

@@ -56,3 +56,12 @@
     </div>
 </div>
 @endif
+<div class="row" id="showMsg" style="display: none">
+    <div class="col-md-12">
+        <div class="alert  alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <i class="fa fa-info" ><span id="successMsg"></span></i>
+        </div>
+    </div>
+</div>
+

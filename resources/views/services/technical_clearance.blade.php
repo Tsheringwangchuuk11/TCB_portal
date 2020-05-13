@@ -42,7 +42,7 @@
                                 <select  name="dzongkhag_id" id="dzongkhag_id" class="form-control select2bs4 required" style="width: 100%;">
                                 <option value=""> -Select-</option>
                                     @foreach ($dzongkhagLists as $dzongkhagList)
-                                        <option value="{{ $dzongkhagList->id }}" {{ old('dzongkhag_id') == $dzongkhagList->dzongkhag_id ? 'selected' : '' }}>{{ $dzongkhagList->dzongkhag_name }}</option>
+                                        <option value="{{ $dzongkhagList->id }}" {{ old('dzongkhag_id') == $dzongkhagList->id ? 'selected' : '' }}>{{ $dzongkhagList->dzongkhag_name }}</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger">{{ $errors->first('dzongkhag_id') }}</span>
@@ -71,6 +71,8 @@
                                 <label for="">No of rooms proposed<span class="text-danger"> *</span></label>
                             <input type="text" class="form-control required" name="number" value="{{ old('number') }}" autocomplete="off" >
                             </div>
+                        </div>
+
                             <div class="col-md-5 offset-md-2">
                                 <div class="form-group">
                                     <label for="">Tentative construction<span class="text-danger"> *</span> </label>
@@ -78,7 +80,6 @@
                                     <span class="text-danger">{{ $errors->first('tentative_cons') }}</span>                 
                                 </div>
                             </div>
-                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-5">

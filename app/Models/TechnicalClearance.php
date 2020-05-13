@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TechnicalClearance extends Model
 {
-    public $table='t_technical_clearances';
+    protected $table='t_technical_clearances';
     protected $fillable = ['cid_no','name','contact_no','gewog_id','location','proposed_rooms_no','tentative_cons','tentative_com','drawing_date','email','submitted_by'];
     public function setDrawingDateAttribute($value)
     {

@@ -166,7 +166,7 @@ class ServiceController extends Controller
                     ];
                  }
 
-                $this->services->insertIntoRoomApplication($roomAppData);
+                $this->services->insertDetails('t_room_applications',$roomAppData);
             }
 
             //insert into t_staff_applications
@@ -186,7 +186,7 @@ class ServiceController extends Controller
 					  'staff_gender'  => $staff_gender[$key],
                     ];
                 }
-                $this->services->insertIntoStaffApplication($staffAppData);
+                $this->services->insertDetails('t_staff_applications',$staffAppData);
             }
 
             //insert into t_checklist_applications
@@ -200,7 +200,7 @@ class ServiceController extends Controller
 					  'checklist_id'  => $checklist_id[$key]
                     ];
                 }
-                $this->services->insertIntoCheckListApplication($checklistData);
+                $this->services->insertDetails('t_checklist_applications',$checklistData);
             }
 
              //insert into t_member_applications
@@ -221,7 +221,7 @@ class ServiceController extends Controller
                        'member_gender'  => $member_gender[$key]
                     ];
                 }
-                $this->services->insertMemberApplication($membersDetailsData);
+                $this->services->insertDetails('t_member_applications',$membersDetailsData);
             }
             
              //insert into t_partner_applications
@@ -238,7 +238,7 @@ class ServiceController extends Controller
                        'partner_location'   => $request->partner_location,
                      'partner_village_id'   => $request->partner_village_id
                     ];
-                $this->services->insertPartnerApplication($partnerDetailsData);
+                $this->services->insertDetails('t_partner_applications',$partnerDetailsData);
             }
  
             //insert into office application
@@ -252,7 +252,8 @@ class ServiceController extends Controller
                     ];
                  }
 
-                $this->services->insertOfficeApplication($officeInfoData);
+		DB::table('t_office_applications')->insert($officeInfoData);		
+                $this->services->insertDetails('t_office_applications',$officeInfoData);
             }
 
             //insert into office equipment application
@@ -266,7 +267,7 @@ class ServiceController extends Controller
                     ];
                  }
 
-                $this->services->insertOfficeEquipmentApplication($officeEquipmentData);
+                $this->services->insertDetails('t_equipment_applications',$officeEquipmentData);
             }
 
              //insert into employment application
@@ -282,7 +283,7 @@ class ServiceController extends Controller
                     ];
                  }
 
-                $this->services->insertEmploymentApplication($employmentData);
+                $this->services->insertDetails('t_employment_applications',$employmentData);
             }
 
             //insert into employment application
@@ -298,7 +299,7 @@ class ServiceController extends Controller
                     ];
                     }
 
-                $this->services->insertTransportationApplication($transportationData);
+                $this->services->insertDetails('t_transport_applications',$transportationData);
             }
 
               // insert into t_organizer_applications
@@ -313,7 +314,7 @@ class ServiceController extends Controller
                         'organizer_type'   => $request->organizer_type,
                       'amount_requested'   => $request->amount_requested
                      ];
-                 $this->services->insertOrganizerInfo($organizerInfoData);
+                 $this->services->insertDetails('t_organizer_applications',$organizerInfoData);
              }
 
             //insert into employment application
@@ -328,7 +329,7 @@ class ServiceController extends Controller
                     ];
                 }
 
-                $this->services->insertEventItemsApplication($eventItemData);
+                $this->services->insertDetails('t_item_applications',$eventItemData);
             }
             
             //insert intot_product_applications
@@ -344,7 +345,7 @@ class ServiceController extends Controller
                              'timeline'  => $request->timeline,
                          'contribution'  => $request->contribution,
                     ];
-                $this->services->insertProductItemsApplication($productItemData);
+                $this->services->insertDetails('t_product_applications',$productItemData);
             }
 
             //insert intot t_channel_applications
@@ -359,7 +360,7 @@ class ServiceController extends Controller
                         'target_audience'  => $request->target_audience[$key],
                     ];
                 }
-                $this->services->insertChannelApplication($channelInfoData);
+                $this->services->insertDetails('t_channel_applications',$channelInfoData);
             }
             
             //insert intot t_dist_channel_applications
@@ -376,7 +377,7 @@ class ServiceController extends Controller
 
                     ];
                 }
-                $this->services->insertChannelCoverageApplication($channelCoverageData);
+                $this->services->insertDetails('t_dist_channel_applications',$channelCoverageData);
             }
 
              //insert intot t_channel_applications
@@ -389,7 +390,7 @@ class ServiceController extends Controller
                                     'city'  => $request->city_name[$key],
                      ];
                  }
-                 $this->services->insertMarketingInfoApplication($marketingInfoData);
+                 $this->services->insertDetails('t_market_applications',$marketingInfoData);
              }
 
               //insert intot t_activity_applications
@@ -401,7 +402,7 @@ class ServiceController extends Controller
                                'activities'  => $request->activities[$key],
                       ];
                   }
-                  $this->services->insertMarketingActivitiesApplication($marketinActivitiesData);
+                  $this->services->insertDetails('t_activity_applications',$marketinActivitiesData);
               }
             //update application_no in t_documents
              $documentId = $request->documentId;

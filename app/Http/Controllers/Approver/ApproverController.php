@@ -12,15 +12,15 @@ use App\Models\TechnicalClearance;
 use App\Models\TaskDetails;
 class ApproverController extends Controller
 {
-    public function __construct()
+    public function __construct(Services $services)
     {
         $this->middleware('permission:application/new-application,view', ['only' => ['index', 'show']]);
         $this->middleware('permission:application/new-application,create', ['only' => ['create', 'store']]);
         $this->middleware('permission:application/new-application,edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:application/new-application,delete', ['only' => 'destroy']);
+        $this->services = $services;
 
     }
-
     public function openApplication($applicationNo,$serviceId,$moduleId){
         $data['applicantInfo']=Services::getApplicantDetails($applicationNo);
         $data['documentInfos']=Services::getDocumentDetails($applicationNo);
@@ -40,14 +40,14 @@ class ApproverController extends Controller
             $data['hotelDivisionLists'] = Dropdown::getDropdowns("t_hotel_divisions","id","hotel_div_name","0","0");
             $data['roomInfos']=Services::getRoomDetails($applicationNo);
             $data['staffInfos']=Services::getStaffDetails($applicationNo);
-            $starCatsegoryIdId=Services::getApplicantDetails($applicationNo)->star_category_id;
-            $data['checklistDtls'] =  TCheckListChapter::with(['chapterAreas' => function($q) use($applicationNo,$starCategoryIdId){
-                $q->with(['checkListStandards'=> function($query) use($applicationNo,$starCategoryIdId){
+            $starCategoryId=Services::getApplicantDetails($applicationNo)->star_category_id;
+            $data['checklistDtls'] =  TCheckListChapter::with(['chapterAreas' => function($q) use($applicationNo,$starCategoryId){
+                $q->with(['checkListStandards'=> function($query) use($applicationNo,$starCategoryId){
                     $query->leftJoin('t_check_list_standard_mappings','t_check_list_standards.id','=','t_check_list_standard_mappings.checklist_id')
                         ->leftJoin('t_basic_standards','t_check_list_standard_mappings.standard_id','=','t_basic_standards.id')
                         ->leftJoin('t_checklist_applications','t_check_list_standards.id','=','t_checklist_applications.checklist_id')
                         ->where('t_checklist_applications.application_no','=',$applicationNo)
-                        ->where('t_check_list_standard_mappings.star_category_id','=',$starCategoryIdId);
+                        ->where('t_check_list_standard_mappings.star_category_id','=',$starCategoryId);
                 }]);
             }])->where('module_id','=',$moduleId)
             ->get();
@@ -97,16 +97,28 @@ class ApproverController extends Controller
         
     //Approval function for technical clearance application
     public function hotelTechnicalClearanceApplication(Request $request){
-       // return response()->json($data);        
-        \DB::transaction(function () use ($request) {
-        $approveId = WorkFlowDetails::getStatus('APPROVED');
-        $rejectId = WorkFlowDetails::getStatus('REJECTED');
-        $completedId= WorkFlowDetails::getStatus('COMPLETED');
-
          if($request->status =='APPROVED'){
+            \DB::transaction(function () use ($request) {
+                $approveId = WorkFlowDetails::getStatus('APPROVED');
+                $completedId= WorkFlowDetails::getStatus('COMPLETED');
 
-            TechnicalClearance::create($request->all());
-
+            $data[]= [    
+                'cid_no'   => $request->cid_no,
+                'name'   => $request->name,
+                'contact_no'   => $request->contact_no,
+                'gewog_id'   => $request->gewog_id,
+                'location'   => $request->location,
+                'proposed_rooms_no'   => $request->proposed_rooms_no,
+                'tentative_cons'   => $request->tentative_cons,
+                'tentative_com'   => $request->tentative_com,
+                'drawing_date'   => date('Y-m-d', strtotime($request->drawing_date)),
+                'email'   => $request->email,
+                'submitted_by'   => $request->submitted_by,
+                'created_at'   => now(),
+                'updated_at'   => now(),
+             ];
+             
+            $this->services->insertDetails('t_technical_clearances',$data);
             $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
             $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
                        ->update(['status_id' => $approveId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
@@ -114,13 +126,78 @@ class ApproverController extends Controller
             $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
             $updateworkflow=TaskDetails::where('application_no',$request->application_no)
                                     ->update(['status_id' => $completedId->id]);
+        });
+        return response()->json(['status'=>'approved','msg'=>'Application approved successfully.']);
         }else{
+            $rejectId = WorkFlowDetails::getStatus('REJECTED');
             $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
             $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
             ->update(['status_id' => $rejectId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
+            return response()->json(['rejected'=>'false','msg'=>'Application reject successfully.']);
             }
-        });
-        return redirect('tasklist/tasklist')->with('msg_success', 'Application successfully approved');
+    }
 
+    //Approval function for tour operator technical clearance application
+    public function tourOperatorTechnicalClearanceApplication(Request $request){
+        //return response()->json($request);
+         if($request->status =='APPROVED'){
+            \DB::transaction(function () use ($request) {
+                $approveId = WorkFlowDetails::getStatus('APPROVED');
+                $completedId= WorkFlowDetails::getStatus('COMPLETED');
+                $data[]= [    
+                    'cid_no'   => $request->cid_no,
+                    'name'   => $request->name,
+                    'gender'   => $request->gender,
+                    'dob'   => date('Y-m-d', strtotime($request->dob)),
+                    'applicant_flat_no'   => $request->applicant_flat_no,
+                    'applicant_building_no'   => $request->applicant_building_no,
+                    'applicant_location'   => $request->applicant_location,
+                    'company_name'   => $request->company_name,
+                    'village_id'   => $request->village_id,
+                    'location'   => $request->location,
+                    'flat_no'   => $request->flat_no,
+                    'building_no'   => $request->building_no,
+                    'postal_address'   => $request->postal_address,
+                    'contact_no'   => $request->contact_no,
+                    'reference_no'   => $request->reference_no,
+                    'remarks'   => $request->remarks,
+                    'created_at'   => now(),
+                    'updated_at'   => now(),
+                 ];
+          //  $this->services->insertDetails('t_operator_clearances',$data);
+             $id=Services::getLastInsertedId('t_operator_clearances',$data);
+             $partnerData[]= [ 
+                'operator_id' =>  $id,
+                'partner_name'   => $request->partner_name,
+                'partner_cid_no'   => $request->partner_cid_no,
+                'partner_gender'   => $request->partner_gender,
+                'partner_dob'   => date('Y-m-d', strtotime($request->partner_dob)),
+                'partner_flat_no'   => $request->partner_flat_no,
+                'partner_building_no'   => $request->partner_building_no,
+                'partner_location'   => $request->partner_location,
+                'village_id'   => $request->village_id,
+                'created_at'   => now(),
+                'updated_at'   => now(),
+             ]; 
+                
+            $this->services->insertDetails('t_partner_dtls',$partnerData); 
+        
+            $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
+            $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
+                       ->update(['status_id' => $approveId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
+            $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
+            $updateworkflow=TaskDetails::where('application_no',$request->application_no)
+                                    ->update(['status_id' => $completedId->id]); 
+            });
+            return response()->json(['status'=>'approved','msg'=>'Application approved successfully.']);
+
+        }else{
+            $rejectId = WorkFlowDetails::getStatus('REJECTED');
+            $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
+            $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
+            ->update(['status_id' => $rejectId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
+            return response()->json(['status'=>'reject','msg'=>'Application reject successfully.']);
+
+            }
     }
 }

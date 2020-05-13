@@ -31,7 +31,6 @@ class TaskDetails extends Model
         $tasklistDtls = $query->orderBy('t_workflow_dtls.created_at','asc')
                                 ->select('t_task_dtls.application_no', 't_workflow_dtls.created_at','t_applications.module_id','t_module_masters.module_name','t_applications.service_id','t_services.name', 't_status_masters.status_name')
                                 ->get();
-
         return $tasklistDtls;
     }
     public static function savedTaskDtlsAudit($applicationNo){

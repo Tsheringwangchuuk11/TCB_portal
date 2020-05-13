@@ -1,7 +1,7 @@
 @extends('layouts.manager')
 @section('page-title','Tour Operator License Clearance')
 @section('content')
-<form action="{{ url('verification/approve-application') }}" method="POST" files="true" id="formdata" enctype="multipart/form-data">
+<form action="{{ url('verification/operator-technical-clearance') }}" method="POST" files="true" id="formId" enctype="multipart/form-data">
     @csrf
     <input type="hidden" class="form-control" name="module_id" value="{{ $applicantInfo->module_id }}">
     <input type="hidden" class="form-control" name="service_id" value="{{ $applicantInfo->service_id }}">
@@ -20,7 +20,7 @@
                 <div class="col-md-5 offset-md-2">
                     <div class="form-group">
                       <label for="" >Name <span class="text-danger"> *</span></label>
-                      <input type="text" class="form-control" name="applicant_name" value="{{ $applicantInfo->applicant_name }}">
+                      <input type="text" class="form-control" name="name" value="{{ $applicantInfo->applicant_name }}">
                     </div>
                   </div>
             </div>
@@ -34,7 +34,7 @@
                 <div class="col-md-5 offset-md-2">
                     <div class="form-group">
                       <label for="">DOB <span class="text-danger"> *</span></label>
-                      <input type="text" class="form-control" name="dob" id="date_of_birth" value="{{ $applicantInfo->dob }}">
+                      <input type="date" class="form-control" name="dob" value="{{ $applicantInfo->dob }}">
                     </div>
                   </div>
               </div>
@@ -126,7 +126,7 @@
                 <div class="col-md-5">
                   <div class="form-group">
                     <label for="">DOB<span class="text-danger"> *</span></label>
-                    <input type="text" class="form-control" name="partner_dob" id="pdate_of_birth" value="{{ $partnerInfo->partner_dob }}">
+                    <input type="date" class="form-control" name="partner_dob" value="{{ $partnerInfo->partner_dob }}">
                   </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
@@ -285,52 +285,70 @@
                 </div>
                 @endforelse                
             </div>
-            <div class="row">
-                <div class="form-group col-md-12">
-                    <label for="">Remarks <span class="text-danger">*</span> </label>
-                    <textarea type="text" class="form-control" name="remarks" row="3"></textarea>
-                </div>
-            </div>
         </div>
-        <div class="card-footer text-center">
-            <button type="submit"class="btn btn-success"><i class="fa fa-check"></i> APPROVE</button>
-            <a href="#" class="btn btn-danger"><li class="fas fa-times fa-sm"></li> CANCEL</a>
+    </div>
+    <div class="card">
+      <div class="card-header">
+         <h4 class="card-title">For official use only </h4>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="form-group col-md-5">
+              <label for="">Reference No.<span class="text-danger">*</span> </label>
+              <input type="text" class="form-control" name="reference_no">
+          </div>
+          <div class="form-group col-md-5 offset-md-2">
+              <label for="">Remarks <span class="text-danger">*</span> </label>
+              <textarea type="text" class="form-control" name="remarks" row="3"></textarea>
+          </div>
+      </div>
+      </div>
+      <div class="card-footer text-center">
+        <button type="button" class="btn btn-success" onclick="approveOrRejectApplication('APPROVED')"><li class="fas fa-check"></li> APPROVE</button>
+        <button type="button"  class="btn btn-danger" data-toggle="modal" data-target="#confirmModal"><li class="fas fa-times"></li> REJECT</button>
+    </div>
+    </div>
+    <div class="modal fade" id="confirmModal">
+      <div class="modal-dialog">
+        <div class="modal-content bg-danger">
+          <div class="modal-header">
+            <h4 class="modal-title">Confirm Message</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span></button>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure,you want to reject &hellip;</p>
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-outline-light" data-dismiss="modal" onclick="approveOrRejectApplication('REJECTED')">Confirm</button>
+          </div>
         </div>
+      </div>
     </div>
 </form>
 @endsection
 
 @section('scripts')
 <script>
-  $(function() {
-
-    $('.select2').select2();
-
-    $('#pdate_of_birth').daterangepicker({
-      singleDatePicker: true,
-      showDropdowns: true,
-      autoUpdateInput: false,
-      locale: {
-        cancelLabel: 'Clear'
-      }
+  function approveOrRejectApplication(status){
+  var form= $("#formId");
+    $.ajax({
+        type: form.attr('method'),
+        url: form.attr('action'),
+        data: form.serialize()+"&status="+status,
+        success: function (data) {
+          $('#successMsg').html(data.msg);
+          $('#showMsg').show().delay(3000).queue(function (n) {
+            $(this).hide();
+            n();
+          });
+          setTimeout(function(){
+            window.location.href = "{{ url('tasklist/tasklist') }}";
+         }, 5000); 
+        } 
     });
-    $('#pdate_of_birth').on('apply.daterangepicker', function(ev, picker) {
-      $(this).val(picker.startDate.format('MM/DD/YYYY'));
-    });
-
-    $('#date_of_birth').daterangepicker({
-      singleDatePicker: true,
-      showDropdowns: true,
-      autoUpdateInput: false,
-      locale: {
-        cancelLabel: 'Clear'
-      }
-    });
-    $('#date_of_birth').on('apply.daterangepicker', function(ev, picker) {
-      $(this).val(picker.startDate.format('MM/DD/YYYY'));
-    });
-  });
-
+}
 </script>
 @endsection
 

@@ -5,7 +5,7 @@
   <div class="card-header">
     <h4 class="card-title">General Information</h4>
   </div>
-  <form action="{{ url('verification/approve-application') }}" method="POST" id="formId" enctype="multipart/form-data">
+  <form action="{{ url('verification/technical-clearance') }}" method="POST" id="formId" enctype="multipart/form-data">
     @csrf
     <input type="hidden" name="service_id" value="{{ $applicantInfo->module_id }}">
     <input type="hidden" name="module_id" value="{{ $applicantInfo->module_id }}">
@@ -130,7 +130,7 @@
         </div>
         <div class="modal-footer justify-content-between">
           <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-outline-light" onclick="approveOrRejectApplication('REJECTED')">Confirm</button>
+          <button type="button" class="btn btn-outline-light" data-dismiss="modal" onclick="approveOrRejectApplication('REJECTED')">Confirm</button>
         </div>
       </div>
     </div>
@@ -145,6 +145,15 @@ function approveOrRejectApplication(status){
         url: form.attr('action'),
         data: form.serialize()+"&status="+status,
         success: function (data) {
+          console.log(data);
+          $('#successMsg').html(data.msg);
+          $('#showMsg').show().delay(3000).queue(function (n) {
+            $(this).hide();
+            n();
+          });
+           setTimeout(function(){
+            window.location.href = "{{ url('tasklist/tasklist') }}";
+         }, 5000); 
         }
     });
 }
