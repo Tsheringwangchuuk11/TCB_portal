@@ -14,6 +14,7 @@ class TRolesTableSeeder extends Seeder
         DB::table('t_roles')->insert([
             ['id' => 1, 'name' => 'Administrator', 'description' => 'Super administrator', 'created_by' => 1],
             ['id' => 2, 'name' => 'End User', 'description' => 'End User', 'created_by' => 1],
+            ['id' => 3, 'name' => 'Approval', 'description' => 'Approval of services', 'created_by' => 1],
         ]);
     }
 }

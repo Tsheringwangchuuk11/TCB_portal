@@ -35,10 +35,48 @@ class RoleController extends Controller
      */
     public function create()
     {
-        $modules = TSystemMenu::with(['systemSubMenus' => function($q){
-            $q->orderBy('display_order')->select('id', 'name', 'route', 'system_menu_id')->get();
-        }])->orderBy('display_order')->select('id', 'name', 'icon')->get();
+        $modules = \DB::select("select `a`.`flag`, `a`.`top_menu`, `a`.`sub_menu_id`,
+            `a`.`sub_menu`,`a`.`view`,`a`.`create`,`a`.`edit`,`a`.`delete`
+            FROM (SELECT
+                'M' flag,
+                t1.`name` AS top_menu,
+                t2.`id` AS sub_menu_id,
+                t2.`name` AS sub_menu,
+                t3.`view`,
+                t3.`create`,
+                t3.`edit`,
+                t3.`delete`,
+                t1.id
+            FROM
+                (
+                t_system_menus AS t1
+                JOIN t_system_sub_menus AS t2
+                    ON t1.`id` = t2.`system_menu_id`
+                )
+                LEFT JOIN t_role_privileges AS t3
+                ON t2.`id` = t3.`system_sub_menu_id`
+            -- order by t1.display_order
+                UNION
+                SELECT
+                'S' flag,
+                t1.`name` AS top_menu,
+                t2.`id` AS sub_menu_id,
+                t2.`name` AS sub_menu,
+                t3.`view`,
+                t3.`create`,
+                t3.`edit`,
+                t3.`delete`,
+                t1.id
+                FROM
+                (
+                    t_services AS t1
+                    JOIN t_system_sub_menus AS t2
+                    ON t1.`id` = t2.`service_id`
+                )
+                LEFT JOIN t_role_privileges AS t3
+                    ON t2.`id` = t3.`system_sub_menu_id`) a ORDER BY a.flag, a.id");
 
+                // return response()->json($modules);
 
         return view('system-settings.roles.create')->with('modules', $modules);
     }
@@ -172,8 +210,7 @@ class RoleController extends Controller
                 )
                 LEFT JOIN t_role_privileges AS t3
                     ON t2.`id` = t3.`system_sub_menu_id` AND `t3`.`role_id` = ? ) a ORDER BY a.flag, a.id", array($id, $id));
-
-
+                    
         return view('system-settings.roles.edit', compact('role', 'modules'));
     }
 

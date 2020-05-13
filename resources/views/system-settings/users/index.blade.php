@@ -2,7 +2,7 @@
 @section('page-title', 'Users')
 @section('buttons')
 @if ((int)$privileges["create"] == 1)
-    <a href="{{ url('system/users/create')}}" class="btn btn-success btn-sm btn-flat"><i class="fa fa-plus"></i> Add User</a>
+    <a href="{{ url('system/users/create')}}" class="btn btn-success btn-sm btn-flat"> Add User</a>
 @endif
 @endsection
 @section('content')
@@ -33,19 +33,19 @@
                             <td>{{ $user->last_login }}</td>
                             <td class="text-center">{!! $user->isActive() == 1 ? '<i class="fas fa-check text-green"></i>' : '<i class="fas fa-times text-red"></i>' !!}</td>
                             <td class="text-center">
-                                <a href="#" class="form-confirm  btn btn-sm {{ $user->isActive() == 1 ? 'btn-danger' : 'btn-success' }}">
-                                    <i class="fa fa-times"></i> @if ($user->isActive() == 1) Disable @else Enable @endif
+                                <a href="#" class="form-confirm  btn btn-sm {{ $user->isActive() == 1 ? 'btn-outline-danger' : 'btn-outline-success' }}" title="{{ $user->isActive() == 1 ? 'Disable' : 'enable'}}">
+                                    <i class="fa fa-times"></i>
                                     <a data-form="#frmDelete-{!! $user->id !!}" data-title="Disable {!! $user->name !!}" data-message="Are you sure you want to @if ($user->isActive() == 1) disable @else enable @endif this user?"></a>
                                 </a>
                                 <form action={{ url("system/users/disable-toggle") }} method="POST" style="display: none" id="{{ 'frmDelete-' . $user->id }}">
                                     @csrf
                                     <input type="hidden" name="id", value="{{ $user->id }}">
                                 </form>
-                                <a href="{{ url('system/users/' . $user->id) }}" class="btn btn-primary btn-sm" title="Detail"><i class="fas fa-list"></i> Detail</a>
+                                <a href="{{ url('system/users/' . $user->id) }}" class="btn btn-outline-primary btn-sm" title="Detail"><i class="fas fa-list"></i></a>
                                 @if ((int)$privileges["edit"] == 1)
-                                    <a href="{{ url('system/users/' . $user->id . '/edit') }}" class="btn btn-info btn-sm" title="Edit"><i class="fas fa-edit"></i> Edit</a>
+                                    <a href="{{ url('system/users/' . $user->id . '/edit') }}" class="btn btn-outline-info btn-sm" title="Edit"><i class="fas fa-edit"></i> </a>
                                 @endif
-                                <a href="{{ url('system/users/reset-password/' . $user->id) }}" class="btn btn-warning btn-sm"><i class="fas fa-list"></i> Reset Password</a>
+                                <a href="{{ url('system/users/reset-password/' . $user->id) }}" class="btn btn-outline-warning btn-sm" title="Reset Password"><i class="fas fa-list"></i> </a>
                             </td>
                         </tr>
                         @empty
