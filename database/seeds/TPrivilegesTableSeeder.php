@@ -23,6 +23,9 @@ class TPrivilegesTableSeeder extends Seeder
             ['role_id' => 1, 'system_sub_menu_id' => 7, 'view' => 1, 'create' => 1, 'edit' => 1, 'delete' => 1, 'created_by' => 1],
             //user role
             ['role_id' => 2, 'system_sub_menu_id' => 8, 'view' => 1, 'create' => 1, 'edit' => 1, 'delete' => 1, 'created_by' => 1],
+
+            //report
+            ['role_id' => 1, 'system_sub_menu_id' => 10, 'view' => 1, 'create' => 1, 'edit' => 1, 'delete' => 1, 'created_by' => 1],
         ]);
     }
 }

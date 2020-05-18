@@ -106,7 +106,8 @@ class ChecklistStandardController extends Controller
     }
 
     public function update(Request $request, $id)
-    {                
+    {            
+        // dd($request->all());    
         $rule = [
             'checklist_area' => 'required',
             'checklist_standard_name' => 'required',

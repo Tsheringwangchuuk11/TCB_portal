@@ -66,13 +66,17 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('claimApplication', 'TasklistController@claimApplication');
         Route::get('releaseApplication', 'TasklistController@releaseApplication');
     });
+
     //routes for approver
     Route::group(['prefix' => 'verification', 'namespace' => 'Approver'], function() {
         Route::get('openApplication/{applicationNo}/{serviceId}/{moduleId}', 'ApproverController@openApplication');
         Route::post('technical-clearance', 'ApproverController@hotelTechnicalClearanceApplication');
         Route::post('operator-technical-clearance', 'ApproverController@tourOperatorTechnicalClearanceApplication');
+    });
 
-
+    //routes for report
+    Route::group(['prefix' => 'report', 'namespace' => 'Report'], function() {      
+        Route::get('assessment-reports', 'AssessmentReportController@getAssessment'); 
     });
 });
 
