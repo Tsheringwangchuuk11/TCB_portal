@@ -69,14 +69,6 @@ Route::group(['middleware' => ['auth']], function () {
 
     //routes for approver
     Route::group(['prefix' => 'verification', 'namespace' => 'Approver'], function() {
-        Route::get('openApplication/{applicationNo}/{serviceId}/{moduleId}', 'ApproverController@openApplication');
-        Route::post('technical-clearance', 'ApproverController@hotelTechnicalClearanceApplication');
-        Route::post('operator-technical-clearance', 'ApproverController@tourOperatorTechnicalClearanceApplication');
-    });
-
-    //routes for report
-    Route::group(['prefix' => 'report', 'namespace' => 'Report'], function() {      
-        Route::get('assessment-reports', 'AssessmentReportController@getAssessment'); 
         Route::get('openApplication/{applicationNo}/{serviceId}/{moduleId}', 'OpenApplicationController@openApplication');
         //tourist standard hotel
         Route::get('tourist-standard-hotel/{applicationNo}', 'TouristStandardHotelController@getApplicationDetails')->name('touriststandardhotel');
@@ -85,7 +77,6 @@ Route::group(['middleware' => ['auth']], function () {
         //village home stay
         Route::get('village-homestay/{applicationNo}', 'VillageHomeStayController@getApplicationDetails')->name('villagehomestay');
         Route::post('village-home-stay-assessment', 'VillageHomeStayController@villageHomeStayAssessmentApplication');
-
         //restaurant
         Route::get('restaurant/{applicationNo}', 'RestaurantController@getApplicationDetails')->name('restaurant');
         Route::post('restaurant-assessment', 'RestaurantController@restaurantAssessmentApplication');
@@ -98,7 +89,11 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('media/{applicationNo}', 'MediaController@getApplicationDetails')->name('media');
         //tourism product
         Route::get('tourism-product-development/{applicationNo}', 'TourismProductController@getApplicationDetails')->name('tourismproductdevelopment');
-       
+    });
+
+    //routes for report
+    Route::group(['prefix' => 'report', 'namespace' => 'Report'], function() {      
+        Route::get('assessment-reports', 'AssessmentReportController@getAssessment'); 
     });
 });
 
