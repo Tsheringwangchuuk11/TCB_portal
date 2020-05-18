@@ -326,7 +326,7 @@ function calculateScorePoint() {
         }
     });
     //.toFixed() method will roundoff the final sum to 2 decimal places
- $("#scorepoint").html(sum.toFixed(2));
+ $("#scorepoint").html(sum);
 }
 $("table").on("keyup", ".txt", function () {
     calculateScorePoint();
@@ -342,7 +342,7 @@ function calculateBsPoint() {
         }
     });
     //.toFixed() method will roundoff the final sum to 2 decimal places
- $("#bspoints").html(sum.toFixed(2));
+ $("#bspoints").html(sum);
 }
 $("table").on("keyup", ".bstxt", function () {
     calculateBsPoint();

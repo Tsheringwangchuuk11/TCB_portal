@@ -8,6 +8,7 @@ use App\Models\Services;
 use App\Models\WorkFlowDetails;
 use App\Models\Dropdown;
 use App\Models\TaskDetails;
+use App\Models\TCheckListChapter;
 class RestaurantController extends Controller
 {
     public function __construct(Services $services)
@@ -30,10 +31,10 @@ class RestaurantController extends Controller
         //Restuarant Checklist Details
         $data['staffAreaLists'] = Dropdown::getDropdowns("t_staff_areas","id","staff_area_name","0","0");
         $data['hotelDivisionLists'] = Dropdown::getDropdowns("t_hotel_divisions","id","hotel_div_name","0","0");
+        $data['staffInfos']=Services::getStaffDetails($applicationNo);
         $data['checklistDtls'] =  TCheckListChapter::with(['chapterAreas' => function($q) use($applicationNo){
             $q->with(['checkListStandards'=> function($query) use($applicationNo){
                 $query->leftJoin('t_check_list_standard_mappings','t_check_list_standards.id','=','t_check_list_standard_mappings.checklist_id')
-                    ->leftJoin('t_basic_standards','t_check_list_standard_mappings.standard_id','=','t_basic_standards.id')
                     ->leftJoin('t_checklist_applications','t_check_list_standards.id','=','t_checklist_applications.checklist_id')
                     ->where('t_checklist_applications.application_no','=',$applicationNo);
             }]);
@@ -83,7 +84,7 @@ class RestaurantController extends Controller
                           'updated_at'   => now(),
                  ];
               }
-             $this->services->insertDetails('t_staff_dtls',$staffInfoData);
+            $this->services->insertDetails('t_staff_dtls',$staffInfoData);
          }
 
            // insert into t_checklist_dtls

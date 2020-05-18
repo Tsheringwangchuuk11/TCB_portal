@@ -6,7 +6,7 @@
     <div class="card-header bg-success">
         <h3 class="card-title">Registration of Tourist Standard Restuarant</h3>
     </div>
-    <form action="{{ url('application/save-application') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ url('application/save-application') }}" method="POST" id="formdata" enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="service_id" value="{{ $idInfos->service_id }}" id="service_id">
         <input type="hidden" name="module_id" value="{{ $idInfos->module_id }}" id="module_id">
@@ -30,8 +30,8 @@
             <div class="row">
                 <div class="col-md-5">
                     <div class="form-group">
-                        <label for="">Name <span class="text-danger">*</span> </label>
-                        <input type="text" class="form-control" name="name" autocomplete="off">
+                        <label for="">Restaurant Name <span class="text-danger">*</span> </label>
+                        <input type="text" class="form-control" name="company_title_name" autocomplete="off">
                     </div>
                 </div>
                 <div class="form-group col-md-5 offset-md-2">
@@ -44,7 +44,7 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="">Owner <span class="text-danger">*</span> </label>
-                        <input type="text" class="form-control" name="owner" autocomplete="off" required>
+                        <input type="text" class="form-control" name="owner_name" autocomplete="off" required>
                     </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
@@ -78,7 +78,7 @@
                 <div class="col-md-5 offset-md-2">
                     <div class="form-group">
                         <label for="">Internet Homepage <span class="text-danger">*</span> </label>
-                        <input type="text" class="form-control" name="internet_url" autocomplete="off">
+                        <input type="text" class="form-control" name="webpage_url" autocomplete="off">
                     </div>
                 </div>
             </div>
@@ -148,21 +148,7 @@
             </div>
             <div id="field_wrapper1"></div>
             <span class="btn btn-success btn-sm float-right" id="add1"> <i class="fas fa-plus fa-sm"> Add</i> </span>
-            <h5>Inspector’s Checklist</h5>
-            <div class="row">
-                <div class="col-md-5">
-                    <div class="form-group">
-                        <label for="">Inspectors Name <span class="text-danger">*</span> </label>
-                        <input type="text" class="form-control" name="inspector_name" autocomplete="off">
-                    </div>
-                </div>
-                <div class="col-md-5 offset-md-2">
-                    <div class="form-group">
-                        <label for="">Inspection Date <span class="text-danger">*</span> </label>
-                        <input type="date" class="form-control" name="inspector_date" autocomplete="off">
-                    </div>
-                </div>
-            </div>
+            <div id="showdivid"></div>
         <h5>File Attachment<span class="text-danger"> *</span></h5>
         <h6> <strong>Required supporting documents:</strong></h6>
         <ol>
@@ -202,5 +188,17 @@
             $('#line'+id).remove();
         }
     }
+
+$(document).ready(function () {
+function loadChecklistDetails() {
+    var url="{{ url('application/get-restaurantchapters') }}";
+		var options = {target:'#showdivid',
+        url:url,
+        type:'POST',
+        data: $("#formdata").serialize()};
+        $("#formdata").ajaxSubmit(options);
+  }
+window.onload=loadChecklistDetails();
+});
 </script>
 @endsection
