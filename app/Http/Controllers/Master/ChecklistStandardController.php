@@ -51,6 +51,8 @@ class ChecklistStandardController extends Controller
 
     public function store(Request $request)
     {
+        // dd(isset($request->checklist_area));
+        // dd($request->all());!(isset
         $rule = [
                 'checklist_area' => 'required',
                 'checklist_standard_name' => 'required',
@@ -72,8 +74,9 @@ class ChecklistStandardController extends Controller
                     $checklists = [];
 
                     foreach($request->checklist as $key => $value){
+                        
                         $checklists[] = [
-                            'star_category_id' => $value['star_category'],
+                            'star_category_id' => isset($value['star_category']) == true ? $value['star_category']: null,
                             'standard_id' => $value['basic_standard'],
                             'mandatory' => $value['mandatory'],
                             'is_active' => $value['status'],
@@ -106,8 +109,7 @@ class ChecklistStandardController extends Controller
     }
 
     public function update(Request $request, $id)
-    {            
-        // dd($request->all());    
+    {                    
         $rule = [
             'checklist_area' => 'required',
             'checklist_standard_name' => 'required',
@@ -130,7 +132,7 @@ class ChecklistStandardController extends Controller
 
                 foreach($request->checklist as $key => $value){
                     $checklists[] = [
-                        'star_category_id' => $value['star_category'],
+                        'star_category_id' => isset($value['star_category']) == true ? $value['star_category']: null,
                         'standard_id' => $value['basic_standard'],
                         'mandatory' => $value['mandatory'],
                         'is_active' => $value['status'],
