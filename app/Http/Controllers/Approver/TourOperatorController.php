@@ -19,18 +19,14 @@ class TourOperatorController extends Controller
         $this->services = $services;
 
     }
-
     public function getApplicationDetails($applicationNo){
         $data['applicantInfo']=Services::getApplicantDetails($applicationNo);
         $serviceId= $data['applicantInfo']->service_id;
         $data['documentInfos']=Services::getDocumentDetails($applicationNo);
         $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
         $data['countries'] = Dropdown::getDropdowns("t_country_masters","id","country_name","0","0");
-        if($serviceId==11){
-            //Tour propriater card Details
-            return view('services.approver.approve_propreiter_card',$data);
-        }
-        elseif($serviceId==4){
+       
+        if($serviceId==4){
             //Tour operator Assessment Details
             $data['officeInfos']=Services::getOfficeInfoDetails($applicationNo);
             $data['officeEquipments']=Services::getOfficeEquipmentInfoDetails($applicationNo,'O');
@@ -40,6 +36,10 @@ class TourOperatorController extends Controller
             $data['transportations']=Services::getTransportationInfoDetails($applicationNo);
             return view('services.approver.approve_to_assessment',$data);
 
+        }
+        elseif($serviceId==11){
+            //Tour propriater card Details
+            return view('services.approver.approve_propreiter_card',$data);
         }
         elseif($serviceId==21){
             //Tour operator license clearance Details
@@ -209,4 +209,48 @@ class TourOperatorController extends Controller
         }
     }
 
+    public function proprieterCardApplication(Request $request){
+        if($request->status =='APPROVED'){
+                // insert into t_operator_clearances
+                \DB::transaction(function () use ($request) {
+                    $approveId = WorkFlowDetails::getStatus('APPROVED');
+                    $completedId= WorkFlowDetails::getStatus('COMPLETED');
+                    $data[]= [    
+                        'cid_no'   => $request->cid_no,
+                        'name'   => $request->name,
+                        'gender'   => $request->gender,
+                        'dob'   => date('Y-m-d', strtotime($request->dob)),
+                        'applicant_flat_no'   => $request->applicant_flat_no,
+                        'applicant_building_no'   => $request->applicant_building_no,
+                        'applicant_location'   => $request->applicant_location,
+                        'company_name'   => $request->company_name,
+                        'village_id'   => $request->village_id,
+                        'location'   => $request->location,
+                        'flat_no'   => $request->flat_no,
+                        'building_no'   => $request->building_no,
+                        'postal_address'   => $request->postal_address,
+                        'contact_no'   => $request->contact_no,
+                        'reference_no'   => $request->reference_no,
+                        'remarks'   => $request->remarks,
+                        'created_at'   => now(),
+                        'updated_at'   => now(),
+                        ];
+                    $id=Services::getLastInsertedId('t_operator_clearances',$data);
+                $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
+                $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
+                            ->update(['status_id' => $approveId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
+                $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
+                $updateworkflow=TaskDetails::where('application_no',$request->application_no)
+                                        ->update(['status_id' => $completedId->id]); 
+                });
+                return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully');
+
+            }else{
+                $rejectId = WorkFlowDetails::getStatus('REJECTED');
+                $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
+                $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
+                ->update(['status_id' => $rejectId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
+                return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
+                }
+            }
 }
