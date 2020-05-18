@@ -304,6 +304,7 @@
       </div>
       </div>
       <div class="card-footer text-center">
+        {{-- script is written in common util --}}
         <button type="button" class="btn btn-success" onclick="approveOrRejectApplication('APPROVED')"><li class="fas fa-check"></li> APPROVE</button>
         <button type="button"  class="btn btn-danger" data-toggle="modal" data-target="#confirmModal"><li class="fas fa-times"></li> REJECT</button>
     </div>
@@ -329,26 +330,5 @@
 </form>
 @endsection
 
-@section('scripts')
-<script>
-  function approveOrRejectApplication(status){
-  var form= $("#formId");
-    $.ajax({
-        type: form.attr('method'),
-        url: form.attr('action'),
-        data: form.serialize()+"&status="+status,
-        success: function (data) {
-          $('#successMsg').html(data.msg);
-          $('#showMsg').show().delay(3000).queue(function (n) {
-            $(this).hide();
-            n();
-          });
-          setTimeout(function(){
-            window.location.href = "{{ url('tasklist/tasklist') }}";
-         }, 5000); 
-        } 
-    });
-}
-</script>
-@endsection
+
 

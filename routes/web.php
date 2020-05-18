@@ -77,6 +77,26 @@ Route::group(['middleware' => ['auth']], function () {
     //routes for report
     Route::group(['prefix' => 'report', 'namespace' => 'Report'], function() {      
         Route::get('assessment-reports', 'AssessmentReportController@getAssessment'); 
+        Route::get('openApplication/{applicationNo}/{serviceId}/{moduleId}', 'OpenApplicationController@openApplication');
+        //tourist standard hotel
+        Route::get('tourist-standard-hotel/{applicationNo}', 'TouristStandardHotelController@getApplicationDetails')->name('touriststandardhotel');
+        Route::post('technical-clearance', 'TouristStandardHotelController@hotelTechnicalClearanceApplication');
+        Route::post('standard-hotel-assessment', 'TouristStandardHotelController@standardHotelAssessmentApplication');
+        //village home stay
+        Route::get('village-homestay/{applicationNo}', 'VillageHomeStayController@getApplicationDetails')->name('villagehomestay');
+        Route::post('village-home-stay-assessment', 'VillageHomeStayController@villageHomeStayAssessmentApplication');
+
+        //restaurant
+        Route::get('restaurant/{applicationNo}', 'RestaurantController@getApplicationDetails')->name('restaurant');
+       //tour operator
+        Route::get('tour-operator/{applicationNo}', 'TourOperatorController@getApplicationDetails')->name('touropertor');
+        Route::post('operator-technical-clearance', 'TourOperatorController@tourOperatorTechnicalClearanceApplication');
+        Route::post('tour-operator-assessment', 'TourOperatorController@tourOperatorAssessmentApplication');
+        //Media
+        Route::get('media/{applicationNo}', 'MediaController@getApplicationDetails')->name('media');
+        //tourism product
+        Route::get('tourism-product-development/{applicationNo}', 'TourismProductController@getApplicationDetails')->name('tourismproductdevelopment');
+       
     });
 });
 

@@ -207,6 +207,15 @@ public function setToDateAttribute($value)
 		return $query;
 	}
 
+	public static function getMembersDetails($applicationNo){
+		$query=DB::table('t_member_applications as t1')
+		->leftjoin('t_applications as t3','t3.application_no','=','t1.application_no')
+		->leftjoin('t_relation_types as t2','t2.id','=','t1.relation_type_id')
+		->where('t1.application_no',$applicationNo)
+		->get();
+		return $query;
+	}
+
 	public static function getStaffDetails($applicationNo){
 		$query=DB::table('t_staff_applications as t1')
 		->leftjoin('t_applications as t4','t4.application_no','=','t1.application_no')
@@ -329,7 +338,6 @@ public function setToDateAttribute($value)
 	}
 
 	public static function getLastInsertedId($tableName, $data){
-		//$id = DB::table($tableName)->insertGetId($data);
 		 DB::table($tableName)->insert($data);
 		 $id =DB::getPdo()->lastInsertId();
 		return $id;

@@ -47,7 +47,7 @@
 					<select class="form-control select2bs4 required" name="dzongkhag_id" id="dzongkhag_id" style="width: 100%;">
 						<option value=""> -Select-</option>
 						@foreach ($dzongkhagLists as $dzongkhagList)
-						<option value="{{ $dzongkhagList->id }}" {{ old('dzongkhag_id') == $dzongkhagList->dzongkhag_id ? 'selected' : '' }}>{{ $dzongkhagList->dzongkhag_name }}</option>
+						<option value="{{ $dzongkhagList->id }}" {{ old('dzongkhag_id') == $dzongkhagList->id ? 'selected' : '' }}>{{ $dzongkhagList->dzongkhag_name }}</option>
 						@endforeach
 					</select>
 				  </div>
@@ -148,7 +148,7 @@
 						<input type="text" class="form-control" name="member_name[]">
 					</div>
 					<div class="form-group col-md-3">
-						<select class="form-control required" name="relation_type_id[]" id="hotel_div_id">
+						<select class="form-control" name="relation_type_id[]" id="hotel_div_id">
 							<option value="">- Select -</option>
 							@foreach ($relationTypes as $relationType)
 							<option value="{{ $relationType->id }}"> {{ $relationType->relation_type }}</option>
@@ -156,10 +156,10 @@
 						</select>
 					</div>
 					<div class="form-group col-md-3">
-						<input type="text" class="form-control required" name="member_age[]" autocomplete="off" id="staff_name">
+						<input type="text" class="form-control" name="member_age[]" autocomplete="off" id="staff_name">
 					</div>
 					<div class="form-group col-md-2">
-						<select class="form-control required" name="member_gender[]" id="staff_gender">
+						<select class="form-control" name="member_gender[]" id="staff_gender">
 							<option value="">- Select -</option>
 							@foreach (config()->get('settings.gender') as $k => $v)
 							<option value="{{ $k }}" {{ old('gender') == $k ? 'selected' : '' }}>{{ $v }}</option>

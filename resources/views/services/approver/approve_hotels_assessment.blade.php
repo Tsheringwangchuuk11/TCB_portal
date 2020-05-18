@@ -1,7 +1,7 @@
 @extends('layouts.manager')
 @section('page-title','Registration of Tourist Standard Hotels')
 @section('content')
-<form action="{{ url('verification/approve-application') }}" method="POST" files="true" id="formdata" enctype="multipart/form-data">
+<form action="{{ url('verification/standard-hotel-assessment') }}" method="POST" files="true" id="formdata" enctype="multipart/form-data">
     @csrf
     <input type="hidden" class="form-control" name="module_id" value="{{ $applicantInfo->module_id }}">
     <input type="hidden" class="form-control" name="service_id" value="{{ $applicantInfo->service_id }}">
@@ -38,7 +38,7 @@
             <div class="row">
                 <div class="form-group col-md-5">
                     <label for="">Hotel Name </label>
-                    <input type="text" class="form-control" name="company_title_name"  value="{{ $applicantInfo->company_title_name }}" autocomplete="off">
+                    <input type="text" class="form-control" name="tourist_standard_name"  value="{{ $applicantInfo->company_title_name }}" autocomplete="off">
                 </div>
                 <div class="form-group col-md-5 offset-md-2">
                     <label for="">Owner Name</label>
@@ -78,11 +78,11 @@
             <div class="row">
                 <div class="form-group col-md-5">
                     <label for="">Number of Beds</label>
-                    <input type="text" class="form-control numeric-only" name="number" value="{{ $applicantInfo->number }}" autocomplete="off">
+                    <input type="text" class="form-control numeric-only" name="bed_no" value="{{ $applicantInfo->number }}" autocomplete="off">
                 </div>
                 <div class="form-group col-md-5 offset-md-2">
                     <label for="">Location</label>
-                    <input type="text" class="form-control numeric-only" name="location_id" value="{{ $applicantInfo->location_id }}" autocomplete="off">
+                    <input type="text" class="form-control numeric-only" name="village_id" value="{{ $applicantInfo->location_id }}" autocomplete="off">
                 </div>
             </div>
         </div>
@@ -111,7 +111,7 @@
                     </select>
                 </div>
                 <div class="form-group col-md-5 offset-md-2">
-                    <input type="text" class="form-control" name="room_no" value="{{$roomInfo->room_no}}" autocomplete="off">
+                    <input type="text" class="form-control" name="room_no[]" value="{{$roomInfo->room_no}}" autocomplete="off">
                 </div>
             </div>
             @empty
@@ -161,10 +161,10 @@
                         </select>
                     </div>
                     <div class="form-group col-md-3">
-                        <input type="text" class="form-control" name="staff_name" autocomplete="off" value="{{$staffInfo->staff_name}}">
+                        <input type="text" class="form-control" name="staff_name[]" autocomplete="off" value="{{$staffInfo->staff_name}}">
                     </div>
                     <div class="form-group col-md-3">
-                        <select  name="staff_gender" class="form-control required">
+                        <select  name="staff_gender[]" class="form-control required">
                             <option value="">---SELECT---</option>
                             @foreach (config()->get('settings.gender') as $k => $v)
                             <option value="{{ $k }}" {{ old('gender', $staffInfo->staff_gender) == $k ? 'selected' : '' }}>{{ $v }}</option>
@@ -200,7 +200,9 @@
                                     <td>Area</td>
                                     <td>Standard</td>
                                     <td>Points</td>
+                                    <td>Points Entry</td>
                                     <td>Rating</td>
+                                    <td>Rating Point</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -209,13 +211,18 @@
                                 @endphp
                                 @foreach ($chapter->chapterAreas as $chapterArea)
                                     @foreach ($chapterArea->checkListStandards as $checkListStandard) 
+                                            @php
+                                                $standardlengh=$checkListStandard->count();
+                                            @endphp
                                             <tr>
                                                 @if ($area != $chapterArea->checklist_area)
-                                                <td rowspan="{{ sizeOf($chapterArea->checkListStandards) }}">{{ $chapterArea->checklist_area }}</td>
+                                                <td rowspan="{{ sizeOf($chapterArea->checkListStandards) }}"> {{ $chapterArea->checklist_area }} </td>
                                                 @endif
-                                                <td>{{ $checkListStandard->checklist_standard }}</td>
+                                                <td><input type="hidden" name="checklist_id[]" value="{{ $checkListStandard->checklist_id }}">{{ $checkListStandard->checklist_standard }}</td>
                                                 <td>{{ $checkListStandard->checklist_pts }}</td>
+                                                <td><input type="text" size="4" name="checklist_pts[]" value="" class="txt numeric-only"></td>
                                                 <td>{{ $checkListStandard->standard_code }}</td>
+                                                <td><input type="text" size="4" name="ratingpoint[]" value="" class="bstxt numeric-only"></td>
                                                 @php
                                                 $area = $chapterArea->checklist_area
                                                 @endphp 
@@ -230,6 +237,22 @@
             </div>
         @endforeach
     @endif
+    <div class="card">
+        <div class="card-header">
+             <h4 class="card-title">Score Points and Bs Details</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="form-group col-md-5">
+                    <label for="">Number of Score Points:<span id="scorepoint"></span></label>
+                </div>
+                <div class="form-group col-md-5 offset-md-2">
+                    <label for="">Number of Bs :<span id="bspoints"></span></label>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="card">
         <div class="card-header">
              <h4 class="card-title">Document Attachment</h4>
@@ -256,18 +279,73 @@
                 @endforelse                
             </div>
             <div class="row">
-                <div class="form-group col-md-12">
+                <div class="form-group col-md-5">
                     <label for="">Remarks <span class="text-danger">*</span> </label>
                     <textarea type="text" class="form-control" name="remarks" row="3"></textarea>
+                </div>
+                <div class="form-group col-md-5 offset-md-2">
+                    <label for="">Inspection Date<span class="text-danger">*</span> </label>
+                    <input type="date" class="form-control" name="inspection_date">
                 </div>
             </div>
         </div>
         <div class="card-footer text-center">
-            <button type="submit"class="btn btn-success"><i class="fa fa-check"></i> APPROVE</button>
-            <a href="#" class="btn btn-danger"><li class="fas fa-times fa-sm"></li> CANCEL</a>
+            <button name="status" value="APPROVED" class="btn btn-success"><li class="fas fa-check"></li> APPROVE</button>
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmModal"><li class="fas fa-times"></li> REJECT</button>
+        </div>
+    </div>
+    <div class="modal fade" id="confirmModal">
+        <div class="modal-dialog">
+          <div class="modal-content bg-danger">
+            <div class="modal-header">
+              <h4 class="modal-title">Confirm Message</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+              <p>Are you sure,you want to reject &hellip;</p>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
+              <button name="status"value="REJECTED" class="btn btn-outline-light" data-dismiss="modal">Confirm</button>
+            </div>
+          </div>
         </div>
     </div>
 </form>
 @endsection
+@section('scripts')
+<script>
+function calculateScorePoint() {
+    var sum = 0;
+    //iterate through each textboxes and add the values
+    $(".txt").each(function () {
+        //add only if the value is number
+        if (!isNaN(this.value) && this.value.length != 0) {
+            sum += parseFloat(this.value);
+        }
+    });
+    //.toFixed() method will roundoff the final sum to 2 decimal places
+ $("#scorepoint").html(sum.toFixed(2));
+}
+$("table").on("keyup", ".txt", function () {
+    calculateScorePoint();
+});
 
-
+function calculateBsPoint() {
+    var sum = 0;
+    //iterate through each textboxes and add the values
+    $(".bstxt").each(function () {
+        //add only if the value is number
+        if (!isNaN(this.value) && this.value.length != 0) {
+            sum += parseFloat(this.value);
+        }
+    });
+    //.toFixed() method will roundoff the final sum to 2 decimal places
+ $("#bspoints").html(sum.toFixed(2));
+}
+$("table").on("keyup", ".bstxt", function () {
+    calculateBsPoint();
+});
+</script>
+@endsection

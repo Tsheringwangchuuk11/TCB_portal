@@ -112,8 +112,8 @@
         </div>
       </div>
       <div class="card-footer text-center">
-        <button type="button" class="btn btn-success" onclick="approveOrRejectApplication('APPROVED')"><li class="fas fa-check"></li> APPROVE</button>
-        <button type="button"  class="btn btn-danger" data-toggle="modal" data-target="#confirmModal"><li class="fas fa-times"></li> REJECT</button>
+        <button name="status" value="APPROVED" class="btn btn-success"><li class="fas fa-check"></li> APPROVE</button>
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmModal"><li class="fas fa-times"></li> REJECT</button>
       </div>
     </form>  
   </div>
@@ -130,34 +130,11 @@
         </div>
         <div class="modal-footer justify-content-between">
           <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-outline-light" data-dismiss="modal" onclick="approveOrRejectApplication('REJECTED')">Confirm</button>
+          <button name="status"value="REJECTED" class="btn btn-outline-light" data-dismiss="modal">Confirm</button>
         </div>
       </div>
     </div>
   </div>
-@endsection
-@section('scripts')
-<script>
-function approveOrRejectApplication(status){
-  var form= $("#formId");
-    $.ajax({
-        type: form.attr('method'),
-        url: form.attr('action'),
-        data: form.serialize()+"&status="+status,
-        success: function (data) {
-          console.log(data);
-          $('#successMsg').html(data.msg);
-          $('#showMsg').show().delay(3000).queue(function (n) {
-            $(this).hide();
-            n();
-          });
-           setTimeout(function(){
-            window.location.href = "{{ url('tasklist/tasklist') }}";
-         }, 5000); 
-        }
-    });
-}
-</script>
 @endsection
 
 
