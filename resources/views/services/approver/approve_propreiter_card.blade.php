@@ -22,7 +22,7 @@
                         <div class="col-md-5 offset-md-2">
                             <div class="form-group">
                                 <label  for="" >Name<span class="text-danger"> *</span></label>
-                                <input type="text" class="form-control" name="applicant_name" value="{{ $applicantInfo->applicant_name}}">
+                                <input type="text" class="form-control" name="name" value="{{ $applicantInfo->applicant_name}}">
                             </div>
                         </div>
                     </div>
@@ -36,7 +36,7 @@
                         <div class="col-md-5 offset-md-2">
                             <div class="form-group">
                                 <label for="">Company Name<span class="text-danger"> *</span></label>
-                                <input type="text" class="form-control" name="company_title_name" value="{{ $applicantInfo->company_title_name }}">
+                                <input type="text" class="form-control" name="company_name" value="{{ $applicantInfo->company_title_name }}">
                             </div>
                         </div>
                     </div>
