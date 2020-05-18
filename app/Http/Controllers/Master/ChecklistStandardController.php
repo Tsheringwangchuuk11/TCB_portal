@@ -50,9 +50,7 @@ class ChecklistStandardController extends Controller
      */
 
     public function store(Request $request)
-    {
-        // dd(isset($request->checklist_area));
-        // dd($request->all());!(isset
+    {        
         $rule = [
                 'checklist_area' => 'required',
                 'checklist_standard_name' => 'required',
