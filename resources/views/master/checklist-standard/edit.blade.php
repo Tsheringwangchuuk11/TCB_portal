@@ -81,46 +81,6 @@
                                     <th>Status</th>
                                 </thead>
                                 <tbody>
-                                    @foreach ($checklistStandard->standardMapping as $key => $detail)
-                                    <tr>
-                                        <td class="text-center">
-                                            <a href="#" class="delete-table-row btn btn-danger btn-sm"><i class="fa fa-times"></i></a>
-                                        </td>
-                                        <td>
-
-                                            <select name="checklist[AAAAA{{$key}}][star_category]" id="star" class="form-control resetKeyForNew required select star">
-                                                <option value="">Select Star Category</option>
-                                                @foreach ($starCategories as $starCategory)
-                                                    <option value="{{ $starCategory->id }}" {{ old('checklist[AAAAA][star_category]', $detail->pivot->star_category_id) == $starCategory->id ? 'selected' : '' }}>{{ $starCategory->star_category_name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select name="checklist[AAAAA{{$key}}][basic_standard]" class="form-control resetKeyForNew select required">
-                                                <option value="">Select Basic Standard</option>
-                                                @foreach ($basicStandards as $basicStandard)
-                                                    <option value="{{ $basicStandard->id }}" {{ old('checklist[AAAAA][basic_standard]', $detail->pivot->standard_id) == $basicStandard->id ? 'selected' : ''}}>{{ $basicStandard->standard_code }}</option>
-                                                @endforeach
-                                            </select>
-                                        </td>
-                                        <td class="text-center">
-                                            <select  name="checklist[AAAAA{{$key}}][mandatory]" class="form-control resetKeyForNew select">
-                                                <option value="">-Select-</option>
-                                                @foreach (Config::get('settings.status') as $k => $v)
-                                                <option value="{{ $k }}" {{ old('mandatory', $detail->pivot->mandatory) == $k ? 'selected' : '' }}>{{ $v }}</option>
-                                                @endforeach
-                                            </select>
-                                        </td>
-                                        <td width="20%">
-                                            <select  name="checklist[AAAAA{{$key}}][status]" class="form-control resetKeyForNew select">
-                                                <option value="">-Select-</option>
-                                                @foreach (Config::get('settings.status') as $k => $v)
-                                                <option value="{{ $k }}" {{ old('status', $detail->pivot->is_active) == $k ? 'selected' : '' }}>{{ $v }}</option>
-                                                @endforeach
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    @endforeach
                                     @if ($checklistStandard->standardMapping->isEmpty())
                                     <tr>
                                         <td class="text-center">
@@ -159,6 +119,47 @@
                                             </select>
                                         </td>
                                     </tr>
+                                    @else
+                                        @foreach ($checklistStandard->standardMapping as $key => $detail)
+                                        <tr>
+                                            <td class="text-center">
+                                                <a href="#" class="delete-table-row btn btn-danger btn-sm"><i class="fa fa-times"></i></a>
+                                            </td>
+                                            <td>
+
+                                                <select name="checklist[AAAAA{{$key}}][star_category]" id="star" class="form-control resetKeyForNew required select star">
+                                                    <option value="">Select Star Category</option>
+                                                    @foreach ($starCategories as $starCategory)
+                                                        <option value="{{ $starCategory->id }}" {{ old('checklist[AAAAA][star_category]', $detail->pivot->star_category_id) == $starCategory->id ? 'selected' : '' }}>{{ $starCategory->star_category_name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="checklist[AAAAA{{$key}}][basic_standard]" class="form-control resetKeyForNew select required">
+                                                    <option value="">Select Basic Standard</option>
+                                                    @foreach ($basicStandards as $basicStandard)
+                                                        <option value="{{ $basicStandard->id }}" {{ old('checklist[AAAAA][basic_standard]', $detail->pivot->standard_id) == $basicStandard->id ? 'selected' : ''}}>{{ $basicStandard->standard_code }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </td>
+                                            <td class="text-center">
+                                                <select  name="checklist[AAAAA{{$key}}][mandatory]" class="form-control resetKeyForNew select">
+                                                    <option value="">-Select-</option>
+                                                    @foreach (Config::get('settings.status') as $k => $v)
+                                                    <option value="{{ $k }}" {{ old('mandatory', $detail->pivot->mandatory) == $k ? 'selected' : '' }}>{{ $v }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </td>
+                                            <td width="20%">
+                                                <select  name="checklist[AAAAA{{$key}}][status]" class="form-control resetKeyForNew select">
+                                                    <option value="">-Select-</option>
+                                                    @foreach (Config::get('settings.status') as $k => $v)
+                                                    <option value="{{ $k }}" {{ old('status', $detail->pivot->is_active) == $k ? 'selected' : '' }}>{{ $v }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        @endforeach                                                                      
                                     @endif
                                     <tr class="notremovefornew">
                                         <td colspan="4"></td>
@@ -185,11 +186,38 @@
 <script type="text/javascript" src="{{ asset('js/checklist.js') }}"></script>
 <script>
     $(document).ready(function () {
-   
+        //checking star rating 
+        var editSelectedModule = $('select.module option:selected').val();
+        if(editSelectedModule == 1)
+        {            
+            $('select.star').removeAttr('disabled', true);
+        }else{
+            $('select.star').attr('disabled', true);
+        }
         //select a module and accordingly get the chapter associated with it using ajax request
            $('select.module').on('change', function(e){
-               var selectedModule = $('option:selected', this).val();			
-                           
+               var selectedModule = $('option:selected', this).val();                       		
+                   
+            //checking the star category			
+            if (selectedModule.length > 0 && selectedModule == 1) { 
+                $('select.star').removeAttr('disabled', true);
+                $('select.star').addClass('required');
+            }else{
+                $('select.star').attr('disabled', true);
+                $('select.star').removeClass('required');
+            }
+
+            //adding required class
+            if (selectedModule.length > 0 && (selectedModule == 1 || selectedModule == 2 || selectedModule == 3)) 
+            {                                           
+                $('select.basic').addClass('required');                
+                $('select.mandatory').addClass('required');                
+                $('select.status').addClass('required');                                
+            }else{                
+                $('select.basic').removeClass('required');
+                $('select.mandatory').removeClass('required');
+                $('select.status').removeClass('required');
+            } 
                //check if module is selected or not
                if (selectedModule.length > 0) {
                    $.ajax({

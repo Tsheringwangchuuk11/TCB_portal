@@ -17,7 +17,7 @@ class ModuleController extends Controller
         'module_icon' => 'required_if:module_display,module',
         'module_display_order' => 'required_if:module_display,module',
         'service_id' => 'required_if:module_display,service',
-        'service_id' => 'unique:t_system_sub_menus,service_id',
+        'service_id' => 'nullable|unique:t_system_sub_menus,service_id',        
         'submodules.*.sub_module_name' => 'required',
         'submodules.*.route' => 'required',
         'submodules.*.display_order' => 'required|integer',
@@ -69,6 +69,7 @@ class ModuleController extends Controller
      */
     public function store(Request $request)
     {        
+        // dd($request->all());
         $this->validate($request, $this->rules, $this->messages);
 
         \DB::transaction(function () use ($request) {

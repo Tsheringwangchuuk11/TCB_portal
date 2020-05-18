@@ -230,22 +230,26 @@
 			 <h4 class="card-title">File Attachment</h4>
 		</div>
 		<div class="card-body">
-			<h6> <strong>Required supporting documents:</strong></h6>
-			<ol>
-			  <li>
-				<em>Pictures of buildings</em>
-			  </li>
-			  <li>
-				<em>No objection letter from the head of the family </em>
-			  </li>
-			  <li>
-				<em>Authentication letter from the gewog</em>
-			  </li>
-			  <li>
-				<em>Recommendation letter from the dzongkhag and the letter of undertaking</em>
-			  </li>
-			</ol>
-			@include('services/fileupload/fileupload')
+			<div class="row">
+                <div class="form-group col-md-6">
+                    <label>Title</label>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Download Files</label>
+                </div>
+                @forelse ($documentInfos as $documentInfo)
+                <div class="form-group col-md-6">
+                    <span>{{ $documentInfo->document_name }}</span>
+                </div>
+                <div class="form-group col-md-6">
+                <span><a href="{{ URL::to($documentInfo->upload_url) }}">{{ $documentInfo->document_name }}</a></span>
+                </div>
+                @empty
+                <div class="form-group col-md-12">
+                    <p>No data availlable</p>
+                </div>
+                @endforelse                
+            </div>
 			<div class="row">
                 <div class="form-group col-md-5">
                     <label for="">Remarks <span class="text-danger">*</span> </label>
