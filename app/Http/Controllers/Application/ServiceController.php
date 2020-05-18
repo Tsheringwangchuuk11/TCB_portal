@@ -251,8 +251,6 @@ class ServiceController extends Controller
                          'office_status'   =>$request->office_status[$key],
                     ];
                  }
-
-		DB::table('t_office_applications')->insert($officeInfoData);		
                 $this->services->insertDetails('t_office_applications',$officeInfoData);
             }
 

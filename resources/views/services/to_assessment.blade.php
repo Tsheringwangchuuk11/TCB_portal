@@ -48,6 +48,20 @@
                     <input type="text" class="form-control" name="cid_no" autocomplete="off">
                   </div>
                 </div>
+                <div class="col-md-5 offset-md-2">
+                    <div class="form-group">
+                      <label for="">License No.<span class="text-danger">*</span> </label>
+                      <input type="text" class="form-control" name="license_no" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                      <label for="">License Date.<span class="text-danger">*</span> </label>
+                      <input type="date" class="form-control" name="license_date" autocomplete="off">
+                    </div>
+                  </div>
             </div>
         </div>
     </div>

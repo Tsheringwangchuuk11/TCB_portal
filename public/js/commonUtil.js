@@ -124,6 +124,23 @@ function deletefile(id,fileId,url){
    }
 }
 
-
-
+//Script for approve the application
+function approveOrRejectApplication(status) {
+   var form= $("#formId");
+     $.ajax({
+         type: form.attr('method'),
+         url: form.attr('action'),
+         data: form.serialize()+"&status="+status,
+         success: function (data) {
+           $('#successMsg').html(data.msg);
+           $('#showMsg').show().delay(3000).queue(function (n) {
+             $(this).hide();
+             n();
+           });
+           setTimeout(function(){
+             window.location.replace = "{{ url('tasklist/tasklist') }}";
+          }, 5000); 
+         } 
+     });
+ }
 
