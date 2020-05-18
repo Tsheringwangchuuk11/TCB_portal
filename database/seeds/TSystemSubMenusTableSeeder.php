@@ -27,6 +27,9 @@ class TSystemSubMenusTableSeeder extends Seeder
 
             //Tasklist
             ['id' => 9, 'system_menu_id' => 4, 'name' => 'Tasklist', 'route' => 'tasklist/tasklist', 'display_order' => 1],
+            
+            //report
+            ['id' => 10, 'system_menu_id' => 5, 'name' => 'Assement Report', 'route' => 'report/assessment-reports', 'display_order' => 1],
         ]);
     }
 }

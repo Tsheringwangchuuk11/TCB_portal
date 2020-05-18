@@ -24,7 +24,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="" >Checklist Chapter *</label>
-                            <select name="checklist" class="form-control checklist select2bs4" id="checklist" disabled>
+                            <select name="checklist" class="form-control checklist required select2bs4" id="checklist" disabled>
                                 <option value="">---SELECT MODULE FIRST---</option>						
                             </select>                               
                         </div> 
@@ -85,7 +85,7 @@
                                             <a href="#" class="delete-table-row btn btn-danger btn-sm"><i class="fa fa-times"></i></a>
                                         </td>
                                         <td>
-                                            <select name="checklist[AAAAA][star_category]" id="star" class="form-control resetKeyForNew required select star">
+                                            <select name="checklist[AAAAA][star_category]" id="star" class="form-control resetKeyForNew select star" disabled>
                                                 <option value="">Select Star Category</option>
                                                 @foreach ($starCategories as $starCategory)
                                                     <option value="{{ $starCategory->id }}" data-id={{ $starCategory->id }} data-name="{{ $starCategory->star_category_name }}">{{ $starCategory->star_category_name }}</option>
@@ -93,7 +93,7 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <select name="checklist[AAAAA][basic_standard]" class="form-control resetKeyForNew select required">
+                                            <select name="checklist[AAAAA][basic_standard]" class="form-control resetKeyForNew select basic">
                                                 <option value="">Select Basic Standard</option>
                                                 @foreach ($basicStandards as $basicStandard)
                                                     <option value="{{ $basicStandard->id }}" data-id={{ $basicStandard->id }} data-name="{{ $basicStandard->standard_code }}">{{ $basicStandard->standard_code }}</option>
@@ -101,7 +101,7 @@
                                             </select>
                                         </td>
                                         <td class="text-center">
-                                            <select  name="checklist[AAAAA][mandatory]" class="form-control resetKeyForNew select">
+                                            <select  name="checklist[AAAAA][mandatory]" class="form-control resetKeyForNew select mandatory">
                                                 <option value="">-Select-</option>
                                                 @foreach (Config::get('settings.status') as $k => $v)
                                                 <option value="{{ $k }}">{{ $v }}</option>
@@ -109,7 +109,7 @@
                                             </select>
                                         </td>
                                         <td width="20%">
-                                            <select  name="checklist[AAAAA][status]" class="form-control resetKeyForNew select">
+                                            <select  name="checklist[AAAAA][status]" class="form-control resetKeyForNew select status">
                                                 <option value="">-Select-</option>
                                                 @foreach (Config::get('settings.status') as $k => $v)
                                                 <option value="{{ $k }}">{{ $v }}</option>
@@ -145,7 +145,29 @@
      //select a module and accordingly get the chapter associated with it using ajax request
         $('select.module').on('change', function(e){
             var selectedModule = $('option:selected', this).val();			
-						
+            
+            //checking the star category			
+            if (selectedModule.length > 0 && selectedModule == 1) 
+            { 
+                $('select.star').addClass('required');
+                $('select.star').removeAttr('disabled', true);
+            }else{
+                $('select.star').attr('disabled', true);
+                $('select.star').removeClass('required');
+            }
+
+            //adding required class
+            if (selectedModule.length > 0 && (selectedModule == 1 || selectedModule == 2 || selectedModule == 3)) 
+            {                                           
+                $('select.basic').addClass('required');                
+                $('select.mandatory').addClass('required');                
+                $('select.status').addClass('required');                                
+            }else{                
+                $('select.basic').removeClass('required');
+                $('select.mandatory').removeClass('required');
+                $('select.status').removeClass('required');
+            } 
+            
 			//check if module is selected or not
 			if (selectedModule.length > 0) {
 				$.ajax({
