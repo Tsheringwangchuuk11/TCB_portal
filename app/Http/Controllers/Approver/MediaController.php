@@ -23,7 +23,6 @@ class MediaController extends Controller
         $data['applicantInfo']=Services::getApplicantDetails($applicationNo);
         $serviceId= $data['applicantInfo']->service_id;
         $data['documentInfos']=Services::getDocumentDetails($applicationNo);
-        $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
         $data['countries'] = Dropdown::getDropdowns("t_country_masters","id","country_name","0","0");
         if($serviceId==14){
             //Media familiarization tour Details

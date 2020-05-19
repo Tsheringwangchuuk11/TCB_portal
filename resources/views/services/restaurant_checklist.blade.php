@@ -17,7 +17,6 @@
                   <tr>
                      <td>Area</td>
                      <td>Standard</td>
-                     <td>Mandatory</td>
                      <td>Check</td>
                   </tr>
                </thead>
@@ -32,14 +31,7 @@
                                 <td rowspan="{{ sizeOf($chapterArea->checkListStandards) }}">{{ $chapterArea->checklist_area }}</td>
                                 @endif
                                 <td>{{ $checkListStandard->checklist_standard }}</td>
-                                <td>{{ $checkListStandard->standard_code }}</td>
-                                <td>
-                                    @if ($checkListStandard->mandatory==='1')
-                                    <input type="checkbox" name="checklist_id[]" value="{{$checkListStandard->checklist_id}}"><span class="text-danger">*</span>
-                                     @else 
-                                     <input type="checkbox" name="checklist_id[]" value="{{$checkListStandard->checklist_id}}">
-                                    @endif
-                                </td>
+                                <td><input type="checkbox" name="checklist_id[]" value="{{$checkListStandard->checklist_id}}"></td>
                                 @php
                                 $area = $chapterArea->checklist_area
                                 @endphp 
