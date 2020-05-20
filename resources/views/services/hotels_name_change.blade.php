@@ -17,7 +17,7 @@
                     <div class="row">
                         <div class="form-group col-md-5">
                             <label for="">License Number <span class="text-danger"> *</span> </label>
-                            <input type="text" class="form-control" name="license_number" onchange="getOwnerChangeDetails(this.value)">
+                            <input type="text" class="form-control" name="license_no" onchange="getOwnerChangeDetails(this.value)">
                         </div>
                         <div class="form-group col-md-5 offset-md-2">
                             <label>Registration Type</label>
@@ -28,11 +28,11 @@
                     <div class="row">
                         <div class="form-group col-md-5">
                             <label for="">License Date <span class="text-danger"> *</span> </label>
-                            <input type="date" class="form-control" name="license_date">
+                            <input type="date" class="form-control" name="license_date" id="license_date">
                         </div>
                         <div class="form-group col-md-5 offset-md-2">
                             <label for="">Hotel Name </label>
-                            <input type="text" class="form-control" name="company_title_name" id="company_title_name">
+                            <input type="text" class="form-control" name="old_company_title_name" id="company_title_name">
                         </div>
                     </div>
                     <div class="row">
@@ -82,6 +82,12 @@
                         </div>
                     </div>
                     <h5>Name Change</h5>
+                    <div class="row">
+                        <div class="form-group col-md-5">
+                            <label for="">New Name <span class="text-danger"> *</span> </label>
+                            <input type="text" class="form-control" name="company_title_name">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -101,7 +107,7 @@
 <script>
     function getOwnerChangeDetails(licenseNo){
         $.ajax({
-               url:'/application/get-ownership-details/'+licenseNo,
+            url:'/application/get-hotel-details/'+licenseNo,
                type: "GET",
                headers: {
                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -110,7 +116,7 @@
                success:function(data) {
                 $('#star_category_name').val(data.star_category_name);
                 $('#star_category_id').val(data.star_category_id);
-                $('#company_title_name').val(data.company_title_name);
+                $('#company_title_name').val(data.tourist_standard_name);
                 $('#owner_name').val(data.owner_name);
                 $('#cid_no').val(data.cid_no);
                 $('#contact_no').val(data.contact_no);
@@ -118,8 +124,9 @@
                 $('#fax').val(data.fax);
                 $('#email').val(data.email);
                 $('#webpage_url').val(data.webpage_url);
-                $('#number').val(data.number);
+                $('#number').val(data.bed_no);
                 $('#location_id').val(data.location_id);
+                $('#license_date').val(data.license_date);
                } 
             });
         }

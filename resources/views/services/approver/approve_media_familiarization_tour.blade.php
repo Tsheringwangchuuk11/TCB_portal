@@ -1,10 +1,11 @@
 @extends('layouts.manager')
 @section('page-title','Bhutan Media Familarization')
 @section('content')
-<form action="{{ url('verification/approve-application') }}" method="POST" files="true" id="formdata" enctype="multipart/form-data">
+<form action="{{ url('verification/fam') }}" method="POST" files="true" id="formdata" enctype="multipart/form-data">
     @csrf
     <input type="hidden" class="form-control" name="module_id" value="{{ $applicantInfo->module_id }}">
     <input type="hidden" class="form-control" name="service_id" value="{{ $applicantInfo->service_id }}">
+    <input type="hidden" class="form-control" name="fam_type" value="F">
     <div class="card">
         <div class="card-header">
              <h4 class="card-title">Personal Information</h4>
@@ -20,7 +21,7 @@
                 <div class="col-md-5 offset-md-2">
                     <div class="form-group">
                         <label for="">Name<span clas="text-danger"> *</span></label>
-                        <input type="text" class="form-control" name="applicant_name" value="{{ $applicantInfo->applicant_name }}">
+                        <input type="text" class="form-control" name="name" value="{{ $applicantInfo->applicant_name }}">
                     </div>
                 </div>
             </div>
@@ -28,7 +29,7 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="">CID <span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control" name="cid_no" value="{{ $applicantInfo->cid_no }}">
+                        <input type="text" class="form-control" name="agent_cid_no" value="{{ $applicantInfo->cid_no }}">
                     </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
@@ -48,7 +49,7 @@
                     <div class="col-md-5 offset-md-2">
                         <div class="form-group">
                             <label for="">Website<span class="text-danger"> *</span></label>
-                            <input type="text" class="form-control" name="webpage_url" value="{{ $applicantInfo->webpage_url }}">
+                            <input type="text" class="form-control" name="website" value="{{ $applicantInfo->webpage_url }}">
                         </div>
                     </div>
                 </div>
@@ -56,13 +57,13 @@
                     <div class="col-md-5">
                         <div class="form-group">
                             <label for="">Agency Name <span class="text-danger"> *</span></label>
-                            <input type="text" name="company_title_name" class="form-control" value="{{ $applicantInfo->company_title_name }}">
+                            <input type="text" name="agency_name" class="form-control" value="{{ $applicantInfo->company_title_name }}">
                         </div>
                     </div>
                     <div class="col-md-5 offset-md-2">
                         <div class="form-group">
                             <label for="">Agency Address <span class="text-danger"> *</span></label>
-                            <input type="text" name="address" class="form-control" value="{{ $applicantInfo->address }}">
+                            <input type="text" name="agency_address" class="form-control" value="{{ $applicantInfo->address }}">
                         </div>
                     </div>
                     </div>
@@ -210,10 +211,29 @@
             </div>
         </div>
         <div class="card-footer text-center">
-            <button type="submit"class="btn btn-success"><i class="fa fa-check"></i> APPROVE</button>
-            <a href="#" class="btn btn-danger"><li class="fas fa-times fa-sm"></li> CANCEL</a>
+            <button name="status" value="APPROVED" class="btn btn-success"><li class="fas fa-check"></li> APPROVE</button>
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmModal"><li class="fas fa-times"></li> REJECT</button>
         </div>
     </div>
+    <div class="modal fade" id="confirmModal">
+        <div class="modal-dialog">
+          <div class="modal-content bg-danger">
+            <div class="modal-header">
+              <h4 class="modal-title">Confirm Message</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+              <p>Are you sure,you want to reject &hellip;</p>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
+              <button name="status"value="REJECTED" class="btn btn-outline-light" data-dismiss="modal">Confirm</button>
+            </div>
+          </div>
+        </div>
+      </div>
+</form>
 @endsection
 
 @section('scripts')

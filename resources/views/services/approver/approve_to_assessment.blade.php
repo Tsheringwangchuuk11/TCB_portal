@@ -307,8 +307,8 @@
         </div>
         <div class="card-footer text-center">
              {{-- script is written in common util --}}
-            <button type="button" class="btn btn-success" onclick="approveOrRejectApplication('APPROVED')"><li class="fas fa-check"></li> APPROVE</button>
-            <button type="button"  class="btn btn-danger" data-toggle="modal" data-target="#confirmModal"><li class="fas fa-times"></li> REJECT</button>
+             <button name="status" value="APPROVED" class="btn btn-success"><li class="fas fa-check"></li> APPROVE</button>
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmModal"><li class="fas fa-times"></li> REJECT</button>
         </div>
     </div>
     <div class="modal fade" id="confirmModal">
@@ -323,8 +323,8 @@
               <p>Are you sure,you want to reject &hellip;</p>
             </div>
             <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-outline-light" data-dismiss="modal" onclick="approveOrRejectApplication('REJECTED')">Confirm</button>
+                <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
+                <button name="status"value="REJECTED" class="btn btn-outline-light" data-dismiss="modal">Confirm</button>
             </div>
           </div>
         </div>

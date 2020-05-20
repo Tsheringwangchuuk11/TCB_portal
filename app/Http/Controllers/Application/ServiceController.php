@@ -102,8 +102,8 @@ class ServiceController extends Controller
             ->get();
         return view('services/restaurant_checklist', compact('checklistDtls'));
      }
-    public function getOwnerShipDetails($licenseNo){
-         $data=Services::getOwnerShipDetails($licenseNo);
+    public function getTouristHotelDetails($licenseNo){
+         $data=Services::getTouristHotelDetails($licenseNo);
          return response()->json($data);
     }
     public function saveNewApplication(Request $request){

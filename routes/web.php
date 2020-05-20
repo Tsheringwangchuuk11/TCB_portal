@@ -55,7 +55,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('get-homestaychapters', 'ServiceController@getHomeStayCheckListChapter');
         Route::post('get-restaurantchapters', 'ServiceController@getRestaurantCheckListChapter');
         Route::post('save-application', 'ServiceController@saveNewApplication');
-        Route::get('get-ownership-details/{id}', 'ServiceController@getOwnerShipDetails');
+        Route::get('get-hotel-details/{id}', 'ServiceController@getTouristHotelDetails');
         // fileupload
         Route::post('documentattach', 'FileUploadController@addDocuments');
         Route::post('deletefile', 'FileUploadController@deleteFile');
@@ -75,6 +75,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('tourist-standard-hotel/{applicationNo}', 'TouristStandardHotelController@getApplicationDetails')->name('touriststandardhotel');
         Route::post('technical-clearance', 'TouristStandardHotelController@hotelTechnicalClearanceApplication');
         Route::post('standard-hotel-assessment', 'TouristStandardHotelController@standardHotelAssessmentApplication');
+        Route::post('renew-hotel-license', 'TouristStandardHotelController@hotelLicenseRenewApplication');
+        Route::post('hotel-ownership-change', 'TouristStandardHotelController@hotelOwnerShipChangeApplication');
+        Route::post('hotel-name-change', 'TouristStandardHotelController@hotelNameChangeApplication');
         //village home stay
         Route::get('village-homestay/{applicationNo}', 'VillageHomeStayController@getApplicationDetails')->name('villagehomestay');
         Route::post('village-home-stay-assessment', 'VillageHomeStayController@villageHomeStayAssessmentApplication');
@@ -88,8 +91,14 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('proprieter-card', 'TourOperatorController@proprieterCardApplication');
         //Media
         Route::get('media/{applicationNo}', 'MediaController@getApplicationDetails')->name('media');
+        Route::post('fam', 'MediaController@famApplication');
+        Route::post('tour-operator-fam', 'MediaController@TourOperatorfamApplication');
+
         //tourism product
         Route::get('tourism-product-development/{applicationNo}', 'TourismProductController@getApplicationDetails')->name('tourismproductdevelopment');
+        Route::post('tourism-product-development', 'TourismProductController@tourismProductDevelopmentApplication');
+        Route::post('product-proposal', 'TourismProductController@tourismProductProposalApplication');
+
     });
 
     //routes for report
