@@ -107,7 +107,7 @@
 <script>
     function getOwnerChangeDetails(licenseNo){
         $.ajax({
-               url:'/application/get-ownership-details/'+licenseNo,
+            url:'/application/get-hotel-details/'+licenseNo,
                type: "GET",
                headers: {
                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -116,7 +116,7 @@
                success:function(data) {
                 $('#star_category_name').val(data.star_category_name);
                 $('#star_category_id').val(data.star_category_id);
-                $('#company_title_name').val(data.company_title_name);
+                $('#company_title_name').val(data.tourist_standard_name);
                 $('#owner_name').val(data.owner_name);
                 $('#cid_no').val(data.cid_no);
                 $('#contact_no').val(data.contact_no);
@@ -124,7 +124,7 @@
                 $('#fax').val(data.fax);
                 $('#email').val(data.email);
                 $('#webpage_url').val(data.webpage_url);
-                $('#number').val(data.number);
+                $('#number').val(data.bed_no);
                 $('#location_id').val(data.location_id);
                 $('#license_date').val(data.license_date);
                } 

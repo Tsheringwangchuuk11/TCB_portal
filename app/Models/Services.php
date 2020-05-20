@@ -165,11 +165,15 @@ public function setToDateAttribute($value)
         return $standard;
 	}
 
-	public static function getOwnerShipDetails($licenseNo){
-		$query=DB::table('t_applications as t1')
+	public static function getTouristHotelDetails($licenseNo){
+		/* $query=DB::table('t_applications as t1')
 		->leftjoin('t_star_categories as t2','t2.id','=','t1.star_category_id')
 		->where('t1.license_no',$licenseNo)
-		->first();
+		->first(); */
+		 $query=DB::table('t_tourist_standard_dtls as t1')
+		->leftjoin('t_star_categories as t2','t2.id','=','t1.star_category_id')
+		->where('t1.license_no',$licenseNo)
+		->first(); 
 		return $query;
 	}
 
@@ -280,6 +284,24 @@ public function setToDateAttribute($value)
 		return $query;
 	}
 
+	public static function getMarketingDetails($applicationNo){
+		$query=DB::table('t_applications as t1')
+		->leftjoin('t_market_applications as t2','t2.application_no','=','t1.application_no')
+		->leftjoin('t_country_masters as t3','t3.id','=','t2.country_id')
+		->select('t2.country_id','t2.city')
+		->where('t1.application_no',$applicationNo)
+		->get();
+		return $query;
+	}
+	public static function getMarketingActivityDetails($applicationNo){
+		$query=DB::table('t_applications as t1')
+		->leftjoin('t_activity_applications as t2','t2.application_no','=','t1.application_no')
+		->select('t2.activities')
+		->where('t1.application_no',$applicationNo)
+		->get();
+		return $query;
+	}
+	
 	public static function getOrganizerInfoDetails($applicationNo){
 		$query=DB::table('t_applications as t1')
 		->leftjoin('t_organizer_applications as t2','t2.application_no','=','t1.application_no')
