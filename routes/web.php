@@ -84,6 +84,10 @@ Route::group(['middleware' => ['auth']], function () {
         //restaurant
         Route::get('restaurant/{applicationNo}', 'RestaurantController@getApplicationDetails')->name('restaurant');
         Route::post('restaurant-assessment', 'RestaurantController@restaurantAssessmentApplication');
+        Route::post('restuarant-name-change', 'RestaurantController@restaurantNameChangeApplication');
+        Route::post('restuarant-owner-change', 'RestaurantController@restaurantOwnerChangeApplication');
+        Route::post('restuarant-license-renew', 'RestaurantController@restaurantLicenseRenewApplication');
+
        //tour operator
         Route::get('tour-operator/{applicationNo}', 'TourOperatorController@getApplicationDetails')->name('touropertor');
         Route::post('operator-technical-clearance', 'TourOperatorController@tourOperatorTechnicalClearanceApplication');

@@ -1,9 +1,9 @@
 @extends('layouts.manager')
-@section('page-title','Tourist Standard Restuarant Ownership Change')
+@section('page-title','Tourist Standard Restuarant License Renew')
 @section('content')
 <div class="card">
     <div class="card-header bg-success">
-        <h4 class="card-title">Previous Owner Information</h4>
+        <h4 class="card-title">Tourist Standard Restuarant License Renew</h4>
     </div>
     <form action="{{ url('application/save-application') }}" method="POST" enctype="multipart/form-data">
         @csrf
@@ -20,8 +20,8 @@
                             <input type="text" class="form-control" name="license_no" onchange="getOwnerChangeDetails(this.value)">
                         </div>
                         <div class="form-group col-md-5 offset-md-2">
-                            <label for="">License Date </label>
-                            <input type="text" class="form-control" name="license_date" id="license_date" readonly="true">
+                            <label for="">License Date <span class="text-danger"> *</span> </label>
+                            <input type="date" class="form-control" name="license_date">
                         </div>
                     </div>
                     <div class="row">
@@ -31,23 +31,23 @@
                         </div>
                         <div class="form-group col-md-5 offset-md-2">
                             <label for="">Owner Name</label>
-                            <input type="text" class="form-control" name="old_owner" id="old_owner" readonly="true">
+                            <input type="text" class="form-control" name="owner_name" id="owner_name" readonly="true">
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-md-5">
-                            <label for="">CID No. </label>
-                            <input type="text" class="form-control" name="old_cid_no" id="old_cid_no" readonly="true">
+                            <label for="">Address </label>
+                            <input type="text" class="form-control" name="address" id="address"readonly="true">
                         </div>
                         <div class="form-group col-md-5 offset-md-2">
-                            <label for="">Address </label>
-                            <input type="text" class="form-control" name="old_address" id="old_address" readonly="true">
+                            <label for="">CID No. </label>
+                            <input type="text" class="form-control" name="cid_no" id="cid_no" readonly="true">
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row">  
                         <div class="form-group col-md-5">
                             <label for="">Contact No. </label>
-                            <input type="text" class="form-control" name="old_contact_no" id="old_contact_no" readonly="true">
+                            <input type="text" class="form-control" name="contact_no" id="contact_no" readonly="true">
                         </div>
                         <div class="form-group col-md-5 offset-md-2">
                             <label for="">Fax </label>
@@ -57,7 +57,7 @@
                     <div class="row">
                         <div class="form-group col-md-5">
                             <label for="">Email </label>
-                            <input type="email" class="form-control" name="old_email" id="old_email" readonly="true">
+                            <input type="email" class="form-control" name="email" id="email" readonly="true">
                         </div>
                         <div class="form-group col-md-5 offset-md-2">
                             <label for="">Internet Homepage </label>
@@ -70,36 +70,6 @@
                             <input type="text" class="form-control" name="location_id" id="location_id" readonly="true">
                         </div>
                     </div>
-                    <h5>New Owner Information</h5>
-                    <div class="row">
-                        <div class="form-group col-md-5">
-                            <label for="">Owner Name <span class="text-danger"> *</span></label>
-                            <input type="text" class="form-control" name="owner_name">
-                        </div>
-                        <div class="form-group col-md-5 offset-md-2">
-                            <label for="">CID No. <span class="text-danger"> *</span></label>
-                            <input type="text" class="form-control" name="cid_no">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-5">
-                            <label for="">Address <span class="text-danger"> *</span></label>
-                            <input type="text" class="form-control" name="address">
-                        </div>
-                        <div class="form-group col-md-5 offset-md-2">
-                            <label for="">Contact No.<span class="text-danger"> *</span></label>
-                            <input type="text" class="form-control" name="contact_no">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-5">
-                            <label for="">Email <span class="text-danger"> *</span></label>
-                            <input type="email" class="form-control" name="email">
-                        </div>
-                    </div>
-                    <h5>File Attachment<span class="text-danger"> *</span></h5>
-                    <h6> <strong>Required supporting documents:</strong></h6>
-                    @include('services/fileupload/fileupload')
                 </div>
             </div>
         </div>
@@ -119,28 +89,26 @@
 <script>
     function getOwnerChangeDetails(licenseNo){
         $.ajax({
-               url:'/application/get-hotel-details/'+licenseNo,
+              url:'/application/get-hotel-details/'+licenseNo,
                type: "GET",
                headers: {
                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                  },
                dataType: "json",
                success:function(data) {
-                $('#old_star_category_id').val(data.star_category_name);
+                $('#star_category_name').val(data.star_category_name);
                 $('#star_category_id').val(data.star_category_id);
-                $('#license_date').val(data.license_date);
                 $('#company_title_name').val(data.tourist_standard_name);
-                $('#old_owner').val(data.owner_name);
-                $('#old_cid_no').val(data.cid_no);
-                $('#old_contact_no').val(data.contact_no);
-                $('#old_address').val(data.address);
+                $('#owner_name').val(data.owner_name);
+                $('#cid_no').val(data.cid_no);
+                $('#contact_no').val(data.contact_no);
+                $('#address').val(data.address);
                 $('#fax').val(data.fax);
-                $('#old_email').val(data.email);
+                $('#email').val(data.email);
                 $('#webpage_url').val(data.webpage_url);
                 $('#number').val(data.bed_no);
                 $('#location_id').val(data.location_id);
                } 
             });
         }
-
 </script>

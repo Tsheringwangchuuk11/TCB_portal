@@ -61,6 +61,11 @@ class TouristStandardHotelController extends Controller
             $data['starCategoryLists'] = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
             return view('services.approver.approve_hotel_license_renew',$data);
         }
+        elseif($serviceId==8){
+            //Tourism standard hotel license cancel Details
+            $data['starCategoryLists'] = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
+            return view('services.approver.approve_hotel_license_renew',$data);
+        }
 
         elseif($serviceId==9){
             //Tourism standard hotel ownership change Details
