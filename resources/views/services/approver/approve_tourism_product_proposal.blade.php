@@ -1,7 +1,7 @@
 @extends('layouts.manager')
 @section('page-title','Tourism Product Proposal')
 @section('content')
-<form action="{{ url('verification/approve-application') }}" method="POST" files="true" id="formdata" enctype="multipart/form-data">
+<form action="{{ url('verification/product-proposal') }}" method="POST" files="true" id="formdata" enctype="multipart/form-data">
 @csrf
 <input type="hidden" class="form-control" name="module_id" value="{{ $applicantInfo->module_id }}">
 <input type="hidden" class="form-control" name="service_id" value="{{ $applicantInfo->service_id }}">
@@ -19,7 +19,7 @@
                     </div>
                     <div class="form-group col-md-5 offset-md-2">
                         <label for="">Name <span class="text-danger">*</span> </label>
-                        <input type="text" class="form-control" name="applicant_name" value="{{ $applicantInfo->applicant_name }}">
+                        <input type="text" class="form-control" name="name" value="{{ $applicantInfo->applicant_name }}">
                     </div>
                 </div>
                 <div class="row">
@@ -37,6 +37,16 @@
                         <label for="">Contact Number <span class="text-danger">*</span> </label>
                         <input type="number" class="form-control" name="contact_no" value="{{ $applicantInfo->contact_no }}">
                     </div>
+                    <div class="form-group col-md-5 offset-md-2">
+                        <label for="">Registration No<span class="text-danger">*</span> </label>
+                        <input type="text" class="form-control" name="registration_no">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-5">
+                        <label for="">Receipt Date<span class="text-danger">*</span> </label>
+                        <input type="date" class="form-control" name="receipt_date">
+                    </div>
                 </div>
             </div>
         </div>
@@ -51,7 +61,7 @@
         <div class="row">
             <div class="form-group col-md-5">
                 <label for="">Type <span class="text-danger">*</span> </label>
-                <select  name="staff_gender" class="form-control required">
+                <select  name="type" class="form-control required">
                     <option value="">---SELECT---</option>
                     @foreach (config()->get('settings.type') as $k => $v)
                     <option value="{{ $k }}" {{ old('type', $productInfo->type) == $k ? 'selected' : '' }}>{{ $v }}</option>
@@ -84,16 +94,38 @@
             </div>
         </div>
         <div class="row">
-            <div class="form-group col-md-5">
+        <div class="form-group col-md-5">
             <label for="">Contribution to tourism industry<span class="text-danger">*</span></label>
             <input type="text" class="form-control" name="contribution" value="{{ $productInfo->contribution }}">  
         </div>
+            <div class="form-group col-md-5 offset-md-2">
+                <label for="">Remarks <span class="text-danger">*</span> </label>
+                <textarea type="text" class="form-control" name="remarks" row="3"></textarea>
+            </div>
         </div>
     </div>
     <div class="card-footer text-center">
-      <button type="submit"class="btn btn-success btn-sm"><i class="fa fa-check fa-sm"></i> APPROVE</button>
-      <button type="reset"class="btn btn-danger btn-sm"><i class="fa fa-times fa-sm"></i> CANCEL</button>
+        <button name="status" value="APPROVED" class="btn btn-success"><li class="fas fa-check"></li> APPROVE</button>
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmModal"><li class="fas fa-times"></li> REJECT</button>
     </div>
 </div>
+<div class="modal fade" id="confirmModal">
+    <div class="modal-dialog">
+      <div class="modal-content bg-danger">
+        <div class="modal-header">
+          <h4 class="modal-title">Confirm Message</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure,you want to reject &hellip;</p>
+        </div>
+        <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
+            <button name="status"value="REJECTED" class="btn btn-outline-light" data-dismiss="modal">Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </form>
 @endsection

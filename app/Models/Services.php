@@ -342,4 +342,66 @@ public function setToDateAttribute($value)
 		 $id =DB::getPdo()->lastInsertId();
 		return $id;
 	}
+
+	public static function saveTouristStandardHotelDtlsAudit($license_no){
+        $status = DB::insert('INSERT INTO t_tourist_standard_dtls_audit(
+			tourist_standard_id,
+			module_id,
+			cid_no,
+			owner_name,
+			license_no,
+			license_date,
+			tourist_standard_name,
+			contact_no,
+			email,
+			address,
+			fax,
+			webpage_url,
+			bed_no,
+			thram_no,
+			house_no,
+			town_distance,
+			road_distance,
+			`condition`,
+			village_id,
+			star_category_id,
+			inspection_date,
+			updated_at,
+			created_at
+			)
+			SELECT 
+			id,
+			module_id,
+			cid_no,
+			owner_name,
+			license_no,
+			license_date,
+			tourist_standard_name,
+			contact_no,
+			email,
+			address,
+			fax,
+			webpage_url,
+			bed_no,
+			thram_no,
+			house_no,
+			town_distance,
+			road_distance,
+			`condition`,
+			village_id,
+			star_category_id,
+			inspection_date,
+			updated_at,
+			NOW()
+			FROM t_tourist_standard_dtls
+			WHERE license_no = ? ', [$license_no]);
+        return $status;
+	}
+	
+	public static function updateApplicantDtls($tableName,$filedName,$para,$data){
+		$status=DB::table($tableName)
+              ->where($filedName, $para)
+              ->update($data);
+			  return $status;
+	}
 }

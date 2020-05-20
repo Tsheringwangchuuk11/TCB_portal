@@ -75,6 +75,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('tourist-standard-hotel/{applicationNo}', 'TouristStandardHotelController@getApplicationDetails')->name('touriststandardhotel');
         Route::post('technical-clearance', 'TouristStandardHotelController@hotelTechnicalClearanceApplication');
         Route::post('standard-hotel-assessment', 'TouristStandardHotelController@standardHotelAssessmentApplication');
+        Route::post('renew-hotel-license', 'TouristStandardHotelController@hotelLicenseRenewApplication');
+        Route::post('hotel-ownership-change', 'TouristStandardHotelController@hotelOwnerShipChangeApplication');
+        Route::post('hotel-name-change', 'TouristStandardHotelController@hotelNameChangeApplication');
         //village home stay
         Route::get('village-homestay/{applicationNo}', 'VillageHomeStayController@getApplicationDetails')->name('villagehomestay');
         Route::post('village-home-stay-assessment', 'VillageHomeStayController@villageHomeStayAssessmentApplication');
@@ -90,6 +93,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('media/{applicationNo}', 'MediaController@getApplicationDetails')->name('media');
         //tourism product
         Route::get('tourism-product-development/{applicationNo}', 'TourismProductController@getApplicationDetails')->name('tourismproductdevelopment');
+        Route::post('tourism-product-development', 'TourismProductController@tourismProductDevelopmentApplication');
+        Route::post('product-proposal', 'TourismProductController@tourismProductProposalApplication');
+
     });
 
     //routes for report

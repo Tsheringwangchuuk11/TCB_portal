@@ -17,7 +17,7 @@
                     <div class="row">
                         <div class="form-group col-md-5">
                             <label for="">License Number <span class="text-danger"> *</span> </label>
-                            <input type="text" class="form-control" name="license_number" onchange="getOwnerChangeDetails(this.value)">
+                            <input type="text" class="form-control" name="license_no" onchange="getOwnerChangeDetails(this.value)">
                         </div>
                         <div class="form-group col-md-5 offset-md-2">
                             <label>Registration Type</label>
@@ -28,11 +28,11 @@
                     <div class="row">
                         <div class="form-group col-md-5">
                             <label for="">License Date <span class="text-danger"> *</span> </label>
-                            <input type="date" class="form-control" name="license_date">
+                            <input type="date" class="form-control" name="license_date" id="license_date">
                         </div>
                         <div class="form-group col-md-5 offset-md-2">
                             <label for="">Hotel Name </label>
-                            <input type="text" class="form-control" name="company_title_name" id="company_title_name">
+                            <input type="text" class="form-control" name="old_company_title_name" id="company_title_name">
                         </div>
                     </div>
                     <div class="row">
@@ -82,6 +82,12 @@
                         </div>
                     </div>
                     <h5>Name Change</h5>
+                    <div class="row">
+                        <div class="form-group col-md-5">
+                            <label for="">New Name <span class="text-danger"> *</span> </label>
+                            <input type="text" class="form-control" name="company_title_name">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -120,6 +126,7 @@
                 $('#webpage_url').val(data.webpage_url);
                 $('#number').val(data.number);
                 $('#location_id').val(data.location_id);
+                $('#license_date').val(data.license_date);
                } 
             });
         }
