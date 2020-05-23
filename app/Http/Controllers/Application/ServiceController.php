@@ -92,8 +92,18 @@ class ServiceController extends Controller
             ->get();
         return view('services/homestay_checklist', compact('checklistDtls'));
     }
-    public function getOwnerShipDetails($licenseNo){
-         $data=Services::getOwnerShipDetails($licenseNo);
+   
+    public function  getRestaurantCheckListChapter(Request $request){
+        $checklistDtls =  TCheckListChapter::with(['chapterAreas' => function($q){
+            $q->with(['checkListStandards'=> function($query){
+                $query->leftJoin('t_check_list_standard_mappings','t_check_list_standards.id','=','t_check_list_standard_mappings.checklist_id');
+            }]);
+            }])->where('module_id','=',$request->module_id)
+            ->get();
+        return view('services/restaurant_checklist', compact('checklistDtls'));
+     }
+    public function getTouristHotelDetails($licenseNo){
+         $data=Services::getTouristHotelDetails($licenseNo);
          return response()->json($data);
     }
     public function saveNewApplication(Request $request){

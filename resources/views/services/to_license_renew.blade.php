@@ -1,5 +1,5 @@
 @extends('layouts.manager')
-@section('page-title','Tour Operator Name Change')
+@section('page-title','Tour Operator License Renew')
 @section('content')
 <form action="{{ url('application/save-application') }}" method="POST" enctype="multipart/form-data">
     @csrf

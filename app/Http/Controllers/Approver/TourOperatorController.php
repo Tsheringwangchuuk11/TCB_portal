@@ -211,31 +211,23 @@ class TourOperatorController extends Controller
 
     public function proprieterCardApplication(Request $request){
         if($request->status =='APPROVED'){
-                // insert into t_operator_clearances
+                // insert into t_proprietor_card_dtls
                 \DB::transaction(function () use ($request) {
                     $approveId = WorkFlowDetails::getStatus('APPROVED');
                     $completedId= WorkFlowDetails::getStatus('COMPLETED');
                     $data[]= [    
-                        'cid_no'   => $request->cid_no,
                         'name'   => $request->name,
-                        'gender'   => $request->gender,
-                        'dob'   => date('Y-m-d', strtotime($request->dob)),
-                        'applicant_flat_no'   => $request->applicant_flat_no,
-                        'applicant_building_no'   => $request->applicant_building_no,
-                        'applicant_location'   => $request->applicant_location,
+                        'validity_date'   => date('Y-m-d', strtotime($request->validity_date)),
+                        'license_no'   => $request->license_no,
+                        'email'   => $request->email,
                         'company_name'   => $request->company_name,
-                        'village_id'   => $request->village_id,
                         'location'   => $request->location,
-                        'flat_no'   => $request->flat_no,
-                        'building_no'   => $request->building_no,
-                        'postal_address'   => $request->postal_address,
                         'contact_no'   => $request->contact_no,
-                        'reference_no'   => $request->reference_no,
-                        'remarks'   => $request->remarks,
+                        'verified_by'   => auth()->user()->id,
                         'created_at'   => now(),
                         'updated_at'   => now(),
                         ];
-                    $id=Services::getLastInsertedId('t_operator_clearances',$data);
+                $id=Services::getLastInsertedId('t_proprietor_card_dtls',$data);
                 $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
                 $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
                             ->update(['status_id' => $approveId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);

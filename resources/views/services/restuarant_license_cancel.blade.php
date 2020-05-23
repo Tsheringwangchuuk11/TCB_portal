@@ -1,9 +1,9 @@
 @extends('layouts.manager')
-@section('page-title','Tourist Standard Hotel Name Change')
+@section('page-title','Tourist Standard Hotel License Cancel')
 @section('content')
 <div class="card">
     <div class="card-header bg-success">
-        <h4 class="card-title">Tourist Standard Hotel Name Change</h4>
+        <h4 class="card-title">Tourist Standard Restuarant License Cancel</h4>
     </div>
     <form action="{{ url('application/save-application') }}" method="POST" enctype="multipart/form-data">
         @csrf
@@ -17,62 +17,51 @@
                     <div class="row">
                         <div class="form-group col-md-5">
                             <label for="">License Number <span class="text-danger"> *</span> </label>
-                            <input type="text" class="form-control" name="license_no" onchange="getOwnerChangeDetails(this.value)">
+                            <input type="text" class="form-control" name="license_number" onchange="getOwnerChangeDetails(this.value)">
                         </div>
                         <div class="form-group col-md-5 offset-md-2">
-                            <label>Registration Type</label>
-                            <input type="text" class="form-control" name="star_category_name" id="star_category_name" readonly="true">
-                            <input type="hidden" class="form-control" name="star_category_id" id="star_category_id">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-5">
                             <label for="">License Date <span class="text-danger"> *</span> </label>
-                            <input type="date" class="form-control" name="license_date" id="license_date">
-                        </div>
-                        <div class="form-group col-md-5 offset-md-2">
-                            <label for="">Hotel Name </label>
-                            <input type="text" class="form-control" name="old_company_title_name" id="company_title_name">
+                            <input type="text" class="form-control" name="license_date" id="license_date" readonly="true">
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-md-5">
-                            <label for="">Owner Name </label>
+                            <label for="">Restuarant Name </label>
+                            <input type="text" class="form-control" name="company_title_name" id="company_title_name" readonly="true">
+                        </div>
+                        <div class="form-group col-md-5 offset-md-2">
+                            <label for="">Restuarant Owner </label>
                             <input type="text" class="form-control" name="owner_name" id="owner_name" readonly="true">
                         </div>
-                        <div class="form-group col-md-5 offset-md-2">
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-5">
                             <label for="">Address </label>
                             <input type="text" class="form-control" name="address" id="address"readonly="true">
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-5">
+                        <div class="form-group col-md-5 offset-md-2">
                             <label for="">CID No. </label>
                             <input type="text" class="form-control" name="cid_no" id="cid_no" readonly="true">
                         </div>
-                        <div class="form-group col-md-5 offset-md-2">
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-5">
                             <label for="">Contact No. </label>
                             <input type="text" class="form-control" name="contact_no" id="contact_no" readonly="true">
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-5 ">
+                        <div class="form-group col-md-5 offset-md-2">
                             <label for="">Fax </label>
                             <input type="text" class="form-control" name="fax" id="fax" readonly="true">
-                        </div>
-                        <div class="form-group col-md-5 offset-md-2">
-                            <label for="">Email </label>
-                            <input type="email" class="form-control" name="email" id="email" readonly="true">
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-md-5">
-                            <label for="">Internet Homepage </label>
-                            <input type="text" class="form-control" name="webpage_url" id="webpage_url" readonly="true">
+                            <label for="">Email </label>
+                            <input type="email" class="form-control" name="email" id="email" readonly="true">
                         </div>
                         <div class="form-group col-md-5 offset-md-2">
-                            <label for="">Number of Beds </label>
-                            <input type="number" class="form-control" name="number" id="number" readonly="true">
+                            <label for="">Internet Homepage </label>
+                            <input type="text" class="form-control" name="webpage_url" id="webpage_url" readonly="true">
                         </div>
                     </div>
                     <div class="row">
@@ -81,13 +70,7 @@
                             <input type="text" class="form-control" name="location_id" id="location_id" readonly="true">
                         </div>
                     </div>
-                    <h5>Name Change</h5>
-                    <div class="row">
-                        <div class="form-group col-md-5">
-                            <label for="">New Name <span class="text-danger"> *</span> </label>
-                            <input type="text" class="form-control" name="company_title_name">
-                        </div>
-                    </div>
+                        
                 </div>
             </div>
         </div>
