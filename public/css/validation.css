@@ -32,9 +32,9 @@
 .hide{
     display: none;
 }
-.card-secondary .card-header a{
-	background-color: #000000 !important;
-}
+/* .card-secondary .card-header a{
+	color: red !important;
+} */
 
 
 

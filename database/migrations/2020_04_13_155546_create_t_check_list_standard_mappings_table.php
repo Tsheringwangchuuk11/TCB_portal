@@ -16,11 +16,11 @@ class CreateTCheckListStandardMappingsTable extends Migration
         Schema::create('t_check_list_standard_mappings', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('star_category_id')->nullabel()->index();
-            $table->unsignedBigInteger('checklist_id')->index();
-            $table->unsignedBigInteger('standard_id')->index();
+            $table->unsignedBigInteger('checklist_id')->nullabel()->index();
+            $table->unsignedBigInteger('standard_id')->nullabel()->index();
             $table->boolean('is_active')->default(0);
             $table->boolean('mandatory')->default(0);
-            $table->unsignedBigInteger('created_by')->index();
+            $table->unsignedBigInteger('created_by')->nullabel()->index();
             $table->unsignedBigInteger('updated_by')->nullable()->index();
             $table->timestamps();
             $table->foreign('star_category_id')->references('id')->on('t_star_categories');

@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\TCheckListStandardMapping;
 use App\Models\TCheckListStandard;
 use App\Models\TCheckListChapter;
 use App\Models\TCheckListArea;
+use App\Models\TModuleMaster;
 use App\Models\Dropdown;
 use Validator;
 
@@ -28,7 +30,7 @@ class ChecklistStandardController extends Controller
     public function index(Request $request)
     {
         $privileges = $request->instance();
-        $checklistStandards = TCheckListStandard::orderBy('id')->with('checklistArea')->paginate(10);
+        $checklistStandards = TCheckListStandard::orderBy('id', 'DESC')->with('checklistArea')->paginate(10);
 
         return view('master.checklist-standard.index', compact('privileges', 'checklistStandards'));
     }
@@ -38,8 +40,8 @@ class ChecklistStandardController extends Controller
         $checklistAreas = Dropdown::getDropdowns("t_check_list_areas","id","checklist_area","0","0");
         $starCategories = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
         $basicStandards = Dropdown::getDropdowns("t_basic_standards","id","standard_code","0","0");
-        $serviceModules = Dropdown::getDropdowns("t_module_masters","id","module_name","0","0");
-        
+        $serviceModules = Dropdown::getDropdowns("t_module_masters","id","module_name","0","0");       
+
         return view('master.checklist-standard.create', compact('checklistAreas', 'starCategories', 'basicStandards', 'serviceModules'));
     }
     /**
@@ -50,7 +52,7 @@ class ChecklistStandardController extends Controller
      */
 
     public function store(Request $request)
-    {        
+    {                      
         $rule = [
                 'checklist_area' => 'required',
                 'checklist_standard_name' => 'required',
@@ -70,17 +72,24 @@ class ChecklistStandardController extends Controller
                     $checklistStandard->save();
 
                     $checklists = [];
-
-                    foreach($request->checklist as $key => $value){
-                        
-                        $checklists[] = [
-                            'star_category_id' => isset($value['star_category']) == true ? $value['star_category']: null,
-                            'standard_id' => $value['basic_standard'],
-                            'mandatory' => $value['mandatory'],
-                            'is_active' => $value['status'],
-                            'created_by'=> auth()->user()->id
-                        ];
-                    }
+                    if((isset($request->checklist)) == true){
+                            foreach($request->checklist as $key => $value){
+                                
+                                $checklists[] = [
+                                    'star_category_id' => isset($value['star_category']) == true ? $value['star_category']: null,
+                                    'standard_id' => isset($value['basic_standard']) == true ? $value['basic_standard']: null,
+                                    'mandatory' => isset($value['mandatory']) == true ? $value['mandatory']: null,
+                                    'is_active' => $value['status'],
+                                    'created_by'=> auth()->user()->id
+                                ];
+                            }
+                        }else{
+                            TCheckListStandardMapping::create([
+                                'checklist_id' => $checklistStandard->id,
+                                'is_active' => '1',
+                                'created_by'=> auth()->user()->id
+                            ]);
+                        }
                     $checklistStandard->standardMapping()->attach($checklists);
                 });
              }
@@ -107,7 +116,7 @@ class ChecklistStandardController extends Controller
     }
 
     public function update(Request $request, $id)
-    {                    
+    {                      
         $rule = [
             'checklist_area' => 'required',
             'checklist_standard_name' => 'required',
@@ -128,16 +137,26 @@ class ChecklistStandardController extends Controller
 
                 $checklists = [];
 
-                foreach($request->checklist as $key => $value){
-                    $checklists[] = [
-                        'star_category_id' => isset($value['star_category']) == true ? $value['star_category']: null,
-                        'standard_id' => $value['basic_standard'],
-                        'mandatory' => $value['mandatory'],
-                        'is_active' => $value['status'],
+                if((isset($request->checklist)) == true)
+                {
+                    foreach($request->checklist as $key => $value){
+                        $checklists[] = [
+                            'star_category_id' => isset($value['star_category']) == true ? $value['star_category']: null,
+                            'standard_id' => isset($value['basic_standard']) == true ? $value['basic_standard']: null,
+                            'mandatory' => isset($value['mandatory']) == true ? $value['mandatory']: null,
+                            'is_active' => $value['status'],
+                            'created_by'=> auth()->user()->id,
+                            'updated_by'=> auth()->user()->id,
+                        ];
+                    }
+                }else{
+                    TCheckListStandardMapping::create([
+                        'checklist_id' => $checklistStandard->id,
+                        'is_active' => '1',
                         'created_by'=> auth()->user()->id,
                         'updated_by'=> auth()->user()->id,
-                    ];
-                }
+                    ]);
+                    }
                 $checklistStandard->standardMapping()->sync($checklists);
             });
          }

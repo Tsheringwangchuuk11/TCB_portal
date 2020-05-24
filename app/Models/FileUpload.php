@@ -10,24 +10,32 @@ class FileUpload extends Model
     
 	public $table = 't_documents';
 
-    // save file
-	public function getFileUploadDtls($request){
+    public function getClientOriginalExtension()
+    {
+        return pathinfo($this->originalName, PATHINFO_EXTENSION);
+    }
 
+    // save file
+    public function getFileUploadDtls($request)
+    {
 		if($file = $request->file('filename')){
             $module_name = $request->module_name;
-            $service_name = $request->service_name;
-            $year = date('Y');
-            $date = date('zHis');
-            $filename = $file->getClientOriginalName();
+            $service_name = $request->service_name;        
+            $randomString=str_random(8);
+            $fileOriginName = $file->getClientOriginalName();
+            $fileName = time() . '-' . $randomString . '.' . $file->getClientOriginalExtension();
             $fileextension = $file->getClientOriginalExtension(); //get file extension
-            $filepath = 'MyDocument/'.$module_name.'/'.$service_name.'/'.$year.'/'.$filename.$date;
-			$file->move('MyDocument/'.$module_name.'/'.$service_name.'/'.$year, $filename.$date); //make folder MyDocument
+            
+            $filepath = 'MyDocument/'.$module_name.'/'.$service_name.'/';
+            $file->move($filepath, $fileName);//make folder MyDocument			
+            $uploadurl =$filepath.$fileName;
 
             $data1 = array(
             	'document_type'  => $fileextension,
-            	'document_name'  => $filename,
-            	'upload_url'  => $filepath
+            	'document_name'  => $fileOriginName,
+            	'upload_url'  => $uploadurl
             );
+              
             $last_id = DB::table('t_documents')->insertGetId($data1);
             $fileinfo = DB::table('t_documents')
                 ->select('document_name','id','upload_url')
