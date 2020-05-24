@@ -16,13 +16,13 @@
                 <div class="col-md-5">
                     <div class="form-group">
                       <label for="">License No.<span class="text-danger">*</span> </label>
-                      <input type="text" class="form-control" name="license_no" autocomplete="off">
+                      <input type="text" class="form-control" name="license_no" onchange="getTourOperatorDetails(this.value)">
                     </div>
                 </div>
                 <div class="col-md-5  offset-md-2">
                     <div class="form-group">
                       <label for="">License Date.<span class="text-danger">*</span> </label>
-                      <input type="date" class="form-control" name="license_date" autocomplete="off">
+                      <input type="date" class="form-control" name="license_date" id="license_date" autocomplete="off">
                     </div>
                   </div>
             </div>
@@ -30,13 +30,13 @@
                 <div class="col-md-5">
                   <div class="form-group">
                     <label for="">Name of the Tour Company <span class="text-danger">*</span> </label>
-                    <input type="text" class="form-control" name="company_title_name" autocomplete="off">
+                    <input type="text" class="form-control" name="company_title_name" id="company_title_name" autocomplete="off">
                   </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
                   <div class="form-group">
                     <label for="">Location <span class="text-danger">*</span> </label>
-                    <input type="text" class="form-control" name="location" autocomplete="off">
+                    <input type="text" class="form-control" name="location"id="location" autocomplete="off">
                   </div>
                 </div>
             </div>
@@ -45,12 +45,35 @@
                 <div class="col-md-5">
                   <div class="form-group">
                     <label for="">Name of the proprietor/s <span class="text-danger">*</span> </label>
-                    <input type="text" class="form-control" name="owner_name" autocomplete="off">
+                    <input type="text" class="form-control" name="old_owner_name" id="owner_name" autocomplete="off">
                   </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
                   <div class="form-group">
-                    <label for="">Telephone/Mobile No. <span class="text-danger">*</span> </label>
+                    <label for="">Contact No. <span class="text-danger">*</span> </label>
+                    <input type="text" class="form-control" name="old_contact_no"  id="contact_no" autocomplete="off">
+                  </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label for="">Owner CID<span class="text-danger">*</span> </label>
+                    <input type="text" class="form-control" name="old_cid_no" id="cid_no" autocomplete="off">
+                  </div>
+                </div>
+            </div>
+            <h5> New Owner Information</h5>
+              <div class="row">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label for="">Name of the proprietor/s <span class="text-danger">*</span> </label>
+                    <input type="text" class="form-control" name="owner_name"  autocomplete="off">
+                  </div>
+                </div>
+                <div class="col-md-5 offset-md-2">
+                  <div class="form-group">
+                    <label for="">Contact No. <span class="text-danger">*</span> </label>
                     <input type="text" class="form-control" name="contact_no" autocomplete="off">
                   </div>
                 </div>
@@ -63,6 +86,7 @@
                   </div>
                 </div>
             </div>
+            
         </div>
     </div>
     <div class="card">
@@ -87,4 +111,26 @@
         </div>
     </div>
 <form>
+@endsection
+@section('scripts')
+<script>
+    function getTourOperatorDetails(licenseNo){
+        $.ajax({
+              url:'/application/get-tour_operator-details/'+licenseNo,
+               type: "GET",
+               headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                 },
+               dataType: "json",
+               success:function(data) {
+                $('#company_title_name').val(data.company_name);
+                $('#cid_no').val(data.cid_no);
+                $('#owner_name').val(data.name);
+                $('#license_date').val(data.license_date);
+                $('#contact_no').val(data.contact_no);
+                $('#location').val(data.location);
+               } 
+            });
+        }
+</script>
 @endsection

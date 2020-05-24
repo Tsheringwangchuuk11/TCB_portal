@@ -35,6 +35,8 @@ class CreateTTouristStandardDtlsTable extends Migration
             $table->bigInteger('village_id')->index()->nullable();
             $table->unsignedBigInteger('star_category_id')->nullable();
             $table->date('inspection_date')->nullable();
+            $table->char('is_active')->default('Y');
+
             $table->timestamps();
         });
     }

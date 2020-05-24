@@ -25,6 +25,7 @@ class CreateTOperatorDtlsAuditTable extends Migration
             $table->string('company_name', 250)->nullable();
             $table->string('location', 250)->nullable();
             $table->string('address', 250)->nullable();
+            $table->char('is_active')->nullable();
             $table->timestamps();
 
             $table->foreign('operator_dtls_id')->references('id')->on('t_operator_dtls');

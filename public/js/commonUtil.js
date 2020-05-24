@@ -15,45 +15,46 @@ $(document).ready(function(){
  });
 
  $(document).ready(function(){
-   $('#dzongkhag_id').on('change',function(e) {
+   $('.dzongkhagdropdown').on('change',function(e) {
       var dzongkhag_id = e.target.value;
       if(dzongkhag_id){
          $("#gewog_id option:gt(0)").remove();	
          $.ajax({			   
-            url:'/json-dropdown',
-            type:"GET",
-            data: {
-               table_name: 't_gewog_masters',
-                       id: 'id',
-                     name: 'gewog_name',
-                parent_id: dzongkhag_id,
-           parent_name_id: 'dzongkhag_id'					 
+                  url:'/json-dropdown',
+                  type:"GET",
+                  data: {
+                     table_name: 't_gewog_masters',
+                           id: 'id',
+                           name: 'gewog_name',
+                     parent_id: dzongkhag_id,
+               parent_name_id: 'dzongkhag_id'					 
             },
             success:function (data) {
             $.each(data, function(key, value) {
-               $('select[name="gewog_id"]').append('<option value="'+ key +'">'+ value +'</option>');
-            });
-            }
+                   $('select[name="gewog_id"]').append('<option value="'+ key +'">'+ value +'</option>');
+               });
+             }
          });
       }else{
          $("#gewog_id option:gt(0)").remove();	
-         $("#chiwog_id option:gt(0)").remove();	
+         $("#chiwog_id option:gt(0)").remove();
+         $("#village_id option:gt(0)").remove();
       }		 
    });
 
-   $('#gewog_id').on('change',function(e) {
+   $('.gewogdropdown').on('change',function(e) {
       var gewog_id = e.target.value;
       if(gewog_id){
          $("#chiwog_id option:gt(0)").remove();	
          $.ajax({			   
-            url:'/json-dropdown',
-            type:"GET",
-            data: {
-               table_name: 't_chiwog_masters',
-                       id: 'chiwog_id',
-                     name: 'chiwog_name',
-                parent_id: gewog_id,
-           parent_name_id: 'gewog_id'					 
+                  url:'/json-dropdown',
+                  type:"GET",
+                  data: {
+                     table_name: 't_chiwog_masters',
+                           id: 'id',
+                           name: 'chiwog_name',
+                     parent_id: gewog_id,
+               parent_name_id: 'gewog_id'					 
             },
             success:function (data) {
             $.each(data, function(key, value) {
@@ -65,7 +66,81 @@ $(document).ready(function(){
          $("#chiwog_id option:gt(0)").remove();	
       }		 
    });
-
+    
+   $('.gewogdropdown').on('change',function(e) {
+      var gewog_id = e.target.value;
+      if(gewog_id){
+         $("#village_id option:gt(0)").remove();	
+         $.ajax({			   
+                  url:'/json-dropdown',
+                  type:"GET",
+                  data: {
+                     table_name: 't_village_masters',
+                           id: 'id',
+                           name: 'village_name',
+                     parent_id: gewog_id,
+               parent_name_id: 'gewog_id'					 
+            },
+            success:function (data) {
+            $.each(data, function(key, value) {
+                  $('select[name="village_id"]').append('<option value="'+ key +'">'+ value +'</option>');
+               });
+            }
+         });
+      }else{
+         $("#village_id option:gt(0)").remove();	
+      }		 
+   });
+    
+   $('.partnerdzongkhagdropdown').on('change',function(e) {
+      var dzongkhag_id = e.target.value;
+      if(dzongkhag_id){
+         $("#partner_gewog_id option:gt(0)").remove();	
+         $.ajax({			   
+                  url:'/json-dropdown',
+                  type:"GET",
+                  data: {
+                     table_name: 't_gewog_masters',
+                           id: 'id',
+                           name: 'gewog_name',
+                     parent_id: dzongkhag_id,
+               parent_name_id: 'dzongkhag_id'					 
+            },
+            success:function (data) {
+            $.each(data, function(key, value) {
+                  $('select[name="gewog_id"]').append('<option value="'+ key +'">'+ value +'</option>');
+               });
+            }
+         });
+      }else{
+         $("#partner_gewog_id option:gt(0)").remove();	
+         $("#partner_village_id option:gt(0)").remove();
+      }		 
+   });
+   $('.partnergewogropdown').on('change',function(e) {
+      var gewog_id = e.target.value;
+      if(gewog_id){
+         $("#partner_village_id option:gt(0)").remove();	
+         $.ajax({			   
+            url:'/json-dropdown',
+            type:"GET",
+            data: {
+               table_name: 't_village_masters',
+                       id: 'id',
+                     name: 'village_name',
+                parent_id: gewog_id,
+           parent_name_id: 'gewog_id'					 
+            },
+            success:function (data) {
+            $.each(data, function(key, value) {
+               $('select[name="partner_village_id"]').append('<option value="'+ key +'">'+ value +'</option>');
+            });
+            }
+         });
+      }else{
+         $("#partner_village_id option:gt(0)").remove();	
+      }		 
+   });
 });
 //  fileupload
 var count=0, deleteId;
@@ -83,7 +158,6 @@ $(function () {
       autoUpload: true,
       dataType : 'json',
       success: function (data) {
-         console.log(data);
             jQuery.each(data.data, function(index, row) {
                $('#files').append('<div class="image_wrap">'
                   +'<input type="hidden" name="documentId[]" value="'+row.id+'"/><strong>'+row.document_name+'</strong>'
@@ -97,7 +171,7 @@ $(function () {
             $('#progress .progress-bar').css(
                'width',
                progress + '%'
-               );
+            );
       }
    });
 });

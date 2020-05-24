@@ -55,7 +55,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('get-homestaychapters', 'ServiceController@getHomeStayCheckListChapter');
         Route::post('get-restaurantchapters', 'ServiceController@getRestaurantCheckListChapter');
         Route::post('save-application', 'ServiceController@saveNewApplication');
+        Route::post('save-grievance-application', 'ServiceController@saveGrievanceApplication');
         Route::get('get-hotel-details/{id}', 'ServiceController@getTouristHotelDetails');
+        Route::get('get-tour_operator-details/{id}', 'ServiceController@getTourOperatorDetails');
+        
         // fileupload
         Route::post('documentattach', 'FileUploadController@addDocuments');
         Route::post('deletefile', 'FileUploadController@deleteFile');
@@ -78,6 +81,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('renew-hotel-license', 'TouristStandardHotelController@hotelLicenseRenewApplication');
         Route::post('hotel-ownership-change', 'TouristStandardHotelController@hotelOwnerShipChangeApplication');
         Route::post('hotel-name-change', 'TouristStandardHotelController@hotelNameChangeApplication');
+        Route::post('hotel-license-cancel', 'TouristStandardHotelController@hotelLicenseCancelApplication');
         //village home stay
         Route::get('village-homestay/{applicationNo}', 'VillageHomeStayController@getApplicationDetails')->name('villagehomestay');
         Route::post('village-home-stay-assessment', 'VillageHomeStayController@villageHomeStayAssessmentApplication');
@@ -87,12 +91,17 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('restuarant-name-change', 'RestaurantController@restaurantNameChangeApplication');
         Route::post('restuarant-owner-change', 'RestaurantController@restaurantOwnerChangeApplication');
         Route::post('restuarant-license-renew', 'RestaurantController@restaurantLicenseRenewApplication');
+        Route::post('restuarant-license-cancel', 'RestaurantController@restaurantLicenseCancelApplication');
 
        //tour operator
         Route::get('tour-operator/{applicationNo}', 'TourOperatorController@getApplicationDetails')->name('touropertor');
         Route::post('operator-technical-clearance', 'TourOperatorController@tourOperatorTechnicalClearanceApplication');
         Route::post('tour-operator-assessment', 'TourOperatorController@tourOperatorAssessmentApplication');
         Route::post('proprieter-card', 'TourOperatorController@proprieterCardApplication');
+        Route::post('tour-operator-owner_change', 'TourOperatorController@tourOperatorOwnerChangeApplication');
+        Route::post('tour-operator-name_change', 'TourOperatorController@tourOperatorNameChangeApplication');
+        Route::post('tour-operator-license-renew', 'TourOperatorController@tourOperatorLicenseRenewApplication');
+
         //Media
         Route::get('media/{applicationNo}', 'MediaController@getApplicationDetails')->name('media');
         Route::post('fam', 'MediaController@famApplication');
@@ -104,7 +113,11 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('product-proposal', 'TourismProductController@tourismProductProposalApplication');
 
     });
-
+  //routes for grievance redressal
+  Route::group(['prefix' => 'feedback', 'namespace' => 'FeedBack'], function() {      
+    Route::get('grievance-redressal', 'GrievanceRedressalController@getGrievanceRedressalList'); 
+    Route::get('openApplication/{applicationNo}', 'GrievanceRedressalController@openApplication');
+    });
     //routes for report
     Route::group(['prefix' => 'report', 'namespace' => 'Report'], function() {      
         Route::get('assessment-reports', 'AssessmentReportController@getAssessment'); 

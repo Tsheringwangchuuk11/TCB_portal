@@ -44,7 +44,7 @@
 			<div class="col-md-5">
 				<div class="form-group">
 				  <label for="">Dzongkhag<span class="text-danger"> *</span></label>
-				  <select  name="dzongkhag_id" id="dzongkhag_id" class="form-control select2bs4" style="width: 100%;">
+				  <select  name="dzongkhag_id" id="dzongkhag_id" class="form-control select2bs4 dzongkhagdropdown" style="width: 100%;">
 					<option value=""> -Select-</option>
 					@foreach ($dzongkhagLists as $dzongkhagList)
 					  <option value="{{ $dzongkhagList->id }}" {{ old('dzongkhag_id', $dzongkhagList->id) == $applicantInfo->dzongkhag_id ? 'selected' : '' }}>{{ $dzongkhagList->dzongkhag_name }}</option>
@@ -55,7 +55,8 @@
             <div class="col-md-5 offset-md-2">
               <div class="form-group">
                 <label for="">Gewog<span class="text-danger"> *</span></label>
-                <select  name="gewog_id" class="form-control select2bs4" id="gewog_id" value="{{ $applicantInfo->gewog_name }}" style="width: 100%;">
+                <select  name="gewog_id" class="form-control select2bs4" id="gewog_id" style="width: 100%;">
+                  <option value="{{ $applicantInfo->id }}">{{ $applicantInfo->gewog_name }}</option>
                 </select> 
               </div>
             </div>

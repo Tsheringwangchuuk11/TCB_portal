@@ -166,13 +166,18 @@ public function setToDateAttribute($value)
 	}
 
 	public static function getTouristHotelDetails($licenseNo){
-		/* $query=DB::table('t_applications as t1')
-		->leftjoin('t_star_categories as t2','t2.id','=','t1.star_category_id')
-		->where('t1.license_no',$licenseNo)
-		->first(); */
 		 $query=DB::table('t_tourist_standard_dtls as t1')
 		->leftjoin('t_star_categories as t2','t2.id','=','t1.star_category_id')
 		->where('t1.license_no',$licenseNo)
+		->where('t1.is_active','Y')
+		->first(); 
+		return $query;
+	}
+
+	public static function getTourOperatorDetails($licenseNo){
+		 $query=DB::table('t_operator_dtls as t1')
+		->where('t1.license_no',$licenseNo)
+		->where('t1.is_active','Y')
 		->first(); 
 		return $query;
 	}
@@ -389,7 +394,8 @@ public function setToDateAttribute($value)
 			star_category_id,
 			inspection_date,
 			updated_at,
-			created_at
+			created_at,
+			is_active
 			)
 			SELECT 
 			id,
@@ -414,7 +420,8 @@ public function setToDateAttribute($value)
 			star_category_id,
 			inspection_date,
 			updated_at,
-			NOW()
+			NOW(),
+			is_active
 			FROM t_tourist_standard_dtls
 			WHERE license_no = ? ', [$license_no]);
         return $status;
@@ -425,5 +432,63 @@ public function setToDateAttribute($value)
               ->where($filedName, $para)
               ->update($data);
 			  return $status;
+	}
+
+	public static function saveTourOperatorDtlsAudit($license_no){
+        $status = DB::insert('INSERT INTO t_operator_dtls_audit(
+			operator_dtls_id,
+			cid_no,
+			name,
+			contact_no,
+			email,
+			license_no,
+			license_date,
+			company_name,
+			location,
+			address,
+			updated_at,
+			created_at,
+			is_active
+			)
+			SELECT 
+			id,
+			cid_no,
+			name,
+			contact_no,
+			email,
+			license_no,
+			license_date,
+			company_name,
+			location,
+			address,
+			updated_at,
+			NOW(),
+			is_active
+			FROM t_operator_dtls
+			WHERE license_no = ? ', [$license_no]);
+        return $status;
+	}
+
+	public static function getGrievanceRedressalList(){
+		$query=DB::table('t_grievance_applications as t1')
+		->select('t1.application_no','t1.complainant_name','t1.complainant_mobile_no','t1.date')
+		->paginate(10);
+		return $query;
+	}
+
+	public static function getGrievanceDetails($applicationNo){
+		$query=DB::table('t_grievance_applications as t1')
+		->where('t1.application_no',$applicationNo)
+		->first();
+		return $query;
+	}
+
+	public static function getGrievanceDocumentDetails($applicationNo){
+		$query=DB::table('t_documents as t1')
+		->leftjoin('t_grievance_applications as t2','t2.application_no','=','t1.application_no')
+		->where('t1.application_no',$applicationNo)
+		->get();
+		return $query;
+
 	}
 }

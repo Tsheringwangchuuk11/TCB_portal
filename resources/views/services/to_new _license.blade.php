@@ -49,7 +49,7 @@
                 <div class="col-md-5">
                   <div class="form-group">
                     <label for="">Dzongkhag<span class="text-danger"> *</span></label>
-                    <select  name="dzongkhag_id" id="dzongkhag_id" class="form-control select2bs4" style="width: 100%;">
+                    <select  name="dzongkhag_id" id="dzongkhag_id" class="form-control select2bs4 dzongkhagdropdown" style="width: 100%;">
                         <option value=""> -Select-</option>
                         @foreach ($dzongkhagLists as $dzongkhagList)
                           <option value="{{ $dzongkhagList->id }}">{{ $dzongkhagList->dzongkhag_name }}</option>
@@ -60,8 +60,9 @@
                 <div class="col-md-5 offset-md-2">
                   <div class="form-group">
                     <label for="">Gewog<span class="text-danger"> *</span></label>
-                    <select  name="gewog_id" class="form-control select2bs4" id="gewog_id" style="width: 100%;">
-                    </select> 
+                    <select  name="gewog_id" class="form-control select2bs4 gewogdropdown" id="gewog_id" style="width: 100%;">
+                      <option value=""> -Select-</option>
+                    </select>   
                   </div>
                 </div>
               </div>
@@ -70,7 +71,8 @@
                   <div class="form-group">
                     <label for="">Village<span class="text-danger"> *</span></label>
                     <select  name="village_id" class="form-control select2bs4" id="village_id" style="width: 100%;">
-                    </select> 
+                      <option value=""> -Select-</option>
+                    </select>
                   </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
@@ -140,7 +142,7 @@
                 <div class="col-md-5">
                   <div class="form-group">
                     <label for="">Dzongkhag<span class="text-danger"> *</span></label>
-                    <select  name="dzongkhag_id" id="dzongkhag_id" class="form-control select2bs4" style="width: 100%;">
+                    <select  name="dzongkhag_id" id="partner_dzongkhag_id" class="form-control select2bs4 partnerdzongkhagdropdown" style="width: 100%;">
                         <option value=""> -Select-</option>
                         @foreach ($dzongkhagLists as $dzongkhagList)
                           <option value="{{ $dzongkhagList->id }}">{{ $dzongkhagList->dzongkhag_name }}</option>
@@ -151,8 +153,9 @@
                 <div class="col-md-5 offset-md-2">
                   <div class="form-group">
                     <label for="">Gewog<span class="text-danger"> *</span></label>
-                    <select  name="gewog_id" class="form-control select2bs4" id="gewog_id" style="width: 100%;">
-                    </select> 
+                    <select  name="gewog_id" class="form-control select2bs4 partnergewogropdown" id="partner_gewog_id" style="width: 100%;">
+                      <option value=""> -Select-</option>
+                    </select>  
                   </div>
                 </div>
               </div>
@@ -160,7 +163,9 @@
                 <div class="col-md-5">
                   <div class="form-group">
                     <label for="">Village <span class="text-danger"> *</span></label>
-                    <input type="text" class="form-control" name="partner_village_id" autocomplete="off" placeholder="Parmanent Address" >
+                    <select  name="partner_village_id" class="form-control select2bs4" id="partner_village_id" style="width: 100%;">
+                      <option value=""> -Select-</option>
+                    </select>
                   </div>
                 </div>
                 <div class="col-md-5 offset-md-2">

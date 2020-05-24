@@ -256,4 +256,41 @@ class RestaurantController extends Controller
 
      }   
 
+      //Approval function for tourist standard resturant license Cancel application
+      public function restaurantLicenseCancelApplication(Request $request){
+        if($request->status =='APPROVED'){
+            // insert into t_tourist_standard_dtls
+            \DB::transaction(function () use ($request) {
+
+                $approveId = WorkFlowDetails::getStatus('APPROVED');
+                $completedId= WorkFlowDetails::getStatus('COMPLETED');
+
+            //save data to t_tourist_standard_dtls_autit
+            $savedatatoaudit=Services::saveTouristStandardHotelDtlsAudit($request->license_no);
+
+              //update data to t_tourist_standard_dtls
+              $data = array(
+                'is_active' => 'N',
+             );
+             $updatedata=Services::updateApplicantDtls('t_tourist_standard_dtls','license_no',$request->license_no,$data);
+
+            $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
+            $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
+                    ->update(['status_id' => $approveId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
+
+            $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
+            $updateworkflow=TaskDetails::where('application_no',$request->application_no)
+                                    ->update(['status_id' => $completedId->id]);
+        });
+        return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
+        }else{
+            $rejectId = WorkFlowDetails::getStatus('REJECTED');
+            $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
+            $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
+            ->update(['status_id' => $rejectId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
+            return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
+            }
+
+     }
+
 }
