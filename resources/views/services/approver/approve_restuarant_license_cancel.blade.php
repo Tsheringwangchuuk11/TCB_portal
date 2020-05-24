@@ -1,13 +1,13 @@
 @extends('layouts.manager')
-@section('page-title','Tourist Standard Restuarant License Renew')
+@section('page-title','Tourist Standard Restuarant License Cancel')
 @section('content')
-<form action="{{ url('verification/renew-hotel-license') }}" method="POST" files="true" id="formdata" enctype="multipart/form-data">
+<form action="{{ url('verification/restuarant-license-cancel') }}" method="POST" files="true" id="formdata" enctype="multipart/form-data">
     @csrf
     <input type="hidden" class="form-control" name="module_id" value="{{ $applicantInfo->module_id }}">
     <input type="hidden" class="form-control" name="service_id" value="{{ $applicantInfo->service_id }}">
 <div class="card">
     <div class="card-header bg-success">
-        <h4 class="card-title">Tourist Standard Restuarant License Renew</h4>
+        <h4 class="card-title">Tourist Standard Restuarant License Cancel</h4>
     </div>
         <div class="card-body">
             <div class="row">
@@ -23,7 +23,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group col-md-5 offset-md-2">
+                        <div class="form-group col-md-5">
                             <label for="">License Date <span class="text-danger"> *</span> </label>
                             <input type="date" class="form-control" name="license_date" value="{{ $applicantInfo->license_date }}">
                         </div>

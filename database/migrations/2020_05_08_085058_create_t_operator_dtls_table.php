@@ -24,7 +24,7 @@ class CreateTOperatorDtlsTable extends Migration
             $table->string('company_name', 250)->nullable();
             $table->string('location', 250)->nullable();
             $table->string('address', 250)->nullable();
-
+            $table->char('is_active')->default('Y');
             $table->timestamps();
         });
     }

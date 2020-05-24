@@ -36,6 +36,7 @@ class CreateTTouristStandardDtlsAuditTable extends Migration
             $table->bigInteger('village_id')->index()->nullable();
             $table->unsignedBigInteger('star_category_id')->nullable();
             $table->date('inspection_date')->nullable();
+            $table->char('is_active')->nullable();
             $table->timestamps();
 
             $table->foreign('tourist_standard_id')->references('id')->on('t_tourist_standard_dtls');

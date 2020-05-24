@@ -53,8 +53,8 @@ class ServiceController extends Controller
         $data['transportations'] = Dropdown::getDropdowns("t_vehicles","id","vehicle_name","0","0");
         $data['channelTypes'] = Dropdown::getDropdowns("t_channel_types","id","channel_type","0","0");
         $data['countries'] = Dropdown::getDropdowns("t_country_masters","id","country_name","0","0");
+        $data['serviceproviders'] = Dropdown::getDropdowns("t_service_providers","id","service_provider_name","0","0");
         return view($page_link, $data);
-
     }
 
     public static function getCheckListArea($id)
@@ -106,6 +106,11 @@ class ServiceController extends Controller
          $data=Services::getTouristHotelDetails($licenseNo);
          return response()->json($data);
     }
+    public function getTourOperatorDetails($licenseNo){
+        $data=Services::getTourOperatorDetails($licenseNo);
+        return response()->json($data);
+   }
+   
     public function saveNewApplication(Request $request){
         $application_no = $this->services->generateApplNo($request);
         DB::transaction(function () use ($request, $application_no) {
@@ -430,6 +435,39 @@ class ServiceController extends Controller
             $update->assigned_priv_id=TaskDetails::getAssignPrivId($request->service_id)->id;
             $update->save();
 
+        });
+        return redirect('application/new-application')->with('appl_info', 'Your application has been submitted successfully and your application number is :'.$application_no);
+    }
+
+    public function saveGrievanceApplication(Request $request){
+        $application_no = $this->services->generateApplNo($request);
+        DB::transaction(function () use ($request, $application_no) {
+            //insert into t_grievance_applications
+            if(isset($_POST['applicant_type'])){
+            $grievanceData[] = [
+                    'application_no'  => $application_no,
+                    'complainant_name'  => $request->complainant_name,
+                    'complainant_address'  => $request->complainant_address,
+                    'complainant_mobile_no'  => $request->complainant_mobile_no,
+                    'complainant_telephone_no'  => $request->complainant_telephone_no,
+                    'complainant_email'  => $request->complainant_email,
+                    'applicant_type'  => $request->applicant_type,
+                    'respondent_name'  => $request->respondent_name,
+                    'respondent_address'  => $request->respondent_address,
+                    'respondent_mobile_no'  => $request->respondent_mobile_no,
+                    'respondent_telephone_no'  => $request->respondent_telephone_no,
+                    'respondent_email'  => $request->respondent_email,
+                    'service_provider_id'  => $request->service_provider_id,
+                    'claim_summary'  => $request->claim_summary,
+                    'remedy_sought'  => $request->remedy_sought,
+                    'location_id'  => $request->location_id,
+                    'date'  =>date('Y-m-d', strtotime($request->date)),
+           ];
+           $this->services->insertDetails('t_grievance_applications',$grievanceData);
+          // update application_no in t_documents
+           $documentId = $request->documentId;
+           $this->services->updateDocumentDetails($documentId,$application_no);
+          }
         });
         return redirect('application/new-application')->with('appl_info', 'Your application has been submitted successfully and your application number is :'.$application_no);
     }

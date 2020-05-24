@@ -24,4 +24,10 @@ return [
         'type2' => 'Type2',
         'type3' => 'Type3',
     ],
+
+    "applicanttype" => [
+        'P' => 'Person',
+        'L' => 'Legal',
+        'T' => 'Third Party Representative',
+    ],
 ];

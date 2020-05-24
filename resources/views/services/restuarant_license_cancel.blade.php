@@ -17,7 +17,7 @@
                     <div class="row">
                         <div class="form-group col-md-5">
                             <label for="">License Number <span class="text-danger"> *</span> </label>
-                            <input type="text" class="form-control" name="license_number" onchange="getOwnerChangeDetails(this.value)">
+                            <input type="text" class="form-control" name="license_no" onchange="getOwnerChangeDetails(this.value)">
                         </div>
                         <div class="form-group col-md-5 offset-md-2">
                             <label for="">License Date <span class="text-danger"> *</span> </label>

@@ -15,7 +15,10 @@ class CreateTHotelDivisionsTable extends Migration
     {
         Schema::create('t_hotel_divisions', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('staff_area_id');
             $table->string('hotel_div_name');
+            $table->foreign('staff_area_id')->references('id')->on('t_staff_areas');
+
         });
     }
 

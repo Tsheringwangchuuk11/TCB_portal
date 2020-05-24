@@ -16,13 +16,14 @@
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label for="" >Name<span class="text-danger"> *</span></label>
-                                <input type="text" class="form-control" name="applicant_name" value="{{ old('applicant_name') }}" autocomplete="off">
+                                <input type="text" class="form-control required" name="applicant_name" value="{{ old('applicant_name') }}" autocomplete="off">
                             </div>
+                            <div class="help-block with-errors"></div>
                         </div>
                         <div class="col-md-5 offset-md-2">
                             <div class="form-group">
                                 <label for="">CID No.<span class="text-danger"> *</span></label>
-                                <input type="text" class="form-control numeric-only" name="cid_no" value="{{ old('cid_no') }}" autocomplete="off">
+                                <input type="text" class="form-control numeric-only required" name="cid_no" value="{{ old('cid_no') }}" autocomplete="off">
                             </div>
                         </div>
                     </div>
@@ -30,13 +31,13 @@
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label for="">Proposed location for construction.<span class="text-danger"> *</span></label>
-                                <input type="text" class="form-control" name="location"  value="{{ old('location') }}" autocomplete="off" >
+                                <input type="text" class="form-control required" name="location"  value="{{ old('location') }}" autocomplete="off" >
                             </div>
                         </div>
                         <div class="col-md-5 offset-md-2">
                             <div class="form-group">
                                 <label for="">Dzongkhag<span class="text-danger"> *</span></label>
-                                <select  name="dzongkhag_id" id="dzongkhag_id" class="form-control select2bs4" style="width: 100%;">
+                                <select  name="dzongkhag_id" id="dzongkhag_id" class="form-control select2bs4 dzongkhagdropdown" style="width: 100%;">
                                 <option value=""> -Select-</option>
                                     @foreach ($dzongkhagLists as $dzongkhagList)
                                         <option value="{{ $dzongkhagList->id }}" {{ old('dzongkhag_id') == $dzongkhagList->id ? 'selected' : '' }}>{{ $dzongkhagList->dzongkhag_name }}</option>
@@ -50,6 +51,7 @@
                             <div class="form-group">
                                 <label for="">Gewog<span class="text-danger"> *</span></label>
                                 <select  name="gewog_id" class="form-control select2bs4" id="gewog_id" style="width: 100%;">
+                                    <option value=""> -Select-</option>
                                 </select> 
                             </div>
                         </div>
@@ -85,7 +87,7 @@
                         <div class="col-md-5 offset-md-2">
                             <div class="form-group">
                                 <label for="">Drawing submission date<span class="text-danger"> *</span></label>
-                                <input type="text" class="form-control datepicker" name="drawing_date" value="{{ old('drawing_date') }}" id="drawing_date" autocomplete="off" >
+                                <input type="date" class="form-control" name="drawing_date" value="{{ old('drawing_date') }}" autocomplete="off" >
                             </div>
                         </div>
                     </div>
@@ -118,49 +120,10 @@
 
 @section('scripts')
 <script>
-    $(document).ready(function () {
-      $('#form_data').validate({
-        rules: {
-          email: {
-            required: true,
-            email: true,
-          },
-          applicant_name: {
-            required: true,
-            minlength: 5
-          },
-          cid_no: {
-            required: true,
-            maxlength:11
-          },
-        },
-        messages: {
-          email: {
-            required: "Please enter a email address",
-            email: "Please enter a vaild email address"
-          },
-          applicant_name: {
-            required: "Please provide a password",
-          },
-          cid_no: "Please accept our terms",
-          maxlength: "Your cid must be 11 characters long"
-
-        },
-        errorElement: 'span',
-        errorPlacement: function (error, element) {
-          error.addClass('invalid-feedback');
-          element.closest('.form-group').append(error);
-        },
-        highlight: function (element, errorClass, validClass) {
-          $(element).addClass('is-invalid');
-        },
-        unhighlight: function (element, errorClass, validClass) {
-          $(element).removeClass('is-invalid');
-        }
-      });
-    });
-    </script>
-    
+ $(document).ready(function () {
+     
+ });
+</script>
 @endsection
 
 

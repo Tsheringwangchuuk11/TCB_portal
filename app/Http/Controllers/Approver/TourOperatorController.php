@@ -37,6 +37,14 @@ class TourOperatorController extends Controller
             return view('services.approver.approve_to_assessment',$data);
 
         }
+        elseif($serviceId==9){
+            //Tour Operator Owner Change Details
+            return view('services.approver.approve_tour_operator_owner_change',$data);
+        }
+        elseif($serviceId==10){
+            //Tour Operator Name Change Details
+            return view('services.approver.approve_tour_operator_name_change',$data);
+        }
         elseif($serviceId==11){
             //Tour propriater card Details
             return view('services.approver.approve_propreiter_card',$data);
@@ -45,6 +53,10 @@ class TourOperatorController extends Controller
             //Tour operator license clearance Details
             $data['partnerInfo']=Services::getPartnerInfoDetails($applicationNo);
             return view('services.approver.approve_to_new _license',$data);
+        }
+        elseif($serviceId==13){
+            //Tour Operator License Renew Details
+            return view('services.approver.approve_to_license_renew',$data);
         }
 
     }
@@ -245,4 +257,116 @@ class TourOperatorController extends Controller
                 return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
                 }
             }
+
+    //Approval function for tour operator name change application
+    public function tourOperatorNameChangeApplication(Request $request){
+        if($request->status =='APPROVED'){
+            \DB::transaction(function () use ($request) {
+
+                $approveId = WorkFlowDetails::getStatus('APPROVED');
+                $completedId= WorkFlowDetails::getStatus('COMPLETED');
+
+            //save data to t_operator_dtls_audit
+            $savedatatoaudit=Services::saveTourOperatorDtlsAudit($request->license_no);
+
+              //update data to t_operator_dtls
+              $data = array(
+                'company_name' => $request->company_name,
+             );
+             $updatedata=Services::updateApplicantDtls('t_operator_dtls','license_no',$request->license_no,$data);
+
+            $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
+            $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
+                    ->update(['status_id' => $approveId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
+
+            $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
+            $updateworkflow=TaskDetails::where('application_no',$request->application_no)
+                                    ->update(['status_id' => $completedId->id]);
+        });
+        return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
+        }else{
+            $rejectId = WorkFlowDetails::getStatus('REJECTED');
+            $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
+            $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
+            ->update(['status_id' => $rejectId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
+            return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
+            }
+     }
+
+       //Approval function for tour operator owner change application
+       public function tourOperatorOwnerChangeApplication(Request $request){
+        if($request->status =='APPROVED'){
+            \DB::transaction(function () use ($request) {
+
+                $approveId = WorkFlowDetails::getStatus('APPROVED');
+                $completedId= WorkFlowDetails::getStatus('COMPLETED');
+
+           //save data to t_operator_dtls_audit
+           $savedatatoaudit=Services::saveTourOperatorDtlsAudit($request->license_no);
+
+              //update data to t_operator_dtls
+              $data = array(
+                'name' => $request->name,
+                'cid_no' => $request->cid_no,
+                'address' => $request->address, 
+                'contact_no' => $request->contact_no,
+				'email' => $request->email
+             );
+             $updatedata=Services::updateApplicantDtls('t_operator_dtls','license_no',$request->license_no,$data);
+
+            $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
+            $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
+                    ->update(['status_id' => $approveId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
+
+            $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
+            $updateworkflow=TaskDetails::where('application_no',$request->application_no)
+                                    ->update(['status_id' => $completedId->id]);
+        });
+        return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
+        }else{
+            $rejectId = WorkFlowDetails::getStatus('REJECTED');
+            $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
+            $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
+            ->update(['status_id' => $rejectId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
+            return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
+            }
+
+     }
+
+     //Approval function for tour operator license rennw application
+      public function tourOperatorLicenseRenewApplication(Request $request){
+        if($request->status =='APPROVED'){
+            \DB::transaction(function () use ($request) {
+
+                $approveId = WorkFlowDetails::getStatus('APPROVED');
+                $completedId= WorkFlowDetails::getStatus('COMPLETED');
+
+           //save data to t_operator_dtls_audit
+           $savedatatoaudit=Services::saveTourOperatorDtlsAudit($request->license_no);
+
+              //update data to t_tourist_standard_dtls
+              $data = array(
+                'license_date'=> date('Y-m-d', strtotime($request->license_date))
+
+             );
+            $updatedata=Services::updateApplicantDtls('t_operator_dtls','license_no',$request->license_no,$data);
+           
+            $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
+            $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
+                    ->update(['status_id' => $approveId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
+
+            $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
+            $updateworkflow=TaskDetails::where('application_no',$request->application_no)
+                                    ->update(['status_id' => $completedId->id]);
+        });
+        return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
+
+        }else{
+            $rejectId = WorkFlowDetails::getStatus('REJECTED');
+            $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
+            $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
+            ->update(['status_id' => $rejectId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
+            return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
+            }
+     }   
 }
