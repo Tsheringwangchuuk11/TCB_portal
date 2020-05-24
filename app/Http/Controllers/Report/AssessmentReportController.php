@@ -15,7 +15,7 @@ use DB;
 
 class AssessmentReportController extends Controller
 {
-    
+    //hotel assessment list report
     public function getAssessment(Request $request)
     {
         $servicemodules = Dropdown::getDropdowns("t_module_masters","id","module_name","0","0");        
@@ -40,6 +40,7 @@ class AssessmentReportController extends Controller
         }        
     }
 
+    //detail report for hotel assessment
     public function detailAssessment(Request $request, $application_no)
     {
         $application = DB::table('t_applications as application')->select('application.*') ->where('application_no','=', $application_no)      ->first();                                                                
@@ -54,8 +55,7 @@ class AssessmentReportController extends Controller
                                         ->where('t_check_list_standard_mappings.star_category_id','=',$starCategoryId);
                                                     }]);
                                     }])->where('module_id','=',$moduleId)
-                                    ->get();
-                                    
+                                    ->get();              
         if($request->has('print')){
             $pdf = PDF::loadView('pdf.hotel-assessment-detail', compact('application', 'data'));
             return $pdf->stream('Hotel Assessment Detail Report-'.str_random(4).'.pdf');
