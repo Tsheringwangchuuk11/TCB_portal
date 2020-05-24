@@ -14,7 +14,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="" >Module *</label>
-                            <select name="service_module" class="form-control required select2bs4 module" id="module">
+                            <select name="" class="form-control required select2bs4 module" id="module">
                                 <option value="">---SELECT---</option>
                                 @foreach ($serviceModules as $serviceModule)
                                 <option value="{{ $serviceModule->id }}" {{ old('service_module', $checklistStandard->checklistArea->checklistChapter->serviceModule->id) == $serviceModule->id ? 'selected' : '' }}>{{ $serviceModule->module_name }}</option>
@@ -25,7 +25,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="" >Checklist Chapter *</label>
-                            <select name="checklist" class="form-control checklist select2bs4" id="checklist">
+                            <select name="" class="form-control checklist select2bs4" id="checklist">
                             <option value="">{{$checklistStandard->checklistArea->checklistChapter->checklist_ch_name}}</option>						
                             </select>                               
                         </div> 
@@ -87,7 +87,7 @@
                                             <a href="#" class="delete-table-row btn btn-danger btn-sm"><i class="fa fa-times"></i></a>
                                         </td>
                                         <td>
-                                            <select name="checklist[AAAAA][star_category]" id="star" class="form-control resetKeyForNew required select star">
+                                            <select name="checklist[AAAAA][star_category]" id="star" class="form-control resetKeyForNew select star">
                                                 <option value="">Select Star Category</option>
                                                 @foreach ($starCategories as $starCategory)
                                                     <option value="{{ $starCategory->id }}" data-id={{ $starCategory->id }} data-name="{{ $starCategory->star_category_name }}">{{ $starCategory->star_category_name }}</option>
@@ -95,7 +95,7 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <select name="checklist[AAAAA][basic_standard]" class="form-control resetKeyForNew select required">
+                                            <select name="checklist[AAAAA][basic_standard]" class="form-control basic resetKeyForNew select">
                                                 <option value="">Select Basic Standard</option>
                                                 @foreach ($basicStandards as $basicStandard)
                                                     <option value="{{ $basicStandard->id }}" data-id={{ $basicStandard->id }} data-name="{{ $basicStandard->standard_code }}">{{ $basicStandard->standard_code }}</option>
@@ -103,7 +103,7 @@
                                             </select>
                                         </td>
                                         <td class="text-center">
-                                            <select  name="checklist[AAAAA][mandatory]" class="form-control resetKeyForNew select">
+                                            <select  name="checklist[AAAAA][mandatory]" class="form-control resetKeyForNew mandatory select">
                                                 <option value="">-Select-</option>
                                                 @foreach (Config::get('settings.status') as $k => $v)
                                                 <option value="{{ $k }}">{{ $v }}</option>
@@ -111,7 +111,7 @@
                                             </select>
                                         </td>
                                         <td width="20%">
-                                            <select  name="checklist[AAAAA][status]" class="form-control resetKeyForNew select">
+                                            <select  name="checklist[AAAAA][status]" class="form-control resetKeyForNew status select">
                                                 <option value="">-Select-</option>
                                                 @foreach (Config::get('settings.status') as $k => $v)
                                                 <option value="{{ $k }}">{{ $v }}</option>
@@ -127,7 +127,7 @@
                                             </td>
                                             <td>
 
-                                                <select name="checklist[AAAAA{{$key}}][star_category]" id="star" class="form-control resetKeyForNew required select star">
+                                                <select name="checklist[AAAAA{{$key}}][star_category]" id="star" class="form-control resetKeyForNew select star">
                                                     <option value="">Select Star Category</option>
                                                     @foreach ($starCategories as $starCategory)
                                                         <option value="{{ $starCategory->id }}" {{ old('checklist[AAAAA][star_category]', $detail->pivot->star_category_id) == $starCategory->id ? 'selected' : '' }}>{{ $starCategory->star_category_name }}</option>
@@ -135,7 +135,7 @@
                                                 </select>
                                             </td>
                                             <td>
-                                                <select name="checklist[AAAAA{{$key}}][basic_standard]" class="form-control resetKeyForNew select required">
+                                                <select name="checklist[AAAAA{{$key}}][basic_standard]" class="form-control resetKeyForNew select basic">
                                                     <option value="">Select Basic Standard</option>
                                                     @foreach ($basicStandards as $basicStandard)
                                                         <option value="{{ $basicStandard->id }}" {{ old('checklist[AAAAA][basic_standard]', $detail->pivot->standard_id) == $basicStandard->id ? 'selected' : ''}}>{{ $basicStandard->standard_code }}</option>
@@ -143,7 +143,7 @@
                                                 </select>
                                             </td>
                                             <td class="text-center">
-                                                <select  name="checklist[AAAAA{{$key}}][mandatory]" class="form-control resetKeyForNew select">
+                                                <select  name="checklist[AAAAA{{$key}}][mandatory]" class="form-control resetKeyForNew mandatory select">
                                                     <option value="">-Select-</option>
                                                     @foreach (Config::get('settings.status') as $k => $v)
                                                     <option value="{{ $k }}" {{ old('mandatory', $detail->pivot->mandatory) == $k ? 'selected' : '' }}>{{ $v }}</option>
@@ -151,7 +151,7 @@
                                                 </select>
                                             </td>
                                             <td width="20%">
-                                                <select  name="checklist[AAAAA{{$key}}][status]" class="form-control resetKeyForNew select">
+                                                <select  name="checklist[AAAAA{{$key}}][status]" class="form-control resetKeyForNew select status">
                                                     <option value="">-Select-</option>
                                                     @foreach (Config::get('settings.status') as $k => $v)
                                                     <option value="{{ $k }}" {{ old('status', $detail->pivot->is_active) == $k ? 'selected' : '' }}>{{ $v }}</option>
@@ -188,12 +188,22 @@
     $(document).ready(function () {
         //checking star rating 
         var editSelectedModule = $('select.module option:selected').val();
+        
         if(editSelectedModule == 1)
         {            
             $('select.star').removeAttr('disabled', true);
         }else{
             $('select.star').attr('disabled', true);
         }
+
+         //checking restuarant
+         if(editSelectedModule.length > 0 && (editSelectedModule == 3 || editSelectedModule == 4 || editSelectedModule == 5 || editSelectedModule == 6 || editSelectedModule == 7 || editSelectedModule == 8 ))
+            {                
+                $('select.star').attr('disabled', true);
+                $('select.basic').attr('disabled', true);                
+                $('select.mandatory').attr('disabled', true);                
+                $('select.status').attr('disabled', true); 
+            }
         //select a module and accordingly get the chapter associated with it using ajax request
            $('select.module').on('change', function(e){
                var selectedModule = $('option:selected', this).val();                       		
@@ -201,14 +211,34 @@
             //checking the star category			
             if (selectedModule.length > 0 && selectedModule == 1) { 
                 $('select.star').removeAttr('disabled', true);
+                $('select.basic').removeAttr('disabled', true);                
+                $('select.mandatory').removeAttr('disabled', true);                
+                $('select.status').removeAttr('disabled', true); 
                 $('select.star').addClass('required');
+            }else if(selectedModule == 2){  
+                $('select.star').attr('disabled', true);              
+                $('select.basic').removeAttr('disabled', true);                
+                $('select.mandatory').removeAttr('disabled', true);                
+                $('select.status').removeAttr('disabled', true);
             }else{
                 $('select.star').attr('disabled', true);
+                $('select.basic').attr('disabled', true);                
+                $('select.mandatory').attr('disabled', true);                
+                $('select.status').attr('disabled', true);
                 $('select.star').removeClass('required');
             }
 
+            //checking restuarant
+            if(selectedModule.length > 0 && (selectedModule == 3 || selectedModule == 4 || selectedModule == 5 || selectedModule == 6 || selectedModule == 7 || selectedModule == 8 ))
+            {
+                $('select.star').attr('disabled', true);
+                $('select.basic').attr('disabled', true);                
+                $('select.mandatory').attr('disabled', true);                
+                $('select.status').attr('disabled', true); 
+            }
+
             //adding required class
-            if (selectedModule.length > 0 && (selectedModule == 1 || selectedModule == 2 || selectedModule == 3)) 
+            if (selectedModule.length > 0 && (selectedModule == 1 || selectedModule == 2)) 
             {                                           
                 $('select.basic').addClass('required');                
                 $('select.mandatory').addClass('required');                

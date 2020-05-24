@@ -121,6 +121,8 @@ Route::group(['middleware' => ['auth']], function () {
     //routes for report
     Route::group(['prefix' => 'report', 'namespace' => 'Report'], function() {      
         Route::get('assessment-reports', 'AssessmentReportController@getAssessment'); 
+        Route::get('assessment-reports', 'AssessmentReportController@getAssessment'); 
+        Route::get('assessment-reports/{application_no}', 'AssessmentReportController@detailAssessment'); 
     });
 });
 

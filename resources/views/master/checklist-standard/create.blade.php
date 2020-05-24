@@ -13,7 +13,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="" >Module *</label>
-                            <select name="service_module" class="form-control required select2bs4 module" id="module">
+                            <select name="" class="form-control required select2bs4 module" id="module">
                                 <option value="">---SELECT---</option>
                                 @foreach ($serviceModules as $serviceModule)
                                 <option value="{{ $serviceModule->id }}" {{ old('service_module') == $serviceModule->id ? 'selected' : '' }}>{{ $serviceModule->module_name }}</option>
@@ -24,7 +24,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="" >Checklist Chapter *</label>
-                            <select name="checklist" class="form-control checklist required select2bs4" id="checklist" disabled>
+                            <select name="" class="form-control checklist required select2bs4" id="checklist" disabled>
                                 <option value="">---SELECT MODULE FIRST---</option>						
                             </select>                               
                         </div> 
@@ -156,8 +156,17 @@
                 $('select.star').removeClass('required');
             }
 
+            //checking restuarant
+            if(selectedModule.length > 0 && (selectedModule == 3 || selectedModule == 4 || selectedModule == 5 || selectedModule == 6 || selectedModule == 7 || selectedModule == 8 ))
+            {
+                $('select.star').attr('disabled', true);
+                $('select.basic').attr('disabled', true);                
+                $('select.mandatory').attr('disabled', true);                
+                $('select.status').attr('disabled', true); 
+            }
+
             //adding required class
-            if (selectedModule.length > 0 && (selectedModule == 1 || selectedModule == 2 || selectedModule == 3)) 
+            if (selectedModule.length > 0 && (selectedModule == 1 || selectedModule == 2)) 
             {                                           
                 $('select.basic').addClass('required');                
                 $('select.mandatory').addClass('required');                

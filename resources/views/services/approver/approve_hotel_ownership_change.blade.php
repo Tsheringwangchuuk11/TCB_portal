@@ -108,7 +108,7 @@
                     <span>{{ $documentInfo->document_name }}</span>
                 </div>
                 <div class="form-group col-md-6">
-                <span><a href="{{ URL::to($documentInfo->upload_url) }}">{{ $documentInfo->document_name }}</a></span>
+                    <a href="{{ url($documentInfo->upload_url) }}" class="btn btn-xs btn-info" target="_blank"><i class="fa fa-link"></i> View</a>                
                 </div>
                 @empty
                 <div class="form-group col-md-12">
