@@ -151,6 +151,9 @@
             { 
                 $('select.star').addClass('required');
                 $('select.star').removeAttr('disabled', true);
+                $('select.basic').removeAttr('disabled', true);                
+                $('select.mandatory').removeAttr('disabled', true);                
+                $('select.status').removeAttr('disabled', true); 
             }else{
                 $('select.star').attr('disabled', true);
                 $('select.star').removeClass('required');
