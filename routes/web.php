@@ -101,7 +101,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('tour-operator-owner_change', 'TourOperatorController@tourOperatorOwnerChangeApplication');
         Route::post('tour-operator-name_change', 'TourOperatorController@tourOperatorNameChangeApplication');
         Route::post('tour-operator-license-renew', 'TourOperatorController@tourOperatorLicenseRenewApplication');
-
+        Route::post('recommandation_letter_for_to_license', 'TourOperatorController@toLicenseRecommandationLetterApplication');
+        Route::get('generate_letter_sample/{applicationNo}', 'TourOperatorController@getRecommandationLetterSample');
         //Media
         Route::get('media/{applicationNo}', 'MediaController@getApplicationDetails')->name('media');
         Route::post('fam', 'MediaController@famApplication');

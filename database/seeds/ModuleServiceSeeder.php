@@ -37,7 +37,7 @@ class ModuleServiceSeeder extends Seeder
             ['module_id' => 4, 'service_id' => 9, 'page_link' => 'services/to_owner_change'],
             ['module_id' => 4, 'service_id' => 10, 'page_link' => 'services/to_name_change'],
             ['module_id' => 4, 'service_id' => 11, 'page_link' => 'services/propreiter_card'],
-            ['module_id' => 4, 'service_id' => 12, 'page_link' => 'services/letter_for_to_license'],
+            ['module_id' => 4, 'service_id' => 12, 'page_link' => 'services/recommandation_letter_for_to_license'],
             ['module_id' => 4, 'service_id' => 13, 'page_link' => 'services/to_license_renew'],
             ['module_id' => 4, 'service_id' => 15, 'page_link' => 'services/travel_fair_registration'],
             ['module_id' => 4, 'service_id' => 16, 'page_link' => 'services/recommandation_letter'],

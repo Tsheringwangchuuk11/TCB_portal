@@ -1,7 +1,7 @@
 @extends('layouts.manager')
-@section('page-title','Tour Operator Name Change')
+@section('page-title','Recommandation Letter for Tour operator license')
 @section('content')
-<form action="{{ url('verification/tour-operator-name_change') }}" method="POST" files="true" id="formdata" enctype="multipart/form-data">
+<form action="{{ url('verification/recommandation_letter_for_to_license') }}" method="POST" files="true" id="formdata" enctype="multipart/form-data">
     @csrf
     <input type="hidden" class="form-control" name="module_id" value="{{ $applicantInfo->module_id }}">
     <input type="hidden" class="form-control" name="service_id" value="{{ $applicantInfo->service_id }}">
@@ -19,53 +19,66 @@
                 </div>
                 <div class="col-md-5 offset-md-2">
                     <div class="form-group">
-                      <label for="">License No.<span class="text-danger">*</span> </label>
-                      <input type="text" class="form-control" name="license_no" value="{{ $applicantInfo->license_no }}">
+                      <label for="">Recommandation Letter Type<span class="text-danger">*</span> </label>
+                      <select class="form-control  select2bs4" name="letter_sample" id="letter_sample">
+                        <option value="">- Select -</option>
+                        @foreach ($letterTypes as $letterType)
+                        <option value="{{ $letterType->id }}" {{ old('letter_sample', $applicantInfo->letter_type_id) == $letterType->id ? 'selected' : '' }}> {{ $letterType->recommandation_letter_type }}</option>
+                        @endforeach
+                    </select>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-5">
+              <div class="col-md-5">
+              <div class="form-group">
+                <label for="">License No.<span class="text-danger">*</span> </label>
+                <input type="text" class="form-control" name="license_no" value="{{ $applicantInfo->license_no }}">
+              </div>
+              </div>
+                <div class="col-md-5 offset-md-2">
                     <div class="form-group">
                       <label for="">License Date.<span class="text-danger">*</span> </label>
                       <input type="date" class="form-control" name="license_date" value="{{ $applicantInfo->license_date }}">
                     </div>
                 </div> 
-                <div class="col-md-5 offset-md-2">
-                  <div class="form-group">
-                    <label for="">Name of the Tour Company <span class="text-danger">*</span> </label>
-                    <input type="text" class="form-control" name="company_name" value="{{ $applicantInfo->company_title_name }}">
-                  </div>
-                </div>
             </div>
 
             <div class="row">
-                <div class="col-md-5">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="">Name of the Tour Company <span class="text-danger">*</span> </label>
+                  <input type="text" class="form-control" name="company_name" value="{{ $applicantInfo->company_title_name }}">
+                </div>
+              </div>
+                <div class="col-md-5 offset-md-2">
                     <div class="form-group">
                       <label for="">Location <span class="text-danger">*</span> </label>
                       <input type="text" class="form-control" name="location" value="{{ $applicantInfo->location }}">
                     </div>
                   </div>
-                <div class="col-md-5 offset-md-2">
-                  <div class="form-group">
-                    <label for="">Name of the proprietor/s <span class="text-danger">*</span> </label>
-                    <input type="text" class="form-control" name="name" value="{{ $applicantInfo->owner_name }}">
-                  </div>
-                </div>
             </div>
             <div class="row">
-                <div class="col-md-5">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="">Name of the proprietor/s <span class="text-danger">*</span> </label>
+                  <input type="text" class="form-control" name="name" value="{{ $applicantInfo->owner_name }}">
+                </div>
+              </div>
+                <div class="col-md-5 offset-md-2">
                     <div class="form-group">
                       <label for="">Contact No. <span class="text-danger">*</span> </label>
                       <input type="text" class="form-control" name="contact_no" value="{{ $applicantInfo->contact_no }}">
                     </div>
                   </div>
-                <div class="col-md-5 offset-md-2">
-                  <div class="form-group">
-                    <label for="">Owner CID<span class="text-danger">*</span> </label>
-                    <input type="text" class="form-control" name="cid_no" value="{{ $applicantInfo->cid_no }}">
-                  </div>
+            </div>
+            <div class="row">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="">Owner CID<span class="text-danger">*</span> </label>
+                  <input type="text" class="form-control" name="cid_no" value="{{ $applicantInfo->cid_no }}">
                 </div>
+              </div>
             </div>
         </div>
     </div>

@@ -53,6 +53,7 @@ class ServiceController extends Controller
         $data['transportations'] = Dropdown::getDropdowns("t_vehicles","id","vehicle_name","0","0");
         $data['channelTypes'] = Dropdown::getDropdowns("t_channel_types","id","channel_type","0","0");
         $data['countries'] = Dropdown::getDropdowns("t_country_masters","id","country_name","0","0");
+        $data['letterTypes'] = Dropdown::getDropdowns("t_recommandation_letter_masters","id","recommandation_letter_type","0","0");
         $data['serviceproviders'] = Dropdown::getDropdowns("t_service_providers","id","service_provider_name","0","0");
         return view($page_link, $data);
     }
@@ -166,6 +167,7 @@ class ServiceController extends Controller
             $data->sell_bhutan=$request->sell_bhutan;
             $data->destination_year=$request->destination_year;
             $data->bhutan_year=$request->bhutan_year;
+            $data->letter_sample=$request->letter_sample;
             $data->save();
 
             //insert into t_room_applications

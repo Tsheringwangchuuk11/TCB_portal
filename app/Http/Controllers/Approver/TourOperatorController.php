@@ -8,6 +8,7 @@ use App\Models\Services;
 use App\Models\WorkFlowDetails;
 use App\Models\Dropdown;
 use App\Models\TaskDetails;
+use PDF;
 class TourOperatorController extends Controller
 {
     public function __construct(Services $services)
@@ -22,10 +23,10 @@ class TourOperatorController extends Controller
     public function getApplicationDetails($applicationNo){
         $data['applicantInfo']=Services::getApplicantDetails($applicationNo);
         $serviceId= $data['applicantInfo']->service_id;
+        $letterSample= $data['applicantInfo']->letter_type_id;
         $data['documentInfos']=Services::getDocumentDetails($applicationNo);
         $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
         $data['countries'] = Dropdown::getDropdowns("t_country_masters","id","country_name","0","0");
-       
         if($serviceId==4){
             //Tour operator Assessment Details
             $data['officeInfos']=Services::getOfficeInfoDetails($applicationNo);
@@ -48,6 +49,21 @@ class TourOperatorController extends Controller
         elseif($serviceId==11){
             //Tour propriater card Details
             return view('services.approver.approve_propreiter_card',$data);
+        }
+        elseif($serviceId==12){
+            //Recommandation Letter for tour operator license
+            $data['letterTypes'] = Dropdown::getDropdowns("t_recommandation_letter_masters","id","recommandation_letter_type","0","0");
+            $data['letterContent']=null;
+            if($letterSample=="1"){
+                $p1="This is to certify that M/s.";
+                $p2="is Royal Government of Bhutan’s licensed Tour Operator and registered with the Tourism Council of Bhutan.";
+                $p3="We would like to confirm that Mr/Ms";
+                $p6="is the proprietor of";
+                $p4="The letter is valid till ";
+                $p5="(validity of the license)";
+                $data['letterContent']="<p1 class='text-justify'>".$p1."&nbsp"."<strong>".$data['applicantInfo']->owner_name."</strong>"."&nbsp".$p2."</p>" ."<p>".$p3."&nbsp"."<strong>".$data['applicantInfo']->owner_name."</strong>"."&nbsp".$p6."&nbsp"."<strong>".$data['applicantInfo']->company_title_name ."</strong>"."</p>"."<p>".$p4."<strong>".date('m/d/yy', strtotime($data['applicantInfo']->license_date))."</strong>".$p5."</p>";
+            }
+            return view('services.approver.approve_recommandation_letter_for_to_license',$data);
         }
         elseif($serviceId==21){
             //Tour operator license clearance Details
@@ -344,7 +360,7 @@ class TourOperatorController extends Controller
            //save data to t_operator_dtls_audit
            $savedatatoaudit=Services::saveTourOperatorDtlsAudit($request->license_no);
 
-              //update data to t_tourist_standard_dtls
+              //update data to t_operator_dtls
               $data = array(
                 'license_date'=> date('Y-m-d', strtotime($request->license_date))
 
@@ -369,4 +385,52 @@ class TourOperatorController extends Controller
             return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
             }
      }   
+
+      //Approval function for tour operator license recommandation Letter application
+      public function toLicenseRecommandationLetterApplication(Request $request){
+    
+        if($request->status =='APPROVED'){
+            \DB::transaction(function () use ($request) {
+
+                $approveId = WorkFlowDetails::getStatus('APPROVED');
+                $completedId= WorkFlowDetails::getStatus('COMPLETED');
+
+           //save data to t_operator_dtls_audit
+           $savedatatoaudit=Services::saveTourOperatorDtlsAudit($request->license_no);
+
+              //update data to t_operator_dtls
+              $data = array(
+                'letter_sample'=> $request->letter_sample,
+
+             );
+            $updatedata=Services::updateApplicantDtls('t_operator_dtls','license_no',$request->license_no,$data);
+           
+            $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
+            $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
+                    ->update(['status_id' => $approveId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
+
+            $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
+            $updateworkflow=TaskDetails::where('application_no',$request->application_no)
+                                    ->update(['status_id' => $completedId->id]);
+        });
+            $person = new Services();
+            $person->name =$request->name ;
+            $person->companyName =$request->company_name;
+            $person->licenseValidatyDate =$request->license_date;
+            $person->letterType =$request->letter_sample;
+
+           return view('services/lettersample/lettersample',$person)->with('msg_success', 'Application approved successfully.');;
+      //  $pdf = PDF::loadView('services/lettersample/lettersample', compact('applicantInfo'));
+        //return $pdf->stream('Recommandation Letter-'.str_random(4).'.pdf');
+       // return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
+
+        }else{
+            $rejectId = WorkFlowDetails::getStatus('REJECTED');
+            $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
+            $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
+            ->update(['status_id' => $rejectId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
+            return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
+            }
+     } 
+    
 }

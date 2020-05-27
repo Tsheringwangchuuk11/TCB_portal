@@ -25,7 +25,7 @@
                         </td>
                         <td> {{ $grievanceList->complainant_name }}</td>
                         <td> {{ $grievanceList->complainant_mobile_no }}</td>
-                        <td> {{ date('m/d/yy', strtotime($grievanceList->date)) }}</td>
+                        <td> {{ date('d/m/Y', strtotime($grievanceList->date)) }}</td>
                     </tr>  
                     @empty
                     <tr>
