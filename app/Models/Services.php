@@ -446,6 +446,7 @@ public function setToDateAttribute($value)
 			company_name,
 			location,
 			address,
+			letter_sample,
 			updated_at,
 			created_at,
 			is_active
@@ -461,6 +462,7 @@ public function setToDateAttribute($value)
 			company_name,
 			location,
 			address,
+			letter_sample,
 			updated_at,
 			NOW(),
 			is_active

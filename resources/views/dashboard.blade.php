@@ -1,7 +1,7 @@
 @extends('layouts.manager')
 @section('page-title', 'Welcome Tourism Counsel Of Bhutan')
 @section('content')
-<h6><i class="far fa-envelope"></i> Messages / Notices</h6>
+<h6><i class="far fa-envelope"></i> Messages / Notification</h6>
 <div class="row">
     <div class="col-md-12">
         <div class="small-box info-box">

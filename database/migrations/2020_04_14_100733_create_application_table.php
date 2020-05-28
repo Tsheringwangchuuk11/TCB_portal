@@ -65,6 +65,7 @@ class CreateApplicationTable extends Migration
             $table->date('from_date')->nullable();
             $table->date('to_date')->nullable();
             $table->year('financial_year')->nullable();
+            $table->bigInteger('letter_type_id')->nullable();
             $table->text('remarks')->nullable();
             //$table->string('financial_year', 4)->nullable();
             $table->foreign('end_user_id')->references('id')->on('t_users');
