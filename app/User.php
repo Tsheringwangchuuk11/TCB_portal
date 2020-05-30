@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Notifications\SendPasswordResetLink;
 use Illuminate\Notifications\Notifiable;
 use Carbon\Carbon;
 
