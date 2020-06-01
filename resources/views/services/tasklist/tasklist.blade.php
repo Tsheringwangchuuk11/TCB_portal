@@ -150,7 +150,7 @@
                                     $(this).removeAttr('title');
                                     $(this).attr('title', applicationNo+' - Open');
                                     $(this).removeAttr('onclick');
-                                    $(this).attr('onClick', 'openApplication('+applicationNo+', '+serviceId+', '+moduleId+')');
+                                    $(this).attr('onClick', 'openApplication(\''+applicationNo+'\', \''+serviceId+'\', \''+moduleId+'\')');
 
 
                                 })
