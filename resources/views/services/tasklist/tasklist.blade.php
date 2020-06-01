@@ -26,7 +26,7 @@
                                 @foreach($groupTasklists as $groupTask)
                                     <tr id="grpTaskTR_{{ $groupTask->application_no }}">
                                         <td>
-                                            <a href="javascript:void(0)" data-toggle="tooltip" title='{{ $groupTask->application_no }} - Claim' onclick="claimApplication('{{ $groupTask->application_no }}', '{{ $myTask->service_id }}', '{{ $myTask->module_id }}')">{{ $groupTask->application_no }}</a>
+                                            <a href="javascript:void(0)" data-toggle="tooltip" title='{{ $groupTask->application_no }} - Claim' onclick="claimApplication('{{ $groupTask->application_no }}', '{{ $groupTask->service_id }}', '{{ $groupTask->module_id }}')">{{ $groupTask->application_no }}</a>
                                         </td>
                                         <td>
                                             {{$groupTask->module_name}}
