@@ -1,71 +1,97 @@
 @extends('layouts.pdf')
 @section('title', 'Hotel Assessment')
+@section('extra_styles')
+<style>
+    table {
+        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+    #container {
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }   
+
+    hr {
+        color: #ddd;
+    }  
+ 
+</style>
+@endsection
 @section('content')
     <p class="print-title text-center">Hotel Assessment</p>
-	<table>        
-        <tr>
-            <td width="25%">
-                <h5>Data about accommodation</h5>                
-            </td>            
-        </tr>
-        <tr>
-            <th with="50%">1)  Name and type of accommodation :</th>
-            <td with="50%">{{ $application->company_title_name }}</td>
-        </tr>
-        <tr>
-            <th>2)  Licence  number/date :</th>
-            <td>{{ $application->license_no .'/'. $application->license_date}}</td>
-            
-        </tr>
-        <tr>
-            <th>3)  Accommodation owner/manage :</th>
-            <td>{{ $application->owner_name }}</td>
-        </tr>
-        <tr>
-            <th>4)  Address :</th>
-            <td>{{ $application->address}}</td>
-        </tr>
-        <tr>
-            <th>5)  Telephone :</th>
-            <td>{{ $application->contact_no}}</td>
-        </tr>
-        <tr>
-            <th>6)  Fax :</th>
-            <td>{{ $application->fax}}</td>
-        </tr>
-        <tr>
-            <th>7)  E-mail :</th>
-            <td>{{ $application->email }}</td>
-        </tr>
-        <tr>
-            <th>8)  Internet Homepage :</th>
-            <td>{{ $application->webpage_url }}</td>
-        </tr>
-        <tr>
-            <th>9)  Room Count :</th>  
-            <td></td>                               
-        </tr>
-        <tr>                     
-            <th>Single Room :</th>
-            <td></td>
-        </tr>
-        <tr>
-            <th>Double Room :</th>
-            <td></td>
-        </tr>
-        <tr>
-            <th>Suites Room :</th>
-            <td></td>
-        </tr>
-        <tr>
-            <th>10)  Number of beds :</th>
-            <td></td>
-        </tr>
-        <tr>
-            <th>11)  Staff Number :</th>
-            <td></td>
-        </tr>        
-    </table>  
+    <hr>	
+    <div id="container">
+        <h5 class="text-center">Data about accommodation</h5> 
+        <table>            
+            <tr>  
+                <td width="50%">
+                    <table>
+                        <tr>
+                            <th width="50%">Name and type of accommodation  </th>
+                            <td width="50%">: {{ $application->company_title_name }}</td>
+                        </tr>
+                        <tr>
+                            <th width="50%">Licence  number/date :</th>
+                            <td width="50%">: {{ $application->license_no .'/'. $application->license_date }}</td>
+                        </tr>
+                        <tr>
+                            <th width="50%">Accommodation owner/manage</th>                            
+                            <td class="text-left">: {{  $application->owner_name }}</td>                            
+                        </tr>
+                        <tr>
+                            <th width="50%">Address :</th>                            
+                            <td class="text-left">: {{  $application->address }}</td>                            
+                        </tr>
+                        <tr>
+                            <th width="50%">Telephone</th>                            
+                            <td class="text-left">: {{  $application->contact_no }}</td>                            
+                        </tr>
+                        <tr>
+                            <th width="50%">Fax</th>                            
+                            <td class="text-left">: {{  $application->fax }}</td>                            
+                        </tr>
+                        <tr>
+                            <th width="50%">E-mail</th>                            
+                            <td class="text-left">: {{  $application->email }}</td>                            
+                        </tr>
+                    </table>
+                </td>
+                <td width="50%">
+                    <table>
+                        <tr>
+                            <th width="50%">Internet Homepage  </th>
+                            <td width="50%">: {{ $application->webpage_url }}</td>
+                        </tr>
+                        <tr>
+                            <th width="50%">Room Count :</th>
+                            {{-- <td width="50%">: {{ $application->license_no .'/'. $application->license_date }}</td> --}}
+                        </tr>
+                        <tr>
+                            <th width="50%">Single Room</th>                            
+                            {{-- <td class="text-left">: {{  $application->owner_name }}</td>                             --}}
+                        </tr>
+                        <tr>
+                            <th width="50%">Double Room :</th>                            
+                            {{-- <td class="text-left">: {{  $application->address }}</td>                             --}}
+                        </tr>
+                        <tr>
+                            <th width="50%">Suites Room</th>                            
+                            {{-- <td class="text-left">: {{  $application->contact_no }}</td>                             --}}
+                        </tr>
+                        <tr>
+                            <th width="50%">Number of beds</th>                            
+                            {{-- <td class="text-left">: {{  $application->fax }}</td>                             --}}
+                        </tr>
+                        <tr>
+                            <th width="50%">Staff Number</th>                            
+                            {{-- <td class="text-left">: {{  $application->email }}</td>                             --}}
+                        </tr>
+                    </table>    
+                </td>                             
+            </tr>
+        </table>
+    <hr>
     @if ($data->count() > 0)    
     @foreach ($data as $chapter)
         <div class="card collapsed-card">
