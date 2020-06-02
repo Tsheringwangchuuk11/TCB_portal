@@ -53,6 +53,11 @@
             </table>
          </div>
       </div>
+      <div class="card-footer clearfix" style="display: block;">
+         <button type="button" class="btn btn-tool float-right" data-card-widget="collapse">
+             <i class="fas fa-arrow-up"></i>
+         </button>
+     </div>
    </div>
 </div>
 @endforeach

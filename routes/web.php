@@ -44,6 +44,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('checklist-areas', 'ChecklistAreaController');
         Route::get('checklist-standards/chapter', 'ChecklistStandardController@getChecklistArea');
         Route::resource('checklist-standards', 'ChecklistStandardController');
+        Route::resource('travel-fairs-event', 'EventRegistrationController'); 
     });
 
     //routes for new application
@@ -119,6 +120,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('grievance-redressal', 'GrievanceRedressalController@getGrievanceRedressalList'); 
     Route::get('openApplication/{applicationNo}', 'GrievanceRedressalController@openApplication');
     });
+   
     //routes for report
     Route::group(['prefix' => 'report', 'namespace' => 'Report'], function() {      
         Route::get('assessment-reports', 'AssessmentReportController@getAssessment'); 
