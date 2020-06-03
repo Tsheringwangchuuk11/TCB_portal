@@ -170,7 +170,7 @@ class ServiceController extends Controller
             $data->sell_bhutan=$request->sell_bhutan;
             $data->destination_year=$request->destination_year;
             $data->bhutan_year=$request->bhutan_year;
-            $data->letter_sample=$request->letter_sample;
+            $data->letter_type_id=$request->letter_sample;
             $data->save();
 
             //insert into t_room_applications
