@@ -251,6 +251,13 @@ public function setToDateAttribute($value)
 		return $query;
 	}
 
+	public static function getTravelEventFairDetails(){
+		$query=DB::table('t_event_dtls as t1')
+		->select('t1.*')
+		->where('t1.last_date')
+		->get();
+		return $query;
+	}
 	public static function getPartnerInfoDetails($applicationNo){
 		$query=DB::table('t_applications as t1')
 		->leftjoin('t_partner_applications as t2','t2.application_no','=','t1.application_no')

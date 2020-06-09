@@ -26,7 +26,7 @@
                                 @foreach($groupTasklists as $groupTask)
                                     <tr id="grpTaskTR_{{ $groupTask->application_no }}">
                                         <td>
-                                            <a href="javascript:void(0)" data-toggle="tooltip" title='{{ $groupTask->application_no }} - Claim' onclick="claimApplication('{{ $groupTask->application_no }}')">{{ $groupTask->application_no }}</a>
+                                            <a href="javascript:void(0)" data-toggle="tooltip" title='{{ $groupTask->application_no }} - Claim' onclick="claimApplication('{{ $groupTask->application_no }}', '{{ $groupTask->service_id }}', '{{ $groupTask->module_id }}')">{{ $groupTask->application_no }}</a>
                                         </td>
                                         <td>
                                             {{$groupTask->module_name}}
@@ -68,13 +68,13 @@
                                 @foreach($myTasklists as $myTask)
                                     <tr id="myTaskTR_{{ $myTask->application_no }}">
                                         <td>
-                                            <a href="javascript:void(0)" data-toggle="tooltip" title='{{ $myTask->application_no }} - Unclaim' onclick="unclaimApplication('{{ $myTask->application_no }}')">
+                                            <a href="javascript:void(0)" data-toggle="tooltip" title='{{ $myTask->application_no }} - Unclaim' onclick="unclaimApplication('{{ $myTask->application_no }}', '{{ $myTask->service_id }}', '{{ $myTask->module_id }}')">
                                                 <i class="fas fa-hand-point-up">
 
                                                 </i>
                                             </a>
-                                            <a href="{{ url('verification/openApplication',['applicationNo'=>$myTask->application_no, 'serviceId'=>$myTask->service_id,'moduleId'=>$myTask->module_id]) }}" data-toggle="tooltip" title="{{ $myTask->application_no }} - Open">
-                                            {{-- <a href="javascript:void(0)" data-toggle="tooltip" title="{{ $myTask->application_no }} - Open" onclick="openApplication('{{ $myTask->application_no }}', '{{ $myTask->service_id }}', '{{ $myTask->module_id }}')"> --}}
+                                            {{--<a href="{{ url('verification/openApplication',['applicationNo'=>$myTask->application_no, 'serviceId'=>$myTask->service_id,'moduleId'=>$myTask->module_id]) }}" data-toggle="tooltip" title="{{ $myTask->application_no }} - Open">--}}
+                                            <a href="javascript:void(0)" data-toggle="tooltip" title="{{ $myTask->application_no }} - Open" onclick="openApplication('{{ $myTask->application_no }}', '{{ $myTask->service_id }}', '{{ $myTask->module_id }}')">
                                                 {{ $myTask->application_no }}
                                             </a>
                                         </td>
@@ -126,7 +126,7 @@
                 "autoWidth": false,
             });
         });
-        function claimApplication(applicationNo) {
+        function claimApplication(applicationNo, serviceId, moduleId) {
             $.ajax({
                 url:"{{ url('tasklist/claimApplication') }}",
                 type:"GET",
@@ -150,7 +150,7 @@
                                     $(this).removeAttr('title');
                                     $(this).attr('title', applicationNo+' - Open');
                                     $(this).removeAttr('onclick');
-                                    $(this).attr('onClick', 'openApplication('+applicationNo+')')
+                                    $(this).attr('onClick', 'openApplication(\''+applicationNo+'\', \''+serviceId+'\', \''+moduleId+'\')');
 
 
                                 })
@@ -161,7 +161,7 @@
                         $(newLink).attr('href', 'javascript:void(0)');
                         $(newLink).attr('data-toggle', 'tooltip');
                         $(newLink).attr('title', applicationNo+' - Unclaim');
-                        $(newLink).attr('onClick', 'unclaimApplication(\''+applicationNo+'\')');
+                        $(newLink).attr('onClick', 'unclaimApplication(\''+applicationNo+'\', \''+serviceId+'\', \''+moduleId+'\')');
                         var newIcon = $('<i></i>');
                         $(newIcon).addClass('fas fa-hand-point-up');
                         $(newLink).append(newIcon);
@@ -182,7 +182,7 @@
 
 
         }
-        function unclaimApplication(applicationNo){
+        function unclaimApplication(applicationNo, serviceId, moduleId){
             $.ajax({
                 url:"{{ url('tasklist/releaseApplication') }}",
                 type:"GET",
@@ -206,7 +206,7 @@
                                     $(this).removeAttr('title');
                                     $(this).attr('title',applicationNo +' - Claim');
                                     $(this).removeAttr('onclick');
-                                    $(this).attr('onClick', 'claimApplication(\''+applicationNo+'\')');
+                                    $(this).attr('onClick', 'claimApplication(\''+applicationNo+'\', \''+serviceId+'\', \''+moduleId+'\')');
 
                                 });
 
@@ -227,19 +227,9 @@
             });
 
         }
-        function openApplication(applicationNo,serviceId, moduleId){
-            $.ajax({
-                url:"{{ url('verification/openApplication') }}",
-                type:"GET",
-                data: {
-                    application_no : applicationNo,
-                    service_id : serviceId,
-                    module_id : moduleId
-                },
-                success:function (result) {
-                }
-            });
-
+        function openApplication(applicationNo, serviceId, moduleId){
+            var url = "{{ url('verification/openApplication') }}"+"/"+applicationNo+"/"+serviceId+"/"+moduleId;
+            window.location.href = url;
         }
     </script>
 @endsection

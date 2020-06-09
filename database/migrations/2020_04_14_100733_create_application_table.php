@@ -17,6 +17,7 @@ class CreateApplicationTable extends Migration
             $table->string('application_no', 20)->primary();
             $table->unsignedBigInteger('module_id')->index();
             $table->unsignedBigInteger('service_id')->index();
+            $table->unsignedBigInteger('event_id')->index()->nullable();
             $table->unsignedBigInteger('end_user_id')->index();
             $table->bigInteger('cid_no')->index();
             $table->string('applicant_name', 250)->nullable();

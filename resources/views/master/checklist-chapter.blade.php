@@ -108,7 +108,7 @@
                             </div>
                         </div>
                         <div class="modal-footer" style="margin-bottom:-14px;">
-                            <input type="button" id="btn-save" class="btn btn-outline-success btn-flat margin-r-5" value="create-checklist"/>
+                            <input type="button" id="btn-save" class="btn btn-outline-success btn-flat margin-r-5" value="reate-checklist"/>
                             <button type="button" class="btn btn-flat btn-close btn-outline-danger float-left" data-dismiss="modal">Close</button>
                         </div>
                     </form>
