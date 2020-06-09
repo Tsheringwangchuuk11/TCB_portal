@@ -39,6 +39,9 @@ class ServiceController extends Controller
     {
         $page_link=str_replace("-", '/',$page_link);
         $data['idInfos'] = Services::getIdInfo($page_link);
+        if( $data['idInfos']->module_id==4 && $data['idInfos']->service_id==15 ){
+            $data['eventFairDetails'] = Services::getTravelEventFairDetails();
+        }
         $data['starCategoryLists'] = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
         $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
         $data['roomTypeLists'] = Dropdown::getDropdowns("t_room_types","id","room_name","0","0");
@@ -167,7 +170,7 @@ class ServiceController extends Controller
             $data->sell_bhutan=$request->sell_bhutan;
             $data->destination_year=$request->destination_year;
             $data->bhutan_year=$request->bhutan_year;
-            $data->letter_sample=$request->letter_sample;
+            $data->letter_type_id=$request->letter_sample;
             $data->save();
 
             //insert into t_room_applications
