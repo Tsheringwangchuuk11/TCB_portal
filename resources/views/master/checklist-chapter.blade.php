@@ -195,11 +195,13 @@
       var checklist_id = $(this).data('id');
 	  $('#btn-save').removeAttr("disabled");
       $.get('/master/checklist-chapters/'+checklist_id+'/edit', function (data) {
+		  console.log(data);
          $('#checklistCrudModal').html("Edit Checklist");
           $('#btn-save').val("edit_checklist");
           $('#ajax-crud-modal').modal('show');
 		  $('#checklist_id').val(data.id);
-          $('#module').val(data.module_id);
+		  $('#module').text(data.module_id); 
+        //   $('#module').val(data.serviceModule.module_name);
           $('#checklist_name').val(data.checklist_ch_name);
 		  (data.is_active == 0? $('#status2').prop("checked", true):$('#status1').prop("checked", true));
 
