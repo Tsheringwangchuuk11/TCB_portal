@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TCheckListChapter;
 use App\Models\TCheckListArea;
+use App\Models\TModuleMaster;
 use App\Models\Dropdown;
 use Validator;
 
@@ -28,9 +29,9 @@ class ChecklistAreaController extends Controller
     public function index(Request $request)
     {
         $privileges = $request->instance();        
-        $checklistAreas = TCheckListArea::orderBy('id')->with('checklistChapter')->paginate(10);
-        $checklistAreaCount = TCheckListArea::count();        
-        $serviceModules = Dropdown::getDropdowns("t_module_masters","id","module_name","0","0");
+        $checklistAreas = TCheckListArea::orderBy('id')->with('checklistChapter.serviceModule')->paginate(10);
+        $checklistAreaCount = TCheckListArea::count();   
+        $serviceModules = TModuleMaster::whereIn('module_name', array('Tourist Standard Hotel', 'Village Home Stay', 'Restaurant'))->get();             
 
         return view('master.checklist-area', compact('privileges', 'checklistAreas', 'checklistAreaCount', 'serviceModules'));
     }

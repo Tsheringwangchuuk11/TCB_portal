@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Master;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TCheckListChapter;
+use App\Models\TModuleMaster;
 use App\Models\Dropdown;
 use Validator;
 
@@ -26,9 +27,9 @@ class ChecklistChapterController extends Controller
     public function index(Request $request)
     {
         $privileges = $request->instance();
-        $checklistChapters = TCheckListChapter::orderBy('id')->with('serviceModule')->paginate(5);
-        $checklistChapterCount = TCheckListChapter::count();
-        $serviceModules = Dropdown::getDropdowns("t_module_masters","id","module_name","0","0");
+        $checklistChapters = TCheckListChapter::orderBy('id')->with('serviceModule')->paginate(10);
+        $checklistChapterCount = TCheckListChapter::count();        
+        $serviceModules = TModuleMaster::whereIn('module_name', array('Tourist Standard Hotel', 'Village Home Stay', 'Restaurant'))->get();
 
         return view('master.checklist-chapter', compact('privileges', 'checklistChapters', 'checklistChapterCount', 'serviceModules'));
     }
@@ -59,7 +60,8 @@ class ChecklistChapterController extends Controller
 
     public function edit($id)
     {
-        $checklistChapter = TCheckListChapter::where('id', $id)->first();
+        $checklistChapter = TCheckListChapter::with('serviceModule')->where('id', $id)->first();
+        // dd($checklistChapter);
 
 		return response()->json($checklistChapter);
     }
