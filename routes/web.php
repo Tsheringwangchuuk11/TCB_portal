@@ -44,7 +44,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('checklist-areas', 'ChecklistAreaController');
         Route::get('checklist-standards/chapter', 'ChecklistStandardController@getChecklistArea');
         Route::resource('checklist-standards', 'ChecklistStandardController');
-        Route::resource('travel-fairs-event', 'EventRegistrationController'); 
+        Route::resource('travel-fairs-event', 'EventRegistrationController');
     });
 
     //routes for new application
@@ -59,7 +59,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('save-grievance-application', 'ServiceController@saveGrievanceApplication');
         Route::get('get-hotel-details/{id}', 'ServiceController@getTouristHotelDetails');
         Route::get('get-tour_operator-details/{id}', 'ServiceController@getTourOperatorDetails');
-        
+
         // fileupload
         Route::post('documentattach', 'FileUploadController@addDocuments');
         Route::post('deletefile', 'FileUploadController@deleteFile');
@@ -116,16 +116,20 @@ Route::group(['middleware' => ['auth']], function () {
 
     });
   //routes for grievance redressal
-  Route::group(['prefix' => 'feedback', 'namespace' => 'FeedBack'], function() {      
-    Route::get('grievance-redressal', 'GrievanceRedressalController@getGrievanceRedressalList'); 
+  Route::group(['prefix' => 'feedback', 'namespace' => 'FeedBack'], function() {
+    Route::get('grievance-redressal', 'GrievanceRedressalController@getGrievanceRedressalList');
     Route::get('openApplication/{applicationNo}', 'GrievanceRedressalController@openApplication');
     });
-   
+
     //routes for report
-    Route::group(['prefix' => 'report', 'namespace' => 'Report'], function() {      
-        Route::get('assessment-reports', 'AssessmentReportController@getAssessment'); 
-        Route::get('assessment-reports', 'AssessmentReportController@getAssessment'); 
-        Route::get('assessment-reports/{application_no}', 'AssessmentReportController@detailAssessment'); 
+    Route::group(['prefix' => 'report', 'namespace' => 'Report'], function() {
+        Route::get('assessment-reports', 'AssessmentReportController@getAssessment');
+        Route::get('assessment-reports', 'AssessmentReportController@getAssessment');
+        Route::get('assessment-reports/{application_no}', 'AssessmentReportController@detailAssessment');
+    });
+
+    Route::group(['prefix' => 'statistics', 'namespace' => 'Statistics'], function() {
+        Route::get('arrival', function(){return view('report.arrival');});
     });
 });
 
