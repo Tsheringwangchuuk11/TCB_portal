@@ -11,7 +11,10 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-6">
+                    <span class="text-danger">[Select first Module and then checklist will be loaded continually load the checklist area]</span>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">                        
                         <div class="form-group">
                             <label for="" >Module *</label>
                             <select name="" class="form-control required select2bs4 module" id="module">
@@ -26,7 +29,7 @@
                         <div class="form-group">
                             <label for="" >Checklist Chapter *</label>
                             <select name="" class="form-control checklist select2bs4" id="checklist">
-                            <option value="">{{$checklistStandard->checklistArea->checklistChapter->checklist_ch_name}}</option>						
+                            <option value="{{ $checklistStandard->checklistArea->checklistChapter->id }}">{{$checklistStandard->checklistArea->checklistChapter->checklist_ch_name}}</option>						
                             </select>                               
                         </div> 
                     </div>
@@ -197,7 +200,7 @@
         }
 
          //checking restuarant
-         if(editSelectedModule.length > 0 && (editSelectedModule == 3 || editSelectedModule == 4 || editSelectedModule == 5 || editSelectedModule == 6 || editSelectedModule == 7 || editSelectedModule == 8 ))
+         if(editSelectedModule.length > 0 && editSelectedModule == 3)
             {                
                 $('select.star').attr('disabled', true);
                 $('select.basic').attr('disabled', true);                
@@ -229,7 +232,7 @@
             }
 
             //checking restuarant
-            if(selectedModule.length > 0 && (selectedModule == 3 || selectedModule == 4 || selectedModule == 5 || selectedModule == 6 || selectedModule == 7 || selectedModule == 8 ))
+            if(selectedModule.length > 0 && selectedModule == 3)
             {
                 $('select.star').attr('disabled', true);
                 $('select.basic').attr('disabled', true);                

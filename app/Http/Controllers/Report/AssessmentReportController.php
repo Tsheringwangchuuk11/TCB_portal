@@ -26,16 +26,14 @@ class AssessmentReportController extends Controller
                             ->leftJoin('t_module_masters','t_applications.module_id','=','t_module_masters.id')
                             ->leftJoin('t_services','t_applications.service_id','=','t_services.id')
                             ->orderBy('t_workflow_dtls.created_at', 'asc')
-                            ->select('t_workflow_dtls.application_no','t_module_masters.module_name','t_applications.license_no', 't_applications.owner_name','t_services.name','t_workflow_dtls.created_at','t_status_masters.status_name','t_workflow_dtls.updated_at','t_workflow_dtls.remarks');
-                            
-        // return response()->json($applications);
+                            ->select('t_workflow_dtls.application_no','t_module_masters.module_name','t_applications.license_no', 't_applications.owner_name','t_services.name','t_workflow_dtls.created_at','t_status_masters.status_name','t_workflow_dtls.updated_at','t_workflow_dtls.remarks');        
 
         if ($request->has('print'))
         {
             if ($request->query('print') == 'excel') {
                 return Excel::download(new ExportToView(['applications' => $applications->get()], 'hotel-assessment-list'), 'Hotel Assessment Report.xlsx');
             } else {
-                $pdf = PDF::loadView('pdf.hotel-assessment-list', ['applications' => $applications->get()]);
+                $pdf = PDF::loadView('report.pdf.hotel-assessment-list', ['applications' => $applications->get()]);
                 return $pdf->stream('hotel assessment list Report-'.str_random(4).'.pdf');
             }
         } else {
@@ -71,7 +69,7 @@ class AssessmentReportController extends Controller
                 ],'hotel-assessment-list-detail'),'Hotel Assessment Detail Report.xlsx');
             } else {
 
-                $pdf = PDF::loadView('pdf.hotel-assessment-detail', compact('application', 'data'));
+                $pdf = PDF::loadView('report.pdf.hotel-assessment-detail', compact('application', 'data'));
                 return $pdf->stream('Hotel Assessment Detail Report-'.str_random(4).'.pdf');
             }
         } else {

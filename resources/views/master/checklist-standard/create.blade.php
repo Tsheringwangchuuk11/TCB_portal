@@ -160,7 +160,7 @@
             }
 
             //checking restuarant
-            if(selectedModule.length > 0 && (selectedModule == 3 || selectedModule == 4 || selectedModule == 5 || selectedModule == 6 || selectedModule == 7 || selectedModule == 8 ))
+            if(selectedModule.length > 0 && selectedModule == 3)
             {
                 $('select.star').attr('disabled', true);
                 $('select.basic').attr('disabled', true);                

@@ -39,8 +39,8 @@ class ChecklistStandardController extends Controller
     {
         $checklistAreas = Dropdown::getDropdowns("t_check_list_areas","id","checklist_area","0","0");
         $starCategories = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
-        $basicStandards = Dropdown::getDropdowns("t_basic_standards","id","standard_code","0","0");
-        $serviceModules = Dropdown::getDropdowns("t_module_masters","id","module_name","0","0");       
+        $basicStandards = Dropdown::getDropdowns("t_basic_standards","id","standard_code","0","0");        
+        $serviceModules = TModuleMaster::whereIn('module_name', array('Tourist Standard Hotel', 'Village Home Stay', 'Restaurant'))->get();                   
 
         return view('master.checklist-standard.create', compact('checklistAreas', 'starCategories', 'basicStandards', 'serviceModules'));
     }
@@ -106,11 +106,12 @@ class ChecklistStandardController extends Controller
 
     public function edit($id)
     {
-        $checklistStandard =TCheckListStandard::with('checklistArea.checklistChapter.serviceModule', 'standardMapping')->findOrFail($id);        
+        $checklistStandard =TCheckListStandard::with('checklistArea.checklistChapter.serviceModule', 'standardMapping')->findOrFail($id);  
+        // return response()->json($checklistStandard);      
         $checklistAreas = Dropdown::getDropdowns("t_check_list_areas","id","checklist_area","0","0");
         $starCategories = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
         $basicStandards = Dropdown::getDropdowns("t_basic_standards","id","standard_code","0","0");
-        $serviceModules = Dropdown::getDropdowns("t_module_masters","id","module_name","0","0");
+        $serviceModules = TModuleMaster::whereIn('module_name', array('Tourist Standard Hotel', 'Village Home Stay', 'Restaurant'))->get();             
 
         return view('master.checklist-standard.edit', compact('checklistStandard', 'checklistAreas', 'starCategories', 'basicStandards', 'serviceModules'));
     }

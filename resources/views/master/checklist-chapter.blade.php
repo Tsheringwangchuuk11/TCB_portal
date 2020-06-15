@@ -92,8 +92,8 @@
                             <input type="hidden" name="checklist_id" id="checklist_id" />
                             <div class="form-group">
                                 <label for="" >Module *</label>
-                                <select name="service_module" class="form-control module required select2bs4" id="module">
-                                    <option value="">---SELECT---</option>
+                                <select name="service_module" class="form-control module select2bs4  required" id="module">
+                                    <option>---SELECT---</option>
                                     @foreach ($serviceModules as $serviceModule)
                                     <option value="{{ $serviceModule->id }}" {{ old('service_module') == $serviceModule->id ? 'selected' : '' }}>{{ $serviceModule->module_name }}</option>
                                     @endforeach
@@ -195,6 +195,7 @@
 		$('#btn-save').removeAttr("disabled");
 		 $('#btn-save').val("create-checklist");
         $('#checklistForm').trigger("reset");
+        $('#module').val('').trigger('change');
         $('#checklistCrudModal').html("Add New Checklist");
         $('#ajax-crud-modal').modal('show');
     });
@@ -202,12 +203,12 @@
     $('body').on('click', '#edit_checklist', function () {
       var checklist_id = $(this).data('id');
 	  $('#btn-save').removeAttr("disabled");
-      $.get('/master/checklist-chapters/'+checklist_id+'/edit', function (data) {
+      $.get('/master/checklist-chapters/'+checklist_id+'/edit', function (data) {		  
          $('#checklistCrudModal').html("Edit Checklist");
           $('#btn-save').val("edit_checklist");
           $('#ajax-crud-modal').modal('show');
-		  $('#checklist_id').val(data.id);
-          $('#module').val(data.module_id);
+		  $('#checklist_id').val(data.id);		
+		  $('#module').val(data.module_id).trigger('change');         
           $('#checklist_name').val(data.checklist_ch_name);
 		  (data.is_active == 0? $('#status2').prop("checked", true):$('#status1').prop("checked", true));
 
@@ -220,24 +221,7 @@
 			$("#error_msg_id").find("ul").append('<li>'+value+'</li>');
 		});
 		$('#btn-save').html('Save Changes');
-	}
-	// //delete
-	//  $('body').on('click', '.delete_checklist', function () {
-    //     var checklist_id = $(this).data("id");
-
-    //     if(confirm("Are You sure want to delete !")){
-	// 		$.ajax({
-	// 			type: "DELETE",
-	// 			url: "{{ url('master/checklist-chapters')}}"+'/'+checklist_id,
-	// 			success: function (data) {
-	// 				$("#checklist_id_" + checklist_id).remove();
-	// 			},
-	// 			error: function (data) {
-	// 				console.log('Error:', data);
-	// 			}
-	// 		});
-	// 	}
-    // });
+	}	
   });
 </script>
 @endsection
