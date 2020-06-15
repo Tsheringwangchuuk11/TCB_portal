@@ -47,7 +47,7 @@
       <div class="row">
         <div class="form-group col-md-5">
           <label for="">Type <span class="text-danger">*</span> </label>
-          <select  name="type" class="form-control required">
+          <select  name="type" class="form-control">
             <option value="">---SELECT---</option>
             @foreach (config()->get('settings.type') as $k => $v)
             <option value="{{ $k }}" {{ old('type') == $k ? 'selected' : '' }}>{{ $v }}</option>

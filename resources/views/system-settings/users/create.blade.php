@@ -10,31 +10,49 @@
 			</div>
 			<div class="card-body">
 				<div class="row">
-					<div class="col-md-6">
+					<div class="col-md-5">
 						<div class="form-group">
 							<label for="name">Name *</label>
-							<input type="text" name="name" class="form-control required" value="{{ old('name')}}" />
+							<input type="text" name="user_name" class="form-control required" value="{{ old('name')}}" autocomplete="off" />
 						</div>
-					</div>					
-					<div class="col-md-6">
+					</div>	
+					<div class="col-md-5 offset-md-2">
 						<div class="form-group">
-							<label for="username">Username (Email) *</label>
-							<input type="text" name="username" class="form-control required email" value="{{ old('username')}}" autocomplete="off"/>
+							<label for="name">Phone No. *</label>
+							<input type="text" name="phone_no" class="form-control required" value="{{ old('name')}}" autocomplete="off"/>
 						</div>
 					</div>
-					<div class="col-md-6">
+				</div>
+				<div class="row">
+					<div class="col-md-5">
+						<div class="form-group">
+							<label for="name">Email *</label>
+							<input type="email" name="email" class="form-control required" value="{{ old('name')}}" autocomplete="off"/>
+						</div>
+					</div>						
+					<div class="col-md-5 offset-md-2">
+						<div class="form-group">
+							<label for="username">User Id *</label>
+							<input type="text" name="user_id" class="form-control required" value="{{ old('username')}}" autocomplete="off"/>
+						</div>
+					</div>
+				</div>	
+				<div class="row">
+					<div class="col-md-5">
 						<div class="form-group">
 							<label for="password">Password *</label>
 							<input type="password" name="password" class="form-control required password" value="{{ old('password')}}" autocomplete="off"/>
 						</div>
 					</div>
-					<div class="col-md-6">
+					<div class="col-md-5 offset-md-2">
 						<div class="form-group">
 							<label for="confirm_password">Confirm Password *</label>
 							<input type="password" name="confirm_password" class="form-control required confirmpassword" value="{{ old('confirm_password')}}" autocomplete="off"/>
 						</div>
 					</div>
-					<div class="col-md-6">
+				</div>
+				<div class="row">
+					<div class="col-md-5">
 						<div class="form-group">
 							<label for="exampleInputFile">Profile Picture (Max Size : 2 MB)</label>
 							<div class="input-group">

@@ -22,6 +22,7 @@ class VillageHomeStayController extends Controller
     }
     public function getApplicationDetails($applicationNo){
         $data['applicantInfo']=Services::getApplicantDetails($applicationNo);
+       // dd($data['applicantInfo']);
         $serviceId= $data['applicantInfo']->service_id;
         $moduleId= $data['applicantInfo']->module_id;
         $data['documentInfos']=Services::getDocumentDetails($applicationNo);
@@ -64,6 +65,7 @@ class VillageHomeStayController extends Controller
             'road_distance'   => $request->road_distance,
             'condition'   => $request->condition,
             'village_id'   => $request->village_id,
+            'chiwog_id'   => $request->chiwog_id,
             'inspection_date'   =>date('Y-m-d', strtotime($request->inspection_date)),
             'created_at'   => now(),
             'updated_at'   => now(),

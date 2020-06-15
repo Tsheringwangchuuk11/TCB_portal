@@ -25,12 +25,11 @@ class ChecklistChapterController extends Controller
      */
     public function index(Request $request)
     {
-        $privileges = $request->instance();
-        $checklistChapters = TCheckListChapter::orderBy('id')->with('serviceModule')->paginate(5);
-        $checklistChapterCount = TCheckListChapter::count();
-        $serviceModules = Dropdown::getDropdowns("t_module_masters","id","module_name","0","0");
-
-        return view('master.checklist-chapter', compact('privileges', 'checklistChapters', 'checklistChapterCount', 'serviceModules'));
+        $data['privileges'] = $request->instance();
+		$data['checklistChapters'] =TCheckListChapter::filter($request)->orderBy('id')->with('serviceModule')->paginate(5);;
+        $data['checklistChapterCount'] = TCheckListChapter::count();
+        $data['serviceModules'] = Dropdown::getDropdowns("t_module_masters","id","module_name","0","0");
+        return view('master.checklist-chapter',$data);
     }
     /**
      * Store a newly created resource in storage.

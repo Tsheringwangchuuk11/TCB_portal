@@ -5,7 +5,7 @@
   <div class="card-header">
     <h4 class="card-title">General Information</h4>
   </div>
-  <form action="{{ url('verification/technical-clearance') }}" method="POST" id="formId" enctype="multipart/form-data">
+  <form action="{{ url('verification/technical-clearance') }}" method="POST" id="form_Id" enctype="multipart/form-data">
     @csrf
     <input type="hidden" name="service_id" value="{{ $applicantInfo->module_id }}">
     <input type="hidden" name="module_id" value="{{ $applicantInfo->module_id }}">

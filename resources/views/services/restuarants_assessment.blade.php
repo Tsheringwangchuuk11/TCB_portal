@@ -2,16 +2,16 @@
 @section('page-title','Tourist Standard Restuarant Assessment')
 @section('content') 
 @php use App\Http\Controllers\Application\ServiceController; @endphp
+<form action="{{ url('application/save-application') }}" method="POST" id="formdata" enctype="multipart/form-data">
+    @csrf
+    <input type="hidden" name="service_id" value="{{ $idInfos->service_id }}" id="service_id">
+    <input type="hidden" name="module_id" value="{{ $idInfos->module_id }}" id="module_id">
+    <input type="hidden" name="service_name" value="{{ $idInfos->name }}" id="service_name">
+    <input type="hidden" name="module_name" value="{{ $idInfos->module_name }}" id="module_name">
 <div class="card">
     <div class="card-header bg-success">
         <h3 class="card-title">Registration of Tourist Standard Restuarant</h3>
     </div>
-    <form action="{{ url('application/save-application') }}" method="POST" id="formdata" enctype="multipart/form-data">
-        @csrf
-        <input type="hidden" name="service_id" value="{{ $idInfos->service_id }}" id="service_id">
-        <input type="hidden" name="module_id" value="{{ $idInfos->module_id }}" id="module_id">
-        <input type="hidden" name="service_name" value="{{ $idInfos->name }}" id="service_name">
-        <input type="hidden" name="module_name" value="{{ $idInfos->module_name }}" id="module_name">
         <div class="card-body">
             <div class="row">
                 <div class="col-md-5">
@@ -86,70 +86,73 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="">Location <span class="text-danger">*</span> </label>
-                        <select class="form-control select2bs4" name="location_id" style="width: 100%;">
-                            <option value="">-Select-</option>
+                        <select class="form-control select2bs4" name="location_id">
+                            <option value="">- Select -</option>
+                            @foreach ($locations as $location)
+                            <option value="{{$location->id}}">{{$location->location_name}}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
             </div>
+        </div>
+</div>
 
-            <!-- staff -->
-            <h5>Staff Details</h5>
-            <div class="row">
-                <div class="form-group col-md-3">
-                    <label>Area <span class="text-danger">*</span></label>
+            <div class="card">
+                <div class="card-header">
+                     <h4 class="card-title">Staff Details</h4>
                 </div>
-                <div class="form-group col-md-3">
-                    <label>Division <span class="text-danger">*</span></label>
-                </div>
-                <div class="form-group col-md-3">
-                    <label for="">Name <span class="text-danger">*</span> </label>
-                </div>
-                <div class="form-group col-md-3">
-                    <label>Gender <span class="text-danger">*</span></label>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            <label>Area <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Division <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="">Name <span class="text-danger">*</span> </label>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Gender <span class="text-danger">*</span></label>
+                        </div>
+                    </div>
+                        <div class="row addmorerows" id="addstaff">
+                            <div class="form-group col-md-3">
+                                <select class="form-control" name="staff_area_id[]" id="staff_area_id" onchange="selectStaffArea(this)">
+                                    <option value="">- Select -</option>
+                                    @foreach ($staffAreaLists as $staffAreaList)
+                                    <option value="{{ $staffAreaList->id }}"> {{ $staffAreaList->staff_area_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <select class="form-control" name="hotel_div_id[]" id="hotel_div_id">
+                                    <option value="">- Select -</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <input type="text" class="form-control" name="staff_name[]" autocomplete="off" id="staff_name">
+                            </div>
+                            <div class="form-group col-md-2">
+                                <select class="form-control" name="staff_gender[]" id="staff_gender">
+                                    <option value="">- Select -</option>
+                                    @foreach (config()->get('settings.gender') as $k => $v)
+                                    <option value="{{ $k }}" {{ old('gender') == $k ? 'selected' : '' }}>{{ $v }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    <div id="field_wrapper1"></div>
+                    <span class="btn btn-success btn-sm float-right" id="add_more"> <i class="fas fa-plus fa-sm">Add</i> </span>
                 </div>
             </div>
-            <div class="row" id="row1">
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <select class="form-control" name="staff_area_id[]" required>
-                            <option value="">-Select-</option>
-                            @foreach ($staffAreaLists as $staffAreaList)
-                                <option value="{{ $staffAreaList->id }}"> {{ $staffAreaList->staff_area_name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <select class="form-control" name="hotel_div_id[]" required>
-                            <option value="">-Select-</option>
-                             @foreach ($hotelDivisionLists as $hotelDivisionList)
-                                <option value="{{ $hotelDivisionList->id }}"> {{ $hotelDivisionList->hotel_div_name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="staff_name[]" autocomplete="off" required>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <select class="form-control" name="staff_gender[]" required>
-                            <option value="">-Select-</option>
-                            @foreach (config()->get('settings.gender') as $k => $v)
-                            <option value="{{ $k }}" {{ old('gender') == $k ? 'selected' : '' }}>{{ $v }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div id="field_wrapper1"></div>
-            <span class="btn btn-success btn-sm float-right" id="add1"> <i class="fas fa-plus fa-sm"> Add</i> </span>
             <div id="showdivid"></div>
-        <h5>File Attachment<span class="text-danger"> *</span></h5>
+            <div class="card">
+                <div class="card-header">
+                     <h4 class="card-title">File Attachment</h4>
+                </div>
+                <div class="card-body">
         <h6> <strong>Required supporting documents:</strong></h6>
         <ol>
             <li>
@@ -157,38 +160,72 @@
            </li>
         </ol>  
         @include('services/fileupload/fileupload')
-        </div> <!-- card body ends -->
+                </div>
+        <!-- card body ends -->
         <div class="card-footer text-center">
             <button type="submit"class="btn btn-success"><i class="fa fa-check"></i> APPLY</button>
             <button type="reset"class="btn btn-danger"><i class="fa fa-times"></i> RESET</button>
         </div>    
-    </form>
-</div>
+        </div>
+
+</form>
 @endsection
 @section('scripts')
 <!-- staff -->
 <script>
-    $(document).ready(function(){
-        id=1;
-        $("#add1").click(function(){
-            $("#row1").clone().attr('id', 'row1'+id).after("#id").appendTo("#field_wrapper1");
-            $addRow ='<div id="remove'+id+'" class="btn-group" style=" margin-top:-50px; float:right">' 
-            +'<span id="remove" onClick="removeForm1('+id+')"' 
-            +'class="btn btn-danger btn-sm"><i class="fas fa-trash-alt fa-sm"></i> Delete</span></div>'
-            +'<div id="line'+id+'"></div>';
-            $('#field_wrapper1').append($addRow);
-            id++;
+    $(document).ready(function () {
+    $('.select2bs4').on('change', function () {
+        $(this).valid();
         });
     });
+     $(document).ready(function(){
+    id1=1;
+    $("#add_more").click(function(){
+      $("#addstaff").clone().attr('id', 'addstaff'+id1).after("#id").appendTo("#field_wrapper1").find("input[type='text']").val("");
+      $addRow1 ='<span id="remove1'+id1+'" class="btn-group" style=" margin-top:-50px; float:right">' 
+      +'<span id="remove1" onClick="removeForm1('+id1+')"' 
+      +'class="btn btn-danger btn-sm"><i class="fas fa-trash-alt fa-sm"></i> Delete</span></span>'
+      +'<div id="line1'+id1+'"></div>';
+      $('#field_wrapper1').append($addRow1);
+      id1++;
+    }); 
 
-    function removeForm1(id){  
-        if (confirm('Are you sure you want to delete this form?')){
-            $('#row1'+id).remove();
-            $('#remove'+id).remove();
-            $('#line'+id).remove();
-        }
+  });
+  function removeForm1(id1){  
+    if (confirm('Are you sure you want to delete this form?')){
+      $('#addstaff'+id1).remove();
+      $('#remove1'+id1).remove();
+      $('#line1'+id1).remove();
     }
+  }
+  function selectStaffArea(this_id)
+   {
+      var pId = $(this_id).parents("div.addmorerows").attr('id');
+       var staff_area_id = this_id.value;
+       geHotelDiv(staff_area_id,pId);
+   }
 
+   function geHotelDiv(staff_area_id,pId)
+   {
+      $('#'+pId).find("#hotel_div_id").empty();
+      $.ajax({
+         url:'/json-dropdown',
+                  type:"GET",
+                  data: {
+                     table_name: 't_hotel_divisions',
+                           id: 'id',
+                           name: 'hotel_div_name',
+                     parent_id: staff_area_id,
+               parent_name_id: 'staff_area_id'					 
+            },
+            success: function (data) {
+               $('#'+pId).find("#hotel_div_id").append('<option val="">-Select-</option>');
+               $.each(data, function(key, value){
+               $('#'+pId).find("#hotel_div_id").append('<option value="'+ key +'">'+ value +'</option>');
+               })                     
+         }
+      });
+   }
 $(document).ready(function () {
 function loadChecklistDetails() {
     var url="{{ url('application/get-restaurantchapters') }}";

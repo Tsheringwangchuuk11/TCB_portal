@@ -1,7 +1,7 @@
 @extends('layouts.manager')
 @section('page-title','Village Home Stay Assessment')
 @section('content')
-<form action="{{ url('verification/village-home-stay-assessment') }}" class="form-horizontal" method="POST" enctype="multipart/form-data" id="formdata">
+<form action="{{ url('verification/village-home-stay-assessment') }}" class="form-horizontal" method="POST" enctype="multipart/form-data" id="form_data">
     @csrf
     <input type="hidden" name="service_id" value="{{ $applicantInfo->service_id }}" id="service_id">
     <input type="hidden" name="module_id" value="{{ $applicantInfo->module_id }}" id="module_id">
@@ -48,7 +48,7 @@
 				<div class="col-md-5 offset-md-2">
 				  <div class="form-group">
 					<label for="">Dzongkhag<span class="text-danger"> *</span></label>
-                    <select  name="dzongkhag_id" id="dzongkhag_id" class="form-control select2bs4" style="width: 100%;">
+                    <select  name="dzongkhag_id" id="dzongkhag_id" class="form-control select2bs4 dzongkhagdropdown" style="width: 100%;">
                         <option value=""> -Select-</option>
                         @foreach ($dzongkhagLists as $dzongkhagList)
                           <option value="{{ $dzongkhagList->id }}" {{ old('dzongkhag_id', $dzongkhagList->id) == $applicantInfo->dzongkhag_id ? 'selected' : '' }}>{{ $dzongkhagList->dzongkhag_name }}</option>
@@ -61,17 +61,16 @@
 				<div class="col-md-5">
 					<div class="form-group">
 					  <label for="">Gewog<span class="text-danger"> *</span></label>
-						  <select  name="gewog_id" class="form-control select2bs4" id="gewog_id" style="width: 100%;">
-							  <option value=""> -Select-</option>
-	  
+						  <select  name="gewog_id" class="form-control select2bs4 gewogdropdown" id="gewog_id" style="width: 100%;">
+						  <option value="">{{$applicantInfo->gewog_name}}</option>
 						  </select>                
 					</div>
 				  </div>
 				<div class="col-md-5 offset-md-2">
 				  <div class="form-group">
 					<label for="">Chiwog<span class="text-danger"> *</span></label>
-					<select  name="chiwog_id" class="form-control select2bs4" id="chiwog_id" style="width: 100%;">
-						<option value=""> -Select-</option>
+					<select  name="chiwog_id" class="form-control select2bs4 " id="chiwog_id" style="width: 100%;">
+						<option value="{{$applicantInfo->chiwog_id}}">{{$applicantInfo->chiwog_name}}</option>
 					</select>
 				  </div>
 				</div>
@@ -80,7 +79,9 @@
 				<div class="col-md-5">
 					<div class="form-group">
 					  <label for="">Village <span class="text-danger"> *</span></label>
-					  <input type="text" class="form-control" name="village_id">
+					  <select  name="village_id" class="form-control select2bs4" id="village_id" style="width: 100%;">
+						<option value="{{$applicantInfo->village_id}}"> {{$applicantInfo->village_name}}</option>
+					</select>
 					</div>
 				  </div>
 				<div class="col-md-5 offset-md-2">
@@ -101,7 +102,6 @@
 
 		</div>
 	</div>
-
 	<div class="card">
 		<div class="card-header">
 			 <h4 class="card-title">Locations</h4>
@@ -129,7 +129,6 @@
 			  </div>
 		</div>
 	</div>
-
 	<div class="card">
 		<div class="card-header">
 			 <h4 class="card-title">Details Of The Family Members Residing In The Same House</h4>

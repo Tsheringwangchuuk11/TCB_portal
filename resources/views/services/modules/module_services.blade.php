@@ -17,12 +17,12 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="">Modules</label>
-                                <select name="modules" id="modules_id" class="form-control" onchange="loadServices(this.value);">
-                                    <option value="">- Select Service Module -</option>
-                                    @foreach ($servicemodules as $servicemodule)
-                                    <option value="{{ $servicemodule->id }}"> {{ $servicemodule->module_name }}</option>
-                                    @endforeach
-                                </select>
+                                <select class="form-control select2bs4" name="modules" id="modules_id" style="width: 100%;" onchange="loadServices(this.value);">
+                                  <option value="">- Select -</option>
+                                  @foreach ($servicemodules as $servicemodule)
+                                  <option value="{{$servicemodule->id}}">{{$servicemodule->module_name}}</option>
+                                  @endforeach
+                              </select>
                             </div>
                         </div>
                         <div class="col-md-7 offset-md-1">
@@ -76,16 +76,5 @@
         $("#list_id").empty();
       }
     }
-  </script>
-  <script>
-    $(function () {
-      //Initialize Select2 Elements
-      $('.select2').select2()
-
-      //Initialize Select2 Elements
-      $('.select2bs4').select2({
-        theme: 'bootstrap4'
-      })
-    });
   </script>
   @endsection
