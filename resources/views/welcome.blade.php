@@ -14,7 +14,7 @@
      <link href="{{ asset('css/icheck-bootstrap.min.css') }}" rel="stylesheet">
      <!-- Theme style -->
      <link href="{{ asset('css/adminlte.min.css') }}" rel="stylesheet">
-     <!-- Google Font: Source Sans Pro --> 
+     <!-- Google Font: Source Sans Pro -->
      <link href="{{ asset('fonts/css/fontawesome.min.css') }}" rel="stylesheet" />
      <link href="{{ asset('fonts/css/solid.min.css') }}" rel="stylesheet" />
      <link href="{{ asset('fonts/css/regular.min.css') }}" rel="stylesheet" />
