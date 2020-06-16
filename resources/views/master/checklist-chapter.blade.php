@@ -187,7 +187,7 @@
 		$('#btn-save').removeAttr("disabled");
 		 $('#btn-save').val("create-checklist");
         $('#checklistForm').trigger("reset");
-        $('#module').val('').trigger('change');
+        $('#module').trigger('change');
         $('#checklistCrudModal').html("Add New Checklist");
         $('#ajax-crud-modal').modal('show');
     });

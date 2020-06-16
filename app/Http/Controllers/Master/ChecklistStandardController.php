@@ -30,7 +30,7 @@ class ChecklistStandardController extends Controller
     public function index(Request $request)
     {
         $privileges = $request->instance();
-        $checklistStandards = TCheckListStandard::orderBy('id', 'DESC')->with('checklistArea')->paginate(10);
+        $checklistStandards = TCheckListStandard::orderBy('id', 'DESC')->with('checklistArea')->paginate(100);
 
         return view('master.checklist-standard.index', compact('privileges', 'checklistStandards'));
     }
@@ -106,18 +106,18 @@ class ChecklistStandardController extends Controller
 
     public function edit($id)
     {
-        $checklistStandard =TCheckListStandard::with('checklistArea.checklistChapter.serviceModule', 'standardMapping')->findOrFail($id);  
-        // return response()->json($checklistStandard);      
-        $checklistAreas = Dropdown::getDropdowns("t_check_list_areas","id","checklist_area","0","0");
+        $checklistStandard =TCheckListStandard::with('checklistArea.checklistChapter.serviceModule', 'standardMapping')->findOrFail($id);              
+        $checklistChapters = TCheckListChapter::whereIn('module_id', array($checklistStandard->checklistArea->checklistChapter->serviceModule->id))->get();
+        $checklistAreaLists = TCheckListArea::whereIn('checklist_ch_id', array($checklistStandard->checklistArea->checklistChapter->id))->get();                 
         $starCategories = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
         $basicStandards = Dropdown::getDropdowns("t_basic_standards","id","standard_code","0","0");
         $serviceModules = TModuleMaster::whereIn('module_name', array('Tourist Standard Hotel', 'Village Home Stay', 'Restaurant'))->get();             
 
-        return view('master.checklist-standard.edit', compact('checklistStandard', 'checklistAreas', 'starCategories', 'basicStandards', 'serviceModules'));
+        return view('master.checklist-standard.edit', compact('checklistStandard', 'starCategories', 'basicStandards', 'serviceModules', 'checklistChapters', 'checklistAreaLists'));
     }
 
     public function update(Request $request, $id)
-    {                      
+    {                           
         $rule = [
             'checklist_area' => 'required',
             'checklist_standard_name' => 'required',
@@ -140,7 +140,7 @@ class ChecklistStandardController extends Controller
 
                 if((isset($request->checklist)) == true)
                 {
-                    foreach($request->checklist as $key => $value){
+                    foreach($request->checklist as $key => $value){                        
                         $checklists[] = [
                             'star_category_id' => isset($value['star_category']) == true ? $value['star_category']: null,
                             'standard_id' => isset($value['basic_standard']) == true ? $value['basic_standard']: null,
@@ -157,9 +157,10 @@ class ChecklistStandardController extends Controller
                         'created_by'=> auth()->user()->id,
                         'updated_by'=> auth()->user()->id,
                     ]);
-                    }
+                }                
                 $checklistStandard->standardMapping()->sync($checklists);
             });
+
          }
     return redirect('master/checklist-standards')->with('msg_success', 'checklist standard updated successfully');
 
