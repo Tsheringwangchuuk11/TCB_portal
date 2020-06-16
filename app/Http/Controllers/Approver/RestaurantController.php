@@ -31,6 +31,7 @@ class RestaurantController extends Controller
         //Restuarant Checklist Details
         $data['staffAreaLists'] = Dropdown::getDropdowns("t_staff_areas","id","staff_area_name","0","0");
         $data['hotelDivisionLists'] = Dropdown::getDropdowns("t_hotel_divisions","id","hotel_div_name","0","0");
+        $data['locations'] = Dropdown::getDropdowns("t_locations","id","location_name","0","0");
         $data['staffInfos']=Services::getStaffDetails($applicationNo);
         $data['checklistDtls'] =  TCheckListChapter::with(['chapterAreas' => function($q) use($applicationNo){
             $q->with(['checkListStandards'=> function($query) use($applicationNo){

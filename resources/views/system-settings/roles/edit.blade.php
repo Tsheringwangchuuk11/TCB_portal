@@ -19,7 +19,7 @@
 							<input type="text" name="role_name" class="form-control required" value="{{old('role_name', $role->name)}}" />
 						</div>
 					</div>
-					<div class="col-md-7">
+					<div class="col-md-6 offset-md-1">
 						<div class="form-group">
 							<label for="name">Role Description</label>
 							<textarea name="role_description" class="form-control">{{old('role_description', $role->description)}}</textarea>

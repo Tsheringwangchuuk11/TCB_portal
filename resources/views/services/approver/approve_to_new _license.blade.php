@@ -53,7 +53,7 @@
                 <div class="col-md-5 offset-md-2">
                     <div class="form-group">
                       <label for="">Dzongkhag<span class="text-danger"> *</span></label>
-                      <select  name="dzongkhag_id" id="dzongkhag_id" class="form-control select2bs4" style="width: 100%;">
+                      <select  name="dzongkhag_id" id="dzongkhag_id" class="form-control dzongkhagdropdown select2bs4" style="width: 100%;">
                           <option value=""> -Select-</option>
                           @foreach ($dzongkhagLists as $dzongkhagList)
                           <option value="{{ $dzongkhagList->id }}" {{ old('dzongkhag_id', $dzongkhagList->id) == $applicantInfo->dzongkhag_id ? 'selected' : '' }}>{{ $dzongkhagList->dzongkhag_name }}</option>
@@ -66,7 +66,9 @@
                 <div class="col-md-5">
                   <div class="form-group">
                     <label for="">Gewog<span class="text-danger"> *</span></label>
-                    <select  name="gewog_id" class="form-control select2bs4" id="gewog_id" style="width: 100%;">
+                    <select  name="gewog_id" class="form-control gewogdropdown select2bs4" id="gewog_id" style="width: 100%;">
+                      <option value=""> {{ $applicantInfo->gewog_name }}</option>
+
                     </select> 
                   </div>
                 </div>
@@ -74,6 +76,7 @@
                     <div class="form-group">
                       <label for="">Village<span class="text-danger"> *</span></label>
                       <select  name="village_id" class="form-control select2bs4" id="village_id" style="width: 100%;">
+                        <option value="{{ $applicantInfo->village_id }}"> {{ $applicantInfo->village_name }} </option>
                       </select> 
                     </div>
                   </div>
@@ -145,10 +148,10 @@
                 <div class="col-md-5">
                   <div class="form-group">
                     <label for="">Dzongkhag<span class="text-danger"> *</span></label>
-                    <select  name="dzongkhag_id" id="dzongkhag_id" class="form-control select2bs4" style="width: 100%;">
+                    <select  name="dzongkhag_id" id="partner_dzongkhag_id" class="form-control partnerdzongkhagdropdo select2bs4" style="width: 100%;">
                         <option value=""> -Select-</option>
                         @foreach ($dzongkhagLists as $dzongkhagList)
-                          <option value="{{ $dzongkhagList->id }}">{{ $dzongkhagList->dzongkhag_name }}</option>
+                        <option value="{{ $dzongkhagList->id }}" {{ old('dzongkhag_id', $dzongkhagList->id) == $partnerInfo->dzongkhag_id ? 'selected' : '' }}>{{ $dzongkhagList->dzongkhag_name }}</option>
                         @endforeach
                       </select>
                   </div>
@@ -156,8 +159,9 @@
                 <div class="col-md-5 offset-md-2">
                   <div class="form-group">
                     <label for="">Gewog<span class="text-danger"> *</span></label>
-                    <select  name="gewog_id" class="form-control select2bs4" id="gewog_id" style="width: 100%;">
-                    </select> 
+                    <select  name="gewog_id" class="form-control select2bs4 partnergewogropdown" id="partner_gewog_id" style="width: 100%;">
+                      <option value="">{{ $partnerInfo->gewog_name }}</option>
+                    </select>  
                   </div>
                 </div>
               </div>
@@ -165,7 +169,9 @@
                 <div class="col-md-5">
                   <div class="form-group">
                     <label for="">Village <span class="text-danger"> *</span></label>
-                    <input type="text" class="form-control" name="partner_village_id" autocomplete="off" placeholder="Parmanent Address" >
+                    <select  name="partner_village_id" class="form-control select2bs4 partnergewogropdown" id="partner_village_id" style="width: 100%;">
+                      <option value="{{ $partnerInfo->partner_village_id }}">{{ $partnerInfo->village_name }}</option>
+                    </select>  
                   </div>
                 </div>
                 <div class="col-md-5 offset-md-2">

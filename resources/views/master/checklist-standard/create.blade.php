@@ -171,7 +171,7 @@
             //adding required class
             if (selectedModule.length > 0 && (selectedModule == 1 || selectedModule == 2)) 
             {                                           
-                $('select.basic').addClass('required');                
+               // $('select.basic').addClass('required');                
                 $('select.mandatory').addClass('required');                
                 $('select.status').addClass('required');                                
             }else{                

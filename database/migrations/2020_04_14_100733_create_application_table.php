@@ -54,6 +54,7 @@ class CreateApplicationTable extends Migration
             $table->string('flat_no', 20)->nullable();
             $table->string('building_no', 20)->nullable();
             $table->bigInteger('village_id')->index()->nullable();
+            $table->bigInteger('chiwog_id')->index()->nullable();
             $table->bigInteger('gewog_id')->index()->nullable();
             $table->string('city', 250)->nullable();
             $table->bigInteger('country_id')->index()->nullable();

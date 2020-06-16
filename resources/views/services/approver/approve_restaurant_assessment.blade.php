@@ -1,7 +1,7 @@
 @extends('layouts.manager')
 @section('page-title','Tourist Standard Restuarant Assessment')
 @section('content') 
-<form action="{{ url('verification/restaurant-assessment') }}" class="form-horizontal" method="POST" enctype="multipart/form-data" id="formdata">
+<form action="{{ url('verification/restaurant-assessment') }}" class="form-horizontal" method="POST" enctype="multipart/form-data" id="form_data">
     @csrf
     <input type="hidden" name="service_id" value="{{ $applicantInfo->service_id }}" id="service_id">
     <input type="hidden" name="module_id" value="{{ $applicantInfo->module_id }}" id="module_id">
@@ -89,8 +89,11 @@
             <div class="col-md-5 offset-md-2">
                 <div class="form-group">
                     <label for="">Location <span class="text-danger">*</span> </label>
-                    <select class="form-control select2bs4" name="location_id" style="width: 100%;">
-                        <option value="">-Select-</option>
+                    <select class="form-control select2bs4" name="location_id">
+                        <option value="">- Select -</option>
+                        @foreach ($locations as $location)
+                        <option value="{{$location->id}}" {{ old('location_id', $applicantInfo->location_id) == $location->id ? 'selected' : '' }}>{{$location->location_name}}</option>
+                        @endforeach
                     </select>
                 </div>
             </div>
@@ -205,6 +208,11 @@
                         </tbody>
                         </table>
                     </div>
+                </div>
+                <div class="card-footer clearfix" style="display: block;">
+                    <button type="button" class="btn btn-tool float-right" data-card-widget="collapse">
+                        <i class="fas fa-arrow-up"></i>
+                    </button>
                 </div>
             </div>
         </div>

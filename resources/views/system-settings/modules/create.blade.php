@@ -10,10 +10,10 @@
             </div>          
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-6">                                                
+                    <div class="col-md-5">                                                
                         <div class="form-group">
                             <label for="">Select Menu/Service *</label>
-                            <select name="module_display" class="form-control required service-module">
+                            <select name="module_display" class="form-control select2bs4 required service-module" style="width: 100%;">
                                 <option value="">--SELECT---</option>
                                 @foreach (config()->get('settings.module_display_type') as $k => $v)
                                 <option value="{{$k}}" {{ old('module_display_type') == $k ? 'selected' : '' }}>{{$v}}</option>
@@ -21,36 +21,38 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-6  service hide">
+                    <div class="col-md-5 offset-md-2 service hide">
                         <div class="form-group">
                             <label for="">Select Services *</label>
-                            <select name="service_id" class="form-control service">
+                            <select name="service_id" class="form-control select2bs4 service" style="width: 100%;">
                                 <option value="">---SELECT---</option>
                                 @foreach ($services as $service)
                                 <option value="{{ $service->id }}" {{ old('service') == $service->id ? 'selected' : '' }}>{{ $service->name }}</option>
                                 @endforeach
                             </select>
                         </div>
-                    </div>                                      
-                    <div class="col-md-6 module hide">
+                    </div> 
+                    <div class="col-md-5 offset-md-2 module hide">
                         <div class="form-group">
                             <label for="">Main Menu Name *</label>
                             <input type="text" name="main_module_name" class="form-control name" value="{{ old('main_module_name') }}" />
                         </div>
                     </div>
-                    <div class="col-md-6 module hide">
+                </div>  
+                <div class="row">
+                    <div class="col-md-5 module hide">
                         <div class="form-group">
                             <label for="">Menu Icon *</label>
                             <input type="text" name="module_icon" class="form-control icon" value="{{ old('module_icon') }}" placeholder="example: fa-check"/>
                         </div>
-                    </div>                             
-                    <div class="col-md-6 module hide">
+                    </div> 
+                    <div class="col-md-5 offset-md-2 module hide">
                         <div class="form-group">
                             <label for="">Display Order *</label>
                             <input type="text" name="module_display_order" class="form-control number display" value="{{ old('module_display_order') }}" />
                         </div>
-                    </div>
-                </div>
+                    </div>  
+                </div>                                                        
             </div>
         </div>
     </div>

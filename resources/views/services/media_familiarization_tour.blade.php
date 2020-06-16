@@ -1,7 +1,7 @@
 @extends('layouts.manager')
 @section('page-title','Bhutan Media Familarization')
 @section('content')
-<form action="{{ url('application/save-application') }}" method="POST" files="true" id="formdata" enctype="multipart/form-data">
+<form action="{{ url('application/save-application') }}" method="POST" files="true" id="form_data" enctype="multipart/form-data">
     @csrf
     <input type="hidden" name="service_id" value="{{ $idInfos->service_id }}" id="service_id">
     <input type="hidden" name="module_id" value="{{ $idInfos->module_id }}" id="module_id">

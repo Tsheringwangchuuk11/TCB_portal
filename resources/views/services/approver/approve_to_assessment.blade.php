@@ -1,7 +1,7 @@
 @extends('layouts.manager')
 @section('page-title','Tour Operator Assessment')
 @section('content')
-<form action="{{ url('verification/tour-operator-assessment') }}" method="POST" files="true" id="formId" enctype="multipart/form-data">
+<form action="{{ url('verification/tour-operator-assessment') }}" method="POST" files="true" id="form_Id" enctype="multipart/form-data">
     @csrf
     <input type="hidden" class="form-control" name="module_id" value="{{ $applicantInfo->module_id }}">
     <input type="hidden" class="form-control" name="service_id" value="{{ $applicantInfo->service_id }}">

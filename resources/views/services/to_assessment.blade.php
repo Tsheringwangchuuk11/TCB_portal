@@ -1,7 +1,7 @@
 @extends('layouts.manager')
 @section('page-title','Tour Operator Assessment')
 @section('content')
-<form action="{{ url('application/save-application') }}" method="POST" enctype="multipart/form-data">
+<form action="{{ url('application/save-application') }}" method="POST" id="formdata" enctype="multipart/form-data">
     @csrf
     <input type="hidden" name="service_id" value="{{ $idInfos->service_id }}" id="service_id">
     <input type="hidden" name="module_id" value="{{ $idInfos->module_id }}" id="module_id">
@@ -101,19 +101,22 @@
                     <div class="form-group">
                         @if ($officeInfo->id ===1)
                         <label for=""> {{ $officeInfo->office_name }}<span class="text-danger">*</span> </label>
+                        <input type="hidden" name="office_status[]" value="{{$loop->index}}">
                         <input type="hidden" name="office_id[]" value="{{ $officeInfo->id}}" class="form-control">       
-                        <input type="checkbox" name="office_status[]" value="0"> Separate Premises          
-                        <input type="checkbox" name="office_status[]" vlaue="1"> With Residence
+                        <input type="radio" name="office_status{{$loop->index}}" value="0"> Separate Premises          
+                        <input type="radio" name="office_status{{$loop->index}}" vlaue="1"> With Residence
                         @elseif($officeInfo->id ===2)
                         <label for=""> {{ $officeInfo->office_name }}<span class="text-danger">*</span> </label>
+                        <input type="hidden" name="office_status[]" value="{{$loop->index}}">
                         <input type="hidden" name="office_id[]" value="{{ $officeInfo->id}}" class="form-control">       
-                        <input type="checkbox" name="office_status[]" value="1"> Proper Demarcation          
-                        <input type="checkbox" name="office_status[]" value="0">  No Demarcation
+                        <input type="radio" name="office_status{{$loop->index}}" value="1"> Proper Demarcation          
+                        <input type="radio" name="office_status{{$loop->index}}" value="0">  No Demarcation
                         @elseif($officeInfo->id ===3)
                         <label for=""> {{ $officeInfo->office_name }}<span class="text-danger">*</span> </label>
+                        <input type="hidden" name="office_status[]" value="{{$loop->index}}">
                         <input type="hidden" name="office_id[]" value="{{ $officeInfo->id}}" class="form-control">       
-                        <input type="checkbox" name="office_status[]" value="1"> Yes      
-                        <input type="checkbox" name="office_status[]" value="0"> No
+                        <input type="radio" name="office_status{{$loop->index}}" value="1"> Yes      
+                        <input type="radio" name="office_status{{$loop->index}}" value="0"> No
                         @endif
                     </div>
                 </div>
@@ -139,9 +142,10 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for=""> {{ $officeEquipment->equipment_name }}<span class="text-danger">*</span> </label>
+                        <input type="hidden" name="equipment_status[]" value="{{$officeEquipment->equipment_type}}{{$loop->index}}">
                         <input type="hidden" name="equipment_id[]" value="{{ $officeEquipment->id}}" class="form-control">       
-                        <input type="checkbox" name="equipment_status[]" value="1"> Yes          
-                        <input type="checkbox" name="equipment_status[]" value="0"> No
+                        <input type="radio" name="equipment_status{{$officeEquipment->equipment_type}}{{$loop->index}}" value="1"> Yes          
+                        <input type="radio" name="equipment_status{{$officeEquipment->equipment_type}}{{$loop->index}}" value="0"> No
                     </div>
                 </div>
                 @endforeach
@@ -168,8 +172,9 @@
                     <div class="form-group">
                         <label for=""> {{ $communicationFacilitie->equipment_name }}<span class="text-danger">*</span> </label>
                         <input type="hidden" name="equipment_id[]" value="{{ $communicationFacilitie->id}}" class="form-control">       
-                        <input type="checkbox" name="equipment_status[]" value="1"> Yes          
-                        <input type="checkbox" name="equipment_status[]" value="0"> No
+                        <input type="hidden" name="equipment_status[]" value="{{$communicationFacilitie->equipment_type}}{{$loop->index}}">
+                        <input type="radio" name="equipment_status{{$communicationFacilitie->equipment_type}}{{$loop->index}}" value="1"> Yes          
+                        <input type="radio" name="equipment_status{{$communicationFacilitie->equipment_type}}{{$loop->index}}" value="0"> No
                     </div>
                 </div>
                 @endforeach
@@ -194,11 +199,13 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for=""> {{ $employment->employment_name }}<span class="text-danger">*</span> </label>
-                        <input type="hidden" name="employment_id[]" value="{{ $employment->id}}" class="form-control">       
-                        <input type="checkbox" name="employment_status[]" value="1"> Yes
-                        <input type="checkbox" name="employment_status[]" value="0"> No
-                        <input type="checkbox" name="nationality[]" value="B"> Bhutanese
-                        <input type="checkbox" name="nationality[]" value="F"> Foreigner
+                        <input type="hidden" name="employment_id[]" value="{{ $employment->id}}" class="form-control"> 
+                        <input type="hidden" name="employment_status[]" value="{{$loop->index}}">      
+                        <input type="radio" name="employment_status{{$loop->index}}" value="1"> Yes
+                        <input type="radio" name="employment_status{{$loop->index}}" value="0"> No
+                        <input type="hidden" name="nationality[]" value="{{$loop->index}}">      
+                        <input type="radio" name="nationality{{$loop->index}}" value="B"> Bhutanese
+                        <input type="radio" name="nationality{{$loop->index}}" value="F"> Foreigner
                     </div>
                 </div>
                 @endforeach
@@ -223,9 +230,10 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for=""> {{ $trekkingEquipment->equipment_name }}<span class="text-danger">*</span> </label>
-                        <input type="hidden" name="equipment_id[]" value="{{ $trekkingEquipment->id }}" class="form-control">       
-                        <input type="checkbox" name="equipment_status[]" value="1"> Yes          
-                        <input type="checkbox" name="equipment_status[]" value="0"> No
+                        <input type="hidden" name="equipment_id[]" value="{{ $trekkingEquipment->id }}" class="form-control"> 
+                        <input type="hidden" name="equipment_status[]" value="{{$trekkingEquipment->equipment_type}}{{$loop->index}}">      
+                        <input type="radio" name="equipment_status{{$trekkingEquipment->equipment_type}}{{$loop->index}}" value="1"> Yes          
+                        <input type="radio" name="equipment_status{{$trekkingEquipment->equipment_type}}{{$loop->index}}" value="0"> No
                     </div>
                 </div>
                 @endforeach
@@ -250,11 +258,13 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for=""> {{ $transportation->vehicle_name }}<span class="text-danger">*</span> </label>
-                        <input type="hidden" name="vehicle_id[]" value="{{ $transportation->id}}" class="form-control">       
-                        <input type="checkbox" name="transport_status[]" value="1"> Yes
-                        <input type="checkbox" name="transport_status[]" value="0"> No
-                        <input type="checkbox" name="fitness[]" value="1"> Valid Fitness
-                        <input type="checkbox" name="fitness[]" value="0"> Invalid Fitness
+                        <input type="hidden" name="vehicle_id[]" value="{{ $transportation->id}}" class="form-control">
+                        <input type="hidden" name="transport_status[]" value="{{$loop->index}}">             
+                        <input type="radio" name="transport_status{{$loop->index}}" value="1"> Yes
+                        <input type="radio" name="transport_status{{$loop->index}}" value="0"> No
+                        <input type="hidden" name="fitness[]" value="{{$loop->index}}">             
+                        <input type="radio" name="fitness{{$loop->index}}" value="1"> Valid Fitness
+                        <input type="radio" name="fitness{{$loop->index}}" value="0"> Invalid Fitness
                     </div>
                 </div>
                 @endforeach

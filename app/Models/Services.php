@@ -202,6 +202,8 @@ public function setToDateAttribute($value)
 	public static function getApplicantDetails($applicationNo){
 		$query=DB::table('t_applications as t1')
 		->leftjoin('t_gewog_masters as t3','t1.gewog_id','=','t3.id')
+		->leftjoin('t_chiwog_masters as t2','t2.id','=','t1.chiwog_id')
+		->leftjoin('t_village_masters as t4','t4.id','=','t1.village_id')
 		->where('t1.application_no',$applicationNo)
 		->first();
 		return $query;
@@ -261,8 +263,11 @@ public function setToDateAttribute($value)
 	public static function getPartnerInfoDetails($applicationNo){
 		$query=DB::table('t_applications as t1')
 		->leftjoin('t_partner_applications as t2','t2.application_no','=','t1.application_no')
+		->leftjoin('t_village_masters as t3','t3.id','=','t2.partner_village_id')
+		->leftjoin('t_gewog_masters as t4','t4.id','=','t3.gewog_id')
+		->leftjoin('t_dzongkhag_masters as t5','t5.id','=','t4.dzongkhag_id')
 		->select('t2.partner_name','t2.partner_cid_no','t2.partner_gender','t2.partner_dob','t2.partner_flat_no',
-		't2.partner_building_no','t2.partner_location','t2.partner_village_id')
+		't2.partner_building_no','t2.partner_location','t2.partner_village_id','t3.village_name','t3.gewog_id','t4.gewog_name','t4.dzongkhag_id')
 		->where('t1.application_no',$applicationNo)
 		->first();
 		return $query;
@@ -398,6 +403,7 @@ public function setToDateAttribute($value)
 			road_distance,
 			`condition`,
 			village_id,
+			chiwog_id,
 			star_category_id,
 			inspection_date,
 			updated_at,
@@ -424,6 +430,7 @@ public function setToDateAttribute($value)
 			road_distance,
 			`condition`,
 			village_id,
+			chiwog_id,
 			star_category_id,
 			inspection_date,
 			updated_at,

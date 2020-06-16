@@ -46,7 +46,6 @@ class ServiceController extends Controller
         $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
         $data['roomTypeLists'] = Dropdown::getDropdowns("t_room_types","id","room_name","0","0");
         $data['staffAreaLists'] = Dropdown::getDropdowns("t_staff_areas","id","staff_area_name","0","0");
-        $data['hotelDivisionLists'] = Dropdown::getDropdowns("t_hotel_divisions","id","hotel_div_name","0","0");
         $data['relationTypes'] = Dropdown::getDropdowns("t_relation_types","id","relation_type","0","0");
         $data['officeInfos'] = Dropdown::getDropdowns("t_offices","id","office_name","0","0");
         $data['officeEquipments'] = Services::getOfficeEquipmentDetails('O');
@@ -58,6 +57,7 @@ class ServiceController extends Controller
         $data['countries'] = Dropdown::getDropdowns("t_country_masters","id","country_name","0","0");
         $data['letterTypes'] = Dropdown::getDropdowns("t_recommandation_letter_masters","id","recommandation_letter_type","0","0");
         $data['serviceproviders'] = Dropdown::getDropdowns("t_service_providers","id","service_provider_name","0","0");
+        $data['locations'] = Dropdown::getDropdowns("t_locations","id","location_name","0","0");
         return view($page_link, $data);
     }
 
@@ -171,6 +171,7 @@ class ServiceController extends Controller
             $data->destination_year=$request->destination_year;
             $data->bhutan_year=$request->bhutan_year;
             $data->letter_type_id=$request->letter_sample;
+            $data->chiwog_id=$request->chiwog_id;
             $data->save();
 
             //insert into t_room_applications
@@ -265,10 +266,11 @@ class ServiceController extends Controller
 		    $officeInfoData = [];
             if(isset($_POST['office_id'])){
                 foreach($request->office_id as $key => $value){
+                $index = $_POST['office_status'][$key];
                 $officeInfoData[] = [
                         'application_no'   => $application_no,
                              'office_id'   => $request->office_id[$key],
-                         'office_status'   =>$request->office_status[$key],
+                         'office_status'   =>$_POST['office_status'.$index],
                     ];
                  }
                 $this->services->insertDetails('t_office_applications',$officeInfoData);
@@ -278,10 +280,11 @@ class ServiceController extends Controller
 		    $officeEquipmentData = [];
             if(isset($_POST['equipment_id'])){
                 foreach($request->equipment_id as $key => $value){
+                $index = $_POST['equipment_status'][$key];
                 $officeEquipmentData[] = [
                           'application_no' => $application_no,
                             'equipment_id' => $request->equipment_id[$key],
-                        'equipment_status' =>$request->equipment_status[$key],
+                        'equipment_status' =>$_POST['equipment_status'.$index],
                     ];
                  }
 
@@ -292,11 +295,14 @@ class ServiceController extends Controller
 		    $employmentData = [];
             if(isset($_POST['employment_id'])){
                 foreach($request->employment_id as $key => $value){
+                    $index = $_POST['employment_status'][$key];
+                    $index1 = $_POST['nationality'][$key];
+
                 $employmentData[] = [
                            'application_no'  => $application_no,
                             'employment_id'  => $request->employment_id[$key],
-                        'employment_status'  =>$request->employment_status[$key],
-                              'nationality'  =>  $request->nationality[$key],
+                        'employment_status'  =>$_POST['employment_status'.$index],
+                              'nationality'  =>$_POST['nationality'.$index1],
 
                     ];
                  }
@@ -308,11 +314,13 @@ class ServiceController extends Controller
             $transportationData = [];
             if(isset($_POST['vehicle_id'])){
                 foreach($request->vehicle_id as $key => $value){
+                $index = $_POST['transport_status'][$key];
+                $index1 = $_POST['fitness'][$key];
                 $transportationData[] = [
                           'application_no' => $application_no,
                               'vehicle_id' => $request->vehicle_id[$key],
-                        'transport_status' => $request->transport_status[$key],
-                                 'fitness' =>  $request->fitness[$key],
+                        'transport_status' => $_POST['transport_status'.$index],
+                                 'fitness' => $_POST['fitness'.$index1],
 
                     ];
                     }

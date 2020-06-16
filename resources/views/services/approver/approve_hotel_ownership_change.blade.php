@@ -1,7 +1,7 @@
 @extends('layouts.manager')
 @section('page-title','Tourist Standard Hotel Ownership Change')
 @section('content')
-<form action="{{ url('verification/hotel-ownership-change') }}" method="POST" files="true" id="formdata" enctype="multipart/form-data">
+<form action="{{ url('verification/hotel-ownership-change') }}" method="POST" files="true" id="form_data" enctype="multipart/form-data">
     @csrf
     <input type="hidden" class="form-control" name="module_id" value="{{ $applicantInfo->module_id }}">
     <input type="hidden" class="form-control" name="service_id" value="{{ $applicantInfo->service_id }}">
