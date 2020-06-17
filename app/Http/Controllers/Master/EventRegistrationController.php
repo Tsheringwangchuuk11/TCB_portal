@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\EventRegistration;
 use Validator;
+use App\Models\Dropdown;
 class EventRegistrationController extends Controller
 {
     /**
@@ -23,8 +24,9 @@ class EventRegistrationController extends Controller
     public function index(Request $request)
     {
         $privileges = $request->instance();
-        $events = EventRegistration::orderBy('id')->paginate(10);
-        return view('master.event_registration.registration_form', compact('events','privileges'));
+        $countries = Dropdown::getDropdowns("t_country_masters","id","country_name","0","0");
+        $events = EventRegistration::getEventDetails();
+        return view('master.event_registration.registration_form', compact('events','privileges','countries'));
     }
 
     /**
@@ -57,7 +59,8 @@ class EventRegistrationController extends Controller
         $validator = Validator::make($request->all(), $rule);
         if($validator->passes()){
         $savedata   =   EventRegistration::create(['event_name' => $request->event_name, 'country_id' => $request->country_id, 'location'=> $request->location ,'start_date'=> $request->start_date,'end_date'=> $request->end_date,'last_date'=> $request->last_date,'event_dtls'=> $request->event_dtls]);
-        return response()->json($savedata);
+        //  return response()->json($savedata);
+        return redirect('master/travel-fairs-event');
        }
        return response()->json(['error' => $validator->errors()->all() ]);
     }
