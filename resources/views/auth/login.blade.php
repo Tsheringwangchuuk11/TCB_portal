@@ -43,7 +43,7 @@
             <form method="POST" action="{{ route('login') }}">
                 @csrf
                 <div class="input-group mb-3">
-                    <input id="login_name" type="login_name" class="form-control @error('login_name') is-invalid @enderror" name="email" value="{{ old('login_name') }}" required autofocus  placeholder="Username">
+                    <input id="login_name" type="login_name" class="form-control @error('login_name') is-invalid @enderror" name="login" value="{{ old('login_name') }}" required autofocus  placeholder="Username">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-envelope"></span>
