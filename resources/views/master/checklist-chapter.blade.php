@@ -18,7 +18,7 @@
 							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
 							<i class="icon fas fa-check"></i>
 						</div>
-						@component('layouts.components.filter')
+						@component('layouts.components.search')
 							<div class="input-group input-group-md">
 							  <input class="form-control form-control-navbar" type="search" name="search_text" placeholder="Search" aria-label="Search">
 							</div>
