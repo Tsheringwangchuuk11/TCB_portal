@@ -1,5 +1,5 @@
 @extends('layouts.manager')
-@section('page-title', 'Edit Checklist Stanadard')
+@section('page-title', 'Edit Checklist Standard')
 @section('content')
 <form action="{{ url('master/checklist-standards/'.$checklistStandard->id) }}" method="POST" enctype="multipart/form-data">
     @csrf
@@ -29,7 +29,10 @@
                         <div class="form-group">
                             <label for="" >Checklist Chapter *</label>
                             <select name="" class="form-control checklist select2bs4" id="checklist">
-                            <option value="{{ $checklistStandard->checklistArea->checklistChapter->id }}">{{$checklistStandard->checklistArea->checklistChapter->checklist_ch_name}}</option>						
+                                <option value="">---SELECT---</option>
+                                @foreach ($checklistChapters as $checklist)
+                                    <option value="{{ $checklist->id }}" {{ old('checklist', $checklistStandard->checklistArea->checklistChapter->id) == $checklist->id ? 'selected' : '' }}>{{ $checklist->checklist_ch_name }}</option>
+                                @endforeach                           
                             </select>                               
                         </div> 
                     </div>
@@ -39,7 +42,10 @@
                         <div class="form-group">
                             <label for="" >Checklist Area *</label>
                             <select name="checklist_area" class="form-control checklistArea select2bs4" id="checklistArea">
-                                <option value="{{$checklistStandard->checklistArea->id}}">{{$checklistStandard->checklistArea->checklist_area}}</option>                               
+                                <option value="">---SELECT---</option>
+                                @foreach ($checklistAreaLists as $areaList)
+                                    <option value="{{ $areaList->id }}" {{ old('checklist', $checklistStandard->checklistArea->id) == $areaList->id ? 'selected' : '' }}>{{ $areaList->checklist_area }}</option>
+                                @endforeach                                                            
                             </select>
                         </div>
                     </div>
