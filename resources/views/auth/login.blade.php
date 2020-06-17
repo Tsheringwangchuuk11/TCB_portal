@@ -43,17 +43,17 @@
             <form method="POST" action="{{ route('login') }}">
                 @csrf
                 <div class="input-group mb-3">
-                    <input id="login_name" type="login_name" class="form-control @error('login_name') is-invalid @enderror" name="login" value="{{ old('login_name') }}" required autofocus  placeholder="Username">
+                    <input id="login_name" type="text" class="form-control {{ $errors->has('user_id') || $errors->has('email') || $errors->has('phone_no') ? ' is-invalid' : '' }}" name="login" value="{{ old('user_id') ?: old('email') ? : old('phone_no')}}" required autofocus  placeholder="Username">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-envelope"></span>
                         </div>
                     </div>
-                    @error('login_name')
-                    <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                    @enderror
+                    @if ($errors->has('user_id') || $errors->has('phone_no') || $errors->has('email'))
+                        <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $errors->first('user_id') ?: $errors->first('email') ?: $errors->first('phone_no') }}</strong>
+                        </span>
+                    @endif
                 </div>
                 <div class="input-group mb-3">
                     <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="Password">
