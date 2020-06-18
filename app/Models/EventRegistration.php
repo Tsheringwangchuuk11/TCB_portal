@@ -38,6 +38,14 @@ class EventRegistration extends Model
     public function getLastDateAttribute($value)
     {
 		return $value ? date('d-m-Y', strtotime($value)) : null;
-	}
+  }
+  
+  public static function getEventDetails(){
+    $query=\DB::table('t_event_dtls as t1')
+          ->leftjoin('t_country_masters as t2','t2.id','=','t1.country_id')
+          ->select('t1.*','t2.country_name')
+          ->get();
+		return $query;
+  }
 
 }

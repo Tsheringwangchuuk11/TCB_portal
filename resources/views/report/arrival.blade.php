@@ -12,18 +12,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Dzongkhag</label>
-                            <select class="form-control select2bs4" style="width: 100%;">
-                                <option>All</option>
-                                <option>Thimphu</option>
-                                <option>Paro</option>
-                                <option>Wangdue Phodrang</option>
-                                <option>Chhukha</option>
-                                <option>Gasa</option>
-                                <option>Punakha</option>
-                                <option>Trashi Yangtse</option>
-                                <option>Samdrup Jongkhar</option>
-                            </select>
+
 
                             <label>Year</label>
                             <select class="form-control select2bs4" style="width: 100%;">
@@ -111,8 +100,8 @@
         $(function () {
             /* ChartJS totalRegistered */
             var totalRegistered = {
-                labels: ['Automobile', 'Trekking Guide', 'Electrical', 'Mechanical',
-                    'Plumbing', 'House Keeping', 'Patra', 'Construction', 'Computer Application Assist', 'Computer Hardware Technician'],
+                labels: ['2002', '2003', '2004', '2005',
+                    '2006', '2007', '2008', '2009', '2010', '2011'],
                 datasets: [
                     {
                         backgroundColor: 'rgb(77,169,255)',

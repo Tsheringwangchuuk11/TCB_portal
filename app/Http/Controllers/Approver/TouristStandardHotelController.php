@@ -27,7 +27,6 @@ class TouristStandardHotelController extends Controller
         $serviceId= $data['applicantInfo']->service_id;
         $moduleId= $data['applicantInfo']->module_id;
         $data['documentInfos']=Services::getDocumentDetails($applicationNo);
-        // return response()->json($data['documentInfos']);
         $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
         $data['countries'] = Dropdown::getDropdowns("t_country_masters","id","country_name","0","0");
 

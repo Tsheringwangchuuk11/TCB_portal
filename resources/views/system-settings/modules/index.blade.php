@@ -2,7 +2,7 @@
 @section('page-title', 'Main Menu')
 @section('buttons')
     @if ((int)$privileges["create"] == 1)
-        <a href="{{ url('system/modules/create')}}" class="btn btn-sm btn-success"> Add Menu</a>
+        <a href="{{ url('system/modules/create')}}" class="btn btn-sm btn-success"> <i class="fas fa-plus"></i> Add Menu</a>
     @endif
 @endsection
 @section('content')
@@ -29,7 +29,7 @@
                             <td>{!! $module->name !!}</td>
                             <td class="text-center">
                                 @if ((int)$privileges->edit == 1)
-                                <a href="{{ url('system/modules/' . $module->id . '/edit') }}" class="btn btn-outline-info btn-sm" title="Edit"><i class="fas fa-edit"></i></a>
+                                <a href="{{ url('system/modules/' . $module->id . '/edit') }}" class="btn btn-info btn-sm" title="Edit"><i class="fas fa-pencil-alt"></i></a>
                                 @endif
                             </td>
                         </tr>

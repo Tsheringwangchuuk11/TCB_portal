@@ -10,8 +10,10 @@ use App\TRole;
 class UserController extends Controller
 {
     private $rules = [
-        'name' => 'required',
-        'username' => 'required|email|unique:t_users,email',
+        'user_name' => 'required',
+        'phone_no' => 'required',
+        'user_id' => 'required',
+        'email' => 'required|email|unique:t_users,email',
         'password' => 'required|min:6',
         'confirm_password' => 'required|same:password',
         'profile_pic' => 'mimes:jpeg,jpg,png,bmp|max:2048'
@@ -72,8 +74,11 @@ class UserController extends Controller
 
             $user = new User;
 
-            $user->user_name = $request->name;
-            $user->email = $request->username;
+            $user->user_name = $request->user_name;
+            $user->phone_no = $request->phone_no;
+            // $user->email = $request->username;
+            $user->email = $request->email;
+            $user->user_id = $request->user_id;
             $user->password = bcrypt($request->password);
             $user->is_verified = 1;
             $user->user_status = 1;
@@ -139,7 +144,10 @@ class UserController extends Controller
             return redirect()->back()->with('msg_error', 'You need to atleast select one role');
         }
 
-        $this->rules['username'] = 'required|unique:t_users,email,' . $id;
+        $this->rules['email'] = 'required|unique:t_users,email,' . $id;
+        $this->rules['user_name'] = 'required';
+        $this->rules['phone_no'] = 'required';
+        $this->rules['user_id'] = 'required';
         $this->rules['password'] = '';
         $this->rules['confirm_password'] = '';
 
@@ -153,8 +161,10 @@ class UserController extends Controller
 
             $user = User::findOrFail($id);
 
-            $user->user_name = $request->name;
-            $user->email = $request->username;
+            $user->user_name = $request->user_name;
+            $user->email = $request->email;
+            $user->user_id = $request->user_id;
+            $user->phone_no = $request->phone_no;
             $user->avatar = isset($imageSource) ? $imageSource : null;
             $user->updated_by = auth()->user()->id;
 

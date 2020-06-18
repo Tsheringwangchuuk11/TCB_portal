@@ -18,7 +18,7 @@
                   <tr>
                      <td>Area</td>
                      <td>Standard</td>
-                     <td>Points</td>
+                     {{-- <td>Points</td> --}}
                      <td>Rating</td>
                      <td>Check</td>
                   </tr>
@@ -34,7 +34,7 @@
                                 <td rowspan="{{ sizeOf($chapterArea->checkListStandards) }}">{{ $chapterArea->checklist_area }}</td>
                                 @endif
                                 <td>{{ $checkListStandard->checklist_standard }}</td>
-                                <td>{{ $checkListStandard->checklist_pts }}</td>
+                                {{-- <td>{{ $checkListStandard->checklist_pts }}</td> --}}
                                 <td>{{ $checkListStandard->standard_code }}</td>
                                 <td>
                                     @if ($checkListStandard->mandatory==='1')

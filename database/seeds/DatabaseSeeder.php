@@ -36,5 +36,6 @@ class DatabaseSeeder extends Seeder
         $this->call(VehicleSeeder::class);
         $this->call(ChannelTypesSeeder::class);
         $this->call(ServiceProviderSeeder::class);
+        $this->call(LocationSeeder::class);
     }
 }

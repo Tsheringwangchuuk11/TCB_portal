@@ -30,7 +30,7 @@
                 <div class="col-md-5">
                   <div class="form-group">
                     <label for="">DOB <span class="text-danger"> *</span></label>
-                    <input type="text" class="form-control" name="dob" id="date_of_birth" autocomplete="off" placeholder="Select Date" readonly="true">
+                    <input type="date" class="form-control" name="dob" id="date_of_birth" autocomplete="off" placeholder="Select Date">
                   </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
@@ -97,12 +97,20 @@
                   </div>
                 </div>
               </div>
+              <div class="row">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <input type="checkbox" name="partnership" autocomplete="off" value="1" id="checkboxId">&nbsp;
+                    <label for="" class="text-info"> Check in case of partnership</label>
+                  </div>
+                </div>
+              </div>
         </div>
     </div>
 
-    <div class="card">
+    <div class="card" style="display: none" id="partnerInfo">
         <div class="card-header">
-             <h4 class="card-title">Partner’s General Information (In case of partnership)</h4>
+             <h4 class="card-title">Partner’s General Information</h4>
         </div>
         <div class="card-body">
             <div class="row">
@@ -123,7 +131,7 @@
                 <div class="col-md-5">
                   <div class="form-group">
                     <label for="">DOB<span class="text-danger"> *</span></label>
-                    <input type="text" class="form-control" name="partner_dob" id="pdate_of_birth" autocomplete="off" placeholder="Select date" readonly="true" >
+                    <input type="date" class="form-control" name="partner_dob" id="pdate_of_birth" autocomplete="off" placeholder="Select date">
                   </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
@@ -193,7 +201,6 @@
             </div>
         </div>
     </div>
-
     <div class="card">
         <div class="card-header">
              <h4 class="card-title">Name, Address and Contact Information of the Establishment</h4>
@@ -281,13 +288,20 @@
               <li>
                 <em>Copy of Lease Agreement/Undertaking letter from the Landlord for office space or ownership certificate in case of own building</em>      
               </li>
-    
-              <li>
-                <em>Declaration signed by the applicant that he/she is not a Civil Servant, employee of a Government Controlled Organization or Corporate Body as set out in Annexure A of TRR 2017 </em>      
-              </li>
             </ol>
             @include('services/fileupload/fileupload')
         </div>
+        <div class="row">
+          <div class="col-md-12">
+          <div class="form-group ml-3">
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck2">
+                <label class="form-check-label" for="exampleCheck2">Declaration signed by the applicant that he/she is not a Civil Servant, employee of a Government Controlled Organization or Corporate Body as set out in Annexure A of TRR 2017</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      
         <div class="card-footer text-center">
             <button type="submit"class="btn btn-success"><li class="fas fa-check"></li> APPLY</button>
             <button type="reset" class="btn btn-danger"><li class="fas fa-times"></li> RESET</button>
@@ -298,35 +312,9 @@
 
 @section('scripts')
 <script>
-  $(function() {
-
-    $('.select2').select2();
-
-    $('#pdate_of_birth').daterangepicker({
-      singleDatePicker: true,
-      showDropdowns: true,
-      autoUpdateInput: false,
-      locale: {
-        cancelLabel: 'Clear'
-      }
-    });
-    $('#pdate_of_birth').on('apply.daterangepicker', function(ev, picker) {
-      $(this).val(picker.startDate.format('MM/DD/YYYY'));
-    });
-
-    $('#date_of_birth').daterangepicker({
-      singleDatePicker: true,
-      showDropdowns: true,
-      autoUpdateInput: false,
-      locale: {
-        cancelLabel: 'Clear'
-      }
-    });
-    $('#date_of_birth').on('apply.daterangepicker', function(ev, picker) {
-      $(this).val(picker.startDate.format('MM/DD/YYYY'));
-    });
-  });
-
+  $('#checkboxId').click(function() {
+    $("#partnerInfo").toggle(this.checked);
+});
 </script>
 @endsection
 

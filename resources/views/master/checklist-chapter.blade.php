@@ -1,5 +1,10 @@
 @extends('layouts.manager')
 @section('page-title', 'List of Checklist Chapter')
+@section('buttons')
+	@if ($privileges["create"] == 1)
+			<a href="javascript:void(0)" class="btn btn-success mb-2" id="create_new_checklist">Add Checklist Chapter</a>
+	@endif
+@endsection
 @section('content')
     <section class="content">
 		<div class="row">
@@ -13,9 +18,12 @@
 							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
 							<i class="icon fas fa-check"></i>
 						</div>
-						@if ($privileges["create"] == 1)
-						<a href="javascript:void(0)" class="btn btn-success mb-2 float-right" id="create_new_checklist">Add Checklist Chapter</a>
-						@endif
+						@component('layouts.components.search')
+							<div class="input-group input-group-md">
+							  <input class="form-control form-control-navbar" type="search" name="search_text" placeholder="Search" aria-label="Search">
+							</div>
+						  @endcomponent
+						  <br><br>
 						<table id="example2" class="table table-bordered table-hover">
 							<thead>
 								<tr>
@@ -61,7 +69,7 @@
 							</tbody>
 						</table><br>
 						<div class="float-right">
-							{{ $checklistChapters->links() }}
+							{{ $checklistChapters->appends(['search_text' => Request::get('search_text')])->render() }}
 						</div>
 					</div>
 				</div>
@@ -187,7 +195,7 @@
 		$('#btn-save').removeAttr("disabled");
 		 $('#btn-save').val("create-checklist");
         $('#checklistForm').trigger("reset");
-        $('#module').val('').trigger('change');
+        $('#module').trigger('change');
         $('#checklistCrudModal').html("Add New Checklist");
         $('#ajax-crud-modal').modal('show');
     });

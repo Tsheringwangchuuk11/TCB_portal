@@ -23,6 +23,8 @@ class CreateTEventDtlsTable extends Migration
             $table->date('end_date')->nullable();
             $table->text('event_dtls')->nullable();
             $table->timestamps();
+            $table->foreign('country_id')->references('id')->on('t_country_masters');
+
         });
     }
 

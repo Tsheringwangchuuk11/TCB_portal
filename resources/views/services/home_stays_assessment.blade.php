@@ -16,13 +16,13 @@
 				<div class="col-md-5">
 				  <div class="form-group">
 					<label for="">Name<span class="text-danger"> *</span></label>
-					<input type="text" class="form-control required" name="applicant_name" value="{{ old('applicant_name') }}" autocomplete="off">
+					<input type="text" class="form-control" name="applicant_name" value="{{ old('applicant_name') }}" autocomplete="off">
 				  </div>
 				</div>
 				<div class="col-md-5 offset-md-2">
 				  <div class="form-group ">
 					<label for="">CID No.<span class="text-danger"> *</span></label>
-					<input type="text" class="form-control numeric-only required" name="cid_no"  value="{{ old('cid_no') }}" autocomplete="off">
+					<input type="text" class="form-control" name="cid_no"  value="{{ old('cid_no') }}" autocomplete="off">
 				  </div>
 				</div>
 			  </div>
@@ -30,13 +30,13 @@
 				<div class="col-md-5">
 				  <div class="form-group">
 					<label for="">Contact No.<span class="text-danger"> *</span> </label>
-					<input type="text" class="form-control numeric-only required" name="contact_no" value="{{ old('contact_no') }}" autocomplete="off">
+					<input type="text" class="form-control" name="contact_no" value="{{ old('contact_no') }}" autocomplete="off">
 				  </div>
 				</div>
 				<div class="col-md-5 offset-md-2">
 				  <div class="form-group">
 					<label for="">Email</label>
-					<input type="email" class="form-control email required" name="email" value="{{ old('email') }}" autocomplete="off">
+					<input type="email" class="form-control" name="email" value="{{ old('email') }}" autocomplete="off">
 				  </div>
 				</div>
 			  </div>
@@ -44,7 +44,7 @@
 				<div class="col-md-5">
 				  <div class="form-group">
 					<label for="">Dzongkhag<span class="text-danger"> *</span></label>
-					<select class="form-control select2bs4 required dzongkhagdropdown" name="dzongkhag_id" id="dzongkhag_id" style="width: 100%;">
+					<select class="form-control select2bs4 dzongkhagdropdown" name="dzongkhag_id" id="dzongkhag_id" style="width: 100%;">
 						<option value=""> -Select-</option>
 						@foreach ($dzongkhagLists as $dzongkhagList)
 						<option value="{{ $dzongkhagList->id }}" {{ old('dzongkhag_id') == $dzongkhagList->id ? 'selected' : '' }}>{{ $dzongkhagList->dzongkhag_name }}</option>
@@ -84,13 +84,13 @@
 				<div class="col-md-5">
 				  <div class="form-group">
 					<label for="">Thram No.<span class="text-danger"> *</span> </label>
-					<input type="text" class="form-control required" name="thram_no" value="{{ old('thram_no') }}"  required>
+					<input type="text" class="form-control" name="thram_no" value="{{ old('thram_no') }}">
 				  </div>
 				</div>
 				<div class="col-md-5 offset-md-2">
 				  <div class="form-group">
 					<label for="">House No.<span class="text-danger"> *</span></label>
-					<input type="text" class="form-control required" name="house_no" value="{{ old('house_no') }}"  required>
+					<input type="text" class="form-control" name="house_no" value="{{ old('house_no') }}">
 				  </div>
 				</div>
 			  </div>
@@ -106,19 +106,19 @@
 				<div class="col-md-5">
 				  <div class="form-group">
 					<label for="">Distance from the nearest town/urban centre (hrs or kms)<span class="text-danger"> *</span></label>
-					<input type="text" class="form-control required" name="town_distance" autocomplete="off" required>
+					<input type="text" class="form-control" name="town_distance" autocomplete="off">
 				  </div>
 				</div>
 				<div class="col-md-5 offset-md-2">
 				  <div class="form-group">
 					<label for="">Distance from the main road (hrs or kms)<span class="text-danger"> *</span></label>
-					<input type="text" class="form-control required" name="road_distance" autocomplete="off" required>
+					<input type="text" class="form-control" name="road_distance" autocomplete="off">
 				  </div>
 				</div>
 				<div class="col-md-5">
 				  <div class="form-group">
 					<label for="">Condition of the pathway to house from the road point<span class="text-danger"> *</span></label>
-					<input type="text" class="form-control required" name="condition" autocomplete="off" required>
+					<input type="text" class="form-control" name="condition" autocomplete="off">
 				  </div>
 				</div>
 			  </div>
@@ -207,6 +207,12 @@
 @endsection
 @section('scripts')
 <script>
+	$(document).ready(function () {
+	$('.select2bs4').on('change', function () {
+		$(this).valid();
+		});
+	});
+	
     $(document).ready(function(){ 
       id=1;
       $("#add").click(function(){

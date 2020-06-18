@@ -14,7 +14,7 @@
 							<i class="icon fas fa-check"></i>
 						</div>
 						@if ($privileges["create"] == 1)
-						<a href="javascript:void(0)" class="btn btn-success mb-2 float-right" id="create_new_event">Add Events</a>
+						<a href="javascript:void(0)" class="btn btn-success btn-flat mb-2 float-right" id="create_new_event"> <i class="fas fa-plus"></i> Add Events</a>
 						@endif
 						<table id="example2" class="table table-bordered table-hover">
 							<thead>
@@ -32,7 +32,7 @@
 									<td>{{ $loop->iteration }}</td>
 									<td>{{$event->event_name}}</td>
 									<td>{{$event->location}}</td>
-									<td>{{$event->country_id}}</td>
+									<td>{{$event->country_name}}</td>
 								<td class="text-center">
 									@if ($privileges["edit"] == 1)
 									<a href="javascript:void(0)" id="edit_eventlist" data-id="{{ $event->id }}" class="btn btn-sm btn-outline-info" title="Edit"> <i class="fas fa-edit"></i></a>
@@ -57,7 +57,7 @@
 							</tbody> 
 						</table><br>
 						<div class="float-right">
-							{{ $events->links() }}
+							{{-- {{ $events->links() }} --}}
 						</div>
 					</div>
 				</div>
@@ -65,13 +65,12 @@
 		</div>
 	</section>
 	<div class="modal fade" id="ajax-crud-modal" aria-hidden="true">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="alert alert-danger" id="error_msg_id" style="display:none" >
-					<ul></ul>
 				</div>
 				<div class="modal-header">
-					<h4 class="modal-title" id="checklistCrudModal"></h4>
+					<h4 class="modal-title" id="checklistCrudModal"> Add Event</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					  </button>
@@ -81,28 +80,33 @@
                         @csrf
                         <div class="modal-body" id="frm_body">
 							<div class="row">
-								<div class="col-md-6">
+								<div class="col-md-5">
 									<div class="form-group">
 										<label for="">Event Name*</label>
 										<input type="text" id= "event_name" name="event_name" class="form-control required">
 									</div>
 								</div>
-								<div class="col-md-6">
+								<div class="col-md-5 offset-md-2">
 								<div class="form-group">
 									<label for="">To Country*</label>
-									<input type="text" id= "country_id" name="country_id" class="form-control required">
+									<select  name="country_id" class="form-control select2bs4" style="width: 100%;">
+										<option value=""> -Select-</option>
+										@foreach ($countries as $country)
+										  <option value="{{ $country->id }}">{{ $country->country_name }}</option>
+										@endforeach
+									  </select>
 								</div>
 								</div>
 							</div>
 							
                            <div class="row">
-							<div class="col-md-6">
+							<div class="col-md-5">
 								<div class="form-group">
 									<label for="">Location*</label>
 									<input type="text" id= "location" name="location" class="form-control required">
 								</div>
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-5 offset-md-2">
 								<div class="form-group">
 									<label for="">Event Start Date*</label>
 									<input type="date" id= "start_date" name="start_date" class="form-control required">
@@ -111,13 +115,13 @@
 						   </div>
 							
 							<div class="row">
-								<div class="col-md-6">
+								<div class="col-md-5">
 									<div class="form-group">
 										<label for="">Event End Date*</label>
 										<input type="date" id= "end_date" name="end_date" class="form-control required">
 									</div>
 								</div>
-								<div class="col-md-6">
+								<div class="col-md-5 offset-md-2">
 									<div class="form-group">
 										<label for="">Lat Date Of Registration*</label>
 										<input type="date" id= "last_date" name="last_date" class="form-control required">

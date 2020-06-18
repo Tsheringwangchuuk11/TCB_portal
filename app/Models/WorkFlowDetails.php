@@ -9,6 +9,11 @@ class WorkFlowDetails extends Model
     protected $table='t_workflow_dtls';
     protected $guarded = [];
 
+    public function getUpdatedAtAttribute($value)
+    {
+        return $value ? date('d-m-Y', strtotime($value)) : null;
+	}
+	
     public static function getStatus($status_name)
     {
        $query=\DB::table('t_status_masters as t1')

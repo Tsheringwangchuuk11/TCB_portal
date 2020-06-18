@@ -33,6 +33,7 @@ class CreateTTouristStandardDtlsTable extends Migration
             $table->string('road_distance', 250)->nullable();
             $table->string('condition',250)->nullable();
             $table->bigInteger('village_id')->index()->nullable();
+            $table->bigInteger('chiwog_id')->index()->nullable();
             $table->unsignedBigInteger('star_category_id')->nullable();
             $table->date('inspection_date')->nullable();
             $table->char('is_active')->default('Y');

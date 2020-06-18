@@ -11,19 +11,21 @@
 			</div>
 			<div class="card-body">	
 				<div class="row">
-					<div class="col-md-6">			
+					<div class="col-md-5">			
 						<div class="form-group">
 							<label for="name">Main Menu Name *</label>
 							<input type="text" name="main_module_name" class="form-control required" value="{{old('main_module_name', $module->name)}}" />
 						</div>
 					</div>
-					<div class="col-md-6">
+					<div class="col-md-5 offset-md-2">
 						<div class="form-group">
 							<label for="name">Menu Icon *</label>
 							<input type="text" name="module_icon" class="form-control required" value="{{old('module_icon', $module->icon)}}" />
 						</div>
 					</div>
-					<div class="col-md-6">
+				</div>
+				<div class="row">
+					<div class="col-md-5">
 						<div class="form-group">
 							<label for="name">Display Order *</label>
 							<input type="text" name="module_display_order" class="form-control required" value="{{old('module_display_order', $module->display_order)}}" />

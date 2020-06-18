@@ -25,12 +25,11 @@ class ChecklistChapterController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
+    {        
         $privileges = $request->instance();
-        $checklistChapters = TCheckListChapter::orderBy('id')->with('serviceModule')->paginate(10);
+        $checklistChapters = TCheckListChapter::filter($request)->orderBy('checklist_ch_name')->with('serviceModule')->paginate(10);
         $checklistChapterCount = TCheckListChapter::count();        
         $serviceModules = TModuleMaster::whereIn('module_name', array('Tourist Standard Hotel', 'Village Home Stay', 'Restaurant'))->get();
-
         return view('master.checklist-chapter', compact('privileges', 'checklistChapters', 'checklistChapterCount', 'serviceModules'));
     }
     /**

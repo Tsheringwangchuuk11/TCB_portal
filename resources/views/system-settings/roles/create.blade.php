@@ -16,10 +16,10 @@
 							<input type="text" name="role_name" class="form-control required" value="{{old('role_name')}}" />
 						</div>
 					</div>
-					<div class="col-md-7">
+					<div class="col-md-6 offset-md-1">
 						<div class="form-group">
 							<label for="name">Role Description</label>
-							<textarea name="role_description" class="form-control" rows="6">{{old('role_description')}}</textarea>
+							<textarea name="role_description" class="form-control" rows="3">{{old('role_description')}}</textarea>
 						</div>
 					</div>
 				</div>

@@ -14,19 +14,35 @@
 			</div>
 			<div class="card-body">
 				<div class="row">
-					<div class="col-md-6">
+					<div class="col-md-5">
 						<div class="form-group">
-							<label for="name">Name *</label>
-							<input type="text" name="name" class="form-control required" value="{{ old('name', $user->name) }}" />
+							<label for="">Name *</label>
+							<input type="text" name="user_name" class="form-control required" value="{{ old('name', $user->user_name) }}" />
 						</div>
 					</div>
-					<div class="col-md-6">
+					<div class="col-md-5 offset-md-2">
 						<div class="form-group">
-							<label for="username">Username (Email) *</label>
-							<input type="text" name="username" class="form-control required email" value="{{ old('username', $user->email) }}" />
+							<label for="">Phone No. *</label>
+							<input type="text" name="phone_no" class="form-control required" value="{{ old('phone_no', $user->phone_no) }}" />
 						</div>
 					</div>
-					<div class="col-md-6">
+				</div>
+				<div class="row">
+					<div class="col-md-5">
+						<div class="form-group">
+							<label for="">Email *</label>
+							<input type="email" name="email" class="form-control required email" value="{{ old('email', $user->email) }}" />
+						</div>
+					</div>
+					<div class="col-md-5 offset-md-2">
+						<div class="form-group">
+							<label for="">User Id *</label>
+							<input type="text" name="user_id" class="form-control required" value="{{ old('user_id', $user->user_id) }}" />
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-5">
 						<div class="form-group">
 							<span class="profile-picture">
 								<label for="main_photo">Current Profile Picture</label>
@@ -34,7 +50,7 @@
 							</span>
 						</div>
 					</div>
-					<div class="col-md-6">
+					<div class="col-md-5 offset-md-2">
 						<div class="form-group">
 							<label for="exampleInputFile">Profile Picture (Max Size : 2 MB)</label>
 							<div class="input-group">
@@ -61,8 +77,8 @@
 				<table id="user-roles" class="table table-bordered table-condensed">
 					<thead>
 						<tr>
-							<th class="col-md-1 text-center">#</th>
-							<th>Role *</th>
+							<th class="text-center">#</th>
+							<th class="text-center">Role *</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -71,7 +87,7 @@
 							<td class="text-center">
 								<input type="checkbox" value="{{ $role->id }}" name="roles[]" {{ in_array($role->id, $rolesAssigned) ? 'checked' : ''}} />
 							</td>
-							<td>{{ $role->name }}</td>
+							<td class="text-center">{{ $role->name }}</td>
 						</tr>
 						@endforeach
 					</tbody>
