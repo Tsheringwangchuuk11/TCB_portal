@@ -22,6 +22,7 @@ Route::group(['namespace' => 'FrontEnd'], function () {
 Route::group(['middleware' => ['auth']], function () {
 	Route::get('dashboard', 'HomeController@getDashboard')->name('dashboard');
 	Route::get('profile', 'HomeController@getProfile');
+	Route::post('update-profile/{id}', 'HomeController@updateProfile');
     Route::get('change-password', 'HomeController@getChangePassword')->name('change-password');
     Route::post('change-password', 'HomeController@postChangePassword');
 	Route::get('/json-dropdown', 'HomeController@getDropdownLists');

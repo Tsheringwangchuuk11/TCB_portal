@@ -6,6 +6,32 @@
 @section('content')
 <div class="row">
     <div class="col-md-4">
+        <form action="{{ url('update-profile/'.$user->id) }}" method="POST">        
+            {{ csrf_field() }}    
+            <div class="col-md-12">
+                <div class="card card-secondary">
+                    <div class="card-header">
+                        <h3 class="card-title">Edit Profile</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="">User Name</label>
+                            <input type="text" class="form-control required" name="user_name" value="{{old('user_name', $user->user_name)}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Email</label>
+                            <input type="text" class="form-control required" name="email" value="{{old('email', $user->email)}}">
+                        </div>
+                    </div>
+                    <div class="card-footer text-center">
+                        <button type="submit" class="btn btn-success margin-r-5 btn-flat btn-sm"><i class="fas fa-check"></i> UPADTE</button>
+                        <a href="{{ url('dashboard') }}" class="btn btn-danger btn-flat btn-sm"><i class="fas fa-undo"></i> CANCEL</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-4">
         <div class="card card-secondary">
             <div class="card-body card-profile">
                 <div class="text-center">

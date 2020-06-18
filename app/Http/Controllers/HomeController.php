@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Dropdown;
 use App\Models\WorkFlowDetails;
+use App\Models\Dropdown;
+use App\User;
+
 class HomeController extends Controller
 {
     /**
@@ -68,5 +70,16 @@ class HomeController extends Controller
 		$parent_name_id = $request->parent_name_id;
 		$cities = Dropdown::getDropdownLists($table_name, $id, $name, $parent_id, $parent_name_id);
 		return response()->json($cities);
-	}
+    }
+    
+    public function updateProfile(Request $request, $id)
+    {        
+        $user = User::findOrFail($id);
+
+        $user->user_name = $request->user_name;
+        $user->email = $request->email;
+        $user->save();
+        
+        return redirect('profile')->with('msg_success', 'your details updated successfully');
+    }
  }

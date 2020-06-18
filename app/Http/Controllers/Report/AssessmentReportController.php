@@ -18,7 +18,7 @@ class AssessmentReportController extends Controller
 {
     //hotel assessment list report
     public function getAssessment(Request $request)
-    {                                    
+    {                                           
         $applications = DB::table('t_workflow_dtls')
                             ->leftJoin('t_applications','t_workflow_dtls.application_no','=','t_applications.application_no')
                             ->leftJoin('t_status_masters','t_workflow_dtls.status_id','=','t_status_masters.id')
@@ -98,8 +98,7 @@ class AssessmentReportController extends Controller
     }  
     
     public function getApplicationList(Request $request)
-    {              
-        // dd($request->all());
+    {                      
         $applications = DB::table('t_workflow_dtls')
                             ->leftJoin('t_applications','t_workflow_dtls.application_no','=','t_applications.application_no')
                             ->leftJoin('t_status_masters','t_workflow_dtls.status_id','=','t_status_masters.id')

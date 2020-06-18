@@ -42,9 +42,9 @@
         <div class="col-md-4">
             <div class="form-group">
                 <div class="input-group">
-                    <input type="text" name="application_from" class="form-control datepicker" value="{{ Request::get('invoice_from') }}" placeholder="Invoice From">
+                    <input type="date" name="application_from" class="form-control datepicker" value="{{ Request::get('Application_from') }}" placeholder="Application From">
                     
-                    <input type="text" name="application_to" class="form-control datepicker" value="{{ Request::get('invoice_to') }}" placeholder="Invoice To">
+                    <input type="date" name="application_to" class="form-control datepicker" value="{{ Request::get('Application_to') }}" placeholder="Application To">
                 </div>
             </div>
         </div>                   
