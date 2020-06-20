@@ -47,5 +47,4 @@ class EventRegistration extends Model
           ->get();
 		return $query;
   }
-
 }

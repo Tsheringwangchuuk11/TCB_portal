@@ -1,9 +1,9 @@
 @extends('layouts.manager')
-@section('page-title','Tourist Standard Hotel Ownership Change')
+@section('page-title','Ownership Change Of TCB Certified Tourist Hotels')
 @section('content')
 <div class="card">
-    <div class="card-header bg-success">
-        <h4 class="card-title">Ownership Change For Tourist Hotels</h4>
+    <div class="card-header">
+        <h4 class="card-title">General Information</h4>
     </div>
     <form action="{{ url('application/save-application') }}" method="POST" enctype="multipart/form-data">
         @csrf

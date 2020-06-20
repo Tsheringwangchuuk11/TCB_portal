@@ -43,7 +43,7 @@
             <form method="POST" action="{{ route('login') }}">
                 @csrf
                 <div class="input-group mb-3">
-                    <input id="login_name" type="text" class="form-control {{ $errors->has('user_id') || $errors->has('email') || $errors->has('phone_no') ? ' is-invalid' : '' }}" name="login" value="{{ old('user_id') ?: old('email') ? : old('phone_no')}}" required autofocus  placeholder="Username">
+                    <input id="login_name" type="text" class="form-control {{ $errors->has('user_id') || $errors->has('email') ? ' is-invalid' : '' }}" name="login" value="{{ old('user_id') ?: old('email')}}" required autofocus  placeholder="Username">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-envelope"></span>
@@ -51,7 +51,7 @@
                     </div>
                     @if ($errors->has('user_id') || $errors->has('phone_no') || $errors->has('email'))
                         <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $errors->first('user_id') ?: $errors->first('email') ?: $errors->first('phone_no') }}</strong>
+                                    <strong>{{ $errors->first('user_id') ?: $errors->first('email') }}</strong>
                         </span>
                     @endif
                 </div>

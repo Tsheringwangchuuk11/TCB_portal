@@ -136,8 +136,18 @@ var count=0, deleteId;
 $(function () {
    'use strict';
    $('#fileuploaded').fileupload({
+      beforeSend:function(){
+         $('#success').empty();
+         $('.progress-bar').text('0%');
+         $('.progress-bar').css('width', '0%');
+      },
+      uploadProgress:function(event, position, total, percentComplete){
+         $('.progress-bar').text(percentComplete + '0%');
+         $('.progress-bar').css('width', percentComplete + '0%');
+     },
       add: function(e, data) {
-            data.submit();
+         data.submit();
+
       },
       url: '/application/documentattach',
       type: 'POST',
@@ -147,21 +157,34 @@ $(function () {
       autoUpload: true,
       dataType : 'json',
       success: function (data) {
-            jQuery.each(data.data, function(index, row) {
+         if (data.status == 'true') {
+            $('#success').html('<div class="text-success text-center"><b>'+data.success+'</b></div><br /><br />');
+            $('.progress-bar').text('Uploaded');
+            $('.progress-bar').css('width', '100%');
+            jQuery.each(data.data, function (index, row) {
                $('#files').append('<div class="image_wrap">'
-                  +'<input type="hidden" name="documentId[]" value="'+row.id+'"/><strong>'+row.document_name+'</strong>'
-                  +' <span onClick="deletefile(this.id,\'' + row.id + '\',\'' + row.upload_url + '\')" id="deleteId'+count+'" class="delete-line btn btn-danger btn-sm" data-file_id="'+row.id+'">'
-                  +'<i class="fas fa-trash-alt"></i> Delete</span></div>'); 
-               count++;                        
+                  + '<input type="hidden" name="documentId[]" value="' + row.id + '"/><strong>' + row.document_name + '</strong>'
+                  + ' <span onClick="deletefile(this.id,\'' + row.id + '\',\'' + row.upload_url + '\')" id="deleteId' + count + '" class="delete-line btn btn-danger btn-sm" data-file_id="' + row.id + '">'
+                  + '<i class="fas fa-trash-alt"></i> Delete</span></div>');
+               count++;
             });
+         } else {
+            $('#msgId').html(data.message);
+            $('#alertErrorId').show().delay(6000).queue(function (n) {
+                  $(this).hide();
+                  n();
+            });
+         }
       },
-      progressall: function (e, data) {
-            var progress = parseInt(data.loaded / data.total * 100, 10);
-            $('#progress .progress-bar').css(
-               'width',
-               progress + '%'
-            );
-      }
+
+    /*   progressall: function (e, data) {
+         var progress = parseInt(data.loaded / data.total * 100, 10);
+         $('#progress .progress-bar').css(
+            'width',
+            progress + '%'
+         );
+         setTimeout(function(){$(".progress").hide()}, 3000);
+       }  */
    });
 });
 

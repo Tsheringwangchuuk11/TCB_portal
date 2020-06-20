@@ -8,7 +8,7 @@
         <div class="col-md-3">
             <input type="hidden" name="service_id" value="{{ $idInfos->service_id }}" id="service_id">
             <input type="hidden" name="module_id" value="{{ $idInfos->module_id }}" id="module_id">
-          <a href="#" class="btn btn-primary btn-block mb-3">Event</a>
+          <a href="#" class="btn btn-primary btn-block mb-3">Events</a>
           <div class="card">
             <div class="card-header">
             </div>
@@ -19,7 +19,7 @@
                     <li class="nav-item active">
                         <a href="#" class="nav-link showevent" data-value='["{{$eventFairDetail->event_name}}", "{{ $eventFairDetail->id}}", "{{ $eventFairDetail->country_name}}","{{ $eventFairDetail->location}}","{{ $eventFairDetail->last_date}}",
                             "{{ $eventFairDetail->start_date}}","{{ $eventFairDetail->end_date}}","{{ $eventFairDetail->event_dtls}}"]' >
-                          <i class="fas fa-inbox"></i> {{ $eventFairDetail->event_name}}
+                          <i class="fa fa-bullhorn"></i> {{ $eventFairDetail->event_name}}
                         </a>
                       </li>
                     @endforeach
@@ -58,7 +58,7 @@
                             <div class="col-md-5 offset-md-2">
                                 <div class="form-group">
                                     <label for="">To country.<span class="text-danger"> *</span></label>
-                                    <input type="text" class="form-control" name="country_id" id="countryId" value="{{ old('country_id') }}" autocomplete="off">
+                                    <input type="text" class="form-control" name="countryId" id="countryId" value="{{ old('country_id') }}" autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -66,13 +66,13 @@
                             <div class="col-md-5">
                                 <div class="form-group">
                                     <label for="">location<span class="text-danger"> *</span></label>
-                                    <input type="text" class="form-control" name="location"  value="{{ old('location') }}" autocomplete="off" id="location" >
+                                    <input type="text" class="form-control" name="locationName"  value="{{ old('location') }}" autocomplete="off" id="location" >
                                 </div>
                             </div>
                             <div class="col-md-5 offset-md-2">
                                 <div class="form-group">
                                     <label for="">Event Start Date<span class="text-danger"> *</span></label>
-                                    <input type="text" class="form-control" name="from_date"  value="{{ old('start_date') }}" id="startDate" autocomplete="off" >
+                                    <input type="text" class="form-control" name="fromdate"  value="{{ old('start_date') }}" id="startDate" autocomplete="off" >
     
                                 </div>                                       
                             </div>
@@ -81,13 +81,13 @@
                             <div class="col-md-5">
                                 <div class="form-group">
                                     <label for="">Event End Date<span class="text-danger"> *</span></label>
-                                    <input type="text" class="form-control" name="to_date"  value="{{ old('to_date') }}" id="endDate" autocomplete="off" >
+                                    <input type="text" class="form-control" name="todate"  value="{{ old('to_date') }}" id="endDate" autocomplete="off" >
                                 </div>
                             </div>
                             <div class="col-md-5 offset-md-2">
                                 <div class="form-group">
                                     <label for="">Last Date Of Registration<span class="text-danger"> *</span></label>
-                                    <input type="text" class="form-control" name="last_date"  value="{{ old('to_date') }}" id="lastdate" autocomplete="off" >
+                                    <input type="text" class="form-control" name="lastdate"  value="{{ old('to_date') }}" id="lastdate" autocomplete="off" >
                                 </div>
                             </div>
                         </div>
@@ -108,13 +108,13 @@
                             <div class="col-md-5">
                                 <div class="form-group">
                                     <label for="">CID<span class="text-danger"> *</span></label>
-                                    <input type="text" class="form-control" name="number" value="{{ old('number') }}" autocomplete="off" >
+                                    <input type="text" class="form-control" name="cid_no" value="{{ old('cid_no') }}" onchange="getTourOperatorDetails(this.value)" >
                                 </div>
                             </div>
                             <div class="col-md-5 offset-md-2">
                                 <div class="form-group">
                                     <label for="">Name<span class="text-danger"> *</span></label>
-                                <input type="text" class="form-control" name="number" value="{{ old('number') }}" autocomplete="off" >
+                                <input type="text" class="form-control" name="applicant_name" value="{{ old('applicant_name') }}" autocomplete="off" id="applicant_name">
                                 </div>
                             </div>
                         </div>
@@ -122,27 +122,27 @@
                             <div class="col-md-5">
                                 <div class="form-group">
                                     <label for="">Email<span class="text-danger"> *</span></label>
-                                    <input type="text" class="form-control" name="number" value="{{ old('number') }}" autocomplete="off" >
+                                    <input type="text" class="form-control" name="email" value="{{ old('email') }}" autocomplete="off" id="email">
                                 </div>
                             </div>
                             <div class="col-md-5 offset-md-2">
                                 <div class="form-group">
                                     <label for="">Contact No.<span class="text-danger"> *</span></label>
-                                <input type="text" class="form-control" name="number" value="{{ old('number') }}" autocomplete="off" >
+                                <input type="text" class="form-control" name="cid_no" value="{{ old('cid_no') }}" autocomplete="off" id="cid_no" >
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-5">
                                 <div class="form-group">
-                                    <label for="">Date Of Registration<span class="text-danger"> *</span></label>
-                                    <input type="text" name="date" class="form-control numeric-only" value="{{ old('contact_no') }}" id="lastDate" autocomplete="off">
+                                    <label for="">Company Name<span class="text-danger"> *</span></label>
+                                    <input type="text" name="company_title_name" id="company_title_name" class="form-control numeric-only" value="{{ old('contact_no') }}" id="lastDate" autocomplete="off">
                                 </div>
                             </div>
                             <div class="col-md-5 offset-md-2">
                                 <div class="form-group">
-                                    <label for="">Company Name<span class="text-danger"> *</span></label>
-                                    <input type="text" name="date" class="form-control numeric-only" value="{{ old('contact_no') }}" id="lastDate" autocomplete="off">
+                                    <label for="">Date Of Registration<span class="text-danger"> *</span></label>
+                                    <input type="date" name="date" class="form-control numeric-only" value="{{ old('contact_no') }}" id="date" autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -150,7 +150,7 @@
                             <div class="col-md-10">
                                 <div class="form-group">
                                     <label for="">Remarks<span class="text-danger"> *</span></label>
-                                <textarea type="text" class="form-control" name="number" value="{{ old('number') }}" autocomplete="off" ></textarea>
+                                <textarea type="text" class="form-control" name="remarks" value="{{ old('number') }}" autocomplete="off" ></textarea>
                                 </div>
                             </div>
                         </div>
@@ -196,6 +196,23 @@
             $('#divshow').show();
             });
         })
+        function getTourOperatorDetails(cid){
+        $.ajax({
+              url:'/application/get-tour_operator-info/'+cid,
+               type: "GET",
+               headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                 },
+               dataType: "json",
+               success:function(data) {
+                $('#company_title_name').val(data.company_name);
+                $('#cid_no').val(data.cid_no);
+                $('#applicant_name').val(data.name);
+                $('#email').val(data.email);
+                $('#contact_no').val(data.contact_no);
+               } 
+            });
+        }
     </script>
 @endsection
 

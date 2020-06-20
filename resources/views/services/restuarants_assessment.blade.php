@@ -1,5 +1,5 @@
 @extends('layouts.manager')
-@section('page-title','Tourist Standard Restuarant Assessment')
+@section('page-title','Assessment And Registration Of Tourist Standard Restaurants')
 @section('content') 
 @php use App\Http\Controllers\Application\ServiceController; @endphp
 <form action="{{ url('application/save-application') }}" method="POST" id="formdata" enctype="multipart/form-data">
@@ -10,7 +10,7 @@
     <input type="hidden" name="module_name" value="{{ $idInfos->module_name }}" id="module_name">
 <div class="card">
     <div class="card-header bg-success">
-        <h3 class="card-title">Registration of Tourist Standard Restuarant</h3>
+        <h3 class="card-title">General Information</h3>
     </div>
         <div class="card-body">
             <div class="row">

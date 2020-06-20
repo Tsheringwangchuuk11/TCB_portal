@@ -23,28 +23,42 @@
           </li>
           @php $lastTopMenu = ""; @endphp
           @foreach ($menus as $menu)
-              @foreach ($menu->systemSubMenus as $systemSubMenu)
-                  @if($menu->name != $lastTopMenu)
-                      @if($lastTopMenu != "")
-                          </ul>
-                        </li>
-                      @endif
-                      <li class="nav-item has-treeview">
-                        <a href="#" class="nav-link">
-                          <i class="nav-icon fas {{ $menu->icon }}"></i>
-                            <span>{{ $menu->name }}</span>
-                            <i class="right fas fa-angle-left"></i>
-                        </a>
-                      <ul class="nav nav-treeview">
+          @if($menu->systemSubMenus->count()>1) <!-- for more than one submenu -->
+          @foreach ($menu->systemSubMenus as $systemSubMenu)
+          @if($menu->name != $lastTopMenu)
+          @if($lastTopMenu != "")
+          </ul>
+          @endif
+          <li class="nav-item has-treeview {{ str_before($systemSubMenu->route, '/') == Request::segment(1) ? 'menu-open' : '' }}">
+              <a href="#" class="nav-link {{ str_before($systemSubMenu->route, '/') == Request::segment(1) ? 'active' : '' }}">
+              <i class="nav-icon fas {{ $menu->icon }}"></i>
+              <span>{{ $menu->name }}</span>
+              <i class="right fas fa-angle-left"></i>
+              </a>
+              <ul class="nav nav-treeview">
                   @endif
                   <li class="nav-item">
-                      <a href="{{ url($systemSubMenu->route) }}" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>{{ $systemSubMenu->name }}
+                      <a href="{{ url($systemSubMenu->route) }}" class="nav-link {{ Request::segment(1) . '/' . Request::segment(2) == $systemSubMenu->route ? 'active' : '' }}">
+                      <i class="far fa-circle nav-icon"></i>{{ $systemSubMenu->name }}
                       </a>
                   </li>
                   @php $lastTopMenu = $menu->name; @endphp
+                  @endforeach
+                  @else <!-- for only one submenu -->
+                  @foreach ($menu->systemSubMenus as $systemSubMenu)
+                @if($lastTopMenu != "")
+              </ul>
+              @endif
+          <li class="nav-item has-treeview">
+              <a href="{{ url($systemSubMenu->route) }}" class="nav-link {{ Request::segment(1) . '/' . Request::segment(2) == $systemSubMenu->route ? 'active' : '' }}">
+              <i class="nav-icon fas {{ $menu->icon }}"></i>
+              <span>{{ $menu->name }}</span>
+              </a>
+              <ul>
+                @php $lastTopMenu = $menu->name; @endphp
               @endforeach
-            @endforeach
+              @endif
+              @endforeach
       </nav>
       <!-- /.sidebar-menu -->
     </div>

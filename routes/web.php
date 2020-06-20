@@ -59,6 +59,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('save-grievance-application', 'ServiceController@saveGrievanceApplication');
         Route::get('get-hotel-details/{id}', 'ServiceController@getTouristHotelDetails');
         Route::get('get-tour_operator-details/{id}', 'ServiceController@getTourOperatorDetails');
+        Route::get('get-tour_operator-info/{cid}', 'ServiceController@getTourOperatorInfo');
+
 
         // fileupload
         Route::post('documentattach', 'FileUploadController@addDocuments');
@@ -103,6 +105,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('tour-operator-name_change', 'TourOperatorController@tourOperatorNameChangeApplication');
         Route::post('tour-operator-license-renew', 'TourOperatorController@tourOperatorLicenseRenewApplication');
         Route::post('recommandation_letter_for_to_license', 'TourOperatorController@toLicenseRecommandationLetterApplication');
+        Route::post('travel_fairs', 'TourOperatorController@travelFairsApplication');
         Route::get('generate_letter_sample/{applicationNo}', 'TourOperatorController@getRecommandationLetterSample');
         //Media
         Route::get('media/{applicationNo}', 'MediaController@getApplicationDetails')->name('media');
