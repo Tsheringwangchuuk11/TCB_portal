@@ -6,37 +6,37 @@
 @endif
 @endsection
 @section('content')
-<section class="content">
-    <div class="row">
-        <div class="col-12">
-            <div class="card card-secondary">
-                <div class="card-header">
-                    <h3 class="card-title">Checklist Chapter List</h3>
-                </div>
-                <div class="card-body">
-                    <div class="alert alert-success alert-dismissible" id="success_msg_id" style="display:none">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
-                        <i class="icon fas fa-check"></i>
-                    </div>
-                    @component('layouts.components.filter')
-                    <div class="input-group input-group-md">
-                        <input class="form-control form-control-navbar" type="search" name="search_text" placeholder="Search" aria-label="Search">
-                    </div>
-                    @endcomponent
-                    <br><br>
-                    <table id="example2" class="table table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th class="text-center">#</th>
-                                <th>Module</th>
-                                <th>Chapter Name</th>
-                                <th>Status</th>
-                                <th class="text-center">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="checklist_body_id">
-                            <input type="hidden" id="checklist_count" value="{{ $checklistChapterCount}}" />
-                            @if($checklistChapters)
+    <section class="content">
+		<div class="row">
+			<div class="col-12">
+				<div class="card card-secondary">
+					<div class="card-header">
+						<h3 class="card-title">Checklist Chapter List</h3>
+					</div>
+					<div class="card-body">
+						<div class="alert alert-success alert-dismissible" id="success_msg_id" style="display:none">
+							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+							<i class="icon fas fa-check"></i>
+						</div>
+						@component('layouts.components.search')
+							<div class="input-group input-group-md">
+							  <input class="form-control form-control-navbar" type="search" name="search_text" placeholder="Search" aria-label="Search">
+							</div>
+						  @endcomponent
+						  <br><br>
+						<table id="example2" class="table table-bordered table-hover">
+							<thead>
+								<tr>
+                                    <th class="text-center">#</th>
+                                    <th>Module</th>
+                                    <th>Chapter Name</th>
+                                    <th>Status</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+							</thead>
+							<tbody id="checklist_body_id">
+							<input type="hidden" id="checklist_count" value="{{ $checklistChapterCount}}" />
+							@if($checklistChapters)
                             @forelse($checklistChapters as $checklistChapter)
                             <tr id="checklist_id_{{ $checklistChapter->id }}">
                                 <input type="hidden" id="hidden_id_{{ $checklistChapter->id }}" value="{{ $loop->iteration}}" />

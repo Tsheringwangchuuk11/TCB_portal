@@ -22,6 +22,7 @@ Route::group(['namespace' => 'FrontEnd'], function () {
 Route::group(['middleware' => ['auth']], function () {
 	Route::get('dashboard', 'HomeController@getDashboard')->name('dashboard');
 	Route::get('profile', 'HomeController@getProfile');
+	Route::post('update-profile/{id}', 'HomeController@updateProfile');
     Route::get('change-password', 'HomeController@getChangePassword')->name('change-password');
     Route::post('change-password', 'HomeController@postChangePassword');
 	Route::get('/json-dropdown', 'HomeController@getDropdownLists');
@@ -127,7 +128,7 @@ Route::group(['middleware' => ['auth']], function () {
     //routes for report
     Route::group(['prefix' => 'report', 'namespace' => 'Report'], function() {
         Route::get('assessment-reports', 'AssessmentReportController@getAssessment');
-        Route::get('assessment-reports', 'AssessmentReportController@getAssessment');
+        Route::get('application-lists', 'AssessmentReportController@getApplicationList');
         Route::get('assessment-reports/{application_no}', 'AssessmentReportController@detailAssessment');
     });
 
