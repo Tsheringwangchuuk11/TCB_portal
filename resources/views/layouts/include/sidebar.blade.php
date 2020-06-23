@@ -7,9 +7,9 @@
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="user-panel mb-3 d-flex">
         <div class="info">
-          <a href="#" class="d-block"><strong>{{ auth()->user()->user_name }}</strong></a>
+          <a href="#" class="d-block">Welcome <strong>{{ auth()->user()->user_name }}</strong></a>
         </div>
       </div>
       <!-- Sidebar Menu -->
@@ -17,9 +17,6 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item">
             <a href="{{ route('dashboard') }}" class="nav-link"><i class="nav-icon fas fa-tachometer-alt"></i>Dashboard</a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ route('change-password') }}" class="nav-link"><i class="nav-icon fas fa-key"></i> Change Password</a>
           </li>
           @php $lastTopMenu = ""; @endphp
           @foreach ($menus as $menu)
