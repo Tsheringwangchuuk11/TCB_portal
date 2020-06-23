@@ -38,7 +38,6 @@
     </div>
   </div>
 </div>
-
   <div class="card">
     <div class="card-header">
        <h4 class="card-title">Product Details</h4>

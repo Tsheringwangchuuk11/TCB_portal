@@ -1,5 +1,5 @@
 @extends('layouts.manager')
-@section('page-title','Tour Operator Assessment')
+@section('page-title','Assessment And Registration Of Tour Operators Office')
 @section('content')
 <form action="{{ url('application/save-application') }}" method="POST" id="formdata" enctype="multipart/form-data">
     @csrf
@@ -61,7 +61,13 @@
                       <label for="">License Date.<span class="text-danger">*</span> </label>
                       <input type="date" class="form-control" name="license_date" autocomplete="off">
                     </div>
-                  </div>
+                </div>
+                <div class="col-md-5 offset-md-2">
+                    <div class="form-group">
+                      <label for="">Email.<span class="text-danger">*</span> </label>
+                      <input type="email" class="form-control" name="email" autocomplete="off">
+                    </div>
+                </div>
             </div>
         </div>
     </div>

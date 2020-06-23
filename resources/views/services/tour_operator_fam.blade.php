@@ -15,7 +15,7 @@
             <div class="row">
                 <div class="col-md-5">
                     <div class="form-group">
-                        <label for="">Name<span clas="text-danger"> *</span></label>
+                        <label for="">Name<span class="text-danger"> *</span></label>
                         <input type="text" class="form-control required" name="applicant_name" autocomplete="off">
                     </div>
                 </div>
@@ -83,7 +83,7 @@
                         <div class="col-md-5 offset-md-2">
                             <div class="form-group">
                                 <label for=""> From Date <span class="text-danger"> *</span></label><small class="text-danger text-right">[ Intended date of travel ]</small>
-                                <input type="text" class="form-control required" name="from_date" id="from_date" autocomplete="off" placeholder="Select Date" readonly="true"> 
+                                <input type="date" class="form-control required" name="from_date" id="from_date" autocomplete="off" placeholder="Select Date"> 
                             </div>
                         </div>
                     </div>
@@ -91,7 +91,7 @@
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label for="">To Date <span class="text-danger"> *</span></label><small class="text-danger text-right">[ Intended date of travel ]</small>
-                                <input type="text" class="form-control datepicker required" name="to_date" id="to_date" autocomplete="off" placeholder="Select Date" readonly="true">
+                                <input type="date" class="form-control datepicker required" name="to_date" id="to_date" autocomplete="off" placeholder="Select Date">
                             </div>
                         </div>
                     </div>
@@ -297,44 +297,6 @@ $(document).ready(function(){
         $('#line1'+id1).remove();
       }
     }
-$(function() {
-    $('#from_date').daterangepicker({
-    singleDatePicker: true,
-//showDropdowns: true,
-autoUpdateInput: false,
-
-});
-    $('#from_date').on('apply.daterangepicker', function(ev, picker) {
-        $(this).val(picker.startDate.format('MM/DD/YYYY'));
-    });
-
-    $('#to_date').daterangepicker({
-    singleDatePicker: true,
-//showDropdowns: true,
-autoUpdateInput: false,
-});
-    $('#to_date').on('apply.daterangepicker', function(ev, picker) {
-        $(this).val(picker.startDate.format('MM/DD/YYYY'));
-    });
-    $('#c_date').daterangepicker({
-    singleDatePicker: true,
-//showDropdowns: true,
-autoUpdateInput: false,
-});
-    $('#c_date').on('apply.daterangepicker', function(ev, picker) {
-        $(this).val(picker.startDate.format('MM/DD/YYYY'));
-    });
-
-    $('#cdate').daterangepicker({
-    singleDatePicker: true,
-//showDropdowns: true,
-autoUpdateInput: false,
-});
-    $('#cdate').on('apply.daterangepicker', function(ev, picker) {
-        $(this).val(picker.startDate.format('MM/DD/YYYY'));
-    });
-});
-
 </script>
 @endsection
 

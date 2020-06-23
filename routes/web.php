@@ -22,6 +22,7 @@ Route::group(['namespace' => 'FrontEnd'], function () {
 Route::group(['middleware' => ['auth']], function () {
 	Route::get('dashboard', 'HomeController@getDashboard')->name('dashboard');
 	Route::get('profile', 'HomeController@getProfile');
+	Route::post('update-profile/{id}', 'HomeController@updateProfile');
     Route::get('change-password', 'HomeController@getChangePassword')->name('change-password');
     Route::post('change-password', 'HomeController@postChangePassword');
 	Route::get('/json-dropdown', 'HomeController@getDropdownLists');
@@ -59,6 +60,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('save-grievance-application', 'ServiceController@saveGrievanceApplication');
         Route::get('get-hotel-details/{id}', 'ServiceController@getTouristHotelDetails');
         Route::get('get-tour_operator-details/{id}', 'ServiceController@getTourOperatorDetails');
+        Route::get('get-tour_operator-info/{cid}', 'ServiceController@getTourOperatorInfo');
+
 
         // fileupload
         Route::post('documentattach', 'FileUploadController@addDocuments');
@@ -103,6 +106,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('tour-operator-name_change', 'TourOperatorController@tourOperatorNameChangeApplication');
         Route::post('tour-operator-license-renew', 'TourOperatorController@tourOperatorLicenseRenewApplication');
         Route::post('recommandation_letter_for_to_license', 'TourOperatorController@toLicenseRecommandationLetterApplication');
+        Route::post('travel_fairs', 'TourOperatorController@travelFairsApplication');
         Route::get('generate_letter_sample/{applicationNo}', 'TourOperatorController@getRecommandationLetterSample');
         //Media
         Route::get('media/{applicationNo}', 'MediaController@getApplicationDetails')->name('media');

@@ -1,9 +1,9 @@
 @extends('layouts.manager')
-@section('page-title','Tourist Standard Hotel License Cancel')
+@section('page-title','Tourist Standard Restuarant License Cancel')
 @section('content')
 <div class="card">
-    <div class="card-header bg-success">
-        <h4 class="card-title">Tourist Standard Restuarant License Cancel</h4>
+    <div class="card-header">
+        <h4 class="card-title">General Information</h4>
     </div>
     <form action="{{ url('application/save-application') }}" method="POST" enctype="multipart/form-data">
         @csrf

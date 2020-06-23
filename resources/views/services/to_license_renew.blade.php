@@ -1,5 +1,5 @@
 @extends('layouts.manager')
-@section('page-title','Tour Operator License Renew')
+@section('page-title','Tour Operator License Clearance For Renewal Of Expired Trade License')
 @section('content')
 <form action="{{ url('application/save-application') }}" method="POST" enctype="multipart/form-data">
     @csrf

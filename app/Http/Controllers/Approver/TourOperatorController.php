@@ -74,6 +74,10 @@ class TourOperatorController extends Controller
             //Tour Operator License Renew Details
             return view('services.approver.approve_to_license_renew',$data);
         }
+        elseif($serviceId==15){
+            //Tour Operator Event Registration for Travel Fairs
+            return view('services/approver/approve_to_registration_travel_fairs',$data);
+        }
 
     }
 
@@ -432,5 +436,43 @@ class TourOperatorController extends Controller
             return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
             }
      } 
+     
+       //Approval function for travel fair application
+        public function travelFairsApplication(Request $request){
+            if($request->status =='APPROVED'){
+                \DB::transaction(function () use ($request) {
+    
+                    $approveId = WorkFlowDetails::getStatus('APPROVED');
+                    $completedId= WorkFlowDetails::getStatus('COMPLETED');
+    
+                    $eventdata[] = [
+                        'event_id' =>  $request->event_id,
+                        'name'   => $request->name,
+                        'cid_no'   => $request->cid_no,
+                        'contact_no'   => $request->contact_no,
+                        'email'   => $request->email,
+                        'company_name'   => $request->company_name,
+                        'date_of_registration'   => $request->date_of_registration,
+                        'remarks'   => $request->remarks,
+                    ];
+                $this->services->insertDetails('t_travel_fair_dtls',$eventdata);
+                $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
+                $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
+                        ->update(['status_id' => $approveId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
+    
+                $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
+                $updateworkflow=TaskDetails::where('application_no',$request->application_no)
+                                        ->update(['status_id' => $completedId->id]);
+            });
+            return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
+            }else{
+                $rejectId = WorkFlowDetails::getStatus('REJECTED');
+                $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
+                $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
+                ->update(['status_id' => $rejectId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
+                return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
+                }
+    
+         }
     
 }
