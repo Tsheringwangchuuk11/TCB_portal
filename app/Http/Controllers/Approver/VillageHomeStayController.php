@@ -67,6 +67,7 @@ class VillageHomeStayController extends Controller
             'village_id'   => $request->village_id,
             'chiwog_id'   => $request->chiwog_id,
             'inspection_date'   =>date('Y-m-d', strtotime($request->inspection_date)),
+            'validaty_date'   =>now()->addYears(3),
             'created_at'   => now(),
             'updated_at'   => now(),
         ];

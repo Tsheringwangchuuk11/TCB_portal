@@ -6,7 +6,7 @@
     @endif
 @endsection
 @section('content')
-<div class="card card-secondary">
+<div class="card">
 	<div class="card-header">
         <h3 class="card-title">System Role List</h3>
 	</div>

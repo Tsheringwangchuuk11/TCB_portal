@@ -1,5 +1,5 @@
 @extends('layouts.manager')
-@section('page-title','Village Home Stay Assessment')
+@section('page-title','Assessment And Registration Of Village Home Stays')
 @section('content')
 <form action="{{ url('application/save-application') }}" class="form-horizontal" method="POST" enctype="multipart/form-data" id="formdata">
     @csrf

@@ -1,5 +1,10 @@
 @extends('layouts.manager')
 @section('page-title', 'List of Checklist Area')
+@section('buttons')
+@if ($privileges["create"] == 1)
+<a href="javascript:void(0)" class="btn btn-success mb-2 float-right" id="create_new_checklist_area"> <i class="fas fa-plus"></i> Add Checklist Area</a>
+@endif
+@endsection
 @section('content')
     <section class="content">
 		<div class="row">
@@ -13,9 +18,12 @@
 							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
 							<i class="icon fas fa-check"></i>
 						</div>
-						@if ($privileges["create"] == 1)
-						<a href="javascript:void(0)" class="btn btn-success mb-2 float-right" id="create_new_checklist_area">Add Checklist Area</a>
-						@endif
+						@component('layouts.components.search')
+							<div class="input-group input-group-md">
+								<input class="form-control form-control-navbar" type="search" name="search_text" placeholder="Search" aria-label="Search">
+							</div>
+						@endcomponent
+					<br><br>
 						<table id="example2" class="table table-bordered table-hover">
 							<thead>
 								<tr>
@@ -40,10 +48,10 @@
                                     <td class="text-center">{!! $checklistArea->isActive() == 1 ? '<i class="fas fa-check text-green"></i>' : '<i class="fas fa-times text-red"></i>' !!}</td>
                                     <td class="text-center">
 										@if ($privileges["edit"] == 1)
-                                        <a href="javascript:void(0)" id="edit_checklist_area" data-id="{{ $checklistArea->id }}" class="btn btn-sm btn-outline-info" title="Edit"> <i class="fas fa-edit"></i></a>
+                                        <a href="javascript:void(0)" id="edit_checklist_area" data-id="{{ $checklistArea->id }}" class="btn btn-sm btn-info" title="Edit"> <i class="fas fa-edit"></i></a>
 										@endif
 										@if((int)$privileges->delete == 1)
-										<a href="#" class="form-confirm btn-sm btn btn-outline-danger" title="Delete">
+										<a href="#" class="form-confirm btn-sm btn btn-danger" title="Delete">
 											<i class="fas fa-trash"></i>
 											<a data-form="#frmDelete-{!! $checklistArea->id !!}" data-title="Delete {!! $checklistArea->checklist_area !!}" data-message="Are you sure you want to delete this checklist area?"></a>
 										</a>
@@ -63,7 +71,7 @@
 							</tbody>
 						</table><br>
 						<div class="float-right">
-							{{ $checklistAreas->links() }}
+							{{ $checklistAreas->appends(['search_text' => Request::get('search_text')])->render() }}
 						</div>
 					</div>
 				</div>

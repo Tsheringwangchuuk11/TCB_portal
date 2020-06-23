@@ -139,14 +139,12 @@ class LoginController extends Controller
     public function username()
         {
             $login = request()->login;
-            if(is_numeric($login)){
-                $field = 'phone_no';
-            } elseif (filter_var($login, FILTER_VALIDATE_EMAIL)) {
-                $field = 'email';
-            } else {
-                $field = 'user_id';
-            }
-            request()->merge([$field => $login]);
-            return $field;
+            if (filter_var($login, FILTER_VALIDATE_EMAIL)) {
+                    $field = 'email';
+                } else {
+                    $field = 'user_id';
+                }
+                request()->merge([$field => $login]);
+                return $field;
         }
 }

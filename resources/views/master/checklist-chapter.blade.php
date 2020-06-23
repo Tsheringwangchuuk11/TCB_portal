@@ -1,9 +1,9 @@
 @extends('layouts.manager')
 @section('page-title', 'List of Checklist Chapter')
 @section('buttons')
-	@if ($privileges["create"] == 1)
-			<a href="javascript:void(0)" class="btn btn-success mb-2" id="create_new_checklist">Add Checklist Chapter</a>
-	@endif
+@if ($privileges["create"] == 1)
+<a href="javascript:void(0)" class="btn btn-success mb-2" id="create_new_checklist"><i class="fas fa-plus"></i> Add Checklist Chapter</a>
+@endif
 @endsection
 @section('content')
     <section class="content">
@@ -38,93 +38,94 @@
 							<input type="hidden" id="checklist_count" value="{{ $checklistChapterCount}}" />
 							@if($checklistChapters)
                             @forelse($checklistChapters as $checklistChapter)
-                                <tr id="checklist_id_{{ $checklistChapter->id }}">
-                                    <input type="hidden" id="hidden_id_{{ $checklistChapter->id }}" value="{{ $loop->iteration}}" />
-                                    <td class="text-center">{{ $loop->iteration}}</td>
-                                    <td>{{ $checklistChapter->serviceModule->module_name}}</td>
-                                    <td>{{ $checklistChapter->checklist_ch_name }}</td>
-                                    <td class="text-center">{!! $checklistChapter->isActive() == 1 ? '<i class="fas fa-check text-green"></i>' : '<i class="fas fa-times text-red"></i>' !!}</td>
-                                    <td class="text-center">
-										@if ($privileges["edit"] == 1)
-                                        <a href="javascript:void(0)" id="edit_checklist" data-id="{{ $checklistChapter->id }}" class="btn btn-sm btn-outline-info" title="Edit"> <i class="fas fa-edit"></i></a>
-										@endif
-										@if((int)$privileges->delete == 1)
-										<a href="#" class="form-confirm  btn btn-sm btn-outline-danger" title="Delete">
-											<i class="fas fa-trash"></i>
-											<a data-form="#frmDelete-{!! $checklistChapter->id !!}" data-title="Delete {!! $checklistChapter->checklist_ch_name !!}" data-message="Are you sure you want to delete this checklist chapter?"></a>
-										</a>
-										<form action="{{ url('master/checklist-chapters/' . $checklistChapter->id) }}" method="POST" id="{{ 'frmDelete-'.$checklistChapter->id }}">
-											@csrf
-											@method('DELETE')
-										</form>
-										@endif
-									</td>
-                                </tr>
-                                @empty
-                                <tr>
-                                    <td colspan="5" class="text-danger text-center">No checklist chapter to be displayed</td>
-                                </tr>
+                            <tr id="checklist_id_{{ $checklistChapter->id }}">
+                                <input type="hidden" id="hidden_id_{{ $checklistChapter->id }}" value="{{ $loop->iteration}}" />
+                                <td class="text-center">{{ $loop->iteration}}</td>
+                                <td>{{ $checklistChapter->serviceModule->module_name}}</td>
+                                <td>{{ $checklistChapter->checklist_ch_name }}</td>
+                                <td class="text-center">{!! $checklistChapter->isActive() == 1 ? '<i class="fas fa-check text-green"></i>' : '<i class="fas fa-times text-red"></i>' !!}</td>
+                                <td class="text-center">
+                                    @if ($privileges["edit"] == 1)
+                                    <a href="javascript:void(0)" id="edit_checklist" data-id="{{ $checklistChapter->id }}" class="btn btn-sm btn-info" title="Edit"> <i class="fas fa-edit"></i></a>
+                                    @endif
+                                    @if((int)$privileges->delete == 1)
+                                    <a href="#" class="form-confirm  btn btn-sm btn-danger" title="Delete">
+                                    <i class="fas fa-trash"></i>
+                                    <a data-form="#frmDelete-{!! $checklistChapter->id !!}" data-title="Delete {!! $checklistChapter->checklist_ch_name !!}" data-message="Are you sure you want to delete this checklist chapter?"></a>
+                                    </a>
+                                    <form action="{{ url('master/checklist-chapters/' . $checklistChapter->id) }}" method="POST" id="{{ 'frmDelete-'.$checklistChapter->id }}">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
+                                    @endif
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="5" class="text-danger text-center">No checklist chapter to be displayed</td>
+                            </tr>
                             @endforelse
-							@endif
-							</tbody>
-						</table><br>
-						<div class="float-right">
-							{{ $checklistChapters->appends(['search_text' => Request::get('search_text')])->render() }}
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<div class="modal fade" id="ajax-crud-modal" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="alert alert-danger" id="error_msg_id" style="display:none" >
-					<ul></ul>
-				</div>
-				<div class="modal-header">
-					<h4 class="modal-title" id="checklistCrudModal"></h4>
-				</div>
-				<div class="modal-body">
-                    <form action="{{ url('master/checklist-chapters') }}" method="POST" id="checklistForm">
-                        @csrf
-                        <div class="modal-body" id="frm_body">
-                            <input type="hidden" name="checklist_id" id="checklist_id" />
-                            <div class="form-group">
-                                <label for="" >Module *</label>
-                                <select name="service_module" class="form-control module select2bs4  required" id="module">
-                                    <option>---SELECT---</option>
-                                    @foreach ($serviceModules as $serviceModule)
-                                    <option value="{{ $serviceModule->id }}" {{ old('service_module') == $serviceModule->id ? 'selected' : '' }}>{{ $serviceModule->module_name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="">Chapter Name*</label>
-                                <input type="text" id= "checklist_name" name="checklist_name" class="form-control required">
-                            </div>
-                            <div class="form-group">
-                                <label for="">Status</label><br>
-                                <label>
-                                    <input type="radio" id="status1" name="status" value="yes" class="flat-red" {{ old('status') == null || old('status') == 'yes' ? 'checked' : '' }}/>
-                                    Yes
-                                </label>
-                                <label>
-                                    <input type="radio" id="status2" name="status" value="no" class="flat-red" {{ old('status') == 'no' ? 'checked' : '' }} />
-                                    No
-                                </label>
-                            </div>
+                            @endif
+                        </tbody>
+                    </table>
+                    <br>
+                    <div class="float-right">
+                        {{ $checklistChapters->appends(['search_text' => Request::get('search_text')])->render() }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="modal fade" id="ajax-crud-modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="alert alert-danger" id="error_msg_id" style="display:none" >
+                <ul></ul>
+            </div>
+            <div class="modal-header">
+                <h4 class="modal-title" id="checklistCrudModal"></h4>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url('master/checklist-chapters') }}" method="POST" id="checklistForm">
+                    @csrf
+                    <div class="modal-body" id="frm_body">
+                        <input type="hidden" name="checklist_id" id="checklist_id" />
+                        <div class="form-group">
+                            <label for="" >Module *</label>
+                            <select name="service_module" class="form-control module select2bs4  required" id="module">
+                                <option>---SELECT---</option>
+                                @foreach ($serviceModules as $serviceModule)
+                                <option value="{{ $serviceModule->id }}" {{ old('service_module') == $serviceModule->id ? 'selected' : '' }}>{{ $serviceModule->module_name }}</option>
+                                @endforeach
+                            </select>
                         </div>
-                        <div class="modal-footer" style="margin-bottom:-14px;">
-                            <input type="button" id="btn-save" class="btn btn-outline-success btn-flat margin-r-5" value="reate-checklist"/>
-                            <button type="button" class="btn btn-flat btn-close btn-outline-danger float-left" data-dismiss="modal">Close</button>
+                        <div class="form-group">
+                            <label for="">Chapter Name*</label>
+                            <input type="text" id= "checklist_name" name="checklist_name" class="form-control required">
                         </div>
-                    </form>
-				</div>
-			</div>
-		</div>
-	</div>
-	@include('layouts.include.confirm-delete')
+                        <div class="form-group">
+                            <label for="">Status</label><br>
+                            <label>
+                            <input type="radio" id="status1" name="status" value="yes" class="flat-red" {{ old('status') == null || old('status') == 'yes' ? 'checked' : '' }}/>
+                            Yes
+                            </label>
+                            <label>
+                            <input type="radio" id="status2" name="status" value="no" class="flat-red" {{ old('status') == 'no' ? 'checked' : '' }} />
+                            No
+                            </label>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="margin-bottom:-14px;">
+                        <input type="button" id="btn-save" class="btn btn-outline-success btn-flat margin-r-5" value="reate-checklist"/>
+                        <button type="button" class="btn btn-flat btn-close btn-outline-danger float-left" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@include('layouts.include.confirm-delete')
 @endsection
 @section('scripts')
 <script>

@@ -114,6 +114,11 @@ class ServiceController extends Controller
         $data=Services::getTourOperatorDetails($licenseNo);
         return response()->json($data);
    }
+
+   public function getTourOperatorInfo($cid){
+    $data=Services::getTourOperatorInfo($cid);
+    return response()->json($data);
+}
    
     public function saveNewApplication(Request $request){
         $application_no = $this->services->generateApplNo($request);
@@ -172,6 +177,8 @@ class ServiceController extends Controller
             $data->bhutan_year=$request->bhutan_year;
             $data->letter_type_id=$request->letter_sample;
             $data->chiwog_id=$request->chiwog_id;
+            $data->event_id=$request->event_id;
+            $data->remarks=$request->remarks;
             $data->save();
 
             //insert into t_room_applications
