@@ -30,7 +30,7 @@ class ChecklistStandardController extends Controller
     public function index(Request $request)
     {
         $privileges = $request->instance();
-        $checklistStandards = TCheckListStandard::orderBy('id', 'DESC')->with('checklistArea')->paginate(100);
+        $checklistStandards = TCheckListStandard::filter($request)->orderBy('id', 'DESC')->with('checklistArea')->paginate(100);
 
         return view('master.checklist-standard.index', compact('privileges', 'checklistStandards'));
     }

@@ -88,6 +88,7 @@ class RestaurantController extends Controller
             'webpage_url'   => $request->webpage_url,
             'village_id'   => $request->village_id,
             'inspection_date'   =>date('Y-m-d', strtotime($request->inspection_date)),
+            'validaty_date'   =>now()->addYears(3),
             'created_at'   => now(),
             'updated_at'   => now(),
         ];

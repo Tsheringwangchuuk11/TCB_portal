@@ -417,6 +417,7 @@ public function setToDateAttribute($value)
 			chiwog_id,
 			star_category_id,
 			inspection_date,
+			validaty_date
 			updated_at,
 			created_at,
 			is_active
@@ -444,6 +445,7 @@ public function setToDateAttribute($value)
 			chiwog_id,
 			star_category_id,
 			inspection_date,
+			validaty_date
 			updated_at,
 			NOW(),
 			is_active

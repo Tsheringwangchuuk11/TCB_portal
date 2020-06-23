@@ -185,6 +185,33 @@
             </ol>
             @include('services/fileupload/fileupload')
         </div>
+        <div class="row">
+            <div class="col-md-12">
+            <div class="form-group ml-3">
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="exampleCheck2">
+                  <label class="form-check-label" for="exampleCheck2">I hereby:
+                    <ol>
+                        <li>
+                            Confirm the accuracy of the provided data; 
+
+                        </li>
+                        <li>
+                            Agree to submit upon request of the Classification Committee  additional information for classification approval/modification purposes; 
+
+                        </li>
+                        <li>
+                            Apply for the assignment of ______ star level  and verify the conformity of the accommodation establishment  to the  guideline; 
+                        </li>
+                        <li>
+                            Agree with the terms and conditions laid down in the statutes of the TCB- classification committee and the classification procedure.
+                        </li>
+                    </ol>
+                </label> 
+                </div>
+              </div>
+            </div>
+          </div>
         <div class="card-footer text-center">
             <button type="submit"class="btn btn-success"><i class="fa fa-check"></i> APPLY</button>
             <button type="reset"class="btn btn-danger"><i class="fa fa-times"></i> RESET</button>

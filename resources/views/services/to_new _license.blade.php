@@ -288,6 +288,9 @@
               <li>
                 <em>Copy of Lease Agreement/Undertaking letter from the Landlord for office space or ownership certificate in case of own building</em>      
               </li>
+              <li>
+                <em>Declaration signed by the applicant that he/she is not a Civil Servant, employee of a Government Controlled Organization or Corporate Body as set out in Annexure A of TRR 2017 </em>      
+              </li>
             </ol>
             @include('services/fileupload/fileupload')
         </div>
@@ -296,12 +299,11 @@
           <div class="form-group ml-3">
               <div class="form-check">
                 <input type="checkbox" class="form-check-input" id="exampleCheck2">
-                <label class="form-check-label" for="exampleCheck2">Declaration signed by the applicant that he/she is not a Civil Servant, employee of a Government Controlled Organization or Corporate Body as set out in Annexure A of TRR 2017</label>
+                <label class="form-check-label" for="exampleCheck2">I declare that the information given in this form is true and complete in all aspects to the best of my knowledge</label>
               </div>
             </div>
           </div>
         </div>
-      
         <div class="card-footer text-center">
             <button type="submit"class="btn btn-success"><li class="fas fa-check"></li> APPLY</button>
             <button type="reset" class="btn btn-danger"><li class="fas fa-times"></li> RESET</button>

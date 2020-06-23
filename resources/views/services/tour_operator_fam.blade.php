@@ -247,6 +247,16 @@
             </ol>
                     @include('services/fileupload/fileupload')
         </div>
+        <div class="row">
+            <div class="col-md-12">
+            <div class="form-group ml-3">
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="exampleCheck2">
+                  <label class="form-check-label" for="exampleCheck2">I hereby agree to the above terms and conditions, and agree that the above information is true. </label>
+                </div>
+              </div>
+            </div>
+          </div>
         <div class="card-footer text-center">
             <button type="submit"class="btn btn-success btn-sm"><li class="fas fa-check"></li> APPLY</button>
             <button type="reset" class="btn btn-danger btn-sm"><li class="fas fa-times"></li> RESET</button>
