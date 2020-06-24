@@ -69,7 +69,7 @@ Route::group(['middleware' => ['auth']], function () {
 
 
 
-        // fileupload
+        // fileuploads
         Route::post('documentattach', 'FileUploadController@addDocuments');
         Route::post('deletefile', 'FileUploadController@deleteFile');
     });

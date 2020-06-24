@@ -17,8 +17,6 @@ class VehicleSeeder extends Seeder
             ['id' => 3, 'vehicle_name' => 'SUVs'],
             ['id' => 4, 'vehicle_name' => 'Cars'],
             ['id' => 5, 'vehicle_name' => 'Office Pool Vehicle'],
-            ['id' => 6, 'vehicle_name' => 'Cars'],
-            ['id' => 7, 'vehicle_name' => 'Office Pool Vehicle '],
         ]);
     }
 }
