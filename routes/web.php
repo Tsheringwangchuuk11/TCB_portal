@@ -36,6 +36,11 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('users/disable-toggle', 'UserController@postDisableToggle');
         Route::resource('users', 'UserController');
         Route::resource('resend-verification-codes', 'ResendVerificationCodeController');
+        Route::get('backups', 'BackupController@getIndex');
+        Route::post('backups/create', 'BackupController@postCreate');
+        Route::post('backups/delete', 'BackupController@postDelete');
+        Route::post('backups/remove-file/{file}', 'BackupController@postRemoveFile');
+        Route::get('backups/download/{file}', 'BackupController@getDownload');
     });
 
     //routes for masters
