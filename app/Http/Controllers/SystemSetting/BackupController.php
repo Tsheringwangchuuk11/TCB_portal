@@ -53,7 +53,7 @@ class BackupController extends Controller
         return redirect('system/backups')->with('msg_error', 'Error deleting the file');
     }
 
-    public function getDownload($file)
+    public function getDownload()
     {
         $headers = ['Content-Type', 'octet-stream'];    
         return response()->file(storage_path()."/app/" . config('app.name') . "/".$file, $headers);
