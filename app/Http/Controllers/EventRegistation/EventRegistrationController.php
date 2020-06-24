@@ -16,17 +16,17 @@ class EventRegistrationController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('permission:master/travel-fairs-event,view', ['only' => ['index', 'show']]);
-        $this->middleware('permission:master/travel-fairs-event,create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:master/travel-fairs-event,edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:master/travel-fairs-event,delete', ['only' => 'destroy']);
+        $this->middleware('permission:events/travel-fairs-event,view', ['only' => ['index', 'show']]);
+        $this->middleware('permission:events/travel-fairs-event,create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:events/travel-fairs-event,edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:events/travel-fairs-event,delete', ['only' => 'destroy']);
     }
     public function index(Request $request)
     {
         $privileges = $request->instance();
         $countries = Dropdown::getDropdowns("t_country_masters","id","country_name","0","0");
         $events = EventRegistration::getEventDetails();
-        return view('master.event_registration.registration_form', compact('events','privileges','countries'));
+        return view('event.event_registration.registration_form', compact('events','privileges','countries'));
     }
 
     /**
@@ -60,7 +60,7 @@ class EventRegistrationController extends Controller
         if($validator->passes()){
         $savedata   =   EventRegistration::create(['event_name' => $request->event_name, 'country_id' => $request->country_id, 'location'=> $request->location ,'start_date'=> $request->start_date,'end_date'=> $request->end_date,'last_date'=> $request->last_date,'event_dtls'=> $request->event_dtls]);
         //  return response()->json($savedata);
-        return redirect('master/travel-fairs-event');
+        return redirect('event/travel-fairs-event');
        }
        return response()->json(['error' => $validator->errors()->all() ]);
     }

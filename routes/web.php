@@ -49,8 +49,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('checklist-areas/module', 'ChecklistAreaController@getChapter');
         Route::resource('checklist-areas', 'ChecklistAreaController');
         Route::get('checklist-standards/chapter', 'ChecklistStandardController@getChecklistArea');
-        Route::resource('checklist-standards', 'ChecklistStandardController');
-        Route::resource('travel-fairs-event', 'EventRegistrationController');
+        Route::resource('checklist-standards', 'ChecklistStandardController');        
     });
 
     //routes for new application
@@ -141,6 +140,11 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::group(['prefix' => 'statistics', 'namespace' => 'Statistics'], function() {
         Route::get('arrival', function(){return view('report.arrival');});
+    });
+
+    //routes for new application
+    Route::group(['prefix' => 'events', 'namespace' => 'EventRegistration'], function() {
+        Route::resource('travel-fairs-event', 'EventRegistrationController');
     });
 });
 

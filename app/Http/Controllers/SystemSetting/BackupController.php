@@ -27,6 +27,7 @@ class BackupController extends Controller
             $file['size'] =  filesize($filename);
             $files[] = $file;
         }
+        // return response()->json($files);
         return view('system-settings.backup.index', compact('files'));
     }
 
@@ -52,7 +53,7 @@ class BackupController extends Controller
         return redirect('system/backups')->with('msg_error', 'Error deleting the file');
     }
 
-    public function getDownload()
+    public function getDownload($file)
     {
         $headers = ['Content-Type', 'octet-stream'];    
         return response()->file(storage_path()."/app/" . config('app.name') . "/".$file, $headers);
