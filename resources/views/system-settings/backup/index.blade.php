@@ -46,7 +46,7 @@
                                 <td>
                                     {{ $file['file_name'] }}
                                 </td>
-                                <td>{{ formatSizeUnits($file['size']) }}</td>
+                                <td>{{ $file['size'] }}</td>
                                 <td class="text-center">
                                     <a href="{{ url('system/backups/download/'.$file['file_name']) }}" class="btn btn-success btn-xs btn-flat margin-r-5"><i class="fa fa-edit"></i> Download</a>
 									<a href="#" class="formConfirm btn btn-xs btn-flat btn-danger">
