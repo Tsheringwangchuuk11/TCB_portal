@@ -210,8 +210,11 @@
                 <div class="col-md-5">
                   <div class="form-group">
                     <label for="">Name Of Company<span class="text-danger"> *</span></label><small class="text-danger text-right">[ Option one]</small>
-                    <input type="text" class="form-control" name="company_title_name"  autocomplete="off">
+                    <input type="text" class="form-control" name="company_title_name"  autocomplete="off" onchange="checkCompanyName(this.value)" id="company_title_name">
                   </div>
+                  <div class="alert alert-danger alert-dismissible" id="alertMgsId" style="display: none">
+                    <i class="fa fa-info-circle fa-lg"></i><strong><span id="showMsg"></span> Company name  already exists and enter different name</strong>
+                </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
                   <div class="form-group">
@@ -317,6 +320,29 @@
   $('#checkboxId').click(function() {
     $("#partnerInfo").toggle(this.checked);
 });
+function checkCompanyName(companyName){
+  $.ajax({
+            url:'/application/get-companyname',
+               type: "GET",
+               headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                 },
+                  data: {
+                     companyName: companyName
+                 },
+                 dataType: "json",
+               success:function(data) {
+                   if(data==true){
+                    $('#showMsg').html(data.msg);
+                    $('#alertMgsId').show().delay(3000).queue(function (n) {
+                    $(this).hide();
+                    n();
+                  });
+                  $('#company_title_name').val('');
+                 }
+               }
+            });
+}
 </script>
 @endsection
 

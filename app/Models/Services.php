@@ -520,4 +520,10 @@ public function setToDateAttribute($value)
 		return $query;
 
 	}
+	public static function checkCompanyNameExists($companyName){
+        $query=\DB::table('t_operator_clearances as t1')
+                    ->where('t1.company_name',$companyName)
+                    ->exists();
+        return  $query;
+    }
 }
