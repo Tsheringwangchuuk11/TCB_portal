@@ -16,7 +16,7 @@ class CreateTEventDtlsTable extends Migration
         Schema::create('t_event_dtls', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('event_name', 250)->nullable();
-            $table->bigInteger('country_id')->index()->nullable();
+            $table->unsignedBigInteger('country_id')->index()->nullable();
             $table->string('location', 250)->nullable();
             $table->date('last_date')->nullable();
             $table->date('start_date')->nullable();
