@@ -20,7 +20,6 @@ class BackupController extends Controller
     {
         $files = [];
         foreach (glob(storage_path()."/app/" .config('app.name'). "/*.zip") as $filename) {
-            dd($filename);
             $file = [];
             $lastPosIndex = strrpos(basename($filename), '-');
             $file['backup_date'] = substr(basename($filename), 0 , 10);
@@ -28,7 +27,6 @@ class BackupController extends Controller
             $file['size'] =  filesize($filename);
             $files[] = $file;
         }
-
         return view('system-settings.backup.index', compact('files'));
     }
 

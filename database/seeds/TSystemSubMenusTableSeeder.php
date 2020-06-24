@@ -32,6 +32,9 @@ class TSystemSubMenusTableSeeder extends Seeder
             //report
             ['id' => 11, 'system_menu_id' => 5, 'name' => 'Assement Report', 'route' => 'report/assessment-reports', 'display_order' => 1],
             ['id' => 12, 'system_menu_id' => 5, 'name' => 'Application List', 'route' => 'report/application-lists', 'display_order' => 2],
+
+            //event registration
+            ['id' => 13, 'system_menu_id' => 6, 'name' => 'Event Registration', 'route' => 'events/travel-fairs-event', 'display_order' => 1],
         ]);
     }
 }

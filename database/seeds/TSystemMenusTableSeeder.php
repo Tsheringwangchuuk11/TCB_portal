@@ -17,6 +17,7 @@ class TSystemMenusTableSeeder extends Seeder
             ['id' => 3, 'name' => 'Application', 'icon' => 'fa-cogs', 'display_order' => 3],
             ['id' => 4, 'name' => 'Tasklist', 'icon' => 'fa-tasks', 'display_order' => 4],
             ['id' => 5, 'name' => 'Report', 'icon' => 'fa-file-pdf', 'display_order' => 5],
+            ['id' => 6, 'name' => 'Event Registration', 'icon' => 'fa-plus-circle', 'display_order' => 6],
         ]);
     }
 }
