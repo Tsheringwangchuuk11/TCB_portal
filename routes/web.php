@@ -66,6 +66,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('get-hotel-details/{id}', 'ServiceController@getTouristHotelDetails');
         Route::get('get-tour_operator-details/{id}', 'ServiceController@getTourOperatorDetails');
         Route::get('get-tour_operator-info/{cid}', 'ServiceController@getTourOperatorInfo');
+        Route::get('get-companyname', 'ServiceController@getCompnayName');
+
 
 
         // fileupload
