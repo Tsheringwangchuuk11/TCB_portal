@@ -212,6 +212,7 @@ public function setToDateAttribute($value)
 		->leftjoin('t_chiwog_masters as t2','t2.id','=','t1.chiwog_id')
 		->leftjoin('t_village_masters as t4','t4.id','=','t1.village_id')
 		->leftjoin('t_event_dtls as t5','t5.id','=','t1.event_id')
+		->select('t1.*','t3.dzongkhag_id','t3.gewog_name','t2.chiwog_name','t4.village_name','t5.*')
 		->where('t1.application_no',$applicationNo)
 		->first();
 		return $query;

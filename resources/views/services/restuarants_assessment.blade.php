@@ -9,7 +9,7 @@
     <input type="hidden" name="service_name" value="{{ $idInfos->name }}" id="service_name">
     <input type="hidden" name="module_name" value="{{ $idInfos->module_name }}" id="module_name">
 <div class="card">
-    <div class="card-header bg-success">
+    <div class="card-header">
         <h3 class="card-title">General Information</h3>
     </div>
         <div class="card-body">

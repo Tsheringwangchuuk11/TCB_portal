@@ -335,9 +335,13 @@ var validation = function () {
          location_id: {
             required:true,
          },
-        /*  'room_type_id[]': {
+         terms: {
             required:true,
          },
+         'room_type_id[]': {
+            required:true,
+         },
+          /*
         'room_no[]': {
            required: true,
            digits: true,
@@ -459,9 +463,14 @@ var validation = function () {
          location_id: {
             required: "Please select the location",
          },
-       /*  'room_type_id[]':{
+
+         terms: {
+            required:"Please accept our terms",
+         },
+        'room_type_id[]':{
             required: "Please select the room type",
          },
+         /*
         'room_no[]': {
            required: "Please provide number of rooms",
            digits: "This field accept only digits",

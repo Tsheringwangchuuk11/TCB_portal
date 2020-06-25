@@ -36,6 +36,7 @@ class TouristStandardHotelController extends Controller
         }
         elseif($serviceId==4){
         //Tourism standard hotel assesment Details
+        $data['locations'] = Dropdown::getDropdowns("t_locations","id","location_name","0","0");
         $data['starCategoryLists'] = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
         $data['roomTypeLists'] = Dropdown::getDropdowns("t_room_types","id","room_name","0","0");
         $data['staffAreaLists'] = Dropdown::getDropdowns("t_staff_areas","id","staff_area_name","0","0");
@@ -190,6 +191,7 @@ class TouristStandardHotelController extends Controller
                                 'tourist_standard_id' =>  $id,
                                 'checklist_id'   => $request->checklist_id[$key],
                                 'checklist_pts'   => $request->checklist_pts[$key],
+                                'ratingpoint'   => $request->ratingpoint[$key],
                                 'created_at'   => now(),
                                 'updated_at'   => now(),
                        ];

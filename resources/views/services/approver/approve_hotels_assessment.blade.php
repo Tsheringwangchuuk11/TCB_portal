@@ -82,7 +82,12 @@
                 </div>
                 <div class="form-group col-md-5 offset-md-2">
                     <label for="">Location</label>
-                    <input type="text" class="form-control numeric-only" name="village_id" value="{{ $applicantInfo->location_id }}" autocomplete="off">
+                    <select class="form-control select2bs4" name="village_id">
+                        <option value="">- Select -</option>
+                        @foreach ($locations as $location)
+                        <option value="{{$location->id}}" {{ old('village_id', $applicantInfo->location_id) == $location->id ? 'selected' : '' }}> {{$location->location_name}}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
         </div>
@@ -181,7 +186,11 @@
         </div>
     </div>
     @if ($checklistDtls->count() > 0)
-        <h5>Checklist</h5>
+    <div class="card">
+        <div class="card-header">
+           <h4 class="card-title">Self Assessment Check List</h4>
+        </div>
+     <div class="card-body">
         @foreach ($checklistDtls as $chapter)
             <div class="card collapsed-card">
                 <div class="card-header" data-card-widget="collapse">
@@ -241,6 +250,8 @@
                 </div>
             </div>
         @endforeach
+     </div>
+    </div>
     @endif
     <div class="card">
         <div class="card-header">
