@@ -27,6 +27,7 @@ class BackupController extends Controller
             $file['size'] =  filesize($filename);
             $files[] = $file;
         }
+                
         return view('system-settings.backup.index', compact('files'));
     }
 
