@@ -46,14 +46,10 @@
                                 <td>
                                     {{ $file['file_name'] }}
                                 </td>
-<<<<<<< HEAD
-                                <td>{{ $file['size'] }}</td>
-=======
-                                <td>{{ ($file['size']) }}</td>
->>>>>>> b7c13d1319939361374a7a18069a84b691dc7120
+                                <td>{{ $file['size']  }}</td>
                                 <td class="text-center">
-                                    <a href="{{ url('system/backups/download/'.$file['file_name']) }}" class="btn btn-success btn-xs btn-flat margin-r-5"><i class="fa fa-edit"></i> Download</a>
-									<a href="#" class="formConfirm btn btn-xs btn-flat btn-danger">
+                                    <a href="{{ url('system/backups/download/'.$file['file_name']) }}" class="btn btn-success btn-sm btn-flat margin-r-5"><i class="fa fa-edit"></i> Download</a>
+									<a href="#" class="form-confirm btn-sm btn btn-danger">
 										<i class="fa fa-trash"></i> Delete
 										<a data-form="#frmDelete-{{$count}}" data-title="Delete Backup" data-message="Are you sure you want to delete this backup?"></a>
 									</a>
