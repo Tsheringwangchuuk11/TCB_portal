@@ -17,7 +17,7 @@ class CreateTEventDtlsTable extends Migration
             $table->bigIncrements('id');
             $table->string('event_name', 250)->nullable();
             $table->unsignedBigInteger('country_id')->index()->nullable();
-            $table->string('location', 250)->nullable();
+            $table->string('event_location', 250)->nullable();
             $table->date('last_date')->nullable();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();

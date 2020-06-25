@@ -143,7 +143,7 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     //routes for new application
-    Route::group(['prefix' => 'events', 'namespace' => 'EventRegistration'], function() {
+    Route::group(['prefix' => 'events', 'namespace' => 'EventRegistation'], function() {
         Route::resource('travel-fairs-event', 'EventRegistrationController');
     });
 });
