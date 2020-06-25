@@ -59,8 +59,8 @@ class CreateApplicationTable extends Migration
             $table->string('city', 250)->nullable();
             $table->bigInteger('country_id')->index()->nullable();
             $table->text('visit_purpose')->nullable();
-            $table->boolean('sell_destination')->default(0);
-            $table->boolean('sell_bhutan')->default(0);
+            $table->boolean('sell_destination')->default(0)->nullable();
+            $table->boolean('sell_bhutan')->default(0)->nullable();
             $table->year('destination_year')->nullable();
             $table->year('bhutan_year')->nullable();
             $table->date('date')->nullable();

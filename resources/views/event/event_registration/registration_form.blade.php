@@ -31,7 +31,7 @@
 								<tr>
 									<td>{{ $loop->iteration }}</td>
 									<td>{{$event->event_name}}</td>
-									<td>{{$event->location}}</td>
+									<td>{{$event->event_location}}</td>
 									<td>{{$event->country_name}}</td>
 								<td class="text-center">
 									@if ($privileges["edit"] == 1)
@@ -76,7 +76,7 @@
 					  </button>
 				</div>
 				<div class="modal-body">
-                    <form action="{{ url('master/travel-fairs-event') }}" method="POST" id="eventlistForm">
+                    <form action="{{ url('events/travel-fairs-event') }}" method="POST" id="eventlistForm">
                         @csrf
                         <div class="modal-body" id="frm_body">
 							<div class="row">
@@ -103,7 +103,7 @@
 							<div class="col-md-5">
 								<div class="form-group">
 									<label for="">Location*</label>
-									<input type="text" id= "location" name="location" class="form-control required">
+									<input type="text" id= "location" name="event_location" class="form-control required">
 								</div>
 							</div>
 							<div class="col-md-5 offset-md-2">

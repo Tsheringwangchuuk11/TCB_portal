@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Master;
+namespace App\Http\Controllers\EventRegistation;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -50,7 +50,7 @@ class EventRegistrationController extends Controller
         $rule = [
             'event_name' => 'required',
             'country_id' => 'required',
-            'location' => 'required',
+            'event_location' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
             'last_date' => 'required',
@@ -58,7 +58,7 @@ class EventRegistrationController extends Controller
         ];
         $validator = Validator::make($request->all(), $rule);
         if($validator->passes()){
-        $savedata   =   EventRegistration::create(['event_name' => $request->event_name, 'country_id' => $request->country_id, 'location'=> $request->location ,'start_date'=> $request->start_date,'end_date'=> $request->end_date,'last_date'=> $request->last_date,'event_dtls'=> $request->event_dtls]);
+        $savedata   =   EventRegistration::create(['event_name' => $request->event_name, 'country_id' => $request->country_id, 'event_location'=> $request->event_location ,'start_date'=> $request->start_date,'end_date'=> $request->end_date,'last_date'=> $request->last_date,'event_dtls'=> $request->event_dtls]);
         //  return response()->json($savedata);
         return redirect('event/travel-fairs-event');
        }
