@@ -1,8 +1,8 @@
 @extends('layouts.manager')
-@section('page-title','Registration of Tourist Standard Hotels')
+@section('page-title','Assessment And Registration Of Tourist Standard Hotels')
 {{-- @include('layouts.include.alert_success') --}}
 @section('content')
-    <form action="{{ url('application/save-application') }}" method="POST" files="true" id="formdata" enctype="multipart/form-data">
+<form action="{{ url('application/save-application') }}" method="POST" files="true" id="formdata" enctype="multipart/form-data">
     @csrf
     <input type="hidden" name="service_id" value="{{ $idInfos->service_id }}" id="service_id">
     <input type="hidden" name="module_id" value="{{ $idInfos->module_id }}" id="module_id">
@@ -10,7 +10,7 @@
     <input type="hidden" name="module_name" value="{{ $idInfos->module_name }}" id="module_name">
     <div class="card">
         <div class="card-header">
-             <h4 class="card-title">General Information</h4>
+            <h4 class="card-title">General Information</h4>
         </div>
         <div class="card-body">
             <div class="row">
@@ -32,7 +32,6 @@
                 <div class="form-group col-md-5">
                     <label for="">License Date <span class="text-danger">*</span> </label>
                     <input type="date" class="form-control" name="license_date" autocomplete="off">
-                    <span class="text-danger">{{ $errors->first('license_date') }}</span>
                 </div>
                 <div class="form-group col-md-5 offset-md-2">
                     <label for="">Hotel Name <span class="text-danger">*</span> </label>
@@ -43,7 +42,6 @@
                 <div class="form-group col-md-5">
                     <label for="">Owner Name<span class="text-danger">*</span> </label>
                     <input type="text" class="form-control" name="owner_name" autocomplete="off">
-                    <span class="text-danger">{{ $errors->first('owner_name') }}</span>
                 </div>
                 <div class="form-group col-md-5 offset-md-2">
                     <label for="">CID No.<span class="text-danger">*</span> </label>
@@ -95,7 +93,7 @@
     </div>
     <div class="card">
         <div class="card-header">
-             <h4 class="card-title">Room Details</h4>
+            <h4 class="card-title">Room Details</h4>
         </div>
         <div class="card-body">
             <div class="row">
@@ -106,19 +104,19 @@
                     <label for="">Number of Room<span class="text-danger">*</span> </label>
                 </div>
             </div>
-                <div class="row" id="rowId">
-                    <div class="form-group col-md-5">
-                        <select class="form-control netEmp" name="room_type_id[]" id="room_type_id">
-                            <option value=""> - Select Room - </option>
-                            @foreach ($roomTypeLists as $roomTypeList)
-                            <option value="{{ $roomTypeList->id }}">{{ $roomTypeList->room_name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group col-md-4 offset-md-2 ">
-                        <input type="text" class="form-control" name="room_no[]" autocomplete="off" id="room_no">
-                    </div>
+            <div class="row" id="rowId">
+                <div class="form-group col-md-5">
+                    <select class="form-control netEmp" name="room_type_id[]" id="room_type_id">
+                        <option value=""> - Select Room - </option>
+                        @foreach ($roomTypeLists as $roomTypeList)
+                        <option value="{{ $roomTypeList->id }}">{{ $roomTypeList->room_name }}</option>
+                        @endforeach
+                    </select>
                 </div>
+                <div class="form-group col-md-4 offset-md-2 ">
+                    <input type="text" class="form-control" name="room_no[]" autocomplete="off" id="room_no">
+                </div>
+            </div>
             <div id="adddiv"></div>
             <span class="btn btn-success btn-sm float-right" id="add"> <i class="fas fa-plus fa-sm">Add</i></span><br>
             <!-- staff -->
@@ -126,7 +124,7 @@
     </div>
     <div class="card">
         <div class="card-header">
-             <h4 class="card-title">Staff Details</h4>
+            <h4 class="card-title">Staff Details</h4>
         </div>
         <div class="card-body">
             <div class="row">
@@ -143,42 +141,40 @@
                     <label>Gender <span class="text-danger">*</span></label>
                 </div>
             </div>
-                <div class="row addmorerows" id="addstaff">
-                    <div class="form-group col-md-3">
-                        <select class="form-control" name="staff_area_id[]" id="staff_area_id" onchange="selectStaffArea(this)">
-                            <option value="">- Select -</option>
-                            @foreach ($staffAreaLists as $staffAreaList)
-                            <option value="{{ $staffAreaList->id }}"> {{ $staffAreaList->staff_area_name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group col-md-3">
-                        <select class="form-control" name="hotel_div_id[]" id="hotel_div_id">
-                            <option value="">- Select -</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-md-3">
-                        <input type="text" class="form-control" name="staff_name[]" autocomplete="off" id="staff_name">
-                    </div>
-                    <div class="form-group col-md-2">
-                        <select class="form-control" name="staff_gender[]" id="staff_gender">
-                            <option value="">- Select -</option>
-                            @foreach (config()->get('settings.gender') as $k => $v)
-                            <option value="{{ $k }}" {{ old('gender') == $k ? 'selected' : '' }}>{{ $v }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+            <div class="row addmorerows" id="addstaff">
+                <div class="form-group col-md-3">
+                    <select class="form-control" name="staff_area_id[]" id="staff_area_id" onchange="selectStaffArea(this)">
+                        <option value="">- Select -</option>
+                        @foreach ($staffAreaLists as $staffAreaList)
+                        <option value="{{ $staffAreaList->id }}"> {{ $staffAreaList->staff_area_name }}</option>
+                        @endforeach
+                    </select>
                 </div>
+                <div class="form-group col-md-3">
+                    <select class="form-control" name="hotel_div_id[]" id="hotel_div_id">
+                        <option value="">- Select -</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <input type="text" class="form-control" name="staff_name[]" autocomplete="off" id="staff_name">
+                </div>
+                <div class="form-group col-md-2">
+                    <select class="form-control" name="staff_gender[]" id="staff_gender">
+                        <option value="">- Select -</option>
+                        @foreach (config()->get('settings.gender') as $k => $v)
+                        <option value="{{ $k }}" {{ old('gender') == $k ? 'selected' : '' }}>{{ $v }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
             <div id="field_wrapper1"></div>
             <span class="btn btn-success btn-sm float-right" id="add_more"> <i class="fas fa-plus fa-sm">Add</i> </span>
         </div>
     </div>
-            
     <div id="showdivid"></div>
-
     <div class="card">
         <div class="card-header">
-             <h4 class="card-title">File Attachment</h4>
+            <h4 class="card-title">File Attachment</h4>
         </div>
         <div class="card-body">
             <h6> <strong>Required supporting documents:</strong></h6>
@@ -189,12 +185,39 @@
             </ol>
             @include('services/fileupload/fileupload')
         </div>
+        <div class="row">
+            <div class="col-md-12">
+            <div class="form-group ml-3">
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="exampleCheck2">
+                  <label class="form-check-label" for="exampleCheck2">I hereby:
+                    <ol>
+                        <li>
+                            Confirm the accuracy of the provided data; 
+
+                        </li>
+                        <li>
+                            Agree to submit upon request of the Classification Committee  additional information for classification approval/modification purposes; 
+
+                        </li>
+                        <li>
+                            Apply for the assignment of ______ star level  and verify the conformity of the accommodation establishment  to the  guideline; 
+                        </li>
+                        <li>
+                            Agree with the terms and conditions laid down in the statutes of the TCB- classification committee and the classification procedure.
+                        </li>
+                    </ol>
+                </label> 
+                </div>
+              </div>
+            </div>
+          </div>
         <div class="card-footer text-center">
             <button type="submit"class="btn btn-success"><i class="fa fa-check"></i> APPLY</button>
             <button type="reset"class="btn btn-danger"><i class="fa fa-times"></i> RESET</button>
         </div>
     </div>
-    </form>
+</form>
 @endsection
 @section('scripts')
 <script>

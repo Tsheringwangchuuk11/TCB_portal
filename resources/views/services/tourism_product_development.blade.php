@@ -147,24 +147,40 @@
              <h4 class="card-title">Bhutan Coverage & Distribution Channel</h4>
         </div>
         <div class="card-body">
-            <table class="table table-bordered table-sm" id="dataTable" indexId="index"> 
+            <table class="table table-condensed table-striped table-sm" id="dataTable" indexId="index"> 
+                <thead>
+                    <tr>        
+                        <th>Sl.No</th>
+                        <th>Particulars/Items</th>
+                        <th>Costs (Nu.)</th>
+                        <th></th>
+                    </tr>
+                </thead>
             <tbody>
-                <tr>        
-                    <th>Sl.No</th>
-                    <th>Particulars/Items</th>
-                    <th>Costs (Nu.)</th>
-                    <th></th>
-                </tr>
                 <tr>
                     <td>1</td>
                     <td><input type="text" id="items" class="form-control" name="items_name[]" autocomplete="off"></td>              
-                    <td><input type="text" id="cost" class="form-control" name="item_costs[]" autocomplete="off" onchange="updateTotal();"></td>              
+                    <td><input type="text" id="cost" class="form-control txt" name="item_costs[]" autocomplete="off"></td>              
+                    <th></th>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2" class="text-left">
+                        Total
+                    </td>
                     <td>
-                        <button type="button" class="btn btn-success btn-xs tooltip-top" title="Add More" id="addrow"><i class="fas fa-plus"> Add</i></button>
+                        <input type="hidden" id="grandTotal" class="form-control" name="grandTotal">
+                        <span id="scorepoint"></span>
                     </td>
                 </tr>
-
-            </tbody>
+                <tr>
+                    <td colspan="3"></td>
+                    <td>
+                        <button type="button" class="btn btn-success btn-sm tooltip-top" title="Add More" id="addrow"><i class="fas fa-plus"> Add</i></button>
+                    </td>
+                </tr>
+            </tfoot>
         </table>
         </div>
     </div>
@@ -218,27 +234,44 @@
             bsCustomFileInput.init();
             var counter = 2;
             $("#addrow").on("click", function () {
-                var items = $("#items").val();
-                var cost= $("#cost").val();
                 var newRow = $("<tr>");
                 var cols = "";
                 cols += '<td> '+counter+'</td>';
-                cols += '<td><input type="text" class="form-control" name="items_name[]' + counter + '" value="'+ items +' "/></td>';
-                cols += '<td><input type="text" class="form-control" name="item_costs[]' + counter + '" id="cost" value="'+ cost +' " readonly="true"></td>';
-                cols += '<td><button type="button" class="btn btn-danger btn-xs tooltip-top" id="delete" title="Delete"><li class="fas fa-trash"> Delete</li></button></td>';
+                cols += '<td><input type="text" class="form-control" name="items_name[]' + counter + '"/></td>';
+                cols += '<td><input type="text" class="form-control txt" name="item_costs[]' + counter + '"></td>';
+                cols += '<td><button type="button" class="btn btn-danger btn-sm tooltip-top" id="delete" title="Delete"><li class="fas fa-trash"> Delete</li></button></td>';
                 newRow.append(cols);
                 $("table.table-sm").append(newRow);
                 counter++;
-                $("#items").val('');
-                $("#cost").val('');
             });
             $("table.table-sm").on("click", "#delete", function (event) {
-                $(this).closest("tr").remove();       
+                currentRow = $(this).closest("tr");
+                var currentVal=currentRow.find('.txt').val();
+                currentRow.remove(); 
+                var total= $("#grandTotal").val(); 
+                var deductvalue=parseFloat(total)-parseFloat(currentVal);
+                $("#grandTotal").val(deductvalue);
+                $("#scorepoint").html(deductvalue);
                 counter -= 1
             });
 
         });
-       
+    function calculateScorePoint() {
+    var sum = 0;
+    //iterate through each textboxes and add the values
+    $(".txt").each(function () {
+        //add only if the value is number
+        if (!isNaN(this.value) && this.value.length != 0) {
+            sum += parseFloat(this.value);
+        }
+    });
+    //.toFixed() method will roundoff the final sum to 2 decimal places
+$("#grandTotal").val(sum);
+ $("#scorepoint").html(sum);
+}
+$("table").on("keyup", ".txt", function () {
+    calculateScorePoint();
+});
   </script>
   @endsection
 

@@ -2,8 +2,8 @@
 @section('page-title','Tourist Standard Restuarant License Renew')
 @section('content')
 <div class="card">
-    <div class="card-header bg-success">
-        <h4 class="card-title">Tourist Standard Restuarant License Renew</h4>
+    <div class="card-header">
+        <h4 class="card-title">General Information</h4>
     </div>
     <form action="{{ url('application/save-application') }}" method="POST" enctype="multipart/form-data">
         @csrf

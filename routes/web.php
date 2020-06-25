@@ -22,6 +22,7 @@ Route::group(['namespace' => 'FrontEnd'], function () {
 Route::group(['middleware' => ['auth']], function () {
 	Route::get('dashboard', 'HomeController@getDashboard')->name('dashboard');
 	Route::get('profile', 'HomeController@getProfile');
+	Route::post('update-profile/{id}', 'HomeController@updateProfile');
     Route::get('change-password', 'HomeController@getChangePassword')->name('change-password');
     Route::post('change-password', 'HomeController@postChangePassword');
 	Route::get('/json-dropdown', 'HomeController@getDropdownLists');
@@ -35,6 +36,11 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('users/disable-toggle', 'UserController@postDisableToggle');
         Route::resource('users', 'UserController');
         Route::resource('resend-verification-codes', 'ResendVerificationCodeController');
+        Route::get('backups', 'BackupController@getIndex');
+        Route::post('backups/create', 'BackupController@postCreate');
+        Route::post('backups/delete', 'BackupController@postDelete');
+        Route::post('backups/remove-file/{file}', 'BackupController@postRemoveFile');
+        Route::get('backups/download/{file}', 'BackupController@getDownload');
     });
 
     //routes for masters
@@ -43,8 +49,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('checklist-areas/module', 'ChecklistAreaController@getChapter');
         Route::resource('checklist-areas', 'ChecklistAreaController');
         Route::get('checklist-standards/chapter', 'ChecklistStandardController@getChecklistArea');
-        Route::resource('checklist-standards', 'ChecklistStandardController');
-        Route::resource('travel-fairs-event', 'EventRegistrationController');
+        Route::resource('checklist-standards', 'ChecklistStandardController');        
     });
 
     //routes for new application
@@ -59,8 +64,12 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('save-grievance-application', 'ServiceController@saveGrievanceApplication');
         Route::get('get-hotel-details/{id}', 'ServiceController@getTouristHotelDetails');
         Route::get('get-tour_operator-details/{id}', 'ServiceController@getTourOperatorDetails');
+        Route::get('get-tour_operator-info/{cid}', 'ServiceController@getTourOperatorInfo');
+        Route::get('get-companyname', 'ServiceController@getCompnayName');
 
-        // fileupload
+
+
+        // fileuploads
         Route::post('documentattach', 'FileUploadController@addDocuments');
         Route::post('deletefile', 'FileUploadController@deleteFile');
     });
@@ -103,6 +112,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('tour-operator-name_change', 'TourOperatorController@tourOperatorNameChangeApplication');
         Route::post('tour-operator-license-renew', 'TourOperatorController@tourOperatorLicenseRenewApplication');
         Route::post('recommandation_letter_for_to_license', 'TourOperatorController@toLicenseRecommandationLetterApplication');
+        Route::post('travel_fairs', 'TourOperatorController@travelFairsApplication');
         Route::get('generate_letter_sample/{applicationNo}', 'TourOperatorController@getRecommandationLetterSample');
         //Media
         Route::get('media/{applicationNo}', 'MediaController@getApplicationDetails')->name('media');
@@ -124,12 +134,17 @@ Route::group(['middleware' => ['auth']], function () {
     //routes for report
     Route::group(['prefix' => 'report', 'namespace' => 'Report'], function() {
         Route::get('assessment-reports', 'AssessmentReportController@getAssessment');
-        Route::get('assessment-reports', 'AssessmentReportController@getAssessment');
+        Route::get('application-lists', 'AssessmentReportController@getApplicationList');
         Route::get('assessment-reports/{application_no}', 'AssessmentReportController@detailAssessment');
     });
 
     Route::group(['prefix' => 'statistics', 'namespace' => 'Statistics'], function() {
         Route::get('arrival', function(){return view('report.arrival');});
+    });
+
+    //routes for new application
+    Route::group(['prefix' => 'events', 'namespace' => 'EventRegistation'], function() {
+        Route::resource('travel-fairs-event', 'EventRegistrationController');
     });
 });
 

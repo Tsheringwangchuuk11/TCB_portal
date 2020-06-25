@@ -1,8 +1,8 @@
 @extends('layouts.manager')
-@section('page-title','Technical Clearance Registration')
+@section('page-title','Issuance Of Technical Clearance Of Tourist Standard Accommodation')
 @section('content')
 <div class="card">
-    <div class="card-header bg-success">
+    <div class="card-header">
         <h4 class="card-title">General Information</h4>
     </div>
     <form class="bootstrap-form" action="{{ url('application/save-application') }}" method="POST" enctype="multipart/form-data" id="formdata">

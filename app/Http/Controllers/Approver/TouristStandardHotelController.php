@@ -130,7 +130,6 @@ class TouristStandardHotelController extends Controller
             \DB::transaction(function () use ($request) {
                 $approveId = WorkFlowDetails::getStatus('APPROVED');
                 $completedId= WorkFlowDetails::getStatus('COMPLETED');
-
             $applicantdata[]= [    
                 'module_id'   => $request->module_id,
                 'cid_no'   => $request->cid_no,
@@ -147,6 +146,7 @@ class TouristStandardHotelController extends Controller
                 'bed_no'   => $request->bed_no,
                 'village_id'   => $request->village_id,
                 'inspection_date'   =>date('Y-m-d', strtotime($request->inspection_date)),
+                'validaty_date'   =>now()->addYears(3),
                 'created_at'   => now(),
                 'updated_at'   => now(),
             ];

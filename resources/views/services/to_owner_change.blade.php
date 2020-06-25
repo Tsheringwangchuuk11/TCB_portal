@@ -1,5 +1,5 @@
 @extends('layouts.manager')
-@section('page-title','Tour Operator Owner Change')
+@section('page-title','Ownership Change Of Tour Operator')
 @section('content')
 <form action="{{ url('application/save-application') }}" method="POST" enctype="multipart/form-data">
     @csrf

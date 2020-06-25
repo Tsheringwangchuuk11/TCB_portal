@@ -209,7 +209,7 @@
                 <div class="col-md-5">
                   <div class="form-group">
                     <label for="">Name Of Company<span class="text-danger"> *</span></label><small class="text-danger text-right">[ Option one]</small>
-                    <input type="text" class="form-control" name="company_title_name"  value="{{ $applicantInfo->company_title_name }}">
+                    <input type="text" class="form-control" name="company_name"  value="{{ $applicantInfo->company_title_name }}">
                   </div>
                 </div>
                 <div class="col-md-5 offset-md-2">

@@ -181,6 +181,13 @@ public function setToDateAttribute($value)
 		->first(); 
 		return $query;
 	}
+	public static function getTourOperatorInfo($cid){
+		$query=DB::table('t_operator_dtls as t1')
+	   ->where('t1.cid_no',$cid)
+	   ->where('t1.is_active','Y')
+	   ->first(); 
+	   return $query;
+   }
 
 	public function insertDetails($tableName,$data){
 		 $flag=DB::table($tableName)->insert($data);	
@@ -204,6 +211,7 @@ public function setToDateAttribute($value)
 		->leftjoin('t_gewog_masters as t3','t1.gewog_id','=','t3.id')
 		->leftjoin('t_chiwog_masters as t2','t2.id','=','t1.chiwog_id')
 		->leftjoin('t_village_masters as t4','t4.id','=','t1.village_id')
+		->leftjoin('t_event_dtls as t5','t5.id','=','t1.event_id')
 		->where('t1.application_no',$applicationNo)
 		->first();
 		return $query;
@@ -409,6 +417,7 @@ public function setToDateAttribute($value)
 			chiwog_id,
 			star_category_id,
 			inspection_date,
+			validaty_date
 			updated_at,
 			created_at,
 			is_active
@@ -436,6 +445,7 @@ public function setToDateAttribute($value)
 			chiwog_id,
 			star_category_id,
 			inspection_date,
+			validaty_date
 			updated_at,
 			NOW(),
 			is_active
@@ -510,4 +520,10 @@ public function setToDateAttribute($value)
 		return $query;
 
 	}
+	public static function checkCompanyNameExists($companyName){
+        $query=\DB::table('t_operator_clearances as t1')
+                    ->where('t1.company_name',$companyName)
+                    ->exists();
+        return  $query;
+    }
 }

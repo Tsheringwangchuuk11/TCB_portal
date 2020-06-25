@@ -29,7 +29,7 @@ class ChecklistAreaController extends Controller
     public function index(Request $request)
     {
         $privileges = $request->instance();        
-        $checklistAreas = TCheckListArea::orderBy('id')->with('checklistChapter.serviceModule')->paginate(10);
+        $checklistAreas = TCheckListArea::filter($request)->orderBy('id')->with('checklistChapter.serviceModule')->paginate(10);
         $checklistAreaCount = TCheckListArea::count();   
         $serviceModules = TModuleMaster::whereIn('module_name', array('Tourist Standard Hotel', 'Village Home Stay', 'Restaurant'))->get();             
 

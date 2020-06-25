@@ -1,5 +1,5 @@
 @extends('layouts.manager')
-@section('page-title','Tour Operator License Clearance')
+@section('page-title','Tour Operator License Clearance - New License')
 @section('content')
 <form action="{{ url('application/save-application') }}" class="form-horizontal" method="POST" enctype="multipart/form-data" id="formdata">
     @csrf
@@ -210,8 +210,11 @@
                 <div class="col-md-5">
                   <div class="form-group">
                     <label for="">Name Of Company<span class="text-danger"> *</span></label><small class="text-danger text-right">[ Option one]</small>
-                    <input type="text" class="form-control" name="company_title_name"  autocomplete="off">
+                    <input type="text" class="form-control" name="company_title_name"  autocomplete="off" onchange="checkCompanyName(this.value)" id="company_title_name">
                   </div>
+                  <div class="alert alert-danger alert-dismissible" id="alertMgsId" style="display: none">
+                    <i class="fa fa-info-circle fa-lg"></i><strong><span id="showMsg"></span> Company name  already exists and enter different name</strong>
+                </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
                   <div class="form-group">
@@ -288,6 +291,9 @@
               <li>
                 <em>Copy of Lease Agreement/Undertaking letter from the Landlord for office space or ownership certificate in case of own building</em>      
               </li>
+              <li>
+                <em>Declaration signed by the applicant that he/she is not a Civil Servant, employee of a Government Controlled Organization or Corporate Body as set out in Annexure A of TRR 2017 </em>      
+              </li>
             </ol>
             @include('services/fileupload/fileupload')
         </div>
@@ -296,12 +302,11 @@
           <div class="form-group ml-3">
               <div class="form-check">
                 <input type="checkbox" class="form-check-input" id="exampleCheck2">
-                <label class="form-check-label" for="exampleCheck2">Declaration signed by the applicant that he/she is not a Civil Servant, employee of a Government Controlled Organization or Corporate Body as set out in Annexure A of TRR 2017</label>
+                <label class="form-check-label" for="exampleCheck2">I declare that the information given in this form is true and complete in all aspects to the best of my knowledge</label>
               </div>
             </div>
           </div>
         </div>
-      
         <div class="card-footer text-center">
             <button type="submit"class="btn btn-success"><li class="fas fa-check"></li> APPLY</button>
             <button type="reset" class="btn btn-danger"><li class="fas fa-times"></li> RESET</button>
@@ -315,6 +320,29 @@
   $('#checkboxId').click(function() {
     $("#partnerInfo").toggle(this.checked);
 });
+function checkCompanyName(companyName){
+  $.ajax({
+            url:'/application/get-companyname',
+               type: "GET",
+               headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                 },
+                  data: {
+                     companyName: companyName
+                 },
+                 dataType: "json",
+               success:function(data) {
+                   if(data==true){
+                    $('#showMsg').html(data.msg);
+                    $('#alertMgsId').show().delay(3000).queue(function (n) {
+                    $(this).hide();
+                    n();
+                  });
+                  $('#company_title_name').val('');
+                 }
+               }
+            });
+}
 </script>
 @endsection
 

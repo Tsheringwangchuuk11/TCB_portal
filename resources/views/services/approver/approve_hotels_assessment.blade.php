@@ -293,6 +293,12 @@
                     <input type="date" class="form-control" name="inspection_date">
                 </div>
             </div>
+            {{-- <div class="row">
+                <div class="form-group col-md-5">
+                    <label for="">Registration Validaty Date<span class="text-danger">*</span> </label>
+                    <input type="date" class="form-control" name="validaty_date" id="validaty_date" onchange="validatedate()">
+                </div>
+            </div> --}}
         </div>
         <div class="card-footer text-center">
             <button name="status" value="APPROVED" class="btn btn-success"><li class="fas fa-check"></li> APPROVE</button>
@@ -321,6 +327,14 @@
 @endsection
 @section('scripts')
 <script>
+function validatedate(){
+    var num = $("#validaty_date").val();
+    var f = new Date(num);
+  	 f.setFullYear (f.getFullYear() + 3 )
+     var x=  f.toLocaleDateString('en-US',{day:"2-digit",month:"2-digit",year:"numeric"})
+     alert(x);
+     $('#validaty_date').val(x);
+}
 function calculateScorePoint() {
     var sum = 0;
     //iterate through each textboxes and add the values
