@@ -16,10 +16,11 @@ class BackupController extends Controller
         $this->middleware('permission:system/backups,delete', ['only' => ['postDelete', 'postRemoveFile']]);
     }
 
-    public function getIndex()
+    public function getIndex(Request $request)
     {
+        $privileges = $request->instance();
         $files = [];
-        foreach (glob(storage_path()."/app/" .config('app.name'). "/*.zip") as $filename) {
+        foreach (glob(storage_path()."/app/" .config('app.name'). "/*.zip") as $filename) {            
             $file = [];
             $lastPosIndex = strrpos(basename($filename), '-');
             $file['backup_date'] = substr(basename($filename), 0 , 10);
@@ -28,7 +29,7 @@ class BackupController extends Controller
             $files[] = $file;
         }
                 
-        return view('system-settings.backup.index', compact('files'));
+        return view('system-settings.backup.index', compact('files', 'privileges'));
     }
 
     public function postCreate()
@@ -43,8 +44,8 @@ class BackupController extends Controller
         return redirect('system/backups')->with('msg_success', 'All data before a week was successfully cleared');
     }
 
-    public function postRemoveFile()
-    {
+    public function postRemoveFile($fileName)
+    {        
         $file = storage_path().'/app/' . config('app.name') . '/'.$fileName;
         if (unlink($file))
         {
@@ -53,7 +54,7 @@ class BackupController extends Controller
         return redirect('system/backups')->with('msg_error', 'Error deleting the file');
     }
 
-    public function getDownload()
+    public function getDownload($file)
     {
         $headers = ['Content-Type', 'octet-stream'];    
         return response()->file(storage_path()."/app/" . config('app.name') . "/".$file, $headers);
