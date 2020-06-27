@@ -114,6 +114,12 @@ class ServiceController extends Controller
          $data=Services::getTouristHotelDetails($licenseNo);
          return response()->json($data);
     }
+
+    public function getVillageHomeStayDetails($cidNo){
+        $data=Services::getVillageHomeStayDetails($cidNo);
+        return response()->json($data);
+    }
+    
     public function getTourOperatorDetails($licenseNo){
         $data=Services::getTourOperatorDetails($licenseNo);
         return response()->json($data);

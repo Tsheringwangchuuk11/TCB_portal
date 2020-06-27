@@ -89,10 +89,10 @@
             <div class="col-md-5 offset-md-2">
                 <div class="form-group">
                     <label for="">Location <span class="text-danger">*</span> </label>
-                    <select class="form-control select2bs4" name="location_id">
+                    <select class="form-control select2bs4" name="village_id">
                         <option value="">- Select -</option>
                         @foreach ($locations as $location)
-                        <option value="{{$location->id}}" {{ old('location_id', $applicantInfo->location_id) == $location->id ? 'selected' : '' }}>{{$location->location_name}}</option>
+                        <option value="{{$location->id}}" {{ old('village_id', $applicantInfo->location_id) == $location->id ? 'selected' : '' }}>{{$location->location_name}}</option>
                         @endforeach
                     </select>
                 </div>

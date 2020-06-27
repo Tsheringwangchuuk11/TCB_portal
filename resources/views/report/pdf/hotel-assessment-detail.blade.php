@@ -22,86 +22,128 @@
     <p class="print-title text-center">Hotel Assessment</p>
     <hr>	
     <div id="container">
-        <h5 class="text-center">Data about accommodation</h5> 
+        <h5 class="text-center">Applicants Detail</h5> 
         <table>            
             <tr>  
                 <td width="50%">
                     <table>
                         <tr>
-                            <th width="50%">Name and type of accommodation  </th>
-                            <td width="50%">: {{ $application->company_title_name }}</td>
+                            <th width="50%">Application Number</th>
+                            <td width="50%">: {{ $application->application_no }}</td>
                         </tr>
                         <tr>
-                            <th width="50%">Licence  number/date :</th>
-                            <td width="50%">: {{ $application->license_no .'/'. $application->license_date }}</td>
+                            <th width="50%">Registration Type  :</th>
+                            <td width="50%">: {{ $application->star_category_name }}</td>
                         </tr>
                         <tr>
-                            <th width="50%">Accommodation owner/manage</th>                            
+                            <th width="50%">License Number</th>                            
+                            <td class="text-left">: {{  $application->license_no }}</td>                            
+                        </tr>
+                        <tr>
+                            <th width="50%">License Date  :</th>                            
+                            <td class="text-left">: {{  $application->license_date }}</td>                            
+                        </tr>
+                        <tr>
+                            <th width="50%">Hotel Name</th>                            
+                            <td class="text-left">: {{  $application->company_title_name }}</td>                            
+                        </tr>
+                        <tr>
+                            <th width="50%">Owner Name</th>                            
                             <td class="text-left">: {{  $application->owner_name }}</td>                            
                         </tr>
                         <tr>
-                            <th width="50%">Address :</th>                            
-                            <td class="text-left">: {{  $application->address }}</td>                            
-                        </tr>
-                        <tr>
-                            <th width="50%">Telephone</th>                            
-                            <td class="text-left">: {{  $application->contact_no }}</td>                            
-                        </tr>
-                        <tr>
-                            <th width="50%">Fax</th>                            
-                            <td class="text-left">: {{  $application->fax }}</td>                            
-                        </tr>
-                        <tr>
-                            <th width="50%">E-mail</th>                            
-                            <td class="text-left">: {{  $application->email }}</td>                            
+                            <th width="50%">CID No</th>                            
+                            <td class="text-left">: {{  $application->cid_no }}</td>                            
                         </tr>
                     </table>
                 </td>
                 <td width="50%">
                     <table>
                         <tr>
-                            <th width="50%">Internet Homepage  </th>
-                            <td width="50%">: {{ $application->webpage_url }}</td>
+                            <th width="50%">Address  </th>
+                            <td width="50%">: {{ $application->address }}</td>
                         </tr>
                         <tr>
-                            <th width="50%">Room Count :</th>
-                            {{-- <td width="50%">: {{ $application->license_no .'/'. $application->license_date }}</td> --}}
+                            <th width="50%">Contact Number  :</th>
+                            <td width="50%">: {{ $application->contact_no}}</td>
                         </tr>
                         <tr>
-                            <th width="50%">Single Room</th>                            
-                            {{-- <td class="text-left">: {{  $application->owner_name }}</td>                             --}}
+                            <th width="50%">Email</th>                            
+                            <td class="text-left">: {{  $application->email }}</td>                            
                         </tr>
                         <tr>
-                            <th width="50%">Double Room :</th>                            
-                            {{-- <td class="text-left">: {{  $application->address }}</td>                             --}}
+                            <th width="50%">Internet Homepage :</th>                            
+                            <td class="text-left">: {{  $application->webpage_url }}</td>                            
                         </tr>
                         <tr>
-                            <th width="50%">Suites Room</th>                            
-                            {{-- <td class="text-left">: {{  $application->contact_no }}</td>                             --}}
+                            <th width="50%">Fax Number</th>                            
+                            <td class="text-left">: {{  $application->fax }}</td>                            
                         </tr>
                         <tr>
                             <th width="50%">Number of beds</th>                            
-                            {{-- <td class="text-left">: {{  $application->fax }}</td>                             --}}
+                            <td class="text-left">: {{  $application->number }}</td>                            
                         </tr>
                         <tr>
-                            <th width="50%">Staff Number</th>                            
-                            {{-- <td class="text-left">: {{  $application->email }}</td>                             --}}
+                            <th width="50%">Location</th>                            
+                            <td class="text-left">: {{  $application->location_name }}</td>                            
                         </tr>
                     </table>    
-                </td>                             
+                </td>                            
             </tr>
+        </table>
+        <hr>
+        <h5 class="text-center">Room Detail</h5> 
+        <table>
+            <tr>
+            <td width="100%">
+                <table>
+                    <tr>
+                        <th width="50%">Room Types</th>
+                        <th width="50%">Number Of Rooms</th>
+                    </tr>
+                    @foreach ($roomDetails as $roomDetail)
+                    <tr>
+                        <td width="50%">{{$roomDetail->room_name}}</td>
+                        <td width="50%">{{$roomDetail->room_no}}</td>
+                    </tr>
+                    @endforeach
+                </table>
+            </td> 
+        </tr>
+        </table>
+        <hr>
+        <h5 class="text-center">Staff Detail</h5> 
+        <table>
+            <tr>
+            <td width="100%">
+                <table>
+                    <tr>
+                        <th width="25%">Area</th>
+                        <th width="25%">Division</th>
+                        <th width="25%">Name</th>
+                        <th width="25%">Gender</th>
+                    </tr>
+                    @foreach ($staffDetails as $staffDetail)
+                    <tr>
+                        <td width="25%">{{$staffDetail->staff_area_name}}</td>
+                        <td width="25%">{{$staffDetail->hotel_div_name}}</td>
+                        <td width="25%">{{$staffDetail->staff_name}}</td>
+                        @if ($staffDetail->staff_gender==='M')
+                        <td width="25%">Male</td>
+                    @else
+                    <td width="25%">Female</td>
+                    @endif
+                    </tr>
+                    @endforeach
+                </table>
+            </td> 
+        </tr>
         </table>
     <hr>
     @if ($data->count() > 0)    
     @foreach ($data as $chapter)
-        <div class="card collapsed-card">
-            <div class="card-header" data-card-widget="collapse">
-                <strong>{{$chapter->checklist_ch_name}}</strong>
-                <div class="card-tools">
-                    <button type="button" class="btn btn-tool"><i class="fas fa-plus"></i>
-                    </button>
-                </div>
-            </div>
+        <div class="card">
+            <h3 class="card-title"> {{$chapter->checklist_ch_name}}</h3>                                 
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
@@ -129,11 +171,11 @@
                                             @if ($area != $chapterArea->checklist_area)
                                             <td rowspan="{{ sizeOf($chapterArea->checkListStandards) }}"> {{ $chapterArea->checklist_area }} </td>
                                             @endif
-                                            <td><input type="hidden" name="checklist_id[]" value="{{ $checkListStandard->checklist_id }}">{{ $checkListStandard->checklist_standard }}</td>
+                                            <td>{{ $checkListStandard->checklist_standard }}</td>
                                             <td>{{ $checkListStandard->checklist_pts }}</td>
-                                            <td><input type="text" size="4" name="checklist_pts[]" value="" class="txt numeric-only"></td>
+                                            <td>_______</td>
                                             <td>{{ $checkListStandard->standard_code }}</td>
-                                            <td><input type="text" size="4" name="ratingpoint[]" value="" class="bstxt numeric-only"></td>
+                                            <td>______</td>
                                             @php
                                             $area = $chapterArea->checklist_area
                                             @endphp 

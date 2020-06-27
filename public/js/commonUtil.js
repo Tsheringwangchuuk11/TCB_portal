@@ -247,6 +247,9 @@ var validation = function () {
          applicant_name: {
             required: true,
          },
+         fax: {
+            required: true,
+         },
          location: {
             required:true
          },
@@ -388,6 +391,9 @@ var validation = function () {
 
          applicant_name: {
             required: "Please provide a name",
+         },
+         fax: {
+            required: "Please provide a fax number",
          },
          location: {
             required: "Please provide a location",

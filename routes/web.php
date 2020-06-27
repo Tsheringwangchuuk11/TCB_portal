@@ -66,8 +66,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('get-tour_operator-details/{id}', 'ServiceController@getTourOperatorDetails');
         Route::get('get-tour_operator-info/{cid}', 'ServiceController@getTourOperatorInfo');
         Route::get('get-companyname', 'ServiceController@getCompnayName');
-
-
+        Route::get('get-homestays-details/{cidid}', 'ServiceController@getVillageHomeStayDetails');
 
         // fileuploads
         Route::post('documentattach', 'FileUploadController@addDocuments');
@@ -95,6 +94,8 @@ Route::group(['middleware' => ['auth']], function () {
         //village home stay
         Route::get('village-homestay/{applicationNo}', 'VillageHomeStayController@getApplicationDetails')->name('villagehomestay');
         Route::post('village-home-stay-assessment', 'VillageHomeStayController@villageHomeStayAssessmentApplication');
+        Route::post('village-home-stay-license-renew', 'VillageHomeStayController@villageHomeStayLicenseRenewApplication');
+        
         //restaurant
         Route::get('restaurant/{applicationNo}', 'RestaurantController@getApplicationDetails')->name('restaurant');
         Route::post('restaurant-assessment', 'RestaurantController@restaurantAssessmentApplication');

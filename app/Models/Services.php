@@ -168,11 +168,25 @@ public function setToDateAttribute($value)
 	public static function getTouristHotelDetails($licenseNo){
 		 $query=DB::table('t_tourist_standard_dtls as t1')
 		->leftjoin('t_star_categories as t2','t2.id','=','t1.star_category_id')
+		->leftjoin('t_locations as t3','t3.id','=','t1.village_id')
 		->where('t1.license_no',$licenseNo)
 		->where('t1.is_active','Y')
 		->first(); 
 		return $query;
 	}
+
+	public static function getVillageHomeStayDetails($cidNo){
+		$query=DB::table('t_tourist_standard_dtls as t1')
+	   ->leftjoin('t_chiwog_masters as t2','t2.id','=','t1.chiwog_id')
+	   ->leftjoin('t_village_masters as t3','t3.id','=','t1.village_id')
+	   ->leftjoin('t_gewog_masters as t4','t4.id','=','t3.gewog_id')
+	   ->leftjoin('t_dzongkhag_masters as t5','t5.id','=','t4.dzongkhag_id')
+	   ->select('t1.*','t2.chiwog_name','t3.village_name','t3.gewog_id','t4.gewog_name','t4.dzongkhag_id','t5.dzongkhag_name')
+	   ->where('t1.cid_no',$cidNo)
+	   ->where('t1.is_active','Y')
+	   ->first(); 
+	   return $query;
+   }
 
 	public static function getTourOperatorDetails($licenseNo){
 		 $query=DB::table('t_operator_dtls as t1')
@@ -418,7 +432,7 @@ public function setToDateAttribute($value)
 			chiwog_id,
 			star_category_id,
 			inspection_date,
-			validaty_date
+			validaty_date,
 			updated_at,
 			created_at,
 			is_active
@@ -446,7 +460,7 @@ public function setToDateAttribute($value)
 			chiwog_id,
 			star_category_id,
 			inspection_date,
-			validaty_date
+			validaty_date,
 			updated_at,
 			NOW(),
 			is_active
