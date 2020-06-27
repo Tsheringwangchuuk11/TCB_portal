@@ -21,7 +21,7 @@
                         </div>
                         <div class="form-group col-md-5 offset-md-2">
                             <label for="">License Date <span class="text-danger"> *</span> </label>
-                            <input type="date" class="form-control" name="license_date">
+                            <input type="date" class="form-control" name="license_date" id="license_date" readonly="true">
                         </div>
                     </div>
                     <div class="row">
@@ -67,7 +67,12 @@
                     <div class="row">
                         <div class="form-group col-md-5">
                             <label for="">Location </label>
-                            <input type="text" class="form-control" name="location_id" id="location_id" readonly="true">
+                            <input type="hidden" class="form-control" name="location_id" id="location_id" readonly="true">
+                            <input type="text" class="form-control" name="location_name" id="location_name" readonly="true">
+                        </div>
+                        <div class="form-group col-md-5 offset-md-2">
+                            <label for="">Expired Date </label>
+                            <input type="date" class="form-control" name="date" id="validaty_date" readonly="true">
                         </div>
                     </div>
                 </div>
@@ -96,8 +101,6 @@
                  },
                dataType: "json",
                success:function(data) {
-                $('#star_category_name').val(data.star_category_name);
-                $('#star_category_id').val(data.star_category_id);
                 $('#company_title_name').val(data.tourist_standard_name);
                 $('#owner_name').val(data.owner_name);
                 $('#cid_no').val(data.cid_no);
@@ -107,7 +110,10 @@
                 $('#email').val(data.email);
                 $('#webpage_url').val(data.webpage_url);
                 $('#number').val(data.bed_no);
-                $('#location_id').val(data.location_id);
+                $('#location_id').val(data.village_id);
+                $('#location_name').val(data.location_name);
+                $('#validaty_date').val(data.validaty_date);
+                $('#license_date').val(data.license_date);
                } 
             });
         }

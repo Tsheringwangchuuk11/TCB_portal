@@ -6,7 +6,7 @@
     <input type="hidden" class="form-control" name="module_id" value="{{ $applicantInfo->module_id }}">
     <input type="hidden" class="form-control" name="service_id" value="{{ $applicantInfo->service_id }}">
 <div class="card">
-    <div class="card-header bg-success">
+    <div class="card-header">
         <h4 class="card-title">Tourist Standard Hotel Name Change</h4>
     </div>
         <div class="card-body">
@@ -84,7 +84,12 @@
                         </div>
                         <div class="form-group col-md-5 offset-md-2">
                             <label for="">Location </label>
-                            <input type="text" class="form-control" name="location_id" value="{{ $applicantInfo->location_id }}">
+                            <select class="form-control select2bs4" name="village_id">
+                                <option value="">- Select -</option>
+                                @foreach ($locations as $location)
+                                <option value="{{$location->id}}" {{ old('village_id', $applicantInfo->location_id) == $location->id ? 'selected' : '' }}> {{$location->location_name}}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="row">

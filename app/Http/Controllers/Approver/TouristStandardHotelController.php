@@ -36,6 +36,7 @@ class TouristStandardHotelController extends Controller
         }
         elseif($serviceId==4){
         //Tourism standard hotel assesment Details
+        $data['locations'] = Dropdown::getDropdowns("t_locations","id","location_name","0","0");
         $data['starCategoryLists'] = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
         $data['roomTypeLists'] = Dropdown::getDropdowns("t_room_types","id","room_name","0","0");
         $data['staffAreaLists'] = Dropdown::getDropdowns("t_staff_areas","id","staff_area_name","0","0");
@@ -58,22 +59,26 @@ class TouristStandardHotelController extends Controller
 
         elseif($serviceId==7){
             //Tourism standard hotel license renew Details
+            $data['locations'] = Dropdown::getDropdowns("t_locations","id","location_name","0","0");
             $data['starCategoryLists'] = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
             return view('services.approver.approve_hotel_license_renew',$data);
         }
         elseif($serviceId==8){
             //Tourism standard hotel license cancel Details
+            $data['locations'] = Dropdown::getDropdowns("t_locations","id","location_name","0","0");
             $data['starCategoryLists'] = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
             return view('services.approver.approve_hotels_license_cancel',$data);
         }
 
         elseif($serviceId==9){
             //Tourism standard hotel ownership change Details
+            $data['locations'] = Dropdown::getDropdowns("t_locations","id","location_name","0","0");
             $data['starCategoryLists'] = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
             return view('services.approver.approve_hotel_ownership_change',$data);
         }
         elseif($serviceId==10){
             //Tourism standard hotel name change Details
+            $data['locations'] = Dropdown::getDropdowns("t_locations","id","location_name","0","0");
             $data['starCategoryLists'] = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
             return view('services.approver.approve_hotel_name_change',$data);
         }
@@ -190,6 +195,7 @@ class TouristStandardHotelController extends Controller
                                 'tourist_standard_id' =>  $id,
                                 'checklist_id'   => $request->checklist_id[$key],
                                 'checklist_pts'   => $request->checklist_pts[$key],
+                                'ratingpoint'   => $request->ratingpoint[$key],
                                 'created_at'   => now(),
                                 'updated_at'   => now(),
                        ];
@@ -228,7 +234,8 @@ class TouristStandardHotelController extends Controller
 
               //update data to t_tourist_standard_dtls
               $data = array(
-                'license_date'=> date('Y-m-d', strtotime($request->license_date))
+                'validaty_date'=>date('Y-m-d',strtotime($request->validaty_date .'+3 years'))
+
 
              );
             $updatedata=Services::updateApplicantDtls('t_tourist_standard_dtls','license_no',$request->license_no,$data);

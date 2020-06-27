@@ -19,6 +19,7 @@ class CreateTChecklistDtlsAuditTable extends Migration
             $table->unsignedBigInteger('tourist_standard_id')->index();
             $table->unsignedBigInteger('checklist_id');
             $table->string('checklist_pts')->nullable();
+            $table->string('ratingpoint')->nullable();
             $table->text('remarks')->nullable();
             $table->timestamps();
 

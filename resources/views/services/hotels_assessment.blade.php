@@ -189,8 +189,8 @@
             <div class="col-md-12">
             <div class="form-group ml-3">
                 <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="exampleCheck2">
-                  <label class="form-check-label" for="exampleCheck2">I hereby:
+                  <input type="checkbox" class="form-check-input" name="terms" id="exampleCheck2">
+                    I hereby:
                     <ol>
                         <li>
                             Confirm the accuracy of the provided data; 
@@ -207,7 +207,6 @@
                             Agree with the terms and conditions laid down in the statutes of the TCB- classification committee and the classification procedure.
                         </li>
                     </ol>
-                </label> 
                 </div>
               </div>
             </div>

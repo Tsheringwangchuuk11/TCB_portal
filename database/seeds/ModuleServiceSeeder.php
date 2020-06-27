@@ -14,7 +14,7 @@ class ModuleServiceSeeder extends Seeder
         //
         DB::table('t_module_service_mapping')->insert([
             ['module_id' => 1, 'service_id' => 1, 'page_link' => 'services/technical_clearance'],
-            ['module_id' => 1, 'service_id' => 2, 'page_link' => 'recommendation_letter_for_import_license'],
+            ['module_id' => 1, 'service_id' => 2, 'page_link' => 'services/hotel_recommendation_letter_for_import_license'],
             ['module_id' => 1, 'service_id' => 3, 'page_link' => 'services/tax_exemption'],
             ['module_id' => 1, 'service_id' => 4, 'page_link' => 'services/hotels_assessment'],
             ['module_id' => 1, 'service_id' => 5, 'page_link' => 'services/bar_license'],
@@ -24,8 +24,8 @@ class ModuleServiceSeeder extends Seeder
             ['module_id' => 1, 'service_id' => 9, 'page_link' => 'services/hotels_owner_change'],
             ['module_id' => 1, 'service_id' => 10, 'page_link' => 'services/hotels_name_change'],
             ['module_id' => 2, 'service_id' => 4, 'page_link' => 'services/home_stays_assessment'],
-            ['module_id' => 2, 'service_id' => 7, 'page_link' => 'technical-clearance10/create'],
-            ['module_id' => 2, 'service_id' => 8, 'page_link' => 'technical-clearance11/create'],
+            ['module_id' => 2, 'service_id' => 7, 'page_link' => 'services/home_stays_license_renew'],
+            ['module_id' => 2, 'service_id' => 8, 'page_link' => 'services/home_stays_license_cancel'],
             ['module_id' => 2, 'service_id' => 10, 'page_link' => 'services/home_stays_name_change'],
             ['module_id' => 3, 'service_id' => 4, 'page_link' => 'services/restuarants_assessment'],
             ['module_id' => 3, 'service_id' => 5, 'page_link' => 'services/restuarant_bar_license'],
@@ -33,7 +33,7 @@ class ModuleServiceSeeder extends Seeder
             ['module_id' => 3, 'service_id' => 8, 'page_link' => 'services/restuarant_license_cancel'],
             ['module_id' => 3, 'service_id' => 9, 'page_link' => 'services/restuarant_owner_change'],
             ['module_id' => 3, 'service_id' => 10, 'page_link' => 'services/restuarant_name_change'],
-            ['module_id' => 4, 'service_id' => 2, 'page_link' => 'technical-clearance21/create'],
+            ['module_id' => 4, 'service_id' => 2, 'page_link' => 'services/to_recommendation_letter_for_import_license'],
             ['module_id' => 4, 'service_id' => 9, 'page_link' => 'services/to_owner_change'],
             ['module_id' => 4, 'service_id' => 10, 'page_link' => 'services/to_name_change'],
             ['module_id' => 4, 'service_id' => 11, 'page_link' => 'services/propreiter_card'],
