@@ -540,5 +540,23 @@ public function setToDateAttribute($value)
                     ->where('t1.company_name',$companyName)
                     ->exists();
         return  $query;
-    }
+	}
+	
+	public static function getTotalApprovedApplication(){
+		$query=\DB::table('t_workflow_dtls as t1')
+		->leftjoin('t_task_dtls as t2','t2.application_no','=','t1.application_no')
+		->select(DB::raw('COUNT(t1.application_no) as totalcount'))
+		->where('t1.status_id','3')
+		->where('t2.status_id','7')
+        ->get();		
+        return  $query;
+	}
+	public static function getTotalRejectApplication(){
+		$query=\DB::table('t_workflow_dtls as t1')
+		->select(DB::raw('COUNT(t1.application_no) as totalreject'))
+		->where('t1.status_id','4')
+		->get();
+		//->pluck('totalreject');
+		return  $query;
+	}
 }

@@ -1,9 +1,9 @@
 @extends('layouts.manager')
-@section('page-title', 'Hotel Assessment Details')
+@section('page-title', 'Village Home Stay Assessment Details')
 @section('buttons')
 <div class="card-tools pull-right">
     <a href="{{	url('report/assessment-reports/'.$application->application_no.'/'.$application->module_id.'?print=pdf&'. Request::getQueryString()) }}" class="btn btn-sm btn-danger btn-flat" target="_blank"><i class="fa fa-print"></i> Print PDF</a>    
-    <a href="{{	url('report/assessment-reports/'.$application->application_no.'/'.$application->module_id.'?print=excel&'. Request::getQueryString()) }}" class="btn btn-sm btn-success btn-flat" target="_blank"><i class="fa fa-file-excel"></i></i> Export to Excel</a>    
+    <a href="{{	url('report/assessment-reports/'.$application->application_no.'?print=excel&'. Request::getQueryString()) }}" class="btn btn-sm btn-success btn-flat" target="_blank"><i class="fa fa-file-excel"></i></i> Export to Excel</a>    
     <a href="{{url('report/assessment-reports')}}" class="btn bg-olive btn-sm btn-flat"><i class="fa fa-reply"></i> Back to List</a>
 </div>
 @endsection
@@ -24,77 +24,79 @@
                         </div>     
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="">Registration Type</label> :{{$application->star_category_name}} 
+                                <label for="">Name</label> :{{$application->applicant_name}} 
                             </div>
                         </div>  
                         <div class="col-md-4">
                             <div class="form-group">
-                            <label>License Number</label> :{{ $application->license_no }}      
+                            <label>CID No</label> :{{ $application->cid_no }}      
                             </div>        
                         </div>                  
                     </div> 
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="">License Date</label> :{{ $application->license_date }}
+                                <label for="">Contact No. </label> :{{ $application->contact_no }}
                             </div> 
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="">Hotel Name</label> :{{ $application->company_title_name }}
+                                <label for="">Email</label> :{{ $application->email }}
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="">Owner Name</label> :{{$application->owner_name}}
+                                <label for=""></label> Dzongkhag :{{$application->dzongkhag_name}}
                             </div>
                         </div>
                     </div>  
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="">CID No.</label> :{{$application->cid_no}}
+                                <label for="">Gewog.</label> :{{$application->gewog_name}}
                             </div>
                         </div>   
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="">Address </label> :{{$application->address}}
+                                <label for="">Chiwog</label> :{{$application->chiwog_name}}
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="">Contact Number </label> :{{$application->contact_no}}
+                                <label for="">Village </label> :{{$application->village_name}}
                             </div>
                         </div>   
                     </div>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="">Email </label> :{{$application->email}}
+                                <label for="">Thram No.</label> :{{$application->thram_no}}
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="">Internet Homepage</label> :{{$application->webpage_url}}
+                                <label for="">House No.</label> :{{$application->house_no}}
                             </div>
                         </div>   
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="">Fax Number</label> : {{$application->fax}}
-                            </div>
-                        </div>
                     </div> 
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label for="">Number of Beds</label> : {{$application->number}}
-                            </div>            
-                        </div>    
-                        <div class="col-md-4">
+                                <label for="">Distance from the nearest town/urban centre (hrs or kms) </label> : {{$application->town_distance}}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label for="">Location</label> : {{$application->location_name}}
+                                <label for="">Distance from the main road (hrs or kms) </label> : {{$application->road_distance}}
                             </div>            
-                        </div>          
+                        </div>           
+                    </div>
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div class="form-group">
+                                <label for="">Condition of the pathway to house from the road point </label> : {{$application->condition}}
+                            </div>            
+                        </div>   
                     </div>
                 </div>
             </div>
@@ -103,58 +105,23 @@
     <div class="col-md-12">
         <div class="card card-default">
             <div class="card-header">
-            <h3 class="card-title">Room Details</h3>
-            </div>    
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="">Room Types</label>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="">Number Of Rooms</label>
-                        </div>
-                    </div>   
-                </div>
-                @foreach ($roomDetails as $roomDetail)
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                        {{$roomDetail->room_name}}
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            {{$roomDetail->room_no}}
-                        </div>
-                    </div>   
-                </div>   
-                @endforeach
-            </div>
-        </div>
-    </div> 
-    <div class="col-md-12">
-        <div class="card card-default">
-            <div class="card-header">
-            <h3 class="card-title">Staff Details</h3>
+            <h3 class="card-title">Details Of The Family Members Residing In The Same House</h3>
             </div>    
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="">Area </label>
+                            <label for="">Name</label>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="">Division</label>
+                            <label for="">Relationship with the applicant</label>
                         </div>
                     </div> 
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="">Name</label>
+                            <label for="">Age</label>
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -163,26 +130,26 @@
                         </div>
                     </div>   
                 </div>
-                @foreach ($staffDetails as $staffDetail)
+                @foreach ($familyDetails as $familyDetail)
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
-                         {{$staffDetail->staff_area_name}}
+                         {{$familyDetail->member_name}}
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            {{$staffDetail->hotel_div_name}}
+                            {{$familyDetail->relation_type}}
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            {{$staffDetail->staff_name}}
+                            {{$familyDetail->member_age}}
                         </div>
                     </div> 
                     <div class="col-md-3">
                         <div class="form-group">
-                        @if ($staffDetail->staff_gender==='M')
+                        @if ($familyDetail->member_gender==='M')
                             Male
                         @else
                             Female
@@ -196,7 +163,7 @@
     </div>  
 </div>
 @foreach ($data as $chapter)
-<div class="card card-default collapsed-card">
+<div class="card card-default">
     <div class="card-header">
         <h3 class="card-title"> {{$chapter->checklist_ch_name}}</h3>                                 
         <div class="card-tools">
@@ -211,10 +178,7 @@
                     <tr>
                         <th>Area</th>
                         <th>Standard</th>
-                        <th>Points</th>
-                        <th>Points Entry</th>
                         <th>Rating</th>
-                        <th>Rating Point</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -230,11 +194,8 @@
                                     @if ($area != $chapterArea->checklist_area)
                                     <td rowspan="{{ sizeOf($chapterArea->checkListStandards) }}"> {{ $chapterArea->checklist_area }} </td>
                                     @endif
-                                    <td><input type="hidden" name="checklist_id[]" value="{{ $checkListStandard->checklist_id }}">{{ $checkListStandard->checklist_standard }}</td>
-                                    <td>{{ $checkListStandard->checklist_pts }}</td>
-                                    <td>_________</td>
+                                    <td>{{ $checkListStandard->checklist_standard }}</td>
                                     <td>{{ $checkListStandard->standard_code }}</td>
-                                    <td>_________</td>
                                     @php
                                     $area = $chapterArea->checklist_area
                                     @endphp 

@@ -52,3 +52,11 @@ $.widget.bridge('uibutton', $.ui.button)
 <script src="{{ asset('js/jquery.form.js') }}"></script>
 <script src="{{ asset('js/confirm-delete.js') }}"></script>
 
+<!-- high charts -->
+<script src="{{ asset('plugins/highcharts/highcharts.js') }}"></script>
+<script src="{{ asset('plugins/highcharts/exporting.js') }}"></script>
+<script src="{{ asset('plugins/highcharts/export-data.js') }}"></script>
+<script src="{{ asset('plugins/highcharts/accessibility.js') }}"></script>
+
+
+

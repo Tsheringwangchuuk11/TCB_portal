@@ -1,5 +1,5 @@
 @extends('layouts.pdf')
-@section('title', 'Hotel Assessment')
+@section('title', 'Village Home Stay Assessment')
 @section('extra_styles')
 <style>
     table,th,td {
@@ -38,103 +38,83 @@
                             <td width="50%">: {{ $application->application_no }}</td>
                         </tr>
                         <tr>
-                            <th width="50%">Registration Type  :</th>
-                            <td width="50%">: {{ $application->star_category_name }}</td>
-                        </tr>
-                        <tr>
-                            <th width="50%">License Number</th>                            
-                            <td class="text-left">: {{  $application->license_no }}</td>                            
-                        </tr>
-                        <tr>
-                            <th width="50%">License Date  :</th>                            
-                            <td class="text-left">: {{  $application->license_date }}</td>                            
-                        </tr>
-                        <tr>
-                            <th width="50%">Hotel Name</th>                            
-                            <td class="text-left">: {{  $application->company_title_name }}</td>                            
-                        </tr>
-                        <tr>
-                            <th width="50%">Owner Name</th>                            
-                            <td class="text-left">: {{  $application->owner_name }}</td>                            
+                            <th width="50%">Name  :</th>
+                            <td width="50%">: {{ $application->applicant_name }}</td>
                         </tr>
                         <tr>
                             <th width="50%">CID No</th>                            
                             <td class="text-left">: {{  $application->cid_no }}</td>                            
                         </tr>
-                    </table>
-                </td>
-                <td width="50%">
-                    <table>
                         <tr>
-                            <th width="50%">Address  </th>
-                            <td width="50%">: {{ $application->address }}</td>
-                        </tr>
-                        <tr>
-                            <th width="50%">Contact Number  :</th>
-                            <td width="50%">: {{ $application->contact_no}}</td>
+                            <th width="50%">Contact No. :</th>                            
+                            <td class="text-left">: {{  $application->contact_no }}</td>                            
                         </tr>
                         <tr>
                             <th width="50%">Email</th>                            
                             <td class="text-left">: {{  $application->email }}</td>                            
                         </tr>
                         <tr>
-                            <th width="50%">Internet Homepage :</th>                            
-                            <td class="text-left">: {{  $application->webpage_url }}</td>                            
+                            <th width="50%">Dzongkhag</th>                            
+                            <td class="text-left">: {{  $application->dzongkhag_name }}</td>                            
                         </tr>
                         <tr>
-                            <th width="50%">Fax Number</th>                            
-                            <td class="text-left">: {{  $application->fax }}</td>                            
+                            <th width="50%">Gewog</th>                            
+                            <td class="text-left">: {{  $application->gewog_name }}</td>                            
+                        </tr>
+                    </table>
+                </td>
+                <td width="50%">
+                    <table>
+                        <tr>
+                            <th width="50%">Chiwog  </th>
+                            <td width="50%">: {{ $application->chiwog_name }}</td>
                         </tr>
                         <tr>
-                            <th width="50%">Number of beds</th>                            
-                            <td class="text-left">: {{  $application->number }}</td>                            
+                            <th width="50%">Village :</th>
+                            <td width="50%">: {{ $application->village_name}}</td>
                         </tr>
                         <tr>
-                            <th width="50%">Location</th>                            
-                            <td class="text-left">: {{  $application->location_name }}</td>                            
+                            <th width="50%">Thram No</th>                            
+                            <td class="text-left">: {{  $application->thram_no }}</td>                            
+                        </tr>
+                        <tr>
+                            <th width="50%">House No :</th>                            
+                            <td class="text-left">: {{  $application->house_no }}</td>                            
+                        </tr>
+                        <tr>
+                            <th width="50%">Distance from the nearest town/urban centre (hrs or kms)</th>                            
+                            <td class="text-left">: {{  $application->town_distance }}</td>                            
+                        </tr>
+                        <tr>
+                            <th width="50%">Distance from the main road (hrs or kms)</th>                            
+                            <td class="text-left">: {{  $application->road_distance }}</td>                            
+                        </tr>
+                        <tr>
+                            <th width="50%">Condition of the pathway to house from the road point</th>                            
+                            <td class="text-left">: {{  $application->condition }}</td>                            
                         </tr>
                     </table>    
                 </td>                            
             </tr>
         </table>
         <hr>
-        <h5 class="text-center">Room Detail</h5> 
+        <h5 class="text-center">Details Of The Family Members Residing In The Same House</h5> 
         <table>
             <tr>
             <td width="100%">
                 <table>
                     <tr>
-                        <th width="50%">Room Types</th>
-                        <th width="50%">Number Of Rooms</th>
-                    </tr>
-                    @foreach ($roomDetails as $roomDetail)
-                    <tr>
-                        <td width="50%">{{$roomDetail->room_name}}</td>
-                        <td width="50%">{{$roomDetail->room_no}}</td>
-                    </tr>
-                    @endforeach
-                </table>
-            </td> 
-        </tr>
-        </table>
-        <hr>
-        <h5 class="text-center">Staff Detail</h5> 
-        <table>
-            <tr>
-            <td width="100%">
-                <table>
-                    <tr>
-                        <th width="25%">Area</th>
-                        <th width="25%">Division</th>
                         <th width="25%">Name</th>
+                        <th width="25%">Relationship with the applicant</th>
+                        <th width="25%">Age</th>
                         <th width="25%">Gender</th>
                     </tr>
-                    @foreach ($staffDetails as $staffDetail)
+                    @foreach ($familyDetails as $familyDetail)
                     <tr>
-                        <td width="25%">{{$staffDetail->staff_area_name}}</td>
-                        <td width="25%">{{$staffDetail->hotel_div_name}}</td>
-                        <td width="25%">{{$staffDetail->staff_name}}</td>
-                        @if ($staffDetail->staff_gender==='M')
+                        <td width="25%">{{$familyDetail->member_name}}</td>
+                        <td width="25%">{{$familyDetail->relation_type}}</td>
+                        <td width="25%">{{$familyDetail->member_age}}</td>
+                        @if ($familyDetail->member_gender==='M')
                         <td width="25%">Male</td>
                     @else
                     <td width="25%">Female</td>
@@ -148,16 +128,17 @@
     <hr>
     @if ($data->count() > 0)    
     @foreach ($data as $chapter)
-        {{$chapter->checklist_ch_name}}
-                        <table border='1' width='100%' style='border-collapse: collapse;' class="export-table">
+        <div class="card">
+            <h3 class="card-title page-break"> {{$chapter->checklist_ch_name}}</h3>                                 
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <table>
                         <thead>
                             <tr>
                                 <th>Area</th>
                                 <th>Standard</th>
-                                <th>Points</th>
-                                <th>Points Entry</th>
                                 <th>Rating</th>
-                                <th>Rating Point</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -174,10 +155,7 @@
                                             <td rowspan="{{ sizeOf($chapterArea->checkListStandards) }}"> {{ $chapterArea->checklist_area }} </td>
                                             @endif
                                             <td>{{ $checkListStandard->checklist_standard }}</td>
-                                            <td>{{ $checkListStandard->checklist_pts }}</td>
-                                            <td></td>
                                             <td>{{ $checkListStandard->standard_code }}</td>
-                                            <td></td>
                                             @php
                                             $area = $chapterArea->checklist_area
                                             @endphp 
@@ -186,9 +164,12 @@
                             @endforeach
                         </tbody>
                         </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     @endforeach
 @endif
- </div>
 @endsection
 
 

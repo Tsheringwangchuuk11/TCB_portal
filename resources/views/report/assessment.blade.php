@@ -52,7 +52,7 @@
                         <tr>
                             <td class="text-center">{{ $loop->iteration }}</td>
                             <td>{{ $application->module_name }}</td>
-                            <td><a href="{{ url('report/assessment-reports/' . $application->application_no) }}" title="See Detail">{{ $application->application_no}}</a></td>
+                            <td><a href="{{ url('report/assessment-reports',['application_no'=>$application->application_no,'moduleId'=>$application->module_id]) }}" title="See Detail">{{ $application->application_no}}</a></td>
                             <td>{{ $application->cid_no }}</td>
                             @if ($application->module_id===2)
                             <td>{{ $application->applicant_name }}</td>

@@ -1,5 +1,5 @@
 @extends('layouts.pdf')
-@section('title', 'Hotel Assessment')
+@section('title', 'Home Stay Assessment')
 @section('extra_styles')
 <style>
     table,th,td {
@@ -36,10 +36,6 @@
                         <tr>
                             <th width="50%">Application Number</th>
                             <td width="50%">: {{ $application->application_no }}</td>
-                        </tr>
-                        <tr>
-                            <th width="50%">Registration Type  :</th>
-                            <td width="50%">: {{ $application->star_category_name }}</td>
                         </tr>
                         <tr>
                             <th width="50%">License Number</th>                            
@@ -86,36 +82,12 @@
                             <td class="text-left">: {{  $application->fax }}</td>                            
                         </tr>
                         <tr>
-                            <th width="50%">Number of beds</th>                            
-                            <td class="text-left">: {{  $application->number }}</td>                            
-                        </tr>
-                        <tr>
                             <th width="50%">Location</th>                            
                             <td class="text-left">: {{  $application->location_name }}</td>                            
                         </tr>
                     </table>    
                 </td>                            
             </tr>
-        </table>
-        <hr>
-        <h5 class="text-center">Room Detail</h5> 
-        <table>
-            <tr>
-            <td width="100%">
-                <table>
-                    <tr>
-                        <th width="50%">Room Types</th>
-                        <th width="50%">Number Of Rooms</th>
-                    </tr>
-                    @foreach ($roomDetails as $roomDetail)
-                    <tr>
-                        <td width="50%">{{$roomDetail->room_name}}</td>
-                        <td width="50%">{{$roomDetail->room_no}}</td>
-                    </tr>
-                    @endforeach
-                </table>
-            </td> 
-        </tr>
         </table>
         <hr>
         <h5 class="text-center">Staff Detail</h5> 
@@ -148,16 +120,18 @@
     <hr>
     @if ($data->count() > 0)    
     @foreach ($data as $chapter)
-        {{$chapter->checklist_ch_name}}
-                        <table border='1' width='100%' style='border-collapse: collapse;' class="export-table">
+        <div class="card">
+            <h3 class="card-title page-break"> {{$chapter->checklist_ch_name}}</h3>                                 
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <table>
                         <thead>
                             <tr>
                                 <th>Area</th>
                                 <th>Standard</th>
                                 <th>Points</th>
                                 <th>Points Entry</th>
-                                <th>Rating</th>
-                                <th>Rating Point</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -175,9 +149,7 @@
                                             @endif
                                             <td>{{ $checkListStandard->checklist_standard }}</td>
                                             <td>{{ $checkListStandard->checklist_pts }}</td>
-                                            <td></td>
-                                            <td>{{ $checkListStandard->standard_code }}</td>
-                                            <td></td>
+                                            <td>_______</td>
                                             @php
                                             $area = $chapterArea->checklist_area
                                             @endphp 
@@ -186,9 +158,12 @@
                             @endforeach
                         </tbody>
                         </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     @endforeach
 @endif
- </div>
 @endsection
 
 

@@ -136,7 +136,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => 'report', 'namespace' => 'Report'], function() {
         Route::get('assessment-reports', 'AssessmentReportController@getAssessment');
         Route::get('application-lists', 'AssessmentReportController@getApplicationList');
-        Route::get('assessment-reports/{application_no}', 'AssessmentReportController@detailAssessment');
+        Route::get('assessment-reports/{application_no}/{moduleId}', 'AssessmentReportController@detailAssessment');
     });
 
     Route::group(['prefix' => 'statistics', 'namespace' => 'Statistics'], function() {
