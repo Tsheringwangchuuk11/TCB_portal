@@ -30,4 +30,9 @@ return [
         'L' => 'Legal',
         'T' => 'Third Party Representative',
     ],
+
+    "eapi_users_gateway" => [
+        'mbobl' => 'MBOBL',
+        'mpay' => 'MPAY',
+    ],
 ];

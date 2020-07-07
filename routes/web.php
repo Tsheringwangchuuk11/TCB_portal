@@ -147,6 +147,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => 'events', 'namespace' => 'EventRegistation'], function() {
         Route::resource('travel-fairs-event', 'EventRegistrationController');
     });
+
+     //routes for uploads
+     Route::group(['prefix' => 'excel', 'namespace' => 'Excel'], function() {
+        Route::resource('uploads', 'ExcelUploadController');
+     });
 });
 
 
