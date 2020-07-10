@@ -9,7 +9,6 @@
         border: 1px solid black;
 
     }
-   
     #container {
         padding-top: 20px;
         padding-bottom: 20px;
@@ -21,7 +20,6 @@
     .page-break {
     page-break-after: always;
 } 
- 
 </style>
 @endsection
 @section('content')
@@ -147,9 +145,13 @@
         </table>
     <hr>
     @if ($data->count() > 0)    
-    @foreach ($data as $chapter)
-        {{$chapter->checklist_ch_name}}
-                        <table border='1' width='100%' style='border-collapse: collapse;' class="export-table">
+        @foreach ($data as $chapter)
+            {{$chapter->checklist_ch_name}}
+            {{-- <table>
+                <tr>
+                    <td> --}}
+                    <div class="row">
+                        <table border='1' width='100%' style='border-collapse: collapse;dontBreakRows: true;' class="export-table">
                         <thead>
                             <tr>
                                 <th>Area</th>
@@ -166,29 +168,33 @@
                             @endphp
                             @foreach ($chapter->chapterAreas as $chapterArea)
                                 @foreach ($chapterArea->checkListStandards as $checkListStandard) 
+                                    @php
+                                        $standardlengh=$checkListStandard->count();
+                                    @endphp
+                                    <tr>
+                                        @if ($area != $chapterArea->checklist_area)
+                                        <td rowspan="{{ sizeOf($chapterArea->checkListStandards) }}"> {{ $chapterArea->checklist_area }} </td>
+                                        @endif
+                                        <td>{{ $checkListStandard->checklist_standard }}</td>
+                                        <td>{{ $checkListStandard->checklist_pts }}</td>
+                                        <td></td>
+                                        <td>{{ $checkListStandard->standard_code }}</td>
+                                        <td></td>
                                         @php
-                                            $standardlengh=$checkListStandard->count();
-                                        @endphp
-                                        <tr>
-                                            @if ($area != $chapterArea->checklist_area)
-                                            <td rowspan="{{ sizeOf($chapterArea->checkListStandards) }}"> {{ $chapterArea->checklist_area }} </td>
-                                            @endif
-                                            <td>{{ $checkListStandard->checklist_standard }}</td>
-                                            <td>{{ $checkListStandard->checklist_pts }}</td>
-                                            <td></td>
-                                            <td>{{ $checkListStandard->standard_code }}</td>
-                                            <td></td>
-                                            @php
-                                            $area = $chapterArea->checklist_area
-                                            @endphp 
-                                        </tr>
+                                        $area = $chapterArea->checklist_area
+                                        @endphp 
+                                    </tr>
                                 @endforeach  
                             @endforeach
                         </tbody>
-                        </table>
-    @endforeach
-@endif
- </div>
+                    </table>
+                </div>
+                    {{-- </td>
+                </tr>
+            </table> --}}
+        @endforeach
+    @endif
+</div>
 @endsection
 
 

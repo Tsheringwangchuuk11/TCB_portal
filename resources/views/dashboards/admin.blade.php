@@ -12,10 +12,10 @@
 @section('scripts')
     <script>
         jQuery(function() {
-jQuery('#container').highcharts(
-{!! json_encode($chartArray)!!}
-)
-});
+            jQuery('#container').highcharts(
+            {!! json_encode($chartArray)!!}
+            )
+        });
    
 </script>
 @endsection
