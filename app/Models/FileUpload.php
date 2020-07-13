@@ -26,9 +26,9 @@ class FileUpload extends Model
             $fileName = time() . '-' . $randomString . '.' . $file->getClientOriginalExtension();
             $fileextension = $file->getClientOriginalExtension(); //get file extension
             
-            $filepath = 'MyDocument/'.$module_name.'/'.$service_name.'/';
-            $file->move($filepath, $fileName);//make folder MyDocument			
-            $uploadurl =$filepath.$fileName;
+            $filepath = $module_name.'/'.$service_name.'/';
+            $file->move(public_path('MyDocument').'/'. $filepath, $fileName);//make folder MyDocument			
+            $uploadurl ='MyDocument'.'/'.$filepath.$fileName;
 
             $data1 = array(
             	'document_type'  => $fileextension,
