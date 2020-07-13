@@ -49,7 +49,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('checklist-areas/module', 'ChecklistAreaController@getChapter');
         Route::resource('checklist-areas', 'ChecklistAreaController');
         Route::get('checklist-standards/chapter', 'ChecklistStandardController@getChecklistArea');
-        Route::resource('checklist-standards', 'ChecklistStandardController');        
+        Route::resource('checklist-standards', 'ChecklistStandardController');
     });
 
     //routes for new application
@@ -95,7 +95,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('village-homestay/{applicationNo}', 'VillageHomeStayController@getApplicationDetails')->name('villagehomestay');
         Route::post('village-home-stay-assessment', 'VillageHomeStayController@villageHomeStayAssessmentApplication');
         Route::post('village-home-stay-license-renew', 'VillageHomeStayController@villageHomeStayLicenseRenewApplication');
-        
+
         //restaurant
         Route::get('restaurant/{applicationNo}', 'RestaurantController@getApplicationDetails')->name('restaurant');
         Route::post('restaurant-assessment', 'RestaurantController@restaurantAssessmentApplication');
@@ -139,8 +139,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('assessment-reports/{application_no}/{moduleId}', 'AssessmentReportController@detailAssessment');
     });
 
-    Route::group(['prefix' => 'statistics', 'namespace' => 'Statistics'], function() {
-        Route::get('arrival', function(){return view('report.arrival');});
+    //statistical report
+    Route::group(['prefix' => 'statistics', 'namespace' => 'StatisticalReport'], function() {
+        Route::get('arrival', 'StatisticController@index');
     });
 
     //routes for new application
