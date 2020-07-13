@@ -168,11 +168,25 @@ public function setToDateAttribute($value)
 	public static function getTouristHotelDetails($licenseNo){
 		 $query=DB::table('t_tourist_standard_dtls as t1')
 		->leftjoin('t_star_categories as t2','t2.id','=','t1.star_category_id')
+		->leftjoin('t_locations as t3','t3.id','=','t1.village_id')
 		->where('t1.license_no',$licenseNo)
 		->where('t1.is_active','Y')
 		->first(); 
 		return $query;
 	}
+
+	public static function getVillageHomeStayDetails($cidNo){
+		$query=DB::table('t_tourist_standard_dtls as t1')
+	   ->leftjoin('t_chiwog_masters as t2','t2.id','=','t1.chiwog_id')
+	   ->leftjoin('t_village_masters as t3','t3.id','=','t1.village_id')
+	   ->leftjoin('t_gewog_masters as t4','t4.id','=','t3.gewog_id')
+	   ->leftjoin('t_dzongkhag_masters as t5','t5.id','=','t4.dzongkhag_id')
+	   ->select('t1.*','t2.chiwog_name','t3.village_name','t3.gewog_id','t4.gewog_name','t4.dzongkhag_id','t5.dzongkhag_name')
+	   ->where('t1.cid_no',$cidNo)
+	   ->where('t1.is_active','Y')
+	   ->first(); 
+	   return $query;
+   }
 
 	public static function getTourOperatorDetails($licenseNo){
 		 $query=DB::table('t_operator_dtls as t1')
@@ -212,6 +226,7 @@ public function setToDateAttribute($value)
 		->leftjoin('t_chiwog_masters as t2','t2.id','=','t1.chiwog_id')
 		->leftjoin('t_village_masters as t4','t4.id','=','t1.village_id')
 		->leftjoin('t_event_dtls as t5','t5.id','=','t1.event_id')
+		->select('t1.*','t3.dzongkhag_id','t3.gewog_name','t2.chiwog_name','t4.village_name','t5.*')
 		->where('t1.application_no',$applicationNo)
 		->first();
 		return $query;
@@ -417,6 +432,7 @@ public function setToDateAttribute($value)
 			chiwog_id,
 			star_category_id,
 			inspection_date,
+			validaty_date,
 			updated_at,
 			created_at,
 			is_active
@@ -444,6 +460,7 @@ public function setToDateAttribute($value)
 			chiwog_id,
 			star_category_id,
 			inspection_date,
+			validaty_date,
 			updated_at,
 			NOW(),
 			is_active
@@ -517,5 +534,29 @@ public function setToDateAttribute($value)
 		->get();
 		return $query;
 
+	}
+	public static function checkCompanyNameExists($companyName){
+        $query=\DB::table('t_operator_clearances as t1')
+                    ->where('t1.company_name',$companyName)
+                    ->exists();
+        return  $query;
+	}
+	
+	public static function getTotalApprovedApplication(){
+		$query=\DB::table('t_workflow_dtls as t1')
+		->leftjoin('t_task_dtls as t2','t2.application_no','=','t1.application_no')
+		->select(DB::raw('COUNT(t1.application_no) as totalcount'))
+		->where('t1.status_id','3')
+		->where('t2.status_id','7')
+        ->get();		
+        return  $query;
+	}
+	public static function getTotalRejectApplication(){
+		$query=\DB::table('t_workflow_dtls as t1')
+		->select(DB::raw('COUNT(t1.application_no) as totalreject'))
+		->where('t1.status_id','4')
+		->get();
+		//->pluck('totalreject');
+		return  $query;
 	}
 }

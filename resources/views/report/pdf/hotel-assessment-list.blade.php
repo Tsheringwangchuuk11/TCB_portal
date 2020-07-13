@@ -5,9 +5,9 @@
     <table class="main">
         <thead>
             <tr>
-                <th class="text-center">#</th>
+                <th class="text-center">Sl No.</th>
                 <th>Application No.</th>
-                <th>License No.</th>
+                <th>CID</th>
                 <th>Owner Name</th>
                 <th>Submitted Date</th>
             </tr>
@@ -17,8 +17,12 @@
                 <tr>
                     <td class="text-center">{{ $loop->iteration}}</td>
                     <td>{{$application->application_no}}</td>
-                    <td>{{$application->license_no}}</td>
+                    <td>{{$application->cid_no}}</td>
+                    @if ($application->module_id===2)
+                    <td>{{$application->applicant_name}}</td>
+                    @else
                     <td>{{$application->owner_name}}</td>
+                    @endif
                     <td>{{$application->created_at}}</td> 
                 </tr>
             @empty

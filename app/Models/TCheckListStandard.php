@@ -34,5 +34,14 @@ class TCheckListStandard extends Model
             ->select('t_star_categories.star_category_name', 't_basic_standards.standard_code as code', 't_check_list_standard_mappings.is_active', 't_check_list_standard_mappings.mandatory')
             ->withTimestamps();
     }
-    
+
+    public function scopeFilter($query, $request)
+    {
+        if ($request->has('search_text') && $request->query('search_text') != '') {
+            $query->where('checklist_standard', 'LIKE', '%' . $request->query('search_text') . '%')
+             ->orWhereHas('checklistArea', function ($query1) use($request){
+            $query1->where('checklist_area', 'LIKE', '%' . $request->query('search_text') . '%');
+         });
+        }
+    }
 }

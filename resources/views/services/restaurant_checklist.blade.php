@@ -1,5 +1,10 @@
 @if ($checklistDtls->count() > 0)
-<h5>Self-assessment Check List</h5>
+<h5></h5>
+<div class="card">
+   <div class="card-header">
+      <h4 class="card-title">Self Assessment Check List</h4>
+   </div>
+<div class="card-body">
 @foreach ($checklistDtls as $chapter)
 <div class="card collapsed-card">
    <div class="card-header" data-card-widget="collapse">
@@ -50,4 +55,6 @@
    </div>
 </div>
 @endforeach
+</div>
+</div>
 @endif

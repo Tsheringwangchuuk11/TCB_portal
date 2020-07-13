@@ -79,7 +79,9 @@ class ServiceController extends Controller
             $q->with(['checkListStandards'=> function($query) use($starCategoryId){
                 $query->leftJoin('t_check_list_standard_mappings','t_check_list_standards.id','=','t_check_list_standard_mappings.checklist_id')
                     ->leftJoin('t_basic_standards','t_check_list_standard_mappings.standard_id','=','t_basic_standards.id')
-                    ->where('t_check_list_standard_mappings.star_category_id','=',$starCategoryId);
+                    ->where('t_check_list_standard_mappings.star_category_id','=',$starCategoryId)
+                    ->where('t_check_list_standard_mappings.is_active','=','1');
+
             }]);
         }])->where('module_id','=',$request->module_id)
         ->get();
@@ -90,7 +92,8 @@ class ServiceController extends Controller
             $checklistDtls =  TCheckListChapter::with(['chapterAreas' => function($q){
                 $q->with(['checkListStandards'=> function($query){
                     $query->leftJoin('t_check_list_standard_mappings','t_check_list_standards.id','=','t_check_list_standard_mappings.checklist_id')
-                        ->leftJoin('t_basic_standards','t_check_list_standard_mappings.standard_id','=','t_basic_standards.id');
+                        ->leftJoin('t_basic_standards','t_check_list_standard_mappings.standard_id','=','t_basic_standards.id')
+                        ->where('t_check_list_standard_mappings.is_active','=','1');
                 }]);
             }])->where('module_id','=',$request->module_id)
             ->get();
@@ -100,7 +103,8 @@ class ServiceController extends Controller
     public function  getRestaurantCheckListChapter(Request $request){
         $checklistDtls =  TCheckListChapter::with(['chapterAreas' => function($q){
             $q->with(['checkListStandards'=> function($query){
-                $query->leftJoin('t_check_list_standard_mappings','t_check_list_standards.id','=','t_check_list_standard_mappings.checklist_id');
+                $query->leftJoin('t_check_list_standard_mappings','t_check_list_standards.id','=','t_check_list_standard_mappings.checklist_id')
+                ->where('t_check_list_standard_mappings.is_active','=','1');
             }]);
             }])->where('module_id','=',$request->module_id)
             ->get();
@@ -110,11 +114,21 @@ class ServiceController extends Controller
          $data=Services::getTouristHotelDetails($licenseNo);
          return response()->json($data);
     }
+
+    public function getVillageHomeStayDetails($cidNo){
+        $data=Services::getVillageHomeStayDetails($cidNo);
+        return response()->json($data);
+    }
+    
     public function getTourOperatorDetails($licenseNo){
         $data=Services::getTourOperatorDetails($licenseNo);
         return response()->json($data);
    }
-
+     public function getCompnayName(Request $request){
+         $companyName=$request->companyName;
+         $checkPresent=Services:: checkCompanyNameExists($companyName);
+          return response()->json($checkPresent);
+     }
    public function getTourOperatorInfo($cid){
     $data=Services::getTourOperatorInfo($cid);
     return response()->json($data);

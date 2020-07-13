@@ -22,7 +22,6 @@ class VillageHomeStayController extends Controller
     }
     public function getApplicationDetails($applicationNo){
         $data['applicantInfo']=Services::getApplicantDetails($applicationNo);
-       // dd($data['applicantInfo']);
         $serviceId= $data['applicantInfo']->service_id;
         $moduleId= $data['applicantInfo']->module_id;
         $data['documentInfos']=Services::getDocumentDetails($applicationNo);
@@ -43,6 +42,10 @@ class VillageHomeStayController extends Controller
         ->get();
         return view('services.approver.approve_home_stays_assessment',$data);
         }
+        elseif($serviceId==7){
+            return view('services/approver/approve_home_stays_license_renew',$data);
+        }
+
     }
 
      //Approval function for village Home Stay assessment application
@@ -67,6 +70,7 @@ class VillageHomeStayController extends Controller
             'village_id'   => $request->village_id,
             'chiwog_id'   => $request->chiwog_id,
             'inspection_date'   =>date('Y-m-d', strtotime($request->inspection_date)),
+            'validaty_date'   =>now()->addYears(3),
             'created_at'   => now(),
             'updated_at'   => now(),
         ];
@@ -120,4 +124,44 @@ class VillageHomeStayController extends Controller
         return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
         }
     }
+
+     //Approval function for village Home stays license renew application
+     public function villageHomeStayLicenseRenewApplication(Request $request){
+        if($request->status =='APPROVED'){
+            // insert into t_tourist_standard_dtls
+            \DB::transaction(function () use ($request) {
+
+                $approveId = WorkFlowDetails::getStatus('APPROVED');
+                $completedId= WorkFlowDetails::getStatus('COMPLETED');
+
+            //save data to t_tourist_standard_dtls_autit
+            $savedatatoaudit=Services::saveTouristStandardHotelDtlsAudit($request->license_no);
+
+              //update data to t_tourist_standard_dtls
+              $data = array(
+                'validaty_date'=>date('Y-m-d',strtotime($request->validaty_date .'+3 years'))
+
+
+             );
+            $updatedata=Services::updateApplicantDtls('t_tourist_standard_dtls','license_no',$request->license_no,$data);
+           
+            $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
+            $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
+                    ->update(['status_id' => $approveId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
+
+            $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
+            $updateworkflow=TaskDetails::where('application_no',$request->application_no)
+                                    ->update(['status_id' => $completedId->id]);
+        });
+        return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
+
+        }else{
+            $rejectId = WorkFlowDetails::getStatus('REJECTED');
+            $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
+            $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
+            ->update(['status_id' => $rejectId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
+            return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
+            }
+
+     }   
 }

@@ -82,7 +82,12 @@
                 </div>
                 <div class="form-group col-md-5 offset-md-2">
                     <label for="">Location</label>
-                    <input type="text" class="form-control numeric-only" name="village_id" value="{{ $applicantInfo->location_id }}" autocomplete="off">
+                    <select class="form-control select2bs4" name="village_id">
+                        <option value="">- Select -</option>
+                        @foreach ($locations as $location)
+                        <option value="{{$location->id}}" {{ old('village_id', $applicantInfo->location_id) == $location->id ? 'selected' : '' }}> {{$location->location_name}}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
         </div>
@@ -181,7 +186,11 @@
         </div>
     </div>
     @if ($checklistDtls->count() > 0)
-        <h5>Checklist</h5>
+    <div class="card">
+        <div class="card-header">
+           <h4 class="card-title">Self Assessment Check List</h4>
+        </div>
+     <div class="card-body">
         @foreach ($checklistDtls as $chapter)
             <div class="card collapsed-card">
                 <div class="card-header" data-card-widget="collapse">
@@ -241,6 +250,8 @@
                 </div>
             </div>
         @endforeach
+     </div>
+    </div>
     @endif
     <div class="card">
         <div class="card-header">
@@ -293,6 +304,12 @@
                     <input type="date" class="form-control" name="inspection_date">
                 </div>
             </div>
+            {{-- <div class="row">
+                <div class="form-group col-md-5">
+                    <label for="">Registration Validaty Date<span class="text-danger">*</span> </label>
+                    <input type="date" class="form-control" name="validaty_date" id="validaty_date" onchange="validatedate()">
+                </div>
+            </div> --}}
         </div>
         <div class="card-footer text-center">
             <button name="status" value="APPROVED" class="btn btn-success"><li class="fas fa-check"></li> APPROVE</button>
@@ -321,6 +338,14 @@
 @endsection
 @section('scripts')
 <script>
+function validatedate(){
+    var num = $("#validaty_date").val();
+    var f = new Date(num);
+  	 f.setFullYear (f.getFullYear() + 3 )
+     var x=  f.toLocaleDateString('en-US',{day:"2-digit",month:"2-digit",year:"numeric"})
+     alert(x);
+     $('#validaty_date').val(x);
+}
 function calculateScorePoint() {
     var sum = 0;
     //iterate through each textboxes and add the values

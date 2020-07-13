@@ -42,6 +42,11 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('users/disable-toggle', 'UserController@postDisableToggle');
         Route::resource('users', 'UserController');
         Route::resource('resend-verification-codes', 'ResendVerificationCodeController');
+        Route::get('backups', 'BackupController@getIndex');
+        Route::post('backups/create', 'BackupController@postCreate');
+        Route::post('backups/delete', 'BackupController@postDelete');
+        Route::post('backups/remove-file/{file}', 'BackupController@postRemoveFile');
+        Route::get('backups/download/{file}', 'BackupController@getDownload');
     });
 
     //routes for masters
@@ -50,8 +55,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('checklist-areas/module', 'ChecklistAreaController@getChapter');
         Route::resource('checklist-areas', 'ChecklistAreaController');
         Route::get('checklist-standards/chapter', 'ChecklistStandardController@getChecklistArea');
-        Route::resource('checklist-standards', 'ChecklistStandardController');
-        Route::resource('travel-fairs-event', 'EventRegistrationController');
+        Route::resource('checklist-standards', 'ChecklistStandardController');        
     });
 
     //routes for new application
@@ -67,9 +71,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('get-hotel-details/{id}', 'ServiceController@getTouristHotelDetails');
         Route::get('get-tour_operator-details/{id}', 'ServiceController@getTourOperatorDetails');
         Route::get('get-tour_operator-info/{cid}', 'ServiceController@getTourOperatorInfo');
+        Route::get('get-companyname', 'ServiceController@getCompnayName');
+        Route::get('get-homestays-details/{cidid}', 'ServiceController@getVillageHomeStayDetails');
 
-
-        // fileupload
+        // fileuploads
         Route::post('documentattach', 'FileUploadController@addDocuments');
         Route::post('deletefile', 'FileUploadController@deleteFile');
     });
@@ -95,6 +100,8 @@ Route::group(['middleware' => ['auth']], function () {
         //village home stay
         Route::get('village-homestay/{applicationNo}', 'VillageHomeStayController@getApplicationDetails')->name('villagehomestay');
         Route::post('village-home-stay-assessment', 'VillageHomeStayController@villageHomeStayAssessmentApplication');
+        Route::post('village-home-stay-license-renew', 'VillageHomeStayController@villageHomeStayLicenseRenewApplication');
+        
         //restaurant
         Route::get('restaurant/{applicationNo}', 'RestaurantController@getApplicationDetails')->name('restaurant');
         Route::post('restaurant-assessment', 'RestaurantController@restaurantAssessmentApplication');
@@ -135,12 +142,22 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => 'report', 'namespace' => 'Report'], function() {
         Route::get('assessment-reports', 'AssessmentReportController@getAssessment');
         Route::get('application-lists', 'AssessmentReportController@getApplicationList');
-        Route::get('assessment-reports/{application_no}', 'AssessmentReportController@detailAssessment');
+        Route::get('assessment-reports/{application_no}/{moduleId}', 'AssessmentReportController@detailAssessment');
     });
 
     Route::group(['prefix' => 'statistics', 'namespace' => 'Statistics'], function() {
         Route::get('arrival', function(){return view('report.arrival');});
     });
+
+    //routes for new application
+    Route::group(['prefix' => 'events', 'namespace' => 'EventRegistation'], function() {
+        Route::resource('travel-fairs-event', 'EventRegistrationController');
+    });
+
+     //routes for uploads
+     Route::group(['prefix' => 'excel', 'namespace' => 'Excel'], function() {
+        Route::resource('uploads', 'ExcelUploadController');
+     });
 });
 
 

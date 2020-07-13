@@ -8,7 +8,7 @@ class EventRegistration extends Model
 {
     protected $table = 't_event_dtls';
     protected $guarded=['id'];
-    public function setStartDateAttribute($value)
+   /*  public function setStartDateAttribute($value)
     {
 
         $this->attributes['start_date'] = $value ? date('Y-m-d', strtotime($value)) : null;
@@ -38,7 +38,7 @@ class EventRegistration extends Model
     public function getLastDateAttribute($value)
     {
 		return $value ? date('d-m-Y', strtotime($value)) : null;
-  }
+  } */
   
   public static function getEventDetails(){
     $query=\DB::table('t_event_dtls as t1')

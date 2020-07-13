@@ -49,19 +49,23 @@ class RestaurantController extends Controller
         } 
         elseif($serviceId==7){
             //Restuarant bar license renew Details
+            $data['locations'] = Dropdown::getDropdowns("t_locations","id","location_name","0","0");
             return view('services.approver.approve_restuarant_license_renew',$data);
         } 
         elseif($serviceId==8){
             //Restuarant bar license cancel Details
+            $data['locations'] = Dropdown::getDropdowns("t_locations","id","location_name","0","0");
             return view('services.approver.approve_restuarant_license_cancel',$data);
         }
 
         elseif($serviceId==9){
             //Restuarant owner change Details
+            $data['locations'] = Dropdown::getDropdowns("t_locations","id","location_name","0","0");
             return view('services.approver.approve_restuarant_owner_change',$data);
         }  
         elseif($serviceId==10){
             //Restuarant name change Details
+            $data['locations'] = Dropdown::getDropdowns("t_locations","id","location_name","0","0");
             return view('services.approver.approve_restuarant_name_change',$data);
         }     
     }
@@ -88,6 +92,7 @@ class RestaurantController extends Controller
             'webpage_url'   => $request->webpage_url,
             'village_id'   => $request->village_id,
             'inspection_date'   =>date('Y-m-d', strtotime($request->inspection_date)),
+            'validaty_date'   =>now()->addYears(3),
             'created_at'   => now(),
             'updated_at'   => now(),
         ];
@@ -232,7 +237,7 @@ class RestaurantController extends Controller
 
               //update data to t_tourist_standard_dtls
               $data = array(
-                'license_date'=> date('Y-m-d', strtotime($request->license_date))
+                'validaty_date'=>date('Y-m-d',strtotime($request->validaty_date .'+3 years'))
 
              );
             $updatedata=Services::updateApplicantDtls('t_tourist_standard_dtls','license_no',$request->license_no,$data);

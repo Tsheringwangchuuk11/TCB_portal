@@ -79,7 +79,8 @@
                     <div class="row">
                         <div class="form-group col-md-5">
                             <label for="">Location </label>
-                            <input type="text" class="form-control" name="location_id" id="location_id" readonly="true">
+                            <input type="hidden" class="form-control" name="location_id" id="location_id" readonly="true">
+                            <input type="text" class="form-control" name="location_name" id="location_name" readonly="true">
                         </div>
                     </div>
                     <h5>New Owner Information</h5>
@@ -150,7 +151,8 @@
                 $('#old_email').val(data.email);
                 $('#webpage_url').val(data.webpage_url);
                 $('#number').val(data.bed_no);
-                $('#location_id').val(data.location_id);
+                $('#location_id').val(data.village_id);
+                $('#location_name').val(data.location_name);
                } 
             });
         }

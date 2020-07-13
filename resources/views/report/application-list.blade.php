@@ -47,15 +47,17 @@
                     <input type="date" name="application_to" class="form-control datepicker" value="{{ Request::get('Application_to') }}" placeholder="Application To">
                 </div>
             </div>
-        </div>                   
-        <div class="col-md-2">
-            <div class="form-group">
-                <input type="text" name="applicant_name" class="form-control" value="{{ Request::get('applicant_name') }}" placeholder="Applicant Name"/>
-            </div>
-        </div>                                       
+        </div>                                                   
         @endcomponent                                            
     </div>
     <div class="card-body">
+        <div class="row">
+            <div class="col-md-10">
+                <figure class="highcharts-figure">
+                    <div id="container"></div>
+                </figure>
+            </div>
+        </div>
         <div class="table-responsive">
             <table class="table table-bordered table-hover">
                 <thead>
@@ -95,4 +97,61 @@
         {{ $applications->links() }}
     </div>
 </div>
+@endsection
+@section('scripts')
+    <script>
+    var totalapplicationapprove = parseFloat({{$totalapproved}});
+    var totalapplicationreject = parseFloat({{$totalrejected}});
+    var totalsubmitted = parseFloat({{$totalsubmitted}});
+    var totalapplication = parseFloat({{$totalapplication}});
+            Highcharts.chart('container', {
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: 'Application Summary'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.y}</b>'
+            },
+            accessibility: {
+                point: {
+                    valueSuffix: '%'
+                }
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.y} '
+                    }
+                }
+            },
+            series: [{
+                name: 'Application',
+                colorByPoint: true,
+                data: [{
+                    name: 'Total Application',
+                    y: totalapplication,
+                    sliced: true,
+                    selected: true
+                }, {
+                    name: 'Total Application Approved',
+                    y: totalapplicationapprove
+                }, {
+                    name: 'Total Application Rejected',
+                    y: totalapplicationreject
+                },
+                {
+                    name: 'Total Application Submitted',
+                    y: totalsubmitted
+                }]
+            }]
+        });
+</script>
 @endsection

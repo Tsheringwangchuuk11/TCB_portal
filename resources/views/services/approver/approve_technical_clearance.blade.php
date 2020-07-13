@@ -56,7 +56,7 @@
               <div class="form-group">
                 <label for="">Gewog<span class="text-danger"> *</span></label>
                 <select  name="gewog_id" class="form-control select2bs4" id="gewog_id" style="width: 100%;">
-                  <option value="{{ $applicantInfo->id }}">{{ $applicantInfo->gewog_name }}</option>
+                  <option value="{{ $applicantInfo->gewog_id }}">{{ $applicantInfo->gewog_name }}</option>
                 </select> 
               </div>
             </div>

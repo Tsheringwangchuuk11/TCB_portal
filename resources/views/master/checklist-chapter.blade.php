@@ -2,7 +2,7 @@
 @section('page-title', 'List of Checklist Chapter')
 @section('buttons')
 @if ($privileges["create"] == 1)
-<a href="javascript:void(0)" class="btn btn-success mb-2" id="create_new_checklist">Add Checklist Chapter</a>
+<a href="javascript:void(0)" class="btn btn-success mb-2" id="create_new_checklist"><i class="fas fa-plus"></i> Add Checklist Chapter</a>
 @endif
 @endsection
 @section('content')
@@ -46,10 +46,10 @@
                                 <td class="text-center">{!! $checklistChapter->isActive() == 1 ? '<i class="fas fa-check text-green"></i>' : '<i class="fas fa-times text-red"></i>' !!}</td>
                                 <td class="text-center">
                                     @if ($privileges["edit"] == 1)
-                                    <a href="javascript:void(0)" id="edit_checklist" data-id="{{ $checklistChapter->id }}" class="btn btn-sm btn-outline-info" title="Edit"> <i class="fas fa-edit"></i></a>
+                                    <a href="javascript:void(0)" id="edit_checklist" data-id="{{ $checklistChapter->id }}" class="btn btn-sm btn-info" title="Edit"> <i class="fas fa-edit"></i></a>
                                     @endif
                                     @if((int)$privileges->delete == 1)
-                                    <a href="#" class="form-confirm  btn btn-sm btn-outline-danger" title="Delete">
+                                    <a href="#" class="form-confirm  btn btn-sm btn-danger" title="Delete">
                                     <i class="fas fa-trash"></i>
                                     <a data-form="#frmDelete-{!! $checklistChapter->id !!}" data-title="Delete {!! $checklistChapter->checklist_ch_name !!}" data-message="Are you sure you want to delete this checklist chapter?"></a>
                                     </a>
