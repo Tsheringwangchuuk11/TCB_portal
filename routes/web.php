@@ -19,6 +19,12 @@ Route::group(['namespace' => 'FrontEnd'], function () {
     Route::get('/', 'HomeController@index')->name('home');
 });
 
+//public reports
+Route::group(['prefix' => 'report', 'namespace' => 'Report'], function () {
+    Route::get('/public-report', 'PublicReportController@index');
+    Route::get('/reports', 'PublicReportController@ajaxReports');
+});
+
 Route::group(['middleware' => ['auth']], function () {
 	Route::get('dashboard', 'HomeController@getDashboard')->name('dashboard');
 	Route::get('profile', 'HomeController@getProfile');
