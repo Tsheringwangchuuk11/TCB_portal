@@ -21,7 +21,6 @@ class CreateTDocumentsTable extends Migration
             $table->string('document_name')->nullable();
             $table->string('upload_url')->nullable();
             $table->timestamps();
-            $table->foreign('application_no')->references('application_no')->on('t_applications');
         });
     }
 

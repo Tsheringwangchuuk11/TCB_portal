@@ -22,7 +22,6 @@
             <div class="form-group">
                 <div class="input-group">
                     <input type="date" name="application_from" class="form-control datepicker" value="{{ Request::get('Application_from') }}" placeholder="Application From">
-                    
                     <input type="date" name="application_to" class="form-control datepicker" value="{{ Request::get('Application_to') }}" placeholder="Application To">
                 </div>
             </div>

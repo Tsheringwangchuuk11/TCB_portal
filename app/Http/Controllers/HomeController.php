@@ -180,4 +180,5 @@ class HomeController extends Controller
         
         return redirect('profile')->with('msg_success', 'your details updated successfully');
     }
+
  }
