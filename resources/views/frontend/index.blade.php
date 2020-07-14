@@ -17,7 +17,7 @@
                         <img src="{{ URL::to ('img/tcblogo/world-map.png') }}" class="w-100">
                         <h5 class="text-center font-weight-bold pt-2">Total Visitors: <span class="badge bg-warning">123,900</span>
                         </h5>
-                        <small style="font-size: 12px;">
+                        <small style="font-size: 14px;">
                             <strong>Source: TCB </strong> <br/>
                             The total number show above is as of today's date.
                         </small>
@@ -38,7 +38,7 @@
                         <br>
                         <h5 class="text-center font-weight-bold pt-2">Total Visitors: <span class="badge bg-warning">240,100</span>
                         </h5>
-                        <small style="font-size: 12px;">
+                        <small style="font-size: 14px;">
                             <strong>Source: TCB </strong> <br/>
                             The total number show above is as of today's date.
                         </small>
@@ -57,7 +57,7 @@
                                 (in USD Million)
                             </div>
                         </div>
-                        <table class="table table-bordered table table-sm">
+                        <table class="table table-bordered table-sm">
                             <thead>
                             <tr>
                                 <th>Category</th>
@@ -152,7 +152,7 @@
                             </tr>
                             </tbody>
                         </table>
-                        <small style="font-size: 12px;">
+                        <small style="font-size: 14px;">
                             <strong>Source: TCB </strong> <br/>
                             Top 5 Source markets (Includes MDPR paying tourist only) in the year 2019.
                         </small>
@@ -193,7 +193,7 @@
                                     </div>
                                 </div>
                             </div>
-                        
+
                             <div class="col-lg-4 col-6">
                                 <div class="info-box elevation-0">
                                     <div class="info-box-content">
@@ -220,37 +220,40 @@
                             </div>
                         </div>
                     </div>
+                    <div class="card-footer bg-olive pb-1">
+                        <p class="text-white-50 text-lg">You can avail above services using <a href="{{ url('login') }}" class="text-white text-uppercase font-weight-bold"><u> Single Sign-On</u></a> (SSO)- One pass for citizens to avail online government services. Register in  <a href="https://sso.dit.gov.bt"  target="_blank" class="text-white font-weight-bold"><u>DIGITAL IDENTITY SERVICE </u></a> for new. </p>
+                    </div>
                 </div>
             </div>
     </div>
 
     <div class="container-fluid bg-light">
-        <div class="text-center h2 p-3 font-weight-bold"> OTHER TCB SERVICES
+        <div class="text-center h2 p-3 font-weight-bold"> OTHER SERVICES
         </div>
         <div class="row p-2">
             <div class="col text-center">
-                <a href="#" class="text-reset">
+                <a href="https://www.tourism.gov.bt/" target="_blank" class="text-reset">
                     <i class="fas fa-bullhorn fa-3x text-secondary"></i>
                     <br>
                     <h4>Tourism Council Website</h4>
                 </a>
             </div>
             <div class="col text-center">
-                <a href="#" class="text-reset">
+                <a href="https://www.bhutan.travel/" target="_blank" class="text-reset">
                     <i class="fas fa-map-marker-alt fa-3x text-secondary"></i>
                     <br>
                     <h4>Bhutan Destination Website</h4>
                 </a>
             </div>
             <div class="col text-center">
-                <a href="#" class="text-reset">
+                <a href="https://gms.tourism.gov.bt/" target="_blank" class="text-reset">
                     <i class="fas fa-certificate fa-3x text-secondary"></i>
                     <br>
                     <h4>Guides Management System</h4>
                 </a>
             </div>
             <div class="col text-center">
-                <a href="#" class="text-reset">
+                <a href="http://tashel.gov.bt/" target="_blank" class="text-reset">
                     <i class="fab fa-cc-visa fa-3x text-secondary"></i>
                     <br>
                     <h4>Tashel Visa Online</h4>

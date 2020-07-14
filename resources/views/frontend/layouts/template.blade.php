@@ -74,11 +74,11 @@
     <div class="container-fluid bg-gray-light p-1">
         <div class="row w-100">
             <div class="col-4 pt-1 pl-5">
-                <a href="#facebook" class="fab fa-facebook text-reset pl-2"></a>
-                <a href="#twitter" class="fab fa-twitter text-reset pl-1"></a>
-                <a href="#instagram" class="fab fa-instagram text-reset pl-1"></a>
-                <a href="#youtube" class="fab fa-youtube text-reset pl-1"></a>
-                <a href="#vimeo" class="fab fa-vimeo text-reset pl-1"></a>
+                <a href="https://www.facebook.com/destinationbhutan" target="_blank" class="fab fa-facebook text-reset pl-2"></a>
+                <a href="https://twitter.com/tourismbhutan" target="_blank" class="fab fa-twitter text-reset pl-1"></a>
+                <a href="https://www.instagram.com/tourismbhutan/" target="_blank" class="fab fa-instagram text-reset pl-1"></a>
+                <a href="https://www.youtube.com/channel/UC0xvpQniEmwX9gZbdthEUQw" target="_blank" class="fab fa-youtube text-reset pl-1"></a>
+                <a href="https://vimeo.com/tourismbhutan" target="_blank" class="fab fa-vimeo text-reset pl-1"></a>
             </div>
             <div class="col-4">
                 <form>
@@ -128,10 +128,10 @@
         <div class="row">
             <div class="col-sm-3 pl-4">
                 <h5 class="">Other Links</h5>
-                <a href="#" class="text-white-50 text-sm">G2C Services</a> <br>
-                <a href="#" class="text-white-50 text-sm">Ministry of Home and Cultural Affairs</a> <br>
-                <a href="#" class="text-white-50 text-sm">Ministry of Foreign Affairs</a> <br>
-                <a href="#" class="text-white-50 text-sm">Department of Immigration</a>
+                <a href="https://www.citizenservices.gov.bt" target="_blank" class="text-white-50 text-sm">G2C Services</a> <br>
+                <a href="http://www.mohca.gov.bt" target="_blank" class="text-white-50 text-sm">Ministry of Home and Cultural Affairs</a> <br>
+                <a href="https://www.mfa.gov.bt" target="_blank" class="text-white-50 text-sm">Ministry of Foreign Affairs</a> <br>
+                <a href="https://www.doi.gov.bt"target="_blank" class="text-white-50 text-sm">Department of Immigration</a>
             </div>
             <div class="col-sm-6 text-center">
                 <iframe
@@ -141,8 +141,8 @@
             </div>
             <div class="col-sm-3 pr-4">
                 <h5>Contact Information</h5>
-                <a href="/tvet/feedback" class="text-white-50 text-sm">Feedback</a> <br>
-                <a href="/tvet/contact" class="text-white-50 text-sm">Contact Us</a> <br>
+                <a href="#" class="text-white-50 text-sm">Feedback</a> <br>
+                <a href="#" class="text-white-50 text-sm">Contact Us</a> <br>
                 <a href="#" class="text-white-50 text-sm">Sitemap</a> <br>
                 <a href="#" class="text-white-50 text-sm">Policies & Disclaimer</a>
             </div>
