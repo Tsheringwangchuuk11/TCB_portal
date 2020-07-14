@@ -17,6 +17,12 @@ Auth::routes();
 
 Route::group(['namespace' => 'FrontEnd'], function () {
     Route::get('/', 'HomeController@index')->name('home');
+    Route::get('feedback', 'HomeController@feedBack')->name('feedback');
+     // fileuploads
+    Route::post('documentattach', 'HomeController@addDocuments');
+    Route::post('deletefile', 'HomeController@deleteFile');
+    Route::post('save-grievance-application', 'HomeController@saveGrievanceApplication');
+
 });
 
 //public reports
@@ -25,6 +31,7 @@ Route::group(['prefix' => 'report', 'namespace' => 'Report'], function () {
     Route::get('/reports', 'PublicReportController@ajaxReports');
 });
 
+Route::get('/public-report', 'PublicReportController@index');
 Route::group(['middleware' => ['auth']], function () {
 	Route::get('dashboard', 'HomeController@getDashboard')->name('dashboard');
 	Route::get('profile', 'HomeController@getProfile');

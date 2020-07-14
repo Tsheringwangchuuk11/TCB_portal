@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
+     <!-- CSRF Token -->
+     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Portal | Tourism Council of Bhutan</title>
     <link rel="shortcut icon" href="{{ URL::to('img/favicon.png') }}">
     <!-- Font Awesome Icons -->
@@ -18,7 +20,8 @@
     <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-
+    <!-- Jquery fileupload -->
+    <link href="{{ asset('fileupload/jquery.fileupload.css') }}" rel="stylesheet" type="text/css">
     <style>
         .show > .dropdown-menu {
             /* left: 50%; */
@@ -123,6 +126,7 @@
             </div>
         </div>
     </nav>
+    @include('layouts.include.message')
     @yield('content')
     <div class="container-fluid p-3 text-white bg-gradient-gray-dark">
         <div class="row">
@@ -141,7 +145,7 @@
             </div>
             <div class="col-sm-3 pr-4">
                 <h5>Contact Information</h5>
-                <a href="/tvet/feedback" class="text-white-50 text-sm">Feedback</a> <br>
+                <a href="{{ route('feedback') }}" class="text-white-50 text-sm">Feedback</a> <br>
                 <a href="/tvet/contact" class="text-white-50 text-sm">Contact Us</a> <br>
                 <a href="#" class="text-white-50 text-sm">Sitemap</a> <br>
                 <a href="#" class="text-white-50 text-sm">Policies & Disclaimer</a>
@@ -160,6 +164,11 @@
 <!-- REQUIRED SCRIPTS -->
 <!-- jQuery -->
 <script src="{{ asset('plugins/jquery/jquery.min.js') }}" type="text/javascript"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }}"></script>
+<script>
+    $.widget.bridge('uibutton', $.ui.button)
+</script>
 <!-- Bootstrap 4 -->
 <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}" type="text/javascript"></script>
 <!-- AdminLTE App -->
@@ -168,6 +177,11 @@
 <script src="{{ asset('plugins/chart.js/Chart.min.js') }}"></script>
 <!-- Select2 -->
 <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}" type="text/javascript"></script>
+<!-- fileupload -->
+<script src="{{ asset('fileupload/jquery.fileupload.js') }}"></script>
+<!-- jquery-validation -->
+<script src="{{ asset('plugins/jquery-validation/jquery.validate.min.js') }}"></script>
+<script src="{{ asset('plugins/jquery-validation/additional-methods.min.js') }}"></script>
 @yield('scripts')
 </body>
 </html>
