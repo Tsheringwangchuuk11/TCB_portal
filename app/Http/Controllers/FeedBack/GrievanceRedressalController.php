@@ -26,6 +26,8 @@ class GrievanceRedressalController extends Controller
     public function openApplication($applicationNo){
         $data['applicantInfo']=Services::getGrievanceDetails($applicationNo);
         $data['documentInfos']=Services::getGrievanceDocumentDetails($applicationNo);
+        $data['locations'] = Dropdown::getDropdowns("t_locations","id","location_name","0","0");
+
         // return response()->json($data);
         $data['serviceproviders'] = Dropdown::getDropdowns("t_service_providers","id","service_provider_name","0","0");
         return view('services/feedback/show_grievance_details',$data);
