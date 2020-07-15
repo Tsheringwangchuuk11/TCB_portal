@@ -227,7 +227,6 @@
             </div>
     </div>
 
-    
     <div class="container-fluid bg-light">
         <div class="text-center h2 p-3 font-weight-bold"> OTHER SERVICES
         </div>
@@ -268,7 +267,7 @@
                 </a>
             </div>
             <div class="col text-center">
-                <a href="http://tashel.gov.bt/" target="_blank" class="text-reset">
+                <a href="ftp://drive.tourism.gov.bt/files" target="_blank" class="text-reset">
                     <i class="fas fa-folder-open fa-3x text-warning"></i>
                     <br>
                     <h5>Resource Directory</h5>
