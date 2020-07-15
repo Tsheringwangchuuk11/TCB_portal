@@ -64,6 +64,11 @@ class Statistic extends Model
                           AND c.EntryDate >= ? 
                           AND c.ExitDate <= ?  ';
             if ($request->query('groupType') != "" ){
+                if ($request->query('groupType') == '0'){
+                    $query .= 'AND a.CountryId NOT IN(19,102,134) ';
+                }else {
+                    $query .= 'AND a.CountryId IN(19,102,134) ';
+                }
                 $query .= 'AND a.GroupId IN 
                           (SELECT 
                             Id 
@@ -96,6 +101,11 @@ class Statistic extends Model
                           AND c.EntryDate >= ? 
                           AND c.ExitDate <= ? ';
             if ($request->query('groupType') != "" ){
+                if ($request->query('groupType') == '0'){
+                    $query .= 'AND a.CountryId NOT IN(19,102,134) ';
+                }else {
+                    $query .= 'AND a.CountryId IN(19,102,134) ';
+                }
                 $query .= 'AND b.GroupType = ? GROUP BY e.ActivityId ORDER BY f.Activity ';
                 $result = DB::connection('mysql2')->select($query, [date('Y-m-d', strtotime($request->query('start_date'))),date('Y-m-d', strtotime($request->query('end_date'))), $request->query('groupType')]);
             }else {
@@ -122,6 +132,11 @@ class Statistic extends Model
                           AND c.EntryDate >= ?  
                           AND c.ExitDate <= ? ';
             if ($request->query('groupType') != "" ){
+                if ($request->query('groupType') == '0'){
+                    $query .= 'AND a.CountryId NOT IN(19,102,134) ';
+                }else {
+                    $query .= 'AND a.CountryId IN(19,102,134) ';
+                }
                 $query .= 'AND b.GroupType = ? GROUP BY d.DzongkhagId ORDER BY e.Name ';
                 $result = DB::connection('mysql2')->select($query, [date('Y-m-d', strtotime($request->query('start_date'))),date('Y-m-d', strtotime($request->query('end_date'))), $request->query('groupType')]);
             }else {
