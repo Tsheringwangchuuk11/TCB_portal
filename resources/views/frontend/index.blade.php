@@ -166,7 +166,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <div class="text-center h3 font-weight-bold pb-2">SERVICES
+                        <div class="text-center text-olive h3 font-weight-bold pb-2">SERVICES
                         </div>
                         <div class="row text-center">
                             <div class="col-lg-4 col-6">
@@ -233,30 +233,44 @@
         <div class="row p-2">
             <div class="col text-center">
                 <a href="https://www.tourism.gov.bt/" target="_blank" class="text-reset">
-                    <i class="fas fa-bullhorn fa-3x text-secondary"></i>
+                    <i class="fas fa-bullhorn fa-3x text-teal"></i>
                     <br>
-                    <h4>Tourism Council Website</h4>
+                    <h5>Tourism Council Website</h5>
                 </a>
             </div>
             <div class="col text-center">
                 <a href="https://www.bhutan.travel/" target="_blank" class="text-reset">
-                    <i class="fas fa-map-marker-alt fa-3x text-secondary"></i>
+                    <i class="fas fa-map-marker-alt fa-3x text-danger"></i>
                     <br>
-                    <h4>Bhutan Destination Website</h4>
+                    <h5>Bhutan Destination Website</h5>
                 </a>
             </div>
             <div class="col text-center">
                 <a href="https://gms.tourism.gov.bt/" target="_blank" class="text-reset">
-                    <i class="fas fa-certificate fa-3x text-secondary"></i>
+                    <i class="fas fa-certificate fa-3x text-maroon"></i>
                     <br>
-                    <h4>Guides Management System</h4>
+                    <h5>Guide Management System</h5>
                 </a>
             </div>
             <div class="col text-center">
                 <a href="http://tashel.gov.bt/" target="_blank" class="text-reset">
-                    <i class="fab fa-cc-visa fa-3x text-secondary"></i>
+                    <i class="fab fa-cc-visa fa-3x text-success"></i>
                     <br>
-                    <h4>Tashel Visa Online</h4>
+                    <h5>Tashel Online Visa</h5>
+                </a>
+            </div>
+            <div class="col text-center">
+                <a href="http://tax.tashel.gov.bt" target="_blank" class="text-reset">
+                    <i class="far fa-money-bill-alt fa-3x text-info"></i>
+                    <br>
+                    <h5>Tax Exemption System</h5>
+                </a>
+            </div>
+            <div class="col text-center">
+                <a href="ftp://drive.tourism.gov.bt/files" target="_blank" class="text-reset">
+                    <i class="fas fa-folder-open fa-3x text-warning"></i>
+                    <br>
+                    <h5>Resource Directory</h5>
                 </a>
             </div>
         </div>
