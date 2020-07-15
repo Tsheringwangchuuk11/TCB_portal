@@ -20,6 +20,7 @@ class HomeController extends Controller
         $data['idInfos'] = Services::getIdInfo('services/grievance');
         $data['letterTypes'] = Dropdown::getDropdowns("t_recommandation_letter_masters","id","recommandation_letter_type","0","0");
         $data['serviceproviders'] = Dropdown::getDropdowns("t_service_providers","id","service_provider_name","0","0");
+        $data['locations'] = Dropdown::getDropdowns("t_locations","id","location_name","0","0");
         return view('services/public_feed_back',$data);
     }
 
@@ -46,6 +47,7 @@ class HomeController extends Controller
     }
     
     public function saveGrievanceApplication(Request $request,Services $services){
+        dd($request->all());
         $application_no = $services->generateApplNo($request);
          DB::transaction(function () use ($request, $application_no,$services) {
             //insert into t_grievance_applications

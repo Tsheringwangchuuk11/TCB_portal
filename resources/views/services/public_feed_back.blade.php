@@ -176,7 +176,12 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="">Location <span class="text-danger">*</span> </label>
-                        <input type="text" class="form-control" name="location_id" value="{{ old('location_id') }}" autocomplete="off">
+                        <select class="form-control select2bs4" name="location_id">
+                            <option value="">- Select -</option>
+                            @foreach ($locations as $location)
+                            <option value="{{$location->id}}" {{ old('location_id')}}>{{$location->location_name}}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
