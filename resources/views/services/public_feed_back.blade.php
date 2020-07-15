@@ -1,7 +1,11 @@
-@extends('layouts.manager')
+@extends('frontend/layouts/template')
 @section('page-title','Grievance')
 @section('content')
-<form action="{{ url('application/save-grievance-application') }}" class="form-horizontal" method="POST" enctype="multipart/form-data" id="formdata">
+<div class="col-8 offset-md-2 d-flex justify-content-center pt-3">
+    <h3 class="text-default">Grievance</h3>
+</div>
+<div class="container">
+<form action="{{url('save-grievance-application')}}" class="form-horizontal" method="POST" enctype="multipart/form-data" id="formdata">
     @csrf
     <input type="hidden" name="service_id" value="{{ $idInfos->service_id }}" id="service_id">
     <input type="hidden" name="module_id" value="{{ $idInfos->module_id }}" id="module_id">
@@ -194,18 +198,21 @@
                         all important information material for resolving of this complaint are shared or will be shared with the Tourism Council of Bhutan.
                     </p>
                 </div>
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" name="terms" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">we hereby declare that</label>
-                </div>
+                <div class="form-group mb-0">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" name="terms" class="custom-control-input" id="exampleCheck1">
+                      <label class="custom-control-label" for="exampleCheck1">we hereby declare that</label>
+                    </div>
+                  </div>
             </div>
         </div>
         <div class="card-footer text-center">
-            <button type="submit"class="btn btn-success"><i class="fa fa-check"></i> APPLY</button>
+            <button type="submit"class="btn btn-success"><i class="fa fa-check"></i> Submit</button>
             <button type="reset"class="btn btn-danger"><i class="fa fa-times"></i> RESET</button>
         </div>
     </div>
 </form>
+</div>
 @endsection
 @section('scripts')
 <script>
@@ -222,6 +229,160 @@
             $("#showlist").hide();
         } 
     });
+
+    //  fileupload
+var count=0, deleteId;
+$(function () {
+   'use strict';
+   $('#fileuploaded').fileupload({
+      beforeSend:function(){
+         $('#success').empty();
+         $('.progress-bar').text('0%');
+         $('.progress-bar').css('width', '0%');
+      },
+      uploadProgress:function(event, position, total, percentComplete){
+         $('.progress-bar').text(percentComplete + '0%');
+         $('.progress-bar').css('width', percentComplete + '0%');
+     },
+      add: function(e, data) {
+         data.submit();
+
+      },
+      url: 'documentattach',
+      type: 'POST',
+      headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      autoUpload: true,
+      dataType : 'json',
+      success: function (data) {
+          console.log(data);
+         if (data.status == 'true') {
+            $('#success').html('<div class="text-success text-center"><b>'+data.success+'</b></div><br /><br />');
+            $('.progress-bar').text('Uploaded');
+            $('.progress-bar').css('width', '100%');
+            jQuery.each(data.data, function (index, row) {
+               $('#files').append('<div class="image_wrap">'
+                  + '<input type="hidden" name="documentId[]" value="' + row.id + '"/><strong>' + row.document_name + '</strong>'
+                  + ' <span onClick="deletefile(this.id,\'' + row.id + '\',\'' + row.upload_url + '\')" id="deleteId' + count + '" class="delete-line btn btn-danger btn-sm" data-file_id="' + row.id + '">'
+                  + '<i class="fas fa-trash-alt"></i> Delete</span></div>');
+               count++;
+            });
+         } else {
+            $('#msgId').html(data.message);
+            $('#alertErrorId').show().delay(6000).queue(function (n) {
+                  $(this).hide();
+                  n();
+            });
+         }
+      },
+
+    /*   progressall: function (e, data) {
+         var progress = parseInt(data.loaded / data.total * 100, 10);
+         $('#progress .progress-bar').css(
+            'width',
+            progress + '%'
+         );
+         setTimeout(function(){$(".progress").hide()}, 3000);
+       }  */
+   });
+});
+});
+
+function deletefile(id,fileId,url){         
+   if (confirm('Are you sure you want to delete this file?')){
+      var id = id;
+      var fileId = fileId;
+      var url = url;
+      $.ajax({
+            url  : 'deletefile',
+            type : "POST",
+            headers: {
+               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data : {id : fileId, url : url },                      
+            success: function(data) {
+            if (data == "success")
+                  { $('#'+id).parent('div').remove(); }
+               else
+                  { alert('Something went wrong when deleteing the file, please try again'); }                    
+            }
+      });
+   }
+} 
+
+$('#formdata').validate({
+      ignore: [],
+      rules: {
+        complainant_email: {
+            required: true,
+            email: true,
+         },
+        
+         applicant_type: {
+            required: true,
+         },
+         respondent_name: {
+            required: true,
+         },
+         complainant_name: {
+            required: true,
+         },
+         complainant_address: {
+            required: true,
+         },
+         complainant_telephone_no: {
+            required: true,
+         },
+         complainant_mobile_no: {
+            required: true,
+         },
+         service_provider_id: {
+            required: true,
+         },
+         claim_summary: {
+            required: true,
+         },
+         remedy_sought: {
+            required: true,
+         },
+         location_id: {
+            required: true,
+         },
+         date: {
+            required: true,
+         },
+         respondent_email: {
+            required: true,
+            email:true
+         },
+         terms: {
+            required:true,
+         },
+         respondent_address: {
+            required:true,
+         },
+         respondent_mobile_no: {
+            required:true,
+         },
+         respondent_telephone_no: {
+            required:true,
+         },
+      },
+    messages: {
+    terms: "Please accept our terms"
+    },
+      errorElement: 'span',
+      errorPlacement: function (error, element) {
+         error.addClass('invalid-feedback');
+         element.closest('.form-group').append(error);
+      },
+      highlight: function (element, errorClass, validClass) {
+         $(element).addClass('is-invalid');
+      },
+      unhighlight: function (element, errorClass, validClass) {
+         $(element).removeClass('is-invalid');
+      }
    });
 </script>
 @endsection

@@ -77,7 +77,7 @@ class HomeController extends Controller
             );  
            return view('dashboards.admin')->with('chartArray', $chartArray);
         }
-        elseif(in_array(3, $roles)) { // role check
+        elseif( in_array(3, $roles) || in_array(4, $roles) || in_array(5, $roles) || in_array(6, $roles) || in_array(7, $roles) || in_array(8, $roles) ) { // role check
             $approvedApplication=Services::getTotalApprovedApplication();
             $rejectApplication=Services::getTotalRejectApplication();
             $totalApplication= $approvedApplication[0]->totalcount +  $rejectApplication[0]->totalreject;
@@ -177,7 +177,7 @@ class HomeController extends Controller
         $user->user_name = $request->user_name;
         $user->email = $request->email;
         $user->save();
-        
         return redirect('profile')->with('msg_success', 'your details updated successfully');
     }
+
  }

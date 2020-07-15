@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
+     <!-- CSRF Token -->
+     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Portal | Tourism Council of Bhutan</title>
     <link rel="shortcut icon" href="{{ URL::to('img/favicon.png') }}">
     <!-- Font Awesome Icons -->
@@ -18,7 +20,8 @@
     <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-
+    <!-- Jquery fileupload -->
+    <link href="{{ asset('fileupload/jquery.fileupload.css') }}" rel="stylesheet" type="text/css">
     <style>
         .show > .dropdown-menu {
             /* left: 50%; */
@@ -74,11 +77,11 @@
     <div class="container-fluid bg-gray-light p-1">
         <div class="row w-100">
             <div class="col-4 pt-1 pl-5">
-                <a href="#facebook" class="fab fa-facebook text-reset pl-2"></a>
-                <a href="#twitter" class="fab fa-twitter text-reset pl-1"></a>
-                <a href="#instagram" class="fab fa-instagram text-reset pl-1"></a>
-                <a href="#youtube" class="fab fa-youtube text-reset pl-1"></a>
-                <a href="#vimeo" class="fab fa-vimeo text-reset pl-1"></a>
+                <a href="https://www.facebook.com/destinationbhutan" target="_blank" class="fab fa-facebook text-reset pl-2"></a>
+                <a href="https://twitter.com/tourismbhutan" target="_blank" class="fab fa-twitter text-reset pl-1"></a>
+                <a href="https://www.instagram.com/tourismbhutan/" target="_blank" class="fab fa-instagram text-reset pl-1"></a>
+                <a href="https://www.youtube.com/channel/UC0xvpQniEmwX9gZbdthEUQw" target="_blank" class="fab fa-youtube text-reset pl-1"></a>
+                <a href="https://vimeo.com/tourismbhutan" target="_blank" class="fab fa-vimeo text-reset pl-1"></a>
             </div>
             <div class="col-4">
                 <form>
@@ -123,15 +126,16 @@
             </div>
         </div>
     </nav>
+    @include('layouts.include.message')
     @yield('content')
     <div class="container-fluid p-3 text-white bg-gradient-gray-dark">
         <div class="row">
             <div class="col-sm-3 pl-4">
                 <h5 class="">Other Links</h5>
-                <a href="#" class="text-white-50 text-sm">G2C Services</a> <br>
-                <a href="#" class="text-white-50 text-sm">Ministry of Home and Cultural Affairs</a> <br>
-                <a href="#" class="text-white-50 text-sm">Ministry of Foreign Affairs</a> <br>
-                <a href="#" class="text-white-50 text-sm">Department of Immigration</a>
+                <a href="https://www.citizenservices.gov.bt" target="_blank" class="text-white-50 text-sm">G2C Services</a> <br>
+                <a href="http://www.mohca.gov.bt" target="_blank" class="text-white-50 text-sm">Ministry of Home and Cultural Affairs</a> <br>
+                <a href="https://www.mfa.gov.bt" target="_blank" class="text-white-50 text-sm">Ministry of Foreign Affairs</a> <br>
+                <a href="https://www.doi.gov.bt"target="_blank" class="text-white-50 text-sm">Department of Immigration</a>
             </div>
             <div class="col-sm-6 text-center">
                 <iframe
@@ -141,8 +145,8 @@
             </div>
             <div class="col-sm-3 pr-4">
                 <h5>Contact Information</h5>
-                <a href="/tvet/feedback" class="text-white-50 text-sm">Feedback</a> <br>
-                <a href="/tvet/contact" class="text-white-50 text-sm">Contact Us</a> <br>
+                <a href="#" class="text-white-50 text-sm">Contact Us</a> <br>
+                <a href="{{ route('feedback') }}" class="text-white-50 text-sm">Feedback</a> <br>
                 <a href="#" class="text-white-50 text-sm">Sitemap</a> <br>
                 <a href="#" class="text-white-50 text-sm">Policies & Disclaimer</a>
             </div>
@@ -160,6 +164,11 @@
 <!-- REQUIRED SCRIPTS -->
 <!-- jQuery -->
 <script src="{{ asset('plugins/jquery/jquery.min.js') }}" type="text/javascript"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }}"></script>
+<script>
+    $.widget.bridge('uibutton', $.ui.button)
+</script>
 <!-- Bootstrap 4 -->
 <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}" type="text/javascript"></script>
 <!-- AdminLTE App -->
@@ -168,6 +177,11 @@
 <script src="{{ asset('plugins/chart.js/Chart.min.js') }}"></script>
 <!-- Select2 -->
 <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}" type="text/javascript"></script>
+<!-- fileupload -->
+<script src="{{ asset('fileupload/jquery.fileupload.js') }}"></script>
+<!-- jquery-validation -->
+<script src="{{ asset('plugins/jquery-validation/jquery.validate.min.js') }}"></script>
+<script src="{{ asset('plugins/jquery-validation/additional-methods.min.js') }}"></script>
 @yield('scripts')
 </body>
 </html>
