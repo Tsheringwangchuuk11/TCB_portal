@@ -177,7 +177,6 @@ class HomeController extends Controller
         $user->user_name = $request->user_name;
         $user->email = $request->email;
         $user->save();
-        
         return redirect('profile')->with('msg_success', 'your details updated successfully');
     }
 

@@ -20,26 +20,144 @@ class StatisticController extends Controller
     {
         //
         $data['statisticReportDtls'] = Statistic::getArrivalReport($request);
+        $reportTypeName = '';
+        $data['reportTypeId'] = $request->query('reportType');
+        $data['reportTitle'] = '';
+        if ($request->query('reportType')==1){
+            $reportTypeName = 'Overall Arrivals Report';
+            $data['reportTitle'] = 'Visitor Arrivals To Bhutan between \''.date('d-m-Y', strtotime($request->query('start_date'))).'\' and \''.date('d-m-Y', strtotime($request->query('end_date'))).'\'';
+            if ($request->query('groupType') != "" && $request->query('groupType') == 0){
+                $reportTypeName = 'Arrivals By International Report';
+                $data['reportTitle'] = 'Visitor Arrivals By International between \''.date('d-m-Y', strtotime($request->query('start_date'))).'\' and \''.date('d-m-Y', strtotime($request->query('end_date'))).'\'';
+            } elseif ($request->query('groupType') != "" && $request->query('groupType') == 1){
+                $reportTypeName = 'Arrivals By Regional Report';
+                $data['reportTitle'] = 'Visitor Arrivals By Regional between \''.date('d-m-Y', strtotime($request->query('start_date'))).'\' and \''.date('d-m-Y', strtotime($request->query('end_date'))).'\'';
+            }
+        } elseif ($request->query('reportType')==2){
+            $reportTypeName = 'Arrivals By Nationality Report';
+            $data['reportTitle'] = 'Visitor Arrivals By Nationality between \''.date('d-m-Y', strtotime($request->query('start_date'))).'\' and \''.date('d-m-Y', strtotime($request->query('end_date'))).'\'';
+            if ($request->query('groupType') != "" && $request->query('groupType') == 0){
+                $reportTypeName = 'Nationality of International Arrivals Report';
+                $data['reportTitle'] = 'Nationality of International Visitor Arrivals between \''.date('d-m-Y', strtotime($request->query('start_date'))).'\' and \''.date('d-m-Y', strtotime($request->query('end_date'))).'\'';
+            } elseif ($request->query('groupType') != "" && $request->query('groupType') == 1){
+                $reportTypeName = 'Nationality of Regional Arrivals Report';
+                $data['reportTitle'] = 'Nationality of Regional Visitor Arrivals between \''.date('d-m-Y', strtotime($request->query('start_date'))).'\' and \''.date('d-m-Y', strtotime($request->query('end_date'))).'\'';
+            }
+        } elseif ($request->query('reportType')==3){
+            $reportTypeName = 'Arrivals By Activity Report';
+            $data['reportTitle'] = 'Visitor Arrivals By Activity between \''.date('d-m-Y', strtotime($request->query('start_date'))).'\' and \''.date('d-m-Y', strtotime($request->query('end_date'))).'\'';
+            if ($request->query('groupType') != "" && $request->query('groupType') == 0){
+                $reportTypeName = 'International Arrivals By Activity Report';
+                $data['reportTitle'] = 'International Visitor Arrivals By Activity between \''.date('d-m-Y', strtotime($request->query('start_date'))).'\' and \''.date('d-m-Y', strtotime($request->query('end_date'))).'\'';
+            } elseif ($request->query('groupType') != "" && $request->query('groupType') == 1){
+                $reportTypeName = 'Nationality of Regional Arrivals Report';
+                $data['reportTitle'] = 'Regional Visitor Arrivals By Activity between \''.date('d-m-Y', strtotime($request->query('start_date'))).'\' and \''.date('d-m-Y', strtotime($request->query('end_date'))).'\'';
+            }
+        } elseif ($request->query('reportType')==4){
+            $reportTypeName = 'Arrivals By Dzongkhag Report';
+            $data['reportTitle'] = 'Visitor Arrivals By Dzongkhag between \''.date('d-m-Y', strtotime($request->query('start_date'))).'\' and \''.date('d-m-Y', strtotime($request->query('end_date'))).'\'';
+            if ($request->query('groupType') != "" && $request->query('groupType') == 0){
+                $reportTypeName = 'International Arrivals By Dzongkhag Report';
+                $data['reportTitle'] = 'International Visitor By Dzongkhag between \''.date('d-m-Y', strtotime($request->query('start_date'))).'\' and \''.date('d-m-Y', strtotime($request->query('end_date'))).'\'';
+            } elseif ($request->query('groupType') != "" && $request->query('groupType') == 1){
+                $reportTypeName = 'Regional Arrivals By Dzongkhag Report';
+                $data['reportTitle'] = 'Regional Visitor Arrivals By Dzongkhag between \''.date('d-m-Y', strtotime($request->query('start_date'))).'\' and \''.date('d-m-Y', strtotime($request->query('end_date'))).'\'';
+            }
+        }
+
         if ($request->has('print'))
         {
-            $reportTypeName = '';
-            $data['reportTypeId'] = $request->query('reportType');
-            $data['reportTitle'] = '';
-            if ($request->query('reportType')==1){
-                $reportTypeName = 'Overall Arrivals Report';
-                $data['reportTitle'] = 'Visitor Arrivals To Bhutan';
-                if ($request->query('groupType') != "" && $request->query('groupType') == 0){
-                    $reportTypeName = 'Arrivals By International Report';
-                    $data['reportTitle'] = 'Visitor Arrivals By International';
-                }
-            }
+
             if ($request->query('print') == 'excel') {
                 return Excel::download(new ExportToView($data, 'arrival'), $reportTypeName.'.xlsx');
             } else {
-                $pdf = PDF::loadView('report.pdf.arrival', ['reportDtls' =>$data['statisticReportDtls'] ]);
-                return $pdf->stream('Arrival Report-'.str_random(4).'.pdf');
+                $pdf = PDF::loadView('report.pdf.arrival', $data);
+                return $pdf->stream($reportTypeName.'-'.str_random(4).'.pdf');
             }
         } else {
+            $chartArray = [];
+            $chartArray['chart'] = ['type' => 'column'];
+            $chartArray['title'] = ['text' => $data['reportTitle']];
+            $chartArray['subtitle'] = ['text' => 'Source: TCB'];
+            $chartArray['credits'] = ['enabled' => false];
+            //$chartArray['xAxis'] = ['categories' => ['Africa', 'America', 'Asia', 'Europe', 'Oceania']];
+            $chartArray['xAxis'] = [
+                'type' => 'category',
+                'labels' => [
+                    'rotation' => '-45',
+                    'style' => [
+                        'fontSize' => '13px',
+                        'fontFamily' => 'Verdana, sans-serif'
+                    ]
+                ]
+            ];
+            $chartArray['yAxis'] = [
+                                        'min' => '0',
+                                        'title' => [
+                                            'text' => 'Total Visitors (numbers)'
+                                        ]
+                                    ];
+            $chartArray['legend'] = [
+                'enabled' => false
+            ];
+            $chartArray['tooltip'] = [
+                'pointFormat' => 'Total Visitors: <b>{point.y:.1f} numbers</b>'
+            ];
+            /*$chartArray['tooltip'] = [
+                'valueSuffix' => 'numbers'
+            ];*/
+            /*$chartArray['plotOptions'] = [
+                'bar' => [
+                    'dataLabels' => [
+                        'enable' => true
+                    ]
+                ]
+            ];*/
+           /* $chartArray['legend'] = [
+                'layout' => 'vertical',
+                'align' => 'right',
+                'verticalAlign' => 'top',
+                'x' => '-40',
+                'y' => '80',
+                'floating' => true,
+                'borderWidth' => '1',
+                'backgroundColor' =>
+                'Highcharts.defaultOptions.legend.backgroundColor',
+                'shadow' => true
+            ];*/
+            /*$chartArray['series'] = [
+                [
+                    'name' => 'Year 1800',
+                    'data' =>  [107, 31, 635, 203, 2]
+                ],
+            ];*/
+            $dataArray = [];
+            if ($request->query('reportType') !=1){
+                foreach ($data['statisticReportDtls'] as $reportDtl ){
+                    $dataArray[] = [$reportDtl->name, $reportDtl->total];
+                }
+            }
+
+            $chartArray['series'] = [
+                [
+                    'name' => 'Total Visitors',
+                    'data'=> $dataArray,
+                    'dataLabels' => [
+                        'enabled' => true,
+                        'rotation' => '-90',
+                        'color' => '#FFFFFF',
+                        'align' => 'right',
+                        'format' => '{point.y:.1f}', // one decimal
+                        'y' => '10', // 10 pixels down from the top
+                        'style' => [
+                            'fontSize' => '13px',
+                            'fontFamily' => 'Verdana, sans-serif'
+                        ]
+
+                    ]
+                ]
+            ];
+            $data['chartArray'] = $chartArray;
             return view('statistical-reports.arrival', $data);
         }
 

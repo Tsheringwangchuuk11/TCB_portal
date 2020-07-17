@@ -116,11 +116,11 @@
                     class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="mainNav">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item px-2"><a href="#" class="nav-link  text-white">ABOUT US</a>
+                    <li class="nav-item px-2"><a href="{{ url('about_us') }}" class="nav-link  text-white">ABOUT US</a>
                     </li>
-                    <li class="nav-item px-2"><a href="#" class="nav-link  text-white">REPORTS</a>
+                <li class="nav-item px-2"><a href="{{ url('report/public-report') }}" class="nav-link  text-white">REPORTS</a>
                     </li>
-                    <li class="nav-item px-2"><a href="#" class="nav-link  text-white">CONTACT</a>
+                    <li class="nav-item px-2"><a href="{{ url('contact_us') }}" class="nav-link  text-white">CONTACT</a>
                     </li>
                 </ul>
             </div>
@@ -182,6 +182,17 @@
 <!-- jquery-validation -->
 <script src="{{ asset('plugins/jquery-validation/jquery.validate.min.js') }}"></script>
 <script src="{{ asset('plugins/jquery-validation/additional-methods.min.js') }}"></script>
+<!-- high charts -->
+<script src="{{ asset('plugins/highcharts/highcharts.js') }}"></script>
+<script src="{{ asset('plugins/highcharts/exporting.js') }}"></script>
+<script src="{{ asset('plugins/highcharts/export-data.js') }}"></script>
+<script src="{{ asset('plugins/highcharts/accessibility.js') }}"></script>
+
 @yield('scripts')
 </body>
+<script>
+    $(document).ready(function () {
+        var appUrl = "{{ url('/') }}/";
+    });
+</script>
 </html>
