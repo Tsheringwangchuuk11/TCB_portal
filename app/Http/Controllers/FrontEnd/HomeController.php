@@ -47,7 +47,6 @@ class HomeController extends Controller
     }
     
     public function saveGrievanceApplication(Request $request,Services $services){
-        dd($request->all());
         $application_no = $services->generateApplNo($request);
          DB::transaction(function () use ($request, $application_no,$services) {
             //insert into t_grievance_applications

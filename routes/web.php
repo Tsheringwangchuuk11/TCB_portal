@@ -22,13 +22,15 @@ Route::group(['namespace' => 'FrontEnd'], function () {
     Route::post('documentattach', 'HomeController@addDocuments');
     Route::post('deletefile', 'HomeController@deleteFile');
     Route::post('save-grievance-application', 'HomeController@saveGrievanceApplication');
+    Route::get('contact_us', function(){return view('frontend.layouts.contact_us');});
+    Route::get('about_us', function(){return view('frontend.layouts.about_us');});
 
 });
 
 //public reports
 Route::group(['prefix' => 'report', 'namespace' => 'Report'], function () {
-    Route::get('/public-report', 'PublicReportController@index');
-    Route::get('/reports', 'PublicReportController@ajaxReports');
+    Route::get('public-report', 'PublicReportController@index');
+    Route::get('reports', 'PublicReportController@ajaxReports');
 });
 
 Route::get('/public-report', 'PublicReportController@index');

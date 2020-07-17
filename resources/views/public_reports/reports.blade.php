@@ -1,36 +1,55 @@
 @extends('frontend/layouts/template')
 @section('content')
     <style>
-        th {
+        .highcharts-figure, .highcharts-data-table table {
+            min-width: 310px; 
+            max-width: 9000px;
+            margin:auto;
+           
+        }
+
+        #container {
+            height: 550px;
+            border: 1px solid #161b161c;
+        }
+
+        .highcharts-data-table table {
+            font-family: Verdana, sans-serif;
+            border-collapse: collapse;
+            border: 1px solid #161b161c;
+            margin: 10px auto;
             text-align: center;
+            width: 100%;
+            max-width: 9000px;
         }
-
-        td {
+        .highcharts-data-table caption {
+            padding: 1em 0;
+            font-size: 18px;
             text-align: center;
+            caption-side: top;
+            color: #333333;
         }
-
-        .table {
-            border: 2px solid #5bc0de;
-            width: 99%;
-            margin: 0 auto;
+        .highcharts-data-table th {
+            font-weight: 600;
+            font-size: .8em;
+            padding: 0.5em;
         }
-
-        .table thead > tr > th {
-            border-bottom: none;
+        .highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
+            padding: 0.5em;
         }
-
-        .table thead > tr > th, .table tbody > tr > th, .table tfoot > tr > th, .table thead > tr > td, .table tbody > tr > td, .table tfoot > tr > td {
-            border: 1px solid #aadeee;
+        .highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
+            background: #f8f8f8;
+        }
+        .highcharts-data-table tr:hover {
+            background: #f1f7ff;
         }
     </style>
-    <div class="container-fluid">
-        <div class="col-md-12">
+    <div class="container-fluid  m-3">
             <!-- SELECT2 EXAMPLE -->
-            <div class="card card-default">
-                <div class="card-header bg-info">
-                    <h3 class="card-title">Reports</h3>
-                </div>
-
+            <div class="card">
+                <div class="text-center h3 m-2">
+                    Reports
+                   </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-3">
@@ -38,10 +57,10 @@
                                 <form action="{{ url('report/reports') }}" method="GET" id="reportForm">
                                     <div class="row">
                                         <div class="form-group col-xs-12 col-md-12">
-                                            <label class="text-success">SORT BY:</label>
-                                            <select name="is_selected" class="form-control" onchange="getTable()">
-                                                @foreach ($sort_type as $list)
-                                                    <option value="{{ $list->sort_id }}">{{ $list->sort_name }}</option>
+                                            <label class="text-success">Report Name:</label>
+                                            <select name="report_type_id" class="form-control" onchange="generateReports()">
+                                                @foreach ($report_types as $report_type)
+                                                    <option value="{{ $report_type->id }}">{{ $report_type->report_type }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -51,14 +70,9 @@
                                         </div>
                                         <div class="col-xs-12 col-md-12">
                                             <div class="form-group">
-                                                <label>Region:</label>
-                                                <select name="Region_Id[]" class="select2bs4" onchange="getTable()"
-                                                        multiple="multiple" style="width: 100%;">
-                                                    <!-- <option value="">All</option> -->
-                                                    @foreach ($regions as $region)
-                                                        <option
-                                                            value="{{ $region->region_id }}">{{ $region->region }}</option>
-                                                    @endforeach
+                                                <label>Year:</label>
+                                                <select name="year" class="select2bs4" onchange="generateReports()" style="width: 100%;">
+                                                        <option value="2019"> 2019</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -68,51 +82,16 @@
                         </div>
 
                         <div class="col-md-9">
-                            <div class="card card-default p-2">
-                                <div class="card-header">
-                                    <a class="btn btn-app btn-success" id=""> <i class="fa fa-table"
-                                                                                 style="color:#009900"></i> Table </a>
-                                    <a class="btn btn-app" id="submitBar" onclick="getName(this.id)"> <i
-                                            class="fas fa-chart-bar" style="color:#ff9900"></i> Bar Graph </a>
-                                    <a class="btn btn-app" id="submitLine" onclick="getName(this.id)"> <i
-                                            class="fas fa-chart-line" style="color:#0033cc"></i> Line Graph </a>
-                                    <div class="btn-group" style="float:right">
-                                        <a href="{{ url('reports/graph?print=excel&' . Request::getQueryString()) }}"
-                                           target="_blank" class="btn btn-sm btn-success"><i
-                                                class="fas fa-file-excel"></i>
-                                            Excel</a>
-                                        <a href="{{ url('reports/graph?print=pdf&' . Request::getQueryString()) }}"
-                                           class="btn btn-sm btn-danger" target="_blank"><i class="fas fa-file-pdf"></i>
-                                            PDF</a>
-                                    </div>
-                                </div>
-
                                 <div class="overlay" id="loading" style="display:none"><i
                                         class="fa fa-spinner fa-spin"></i>
                                 </div>
-                                <!-- data here -->
-                                <div class="col-md-12 col-xs-12">
-                                    <div id="dataResult"></div>
-                                    <div class="chart">
-                                        <canvas id="barGraph"
-                                                style="min-height: 316px; height: 356px; max-height: 356px; max-width: 1000px; display: block; width: 100%;"
-                                                width="100%" height="356px" class="chartjs-render-monitor">
-                                        </canvas>
-                                    </div>
-                                    <div class="chart">
-                                        <canvas id="lineGraph"
-                                                style="min-height: 316px; height: 356px; max-height: 356px; max-width: 1000px; display: block; width: 100%;"
-                                                width="100%" height="356px" class="chartjs-render-monitor">
-                                        </canvas>
-                                    </div>
-                                </div>
-                                <br/>
-                            </div>
+                            <figure class="highcharts-figure">
+                                <div id="container"></div>
+                            </figure>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
     </div>
 @endsection
 @section('scripts')
@@ -131,10 +110,10 @@
 
     <script>
         $(document).ready(function () {
-            getTable();
+            generateReports();
         });
 
-        function getTable() {
+        function generateReports() {
             $("#loading").show();
             var formData = $('#reportForm');
             $.ajax({
@@ -142,11 +121,13 @@
                 url: formData.attr('action'),
                 data: formData.serialize(),
                 success: function (data) {
-                     alert(data);
-                    $("#dataResult").html(data);
+                    plotGraph(data);
                     $("#loading").hide();
                 }
             });
+        }
+        function plotGraph(data){
+            $('#container').highcharts(data);
         }
     </script>
 @endsection
