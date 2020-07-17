@@ -44,10 +44,10 @@
             background: #f1f7ff;
         }
     </style>
-    <div class="container-fluid  m-3">
+    <div class="container pt-3">
             <!-- SELECT2 EXAMPLE -->
             <div class="card">
-                <div class="text-center h3 m-2">
+                <div class="text-center h3">
                     Reports
                    </div>
                 <div class="card-body">
