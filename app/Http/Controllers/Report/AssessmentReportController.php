@@ -83,6 +83,7 @@ class AssessmentReportController extends Controller
                     ],'hotel-assessment-list-detail'),'Hotel Assessment Detail Report.xlsx');
                 } else {
                     $pdf = PDF::loadView('report.pdf.hotel-assessment-detail', compact('application', 'data','roomDetails','staffDetails'));
+                    $pdf->shrink_tables_to_fit = 1;
                     return $pdf->stream('Hotel Assessment Detail Report-'.str_random(4).'.pdf');
                 }
             } else {

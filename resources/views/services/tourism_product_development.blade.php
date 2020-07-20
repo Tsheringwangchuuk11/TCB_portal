@@ -22,7 +22,7 @@
                 <div class="col-md-5 offset-md-2">
                     <div class="form-group">
                         <label for="">Financial year<span class="text-danger"> *</span></label>
-                        <input type="date" class="form-control required" name="financial_year" autocomplete="off">
+                        <input type="date" class="form-control" name="financial_year" autocomplete="off">
                     </div>
                 </div>
             </div>
@@ -66,7 +66,7 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="">Contact No. <span class="text-danger"> *</span></label>
-                        <input type="text" name="contact_no" class="form-control numeric-only" autocomplete="off">
+                        <input type="text" name="contact_no" class="form-control" autocomplete="off">
                     </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
@@ -95,14 +95,14 @@
                     <div class="col-md-5">
                         <div class="form-group">
                             <label for="">Organizer Name<span class="text-danger"> *</span></label>                                        
-                            <input type="text" class="form-control required" name="organizer_name" autocomplete="off"> 
+                            <input type="text" class="form-control" name="organizer_name" autocomplete="off"> 
                         </div>
                     </div>
                     
                 <div class="col-md-5 offset-md-2">
                     <div class="form-group">
                         <label for="">Address <span class="text-danger"> *</span></label>                                        
-                        <input type="text" class="form-control required" name="organizer_address" autocomplete="off"> 
+                        <input type="text" class="form-control" name="organizer_address" autocomplete="off"> 
                     </div>
                 </div>
                
@@ -111,13 +111,13 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="">Email<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control required" name="organizer_email" autocomplete="off"> 
+                        <input type="text" class="form-control" name="organizer_email" autocomplete="off"> 
                     </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
                     <div class="form-group">
                         <label for="">Contact No.<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control required" name="organizer_phone" autocomplete="off">
+                        <input type="text" class="form-control" name="organizer_phone" autocomplete="off">
                     </div>
                 </div>
                 </div>
@@ -136,7 +136,7 @@
                     <div class="col-md-5 offset-md-2">
                         <div class="form-group">
                             <label for="">Amount Requested:<span class="text-danger"> *</span></label>
-                            <input type="text" class="form-control required" name="amount_requested" autocomplete="off">
+                            <input type="text" class="form-control" name="amount_requested" autocomplete="off">
                         </div>
                     </div>
                 </div>
@@ -230,6 +230,11 @@
 @endsection
     @section('scripts')
     <script>
+        $(document).ready(function () {
+            $('.select2bs4').on('change', function () {
+                $(this).valid();
+            });
+        });
         $(document).ready(function () {
             bsCustomFileInput.init();
             var counter = 2;

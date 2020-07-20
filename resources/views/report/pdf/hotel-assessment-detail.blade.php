@@ -99,102 +99,98 @@
         <h5 class="text-center">Room Detail</h5> 
         <table>
             <tr>
-            <td width="100%">
-                <table>
-                    <tr>
-                        <th width="50%">Room Types</th>
-                        <th width="50%">Number Of Rooms</th>
-                    </tr>
-                    @foreach ($roomDetails as $roomDetail)
-                    <tr>
-                        <td width="50%">{{$roomDetail->room_name}}</td>
-                        <td width="50%">{{$roomDetail->room_no}}</td>
-                    </tr>
-                    @endforeach
-                </table>
-            </td> 
-        </tr>
+                <td width="100%">
+                    <table>
+                        <tr>
+                            <th width="50%">Room Types</th>
+                            <th width="50%">Number Of Rooms</th>
+                        </tr>
+                        @foreach ($roomDetails as $roomDetail)
+                        <tr>
+                            <td width="50%">{{$roomDetail->room_name}}</td>
+                            <td width="50%">{{$roomDetail->room_no}}</td>
+                        </tr>
+                        @endforeach
+                    </table>
+                </td> 
+            </tr>
         </table>
         <hr>
         <h5 class="text-center">Staff Detail</h5> 
         <table>
             <tr>
-            <td width="100%">
-                <table>
-                    <tr>
-                        <th width="25%">Area</th>
-                        <th width="25%">Division</th>
-                        <th width="25%">Name</th>
-                        <th width="25%">Gender</th>
-                    </tr>
-                    @foreach ($staffDetails as $staffDetail)
-                    <tr>
-                        <td width="25%">{{$staffDetail->staff_area_name}}</td>
-                        <td width="25%">{{$staffDetail->hotel_div_name}}</td>
-                        <td width="25%">{{$staffDetail->staff_name}}</td>
-                        @if ($staffDetail->staff_gender==='M')
-                        <td width="25%">Male</td>
-                    @else
-                    <td width="25%">Female</td>
-                    @endif
-                    </tr>
-                    @endforeach
-                </table>
-            </td> 
-        </tr>
-        </table>
-    <hr>
-    @if ($data->count() > 0)    
-        @foreach ($data as $chapter)
-            {{$chapter->checklist_ch_name}}
-            {{-- <table>
-                <tr>
-                    <td> --}}
-                    <div class="row">
-                        <table border='1' width='100%' style='border-collapse: collapse;dontBreakRows: true;' class="export-table">
-                        <thead>
-                            <tr>
-                                <th>Area</th>
-                                <th>Standard</th>
-                                <th>Points</th>
-                                <th>Points Entry</th>
-                                <th>Rating</th>
-                                <th>Rating Point</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @php
-                            $area = '';
-                            @endphp
-                            @foreach ($chapter->chapterAreas as $chapterArea)
-                                @foreach ($chapterArea->checkListStandards as $checkListStandard) 
-                                    @php
-                                        $standardlengh=$checkListStandard->count();
-                                    @endphp
-                                    <tr>
-                                        @if ($area != $chapterArea->checklist_area)
-                                        <td rowspan="{{ sizeOf($chapterArea->checkListStandards) }}"> {{ $chapterArea->checklist_area }} </td>
-                                        @endif
-                                        <td>{{ $checkListStandard->checklist_standard }}</td>
-                                        <td>{{ $checkListStandard->checklist_pts }}</td>
-                                        <td></td>
-                                        <td>{{ $checkListStandard->standard_code }}</td>
-                                        <td></td>
-                                        @php
-                                        $area = $chapterArea->checklist_area
-                                        @endphp 
-                                    </tr>
-                                @endforeach  
-                            @endforeach
-                        </tbody>
+                <td width="100%">
+                    <table>
+                        <tr>
+                            <th width="25%">Area</th>
+                            <th width="25%">Division</th>
+                            <th width="25%">Name</th>
+                            <th width="25%">Gender</th>
+                        </tr>
+                        @foreach ($staffDetails as $staffDetail)
+                        <tr>
+                            <td width="25%">{{$staffDetail->staff_area_name}}</td>
+                            <td width="25%">{{$staffDetail->hotel_div_name}}</td>
+                            <td width="25%">{{$staffDetail->staff_name}}</td>
+                            @if ($staffDetail->staff_gender==='M')
+                            <td width="25%">Male</td>
+                        @else
+                        <td width="25%">Female</td>
+                        @endif
+                        </tr>
+                        @endforeach
                     </table>
-                </div>
-                    {{-- </td>
-                </tr>
-            </table> --}}
-        @endforeach
-    @endif
-</div>
+                </td> 
+            </tr>
+        </table>
+        <hr>
+        @if ($data->count() > 0)    
+            @foreach ($data as $chapter)
+                {{$chapter->checklist_ch_name}}
+                {{-- <table>
+                    <tr>
+                        <td> --}}
+                        {{-- <div style='page-break-inside: after;'> --}}
+                            <table border='1'>
+                            <thead>
+                                <tr>
+                                    <th>Area</th>
+                                    <th>Standard</th>
+                                    <th>Points</th>
+                                    <th>Points Entry</th>
+                                    <th>Rating</th>
+                                    <th>Rating Point</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                $area = '';
+                                @endphp
+                                @foreach ($chapter->chapterAreas as $chapterArea)
+                                    @foreach ($chapterArea->checkListStandards as $key => $checkListStandard) 
+                                        <tr>
+                                            {{-- @if ($area != $chapterArea->checklist_area) --}}
+                                            <td> {{ $chapterArea->checklist_area }} </td>   
+                                            {{-- @endif --}}
+                                            <td>{{ $checkListStandard->checklist_standard }}</td>
+                                            <td>{{ $checkListStandard->checklist_pts }}</td>
+                                            <td></td>
+                                            <td>{{ $checkListStandard->standard_code }}</td>
+                                            <td></td>
+                                        </tr>
+                                    @php
+                                    $area = $chapterArea->checklist_area
+                                    @endphp 
+                                    @endforeach  
+                                @endforeach
+                            </tbody>
+                        </table>
+                        {{-- </td>
+                    </tr>
+                </table> --}}
+            @endforeach
+        @endif
+    </div>
 @endsection
 
 

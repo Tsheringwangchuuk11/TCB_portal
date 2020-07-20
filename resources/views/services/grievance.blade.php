@@ -194,10 +194,12 @@
                         all important information material for resolving of this complaint are shared or will be shared with the Tourism Council of Bhutan.
                     </p>
                 </div>
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" name="terms" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">we hereby declare that</label>
-                </div>
+                <div class="form-group mb-0">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" name="terms" class="custom-control-input" id="exampleCheck1">
+                      <label class="custom-control-label" for="exampleCheck1">we hereby declare that</label>
+                    </div>
+                  </div>
             </div>
         </div>
         <div class="card-footer text-center">
@@ -209,6 +211,11 @@
 @endsection
 @section('scripts')
 <script>
+$(document).ready(function () {
+    $('.select2bs4').on('change', function () {
+        $(this).valid();
+    });
+});
   $(document).ready(function(){
     $('#applicant_type').on('change',function(e) {
         var applicantype=e.target.value;

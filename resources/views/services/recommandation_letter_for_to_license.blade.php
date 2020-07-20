@@ -1,7 +1,7 @@
 @extends('layouts.manager')
 @section('page-title','Recommandation Letter for Tour operator license')
 @section('content')
-<form action="{{ url('application/save-application') }}" method="POST" enctype="multipart/form-data">
+<form action="{{ url('application/save-application') }}" method="POST" enctype="multipart/form-data" id="formdata">
     @csrf
     <input type="hidden" name="service_id" value="{{ $idInfos->service_id }}" id="service_id">
     <input type="hidden" name="module_id" value="{{ $idInfos->module_id }}" id="module_id">
@@ -171,6 +171,11 @@
             $("#sample12").show();
             $("#sample4").hide();
         } 
+    });
+});
+$(document).ready(function () {
+    $('.select2bs4').on('change', function () {
+        $(this).valid();
     });
 });
 </script>

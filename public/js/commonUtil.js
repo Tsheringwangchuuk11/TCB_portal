@@ -259,6 +259,9 @@ var validation = function () {
          gewog_id: {
             required:true
          },
+         financial_year: {
+            required:true
+         },
          chiwog_id: {
             required:true
          },
@@ -281,6 +284,9 @@ var validation = function () {
             required: true,
          },
          drawing_date:{
+            required: true,
+         },
+         respondent_mobile_no:{
             required: true,
          },
          star_category_id: {
@@ -319,6 +325,51 @@ var validation = function () {
          validity_date: {
             required:true
          },
+         city: {
+            required:true
+         },
+         type: {
+            required:true
+         },
+         applicant_type: {
+            required:true
+         },
+         designation: {
+            required:true
+         },
+         country_id: {
+            required:true
+         },
+         from_date: {
+            required:true
+         },
+         to_date: {
+            required:true
+         },
+         complainant_name: {
+            required:true,
+         },
+         respondent_telephone_no: {
+            required:true,
+         },
+         complainant_address: {
+            required:true,
+         },
+         complainant_telephone_no: {
+            required:true,
+         },
+         claim_summary: {
+            required:true,
+         },
+         organizer_name: {
+            required:true,
+         },
+         objective: {
+            required:true,
+         },
+         product_des: {
+            required:true,
+         },
          webpage_url: {
             required: true,
             url: true,
@@ -339,6 +390,58 @@ var validation = function () {
             required:true,
          },
          terms: {
+            required:true,
+         },
+
+         complainant_mobile_no:{
+            required:true,
+         },
+         complainant_email:{
+            required:true,
+         },
+         respondent_email:{
+            required:true,
+         },
+         respondent_address:{
+            required:true,
+         },
+         service_provider_id:{
+            required:true,
+         },
+         respondent_name:{
+            required:true,
+         },
+         remedy_sought:{
+            required:true,
+         },
+         date:{
+            required:true,
+         },
+         organizer_address:{
+            required:true,
+         },
+         organizer_email:{
+            required:true,
+         },
+         organizer_phone:{
+            required:true,
+         },
+         organizer_type:{
+            required:true,
+         },
+         amount_requested:{
+            required:true,
+         },
+         project_cost:{
+            required:true,
+         },
+         letter_sample:{
+            required:true,
+         },
+         timeline:{
+            required:true,
+         },
+         contribution:{
             required:true,
          },
          'room_type_id[]': {
@@ -392,19 +495,46 @@ var validation = function () {
          applicant_name: {
             required: "Please provide a name",
          },
+         complainant_address: {
+            required: "Please provide complainant address",
+         },
+         applicant_type: {
+            required: "Please select applicant type",
+         },
+         designation: {
+            required: "Please provide designation",
+         },
          fax: {
             required: "Please provide a fax number",
          },
          location: {
             required: "Please provide a location",
          },
+         complainant_telephone_no: {
+            required: "Please provide complainant telephone number",
+         },
          dzongkhag_id: {
             required: "Please select dzongkhag",
+         },
+         city: {
+            required: "Please select city",
+         },
+         from_date: {
+            required: "Please select from date",
+         },
+         to_date: {
+            required: "Please select to date",
+         },
+         country_id: {
+            required: "Please select country",
          },
          gewog_id: {
             required: "Please select gewog",
          },
          chiwog_id: {
+            required: "Please select chiwog",
+         },
+         product_des: {
             required: "Please select chiwog",
          },
          village_id: {
@@ -440,11 +570,52 @@ var validation = function () {
          owner_name: {
             required: "This field is required",
          },
-         
+         service_provider_id: {
+            required: "This field is required",
+         },
+         financial_year: {
+            required: "This field is required",
+         },
+         complainant_mobile_no: {
+            required: "This field is required",
+         },
+         complainant_mobile_no: {
+            required: "This field is required",
+         },
+         type: {
+            required: "This field is required",
+         },
+         date: {
+            required: "This field is required",
+         },
+         organizer_type: {
+            required: "This field is required",
+         },
+         respondent_name: {
+            required: "This field is required",
+         },
+         respondent_email: {
+            required: "This field is required",
+         },
+         complainant_email: {
+            required: "This field is required",
+         },
+         claim_summary: {
+            required: "This field is required",
+         },
+         organizer_phone: {
+            required: "This field is required",
+         },
+         amount_requested: {
+            required: "This field is required",
+         },
          address: {
             required: "Please provide the address",
          },
          thram_no: {
+            required: "Please provide the thram number",
+         },
+         organizer_email: {
             required: "Please provide the thram number",
          },
          house_no: {
@@ -456,16 +627,45 @@ var validation = function () {
          road_distance: {
             required: "This field is required",
          },
+         project_cost: {
+            required: "This field is required",
+         },
+         objective: {
+            required: "This field is required",
+         },
          condition: {
             required: "This field is required",
          },
          validity_date: {
             required: "This field is required",
          },
+         respondent_address: {
+            required: "This field is required",
+         },
+         remedy_sought: {
+            required: "This field is required",
+         }, 
+         organizer_name: {
+            required: "This field is required",
+         },
+         contribution: {
+            required: "This field is required",
+         },
+         organizer_address: {
+            required: "This field is required",
+         },
+         timeline: {
+            required: "This field is required",
+         },
+         letter_sample: {
+            required: "This field is required",
+         },
          webpage_url: {
             required: "Please provide the url",
          },
-         
+         respondent_mobile_no: {
+            required: "Please provide the url",
+         },
          location_id: {
             required: "Please select the location",
          },

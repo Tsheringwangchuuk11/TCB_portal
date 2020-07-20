@@ -1,5 +1,5 @@
 @extends('layouts.manager')
-@section('page-title', 'Welcome Tourism Counsel Of Bhutan')
+@section('page-title', 'Welcome To Tourism Counsil Of Bhutan')
 @section('content')
 <div class="row">
     <div class="col-md-12">

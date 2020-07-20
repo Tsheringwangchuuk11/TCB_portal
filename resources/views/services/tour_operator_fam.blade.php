@@ -16,13 +16,13 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="">Name<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control required" name="applicant_name" autocomplete="off">
+                        <input type="text" class="form-control" name="applicant_name" autocomplete="off">
                     </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
                     <div class="form-group">
                         <label for="">CID <span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control required" name="cid_no" autocomplete="off">
+                        <input type="text" class="form-control" name="cid_no" autocomplete="off">
                     </div>
                 </div>
             </div>
@@ -30,13 +30,13 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="">Designation <span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control required" name="designation" autocomplete="off">
+                        <input type="text" class="form-control" name="designation" autocomplete="off">
                     </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
                     <div class="form-group">
                         <label for="">Email <span class="text-danger"> *<span></label>
-                            <input type="text" class="form-control required" name="email" autocomplete="off" >
+                            <input type="text" class="form-control" name="email" autocomplete="off" >
                         </div>
                     </div>
                 </div>
@@ -44,13 +44,13 @@
                     <div class="col-md-5">
                         <div class="form-group">
                             <label for="">Website<span class="text-danger"> *</span></label>
-                            <input type="text" class="form-control required" name="webpage_url" autocomplete="off">
+                            <input type="text" class="form-control" name="webpage_url" autocomplete="off">
                         </div>
                     </div>
                     <div class="col-md-5 offset-md-2">
                         <div class="form-group">
                             <label for="">Agency Name <span class="text-danger"> *</span></label>
-                            <input type="text" name="company_title_name" class="form-control required" autocomplete="off">
+                            <input type="text" name="company_title_name" class="form-control" autocomplete="off">
                         </div>
                     </div>
                 </div>
@@ -58,13 +58,13 @@
                     <div class="col-md-5">
                         <div class="form-group">
                             <label for="">Agency Address <span class="text-danger"> *</span></label>
-                            <input type="text" name="address" class="form-control required" autocomplete="off">
+                            <input type="text" name="address" class="form-control" autocomplete="off">
                         </div>
                     </div>
                     <div class="col-md-5 offset-md-2">
                         <div class="form-group">
                             <label for="">City <span class="text-danger"> *<span></label>
-                                <input type="text" class="form-control required" name="city" autocomplete="off" >
+                                <input type="text" class="form-control" name="city" autocomplete="off" >
                             </div>
                         </div>
                     </div>
@@ -72,7 +72,7 @@
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label for="">Country <span class="text-danger"> *</span></label>
-                                <select  name="country" class="form-control select2bs4" style="width: 100%;">
+                                <select  name="country_id" class="form-control select2bs4" style="width: 100%;">
                                     <option value=""> -Select-</option>
                                     @foreach ($countries as $country)
                                       <option value="{{ $country->id }}">{{ $country->country_name }}</option>
@@ -83,7 +83,7 @@
                         <div class="col-md-5 offset-md-2">
                             <div class="form-group">
                                 <label for=""> From Date <span class="text-danger"> *</span></label><small class="text-danger text-right">[ Intended date of travel ]</small>
-                                <input type="date" class="form-control required" name="from_date" id="from_date" autocomplete="off" placeholder="Select Date"> 
+                                <input type="date" class="form-control" name="from_date" id="from_date" autocomplete="off" placeholder="Select Date"> 
                             </div>
                         </div>
                     </div>
@@ -91,7 +91,7 @@
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label for="">To Date <span class="text-danger"> *</span></label><small class="text-danger text-right">[ Intended date of travel ]</small>
-                                <input type="date" class="form-control datepicker required" name="to_date" id="to_date" autocomplete="off" placeholder="Select Date">
+                                <input type="date" class="form-control datepicker" name="to_date" id="to_date" autocomplete="off" placeholder="Select Date">
                             </div>
                         </div>
                     </div>
@@ -106,7 +106,7 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="">Agency established</label><small class="text-danger text-right">[Year]</small>
-                        <input type="date" class="form-control datepicker required" name="financial_year" autocomplete="off">
+                        <input type="date" class="form-control datepicker" name="financial_year" autocomplete="off">
                     </div>
                 </div>
             </div>
@@ -120,7 +120,7 @@
                 </div>
                 <div class="row" id="rowId">
                     <div class="form-group col-md-5">
-                        <select class="form-control required" name="country_id[]">
+                        <select class="form-control" name="country_id[]">
                             <option value=""> - Select - </option>
                             @foreach ($countries as $country)
                             <option value="{{ $country->id }}">{{ $country->country_name }}</option>
@@ -128,7 +128,7 @@
                         </select>
                     </div>
                     <div class="form-group col-md-4 offset-md-2 ">
-                        <input type="text" class="form-control required" name="city[]" autocomplete="off">
+                        <input type="text" class="form-control" name="city[]" autocomplete="off">
                         <span class="text-danger">{{ $errors->first('room_no') }}</span>
                     </div>
                 </div>
@@ -266,6 +266,11 @@
 
 @section('scripts')
 <script>
+$(document).ready(function () {
+    $('.select2bs4').on('change', function () {
+    $(this).valid();
+    });
+});
 $(document).ready(function(){ 
       id=1;
       $("#add").click(function(){
