@@ -1,5 +1,5 @@
 @extends('layouts.manager')
-@section('page-title', 'List of Hotel Assement Report')
+@section('page-title', 'List of Hotel Assessment Report')
 @section('buttons')
 @component('layouts.components.download-button')
     <li><a href="{{	url('report/assessment-reports?print=excel&'. Request::getQueryString()) }}" target="_blank"><i class="fas fa-file-excel-o"></i> <font color= "green"> Export to Excel </font></a></li>
