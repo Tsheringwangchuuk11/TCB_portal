@@ -120,7 +120,7 @@
                 </div>
                 <div class="row" id="rowId">
                     <div class="form-group col-md-5">
-                        <select class="form-control" name="country_id[]">
+                        <select class="form-control" name="country[]">
                             <option value=""> - Select - </option>
                             @foreach ($countries as $country)
                             <option value="{{ $country->id }}">{{ $country->country_name }}</option>
@@ -128,8 +128,8 @@
                         </select>
                     </div>
                     <div class="form-group col-md-4 offset-md-2 ">
-                        <input type="text" class="form-control" name="city[]" autocomplete="off">
-                        <span class="text-danger">{{ $errors->first('room_no') }}</span>
+                        <input type="text" class="form-control" name="city_name[]" autocomplete="off">
+                        <span class="text-danger">{{ $errors->first('city_name') }}</span>
                     </div>
                 </div>
                 <div id="adddiv"></div>

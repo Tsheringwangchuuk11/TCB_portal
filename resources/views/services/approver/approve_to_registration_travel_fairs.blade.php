@@ -3,8 +3,8 @@
 @section('content')
 <form action="{{ url('verification/travel_fairs') }}" method="POST" id="form_Id" enctype="multipart/form-data">
    @csrf
-   <input type="hidden" name="service_id" value="{{ $applicantInfo->module_id }}">
-   <input type="hidden" name="module_id" value="{{ $applicantInfo->module_id }}">
+   <input type="hidden" name="service_id" value="{{ $applicantInfos->module_id }}">
+   <input type="hidden" name="module_id" value="{{ $applicantInfos->module_id }}">
    <div class="card">
       <div class="card-header">
          <h3 class="card-title">Event Details</h3>
@@ -17,8 +17,8 @@
                   <div class="col-md-5">
                      <div class="form-group">
                         <label for="" >Event Name<span class="text-danger"> *</span></label>
-                        <input type="hidden" class="form-control" name="event_id" value="{{ $applicantInfo->event_id }}">
-                        <input type="text" class="form-control" name="event_name" value="{{ $applicantInfo->event_name }}">
+                        <input type="hidden" class="form-control" name="event_id" value="{{ $applicantInfos->event_id }}">
+                        <input type="text" class="form-control" name="event_name" value="{{ $applicantInfos->event_name }}">
                      </div>
                   </div>
                   <div class="col-md-5 offset-md-2">
@@ -27,7 +27,7 @@
                         <select  name="country" class="form-control select2bs4" style="width: 100%;">
                            <option value=""> -Select-</option>
                            @foreach ($countries as $country)
-                           <option value="{{ $country->id }}" {{ old('country_id', $country->id) == $applicantInfo->country_id ? 'selected' : '' }}>{{ $country->country_name }}</option>
+                           <option value="{{ $country->id }}" {{ old('country_id', $country->id) == $applicantInfos->country_id ? 'selected' : '' }}>{{ $country->country_name }}</option>
                            @endforeach
                         </select>
                      </div>
@@ -37,13 +37,13 @@
                   <div class="col-md-5">
                      <div class="form-group">
                         <label for="">location<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control" name="locationName"  value="{{ $applicantInfo->location }}">
+                        <input type="text" class="form-control" name="locationName"  value="{{ $applicantInfos->location }}">
                      </div>
                   </div>
                   <div class="col-md-5 offset-md-2">
                      <div class="form-group">
                         <label for="">Event Start Date<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control" name="fromdate"  value="{{ $applicantInfo->start_date }}">
+                        <input type="text" class="form-control" name="fromdate"  value="{{ $applicantInfos->start_date }}">
                      </div>
                   </div>
                </div>
@@ -51,13 +51,13 @@
                   <div class="col-md-5">
                      <div class="form-group">
                         <label for="">Event End Date<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control" name="todate"  value="{{ $applicantInfo->end_date }}">
+                        <input type="text" class="form-control" name="todate"  value="{{ $applicantInfos->end_date }}">
                      </div>
                   </div>
                   <div class="col-md-5 offset-md-2">
                      <div class="form-group">
                         <label for="">Last Date Of Registration<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control" name="lastdate"  value="{{ $applicantInfo->last_date }}">
+                        <input type="text" class="form-control" name="lastdate"  value="{{ $applicantInfos->last_date }}">
                      </div>
                   </div>
                </div>
@@ -65,7 +65,7 @@
                   <div class="col-md-12">
                      <div class="form-group">
                         <label for="">Event Details<span class="text-danger"> *</span></label>
-                        <textarea class="form-control" name="event_dtls">{{ $applicantInfo->event_dtls }}</textarea>
+                        <textarea class="form-control" name="event_dtls">{{ $applicantInfos->event_dtls }}</textarea>
                      </div>
                   </div>
                </div>
@@ -85,13 +85,13 @@
                   <div class="col-md-5">
                      <div class="form-group">
                         <label for="" >Application Number<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control" name="application_no" value="{{$applicantInfo->application_no }}" readonly="true">
+                        <input type="text" class="form-control" name="application_no" value="{{$applicantInfos->application_no }}" readonly="true">
                      </div>
                   </div>
                   <div class="col-md-5 offset-md-2">
                      <div class="form-group">
                         <label for="">Name<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control" name="name" value="{{ $applicantInfo->applicant_name }}">
+                        <input type="text" class="form-control" name="name" value="{{ $applicantInfos->applicant_name }}">
                      </div>
                   </div>
                </div>
@@ -99,13 +99,13 @@
                   <div class="col-md-5">
                      <div class="form-group">
                         <label for="">CID No.<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control" name="cid_no" value="{{ $applicantInfo->cid_no }}">
+                        <input type="text" class="form-control" name="cid_no" value="{{ $applicantInfos->cid_no }}">
                      </div>
                   </div>
                   <div class="col-md-5 offset-md-2">
                      <div class="form-group">
                         <label for="">Contact No.<span class="text-danger"> *</span></label>
-                        <input type="text" name="contact_no" class="form-control numeric-only" value="{{ $applicantInfo->contact_no }}">
+                        <input type="text" name="contact_no" class="form-control numeric-only" value="{{ $applicantInfos->contact_no }}">
                      </div>
                   </div>
                </div>
@@ -113,13 +113,13 @@
                   <div class="col-md-5">
                      <div class="form-group">
                         <label for="">Email<span class="text-danger"> *</span></label>
-                        <input type="email" name="email" class="form-control email" value="{{ $applicantInfo->email }}" >
+                        <input type="email" name="email" class="form-control email" value="{{ $applicantInfos->email }}" >
                      </div>
                   </div>
                   <div class="col-md-5 offset-md-2">
                      <div class="form-group">
                         <label for="">Company Name<span class="text-danger"> *</span></label>
-                        <input type="text" name="company_name" class="form-control" value="{{ $applicantInfo->company_title_name }}">
+                        <input type="text" name="company_name" class="form-control" value="{{ $applicantInfos->company_title_name }}">
                      </div>
                   </div>
                </div>
@@ -127,7 +127,7 @@
                   <div class="col-md-5">
                      <div class="form-group">
                         <label for="">Date Of Registration<span class="text-danger"> *</span></label>
-                        <input type="date" class="form-control" name="date_of_registration" value="{{ $applicantInfo->date }}">
+                        <input type="date" class="form-control" name="date_of_registration" value="{{ $applicantInfos->date }}">
                      </div>
                   </div>
                </div>

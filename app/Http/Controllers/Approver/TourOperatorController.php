@@ -76,6 +76,7 @@ class TourOperatorController extends Controller
         }
         elseif($serviceId==15){
             //Tour Operator Event Registration for Travel Fairs
+            $data['applicantInfos']=Services::getApplicantDetailsForTravelFairs($applicationNo);
             return view('services/approver/approve_to_registration_travel_fairs',$data);
         }
         elseif($serviceId==22){

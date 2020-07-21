@@ -193,8 +193,8 @@ class ServiceController extends Controller
             $data->chiwog_id=$request->chiwog_id;
             $data->event_id=$request->event_id;
             $data->remarks=$request->remarks;
+            $data->designation=$request->designation;
             $data->save();
-
             //insert into t_room_applications
             $room_type_id=$request->room_type_id;
 		    $room_no=$request->room_no;
