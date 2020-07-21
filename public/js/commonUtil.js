@@ -347,7 +347,7 @@ var validation = function () {
             required:true
          },
          complainant_name: {
-            required:true,
+            required:false,
          },
          respondent_telephone_no: {
             required:true,
@@ -444,10 +444,10 @@ var validation = function () {
          contribution:{
             required:true,
          },
-         'room_type_id[]': {
+          /*'room_type_id[]': {
             required:true,
          },
-          /*
+         
         'room_no[]': {
            required: true,
            digits: true,

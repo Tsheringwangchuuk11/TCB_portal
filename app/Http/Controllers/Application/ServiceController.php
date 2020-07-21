@@ -474,13 +474,21 @@ class ServiceController extends Controller
     }
 
     public function saveGrievanceApplication(Request $request){
+       // dd($request->all());
         $application_no = $this->services->generateApplNo($request);
         DB::transaction(function () use ($request, $application_no) {
             //insert into t_grievance_applications
             if(isset($_POST['applicant_type'])){
+                if($request->complainant_name !=null){
+                    $complainant_name=$request->complainant_name;
+                }
+                else
+                {
+                    $complainant_name=$request->representative_name;
+                }
             $grievanceData[] = [
                     'application_no'  => $application_no,
-                    'complainant_name'  => $request->complainant_name,
+                    'complainant_name'  => $complainant_name ,
                     'complainant_address'  => $request->complainant_address,
                     'complainant_mobile_no'  => $request->complainant_mobile_no,
                     'complainant_telephone_no'  => $request->complainant_telephone_no,

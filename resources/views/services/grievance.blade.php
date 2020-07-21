@@ -34,7 +34,7 @@
                     <div class="form-group">
                         <label for="">Name of the Representative:
                         <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="complainant_name" value="{{ old('complainant_name') }}" autocomplete="off">
+                        <input type="text" class="form-control" name="representative_name" value="{{ old('representative_name') }}" autocomplete="off">
                     </div>
                 </div>
             </div>

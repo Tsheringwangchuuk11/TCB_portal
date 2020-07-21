@@ -31,14 +31,14 @@
                 <div class="col-md-5 offset-md-2" id="complainant">
                     <div class="form-group">
                         <label for="">Name of complainant <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="complainant_name" value="{{ old('complainant_name') }}" autocomplete="off">
+                        <input type="text" class="form-control" name="complainant_name" id="complainant_name" value="{{ old('complainant_name') }}" autocomplete="off">
                     </div>
                 </div>
                 <div class="col-md-5 offset-md-2" style="display:None " id="representative">
                     <div class="form-group">
                         <label for="">Name of the Representative:
                         <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="complainant_name" value="{{ old('complainant_name') }}" autocomplete="off">
+                        <input type="text" class="form-control" name="representative_name" id="representative_name" value="{{ old('complainant_name') }}" autocomplete="off">
                     </div>
                 </div>
             </div>
@@ -310,7 +310,6 @@ function deletefile(id,fileId,url){
       });
    }
 } 
-
 $('#formdata').validate({
       ignore: [],
       rules: {
@@ -326,10 +325,13 @@ $('#formdata').validate({
             required: true,
          },
          complainant_name: {
-            required: true,
+            required: false,
          },
          complainant_address: {
             required: true,
+         },
+         representative_name: {
+            required: false,
          },
          complainant_telephone_no: {
             required: true,
