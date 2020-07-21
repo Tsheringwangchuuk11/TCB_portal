@@ -78,6 +78,12 @@ class TourOperatorController extends Controller
             //Tour Operator Event Registration for Travel Fairs
             return view('services/approver/approve_to_registration_travel_fairs',$data);
         }
+        elseif($serviceId==22){
+            //Tour operator FAM Details
+            $data['marketingdtls']=Services::getMarketingDetails($applicationNo);
+            $data['activities']=Services::getMarketingActivityDetails($applicationNo);
+          return view('services.approver.approve_tour_operater_fam',$data);
+          }
 
     }
 

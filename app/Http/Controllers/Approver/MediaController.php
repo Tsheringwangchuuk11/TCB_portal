@@ -31,12 +31,6 @@ class MediaController extends Controller
             $data['channelCoverages']=Services::getChannelCoverageInfoDetails($applicationNo);
             return view('services.approver.approve_media_familiarization_tour',$data);
         }
-        elseif($serviceId==22){
-          //Tour operator FAM Details
-          $data['marketingdtls']=Services::getMarketingDetails($applicationNo);
-          $data['activities']=Services::getMarketingActivityDetails($applicationNo);
-        return view('services.approver.approve_tour_operater_fam',$data);
-        }
     }
 
      //Approval function for FAM application

@@ -43,7 +43,7 @@
             <form method="POST" action="{{ route('login') }}">
                 @csrf
                 <div class="input-group mb-3">
-                    <input id="login_name" type="text" class="form-control {{ $errors->has('user_id') || $errors->has('email') ? ' is-invalid' : '' }}" name="login" value="{{ old('user_id') ?: old('email')}}" required autofocus  placeholder="Username">
+                    <input id="login_name" type="text" class="form-control {{ $errors->has('user_id') || $errors->has('email') ? ' is-invalid' : '' }}" name="login" value="{{ old('user_id') ?: old('email')}}" required autofocus  placeholder="UserId Or Email">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-envelope"></span>
