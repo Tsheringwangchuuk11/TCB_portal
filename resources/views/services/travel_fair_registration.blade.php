@@ -17,7 +17,7 @@
                 @if(sizeof($eventFairDetails) > 0)
                     @foreach ($eventFairDetails as $eventFairDetail)
                     <li class="nav-item active">
-                        <a href="#" class="nav-link showevent" data-value='["{{$eventFairDetail->event_name}}", "{{ $eventFairDetail->id}}", "{{ $eventFairDetail->country_name}}","{{ $eventFairDetail->location}}","{{ $eventFairDetail->last_date}}",
+                        <a href="#" class="nav-link showevent" data-value='["{{$eventFairDetail->event_name}}", "{{ $eventFairDetail->id}}", "{{ $eventFairDetail->country_name}}","{{ $eventFairDetail->event_location}}","{{ $eventFairDetail->last_date}}",
                             "{{ $eventFairDetail->start_date}}","{{ $eventFairDetail->end_date}}","{{ $eventFairDetail->event_dtls}}"]' >
                           <i class="fa fa-bullhorn"></i> {{ $eventFairDetail->event_name}}
                         </a>
@@ -128,7 +128,7 @@
                             <div class="col-md-5 offset-md-2">
                                 <div class="form-group">
                                     <label for="">Contact No.<span class="text-danger"> *</span></label>
-                                <input type="text" class="form-control" name="cid_no" value="{{ old('cid_no') }}" autocomplete="off" id="cid_no" >
+                                <input type="text" class="form-control" name="contact_no" value="{{ old('contact_no') }}" autocomplete="off" id="contact_no" >
                                 </div>
                             </div>
                         </div>
@@ -136,13 +136,13 @@
                             <div class="col-md-5">
                                 <div class="form-group">
                                     <label for="">Company Name<span class="text-danger"> *</span></label>
-                                    <input type="text" name="company_title_name" id="company_title_name" class="form-control numeric-only" value="{{ old('contact_no') }}" id="lastDate" autocomplete="off">
+                                    <input type="text" name="company_title_name" id="company_title_name" class="form-control" value="{{ old('contact_no') }}" id="lastDate" autocomplete="off">
                                 </div>
                             </div>
                             <div class="col-md-5 offset-md-2">
                                 <div class="form-group">
                                     <label for="">Date Of Registration<span class="text-danger"> *</span></label>
-                                    <input type="date" name="date" class="form-control numeric-only" value="{{ old('contact_no') }}" id="date" autocomplete="off">
+                                    <input type="date" name="date" class="form-control" value="{{ old('date') }}" id="date" autocomplete="off">
                                 </div>
                             </div>
                         </div>

@@ -33,6 +33,7 @@ class HomeController extends Controller
         $approvedApplication=Services::getTotalApprovedApplication();
         $rejectApplication=Services::getTotalRejectApplication();
         $totalApplication= $approvedApplication[0]->totalcount +  $rejectApplication[0]->totalreject;
+    
         $chartArray["chart"] = array("type" => 'pie','plotBackgroundColor' => NULL,'plotBorderWidth'=> NULL,'plotShadow'=> false );
         $chartArray["title"] = array("text" => 'Application Summary Report');
         $chartArray["tooltip"] = array("pointFormat" => '{series.name}: {point.y}');
@@ -51,7 +52,6 @@ class HomeController extends Controller
                 'showInLegend'=> true
                 )
             );
-       // $applicationdata=[ "name" => "Total Application", "y" => 20, "name" => "Total Application Rejected", "y" => 40,"name"=>"Total Application","y"=>60 ];
        $applicationdata=[];
        $applicationdataArray= [];
         foreach($approvedApplication as $key=>$value){
@@ -78,9 +78,8 @@ class HomeController extends Controller
            return view('dashboards.admin')->with('chartArray', $chartArray);
         }
         elseif( in_array(3, $roles) || in_array(4, $roles) || in_array(5, $roles) || in_array(6, $roles) || in_array(7, $roles) || in_array(8, $roles) ) { // role check
-            $approvedApplication=Services::getTotalApprovedApplication();
-            $rejectApplication=Services::getTotalRejectApplication();
-            $totalApplication= $approvedApplication[0]->totalcount +  $rejectApplication[0]->totalreject;
+            $roles = auth()->user()->roles->pluck('id');
+            $summarydata=Services::getApplicationSummaryData($roles[0]);
             $chartArray["chart"] = array("type" => 'pie','plotBackgroundColor' => NULL,'plotBorderWidth'=> NULL,'plotShadow'=> false );
             $chartArray["title"] = array("text" => 'Application Summary Report');
             $chartArray["tooltip"] = array("pointFormat" => '{series.name}: {point.y}');
@@ -99,22 +98,23 @@ class HomeController extends Controller
                     'showInLegend'=> true
                     )
                 );
-           // $applicationdata=[ "name" => "Total Application", "y" => 20, "name" => "Total Application Rejected", "y" => 40,"name"=>"Total Application","y"=>60 ];
            $applicationdata=[];
            $applicationdataArray= [];
-            foreach($approvedApplication as $key=>$value){
+            foreach($summarydata as $key=>$value){
                 $applicationdata["name"] = "Total Application Approved";
-                $applicationdata["y"] = $value->totalcount;
+                $applicationdata["y"] = $value->totalapproved;
                 array_push($applicationdataArray, $applicationdata);
                   }
-                  foreach($rejectApplication as $key=>$value){
+                  foreach($summarydata as $key=>$value){
                     $applicationdata["name"] = "Total Application Rejected";
-                    $applicationdata["y"] = $value->totalreject;
+                    $applicationdata["y"] = $value->totalrejected;
                     array_push($applicationdataArray, $applicationdata);
                       }
+                    foreach($summarydata as $key=>$value){
                     $applicationdata["name"] = "Total Application";
-                    $applicationdata["y"] =  $totalApplication;
+                    $applicationdata["y"] = $value->totalapplication;
                     array_push($applicationdataArray, $applicationdata);
+                      }
                       
                 $chartArray["series"] = array(
                 array(
@@ -173,7 +173,6 @@ class HomeController extends Controller
     public function updateProfile(Request $request, $id)
     {        
         $user = User::findOrFail($id);
-
         $user->user_name = $request->user_name;
         $user->email = $request->email;
         $user->save();

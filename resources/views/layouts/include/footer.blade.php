@@ -1,9 +1,7 @@
 <footer class="main-footer">
-    <strong>Copyright &copy; 2020 <a href="http://adminlte.io">TCB Portal</a>.</strong>
-    All rights reserved.
-    <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 1.0.1
-    </div>
+	<strong>
+		Copyright &copy;<?php echo date('Y');?> All Rights Reserved. Tourism Council of Bhutan
+	</strong>
 </footer>
 <script type="text/javascript">
 	var appUrl = "{{ url('/') }}/";

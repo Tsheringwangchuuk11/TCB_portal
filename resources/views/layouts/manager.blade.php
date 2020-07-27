@@ -38,6 +38,9 @@
         <link rel="stylesheet" href="{{ asset('css/validation.css') }}">
         <!-- daterange picker -->
         <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css')}}">
+         <!-- high chart -->
+         <link rel="stylesheet" href="{{ asset('css/highchart.css')}}">
+
         <style>
             .hide{
                 display: none;

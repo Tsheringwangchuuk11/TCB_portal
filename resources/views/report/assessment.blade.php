@@ -38,7 +38,7 @@
             <table class="table table-bordered table-hover">
                 <thead>
                     <tr>
-                        <th class="text-center">Sl No.</th>
+                        <th class="text-center">#</th>
                         <th>Module Name</th>
                         <th>Application No.</th>
                         <th>CID.</th>

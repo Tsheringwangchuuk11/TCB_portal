@@ -17,7 +17,7 @@
                   <div class="col-md-5">
                      <div class="form-group">
                         <label for="" >Event Name<span class="text-danger"> *</span></label>
-                        <input type="hidden" class="form-control" name="event_id" value="{{ $applicantInfos->event_id }}">
+                        <input type="hidden" class="form-control" name="event_id" value="{{ $applicantInfos->id }}">
                         <input type="text" class="form-control" name="event_name" value="{{ $applicantInfos->event_name }}">
                      </div>
                   </div>
@@ -37,7 +37,7 @@
                   <div class="col-md-5">
                      <div class="form-group">
                         <label for="">location<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control" name="locationName"  value="{{ $applicantInfos->location }}">
+                        <input type="text" class="form-control" name="locationName"  value="{{ $applicantInfos->event_location }}">
                      </div>
                   </div>
                   <div class="col-md-5 offset-md-2">

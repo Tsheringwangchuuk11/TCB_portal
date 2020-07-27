@@ -1,5 +1,5 @@
 @extends('layouts.manager')
-@section('page-title', 'Welcome To Tourism Counsil Of Bhutan')
+@section('page-title', 'Welcome To Tourism Council Of Bhutan')
 @section('content')
 <h6><i class="far fa-envelope"></i> Messages / Notification</h6>
 <div class="row">

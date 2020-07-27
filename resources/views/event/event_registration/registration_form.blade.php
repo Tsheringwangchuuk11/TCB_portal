@@ -17,7 +17,7 @@
 						<table id="example2" class="table table-bordered table-hover">
 							<thead>
 								<tr>
-                                    <th class="text-center">Sl.No</th>
+									<th class="text-center">#</th>
                                     <th>Event Name</th>
                                     <th>Start Date</th>
                                     <th>End Date</th>

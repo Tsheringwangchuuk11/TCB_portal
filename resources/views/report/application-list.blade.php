@@ -52,12 +52,12 @@
     </div>
     <div class="card-body">
         <div class="row">
-            <div class="col-md-10">
+            <div class="col-md-12">
                 <figure class="highcharts-figure">
-                    <div id="container"></div>
+                    <div id="container" class="col-md-12"></div>
                 </figure>
             </div>
-        </div>
+        </div><br>
         <div class="table-responsive">
             <table class="table table-bordered table-hover">
                 <thead>
@@ -104,6 +104,21 @@
     var totalapplicationreject = parseFloat({{$totalrejected}});
     var totalsubmitted = parseFloat({{$totalsubmitted}});
     var totalapplication = parseFloat({{$totalapplication}});
+            Highcharts.setOptions({
+                colors: Highcharts.map(Highcharts.getOptions().colors, function (color) {
+                    return {
+                        radialGradient: {
+                            cx: 0.5,
+                            cy: 0.3,
+                            r: 0.7
+                        },
+                        stops: [
+                            [0, color],
+                            [1, Highcharts.color(color).brighten(-0.3).get('rgb')] // darken
+                        ]
+                    };
+                })
+            });
             Highcharts.chart('container', {
             chart: {
                 plotBackgroundColor: null,
@@ -129,7 +144,8 @@
                     dataLabels: {
                         enabled: true,
                         format: '<b>{point.name}</b>: {point.y} '
-                    }
+                    },
+                    showInLegend: true
                 }
             },
             series: [{

@@ -33,7 +33,6 @@ Route::group(['prefix' => 'report', 'namespace' => 'Report'], function () {
     Route::get('reports', 'PublicReportController@ajaxReports');
 });
 
-Route::get('/public-report', 'PublicReportController@index');
 Route::group(['middleware' => ['auth']], function () {
 	Route::get('dashboard', 'HomeController@getDashboard')->name('dashboard');
 	Route::get('profile', 'HomeController@getProfile');
@@ -159,12 +158,12 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('arrival', 'StatisticController@index');
     });
 
-    //routes for new application
+    //routes for event registration
     Route::group(['prefix' => 'events', 'namespace' => 'EventRegistation'], function() {
         Route::resource('travel-fairs-event', 'EventRegistrationController');
     });
 
-     //routes for uploads
+     //routes for uploads excel files
      Route::group(['prefix' => 'excel', 'namespace' => 'Excel'], function() {
         Route::resource('uploads', 'ExcelUploadController');
      });

@@ -564,7 +564,29 @@ public function setToDateAttribute($value)
 		->select(DB::raw('COUNT(t1.application_no) as totalreject'))
 		->where('t1.status_id','4')
 		->get();
-		//->pluck('totalreject');
 		return  $query;
+	}
+
+	public static function getApplicationSummaryData($roles){
+	$query=\DB::select("
+				SELECT
+				t1.totalapproved, 
+				t1.totalrejected ,
+				(t1.totalapproved + t1.totalrejected ) totalapplication
+				FROM 
+				(SELECT(SELECT
+				COUNT(a.application_no)
+				FROM t_workflow_dtls a
+				LEFT JOIN t_task_dtls b ON a.application_no=b.application_no
+				LEFT JOIN t_role_privileges c ON b.assigned_priv_id=c.system_sub_menu_id
+				WHERE a.status_id='3' AND b.status_id='7' AND c.role_id='".$roles."') AS totalapproved,
+				(SELECT
+				COUNT(a.application_no)
+				FROM t_workflow_dtls a
+				LEFT JOIN t_task_dtls b ON a.application_no=b.application_no
+				LEFT JOIN t_role_privileges c ON b.assigned_priv_id=c.system_sub_menu_id
+				WHERE a.status_id='4' AND c.role_id='".$roles."') AS totalrejected ) t1;
+		 ");
+	return $query;	
 	}
 }

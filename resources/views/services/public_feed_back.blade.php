@@ -244,9 +244,24 @@ $(function () {
          $('.progress-bar').text(percentComplete + '0%');
          $('.progress-bar').css('width', percentComplete + '0%');
      },
-      add: function(e, data) {
-         data.submit();
-
+     add: function (e, data) {
+         var uploadErrors = [];
+         var acceptFileTypes = /(\.|\/)(gif|jpe?g|png|pdf|tiff)$/i;
+         if(data.originalFiles[0]['type'].length && !acceptFileTypes.test(data.originalFiles[0]['name'])) {
+            uploadErrors.push(data.originalFiles[0]['name'] + ' is not alloawed. Invalid file type.');
+         }
+         if(data.originalFiles[0]['size'] > 2000000) {				   
+            uploadErrors.push(data.originalFiles[0]['name'] +' is too big, ' + parseInt(data.originalFiles[0]['size'] / 1024 / 1024) + 'M.. File should be smaller than 2M.');
+         }
+         if(uploadErrors.length > 0) {
+            $('#msgId').html(uploadErrors);
+            $('#alertErrorId').show().delay(6000).queue(function (n) {
+                  $(this).hide();
+                  n();
+            });
+         } else {
+            data.submit();
+         }
       },
       url: 'documentattach',
       type: 'POST',

@@ -1,5 +1,5 @@
 @extends('layouts.manager')
-@section('page-title','Recommandation Letter for Tour operator license')
+@section('page-title','Recommandation Letter for Tour operator')
 @section('content')
 <form action="{{ url('application/save-application') }}" method="POST" enctype="multipart/form-data" id="formdata">
     @csrf

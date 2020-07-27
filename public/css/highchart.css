@@ -1,0 +1,35 @@
+.highcharts-figure, .highcharts-data-table table {
+    min-width: 310px; 
+    max-width: 10000px;
+    margin:auto;
+}
+.highcharts-data-table table {
+    font-family: Verdana, sans-serif;
+    border-collapse: collapse;
+    border: 1px solid #161b161c;
+    margin: 10px auto;
+    text-align: center;
+    width: 100%;
+    max-width: 9000px;
+}
+.highcharts-data-table caption {
+    padding: 1em 0;
+    font-size: 18px;
+    text-align: center;
+    caption-side: top;
+    color: #333333;
+}
+.highcharts-data-table th {
+    font-weight: 600;
+    font-size: .8em;
+    padding: 0.5em;
+}
+.highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
+    padding: 0.5em;
+}
+.highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
+    background: #f8f8f8;
+}
+.highcharts-data-table tr:hover {
+    background: #f1f7ff;
+}
