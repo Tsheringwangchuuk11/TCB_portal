@@ -431,9 +431,9 @@ class TourOperatorController extends Controller
             $person->letterType =$request->letter_sample;
 
            return view('services/lettersample/lettersample',$person)->with('msg_success', 'Application approved successfully.');;
-      //  $pdf = PDF::loadView('services/lettersample/lettersample', compact('applicantInfo'));
-        //return $pdf->stream('Recommandation Letter-'.str_random(4).'.pdf');
-       // return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
+          // $pdf = PDF::loadView('services/lettersample/lettersample',$person);
+          // return $pdf->stream('Recommandation Letter-'.str_random(4).'.pdf');
+          // return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
 
         }else{
             $rejectId = WorkFlowDetails::getStatus('REJECTED');

@@ -251,7 +251,7 @@ $(function () {
             uploadErrors.push(data.originalFiles[0]['name'] + ' is not alloawed. Invalid file type.');
          }
          if(data.originalFiles[0]['size'] > 2000000) {				   
-            uploadErrors.push(data.originalFiles[0]['name'] +' is too big, ' + parseInt(data.originalFiles[0]['size'] / 1024 / 1024) + 'M.. File should be smaller than 2M.');
+            uploadErrors.push(data.originalFiles[0]['name'] +' is too big, ' + parseInt(data.originalFiles[0]['size'] / 1024 / 1024) + 'M.. File size should not be greater than 2M.');
          }
          if(uploadErrors.length > 0) {
             $('#msgId').html(uploadErrors);
