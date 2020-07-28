@@ -129,6 +129,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('recommandation_letter_for_to_license', 'TourOperatorController@toLicenseRecommandationLetterApplication');
         Route::post('travel_fairs', 'TourOperatorController@travelFairsApplication');
         Route::get('generate_letter_sample/{applicationNo}', 'TourOperatorController@getRecommandationLetterSample');
+        Route::get('recommendation-letter', 'TourOperatorController@getAppListForRecoomendationLetter');
+        Route::get('view-recommendation-letter/{applicationNo}', 'TourOperatorController@viewRecoomendationLetter');
+        Route::get('print-recommendation-letter/{applicationNo}', 'TourOperatorController@printRecoomendationLetter');
+        Route::get('update-print_status/{applicationNo}', 'TourOperatorController@updatePrintStatus');
         //Media
         Route::get('media/{applicationNo}', 'MediaController@getApplicationDetails')->name('media');
         Route::post('fam', 'MediaController@famApplication');

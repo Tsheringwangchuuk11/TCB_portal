@@ -589,4 +589,42 @@ public function setToDateAttribute($value)
 		 ");
 	return $query;	
 	}
+	public static function 	getAppListForRecoomendationLetter(){
+		$query=\DB::select("
+			SELECT
+			a.application_no,
+			e.name,
+			f.module_name,
+			a.cid_no,
+			a.company_title_name,
+			a.owner_name,
+			d.status_name
+			FROM t_applications a
+			LEFT JOIN t_workflow_dtls b ON a.application_no=b.application_no
+			LEFT JOIN t_task_dtls c ON a.application_no=c.application_no
+			LEFT JOIN t_status_masters d ON b.status_id=d.id
+			LEFT JOIN t_services e ON a.service_id=e.id
+			LEFT JOIN t_module_masters f ON a.module_id=f.id
+			WHERE a.service_id='12' AND
+			b.status_id='3' AND c.status_id='7';
+			");
+		return $query;	
+		}
+
+
+		public static function 	printRecoomendationLetter($applicationNo){
+			$query=DB::table('t_applications as a')
+			->leftjoin('t_workflow_dtls as b','b.application_no','=','a.application_no')
+			->leftjoin('t_task_dtls as c','c.application_no','=','a.application_no')
+			->leftjoin('t_status_masters as d','d.id','=','b.status_id')
+			->leftjoin('t_services as e','e.id','=','a.service_id')
+			->leftjoin('t_module_masters as f','f.id','=','a.module_id')
+			->select('a.application_no','e.name','f.module_name','a.cid_no','a.company_title_name','a.owner_name','d.status_name','a.letter_type_id','a.license_date')
+			->where('a.application_no',$applicationNo)
+			->where('a.service_id','12')
+			->where('b.status_id','3')
+			->where('c.status_id','7')
+			->first();
+			return $query;
+			}
 }

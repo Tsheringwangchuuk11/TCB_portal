@@ -424,16 +424,7 @@ class TourOperatorController extends Controller
             $updateworkflow=TaskDetails::where('application_no',$request->application_no)
                                     ->update(['status_id' => $completedId->id]);
         });
-            $person = new Services();
-            $person->name =$request->name ;
-            $person->companyName =$request->company_name;
-            $person->licenseValidatyDate =$request->license_date;
-            $person->letterType =$request->letter_sample;
-
-           return view('services/lettersample/lettersample',$person)->with('msg_success', 'Application approved successfully.');;
-          // $pdf = PDF::loadView('services/lettersample/lettersample',$person);
-          // return $pdf->stream('Recommandation Letter-'.str_random(4).'.pdf');
-          // return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
+         return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
 
         }else{
             $rejectId = WorkFlowDetails::getStatus('REJECTED');
@@ -479,7 +470,29 @@ class TourOperatorController extends Controller
                 ->update(['status_id' => $rejectId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
                 return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
                 }
-    
          }
-    
+
+        public function getAppListForRecoomendationLetter(){
+            $data=Services::getAppListForRecoomendationLetter();
+            return view('services.lettersample.applicant_list_for_recommendation_letter',compact('data'));
+        }
+
+        public function viewRecoomendationLetter($applicationNo){
+            $data=Services::printRecoomendationLetter($applicationNo);
+            return view('services.lettersample.lettersample',compact('data'));
+        }
+
+        public function printRecoomendationLetter($applicationNo){
+            $data=Services::printRecoomendationLetter($applicationNo);
+            $pdf = PDF::loadView('services.lettersample.printlettersample',compact('data'));
+            return $pdf->stream('Recommendation Letter-'.str_random(4).'.pdf');
+        }
+
+        public function updatePrintStatus($applicationNo){
+            $printStatusId = WorkFlowDetails::getStatus('PRINTED');
+            $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($applicationNo);
+            $updateworkflow=WorkFlowDetails::where('application_no',$applicationNo)
+            ->update(['status_id' => $printStatusId->id]);
+            return redirect('verification/recommendation-letter')->with('msg_success', 'Application status updated successfully');
+        }
 }
