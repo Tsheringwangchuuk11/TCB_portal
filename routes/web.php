@@ -69,7 +69,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('checklist-areas', 'ChecklistAreaController');
         Route::get('checklist-standards/chapter', 'ChecklistStandardController@getChecklistArea');
         Route::resource('checklist-standards', 'ChecklistStandardController');
-        Route::get('room-types', 'MasterController@getRoomTypesList');
+        Route::resource('room-types', 'RoomTypeController');
 
     });
 
