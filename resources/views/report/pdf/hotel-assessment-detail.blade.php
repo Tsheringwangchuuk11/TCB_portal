@@ -26,7 +26,7 @@
     <p class="print-title text-center">Hotel Assessment</p>
     <hr>	
     <div id="container">
-        <h5 class="text-center">Applicants Detail</h5> 
+        <h6 class="text-center">Applicants Detail</h6> 
         <table>            
             <tr>  
                 <td width="50%">
@@ -96,7 +96,7 @@
             </tr>
         </table>
         <hr>
-        <h5 class="text-center">Room Detail</h5> 
+        <h6 class="text-center">Room Detail</h6> 
         <table>
             <tr>
                 <td width="100%">
@@ -116,7 +116,7 @@
             </tr>
         </table>
         <hr>
-        <h5 class="text-center">Staff Detail</h5> 
+        <h6 class="text-center">Staff Detail</h6> 
         <table>
             <tr>
                 <td width="100%">

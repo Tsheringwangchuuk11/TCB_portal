@@ -4,7 +4,7 @@
     <div class="card-header">
         <h4 class="card-title">Recommandation Letter</h4> 
         <span class="float-right">
-            <a href="{{ url('verification/print-recommendation-letter', ['applicationNo'=>$data->application_no]) }}" class="btn bg-purple btn-xs btn-flat" title="Print"><i class="fa fa-print"> Print</i></a>
+            <a href="{{ url('verification/print-recommendation-letter', ['applicationNo'=>$data->application_no]) }}" class="btn bg-purple btn-xs btn-flat" title="Print" target="_blank"><i class="fa fa-print"> Print</i></a>
             <a href="{{ url('verification/update-print_status', ['applicationNo'=>$data->application_no]) }}" class="btn bg-blue btn-xs btn-flat" title="Print"><i class="fa fa-print"> Update Print Status</i></a>
             </span> 
     </div>

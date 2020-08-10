@@ -28,7 +28,7 @@
     <p class="print-title text-center">Hotel Assessment</p>
     <hr>	
     <div id="container">
-        <h5 class="text-center">Applicants Detail</h5> 
+        <h6 class="text-center">Applicants Detail</h6> 
         <table>            
             <tr>  
                 <td width="50%">

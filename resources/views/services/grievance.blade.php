@@ -47,7 +47,7 @@
                 </div>
                 <div class="col-md-5 offset-md-2">
                     <div class="form-group">
-                        <label for="">Telephone<span class="text-danger">*</span> </label>
+                        <label for="">Telephone</label>
                         <input type="number" class="form-control" name="complainant_telephone_no" value="{{ old('complainant_telephone_no') }}" autocomplete="off">
                     </div>
                 </div>
@@ -95,7 +95,7 @@
             <div class="row">
                 <div class="col-md-5">
                     <div class="form-group">
-                        <label for="">Telephone<span class="text-danger">*</span> </label>
+                        <label for="">Telephone</label>
                         <input type="number" class="form-control" name="respondent_telephone_no" value="{{ old('respondent_telephone_no') }}" autocomplete="off">
                     </div>
                 </div>
@@ -189,17 +189,17 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <p>The above information is true and accurate to the best of my/our knowledge and belief.
-                        The complaint submitted are genuine and not in bad faith and
-                        all important information material for resolving of this complaint are shared or will be shared with the Tourism Council of Bhutan.
-                    </p>
-                </div>
-                <div class="form-group mb-0">
-                    <div class="custom-control custom-checkbox">
-                      <input type="checkbox" name="terms" class="custom-control-input" id="exampleCheck1">
-                      <label class="custom-control-label" for="exampleCheck1">we hereby declare that</label>
+                    <div class="form-group ml-3">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" name="terms" id="exampleCheck2">
+                            I hereby declare that   
+                            <P>The above information is true and accurate to the best of my/our knowledge and belief.
+                                The complaint submitted are genuine and not in bad faith and
+                                all important information material for resolving of this complaint are shared or will be shared with the Tourism Council of Bhutan.
+                            </P>
+                        </div>
                     </div>
-                  </div>
+                </div>
             </div>
         </div>
         <div class="card-footer text-center">
@@ -210,25 +210,25 @@
 </form>
 @endsection
 @section('scripts')
-<script>
-$(document).ready(function () {
-    $('.select2bs4').on('change', function () {
-        $(this).valid();
-    });
-});
-  $(document).ready(function(){
-    $('#applicant_type').on('change',function(e) {
-        var applicantype=e.target.value;
-        if(applicantype=="L" || applicantype=="T"){
-            $("#representative").show();
-            $("#showlist").show();
-            $("#complainant").hide();
-        }else{
-            $("#complainant").show();
-            $("#representative").hide();
-            $("#showlist").hide();
-        } 
-    });
-   });
-</script>
+    <script>
+        $(document).ready(function () {
+            $('.select2bs4').on('change', function () {
+                $(this).valid();
+            });
+        });
+        $(document).ready(function(){
+            $('#applicant_type').on('change',function(e) {
+                var applicantype=e.target.value;
+                if(applicantype=="L" || applicantype=="T"){
+                    $("#representative").show();
+                    $("#showlist").show();
+                    $("#complainant").hide();
+                }else{
+                    $("#complainant").show();
+                    $("#representative").hide();
+                    $("#showlist").hide();
+                } 
+            });
+        });
+    </script>
 @endsection

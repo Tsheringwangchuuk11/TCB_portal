@@ -28,7 +28,7 @@
     <p class="print-title text-center">Hotel Assessment</p>
     <hr>	
     <div id="container">
-        <h5 class="text-center">Applicants Detail</h5> 
+        <h6 class="text-center">Applicants Detail</h6> 
         <table>            
             <tr>  
                 <td width="50%">
@@ -98,11 +98,11 @@
             </tr>
         </table>
         <hr>
-        <h5 class="text-center">Details Of The Family Members Residing In The Same House</h5> 
+        <h6 class="text-center">Details Of The Family Members Residing In The Same House</h6> 
         <table>
             <tr>
             <td width="100%">
-                <table>
+                <table  border='1'>
                     <tr>
                         <th width="25%">Name</th>
                         <th width="25%">Relationship with the applicant</th>
@@ -128,47 +128,39 @@
     <hr>
     @if ($data->count() > 0)    
     @foreach ($data as $chapter)
-        <div class="card">
-            <h3 class="card-title page-break"> {{$chapter->checklist_ch_name}}</h3>                                 
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <table>
-                        <thead>
-                            <tr>
-                                <th>Area</th>
-                                <th>Standard</th>
-                                <th>Rating</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+    <h6 class="text-center">{{$chapter->checklist_ch_name}}</h6> 
+        <table border='1'>
+        <thead>
+            <tr>
+                <th>Area</th>
+                <th>Standard</th>
+                <th>Rating</th>
+            </tr>
+        </thead>
+        <tbody>
+            @php
+            $area = '';
+            @endphp
+            @foreach ($chapter->chapterAreas as $chapterArea)
+                @foreach ($chapterArea->checkListStandards as $checkListStandard) 
+                        @php
+                            $standardlengh=$checkListStandard->count();
+                        @endphp
+                        <tr>
+                            {{-- @if ($area != $chapterArea->checklist_area) --}}
+                            <td> {{ $chapterArea->checklist_area }} </td>
+                            {{-- @endif --}}
+                            <td>{{ $checkListStandard->checklist_standard }}</td>
+                            <td>{{ $checkListStandard->standard_code }}</td>
                             @php
-                            $area = '';
-                            @endphp
-                            @foreach ($chapter->chapterAreas as $chapterArea)
-                                @foreach ($chapterArea->checkListStandards as $checkListStandard) 
-                                        @php
-                                            $standardlengh=$checkListStandard->count();
-                                        @endphp
-                                        <tr>
-                                            @if ($area != $chapterArea->checklist_area)
-                                            <td rowspan="{{ sizeOf($chapterArea->checkListStandards) }}"> {{ $chapterArea->checklist_area }} </td>
-                                            @endif
-                                            <td>{{ $checkListStandard->checklist_standard }}</td>
-                                            <td>{{ $checkListStandard->standard_code }}</td>
-                                            @php
-                                            $area = $chapterArea->checklist_area
-                                            @endphp 
-                                        </tr>
-                                @endforeach  
-                            @endforeach
-                        </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endforeach
+                            $area = $chapterArea->checklist_area
+                            @endphp 
+                        </tr>
+                @endforeach  
+            @endforeach
+        </tbody>
+    </table>
+@endforeach
 @endif
 @endsection
 

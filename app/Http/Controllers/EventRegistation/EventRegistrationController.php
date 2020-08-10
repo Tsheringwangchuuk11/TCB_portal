@@ -23,10 +23,11 @@ class EventRegistrationController extends Controller
     }
     public function index(Request $request)
     {
-        $privileges = $request->instance();
-        $countries = Dropdown::getDropdowns("t_country_masters","id","country_name","0","0");
-        $events = EventRegistration::getEventDetails();
-        return view('event.event_registration.registration_form', compact('events','privileges','countries'));
+        $data['privileges'] = $request->instance();
+        $data['countries'] = Dropdown::getDropdowns("t_country_masters","id","country_name","0","0");
+        $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+        $data['events'] = EventRegistration::getEventDetails();
+        return view('event.event_registration.registration_form',$data);
     }
 
     /**
@@ -51,7 +52,6 @@ class EventRegistrationController extends Controller
          $rule = [
             'event_name' => 'required',
             'country_id' => 'required',
-            'event_location' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
             'last_date' => 'required',
@@ -59,7 +59,7 @@ class EventRegistrationController extends Controller
         ];
         $validator = Validator::make($request->all(), $rule);
         if($validator->passes()){
-        $savedata   =   EventRegistration::updateOrCreate(['id' => $request->event_id],['event_name' => $request->event_name, 'country_id' => $request->country_id, 'event_location'=> $request->event_location ,'start_date'=> $request->start_date,'end_date'=> $request->end_date,'last_date'=> $request->last_date,'event_dtls'=> $request->event_dtls]);
+        $savedata   =   EventRegistration::updateOrCreate(['id' => $request->event_id],['event_name' => $request->event_name, 'country_id' => $request->country_id,'event_location'=> $request->event_location ,'start_date'=> $request->start_date,'village_id'=> $request->village_id ,'web_site'=> $request->web_site,'email'=> $request->email ,'contact_person'=> $request->contact_person,'mobile_no'=> $request->mobile_no ,'end_date'=> $request->end_date,'last_date'=> $request->last_date,'event_dtls'=> $request->event_dtls]);
         return response()->json($savedata);
        }
        return response()->json(['error' => $validator->errors()->all() ]); 
@@ -115,5 +115,10 @@ class EventRegistrationController extends Controller
         } catch(\Exception $exception){
             return redirect()->back()->with('msg_error', 'This events cannot be deleted as it is link in other data.');
         }
+    }
+    
+    public function getEventRegisteredDetails($eventId){
+        $eventdtls = EventRegistration::getEventRegisteredDetails($eventId);
+        return response()->json($eventdtls);
     }
 }

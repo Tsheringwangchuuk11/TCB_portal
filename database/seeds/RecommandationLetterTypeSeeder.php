@@ -12,10 +12,8 @@ class RecommandationLetterTypeSeeder extends Seeder
     public function run()
     {
         DB::table('t_recommandation_letter_masters')->insert([
-            ['id' => 1, 'recommandation_letter_type' =>'Proprietor'],
-            ['id' => 2, 'recommandation_letter_type' =>'Tour Operator '],
-            ['id' => 3, 'recommandation_letter_type' =>'Marketing Officer '],
-            ['id' => 4, 'recommandation_letter_type' =>'Visa'],
+            ['id' => 1, 'recommandation_letter_type' =>'Company Validation/Confirmation Letter'],
+            ['id' => 2, 'recommandation_letter_type' =>'International Visa Processing '],
         ]);
     }
 }

@@ -40,6 +40,7 @@
                              <a href="{{ url('verification/view-recommendation-letter', ['applicationNo'=>$item->application_no]) }}" class="btn bg-info btn-xs btn-flat" title="View"><i class="fa fa-eye"></i></a>
                             </td>
                         @empty
+                        <td colspan="8" class="text-danger text-center"> No data available</td>
                         @endforelse
                     </tr>
                 </tbody>

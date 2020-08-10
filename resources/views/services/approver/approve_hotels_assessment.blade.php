@@ -343,7 +343,6 @@ function validatedate(){
     var f = new Date(num);
   	 f.setFullYear (f.getFullYear() + 3 )
      var x=  f.toLocaleDateString('en-US',{day:"2-digit",month:"2-digit",year:"numeric"})
-     alert(x);
      $('#validaty_date').val(x);
 }
 function calculateScorePoint() {

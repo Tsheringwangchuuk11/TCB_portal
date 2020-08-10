@@ -13,16 +13,16 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-md-5">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="">CID No <span class="text-danger"> *</span></label>
+                  <input type="text" class="form-control numeric-only" name="cid_no" autocomplete="off">
+                </div>
+              </div>
+                <div class="col-md-5 offset-md-2">
                   <div class="form-group">
                     <label for="" >Name <span class="text-danger"> *</span></label>
                     <input type="text" class="form-control" name="applicant_name" autocomplete="off">
-                  </div>
-                </div>
-                <div class="col-md-5 offset-md-2">
-                  <div class="form-group">
-                    <label for="">CID No <span class="text-danger"> *</span></label>
-                    <input type="text" class="form-control numeric-only" name="cid_no" autocomplete="off">
                   </div>
                 </div>
               </div>
@@ -75,27 +75,6 @@
                     </select>
                   </div>
                 </div>
-                <div class="col-md-5 offset-md-2">
-                  <div class="form-group">
-                    <label for="">Flat No.<span class="text-danger"> *</span></label>
-                    <input type="text" class="form-control" name="applicant_flat_no" autocomplete="off" placeholder="Residential Address">
-                  </div>
-                </div>
-              </div>
-    
-              <div class="row">
-                <div class="col-md-5">
-                  <div class="form-group">
-                    <label for="">Building No.<span class="text-danger"> *</span></label>
-                    <input type="text" class="form-control" name="applicant_building_no" autocomplete="off" placeholder="Residential Address">
-                  </div>
-                </div>
-                <div class="col-md-5 offset-md-2">
-                  <div class="form-group">
-                    <label for="">Location<span class="text-danger"> *</span></label>
-                    <input type="text" class="form-control" name="applicant_location" autocomplete="off" placeholder="Residential Address">
-                  </div>
-                </div>
               </div>
               <div class="row">
                 <div class="col-md-5">
@@ -114,18 +93,18 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-md-5">
-                  <div class="form-group">
-                    <label for="">Name<span class="text-danger"> *</span></label>
-                    <input type="text" class="form-control" name="partner_name" autocomplete="off">
-                  </div>
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="">CID No.<span class="text-danger"> *</span></label>
+                  <input type="text" class="form-control" name="partner_cid_no" id="cid" autocomplete="off">
                 </div>
-                <div class="col-md-5 offset-md-2">
-                  <div class="form-group">
-                    <label for="">CID No.<span class="text-danger"> *</span></label>
-                    <input type="text" class="form-control" name="partner_cid_no" id="cid" autocomplete="off">
-                  </div>
+              </div>
+              <div class="col-md-5 offset-md-2">
+                <div class="form-group">
+                  <label for="">Name<span class="text-danger"> *</span></label>
+                  <input type="text" class="form-control" name="partner_name" autocomplete="off">
                 </div>
+              </div>
               </div>
               <div class="row">
                 <div class="col-md-5">
@@ -176,29 +155,7 @@
                     </select>
                   </div>
                 </div>
-                <div class="col-md-5 offset-md-2">
-                  <div class="form-group">
-                    <label for="">Flat No. <span class="text-danger"> *</span></label>
-                    <input type="text" class="form-control" name="partner_flat_no" autocomplete="off" placeholder="Residential Address">
-    
-                  </div>
-                </div>
               </div>
-    
-              <div class="row">
-               <div class="col-md-5">
-                <div class="form-group">
-                  <label for="">Building No.<span class="text-danger"> *</span></label>
-                  <input type="text" class="form-control" name="partner_building_no" autocomplete="off" placeholder="Residential Address">
-                </div>
-              </div>
-              <div class="col-md-5 offset-md-2">
-                <div class="form-group">
-                  <label for="">Location<span class="text-danger"> *</span></label>
-                  <input type="text" class="form-control" name="partner_location" autocomplete="off" placeholder="Residential Address">
-                </div>
-              </div>
-            </div>
         </div>
     </div>
     <div class="card">
@@ -233,23 +190,31 @@
                 </div>
                 <div class="col-md-5 offset-md-2">
                   <div class="form-group">
-                    <label for="">Location<span class="text-danger"> *</span></label>
-                    <input type="text" class="form-control" name="location" autocomplete="off">
+                    <label for="">Dzongkhag<span class="text-danger"> *</span></label>
+                    <select  name="dzongkhag_id" id="partner_dzongkhag_id" class="form-control select2bs4 partnerdzongkhagdropdown" style="width: 100%;">
+                        <option value=""> -Select-</option>
+                        @foreach ($dzongkhagLists as $dzongkhagList)
+                          <option value="{{ $dzongkhagList->id }}">{{ $dzongkhagList->dzongkhag_name }}</option>
+                        @endforeach
+                      </select>
                   </div>
                 </div>
               </div>
-      
               <div class="row">
                 <div class="col-md-5">
                   <div class="form-group">
-                    <label for="">Building No<span class="text-danger"> *</span></label>
-                    <input type="text" class="form-control" name="building_no" rows="3" autocomplete="off">
+                    <label for="">Gewog<span class="text-danger"> *</span></label>
+                    <select  name="gewog_id" class="form-control select2bs4 partnergewogropdown" id="partner_gewog_id" style="width: 100%;">
+                      <option value=""> -Select-</option>
+                    </select>  
                   </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
                   <div class="form-group">
-                    <label for="">Flat No<span class="text-danger"> *</span></label>
-                    <input type="text" class="form-control" name="flat_no" rows="3" autocomplete="off">
+                    <label for="">Village <span class="text-danger"> *</span></label>
+                    <select  name="partner_village_id" class="form-control select2bs4" id="partner_village_id" style="width: 100%;">
+                      <option value=""> -Select-</option>
+                    </select>
                   </div>
                 </div>
               </div>
@@ -285,7 +250,7 @@
               </li>
     
               <li>
-                <em>CV/academic transcript of the applicant or the person who intends to manage the business</em>      
+                <em>Academic transcript of the applicant or the person who intends to manage the business</em>      
               </li>
     
               <li>

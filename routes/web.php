@@ -33,6 +33,11 @@ Route::group(['prefix' => 'report', 'namespace' => 'Report'], function () {
     Route::get('reports', 'PublicReportController@ajaxReports');
 });
 
+//APIs
+Route::group(['prefix' => 'api', 'namespace' => 'Api'], function () {
+    Route::get('get_citizen_details', 'DcrcController@getCitizenDetails');
+});
+
 Route::group(['middleware' => ['auth']], function () {
 	Route::get('dashboard', 'HomeController@getDashboard')->name('dashboard');
 	Route::get('profile', 'HomeController@getProfile');
@@ -64,6 +69,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('checklist-areas', 'ChecklistAreaController');
         Route::get('checklist-standards/chapter', 'ChecklistStandardController@getChecklistArea');
         Route::resource('checklist-standards', 'ChecklistStandardController');
+        Route::get('room-types', 'MasterController@getRoomTypesList');
+
     });
 
     //routes for new application
@@ -78,7 +85,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('save-grievance-application', 'ServiceController@saveGrievanceApplication');
         Route::get('get-hotel-details/{id}', 'ServiceController@getTouristHotelDetails');
         Route::get('get-tour_operator-details/{id}', 'ServiceController@getTourOperatorDetails');
-        Route::get('get-tour_operator-info/{cid}', 'ServiceController@getTourOperatorInfo');
         Route::get('get-companyname', 'ServiceController@getCompnayName');
         Route::get('get-homestays-details/{cidid}', 'ServiceController@getVillageHomeStayDetails');
 
@@ -165,6 +171,7 @@ Route::group(['middleware' => ['auth']], function () {
     //routes for event registration
     Route::group(['prefix' => 'events', 'namespace' => 'EventRegistation'], function() {
         Route::resource('travel-fairs-event', 'EventRegistrationController');
+        Route::get('geteventdetails/{event_id}', 'EventRegistrationController@getEventRegisteredDetails');
     });
 
      //routes for uploads excel files

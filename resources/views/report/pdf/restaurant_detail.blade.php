@@ -28,7 +28,7 @@
     <p class="print-title text-center">Hotel Assessment</p>
     <hr>	
     <div id="container">
-        <h5 class="text-center">Applicants Detail</h5> 
+        <h6 class="text-center">Applicants Detail</h6> 
         <table>            
             <tr>  
                 <td width="50%">
@@ -90,7 +90,7 @@
             </tr>
         </table>
         <hr>
-        <h5 class="text-center">Staff Detail</h5> 
+        <h6 class="text-center">Staff Detail</h6> 
         <table>
             <tr>
             <td width="100%">
@@ -125,7 +125,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <table>
+                        <table border='1'>
                         <thead>
                             <tr>
                                 <th>Area</th>
@@ -144,9 +144,9 @@
                                             $standardlengh=$checkListStandard->count();
                                         @endphp
                                         <tr>
-                                            @if ($area != $chapterArea->checklist_area)
-                                            <td rowspan="{{ sizeOf($chapterArea->checkListStandards) }}"> {{ $chapterArea->checklist_area }} </td>
-                                            @endif
+                                            {{-- @if ($area != $chapterArea->checklist_area) --}}
+                                            <td> {{ $chapterArea->checklist_area }} </td>
+                                            {{-- @endif --}}
                                             <td>{{ $checkListStandard->checklist_standard }}</td>
                                             <td>{{ $checkListStandard->checklist_pts }}</td>
                                             <td>_______</td>

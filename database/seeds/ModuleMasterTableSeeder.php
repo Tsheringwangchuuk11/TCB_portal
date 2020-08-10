@@ -19,7 +19,7 @@ class ModuleMasterTableSeeder extends Seeder
             ['id' => 5, 'module_name' => 'Tourism Product', 'module_code' => 'TP', 'created_by' => 1],
             ['id' => 6, 'module_name' => 'Grievance Redressal', 'module_code' => 'GR', 'created_by' => 1],
             ['id' => 7, 'module_name' => 'Media', 'module_code' => 'M', 'created_by' => 1],
-            ['id' => 8, 'module_name' => 'Budget Hotel', 'module_code' => 'BH', 'created_by' => 1],
+            ['id' => 8, 'module_name' => 'Tourism Events', 'module_code' => 'TE', 'created_by' => 1],
         ]);
     }
 }

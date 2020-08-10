@@ -55,6 +55,8 @@ $.widget.bridge('uibutton', $.ui.button)
 <script src="{{ asset('plugins/highcharts/exporting.js') }}"></script>
 <script src="{{ asset('plugins/highcharts/export-data.js') }}"></script>
 <script src="{{ asset('plugins/highcharts/accessibility.js') }}"></script>
+{{--APIs--}}
+<script src="{{ asset('js/api_webservices.js') }}"></script>
 
 
 

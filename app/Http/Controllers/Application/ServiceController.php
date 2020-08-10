@@ -39,9 +39,7 @@ class ServiceController extends Controller
     {
         $page_link=str_replace("-", '/',$page_link);
         $data['idInfos'] = Services::getIdInfo($page_link);
-        if( $data['idInfos']->module_id==4 && $data['idInfos']->service_id==15 ){
-            $data['eventFairDetails'] = Services::getTravelEventFairDetails();
-        }
+        $data['eventFairDetails'] = Services::getTravelEventFairDetails();
         $data['starCategoryLists'] = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
         $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
         $data['roomTypeLists'] = Dropdown::getDropdowns("t_room_types","id","room_name","0","0");
@@ -129,13 +127,10 @@ class ServiceController extends Controller
          $checkPresent=Services:: checkCompanyNameExists($companyName);
           return response()->json($checkPresent);
      }
-   public function getTourOperatorInfo($cid){
-    $data=Services::getTourOperatorInfo($cid);
-    return response()->json($data);
-}
-   
+
     public function saveNewApplication(Request $request){
         $application_no = $this->services->generateApplNo($request);
+     //dd( $request->all());
         DB::transaction(function () use ($request, $application_no) {
             //insert into t_application
             $data=new Services;
@@ -317,16 +312,17 @@ class ServiceController extends Controller
             if(isset($_POST['employment_id'])){
                 foreach($request->employment_id as $key => $value){
                     $index = $_POST['employment_status'][$key];
-                    $index1 = $_POST['nationality'][$key];
+                    $index = $_POST['nationality'][$key];
 
                 $employmentData[] = [
                            'application_no'  => $application_no,
                             'employment_id'  => $request->employment_id[$key],
                         'employment_status'  =>$_POST['employment_status'.$index],
-                              'nationality'  =>$_POST['nationality'.$index1],
+                              'nationality'  =>$_POST['nationality'.$index],
 
                     ];
                  }
+                 dd($employmentData);
 
                 $this->services->insertDetails('t_employment_applications',$employmentData);
             }

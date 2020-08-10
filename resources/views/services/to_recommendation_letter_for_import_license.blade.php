@@ -1,5 +1,5 @@
 @extends('layouts.manager')
-@section('page-title','Ownership Change Of Tour Operator')
+@section('page-title','Recommendation for Import License-Tour Operation')
 @section('content')
 <form action="{{ url('application/save-application') }}" method="POST" enctype="multipart/form-data">
 @csrf
@@ -36,7 +36,7 @@
             <div class="col-md-5 offset-md-2">
                 <div class="form-group">
                     <label for="">Location <span class="text-danger">*</span> </label>
-                    <input type="text" class="form-control" name="location"id="location" autocomplete="off">
+                    <input type="text" class="form-control" name="location" id="location" autocomplete="off">
                 </div>
             </div>
         </div>
@@ -44,13 +44,13 @@
             <div class="col-md-5">
                 <div class="form-group">
                     <label for="">Name of the proprietor/s <span class="text-danger">*</span> </label>
-                    <input type="text" class="form-control" name="old_owner_name" id="owner_name" autocomplete="off">
+                    <input type="text" class="form-control" name="owner_name" id="owner_name" autocomplete="off">
                 </div>
             </div>
             <div class="col-md-5 offset-md-2">
                 <div class="form-group">
-                    <label for="">Contact No. <span class="text-danger">*</span> </label>
-                    <input type="text" class="form-control" name="old_contact_no"  id="contact_no" autocomplete="off">
+                    <label for="">Mobile No. <span class="text-danger">*</span> </label>
+                    <input type="text" class="form-control" name="contact_no" id="contact_no" autocomplete="off">
                 </div>
             </div>
         </div>
@@ -58,31 +58,12 @@
             <div class="col-md-5">
                 <div class="form-group">
                     <label for="">Owner CID<span class="text-danger">*</span> </label>
-                    <input type="text" class="form-control" name="old_cid_no" id="cid_no" autocomplete="off">
+                    <input type="text" class="form-control" name="cid_no" id="cid_no" autocomplete="off">
                 </div>
             </div>
-        </div>
-        <h5> New Owner Information</h5>
-        <div class="row">
-            <div class="col-md-5">
-                <div class="form-group">
-                    <label for="">Name of the proprietor/s <span class="text-danger">*</span> </label>
-                    <input type="text" class="form-control" name="owner_name"  autocomplete="off">
-                </div>
-            </div>
-            <div class="col-md-5 offset-md-2">
-                <div class="form-group">
-                    <label for="">Contact No. <span class="text-danger">*</span> </label>
-                    <input type="text" class="form-control" name="contact_no" autocomplete="off">
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-5">
-                <div class="form-group">
-                    <label for="">Owner CID<span class="text-danger">*</span> </label>
-                    <input type="text" class="form-control" name="cid_no" autocomplete="off">
-                </div>
+            <div class="form-group col-md-5 offset-md-2">
+                <label for="">Purpose<span class="text-danger">*</span> </label>
+                <textarea type="text" class="form-control" row="3" name="purpose"></textarea>
             </div>
         </div>
     </div>
@@ -95,10 +76,13 @@
         <h6> <strong>Required supporting documents:</strong></h6>
         <ol>
             <li>
-                <em>A copy of the valid trade license.</em>      
+                <em>A copy of Proforma Invoice</em>      
             </li>
             <li>
-                <em>A copy of the letter of authorization from the building owner stating that the applicant is authorized to operate the office in his/her property or ownership certificate in case of own building</em>      
+                <em>Valid business license</em>      
+            </li>
+            <li>
+                <em>Tax clearance</em>      
             </li>
         </ol>
         @include('services/fileupload/fileupload')
@@ -111,24 +95,23 @@
 <form>
 @endsection
 @section('scripts')
-	<script>
-		function getTourOperatorDetails(licenseNo){
-			$.ajax({
-				url:'/application/get-tour_operator-details/'+licenseNo,
-				type: "GET",
-				headers: {
-					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-					},
-				dataType: "json",
-				success:function(data) {
-					$('#company_title_name').val(data.company_name);
-					$('#cid_no').val(data.cid_no);
-					$('#owner_name').val(data.name);
-					$('#license_date').val(data.license_date);
-					$('#contact_no').val(data.contact_no);
-					$('#location').val(data.location);
-				} 
-				});
-			}
-	</script>
-@endsection
+<script>
+    function getTourOperatorDetails(licenseNo){
+        $.ajax({
+              url:'/application/get-tour_operator-details/'+licenseNo,
+               type: "GET",
+               headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                 },
+               dataType: "json",
+               success:function(data) {
+                $('#company_title_name').val(data.company_name);
+                $('#cid_no').val(data.cid_no);
+                $('#owner_name').val(data.name);
+                $('#license_date').val(data.license_date);
+                $('#contact_no').val(data.contact_no);
+                $('#location').val(data.location);
+               } 
+            });
+        }
+</script>

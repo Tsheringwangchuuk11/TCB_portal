@@ -195,14 +195,6 @@ public function setToDateAttribute($value)
 		->first(); 
 		return $query;
 	}
-	public static function getTourOperatorInfo($cid){
-		$query=DB::table('t_operator_dtls as t1')
-	   ->where('t1.cid_no',$cid)
-	   ->where('t1.is_active','Y')
-	   ->first(); 
-	   return $query;
-   }
-
 	public function insertDetails($tableName,$data){
 		 $flag=DB::table($tableName)->insert($data);	
 		 return $flag;
@@ -286,11 +278,7 @@ public function setToDateAttribute($value)
 
 	public static function getTravelEventFairDetails(){
 		$sql = \DB::select('
-						SELECT a.* ,
-						b.country_name FROM t_event_dtls a
-						LEFT JOIN t_country_masters b ON a.country_id = b.id 
-						WHERE a.last_date >= CURDATE();
-		     ');
+		SELECT a.id,a.event_name FROM t_event_dtls a WHERE a.last_date >= CURDATE();');
 		return $sql;
 	}  
 	

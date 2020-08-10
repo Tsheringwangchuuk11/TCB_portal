@@ -130,31 +130,32 @@ class TouristStandardHotelController extends Controller
     
    //Approval function for tourist stnadard hotel assessment application
    public function standardHotelAssessmentApplication(Request $request){
+       dd($request->status);
         if($request->status =='APPROVED'){
             // insert into t_techt_tourist_standard_dtlsnical_clearances
             \DB::transaction(function () use ($request) {
                 $approveId = WorkFlowDetails::getStatus('APPROVED');
                 $completedId= WorkFlowDetails::getStatus('COMPLETED');
-            $applicantdata[]= [    
-                'module_id'   => $request->module_id,
-                'cid_no'   => $request->cid_no,
-                'star_category_id'   => $request->star_category_id,
-                'license_no'   => $request->license_no,
-                'license_date'   => date('Y-m-d', strtotime($request->license_date)),
-                'tourist_standard_name'   => $request->tourist_standard_name,
-                'owner_name'   => $request->owner_name,
-                'address'   => $request->address,
-                'contact_no'   => $request->contact_no,
-                'fax'   => $request->fax,
-                'email'   => $request->email,
-                'webpage_url'   => $request->webpage_url,
-                'bed_no'   => $request->bed_no,
-                'village_id'   => $request->village_id,
-                'inspection_date'   =>date('Y-m-d', strtotime($request->inspection_date)),
-                'validaty_date'   =>now()->addYears(3),
-                'created_at'   => now(),
-                'updated_at'   => now(),
-            ];
+                $applicantdata[]= [    
+                    'module_id'   => $request->module_id,
+                    'cid_no'   => $request->cid_no,
+                    'star_category_id'   => $request->star_category_id,
+                    'license_no'   => $request->license_no,
+                    'license_date'   => date('Y-m-d', strtotime($request->license_date)),
+                    'tourist_standard_name'   => $request->tourist_standard_name,
+                    'owner_name'   => $request->owner_name,
+                    'address'   => $request->address,
+                    'contact_no'   => $request->contact_no,
+                    'fax'   => $request->fax,
+                    'email'   => $request->email,
+                    'webpage_url'   => $request->webpage_url,
+                    'bed_no'   => $request->bed_no,
+                    'village_id'   => $request->village_id,
+                    'inspection_date'   =>date('Y-m-d', strtotime($request->inspection_date)),
+                    'validaty_date'   =>now()->addYears(3),
+                    'created_at'   => now(),
+                    'updated_at'   => now(),
+                ];
             $id=Services::getLastInsertedId('t_tourist_standard_dtls',$applicantdata);
             // insert into t_room_dtls
             $roomInfoData = [];
@@ -213,6 +214,7 @@ class TouristStandardHotelController extends Controller
         return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
 
         }else{
+            dd('dd');
             $rejectId = WorkFlowDetails::getStatus('REJECTED');
             $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
             $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)

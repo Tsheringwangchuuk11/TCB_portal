@@ -16,7 +16,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="">Modules</label>
+                                <label for="">Tourism Services</label>
                                 <select class="form-control select2bs4" name="modules" id="modules_id" style="width: 100%;" onchange="loadServices(this.value);">
                                   <option value="">- Select -</option>
                                   @foreach ($servicemodules as $servicemodule)

@@ -1,5 +1,5 @@
 @extends('layouts.manager')
-@section('page-title','Home Stay License Renew')
+@section('page-title','Home Stay Registration Cancellation')
 @section('content')
 <div class="card">
     <div class="card-header">
@@ -23,7 +23,7 @@
                         </div>
                         <div class="col-md-5 offset-md-2">
                             <div class="form-group">
-                                <label for="">Name</label>
+                                <label for="">Home Stay Name</label>
                                 <input type="text" class="form-control" name="applicant_name" id="name" readonly>
                             </div>
                         </div>
@@ -31,58 +31,64 @@
                     <div class="row">
                         <div class="col-md-5">
                             <div class="form-group">
-                                <label for="">Contact No. </label>
-                                <input type="text" class="form-control" name="contact_no" id="contact_no" readonly>
+                                <label for="">Name</label>
+                                <input type="text" class="form-control" name="applicant_name" id="name" readonly>
                             </div>
                         </div>
                         <div class="col-md-5 offset-md-2">
                             <div class="form-group">
-                                <label for="">Email</label>
-                                <input type="email" class="form-control" name="email" id="email" readonly>
+                                <label for="">Contact No. </label>
+                                <input type="text" class="form-control" name="contact_no" id="contact_no" readonly>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-5">
                             <div class="form-group">
+                                <label for="">Email</label>
+                                <input type="email" class="form-control" name="email" id="email" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-5 offset-md-2">
+                            <div class="form-group">
                                 <label for="">Dzongkhag</label>
                                 <input type="text" class="form-control" name="dzongkhag_name" id="dzongkhag_name" readonly>
                             </div>
                         </div>
-                        <div class="col-md-5 offset-md-2">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
                             <div class="form-group">
                                 <label for="">Gewog</label>
                                 <input type="hidden" class="form-control" name="gewog_id" id="gewog_id" readonly>
                                 <input type="text" class="form-control" name="gewog_name" id="gewog_name" readonly>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-5">
+                        <div class="col-md-5 offset-md-2">
                             <div class="form-group">
                                 <label for="">Chiwog</label>
                                 <input type="text" class="form-control" name="chiwog_name" id="chiwog_name" readonly>
                                 <input type="hidden" class="form-control" name="chiwog_id" id="chiwog_id">
-
-                            </div>
-                        </div>
-                        <div class="col-md-5 offset-md-2">
-                            <div class="form-group">
-                                <label for="">Village </label>
-                                <input type="text" class="form-control" name="village_name" id="village_name" readonly>
-                                <input type="hidden" class="form-control" name="village_id" id="village_id">
-
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="">Village </label>
+                                <input type="text" class="form-control" name="village_name" id="village_name" readonly>
+                                <input type="hidden" class="form-control" name="village_id" id="village_id">
+                            </div>
+                        </div>
+                        <div class="col-md-5 offset-md-2">
                             <div class="form-group">
                                 <label for="">Thram No. </label>
                                 <input type="text" class="form-control" name="thram_no" id="thram_no" readonly>
                             </div>
                         </div>
-                        <div class="col-md-5 offset-md-2">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
                             <div class="form-group">
                                 <label for="">House No. </label>
                                 <input type="text" class="form-control" name="house_no" id="house_no" readonly>
@@ -116,9 +122,7 @@
                                 <label for="">Validaty Date</label>
                                 <input type="date" class="form-control" name="date" id="validaty_date" readonly>
                             </div>
-                            
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -136,36 +140,36 @@
 </div>
 </form>
 @endsection
-
-<script>
-    function getHomeStayDetails(cidNo){
-        $.ajax({
-            url:'/application/get-homestays-details/'+cidNo,
-               type: "GET",
-               headers: {
-                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                 },
-               dataType: "json",
-               success:function(data) {
-                console.log(data);
-                $('#name').val(data.owner_name);
-                $('#cid_no').val(data.cid_no);
-                $('#contact_no').val(data.contact_no);
-                $('#dzongkhag_name').val(data.dzongkhag_name);
-                $('#gewog_name').val(data.gewog_name);
-                $('#email').val(data.email);
-                $('#chiwog_name').val(data.chiwog_name);
-                $('#chiwog_id').val(data.chiwog_id);
-                $('#village_name').val(data.village_name);
-                $('#village_id').val(data.village_id);
-                $('#thram_no').val(data.thram_no);
-                $('#house_no').val(data.house_no);
-                $('#town_distance').val(data.town_distance);
-                $('#road_distance').val(data.road_distance);
-                $('#condition').val(data.condition);
-                $('#validaty_date').val(data.validaty_date);
-                $('#gewog_id').val(data.gewog_id);
-               } 
-            });
-        }
-</script>
+@section('script')
+    <script>
+        function getHomeStayDetails(cidNo){
+            $.ajax({
+                url:'/application/get-homestays-details/'+cidNo,
+                type: "GET",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                dataType: "json",
+                success:function(data) {
+                        $('#name').val(data.owner_name);
+                        $('#cid_no').val(data.cid_no);
+                        $('#contact_no').val(data.contact_no);
+                        $('#dzongkhag_name').val(data.dzongkhag_name);
+                        $('#gewog_name').val(data.gewog_name);
+                        $('#email').val(data.email);
+                        $('#chiwog_name').val(data.chiwog_name);
+                        $('#chiwog_id').val(data.chiwog_id);
+                        $('#village_name').val(data.village_name);
+                        $('#village_id').val(data.village_id);
+                        $('#thram_no').val(data.thram_no);
+                        $('#house_no').val(data.house_no);
+                        $('#town_distance').val(data.town_distance);
+                        $('#road_distance').val(data.road_distance);
+                        $('#condition').val(data.condition);
+                        $('#validaty_date').val(data.validaty_date);
+                        $('#gewog_id').val(data.gewog_id);
+                    } 
+                });
+            }
+    </script>
+@endsection
