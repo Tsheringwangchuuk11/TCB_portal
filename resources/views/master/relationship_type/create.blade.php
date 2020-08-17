@@ -1,10 +1,10 @@
-<form id="room_type_form" action="{{ url('master/room-types') }}" class="form-horizontal" method="POST">
+<form id="relationship_type_form" action="{{ url('master/relationship') }}" class="form-horizontal" method="POST">
     @csrf
     <div class="row">
         <div class="col-md-5">
             <div class="form-group">
-                <label for="">Room Type <span class="text-danger">*</span></label>
-                <input type="text" name="room_name" class="form-control">
+                <label for="">Relationship Type <span class="text-danger">*</span></label>
+                <input type="text" name="relation_type" class="form-control">
             </div>
         </div>
     </div>
@@ -15,15 +15,15 @@
 </form>
 <script>
     $(function() {
-        $('#room_type_form').validate({
+        $('#relationship_type_form').validate({
             rules: {
-                room_name: {
+                relation_type: {
                 required: true,
                 },
             },
             messages: {
-                room_name: {
-                required: "Please enter a room type",
+                relation_type: {
+                required: "Please enter a relationship type",
                 },
             },
             errorElement: 'span',

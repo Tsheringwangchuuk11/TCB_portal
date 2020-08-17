@@ -42,9 +42,9 @@ class ServiceController extends Controller
         $data['eventFairDetails'] = Services::getTravelEventFairDetails();
         $data['starCategoryLists'] = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
         $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
-        $data['roomTypeLists'] = Dropdown::getDropdowns("t_room_types","id","room_name","0","0");
+        $data['roomTypeLists'] = Dropdown::getDropdowns("t_room_type_masters","id","room_name","0","0");
         $data['staffAreaLists'] = Dropdown::getDropdowns("t_staff_areas","id","staff_area_name","0","0");
-        $data['relationTypes'] = Dropdown::getDropdowns("t_relation_types","id","relation_type","0","0");
+        $data['relationTypes'] = Dropdown::getDropdowns("t_relation_type_masters","id","relation_type","0","0");
         $data['officeInfos'] = Dropdown::getDropdowns("t_offices","id","office_name","0","0");
         $data['officeEquipments'] = Services::getOfficeEquipmentDetails('O');
         $data['trekkingEquipments'] = Services::getOfficeEquipmentDetails('T');
@@ -54,7 +54,7 @@ class ServiceController extends Controller
         $data['channelTypes'] = Dropdown::getDropdowns("t_channel_types","id","channel_type","0","0");
         $data['countries'] = Dropdown::getDropdowns("t_country_masters","id","country_name","0","0");
         $data['letterTypes'] = Dropdown::getDropdowns("t_recommandation_letter_masters","id","recommandation_letter_type","0","0");
-        $data['serviceproviders'] = Dropdown::getDropdowns("t_service_providers","id","service_provider_name","0","0");
+        $data['serviceproviders'] = Dropdown::getDropdowns("t_service_provider_masters","id","service_provider_name","0","0");
         $data['locations'] = Dropdown::getDropdowns("t_locations","id","location_name","0","0");
         return view($page_link, $data);
     }
@@ -127,6 +127,11 @@ class ServiceController extends Controller
          $checkPresent=Services:: checkCompanyNameExists($companyName);
           return response()->json($checkPresent);
      }
+
+     public function getEventRegisteredDetails($eventId,$serviceId,$moduleId){
+        $eventdtl = Services::getEventRegisteredDetails($eventId);
+        return view('services/registration_for_tourism_events', compact('eventdtl','serviceId','moduleId'));
+    }
 
     public function saveNewApplication(Request $request){
         $application_no = $this->services->generateApplNo($request);

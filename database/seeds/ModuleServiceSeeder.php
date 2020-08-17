@@ -49,7 +49,7 @@ class ModuleServiceSeeder extends Seeder
             ['module_id' => 7, 'service_id' => 19, 'page_link' => 'services/media_familiarization_tour'],
 
             //Tourism Event
-            ['module_id' => 8, 'service_id' => 20, 'page_link' => 'services/registration_for_tourism_events'],
+            ['module_id' => 8, 'service_id' => 20, 'page_link' => 'services/registered_tourism_events_list'],
         ]);
     }
 }

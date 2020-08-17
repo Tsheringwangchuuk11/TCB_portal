@@ -1,8 +1,8 @@
 @extends('layouts.manager')
-@section('page-title', 'Room Types')
+@section('page-title', 'Country')
 @section('buttons')
 @if ($privileges["create"] == 1)
-     <a href="javascript:void(0)" data-href="{{ url('master/room-types/create') }}"  class="btn  btn-sm btn-success  btn-flat add-new-roomtype"><i class="fa fa-plus" ></i> Add Room Type</a>
+     <a href="javascript:void(0)" data-href="{{ url('master/country/create') }}"  class="btn  btn-sm btn-success  btn-flat add-new-country"><i class="fa fa-plus" ></i> Add Country</a>
 @endif
 @endsection
 @section('content')
@@ -11,25 +11,25 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Room Types List</h3>
+                    <h3 class="card-title">Country List</h3>
                 </div>
                 <div class="card-body">
                     <table id="example2" class="table table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th class="text-center">#</th>
-                                <th>Room Types</th>
+                                <th>Country Name</th>
                                 <th>Active Status</th>
                                 <th class="text-center">Action</th>
                             </tr>
                         </thead>
-                        <tbody id="event_body_id">
-                            @forelse ($roomtypeslists as $roomtypeslist)
+                        <tbody>
+                            @forelse ($countrylists as $countrylist)
                             <tr>
                                 <td class="text-center">{{ $loop->iteration }}</td>
-                                <td>{{$roomtypeslist->room_name}}</td>
+                                <td>{{$countrylist->country_name}}</td>
                                 <td>
-                                    @if ($roomtypeslist->is_active=="Y")
+                                    @if ($countrylist->is_active=="Y")
                                         Yes 
                                     @else
                                         No
@@ -37,14 +37,14 @@
                                 </td>
                                 <td class="text-center">
                                     @if ($privileges["edit"] == 1)
-                                    <a href="javascript:void(0)" data-href="{{ url('master/room-types/'. $roomtypeslist->id.'/edit') }}"  class="btn  btn-sm btn-info  btn-flat add-new-roomtype" title="Edit">Edit</a>
+                                    <a href="javascript:void(0)" data-href="{{ url('master/country/'. $countrylist->id.'/edit') }}"  class="btn  btn-sm btn-info  btn-flat add-new-country" title="Edit">Edit</a>
                                     @endif
                                     @if((int)$privileges->delete == 1)
                                     <a href="#" class="form-confirm  btn btn-sm btn-danger  btn-flat" title="Delete">
                                     <i class="fas fa-trash"></i>
-                                    <a data-form="#frmDelete-{!! $roomtypeslist->id !!}" data-title="Delete {!! $roomtypeslist->room_name !!}" data-message="Are you sure you want to delete this room types details ?"></a>
+                                    <a data-form="#frmDelete-{!! $countrylist->id !!}" data-title="Delete {!! $countrylist->country_name !!}" data-message="Are you sure you want to delete this country details ?"></a>
                                     </a>
-                                    <form action="{{ url('master/room-types/' . $roomtypeslist->id) }}" method="POST" id="{{ 'frmDelete-'.$roomtypeslist->id }}">
+                                    <form action="{{ url('master/country/' . $countrylist->id) }}" method="POST" id="{{ 'frmDelete-'.$countrylist->id }}">
                                         @csrf
                                         @method('DELETE')
                                     </form>
@@ -60,22 +60,22 @@
                     </table>
                     <br>
                     <div class="float-right">
-                        {{ $roomtypeslists->links() }}
+                        {{ $countrylists->links() }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="modal fade" id="room_type_modal" aria-hidden="true">
+    <div class="modal fade" id="country_modal" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title"> Room Types</h4>
+                    <h4 class="modal-title">Country</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body roomtypes">
+                <div class="modal-body country">
                 </div>
             </div>
         </div>
@@ -86,10 +86,10 @@
 @section('scripts')
 <script>
     $(document).ready(function(){
-      $('.add-new-roomtype').on('click',function(){
+      $('.add-new-country').on('click',function(){
             var dataURL = $(this).attr('data-href');
-            $('.roomtypes').load(dataURL,function(){
-                $('#room_type_modal').modal({show:true});
+            $('.country').load(dataURL,function(){
+                $('#country_modal').modal({show:true});
             });
         });
     })

@@ -70,9 +70,12 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('checklist-standards/chapter', 'ChecklistStandardController@getChecklistArea');
         Route::resource('checklist-standards', 'ChecklistStandardController');
         Route::resource('room-types', 'RoomTypeController');
-
+        Route::resource('applicant-types', 'ApplicantTypeController');
+        Route::resource('service-provider', 'ServiceProviderController');
+        Route::resource('relationship', 'RelationshipTypeController');
+        Route::resource('country', 'CountryController');
     });
-
+    
     //routes for new application
     Route::group(['prefix' => 'application', 'namespace' => 'Application'], function() {
 		Route::get('new-application', 'ServiceController@getModules');
@@ -86,7 +89,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('get-hotel-details/{id}', 'ServiceController@getTouristHotelDetails');
         Route::get('get-tour_operator-details/{id}', 'ServiceController@getTourOperatorDetails');
         Route::get('get-companyname', 'ServiceController@getCompnayName');
-        Route::get('get-homestays-details/{cidid}', 'ServiceController@getVillageHomeStayDetails');
+        Route::get('get-homestays-details/{cid}', 'ServiceController@getVillageHomeStayDetails');
+        Route::get('get-event-details/{id}/{serviceId}/{moduleId}', 'ServiceController@getEventRegisteredDetails');
 
         // fileuploads
         Route::post('documentattach', 'FileUploadController@addDocuments');
@@ -171,7 +175,6 @@ Route::group(['middleware' => ['auth']], function () {
     //routes for event registration
     Route::group(['prefix' => 'events', 'namespace' => 'EventRegistation'], function() {
         Route::resource('travel-fairs-event', 'EventRegistrationController');
-        Route::get('geteventdetails/{event_id}', 'EventRegistrationController@getEventRegisteredDetails');
     });
 
      //routes for uploads excel files
