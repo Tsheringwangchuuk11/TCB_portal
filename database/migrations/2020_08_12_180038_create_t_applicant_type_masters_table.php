@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTRoomTypesTable extends Migration
+class CreateTApplicantTypeMastersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,12 @@ class CreateTRoomTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('t_room_types', function (Blueprint $table) {
+        Schema::create('t_applicant_type_masters', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('room_name');
+            $table->string('applicant_type');
+            $table->char('is_active',1)->default('Y');
+            $table->unsignedBigInteger('created_by')->index();
+            $table->unsignedBigInteger('updated_by')->nullable()->index();
             $table->timestamps();
         });
     }
@@ -27,6 +30,6 @@ class CreateTRoomTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('t_room_types');
+        Schema::dropIfExists('t_applicant_type_masters');
     }
 }

@@ -1,11 +1,11 @@
-<form id="room_type_form" action="{{ url('master/room-types/'.$data->id) }}" class="form-horizontal" method="POST">
+<form id="country_form" action="{{ url('master/country/'.$data->id) }}" class="form-horizontal" method="POST">
     @csrf
     @method('PUT')
     <div class="row">
         <div class="col-md-5">
             <div class="form-group">
-                <label for="">Room Type <span class="text-danger">*</span></label>
-                <input type="text" name="room_name" value="{{$data->room_name}}" class="form-control">
+                <label for="">Country <span class="text-danger">*</span></label>
+                <input type="text" name="country_name" value="{{$data->country_name}}" class="form-control">
             </div>
         </div>
         <div class="col-md-5 offset-md-2">
@@ -27,9 +27,9 @@
 </form>
 <script>
     $(function() {
-        $('#room_type_form').validate({
+        $('#country_form').validate({
             rules: {
-                room_name: {
+                country_name: {
                 required: true,
                 },
                 is_active:{
@@ -37,8 +37,8 @@
                 },
             },
             messages: {
-                room_name: {
-                     required: "Please enter a room type",
+                country_name: {
+                     required: "Please enter a country",
                 },
                 is_active: {
                 required: "Please  check the status",

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTCountryMasters extends Migration
+class CreateTServiceProviderMastersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class CreateTCountryMasters extends Migration
      */
     public function up()
     {
-        Schema::create('t_country_masters', function (Blueprint $table) {
+        Schema::create('t_service_provider_masters', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('country_name',50);
+            $table->string('service_provider_type');
             $table->char('is_active',1)->default('Y');
             $table->unsignedBigInteger('created_by')->index();
             $table->unsignedBigInteger('updated_by')->nullable()->index();
-            $table->timestamps();
-        });
+            $table->timestamps();        });
     }
 
     /**
@@ -30,6 +29,6 @@ class CreateTCountryMasters extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('t_country_masters');
+        Schema::dropIfExists('t_service_provider_masters');
     }
 }

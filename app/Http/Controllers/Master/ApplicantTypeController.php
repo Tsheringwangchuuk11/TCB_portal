@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Master\RoomType;
+use App\Models\Master\ApplicantTypes;
 use Validator;
 
-class RoomTypeController extends Controller
+class ApplicantTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,16 +16,16 @@ class RoomTypeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('permission:master/room-types,view', ['only' => ['index', 'show']]);
-        $this->middleware('permission:master/room-types,create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:master/room-types,edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:master/room-types,delete', ['only' => 'destroy']);
+        $this->middleware('permission:master/applicant-types,view', ['only' => ['index', 'show']]);
+        $this->middleware('permission:master/applicant-types,create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:master/applicant-types,edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:master/applicant-types,delete', ['only' => 'destroy']);
     }
     public function index(Request $request)
     {
-            $data['privileges'] = $request->instance();
-            $data['roomtypeslists'] = RoomType::orderBy('id')->paginate(10);
-            return view('master.roomtypes.index',$data);
+        $data['privileges'] = $request->instance();
+        $data['applicanttypeslists'] = ApplicantTypes::orderBy('id')->paginate(10);
+        return view('master.applicant_types.index',$data);
     }
 
     /**
@@ -35,7 +35,7 @@ class RoomTypeController extends Controller
      */
     public function create()
     {
-        return view('master.roomtypes.create');
+        return view('master.applicant_types.create');
 
     }
 
@@ -47,9 +47,9 @@ class RoomTypeController extends Controller
      */
     public function store(Request $request)
     {
-       
-        $savedata   =   RoomType::Create(['room_name' => $request->room_name,'created_by' => auth()->user()->id]);
-        return redirect('master/room-types')->with('msg_success', 'New room types added successfully');
+      
+        $savedata   =   ApplicantTypes::Create(['applicant_type' => $request->applicant_type,'created_by' => auth()->user()->id]);
+        return redirect('master/applicant-types')->with('msg_success', 'New appicant types added successfully');
     }
 
     /**
@@ -71,8 +71,8 @@ class RoomTypeController extends Controller
      */
     public function edit($id)
     {
-        $data = RoomType::findOrFail($id);
-        return view('master.roomtypes.edit', compact('data'));
+        $data = ApplicantTypes::findOrFail($id);
+        return view('master.applicant_types.edit', compact('data'));
     }
 
     /**
@@ -85,13 +85,14 @@ class RoomTypeController extends Controller
     public function update(Request $request, $id)
     {
         $data=[
-            'room_name' => $request->room_name,
+            'applicant_type' => $request->applicant_type,
             'is_active' =>$request->is_active,
             'updated_by' =>auth()->user()->id,
-        ];
-        RoomType::where('id',$id)->update( $data);
-        return redirect('master/room-types')->with('msg_success', 'Room type updated successfully');
+       ];
+        ApplicantTypes::where('id',$id)->update($data);
+        return redirect('master/applicant-types')->with('msg_success', 'Applicant type updated successfully');
     }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -101,11 +102,11 @@ class RoomTypeController extends Controller
     public function destroy($id)
     {
         try {
-            $events = RoomType::findOrFail($id);
+            $events = ApplicantTypes::findOrFail($id);
             $events->delete();
-            return redirect('master/room-types')->with('msg_success', 'Room type successfully deleted');
+            return redirect('master/applicant-types')->with('msg_success', 'Applicant type successfully deleted');
         } catch(\Exception $exception){
-            return redirect()->back()->with('msg_error', 'This room types cannot be deleted as it is link in other data.');
+            return redirect()->back()->with('msg_error', 'This applicant types cannot be deleted as it is link in other data.');
         }
     }
 }

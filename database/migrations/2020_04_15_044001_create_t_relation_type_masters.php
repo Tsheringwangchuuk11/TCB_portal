@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTServiceProvidersTable extends Migration
+class CreateTRelationTypes extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,12 @@ class CreateTServiceProvidersTable extends Migration
      */
     public function up()
     {
-        Schema::create('t_service_providers', function (Blueprint $table) {
+        Schema::create('t_relation_type_masters', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('service_provider_name', 250)->nullable();
+            $table->string('relation_type',100)->nullable();
+            $table->char('is_active',1)->default('Y');
+            $table->unsignedBigInteger('created_by')->index();
+            $table->unsignedBigInteger('updated_by')->nullable()->index();
             $table->timestamps();
         });
     }
@@ -27,6 +30,6 @@ class CreateTServiceProvidersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('t_service_providers');
+        Schema::dropIfExists('t_relation_types');
     }
 }

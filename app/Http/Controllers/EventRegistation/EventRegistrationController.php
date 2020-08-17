@@ -24,10 +24,8 @@ class EventRegistrationController extends Controller
     public function index(Request $request)
     {
         $data['privileges'] = $request->instance();
-        $data['countries'] = Dropdown::getDropdowns("t_country_masters","id","country_name","0","0");
-        $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
         $data['events'] = EventRegistration::getEventDetails();
-        return view('event.event_registration.registration_form',$data);
+        return view('event.event_registration.index',$data);
     }
 
     /**
@@ -37,7 +35,9 @@ class EventRegistrationController extends Controller
      */
     public function create()
     {
-        //
+        $data['countries'] = Dropdown::getDropdowns("t_country_masters","id","country_name","0","0");
+        $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+        return view('event.event_registration.create',$data);
     }
 
     /**
@@ -48,21 +48,8 @@ class EventRegistrationController extends Controller
      */
     public function store(Request $request)
     {
-        //return response()->json($savedata);
-         $rule = [
-            'event_name' => 'required',
-            'country_id' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
-            'last_date' => 'required',
-            'event_dtls' => 'required',
-        ];
-        $validator = Validator::make($request->all(), $rule);
-        if($validator->passes()){
-        $savedata   =   EventRegistration::updateOrCreate(['id' => $request->event_id],['event_name' => $request->event_name, 'country_id' => $request->country_id,'event_location'=> $request->event_location ,'start_date'=> $request->start_date,'village_id'=> $request->village_id ,'web_site'=> $request->web_site,'email'=> $request->email ,'contact_person'=> $request->contact_person,'mobile_no'=> $request->mobile_no ,'end_date'=> $request->end_date,'last_date'=> $request->last_date,'event_dtls'=> $request->event_dtls]);
-        return response()->json($savedata);
-       }
-       return response()->json(['error' => $validator->errors()->all() ]); 
+       $savedata   =   EventRegistration::Create(['event_name' => $request->event_name, 'country_id' => $request->country_id,'event_location'=> $request->event_location ,'start_date'=> $request->start_date,'village_id'=> $request->village_id ,'web_site'=> $request->web_site,'email'=> $request->email ,'contact_person'=> $request->contact_person,'mobile_no'=> $request->mobile_no ,'end_date'=> $request->end_date,'last_date'=> $request->last_date,'event_dtls'=> $request->event_dtls,'created_by' => auth()->user()->id]);
+       return redirect('events/travel-fairs-event')->with('msg_success', 'New event added successfully');
     }
 
     /**
@@ -84,8 +71,10 @@ class EventRegistrationController extends Controller
      */
     public function edit($id)
     {
-        $event = EventRegistration::where('id', $id)->first();
-        return response()->json($event);
+        $data['countries'] = Dropdown::getDropdowns("t_country_masters","id","country_name","0","0");
+        $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+        $data['data'] = EventRegistration::editEventDetail($id);
+        return view('event.event_registration.edit', $data);
     }
 
     /**
@@ -95,9 +84,25 @@ class EventRegistrationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request,$id)
     {
-       
+        $data=[
+            'event_name' => $request->event_name,
+            'country_id' =>$request->country_id,
+            'event_location' =>$request->event_location,
+            'last_date' =>$request->last_date,
+            'start_date' =>$request->start_date,
+            'web_site' =>$request->web_site,
+            'email' =>$request->email,
+            'contact_person' =>$request->contact_person,
+            'mobile_no' =>$request->mobile_no,
+            'end_date' =>$request->end_date,
+            'village_id' =>$request->village_id,
+            'event_dtls' =>$request->event_dtls,
+            'updated_by' =>auth()->user()->id,
+       ];
+       EventRegistration::where('id',$id)->update($data);
+        return redirect('events/travel-fairs-event')->with('msg_success', 'event updated successfully');
     }
 
     /**
@@ -115,10 +120,5 @@ class EventRegistrationController extends Controller
         } catch(\Exception $exception){
             return redirect()->back()->with('msg_error', 'This events cannot be deleted as it is link in other data.');
         }
-    }
-    
-    public function getEventRegisteredDetails($eventId){
-        $eventdtls = EventRegistration::getEventRegisteredDetails($eventId);
-        return response()->json($eventdtls);
     }
 }

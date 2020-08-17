@@ -27,6 +27,8 @@ class CreateTEventDtlsTable extends Migration
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->text('event_dtls')->nullable();
+            $table->unsignedBigInteger('created_by')->index();
+            $table->unsignedBigInteger('updated_by')->nullable()->index();
             $table->timestamps();
             $table->foreign('country_id')->references('id')->on('t_country_masters');
 

@@ -4,10 +4,9 @@ namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Master\RoomType;
+use App\Models\Master\Country;
 use Validator;
-
-class RoomTypeController extends Controller
+class CountryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,16 +15,16 @@ class RoomTypeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('permission:master/room-types,view', ['only' => ['index', 'show']]);
-        $this->middleware('permission:master/room-types,create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:master/room-types,edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:master/room-types,delete', ['only' => 'destroy']);
+        $this->middleware('permission:master/country,view', ['only' => ['index', 'show']]);
+        $this->middleware('permission:master/country,create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:master/country,edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:master/country,delete', ['only' => 'destroy']);
     }
     public function index(Request $request)
     {
-            $data['privileges'] = $request->instance();
-            $data['roomtypeslists'] = RoomType::orderBy('id')->paginate(10);
-            return view('master.roomtypes.index',$data);
+        $data['privileges'] = $request->instance();
+        $data['countrylists'] = Country::orderBy('id')->paginate(10);
+        return view('master.country.index',$data);
     }
 
     /**
@@ -35,7 +34,7 @@ class RoomTypeController extends Controller
      */
     public function create()
     {
-        return view('master.roomtypes.create');
+        return view('master.country.create');
 
     }
 
@@ -47,9 +46,8 @@ class RoomTypeController extends Controller
      */
     public function store(Request $request)
     {
-       
-        $savedata   =   RoomType::Create(['room_name' => $request->room_name,'created_by' => auth()->user()->id]);
-        return redirect('master/room-types')->with('msg_success', 'New room types added successfully');
+        $savedata   =   Country::Create(['country_name' => $request->country_name,'created_by' => auth()->user()->id]);
+        return redirect('master/country')->with('msg_success', 'New country added successfully');
     }
 
     /**
@@ -71,8 +69,8 @@ class RoomTypeController extends Controller
      */
     public function edit($id)
     {
-        $data = RoomType::findOrFail($id);
-        return view('master.roomtypes.edit', compact('data'));
+        $data = Country::findOrFail($id);
+        return view('master.country.edit', compact('data'));
     }
 
     /**
@@ -85,13 +83,14 @@ class RoomTypeController extends Controller
     public function update(Request $request, $id)
     {
         $data=[
-            'room_name' => $request->room_name,
+            'country_name' => $request->country_name,
             'is_active' =>$request->is_active,
             'updated_by' =>auth()->user()->id,
-        ];
-        RoomType::where('id',$id)->update( $data);
-        return redirect('master/room-types')->with('msg_success', 'Room type updated successfully');
+       ];
+       Country::where('id',$id)->update($data);
+        return redirect('master/country')->with('msg_success', 'Country updated successfully');
     }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -101,11 +100,11 @@ class RoomTypeController extends Controller
     public function destroy($id)
     {
         try {
-            $events = RoomType::findOrFail($id);
+            $events = Country::findOrFail($id);
             $events->delete();
-            return redirect('master/room-types')->with('msg_success', 'Room type successfully deleted');
+            return redirect('master/country')->with('msg_success', 'Country successfully deleted');
         } catch(\Exception $exception){
-            return redirect()->back()->with('msg_error', 'This room types cannot be deleted as it is link in other data.');
+            return redirect()->back()->with('msg_error', 'This country cannot be deleted as it is link in other data.');
         }
     }
 }
