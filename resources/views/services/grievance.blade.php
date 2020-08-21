@@ -136,15 +136,15 @@
             <h6> <strong>Required supporting documents:</strong></h6>
             <ol>
                 <li id="showlist" style="display: none">
-                    <em>please provide a copy of the document authorizing the representation (“power of attorney”) together with the following details</em>      
+                    <em>please provide a copy of the document authorizing the representation (“power of attorney”) together with the following details</em>
                 </li>
                 <li>
-                    <em>Please indicate what supporting documents you propose to submit in support of your Application and, where appropriate: (Please attach additional sheet where necessary to fully describe your evidence)</em>      
+                    <em>Please indicate what supporting documents you propose to submit in support of your Application and, where appropriate: (Please attach additional sheet where necessary to fully describe your evidence)</em>
                 </li>
                 <li>
                     <em>This Claim is accompanied by:<br>
                     (a)	a copy of the contract document including email correspondences, itinerary, copy of remittance, between the Claimant and the Respondent
-                    </em>      
+                    </em>
                 </li>
             </ol>
             @include('services/fileupload/fileupload')
@@ -192,7 +192,7 @@
                     <div class="form-group ml-3">
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input" name="terms" id="exampleCheck2">
-                            I hereby declare that   
+                            I hereby declare that
                             <P>The above information is true and accurate to the best of my/our knowledge and belief.
                                 The complaint submitted are genuine and not in bad faith and
                                 all important information material for resolving of this complaint are shared or will be shared with the Tourism Council of Bhutan.
@@ -227,7 +227,7 @@
                     $("#complainant").show();
                     $("#representative").hide();
                     $("#showlist").hide();
-                } 
+                }
             });
         });
     </script>

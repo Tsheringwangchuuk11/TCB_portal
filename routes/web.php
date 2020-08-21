@@ -33,6 +33,8 @@ Route::group(['prefix' => 'report', 'namespace' => 'Report'], function () {
     Route::get('reports', 'PublicReportController@ajaxReports');
 });
 
+//public
+Route::get('public-dashboard', 'PublicController@getPublicDashboard');
 //APIs
 Route::group(['prefix' => 'api', 'namespace' => 'Api'], function () {
     Route::get('get_citizen_details', 'DcrcController@getCitizenDetails');
@@ -79,7 +81,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('relationship', 'RelationshipTypeController');
         Route::resource('country', 'CountryController');
     });
-    
+
     //routes for new application
     Route::group(['prefix' => 'application', 'namespace' => 'Application'], function() {
 		Route::get('new-application', 'ServiceController@getModules');

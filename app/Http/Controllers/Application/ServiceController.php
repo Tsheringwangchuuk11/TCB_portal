@@ -43,14 +43,14 @@ class ServiceController extends Controller
         $data['starCategoryLists'] = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
         $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
         $data['roomTypeLists'] = Dropdown::getDropdowns("t_room_type_masters","id","room_name","0","0");
-        $data['staffAreaLists'] = Dropdown::getDropdowns("t_staff_areas","id","staff_area_name","0","0");
-        $data['relationTypes'] = Dropdown::getDropdowns("t_relation_type_masters","id","relation_type","0","0");
-        $data['officeInfos'] = Dropdown::getDropdowns("t_offices","id","office_name","0","0");
-        $data['officeEquipments'] = Services::getOfficeEquipmentDetails('O');
-        $data['trekkingEquipments'] = Services::getOfficeEquipmentDetails('T');
-        $data['communicationFacilities'] = Services::getOfficeEquipmentDetails('C');
-        $data['employments'] = Dropdown::getDropdowns("t_employments","id","employment_name","0","0");
-        $data['transportations'] = Dropdown::getDropdowns("t_vehicles","id","vehicle_name","0","0");
+        //$data['staffAreaLists'] = Dropdown::getDropdowns("t_staff_areas","id","staff_area_name","0","0");
+        //$data['relationTypes'] = Dropdown::getDropdowns("t_relation_type_masters","id","relation_type","0","0");
+        //$data['officeInfos'] = Dropdown::getDropdowns("t_offices","id","office_name","0","0");
+        //$data['officeEquipments'] = Services::getOfficeEquipmentDetails('O');
+        //$data['trekkingEquipments'] = Services::getOfficeEquipmentDetails('T');
+        //$data['communicationFacilities'] = Services::getOfficeEquipmentDetails('C');
+        //$data['employments'] = Dropdown::getDropdowns("t_employments","id","employment_name","0","0");
+        //$data['transportations'] = Dropdown::getDropdowns("t_vehicles","id","vehicle_name","0","0");
         $data['channelTypes'] = Dropdown::getDropdowns("t_channel_types","id","channel_type","0","0");
         $data['countries'] = Dropdown::getDropdowns("t_country_masters","id","country_name","0","0");
         $data['letterTypes'] = Dropdown::getDropdowns("t_recommandation_letter_masters","id","recommandation_letter_type","0","0");
@@ -97,7 +97,7 @@ class ServiceController extends Controller
             ->get();
         return view('services/homestay_checklist', compact('checklistDtls'));
     }
-   
+
     public function  getRestaurantCheckListChapter(Request $request){
         $checklistDtls =  TCheckListChapter::with(['chapterAreas' => function($q){
             $q->with(['checkListStandards'=> function($query){
@@ -117,7 +117,7 @@ class ServiceController extends Controller
         $data=Services::getVillageHomeStayDetails($cidNo);
         return response()->json($data);
     }
-    
+
     public function getTourOperatorDetails($licenseNo){
         $data=Services::getTourOperatorDetails($licenseNo);
         return response()->json($data);
@@ -237,7 +237,7 @@ class ServiceController extends Controller
             if(isset($checklist_id)){
 				foreach($checklist_id as $key => $value)
 				{
-                    $checklistData[] = [    
+                    $checklistData[] = [
                     'application_no'  => $application_no,
 					  'checklist_id'  => $checklist_id[$key]
                     ];
@@ -255,7 +255,7 @@ class ServiceController extends Controller
              if(isset($member_name)){
 				foreach($member_name as $key => $value)
 				{
-                    $membersDetailsData[] = [    
+                    $membersDetailsData[] = [
                       'application_no'  => $application_no,
                          'member_name'  => $member_name[$key],
                     'relation_type_id'  => $relation_type_id[$key],
@@ -265,11 +265,11 @@ class ServiceController extends Controller
                 }
                 $this->services->insertDetails('t_member_applications',$membersDetailsData);
             }
-            
+
              //insert into t_partner_applications
              $partnerDetailsData = [];
              if(isset($_POST['partner_name'])){
-                    $partnerDetailsData[] = [    
+                    $partnerDetailsData[] = [
                          'application_no'   => $application_no,
                            'partner_name'   => $request->partner_name,
                          'partner_cid_no'   => $request->partner_cid_no,
@@ -282,7 +282,7 @@ class ServiceController extends Controller
                     ];
                 $this->services->insertDetails('t_partner_applications',$partnerDetailsData);
             }
- 
+
             //insert into office application
 		    $officeInfoData = [];
             if(isset($_POST['office_id'])){
@@ -352,8 +352,8 @@ class ServiceController extends Controller
 
               // insert into t_organizer_applications
               $organizerInfoData = [];
-              if(isset($_POST['organizer_name'])){				
-                     $organizerInfoData[] = [    
+              if(isset($_POST['organizer_name'])){
+                     $organizerInfoData[] = [
                         'application_no'   => $application_no,
                         'organizer_name'   => $request->organizer_name,
                      'organizer_address'   => $request->organizer_address,
@@ -379,7 +379,7 @@ class ServiceController extends Controller
 
                 $this->services->insertDetails('t_item_applications',$eventItemData);
             }
-            
+
             //insert intot_product_applications
             $productItemData = [];
             if(isset($_POST['type'])){
@@ -410,7 +410,7 @@ class ServiceController extends Controller
                 }
                 $this->services->insertDetails('t_channel_applications',$channelInfoData);
             }
-            
+
             //insert intot t_dist_channel_applications
             $channelCoverageData = [];
             if(isset($_POST['area_coverage'])){
