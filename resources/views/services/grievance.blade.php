@@ -86,7 +86,7 @@
                         <select class="form-control select2bs4" name="service_provider_id" style="width: 100%;">
                             <option value="">- Select -</option>
                             @foreach ($serviceproviders as $serviceprovider)
-                            <option value="{{ $serviceprovider->id }}">{{ $serviceprovider->service_provider_name }}</option>
+                            <option value="{{ $serviceprovider->id }}">{{ $serviceprovider->service_provider_type }}</option>
                             @endforeach
                         </select>
                     </div>

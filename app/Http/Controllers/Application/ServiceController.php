@@ -54,7 +54,7 @@ class ServiceController extends Controller
         $data['channelTypes'] = Dropdown::getDropdowns("t_channel_types","id","channel_type","0","0");
         $data['countries'] = Dropdown::getDropdowns("t_country_masters","id","country_name","0","0");
         $data['letterTypes'] = Dropdown::getDropdowns("t_recommandation_letter_masters","id","recommandation_letter_type","0","0");
-        $data['serviceproviders'] = Dropdown::getDropdowns("t_service_provider_masters","id","service_provider_name","0","0");
+        $data['serviceproviders'] = Dropdown::getDropdowns("t_service_provider_masters","id","service_provider_type","0","0");
         $data['locations'] = Dropdown::getDropdowns("t_locations","id","location_name","0","0");
         return view($page_link, $data);
     }
