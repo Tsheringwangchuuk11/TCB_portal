@@ -71,15 +71,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('checklist-areas', 'ChecklistAreaController');
         Route::get('checklist-standards/chapter', 'ChecklistStandardController@getChecklistArea');
         Route::resource('checklist-standards', 'ChecklistStandardController');
-        // Route::get('drop-down-master', 'DropDownController@getMasterDropDown');
-        // Route::get('drop-down-master/{masterId}', 'DropDownController@index');
-        // Route::get('create-drop-down-master/{masterId}', 'DropDownController@create');
         Route::resource('drop-down-master', 'DropDownController');
-        Route::resource('room-types', 'RoomTypeController');
-        Route::resource('applicant-types', 'ApplicantTypeController');
-        Route::resource('service-provider', 'ServiceProviderController');
-        Route::resource('relationship', 'RelationshipTypeController');
-        Route::resource('country', 'CountryController');
     });
 
     //routes for new application
