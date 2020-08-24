@@ -18,60 +18,37 @@
 							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
 							<i class="icon fas fa-check"></i>
 						</div>
-						@component('layouts.components.search')
+						{{--@component('layouts.components.search')
 							<div class="input-group input-group-md">
 							  <input class="form-control form-control-navbar" type="search" name="search_text" placeholder="Search" aria-label="Search">
 							</div>
-						  @endcomponent
+						  @endcomponent--}}
+                        <div class="form-inline ml-3 float-right">
+                            <input class="form-control" type="search" name="search" placeholder="Search" id="searchId" aria-label="Search">
+                        </div>
 						  <br><br>
 						<table id="example2" class="table table-bordered table-hover">
 							<thead>
 								<tr>
-                                    <th class="text-center">#</th>
+                                    <th class="sorting" data-sorting_type="asc" data-column_name="id" style="cursor: pointer"># <span id="id_icon"></span></th>
                                     <th>Module</th>
-                                    <th>Chapter Name</th>
+                                    <th class="sorting" data-sorting_type="asc" data-column_name="checklist_ch_name" style="cursor: pointer">Chapter Name <span id="chapter_name_icon"></span></th>
                                     <th>Status</th>
                                     <th class="text-center">Action</th>
                                 </tr>
 							</thead>
 							<tbody id="checklist_body_id">
 							<input type="hidden" id="checklist_count" value="{{ $checklistChapterCount}}" />
-							@if($checklistChapters)
-                            @forelse($checklistChapters as $checklistChapter)
-                            <tr id="checklist_id_{{ $checklistChapter->id }}">
-                                <input type="hidden" id="hidden_id_{{ $checklistChapter->id }}" value="{{ $loop->iteration}}" />
-                                <td class="text-center">{{ $loop->iteration}}</td>
-                                <td>{{ $checklistChapter->serviceModule->module_name}}</td>
-                                <td>{{ $checklistChapter->checklist_ch_name }}</td>
-                                <td class="text-center">{!! $checklistChapter->isActive() == 1 ? '<i class="fas fa-check text-green"></i>' : '<i class="fas fa-times text-red"></i>' !!}</td>
-                                <td class="text-center">
-                                    @if ($privileges["edit"] == 1)
-                                    <a href="javascript:void(0)" id="edit_checklist" data-id="{{ $checklistChapter->id }}" class="btn btn-sm btn-info" title="Edit"> <i class="fas fa-edit"></i></a>
-                                    @endif
-                                    @if((int)$privileges->delete == 1)
-                                    <a href="#" class="form-confirm  btn btn-sm btn-danger" title="Delete">
-                                    <i class="fas fa-trash"></i>
-                                    <a data-form="#frmDelete-{!! $checklistChapter->id !!}" data-title="Delete {!! $checklistChapter->checklist_ch_name !!}" data-message="Are you sure you want to delete this checklist chapter?"></a>
-                                    </a>
-                                    <form action="{{ url('master/checklist-chapters/' . $checklistChapter->id) }}" method="POST" id="{{ 'frmDelete-'.$checklistChapter->id }}">
-                                        @csrf
-                                        @method('DELETE')
-                                    </form>
-                                    @endif
-                                </td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="5" class="text-danger text-center">No checklist chapter to be displayed</td>
-                            </tr>
-                            @endforelse
-                            @endif
+                            @include('master.includes.checklist_chapter_data')
                         </tbody>
                     </table>
+                    <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
+                    <input type="hidden" name="hidden_column_name" id="hidden_column_name" value="id" />
+                    <input type="hidden" name="hidden_sort_type" id="hidden_sort_type" value="asc" />
                     <br>
-                    <div class="float-right">
+                   {{-- <div class="float-right">
                         {{ $checklistChapters->appends(['search_text' => Request::get('search_text')])->render() }}
-                    </div>
+                    </div>--}}
                 </div>
             </div>
         </div>
@@ -154,7 +131,7 @@
 				  }else{
                       var slNo = 0;
 					  if(actionType == "create-checklist"){
-						
+
 						slNo = totalChecklistCount+1;
 					  }else{
 						slNo = $('#hidden_id_'+data.id).val();
@@ -174,7 +151,7 @@
 						$('#error_msg_id').hide();
 						$('#ajax-crud-modal').modal('hide');
 						$('#btn-save').html('Save Changes');
-						
+
 						$('#success_msg_id').html('');
 						$('#success_msg_id').show();
 						$('#success_msg_id').html('checklist name: '+data.checklist_ch_name+' has been successfully saved!');
@@ -204,12 +181,12 @@
     $('body').on('click', '#edit_checklist', function () {
       var checklist_id = $(this).data('id');
 	  $('#btn-save').removeAttr("disabled");
-      $.get('/master/checklist-chapters/'+checklist_id+'/edit', function (data) {		  
+      $.get('/master/checklist-chapters/'+checklist_id+'/edit', function (data) {
          $('#checklistCrudModal').html("Edit Checklist");
           $('#btn-save').val("edit_checklist");
           $('#ajax-crud-modal').modal('show');
-		  $('#checklist_id').val(data.id);		
-		  $('#module').val(data.module_id).trigger('change');         
+		  $('#checklist_id').val(data.id);
+		  $('#module').val(data.module_id).trigger('change');
           $('#checklist_name').val(data.checklist_ch_name);
 		  (data.is_active == 0? $('#status2').prop("checked", true):$('#status1').prop("checked", true));
 
@@ -222,7 +199,67 @@
 			$("#error_msg_id").find("ul").append('<li>'+value+'</li>');
 		});
 		$('#btn-save').html('Save Changes');
-	}	
+	}
+      function clear_icon()
+      {
+          $('#id_icon').html('');
+          $('#chapter_name_icon').html('');
+      }
+      function fetch_data(page, sort_type, sort_by, query)
+      {
+          $.ajax({
+              url:"/master/checklist-chapters?page="+page+"&sortby="+sort_by+"&sorttype="+sort_type+"&search_text="+query,
+              success:function(data)
+              {
+                  $('tbody').html('');
+                  $('tbody').html(data);
+              }
+          })
+      }
+      $(document).on('keyup', '#searchId', function(){
+          var query = $('#searchId').val();
+          var column_name = $('#hidden_column_name').val();
+          var sort_type = $('#hidden_sort_type').val();
+          var page = $('#hidden_page').val();
+          fetch_data(page, sort_type, column_name, query);
+      });
+      $(document).on('click', '.sorting', function(){
+          var column_name = $(this).data('column_name');
+          var order_type = $(this).data('sorting_type');
+          var reverse_order = '';
+          if(order_type == 'asc')
+          {
+              $(this).data('sorting_type', 'desc');
+              reverse_order = 'desc';
+              clear_icon();
+              $('#'+column_name+'_icon').html('<span class="fas fa-long-arrow-alt-down"></span>');
+          }
+          if(order_type == 'desc')
+          {
+              $(this).data('sorting_type', 'asc');
+              reverse_order = 'asc';
+              clear_icon
+              $('#'+column_name+'_icon').html('<span class="fas fa-long-arrow-alt-up"></span>');
+          }
+          $('#hidden_column_name').val(column_name);
+          $('#hidden_sort_type').val(reverse_order);
+          var page = $('#hidden_page').val();
+          var query = $('#searchId').val();
+          fetch_data(page, reverse_order, column_name, query);
+      });
+      $(document).on('click', '.pagination a', function(event){
+          event.preventDefault();
+          var page = $(this).attr('href').split('page=')[1];
+          $('#hidden_page').val(page);
+          var column_name = $('#hidden_column_name').val();
+          var sort_type = $('#hidden_sort_type').val();
+
+          var query = $('#searchId').val();
+
+          $('li').removeClass('active');
+          $(this).parent().addClass('active');
+          fetch_data(page, sort_type, column_name, query);
+      });
   });
 </script>
 @endsection
