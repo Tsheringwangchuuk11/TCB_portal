@@ -1,5 +1,5 @@
 @extends('layouts.manager')
-@section('page-title', 'List of Checklist Chapter')
+@section('page-title', 'List of Checklist Chapters')
 @section('buttons')
 @if ($privileges["create"] == 1)
 <a href="javascript:void(0)" class="btn btn-success mb-2" id="create_new_checklist"><i class="fas fa-plus"></i> Add Checklist Chapter</a>
@@ -11,7 +11,7 @@
 			<div class="col-12">
 				<div class="card card-secondary">
 					<div class="card-header">
-						<h3 class="card-title">Checklist Chapter List</h3>
+						<h3 class="card-title">Checklist Chapter's Details</h3>
 					</div>
 					<div class="card-body">
 						<div class="alert alert-success alert-dismissible" id="success_msg_id" style="display:none">
@@ -32,7 +32,7 @@
 								<tr>
                                     <th class="sorting" data-sorting_type="asc" data-column_name="id" style="cursor: pointer"># <span id="id_icon"></span></th>
                                     <th>Module</th>
-                                    <th class="sorting" data-sorting_type="asc" data-column_name="checklist_ch_name" style="cursor: pointer">Chapter Name <span id="chapter_name_icon"></span></th>
+                                    <th class="sorting" data-sorting_type="asc" data-column_name="checklist_ch_name" style="cursor: pointer">Chapter Name <span id="checklist_ch_name_icon"></span></th>
                                     <th>Status</th>
                                     <th class="text-center">Action</th>
                                 </tr>
@@ -94,7 +94,7 @@
                         </div>
                     </div>
                     <div class="modal-footer" style="margin-bottom:-14px;">
-                        <input type="button" id="btn-save" class="btn btn-outline-success btn-flat margin-r-5" value="reate-checklist"/>
+                        <input type="button" id="btn-save" class="btn btn-outline-success btn-flat margin-r-5" value="Create checklist chapter"/>
                         <button type="button" class="btn btn-flat btn-close btn-outline-danger float-left" data-dismiss="modal">Close</button>
                     </div>
                 </form>
@@ -137,15 +137,7 @@
 						slNo = $('#hidden_id_'+data.id).val();
                       }
 
-					 var checklist = '<tr id="checklist_id_' + data.id + '"><td class="text-center">'+slNo+'</td><td>' + moduleName + '</td><td>' + data.checklist_ch_name + '</td><td class="text-center">' + (data.is_active == 1 ? '<i class="fas fa-check text-green"></i>' : '<i class="fas fa-times text-red"></i>') + '</td>';
-                        checklist += '<td class="text-center"><a href="javascript:void(0)" id="edit_checklist" data-id="' + data.id + '" class="btn btn-outline-info btn-sm" title="Edit"><i class="fas fa-edit"></i></a> ';
-                        checklist += '<a href="javascript:void(0)" id="delete_checklist" data-id="' + data.id + '" class="btn btn-outline-danger delete_checklist btn-sm" title="Delete"><i class="fas fa-trash"></i></a></td></tr>';
 
-					  if (actionType == "create-checklist") {
-						  $('#checklist_body_id').append(checklist);
-					  } else {
-						  $("#checklist_id_" + data.id).replaceWith(checklist);
-					  }
 						$('#checklistForm').trigger("reset");
 						$("#module").val(null).trigger("change");
 						$('#error_msg_id').hide();
@@ -154,10 +146,15 @@
 
 						$('#success_msg_id').html('');
 						$('#success_msg_id').show();
-						$('#success_msg_id').html('checklist name: '+data.checklist_ch_name+' has been successfully saved!');
+						$('#success_msg_id').html('Checklist Chapter: '+data.checklist_ch_name+' has been successfully saved!');
 						$("#success_msg_id").fadeTo(2000, 500).slideUp(500, function(){
 							$("#success_msg_id").slideUp(500);
 						});
+                      var query = $('#searchId').val();
+                      var column_name = $('#hidden_column_name').val();
+                      var sort_type = $('#hidden_sort_type').val();
+                      var page = $('#hidden_page').val();
+                      fetch_data(page, sort_type, column_name, query);
 				  }
 
 			  },
@@ -171,10 +168,10 @@
 
     $('#create_new_checklist').click(function () {
 		$('#btn-save').removeAttr("disabled");
-		 $('#btn-save').val("create-checklist");
+		 $('#btn-save').val("Create Checklist Chapter");
         $('#checklistForm').trigger("reset");
         $('#module').trigger('change');
-        $('#checklistCrudModal').html("Add New Checklist");
+        $('#checklistCrudModal').html("Add New Checklist Chapter");
         $('#ajax-crud-modal').modal('show');
     });
 	//edit
@@ -182,8 +179,8 @@
       var checklist_id = $(this).data('id');
 	  $('#btn-save').removeAttr("disabled");
       $.get('/master/checklist-chapters/'+checklist_id+'/edit', function (data) {
-         $('#checklistCrudModal').html("Edit Checklist");
-          $('#btn-save').val("edit_checklist");
+         $('#checklistCrudModal').html("Edit Checklist Chapter");
+          $('#btn-save').val("Edit Checklist Chapter");
           $('#ajax-crud-modal').modal('show');
 		  $('#checklist_id').val(data.id);
 		  $('#module').val(data.module_id).trigger('change');
@@ -192,7 +189,24 @@
 
       })
    });
-	function printErrorMsg(msg){
+      $('body').on('click', '#delete_checklist', function () {
+          var checklist_id = $(this).data("id");
+
+          if(confirm("Are You sure want to delete !")){
+              $.ajax({
+                  type: "DELETE",
+                  url: "{{ url('master/checklist-chapters')}}"+'/'+checklist_id,
+                  success: function (data) {
+                      $("#checklist_id_" +checklist_id).remove();
+                  },
+                  error: function (data) {
+                      console.log('Error:', data);
+                  }
+              });
+          }
+
+      });
+      function printErrorMsg(msg){
 		$('#error_msg_id').find('ul').html('');
 		$('#error_msg_id').show();
 		$.each( msg, function( key, value ) {
@@ -203,7 +217,7 @@
       function clear_icon()
       {
           $('#id_icon').html('');
-          $('#chapter_name_icon').html('');
+          $('#checklist_ch_name_icon').html('');
       }
       function fetch_data(page, sort_type, sort_by, query)
       {

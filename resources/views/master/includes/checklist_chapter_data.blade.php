@@ -11,14 +11,15 @@
                     <a href="javascript:void(0)" id="edit_checklist" data-id="{{ $checklistChapter->id }}" class="btn btn-sm btn-info" title="Edit"> <i class="fas fa-edit"></i></a>
                 @endif
                 @if((int)$privileges->delete == 1)
-                    <a href="#" class="form-confirm  btn btn-sm btn-danger" title="Delete">
+                    <a href="javascript:void(0)" id="delete_checklist" data-id="{{ $checklistChapter->id }}" class="btn btn-sm btn-danger" title="Delete"> <i class="fas fa-trash"></i></a>
+                   {{-- <a href="#" class="form-confirm  btn btn-sm btn-danger" title="Delete">
                         <i class="fas fa-trash"></i>
                         <a data-form="#frmDelete-{!! $checklistChapter->id !!}" data-title="Delete {!! $checklistChapter->checklist_ch_name !!}" data-message="Are you sure you want to delete this checklist chapter?"></a>
                     </a>
                     <form action="{{ url('master/checklist-chapters/' . $checklistChapter->id) }}" method="POST" id="{{ 'frmDelete-'.$checklistChapter->id }}">
                         @csrf
                         @method('DELETE')
-                    </form>
+                    </form>--}}
                 @endif
             </td>
         </tr>
