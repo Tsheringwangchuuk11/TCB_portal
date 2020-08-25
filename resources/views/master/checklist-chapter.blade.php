@@ -133,15 +133,6 @@
 				  if(data.error){
 					  printErrorMsg(data.error);
 				  }else{
-                      var slNo = 0;
-					  if(actionType == "create-checklist"){
-
-						slNo = totalChecklistCount+1;
-					  }else{
-						slNo = $('#hidden_id_'+data.id).val();
-                      }
-
-
 						$('#checklistForm').trigger("reset");
 						$("#module").val(null).trigger("change");
 						$('#error_msg_id').hide();
