@@ -1,5 +1,5 @@
 @extends('layouts.manager')
-@section('page-title', 'List of Checklist Area')
+@section('page-title', 'List of Checklist Areas')
 @section('buttons')
 @if ($privileges["create"] == 1)
 <a href="javascript:void(0)" class="btn btn-success mb-2 float-right" id="create_new_checklist_area"> <i class="fas fa-plus"></i> Add Checklist Area</a>
@@ -11,7 +11,7 @@
 			<div class="col-12">
 				<div class="card card-secondary">
 					<div class="card-header">
-						<h3 class="card-title">Checklist Area List</h3>
+						<h3 class="card-title">Checklist Area's Details</h3>
 					</div>
 					<div class="card-body">
 						<div class="alert alert-success alert-dismissible" id="success_msg_id" style="display:none">
@@ -89,7 +89,7 @@
 				</div>
 				<div class="modal-body">
                     <form action="{{ url('master/checklist-areas') }}" method="POST" id="checklistForm">
-						@csrf						
+						@csrf
 						<div class="modal-body" id="frm_body">
 							<input type="hidden" name="checklist_area_id" id="checklist_area_id" />
 							<div class="form-group">
@@ -104,9 +104,9 @@
 							<div class="form-group">
 								<label for="" >Checklist Chapter *</label>
 								<select name="checklist" class="form-control checklist select2bs4" id="checklist" disabled>
-									<option value="">---SELECT MODULE FIRST---</option>							
-								</select>                               
-							</div>							
+									<option value="">---SELECT MODULE FIRST---</option>
+								</select>
+							</div>
                             <div class="form-group">
                                 <label for="">Checklist Area Name*</label>
                                 <input type="text" id= "checklist_area_name" name="checklist_area_name" class="form-control required">
@@ -146,8 +146,8 @@
 
 		 //select a module and accordingly get the chapter associated with it using ajax request
 		 $('select.module').on('change', function(e){
-			var selectedModule = $('option:selected', this).val();			
-						
+			var selectedModule = $('option:selected', this).val();
+
 			//check if module is selected or not
 			if (selectedModule.length > 0) {
 				$.ajax({
@@ -155,7 +155,7 @@
 					url:"{{ url('master/checklist-areas/module') }}",
 					dataType: 'JSON',
 					data: { moduleId: selectedModule },
-				
+
 					beforeSend: function(){
 						$('#ajax-loading-container').removeClass('hide');
 					},
@@ -163,18 +163,18 @@
 						$('#ajax-loading-container').addClass('hide');
 					},
 
-					success: function(data) {											
+					success: function(data) {
 						$('select.checklist').empty().removeAttr('disabled', false);
 						// $('select.checklist').append('<option value="">---SELECT ONE---</option>');
 						for (i = 0; i < data.length; i++) {
-							$('select.checklist').append('<option value="' + data[i].id + '" >' + data[i].checklist_ch_name + '</option>');												
+							$('select.checklist').append('<option value="' + data[i].id + '" >' + data[i].checklist_ch_name + '</option>');
 						}
 					}
-				});				
+				});
 			} else {
 				$('select.checklist').empty().attr('disabled', true);
 				$('select.checklist').append('<option value="">---SELECT MODULE FIRST---</option>');
-			}			 			
+			}
 		});
 
 
@@ -183,10 +183,10 @@
 		//create
 		var actionType = $('#btn-save').val();
         $('#btn-save').html('Sending..');
-		$("#btn-save").attr("disabled", true);	
-		var StartModule = $('#module option:selected').text();		
+		$("#btn-save").attr("disabled", true);
+		var StartModule = $('#module option:selected').text();
         var checklistName = $('#checklist option:selected').text();
-		
+
 		 $.ajax({
 			  data: $('#checklistForm').serialize(),
 			  url: "{{ route('checklist-areas.store') }}",
@@ -207,7 +207,7 @@
 					 var checklist = '<tr id="checklist_area_id_' + data.id + '"><td class="text-center">'+slNo+'</td><td>' + StartModule + '</td><td>' + checklistName + '</td><td>' + data.checklist_area + '</td><td class="text-center">' + (data.is_active == 1 ? '<i class="fas fa-check text-green"></i>' : '<i class="fas fa-times text-red"></i>') + '</td>';
                         checklist += '<td class="text-center"><a href="javascript:void(0)" id="edit_checklist_area" data-id="' + data.id + '" class="btn btn-outline-info btn-sm" title="Edit">  <i class="fas fa-edit"></i></a> ';
                         checklist += '<a href="javascript:void(0)" id="delete_checklist_area" data-id="' + data.id + '"class ="btn btn-outline-danger delete_checklist_area btn-sm" title="Delete"><i class="fas fa-trash"></i></a></td></tr>';
-						
+
 
 					  if (actionType == "create-checklist-area") {
 						  $('#checklist_area_body_id').append(checklist);
@@ -222,7 +222,7 @@
 						$('#btn-save').html('Save Changes');
 						$('#success_msg_id').html('');
 						$('#success_msg_id').show();
-						$('#success_msg_id').html('checklist name: '+data.checklist_area+' has been successfully saved!');
+						$('#success_msg_id').html('Checklist Area: '+data.checklist_area+' has been successfully saved!');
 						$("#success_msg_id").fadeTo(2000, 500).slideUp(500, function(){
 							$("#success_msg_id").slideUp(500);
 						});
@@ -239,7 +239,7 @@
 
     $('#create_new_checklist_area').click(function () {
 		$('#btn-save').removeAttr("disabled");
-		 $('#btn-save').val("create-checklist-area");
+		 $('#btn-save').val("Create Checklist Area");
 		$('#checklistForm').trigger("reset");
 		$('#module').val('').trigger('change');
 		$('#checklist').val('').trigger('change');
@@ -251,11 +251,11 @@
 	  var checklist_area_id = $(this).data('id');
 	  $('#checklist').removeAttr('disabled', true);
 	  $('#btn-save').removeAttr("disabled");
-      $.get('/master/checklist-areas/'+checklist_area_id+'/edit', function (data) {		  
+      $.get('/master/checklist-areas/'+checklist_area_id+'/edit', function (data) {
          $('#checklistCrudModal').html("Edit Checklist Area");
-          $('#btn-save').val("edit_checklist_area");
+          $('#btn-save').val("Edit Checklist Area");
           $('#ajax-crud-modal').modal('show');
-		  $('#checklist_area_id').val(data.id);				
+		  $('#checklist_area_id').val(data.id);
           $('#module').val(data.checklist_chapter.module_id).trigger('change');
           $('#checklist').val(data.checklist_ch_id).trigger('change');
           $('#checklist_area_name').val(data.checklist_area);

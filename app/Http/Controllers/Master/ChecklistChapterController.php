@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\TCheckListChapter;
 use App\Models\TModuleMaster;
 use App\Models\Dropdown;
+use App\Models\TCheckListArea;
 use Validator;
 
 class ChecklistChapterController extends Controller
@@ -51,12 +52,12 @@ class ChecklistChapterController extends Controller
             $userID = $request->checklist_id;
             $rule = [
                 'service_module' => 'required',
-                'checklist_name' => 'required',
+                'checklist_chapter' => 'required',
             ];
             $validator = Validator::make($request->all(), $rule);
             if($validator->passes()){
                 $user   =   TCheckListChapter::updateOrCreate(['id' => $userID],
-                    ['module_id' => $request->service_module, 'checklist_ch_name' => $request->checklist_name, 'is_active'=> $request->status == 'yes' ? '1' : 0, 'created_by'=> auth()->user()->id ]);
+                    ['module_id' => $request->service_module, 'checklist_ch_name' => $request->checklist_chapter, 'is_active'=> $request->status == 'yes' ? '1' : 0, 'created_by'=> auth()->user()->id ]);
             $moduleName = $user->serviceModule->module_name;
 			return response()->json($user);
             }
@@ -75,9 +76,14 @@ class ChecklistChapterController extends Controller
    //delete
     public function destroy($id)
     {
+        //to check checklist chapter is used in checklist area
+        $isChapterUsed = TCheckListArea::where('checklist_ch_id', $id)->exists();
         $checklistChapter = TCheckListChapter::findOrFail($id);
-        $checklistChapterFlag = $checklistChapter->delete();
-        return response()->json($checklistChapterFlag);
+        $checklistChapter['isChapterUsed'] = $isChapterUsed;
+        if(!$isChapterUsed){
+            $checklistChapter->delete();
+        }
+        return response()->json($checklistChapter);
 
         /*try {
             $checklistChapter = TCheckListChapter::findOrFail($id);

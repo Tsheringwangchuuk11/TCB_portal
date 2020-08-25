@@ -18,6 +18,10 @@
 							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
 							<i class="icon fas fa-check"></i>
 						</div>
+                        <div class="alert alert-danger alert-dismissible" id="valid_msg_id" style="display:none">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+                            <i class="icon fas fa-info"></i>
+                        </div>
 						{{--@component('layouts.components.search')
 							<div class="input-group input-group-md">
 							  <input class="form-control form-control-navbar" type="search" name="search_text" placeholder="Search" aria-label="Search">
@@ -32,7 +36,7 @@
 								<tr>
                                     <th class="sorting" data-sorting_type="asc" data-column_name="id" style="cursor: pointer"># <span id="id_icon"></span></th>
                                     <th>Module</th>
-                                    <th class="sorting" data-sorting_type="asc" data-column_name="checklist_ch_name" style="cursor: pointer">Chapter Name <span id="checklist_ch_name_icon"></span></th>
+                                    <th class="sorting" data-sorting_type="asc" data-column_name="checklist_ch_name" style="cursor: pointer">Checklist Chapter <span id="checklist_ch_name_icon"></span></th>
                                     <th>Status</th>
                                     <th class="text-center">Action</th>
                                 </tr>
@@ -69,7 +73,7 @@
                     <div class="modal-body" id="frm_body">
                         <input type="hidden" name="checklist_id" id="checklist_id" />
                         <div class="form-group">
-                            <label for="" >Module *</label>
+                            <label for="" >Module <code>*</code></label>
                             <select name="service_module" class="form-control module select2bs4  required" id="module">
                                 <option>---SELECT---</option>
                                 @foreach ($serviceModules as $serviceModule)
@@ -78,8 +82,8 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="">Chapter Name*</label>
-                            <input type="text" id= "checklist_name" name="checklist_name" class="form-control required">
+                            <label for="">Checklist Chapter <code>*</code></label>
+                            <input type="text" id= "checklist_chapter" name="checklist_chapter" class="form-control required">
                         </div>
                         <div class="form-group">
                             <label for="">Status</label><br>
@@ -118,7 +122,7 @@
 		//create
 		var actionType = $('#btn-save').val();
         $('#btn-save').html('Sending..');
-		$("#btn-save").attr("disabled", true);
+
         var moduleName = $('#module option:selected').text();
 		 $.ajax({
 			  data: $('#checklistForm').serialize(),
@@ -184,7 +188,7 @@
           $('#ajax-crud-modal').modal('show');
 		  $('#checklist_id').val(data.id);
 		  $('#module').val(data.module_id).trigger('change');
-          $('#checklist_name').val(data.checklist_ch_name);
+          $('#checklist_chapter').val(data.checklist_ch_name);
 		  (data.is_active == 0? $('#status2').prop("checked", true):$('#status1').prop("checked", true));
 
       })
@@ -197,7 +201,23 @@
                   type: "DELETE",
                   url: "{{ url('master/checklist-chapters')}}"+'/'+checklist_id,
                   success: function (data) {
-                      $("#checklist_id_" +checklist_id).remove();
+                      if(data.isChapterUsed){
+                          $('#valid_msg_id').html('');
+                          $('#valid_msg_id').show();
+                          $('#valid_msg_id').html('Checklist Chapter: '+data.checklist_ch_name+' cannot be deleted! It has already used in the Checklist Area.');
+                          $("#valid_msg_id").fadeTo(2000, 500).slideUp(500, function(){
+                              $("#valid_msg_id").slideUp(500);
+                          });
+                      }else {
+                          $("#checklist_id_" +checklist_id).remove();
+                          $('#success_msg_id').html('');
+                          $('#success_msg_id').show();
+                          $('#success_msg_id').html('Checklist Chapter: '+data.checklist_ch_name+' has been successfully deleted!');
+                          $("#success_msg_id").fadeTo(2000, 500).slideUp(500, function(){
+                              $("#success_msg_id").slideUp(500);
+                          });
+                      }
+
                   },
                   error: function (data) {
                       console.log('Error:', data);
