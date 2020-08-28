@@ -30,17 +30,21 @@ class ChecklistStandardController extends Controller
     public function index(Request $request)
     {
         $privileges = $request->instance();
+        $serviceModules = TModuleMaster::whereIn('id', array('1', '2', '3', '4'))->get();
         $checklistStandards = TCheckListStandard::filter($request)->orderBy('id', 'DESC')->with('checklistArea')->paginate(100);
-
-        return view('master.checklist-standard.index', compact('privileges', 'checklistStandards'));
+        if($request->ajax()){
+            $checklistStandards = TCheckListStandard::filter($request)->with('checklistArea')->paginate(100);
+            return view('master.includes.checklist_standard_data', compact('serviceModules', 'privileges', 'checklistStandards'))->render();
+        }
+        return view('master.checklist-standard', compact('serviceModules', 'privileges', 'checklistStandards'));
     }
 
     public function create()
     {
         $checklistAreas = Dropdown::getDropdowns("t_check_list_areas","id","checklist_area","0","0");
         $starCategories = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
-        $basicStandards = Dropdown::getDropdowns("t_basic_standards","id","standard_code","0","0");        
-        $serviceModules = TModuleMaster::whereIn('module_name', array('Tourist Standard Hotel', 'Village Home Stay', 'Restaurant'))->get();                   
+        $basicStandards = Dropdown::getDropdowns("t_basic_standards","id","standard_code","0","0");
+        $serviceModules = TModuleMaster::whereIn('module_name', array('Tourist Standard Hotel', 'Village Home Stay', 'Restaurant'))->get();
 
         return view('master.checklist-standard.create', compact('checklistAreas', 'starCategories', 'basicStandards', 'serviceModules'));
     }
@@ -52,7 +56,7 @@ class ChecklistStandardController extends Controller
      */
 
     public function store(Request $request)
-    {                      
+    {
         $rule = [
                 'checklist_area' => 'required',
                 'checklist_standard_name' => 'required',
@@ -74,7 +78,7 @@ class ChecklistStandardController extends Controller
                     $checklists = [];
                     if((isset($request->checklist)) == true){
                             foreach($request->checklist as $key => $value){
-                                
+
                                 $checklists[] = [
                                     'star_category_id' => isset($value['star_category']) == true ? $value['star_category']: null,
                                     'standard_id' => isset($value['basic_standard']) == true ? $value['basic_standard']: null,
@@ -106,18 +110,18 @@ class ChecklistStandardController extends Controller
 
     public function edit($id)
     {
-        $checklistStandard =TCheckListStandard::with('checklistArea.checklistChapter.serviceModule', 'standardMapping')->findOrFail($id);              
+        $checklistStandard =TCheckListStandard::with('checklistArea.checklistChapter.serviceModule', 'standardMapping')->findOrFail($id);
         $checklistChapters = TCheckListChapter::whereIn('module_id', array($checklistStandard->checklistArea->checklistChapter->serviceModule->id))->get();
-        $checklistAreaLists = TCheckListArea::whereIn('checklist_ch_id', array($checklistStandard->checklistArea->checklistChapter->id))->get();                 
+        $checklistAreaLists = TCheckListArea::whereIn('checklist_ch_id', array($checklistStandard->checklistArea->checklistChapter->id))->get();
         $starCategories = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
         $basicStandards = Dropdown::getDropdowns("t_basic_standards","id","standard_code","0","0");
-        $serviceModules = TModuleMaster::whereIn('module_name', array('Tourist Standard Hotel', 'Village Home Stay', 'Restaurant'))->get();             
+        $serviceModules = TModuleMaster::whereIn('module_name', array('Tourist Standard Hotel', 'Village Home Stay', 'Restaurant'))->get();
 
         return view('master.checklist-standard.edit', compact('checklistStandard', 'starCategories', 'basicStandards', 'serviceModules', 'checklistChapters', 'checklistAreaLists'));
     }
 
     public function update(Request $request, $id)
-    {                           
+    {
         $rule = [
             'checklist_area' => 'required',
             'checklist_standard_name' => 'required',
@@ -140,7 +144,7 @@ class ChecklistStandardController extends Controller
 
                 if((isset($request->checklist)) == true)
                 {
-                    foreach($request->checklist as $key => $value){                        
+                    foreach($request->checklist as $key => $value){
                         $checklists[] = [
                             'star_category_id' => isset($value['star_category']) == true ? $value['star_category']: null,
                             'standard_id' => isset($value['basic_standard']) == true ? $value['basic_standard']: null,
@@ -157,7 +161,7 @@ class ChecklistStandardController extends Controller
                         'created_by'=> auth()->user()->id,
                         'updated_by'=> auth()->user()->id,
                     ]);
-                }                
+                }
                 $checklistStandard->standardMapping()->sync($checklists);
             });
 
@@ -179,19 +183,19 @@ class ChecklistStandardController extends Controller
     }
 
     /**
-    * get checklist chapter     
+    * get checklist chapter
     */
     public function getChapter(Request $request)
-    {                
+    {
         $chapters = TCheckListChapter::where('module_id', $request->moduleId)->get();
         return response()->json($chapters);
     }
 
     /**
-    * get checklist standard     
-    */    
+    * get checklist standard
+    */
     public function getChecklistArea(Request $request)
-    {                
+    {
         $checklistAreas = TCheckListArea::where('checklist_ch_id', $request->checklistId)->get();
         return response()->json($checklistAreas);
     }

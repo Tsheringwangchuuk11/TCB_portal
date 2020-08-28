@@ -41,7 +41,28 @@ class TCheckListStandard extends Model
             $query->where('checklist_standard', 'LIKE', '%' . $request->query('search_text') . '%')
              ->orWhereHas('checklistArea', function ($query1) use($request){
             $query1->where('checklist_area', 'LIKE', '%' . $request->query('search_text') . '%');
+            if($request->get('chapterid') != ''){
+                $query1->where('checklist_ch_id',  $request->query('chapterid'));
+            }
+             if ($request->get('sortby') == 'checklist_area'){
+                 $query1->orderBy($request->get('sortby'), $request->get('sorttype'));
+             }
          });
+            if($request->get('sortby') == 'id' || $request->get('sortby') == 'checklist_standard'){
+                $query->orderBy($request->get('sortby'), $request->get('sorttype'));
+            }
+        }else {
+            $query->orWhereHas('checklistArea', function ($query1) use($request){
+                if($request->get('chapterid') != ''){
+                    $query1->where('checklist_ch_id',  $request->query('chapterid'));
+                }
+                if ($request->get('sortby') == 'checklist_area'){
+                    $query1->orderBy($request->get('sortby'), $request->get('sorttype'));
+                }
+                });
+            if($request->get('sortby') == 'id' || $request->get('sortby') == 'checklist_standard'){
+                $query->orderBy($request->get('sortby'), $request->get('sorttype'));
+            }
         }
     }
 }

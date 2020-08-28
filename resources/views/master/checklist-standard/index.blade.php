@@ -1,5 +1,5 @@
 @extends('layouts.manager')
-@section('page-title', 'List of Checklist Stanadard')
+@section('page-title', 'List of Checklist Standards')
 @section('buttons')
     @if ((int)$privileges["create"] == 1)
         <a href="{{ url('master/checklist-standards/create')}}" class="btn btn-sm btn-success"> <i class="fas fa-plus"></i> Add Checklist Standard</a>
@@ -8,9 +8,30 @@
 @section('content')
 <div class="card card-secondary">
     <div class="card-header">
-        <h3 class="card-title">Checklist Standards</h3>
+        <h3 class="card-title">Checklist Standard's Details</h3>
     </div>
     <div class="card-body">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="" >Module *</label>
+                    <select name="" class="form-control required select2bs4 module" id="module">
+                        <option value="">---SELECT---</option>
+                        @foreach ($serviceModules as $serviceModule)
+                            <option value="{{ $serviceModule->id }}" {{ old('service_module') == $serviceModule->id ? 'selected' : '' }}>{{ $serviceModule->module_name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="" >Checklist Chapter *</label>
+                    <select name="" class="form-control checklist required select2bs4" id="checklist" disabled>
+                        <option value="">---SELECT MODULE FIRST---</option>
+                    </select>
+                </div>
+            </div>
+        </div>
         @component('layouts.components.search')
             <div class="input-group input-group-md">
                 <input class="form-control form-control-navbar" type="search" name="search_text" placeholder="Search" aria-label="Search">
