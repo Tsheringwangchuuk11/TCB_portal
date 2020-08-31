@@ -1,5 +1,5 @@
 @forelse($checklistStandards as $checklistStandard)
-    <tr>
+    <tr id="checklist_standard_id_{{$checklistStandard->id}}">
         <td width="2%" class="text-center">{{ $loop->iteration}}</td>
         <td width="10%">{{ $checklistStandard->checklistArea->checklist_area}}</td>
         <td style="word-break:break-all">{!! nl2br($checklistStandard->checklist_standard) !!}</td>
@@ -10,11 +10,7 @@
                 <a href="{{ url('master/checklist-standards/' . $checklistStandard->id . '/edit') }}" class="btn btn-sm btn-info" title="Edit"><i class="fas fa-edit"></i></a>
             @endif
             @if((int)$privileges->delete == 1)
-                <a href="#" class="form-confirm  btn btn-sm btn btn-danger" title="Delete">
-                    <i class="fas fa-trash"></i>
-                    <a data-form="#frmDelete-{!! $checklistStandard->id !!}" data-title="Delete {!! $checklistStandard->checklist_standard !!}" data-message="Are you sure you want to delete this checklist?"></a>
-                </a>
-
+                <a href="javascript:void(0)" id="delete_standard" data-id="{{ $checklistStandard->id }}" class="btn btn-sm btn-danger" title="Delete"> <i class="fas fa-trash"></i></a>
             @endif
         </td>
     </tr>

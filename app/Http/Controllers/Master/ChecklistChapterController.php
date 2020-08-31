@@ -30,7 +30,7 @@ class ChecklistChapterController extends Controller
         $privileges = $request->instance();
         $checklistChapters = TCheckListChapter::filter($request)->orderBy('id')->with('serviceModule')->paginate(10);
         $checklistChapterCount = TCheckListChapter::count();
-        $serviceModules = TModuleMaster::whereIn('id', array('1', '2', '3', '4'))->get();
+        $serviceModules = TModuleMaster::whereIn('id', array('1', '2', '3', '4', '9'))->get();
 
         if($request->ajax()){
             $sort_by = $request->get('sortby');

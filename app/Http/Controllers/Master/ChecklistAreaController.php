@@ -32,7 +32,7 @@ class ChecklistAreaController extends Controller
         $privileges = $request->instance();
         $checklistAreas = TCheckListArea::filter($request)->orderBy('id')->with('checklistChapter.serviceModule')->paginate(10);
         $checklistAreaCount = TCheckListArea::count();
-        $serviceModules = TModuleMaster::whereIn('id', array('1', '2', '3', '4'))->get();
+        $serviceModules = TModuleMaster::whereIn('id', array('1', '2', '3', '4', '9'))->get();
 
         if($request->ajax()){
             $checklistAreas = TCheckListArea::filter($request)->with('checklistChapter.serviceModule')->paginate(10);

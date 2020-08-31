@@ -9,13 +9,13 @@ class Dropdown extends Model
 {
 	protected $table = 't_dropdown_lists';
 	protected $guarded=['id'];
-	
+
 	public static function getDropdownLists($tableName, $id, $name, $parentId, $parentNameId){
 		$db_table = DB::table($tableName);
 		if($parentId != 0){
 			$db_table->where($parentNameId, $parentId);
 		}
-		$value = $db_table->orderBy( $id,'asc')->pluck($name,  $id)->all();		
+		$value = $db_table->orderBy( $id,'asc')->pluck($name,  $id)->all();
 		return $value;
 	}
 	public static function getDropdowns($tableName, $id, $name, $parentId, $parentNameId){
@@ -24,7 +24,7 @@ class Dropdown extends Model
 		if($parentId != 0){
 			$db_table->where($parentNameId, $parentId);
 		}
-		$value = $db_table->orderBy( $id,'asc')->get();		
+		$value = $db_table->orderBy( $id,'asc')->get();
 		return $value;
 	}
 
@@ -53,4 +53,24 @@ class Dropdown extends Model
 					->first();
   	     return $query;
 	}
+	public  static function getBasicStandardLists($condition){
+        $db_table = DB::table('t_basic_standards');
+        if ($condition == 'in'){
+            $db_table->whereIn('id', [3,4]);
+        }else if ($condition == 'notIn'){
+            $db_table->whereNotIn('id', [3,4]);
+        }
+        $value = $db_table->orderBy( 'id','asc')->get();
+        return $value;
+    }
+    public  static function getBasicStandards($condition){
+        $db_table = DB::table('t_basic_standards');
+        if ($condition == 'in'){
+            $db_table->whereIn('id', [3,4]);
+        }else if ($condition == 'notIn'){
+            $db_table->whereNotIn('id', [3,4]);
+        }
+        $value = $db_table->orderBy( 'id','asc')->pluck('standard_code',  'id')->all();
+        return $value;
+    }
 }

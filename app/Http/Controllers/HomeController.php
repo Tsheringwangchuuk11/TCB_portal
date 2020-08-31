@@ -33,7 +33,7 @@ class HomeController extends Controller
         $approvedApplication=Services::getTotalApprovedApplication();
         $rejectApplication=Services::getTotalRejectApplication();
         $totalApplication= $approvedApplication[0]->totalcount +  $rejectApplication[0]->totalreject;
-    
+
         $chartArray["chart"] = array("type" => 'pie','plotBackgroundColor' => NULL,'plotBorderWidth'=> NULL,'plotShadow'=> false );
         $chartArray["title"] = array("text" => 'Application Summary Report');
         $chartArray["tooltip"] = array("pointFormat" => '{series.name}: {point.y}');
@@ -67,14 +67,14 @@ class HomeController extends Controller
                 $applicationdata["name"] = "Total Application";
                 $applicationdata["y"] =  $totalApplication;
                 array_push($applicationdataArray, $applicationdata);
-                  
+
             $chartArray["series"] = array(
             array(
                 "name" => 'Application',
                 "colorByPoint" => true,
                 "data" => $applicationdataArray
                 )
-            );  
+            );
            return view('dashboards.admin')->with('chartArray', $chartArray);
         }
         elseif( in_array(3, $roles) || in_array(4, $roles) || in_array(5, $roles) || in_array(6, $roles) || in_array(7, $roles) || in_array(8, $roles) ) { // role check
@@ -115,14 +115,14 @@ class HomeController extends Controller
                     $applicationdata["y"] = $value->totalapplication;
                     array_push($applicationdataArray, $applicationdata);
                       }
-                      
+
                 $chartArray["series"] = array(
                 array(
                     "name" => 'Application',
                     "colorByPoint" => true,
                     "data" => $applicationdataArray
                     )
-                );  
+                );
                return view('dashboards.divisionuser')->with('chartArray', $chartArray);
         }
         $userId = auth()->user()->id;
@@ -170,9 +170,14 @@ class HomeController extends Controller
 		$cities = Dropdown::getDropdownLists($table_name, $id, $name, $parent_id, $parent_name_id);
 		return response()->json($cities);
     }
-    
+    public function getBasicStandardLists(Request $request){
+        $condition = $request->condition;
+        $basicStandardLists = Dropdown::getBasicStandards($condition);
+        return response()->json($basicStandardLists);
+    }
+
     public function updateProfile(Request $request, $id)
-    {        
+    {
         $user = User::findOrFail($id);
         $user->user_name = $request->user_name;
         $user->email = $request->email;
