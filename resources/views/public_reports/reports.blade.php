@@ -2,10 +2,10 @@
 @section('content')
     <style>
         .highcharts-figure, .highcharts-data-table table {
-            min-width: 310px; 
+            min-width: 310px;
             max-width: 9000px;
             margin:auto;
-           
+
         }
 
         #container {
