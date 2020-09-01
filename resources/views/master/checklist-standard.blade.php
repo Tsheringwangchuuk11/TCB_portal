@@ -81,7 +81,8 @@
                     <form action="{{ url('master/checklist-areas') }}" method="POST" id="checklistForm">
                         @csrf
                         <div class="modal-body" id="frm_body">
-                            <input type="hidden" name="checklist_area_id" id="checklist_area_id" />
+                            <input type="hidden" name="checklist_standard_id" id="checklist_standard_id" />
+                            <input type="hidden" name="standard_mapping_id" id="standard_mapping_id" />
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
@@ -94,7 +95,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="">Checklist Standard <code>*</code></label>
-                                        <textarea name="checklist_standard" rows="3" class="form-control required"></textarea>
+                                        <textarea name="checklist_standard" rows="3" class="form-control required" id="checklist_standard"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -118,7 +119,7 @@
                                 <div class="col-sm-6" id="col_id">
                                     <div class="form-group">
                                         <label for="" >Basic Standard <code>*</code></label>
-                                        <select name="basic_standard" class="form-control required baseStandard select2bs4" id="basic_standard_id1">
+                                        <select name="basic_standard1" class="form-control required baseStandard select2bs4" id="basic_standard_id1">
                                             <option value="">---SELECT---</option>
                                         </select>
                                     </div>
@@ -126,7 +127,7 @@
                                 <div class="col-sm-6" id="col_id1">
                                     <div class="form-group">
                                         <label for="">Checklist Point</label>
-                                        <input type="text" id= "checklist_point" name="checklist_point" class="form-control numeric-only">
+                                        <input type="text" id= "checklist_point1" name="checklist_point1" class="form-control numeric-only">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -187,11 +188,13 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+            var basic_standard_id = '';
+            var checklist_pts_id = '';
             //select a module and accordingly get the chapter associated with it using ajax request
             $('select.module').on('change', function(e){
                 var selectedModule = $('option:selected', this).val();
                 var condition = '';
-                var basic_standard_id = '';
+                basic_standard_id = '';
                 //check if module is selected or not
                 if (selectedModule.length > 0) {
                     if(selectedModule == 1){
@@ -199,6 +202,7 @@
                         $('#row_id').hide();
                         $('#col_id').hide();
                         $('#col_id1').show();
+                        checklist_pts_id = 'checklist_point1';
                         getBasicStandardDtls();
                     }else if(selectedModule == 2){
                         $('#row_table_id').hide();
@@ -207,7 +211,8 @@
                         $('#col_id1').hide();
                         $('#tbody_id1').html('');
                         condition = 'in';
-                        basic_standard_id = 'basic_standard_id1'
+                        basic_standard_id = 'basic_standard_id1';
+                        $("#basic_standard_id option:gt(0)").remove();
                     }else if(selectedModule == 3 || selectedModule == 9){
                         $('#row_table_id').hide();
                         $('#row_id').show();
@@ -218,7 +223,9 @@
                         if (selectedModule == 9){
                             condition = 'notIn';
                         }
-                        basic_standard_id = 'basic_standard_id'
+                        basic_standard_id = 'basic_standard_id';
+                        checklist_pts_id = 'checklist_point';
+                        $("#basic_standard_id1 option:gt(0)").remove();
                     }else if(selectedModule == 4){
                         $('#row_table_id').hide();
                         $('#row_id').hide();
@@ -443,8 +450,8 @@
                 $('#btn-save').removeAttr("disabled");
                 $('#btn-save').val("Create Checklist Standard");
                 $('#checklistForm').trigger("reset");
-                //$('#module').val('').trigger('change');
-                //$('#checklist_chapter').val('').trigger('change');
+                $('#basic_standard_id').val('').trigger('change');
+                $('#basic_standard_id').val('').trigger('change');
                 $('#checklistCrudModal').html("Add New Checklist Standard");
                 if($('#module').val() == ''){
                     error_msg = 'Please select the Module!';
@@ -463,6 +470,36 @@
                 }
 
             });
+            $('body').on('click', '#edit_checklist_standard', function () {
+                var checklist_standard_id = $(this).data('id');
+                $('#btn-save').removeAttr("disabled");
+                $.get('/master/checklist-standards/'+checklist_standard_id+'/edit', function (data) {
+                    $('#checklistCrudModal').html("Edit Checklist Standard");
+                    $('#btn-save').val("Edit Checklist Standard");
+                    $('#ajax-crud-modal').modal('show');
+                    $('#checklist_standard_id').val(data.id);
+                    $('#checklistArea').val(data.checklist_area_id).trigger('change');
+                    $('#checklist_standard').val(data.checklist_standard);
+                    $('#'+checklist_pts_id).val(data.checklist_pts);
+                    (data.is_active == 0? $('#status2').prop("checked", true):$('#status1').prop("checked", true));
+
+                    if (data.checklist_standard_mapping.length == 1 && basic_standard_id != ''){
+                        $.each(data.checklist_standard_mapping, function(key, val) {
+                            $('#standard_mapping_id').val(val.id);
+                            $('#'+basic_standard_id).val(val.standard_id).trigger('change');
+                        });
+                    }else if(data.checklist_standard_mapping.length > 1){
+                        $.each(data.checklist_standard_mapping, function(key, val) {
+                            $('#standard_mapping_id_'+(key+1)).val(val.id);
+                            $('#standard_id_'+(key+1)).val(val.standard_id);
+                            $('#mandatory_id_'+(key+1)).val(val.mandatory);
+                            $('#status_id_'+(key+1)).val(val.is_active);
+                        });
+                    }
+
+
+                })
+            });
             function getBasicStandardLists(condition, basic_standard_id) {
                 $("#"+basic_standard_id+" option:gt(0)").remove();
                 $.ajax({
@@ -473,7 +510,7 @@
                     },
                     success:function (data) {
                         $.each(data, function(key, value) {
-                            $('select[name="basic_standard"]').append('<option value="'+ key +'">'+ value +'</option>');
+                            $('#'+basic_standard_id).append('<option value="'+ key +'">'+ value +'</option>');
                         });
                     }
                 });

@@ -123,14 +123,14 @@
 
 			//check if module is selected or not
 			if (selectedModule.length > 0) {
-				getChapterDropdownLists(selectedModule);
+				getChapterDropdownLists(selectedModule, 0);
 			} else {
 				$('select.checklist').empty().attr('disabled', true);
 				$('select.checklist').append('<option value="">---SELECT MODULE FIRST---</option>');
 			}
 		});
 
-        function getChapterDropdownLists(selectedModuleId){
+        function getChapterDropdownLists(selectedModuleId, chapterId){
             $.ajax({
                 type: 'GET',
                 url:"{{ url('master/checklist-areas/module') }}",
@@ -150,6 +150,12 @@
                     for (i = 0; i < data.length; i++) {
                         $('select.checklist').append('<option value="' + data[i].id + '" >' + data[i].checklist_ch_name + '</option>');
                     }
+                    if (chapterId != 0){
+                        $("#checklist_chapter").select2("trigger", "select", {
+                            data: { id: chapterId }
+                        });
+                    }
+
                 }
             });
         }
@@ -222,9 +228,8 @@
           $('#btn-save').val("Edit Checklist Area");
           $('#ajax-crud-modal').modal('show');
 		  $('#checklist_area_id').val(data.id);
-          $('#module').val(data.checklist_chapter.module_id);
-          //getChapterDropdownLists(data.checklist_chapter.module_id);
-          $('#checklist_chapter').val(data.checklist_ch_id);
+          $('#module').val(data.checklist_chapter.module_id).trigger('change');
+          getChapterDropdownLists(data.checklist_chapter.module_id,data.checklist_ch_id);
           $('#checklist_area').val(data.checklist_area);
 		  (data.is_active == 0? $('#status2').prop("checked", true):$('#status1').prop("checked", true));
 
