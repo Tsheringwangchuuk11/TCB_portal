@@ -29,12 +29,6 @@ class ChecklistAreaController extends Controller
      */
     public function index(Request $request)
     {
-<<<<<<< HEAD
-        $privileges = $request->instance();        
-        $checklistAreas = TCheckListArea::filter($request)->orderBy('id')->with('checklistChapter.serviceModule')->get();
-        $checklistAreaCount = TCheckListArea::count();   
-        $serviceModules = TModuleMaster::whereIn('module_name', array('Tourist Standard Hotel', 'Village Home Stay', 'Restaurant'))->get();             
-=======
         $privileges = $request->instance();
         $checklistAreas = TCheckListArea::filter($request)->orderBy('id')->with('checklistChapter.serviceModule')->paginate(10);
         $checklistAreaCount = TCheckListArea::count();
@@ -44,7 +38,6 @@ class ChecklistAreaController extends Controller
             $checklistAreas = TCheckListArea::filter($request)->with('checklistChapter.serviceModule')->paginate(10);
             return view('master.includes.checklist_area_data', compact('privileges', 'checklistAreas', 'checklistAreaCount', 'serviceModules'))->render();
         }
->>>>>>> d9f24451c857d8e067c00c4af4c4b45fe30ea269
         return view('master.checklist-area', compact('privileges', 'checklistAreas', 'checklistAreaCount', 'serviceModules'));
     }
 
