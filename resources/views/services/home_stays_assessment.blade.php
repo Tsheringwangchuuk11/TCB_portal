@@ -15,10 +15,11 @@
             <div class="row">
                 <div class="form-group col-md-5">
                     <label>Registration Type <span class="text-danger">*</span></label>
-                    <select class="form-control select2bs4" name="application_type" id="application_type" style="width: 100%;">
+                    <select class="form-control select2bs4" name="application_type_id" id="application_type_id" style="width: 100%;">
                         <option value="">- Select -</option>
-                        <option value="">New Application</option>
-                        <option value="">Renewale</option>
+                        @foreach ($applicationTypes as $applicationType)
+                        <option value="{{$applicationType->id}}">{{$applicationType->dropdown_name}}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="form-group col-md-5 offset-md-2">
@@ -164,7 +165,7 @@
                         <select class="form-control" name="relation_type_id[]" id="hotel_div_id">
                             <option value="">- Select -</option>
                             @foreach ($relationTypes as $relationType)
-                            <option value="{{ $relationType->id }}"> {{ $relationType->relation_type }}</option>
+                            <option value="{{ $relationType->id }}"> {{ $relationType->dropdown_name }}</option>
                             @endforeach
                         </select>
                     </div>

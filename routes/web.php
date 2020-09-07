@@ -76,7 +76,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     //routes for new application
     Route::group(['prefix' => 'application', 'namespace' => 'Application'], function() {
-		Route::get('new-application', 'ServiceController@getModules');
+        Route::get('new-application', 'ServiceController@getModules');
+        Route::get('get-tech-clearance-dtls/{dispatch_no}', 'ServiceController@getTechCleranceDtls');
 		Route::get('get-services', 'ServiceController@getServices');
         Route::get('service-create/{page_link}', 'ServiceController@getServiceForm');
         Route::post('get-chapters', 'ServiceController@getCheckListChapter');

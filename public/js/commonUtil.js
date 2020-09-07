@@ -72,7 +72,7 @@ $(document).ready(function () {
             },
             success:function (data) {
             $.each(data, function(key, value) {
-                  $('select[name="village_id"]').append('<option value="'+ key +'">'+ value +'</option>');
+                  $('select[name="establishment_village_id"]').append('<option value="'+ key +'">'+ value +'</option>');
                });
             }
          });

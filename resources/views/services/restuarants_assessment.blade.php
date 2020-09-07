@@ -81,21 +81,46 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-5">
-                    <div class="form-group">
-                        <label for="">Location <span class="text-danger">*</span> </label>
-                        <select class="form-control select2bs4" name="location_id">
-                            <option value="">- Select -</option>
-                            @foreach ($locations as $location)
-                            <option value="{{$location->id}}">{{$location->location_name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
+        </div>
+    </div>
+    <div class="card">
+    <div class="card-header">
+        <h4 class="card-title">Restuarant Location</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label for="">Dzongkhag<span class="text-danger"> *</span></label>
+                    <select  name="dzongkhag_id" id="dzongkhag_id" class="form-control select2bs4 dzongkhagdropdown" style="width: 100%;">
+                        <option value=""> -Select-</option>
+                        @foreach ($dzongkhagLists as $dzongkhagList)
+                        <option value="{{ $dzongkhagList->id }}" {{ old('dzongkhag_id') == $dzongkhagList->id ? 'selected' : '' }}>{{ $dzongkhagList->dzongkhag_name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-5 offset-md-2">
+                <div class="form-group">
+                    <label for="">Gewog<span class="text-danger"> *</span></label>
+                    <select  name="gewog_id" class="form-control select2bs4 gewogdropdown" id="gewog_id" style="width: 100%;">
+                        <option value=""> -Select-</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label for="">Village<span class="text-danger"> *</span></label>
+                    <select  name="establishment_village_id" class="form-control select2bs4" id="village_id" style="width: 100%;">
+                        <option value=""> -Select-</option>
+                    </select>
                 </div>
             </div>
         </div>
     </div>
+</div>
     <div class="card">
         <div class="card-header">
             <h4 class="card-title">Staff Details</h4>

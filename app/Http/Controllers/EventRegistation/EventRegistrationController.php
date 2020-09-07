@@ -35,7 +35,7 @@ class EventRegistrationController extends Controller
      */
     public function create()
     {
-        $data['countries'] = Dropdown::getDropdowns("t_country_masters","id","country_name","0","0");
+        $data['countries'] = Dropdown::getDropdownList("3");
         $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
         return view('event.event_registration.create',$data);
     }
@@ -71,7 +71,7 @@ class EventRegistrationController extends Controller
      */
     public function edit($id)
     {
-        $data['countries'] = Dropdown::getDropdowns("t_country_masters","id","country_name","0","0");
+        $data['countries'] = Dropdown::getDropdownList("3");
         $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
         $data['data'] = EventRegistration::editEventDetail($id);
         return view('event.event_registration.edit', $data);

@@ -16,10 +16,10 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="">Applicant Type<span class="text-danger">*</span></label>
-                        <select class="form-control select2bs4 " name="applicant_type" id="applicant_type" autocomplete="off">
+                        <select class="form-control select2bs4" name="applicant_type_id" id="applicant_type_id" style="width: 100%;">
                             <option value="">- Select -</option>
-                            @foreach (config()->get('settings.applicanttype') as $k => $v)
-                            <option value="{{ $k }}" {{ old('applicanttype') == $k ? 'selected' : '' }}>{{ $v }}</option>
+                            @foreach ($applicantTypes as $applicantType)
+                            <option value="{{$applicantType->id}}">{{$applicantType->dropdown_name}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -86,7 +86,7 @@
                         <select class="form-control select2bs4" name="service_provider_id" style="width: 100%;">
                             <option value="">- Select -</option>
                             @foreach ($serviceproviders as $serviceprovider)
-                            <option value="{{ $serviceprovider->id }}">{{ $serviceprovider->service_provider_type }}</option>
+                            <option value="{{ $serviceprovider->id }}">{{ $serviceprovider->dropdown_name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -174,9 +174,9 @@
                         <label for="">Location <span class="text-danger">*</span> </label>
                         <select class="form-control select2bs4" name="location_id">
                             <option value="">- Select -</option>
-                            @foreach ($locations as $location)
+                            {{-- @foreach ($locations as $location)
                             <option value="{{$location->id}}" {{ old('location_id')}}>{{$location->location_name}}</option>
-                            @endforeach
+                            @endforeach --}}
                         </select>
                     </div>
                 </div>
@@ -217,9 +217,9 @@
             });
         });
         $(document).ready(function(){
-            $('#applicant_type').on('change',function(e) {
+            $('#applicant_type_id').on('change',function(e) {
                 var applicantype=e.target.value;
-                if(applicantype=="L" || applicantype=="T"){
+                if(applicantype=="5" || applicantype=="6"){
                     $("#representative").show();
                     $("#showlist").show();
                     $("#complainant").hide();

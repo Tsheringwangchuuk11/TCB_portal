@@ -36,14 +36,6 @@ class Dropdown extends Model
 					->get();
   	     return $query;
 	}
-
-	public static function getDropDownList($masterId){
-		$query=\DB::table('t_dropdown_lists as t1')
-					->select('t1.id','t1.dropdown_name','t1.master_id','t1.is_active')
-					->where('t1.master_id',$masterId)
-					->get();
-  	     return $query;
-	}
 	public static function getMasterDropdownName($masterId){
 		$query=\DB::table('t_dropdown_masters as t1')
 					->select('t1.id','t1.master_name')
@@ -51,6 +43,24 @@ class Dropdown extends Model
 					->where('t1.is_status','Y')
 					->where('t1.id',$masterId)
 					->first();
+  	     return $query;
+	}
+
+	public static function getDropdownList($masterId){
+		$query=\DB::table('t_dropdown_lists as t1')
+					->select('t1.id','t1.dropdown_name')
+					->where('t1.is_active','Y')
+					->where('t1.master_id',$masterId)
+					->get();
+  	     return $query;
+	}
+	public static function getApplicationType($masterId,$dropdownId){
+		$query=\DB::table('t_dropdown_lists as t1')
+					->select('t1.id','t1.dropdown_name')
+					->where('t1.is_active','Y')
+					->where('t1.master_id',$masterId)
+					->whereIn('t1.id',$dropdownId)
+					->get();
   	     return $query;
 	}
 }

@@ -42,8 +42,8 @@ class EventRegistration extends Model
   
 	public static function getEventDetails(){
 		$query=\DB::table('t_event_dtls as t1')
-			->leftjoin('t_country_masters as t2','t2.id','=','t1.country_id')
-			->select('t1.*','t2.country_name')
+			->leftjoin('t_dropdown_lists as t2','t2.id','=','t1.country_id')
+			->select('t1.*','t2.dropdown_name')
 			->get();
 			return $query;
 	}

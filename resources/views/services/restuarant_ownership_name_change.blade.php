@@ -15,10 +15,11 @@
         <div class="row">
             <div class="form-group col-md-5">
                 <label>Application Type</label>
-                <select class="form-control" name="application_type" id="application_type">
+                <select class="form-control select2bs4" name="application_type_id" id="application_type_id" style="width: 100%;">
                     <option value="">- Select -</option>
-                    <option value="1">Ownership change</option>
-                    <option value="2">Name change</option>
+                    @foreach ($applicationTypes as $applicationType)
+                    <option value="{{$applicationType->id}}">{{$applicationType->dropdown_name}}</option>
+                    @endforeach
                 </select>
             </div>
         </div>

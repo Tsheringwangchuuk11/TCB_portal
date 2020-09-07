@@ -15,10 +15,11 @@
         <div class="row">
             <div class="form-group col-md-5">
                 <label>Registration Type <span class="text-danger">*</span></label>
-                <select class="form-control select2bs4" name="application_type" id="application_type" style="width: 100%;">
+                <select class="form-control select2bs4" name="application_type_id" id="application_type_id" style="width: 100%;">
                     <option value="">- Select -</option>
-                    <option value="">New Application</option>
-                    <option value="">Renewale</option>
+                    @foreach ($applicationTypes as $applicationType)
+                    <option value="{{$applicationType->id}}">{{$applicationType->dropdown_name}}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="form-group col-md-5 offset-md-2">
@@ -73,6 +74,16 @@
         </div>
         <div class="row">
             <div class="form-group col-md-5">
+                <label for="">Manager Name<span class="text-danger">*</span> </label>
+                <input type="text" class="form-control" name="manager_name" autocomplete="off">
+            </div>
+            <div class="form-group col-md-5 offset-md-2">
+                <label for=""> Manager Contact No <span class="text-danger">*</span> </label>
+                <input type="text" class="form-control" name="manager_mobile_no" autocomplete="off">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-5">
                 <label for="">Email <span class="text-danger">*</span> </label>
                 <input type="email" class="form-control email" name="email" autocomplete="off">
             </div>
@@ -91,15 +102,42 @@
                 <input type="text" class="form-control numeric-only" name="number" autocomplete="off">
             </div>
         </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title">Hotel Location</h4>
+    </div>
+    <div class="card-body">
         <div class="row">
-            <div class="form-group col-md-5">
-                <label for="">Location <span class="text-danger">*</span> </label>
-                <select class="form-control select2bs4" name="location_id">
-                    <option value="">- Select -</option>
-                    @foreach ($locations as $location)
-                    <option value="{{$location->id}}">{{$location->location_name}}</option>
-                    @endforeach
-                </select>
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label for="">Dzongkhag<span class="text-danger"> *</span></label>
+                    <select  name="dzongkhag_id" id="dzongkhag_id" class="form-control select2bs4 dzongkhagdropdown" style="width: 100%;">
+                        <option value=""> -Select-</option>
+                        @foreach ($dzongkhagLists as $dzongkhagList)
+                        <option value="{{ $dzongkhagList->id }}" {{ old('dzongkhag_id') == $dzongkhagList->id ? 'selected' : '' }}>{{ $dzongkhagList->dzongkhag_name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-5 offset-md-2">
+                <div class="form-group">
+                    <label for="">Gewog<span class="text-danger"> *</span></label>
+                    <select  name="gewog_id" class="form-control select2bs4 gewogdropdown" id="gewog_id" style="width: 100%;">
+                        <option value=""> -Select-</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label for="">Village<span class="text-danger"> *</span></label>
+                    <select  name="establishment_village_id" class="form-control select2bs4" id="village_id" style="width: 100%;">
+                        <option value=""> -Select-</option>
+                    </select>
+                </div>
             </div>
         </div>
     </div>
@@ -122,7 +160,7 @@
                 <select class="form-control netEmp" name="room_type_id[]" id="room_type_id">
                     <option value=""> - Select Room - </option>
                     @foreach ($roomTypeLists as $roomTypeList)
-                    <option value="{{ $roomTypeList->id }}">{{ $roomTypeList->room_name }}</option>
+                    <option value="{{ $roomTypeList->id }}">{{ $roomTypeList->dropdown_name }}</option>
                     @endforeach
                 </select>
             </div>

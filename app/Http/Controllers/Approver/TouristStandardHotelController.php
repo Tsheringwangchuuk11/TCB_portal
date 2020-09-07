@@ -28,14 +28,17 @@ class TouristStandardHotelController extends Controller
         $moduleId= $data['applicantInfo']->module_id;
         $data['documentInfos']=Services::getDocumentDetails($applicationNo);
         $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
-        $data['countries'] = Dropdown::getDropdowns("t_country_masters","id","country_name","0","0");
-
-        if($serviceId==1){
+        $data['countries'] = Dropdown::getDropdownList("3");
+        
         //Technical clearance Details for hotel
+        if($serviceId==1){
+        $data['purposes'] =Dropdown::getDropdownList("6");
+        $data['accommodationtypes'] =Dropdown::getDropdownList("7");
         return view('services.approver.approve_technical_clearance',$data);
         }
-        elseif($serviceId==4){
+
         //Tourism standard hotel assesment Details
+        elseif($serviceId==3){
         $data['locations'] = Dropdown::getDropdowns("t_locations","id","location_name","0","0");
         $data['starCategoryLists'] = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
         $data['roomTypeLists'] = Dropdown::getDropdowns("t_room_types","id","room_name","0","0");
@@ -56,7 +59,18 @@ class TouristStandardHotelController extends Controller
         ->get();
         return view('services.approver.approve_hotels_assessment',$data);
         }
+                    
+         //Recommendation letter for import license
+        if($serviceId==4){
+            $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+            return view('services.approver.approve_recommendation_letter_for_import_license',$data);
+            }
 
+        //Recommendation letter for work permit
+        if($serviceId==5){
+            $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+            return view('services.approver.approve_recommendation_letter_for_import_license',$data);
+            }
         elseif($serviceId==7){
             //Tourism standard hotel license renew Details
             $data['locations'] = Dropdown::getDropdowns("t_locations","id","location_name","0","0");
@@ -92,23 +106,65 @@ class TouristStandardHotelController extends Controller
                $approveId = WorkFlowDetails::getStatus('APPROVED');
                $completedId= WorkFlowDetails::getStatus('COMPLETED');
 
-           $data[]= [    
-               'cid_no'   => $request->cid_no,
-               'name'   => $request->name,
-               'contact_no'   => $request->contact_no,
-               'gewog_id'   => $request->gewog_id,
-               'location'   => $request->location,
-               'proposed_rooms_no'   => $request->proposed_rooms_no,
-               'tentative_cons'   => $request->tentative_cons,
-               'tentative_com'   => $request->tentative_com,
-               'drawing_date'   => date('Y-m-d', strtotime($request->drawing_date)),
-               'email'   => $request->email,
-               'submitted_by'   => $request->submitted_by,
-               'created_at'   => now(),
-               'updated_at'   => now(),
-            ];
-            
-           $this->services->insertDetails('t_technical_clearances',$data);
+            // save new technical clearance details
+            if($request->purpose_id=="22"){
+                $data[]= [            
+                    'dispatch_no'   => str_random(8),
+                    'application_no'   => $request->application_no,
+                    'purpose_id'   => $request->purpose_id,
+                    'cid_no'   => $request->cid_no,
+                    'name'   => $request->name,
+                    'contact_no'   => $request->contact_no,
+                    'village_id'   => $request->village_id,
+                    'accomodation_type_id'   => $request->accomodation_type_id,
+                    'proposed_rooms_no'   => $request->proposed_rooms_no,
+                    'tentative_cons'   => DATE('Y-m-d', strtotime($request->tentative_cons)),
+                    'tentative_com'   => DATE('Y-m-d', strtotime($request->tentative_com)),
+                    'drawing_date'   => DATE('Y-m-d', strtotime($request->drawing_date)),
+                    'email'   => $request->email,
+                    'submitted_by'   => $request->applicant_id,
+                    'created_at'   => now(),
+                    'updated_at'   => now(),
+                ];
+                $this->services->insertDetails('t_technical_clearances',$data);
+            }
+
+            // save new technicalclearance details
+            elseif($request->purpose_id=="23"){
+                $savedatatoaudit=Services::saveTechnicalClearanceDtlsAudit($request->cid_no);
+                $data = array(
+                  'dispatch_no'   => str_random(8),
+                  'application_no'   => $request->application_no,
+                  'purpose_id'   => $request->purpose_id,
+                  'tentative_com'   => DATE('Y-m-d', strtotime($request->tentative_com)),
+                );
+                $updatedata=Services::updateApplicantDtls('t_technical_clearances','cid_no',$request->cid_no,$data);
+
+            }
+
+            // save ownership change technicalclearance details
+            elseif($request->purpose_id=="24"){
+                $savedatatoaudit=Services::saveTechnicalClearanceDtlsAudit($request->cid_no);
+                $data = array(
+                 'dispatch_no'   => str_random(8),
+                 'application_no'   => $request->application_no,
+                 'purpose_id'   => $request->purpose_id,
+                 'name'   => $request->name,
+                 );
+                 $updatedata=Services::updateApplicantDtls('t_technical_clearances','cid_no',$request->cid_no,$data);
+                }
+
+            // save desigm change technicalclearance details
+            else{
+                $savedatatoaudit=Services::saveTechnicalClearanceDtlsAudit($request->cid_no);
+                $data = array(
+                 'dispatch_no'   => str_random(8),
+                 'application_no'   => $request->application_no,
+                 'purpose_id'   => $request->purpose_id,
+                );
+                $updatedata=Services::updateApplicantDtls('t_technical_clearances','cid_no',$request->cid_no,$data);
+            }
+
            $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
            $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
                       ->update(['status_id' => $approveId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
@@ -118,19 +174,17 @@ class TouristStandardHotelController extends Controller
                                    ->update(['status_id' => $completedId->id]);
        });
        return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
-
        }else{
            $rejectId = WorkFlowDetails::getStatus('REJECTED');
            $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
            $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
            ->update(['status_id' => $rejectId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
            return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
-           }
+        }
     }
     
    //Approval function for tourist stnadard hotel assessment application
    public function standardHotelAssessmentApplication(Request $request){
-       dd($request->status);
         if($request->status =='APPROVED'){
             // insert into t_techt_tourist_standard_dtlsnical_clearances
             \DB::transaction(function () use ($request) {

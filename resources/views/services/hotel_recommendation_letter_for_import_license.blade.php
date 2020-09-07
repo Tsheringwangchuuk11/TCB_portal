@@ -1,7 +1,7 @@
 @extends('layouts.manager')
 @section('page-title','Recommendation for import license')
 @section('content')
-<form class="bootstrap-form" action="{{ url('application/save-application') }}" method="POST" enctype="multipart/form-data" id="formdata">
+<form class="bootstrap-form" action="{{ url('application/save-application') }}" method="POST" enctype="multipart/form-data" id="form_data">
     @csrf
     <input type="hidden" name="service_id" value="{{ $idInfos->service_id }}" id="service_id">
     <input type="hidden" name="module_id" value="{{ $idInfos->module_id }}" id="module_id">
@@ -14,48 +14,79 @@
                 <div class="row">
                     <div class="form-group col-md-5">
                         <label for="">License Number <span class="text-danger"> *</span> </label>
-                        <input type="text" class="form-control" name="license_no" onchange="getOwnerChangeDetails(this.value)">
+                        <input type="text" class="form-control" name="license_no">
                     </div>
                     <div class="form-group col-md-5 offset-md-2">
-                        <label for="">License Date </label>
-                        <input type="text" class="form-control" name="license_date" id="license_date">
+                        <label for="">License Date <span class="text-danger"> *</span></label>
+                        <input type="date" class="form-control" name="license_date" id="license_date">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-5">
-                        <label for="">Hotel Name </label>
+                        <label for="">Hotel Name <span class="text-danger"> *</span></label>
                         <input type="text" class="form-control" name="company_title_name" id="company_title_name">
                     </div>
                     <div class="form-group col-md-5 offset-md-2">
-                        <label for="">Owner Name</label>
-                        <input type="text" class="form-control" name="old_owner" id="old_owner">
+                        <label for="">Owner Name <span class="text-danger"> *</span></label>
+                        <input type="text" class="form-control" name="owner_name" id="owner_name">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-5">
-                        <label for="">CID No. </label>
-                        <input type="text" class="form-control" name="old_cid_no" id="old_cid_no">
+                        <label for="">CID No. <span class="text-danger"> *</span></label>
+                        <input type="text" class="form-control" name="cid_no" id="cid_no">
                     </div>
                     <div class="form-group col-md-5 offset-md-2">
-                        <label for="">Email </label>
-                        <input type="email" class="form-control" name="old_email" id="old_email">
+                        <label for="">Email <span class="text-danger"> *</span></label>
+                        <input type="email" class="form-control" name="email" id="email">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-5">
-                        <label for="">Contact No. </label>
-                        <input type="text" class="form-control" name="old_contact_no" id="old_contact_no">
+                        <label for="">Contact No.<span class="text-danger"> *</span></label>
+                        <input type="text" class="form-control" name="contact_no" id="contact_no">
                     </div>
                     <div class="form-group col-md-5 offset-md-2">
-                        <label for="">Location </label>
-                        <input type="hidden" class="form-control" name="location_id" id="location_id">
-                        <input type="text" class="form-control" name="location_name" id="location_name">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-md-5">
                         <label for="">Purpose<span class="text-danger">*</span> </label>
-                        <textarea type="text" class="form-control" row="3" name="purpose"></textarea>
+                        <textarea type="text" class="form-control" row="3" name="remarks"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">Company Location</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label for="">Dzongkhag<span class="text-danger"> *</span></label>
+                        <select  name="dzongkhag_id" id="dzongkhag_id" class="form-control select2bs4 dzongkhagdropdown" style="width: 100%;">
+                            <option value=""> -Select-</option>
+                            @foreach ($dzongkhagLists as $dzongkhagList)
+                            <option value="{{ $dzongkhagList->id }}" {{ old('dzongkhag_id') == $dzongkhagList->id ? 'selected' : '' }}>{{ $dzongkhagList->dzongkhag_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-5 offset-md-2">
+                    <div class="form-group">
+                        <label for="">Gewog<span class="text-danger"> *</span></label>
+                        <select  name="gewog_id" class="form-control select2bs4 gewogdropdown" id="gewog_id" style="width: 100%;">
+                            <option value=""> -Select-</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label for="">Village<span class="text-danger"> *</span></label>
+                        <select  name="establishment_village_id" class="form-control select2bs4" id="village_id" style="width: 100%;">
+                            <option value=""> -Select-</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -101,41 +132,99 @@
                 $(this).valid();
             });
         });
-        $(document).ready(function(){ 
-            id=1;
-            $("#add").click(function(){
-                $("#rowId").clone().attr('id', 'rowId'+id).after("#id").appendTo("#adddiv").find("input[type='text']").val("");
-                $addRow ='<span id="remove'+id+'" class="btn-group" style=" margin-top:-50px; float:right">' 
-                +'<span id="remove" onClick="removeForm('+id+')"' 
-                +'class="btn btn-danger btn-sm"><i class="fas fa-trash-alt fa-sm"></i> Delete</span></span>'
-                +'<div id="line'+id+'"></div>';
-                $('#adddiv').append($addRow);
-                id++;
-
-            });
-        });
-        function removeForm(id){  
-            if (confirm('Are you sure you want to delete this form?')){
-                $('#rowId'+id).remove();
-                $('#remove'+id).remove();
-                $('#line'+id).remove();
-            }
-        }
-
         $(document).ready(function(){
-            $('#recommendation_type').on('change',function(e) {
-                var recommendation_type=e.target.value;
-                if(recommendation_type == "3" || recommendation_type == "5"){
-                    $("#personalDtl").hide();
-                    $("#licenseId").hide();
-                    $("#workerId").show();
-                } 
-                else{
-                    $("#personalDtl").show();
-                    $("#licenseId").show();
-                    $("#workerId").show();
-
-                } 
+            $('#form_data').validate({
+                rules: {
+                    license_no: {
+                       required: true,
+                    },
+                    license_date: {
+                        required: true,
+                    },
+                    company_title_name: {
+                       required: true,
+                    },
+                    cid_no: {
+                        required: true,
+                        maxlength: 11,
+                        minlength: 11,
+                        digits: true,                    
+                     },
+                    owner_name: {
+                        required: true,
+                    },
+                    contact_no: {
+                        required: true,
+                        digits: true,                    
+                    },
+                    email: {
+                        required: true,
+                        email: true,                    
+                    },
+                    dzongkhag_id: {
+                        required: true,
+                    },
+                    gewog_id: {
+                        required: true,
+                    },
+                    establishment_village_id: {
+                        required: true,
+                    },
+                    remarks: {
+                        required: true,
+                    },
+                   },
+                messages: {
+                    license_no: {
+                         required: "Please enter the license number",
+                    },
+                    license_date: {
+                          required: "Please enter license date",
+                    },
+                    company_title_name: {
+                    required: "Please enter the company name",
+                    },
+                    cid_no: {
+                        required: "Please provide a cid number",
+                        maxlength: "Your cid must be 11 characters long",
+                        minlength: "Your cid must be at least 11 characters long",
+                        digits: "This field accept only digits",
+                    },
+                    owner_name: {
+                        required: "Enter the owner name",
+                    },
+                    contact_no: {
+                        required: "Please provide a contact number",
+                        digits: "This field accept only digits",
+                    },
+                    email: {
+                        required: "Please enter a email address",
+                        email: "Please enter a vaild email address"
+                    },
+                    dzongkhag_id: {
+                        required: "Please select dzongkhag",
+                    },
+                    gewog_id: {
+                        required: "Please select gewog",
+                    },
+                    establishment_village_id: {
+                        required: "Please select village",
+                    },
+                    remarks: {
+                        required: "Please enter remarks",
+                    },
+                },
+                errorElement: 'span',
+                errorPlacement: function (error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function (element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
+                }
             });
          });
     </script>

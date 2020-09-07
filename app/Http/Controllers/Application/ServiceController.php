@@ -39,23 +39,91 @@ class ServiceController extends Controller
     {
         $page_link=str_replace("-", '/',$page_link);
         $data['idInfos'] = Services::getIdInfo($page_link);
-        $data['eventFairDetails'] = Services::getTravelEventFairDetails();
-        $data['starCategoryLists'] = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
-        $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
-        $data['roomTypeLists'] = Dropdown::getDropdowns("t_room_type_masters","id","room_name","0","0");
-        //$data['staffAreaLists'] = Dropdown::getDropdowns("t_staff_areas","id","staff_area_name","0","0");
-        //$data['relationTypes'] = Dropdown::getDropdowns("t_relation_type_masters","id","relation_type","0","0");
-        //$data['officeInfos'] = Dropdown::getDropdowns("t_offices","id","office_name","0","0");
-        //$data['officeEquipments'] = Services::getOfficeEquipmentDetails('O');
-        //$data['trekkingEquipments'] = Services::getOfficeEquipmentDetails('T');
-        //$data['communicationFacilities'] = Services::getOfficeEquipmentDetails('C');
-        //$data['employments'] = Dropdown::getDropdowns("t_employments","id","employment_name","0","0");
-        //$data['transportations'] = Dropdown::getDropdowns("t_vehicles","id","vehicle_name","0","0");
-        $data['channelTypes'] = Dropdown::getDropdowns("t_channel_types","id","channel_type","0","0");
-        $data['countries'] = Dropdown::getDropdowns("t_country_masters","id","country_name","0","0");
-        $data['letterTypes'] = Dropdown::getDropdowns("t_recommandation_letter_masters","id","recommandation_letter_type","0","0");
-        $data['serviceproviders'] = Dropdown::getDropdowns("t_service_provider_masters","id","service_provider_type","0","0");
-        $data['locations'] = Dropdown::getDropdowns("t_locations","id","location_name","0","0");
+        
+        //Technical clearance
+        if($data['idInfos']->service_id==1 && $data['idInfos']->module_id==1){
+            $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+            $data['purposes'] =Dropdown::getDropdownList("6");
+            $data['accommodationtypes'] =Dropdown::getDropdownList("7");
+        }
+
+        //Tourist standard hotel assessment
+        else if($data['idInfos']->service_id==3 && $data['idInfos']->module_id==1){
+            $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+            $data['starCategoryLists'] = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
+            $data['roomTypeLists'] = Dropdown::getDropdownList("1");
+            $data['applicationTypes'] = Dropdown::getApplicationType("8",$dropdownId[]=["31","32"]);
+        }
+
+        //recommendation letter for import license
+        else if($data['idInfos']->service_id==4 && $data['idInfos']->module_id==1){
+            $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+        }
+
+        //work_permit
+        else if($data['idInfos']->service_id==5 && $data['idInfos']->module_id==1){
+            $data['countries'] = Dropdown::getDropdownList("3");
+            $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+            $data['recommendation_letter_types'] =  Dropdown::getApplicationType("9",$dropdownId[]=["36","37","38","39","40"]);
+        }
+
+        //hotel_ownership_name_cancellation
+        else if($data['idInfos']->service_id==6 && $data['idInfos']->module_id==1){
+            $data['applicationTypes'] = Dropdown::getApplicationType("8",$dropdownId[]=["33","34","35"]);
+        }
+        
+        //home_stays_assessment
+        else if($data['idInfos']->service_id==7 && $data['idInfos']->module_id==2){
+            $data['applicationTypes'] = Dropdown::getApplicationType("8",$dropdownId[]=["31","32"]);
+            $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+            $data['relationTypes'] =  Dropdown::getDropdownList("4");
+        }
+
+        //restuarants_assessment
+        else if($data['idInfos']->service_id==9 && $data['idInfos']->module_id==3){
+            $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+        }
+
+        //restuarant_ownership_name_change
+        else if($data['idInfos']->service_id==10 && $data['idInfos']->module_id==3){
+            $data['applicationTypes'] = Dropdown::getApplicationType("8",$dropdownId[]=["33","34"]);
+        }
+
+        //to_license_clearance_new _license
+        else if($data['idInfos']->service_id==2 && $data['idInfos']->module_id==4){
+            $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+        }
+
+        //to_name_ownership_location_change
+        else if($data['idInfos']->service_id==11 && $data['idInfos']->module_id==4){
+            $data['applicationTypes'] = Dropdown::getApplicationType("8",$dropdownId[]=["33","34","41"]);
+        }
+
+        //recommandation_letter_for_tourism_industry_partners
+        else if($data['idInfos']->service_id==13 && $data['idInfos']->module_id==4){
+            $data['applicationTypes'] = Dropdown::getApplicationType("9",$dropdownId[]=["43","44"]);
+            $data['eventFairDetails'] = Services::getTravelEventFairDetails();
+
+        }
+
+        //grievance
+        else if($data['idInfos']->service_id==18 && $data['idInfos']->module_id==6){
+            $data['serviceproviders'] =Dropdown::getDropdownList("5");
+            $data['applicantTypes'] =Dropdown::getDropdownList("2");
+
+        }
+
+        //media_familiarization_tour
+        else if($data['idInfos']->service_id==19 && $data['idInfos']->module_id==7){
+            $data['countries'] = Dropdown::getDropdownList("3");
+           // $data['channelTypes'] = Dropdown::getDropdowns("t_channel_types","id","channel_type","0","0");
+        }
+
+        //registered_tourism_events_list
+        else {
+            $data['eventFairDetails'] = Services::getTravelEventFairDetails();
+        }
+
         return view($page_link, $data);
     }
 
@@ -69,6 +137,7 @@ class ServiceController extends Controller
         $standard = Services::getCheckListStandard($id);
         return $standard;
     }
+
     public static function getCheckListChapter(Request $request){
         $starCategoryId=$request->star_category_id;
         $moduleId = $request->module_id;
@@ -108,9 +177,16 @@ class ServiceController extends Controller
             ->get();
         return view('services/restaurant_checklist', compact('checklistDtls'));
      }
+
     public function getTouristHotelDetails($licenseNo){
          $data=Services::getTouristHotelDetails($licenseNo);
          return response()->json($data);
+    }
+
+    //Technical clearance details
+    public function getTechCleranceDtls($dispatch_no){
+        $data=Services::getTechCleranceDtls($dispatch_no);
+        return response()->json($data);
     }
 
     public function getVillageHomeStayDetails($cidNo){
@@ -121,7 +197,8 @@ class ServiceController extends Controller
     public function getTourOperatorDetails($licenseNo){
         $data=Services::getTourOperatorDetails($licenseNo);
         return response()->json($data);
-   }
+    }
+
      public function getCompnayName(Request $request){
          $companyName=$request->companyName;
          $checkPresent=Services:: checkCompanyNameExists($companyName);
@@ -130,12 +207,13 @@ class ServiceController extends Controller
 
      public function getEventRegisteredDetails($eventId,$serviceId,$moduleId){
         $eventdtl = Services::getEventRegisteredDetails($eventId);
-        return view('services/registration_for_tourism_events', compact('eventdtl','serviceId','moduleId'));
+        $companyTypes= Dropdown::getDropdownList("10");
+        return view('services/registration_for_tourism_events', compact('eventdtl','serviceId','moduleId','companyTypes'));
     }
 
     public function saveNewApplication(Request $request){
+       // dd($request->all());
         $application_no = $this->services->generateApplNo($request);
-     //dd( $request->all());
         DB::transaction(function () use ($request, $application_no) {
             //insert into t_application
             $data=new Services;
@@ -143,22 +221,37 @@ class ServiceController extends Controller
             $data->module_id=$request->module_id;
             $data->service_id=$request->service_id;
             $data->applicant_name=$request->applicant_name;
-            $data->end_user_id=auth()->user()->id;
+            $data->applicant_id=auth()->user()->id;
+            $data->application_type_id=$request->application_type_id;
+            $data->event_id=$request->event_id;
             $data->cid_no=$request->cid_no;
+            $data->new_cid_no=$request->new_cid_no;
+            $data->owner_name=$request->owner_name;
+            $data->new_owner_name=$request->new_owner_name;
+            $data->manager_name=$request->manager_name;
+            $data->manager_mobile_no=$request->manager_mobile_no;
+            $data->gender=$request->gender;
+            $data->dob=$request->dob;
+            $data->designation=$request->designation;
+            $data->applicant_flat_no=$request->applicant_flat_no;
+            $data->applicant_building_no=$request->applicant_building_no;
+            $data->applicant_location=$request->applicant_location;
             $data->company_title_name=$request->company_title_name;
             $data->company_name_one=$request->company_name_one;
             $data->company_name_two=$request->company_name_two;
-            $data->location=$request->location;
-            $data->location_id=$request->location_id;
             $data->contact_no=$request->contact_no;
+            $data->new_contact_no=$request->new_contact_no;
             $data->tentative_cons=$request->tentative_cons;
             $data->tentative_com=$request->tentative_com;
             $data->drawing_date=$request->drawing_date;
             $data->email=$request->email;
+            $data->new_email=$request->new_email;
             $data->star_category_id=$request->star_category_id;
             $data->license_no=$request->license_no;
-            $data->owner_name=$request->owner_name;
+            $data->license_date=$request->license_date;
             $data->address=$request->address;
+            $data->new_address=$request->new_address;
+            $data->fax=$request->fax;
             $data->webpage_url=$request->webpage_url;
             $data->number=$request->number;
             $data->thram_no=$request->thram_no;
@@ -169,31 +262,15 @@ class ServiceController extends Controller
             $data->validity_date=$request->validity_date;
             $data->flat_no=$request->flat_no;
             $data->building_no=$request->building_no;
-            $data->license_date=$request->license_date;
-            $data->fax=$request->fax;
-            $data->gender=$request->gender;
-            $data->dob=$request->dob;
-            $data->applicant_flat_no=$request->applicant_flat_no;
-            $data->applicant_building_no=$request->applicant_building_no;
-            $data->applicant_location=$request->applicant_location;
-            $data->date=$request->date;
-            $data->from_date=$request->from_date;
-            $data->to_date=$request->to_date;
-            $data->financial_year=$request->financial_year;
-            $data->gewog_id=$request->gewog_id;
-            $data->village_id=$request->village_id;
+            $data->permanent_village_id=$request->permanent_village_id;
+            $data->establishment_village_id=$request->establishment_village_id;
+            $data->new_village_id=$request->new_village_id;
+            $data->chiwog_id=$request->chiwog_id;
             $data->city=$request->city;
             $data->country_id=$request->country_id;
-            $data->visit_purpose=$request->visit_purpose;
-            $data->sell_destination=$request->sell_destination;
-            $data->sell_bhutan=$request->sell_bhutan;
-            $data->destination_year=$request->destination_year;
-            $data->bhutan_year=$request->bhutan_year;
-            $data->letter_type_id=$request->letter_sample;
-            $data->chiwog_id=$request->chiwog_id;
-            $data->event_id=$request->event_id;
+            $data->from_date=$request->from_date;
+            $data->to_date=$request->to_date;
             $data->remarks=$request->remarks;
-            $data->designation=$request->designation;
             $data->save();
             //insert into t_room_applications
             $room_type_id=$request->room_type_id;
@@ -327,8 +404,6 @@ class ServiceController extends Controller
 
                     ];
                  }
-                 dd($employmentData);
-
                 $this->services->insertDetails('t_employment_applications',$employmentData);
             }
 
@@ -452,6 +527,21 @@ class ServiceController extends Controller
                   }
                   $this->services->insertDetails('t_activity_applications',$marketinActivitiesData);
               }
+            //insert into t_work_permit_applications
+             $workpermitData = [];
+             if(isset($_POST['passport_no'])){
+                foreach($request->passport_no as $key => $value){
+                    $workpermitData[] = [
+                         'application_no'   => $application_no,
+                           'name'   => $request->name[$key],
+                         'passport_no'   => $request->passport_no[$key],
+                         'start_date'   => date('Y-m-d', strtotime($request->start_date[$key])),
+                          'end_date'   => date('Y-m-d', strtotime($request->end_date[$key])),
+                        'country_id'   => $request->nationality[$key],
+                    ];
+                }
+                $this->services->insertDetails('t_work_permit_applications',$workpermitData);
+            }
             //update application_no in t_documents
              $documentId = $request->documentId;
              $this->services->updateDocumentDetails($documentId,$application_no);

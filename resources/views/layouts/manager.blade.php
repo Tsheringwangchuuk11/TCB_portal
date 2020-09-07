@@ -47,16 +47,19 @@
             }
 
             .form-group .help-block{
-	font-size: 11px;
-	color: #dd4b39;
-	position: absolute;
-	top: 5px;
-	width: 100%;
-	right: 0;
-	text-align: right;
-	z-index: 9;
-}
-        </style>
+                font-size: 11px;
+                color: #dd4b39;
+                position: absolute;
+                top: 5px;
+                width: 100%;
+                right: 0;
+                text-align: right;
+                z-index: 9;
+             }
+             .dataTables_wrapper {
+                font-size: 15px;
+            }
+        </style> 
     </head>
     <body class="hold-transition sidebar-mini layout-fixed">
         <div class="wrapper">
@@ -100,12 +103,12 @@
         </div>
     </body>
     <script>
-    $(function () {
-        $('.select2').select2()
-        $('.select2bs4').select2({
-              theme: 'bootstrap4'
-        })
-    });
+        $(function () {
+            $('.select2').select2()
+            $('.select2bs4').select2({
+                theme: 'bootstrap4'
+            })
+        });
     </script>
 </html>
 

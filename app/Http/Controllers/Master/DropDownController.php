@@ -48,8 +48,10 @@ class DropDownController extends Controller
      */
     public function store(Request $request)
     {
-        $savedata = Dropdown::Create(['dropdown_name' => $request->dropdown_name,'master_id' => $request->master_id,'created_by' => auth()->user()->id]);
-        return redirect('master/drop-down-master')->with('msg_success', 'New data added successfully');
+
+         $savedata = Dropdown::Create(['dropdown_name' => $request->dropdown_name,'master_id' => $request->master_id,'created_by' => auth()->user()->id]);
+         $lastRecord = Dropdown::latest()->first();
+        return response()->json($lastRecord );
     }
 
     /**
@@ -61,7 +63,7 @@ class DropDownController extends Controller
     public function show($masterId,Request $request)
     {
         $data['privileges'] = $request->instance();
-        $data['dropdownlists'] = Dropdown::getDropDownList($masterId);
+        $data['dropdownlists'] = Dropdown::where('master_id',$masterId)->get();
         $data['masterdropdown'] = Dropdown::getMasterDropdownName($masterId);
         return view('master.drop_down_list.show',$data);
     }
@@ -75,7 +77,8 @@ class DropDownController extends Controller
     public function edit($id)
     {
         $data = Dropdown::findOrFail($id);
-        return view('master.drop_down_list.edit', compact('data'));
+        return response()->json($data);
+
     }
 
     /**
@@ -85,15 +88,16 @@ class DropDownController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         $data=[
             'dropdown_name' => $request->dropdown_name,
             'is_active' =>$request->is_active,
             'updated_by' =>auth()->user()->id,
        ];
-       Dropdown::where('id',$id)->update($data);
-        return redirect('master/drop-down-master')->with('msg_success', 'Data updated successfully');
+       Dropdown::where('id',$request->drop_down_id)->update($data);
+       $data = Dropdown::findOrFail($request->drop_down_id);
+       return response()->json($data);
     }
 
     /**
@@ -102,14 +106,14 @@ class DropDownController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
         try {
-            $data = Dropdown::findOrFail($id);
+            $data = Dropdown::findOrFail($request->drop_down_id);
             $data->delete();
-            return redirect('master/applicant-types')->with('msg_success', 'Data successfully deleted');
+            return response()->json(['status' => 'true', 'truemsg'=> 'Record deleted successfully!']);
         } catch(\Exception $exception){
-            return redirect()->back()->with('msg_error', 'This data cannot be deleted as it is link in other data.');
+            return response()->json(['status' => 'false', 'falsemsg' => 'This checklist chapter  cannot be deleted as it is link in other data.!']);
         }
     }
 }
