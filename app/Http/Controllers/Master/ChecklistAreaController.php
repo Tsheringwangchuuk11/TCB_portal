@@ -9,6 +9,7 @@ use App\Models\TCheckListArea;
 use App\Models\TModuleMaster;
 use App\Models\Dropdown;
 use Validator;
+use App\Models\TCheckListStandard;
 
 
 class ChecklistAreaController extends Controller
@@ -28,10 +29,22 @@ class ChecklistAreaController extends Controller
      */
     public function index(Request $request)
     {
+<<<<<<< HEAD
         $privileges = $request->instance();        
         $checklistAreas = TCheckListArea::filter($request)->orderBy('id')->with('checklistChapter.serviceModule')->get();
         $checklistAreaCount = TCheckListArea::count();   
         $serviceModules = TModuleMaster::whereIn('module_name', array('Tourist Standard Hotel', 'Village Home Stay', 'Restaurant'))->get();             
+=======
+        $privileges = $request->instance();
+        $checklistAreas = TCheckListArea::filter($request)->orderBy('id')->with('checklistChapter.serviceModule')->paginate(10);
+        $checklistAreaCount = TCheckListArea::count();
+        $serviceModules = TModuleMaster::whereIn('id', array('1', '2', '3', '4', '9'))->get();
+
+        if($request->ajax()){
+            $checklistAreas = TCheckListArea::filter($request)->with('checklistChapter.serviceModule')->paginate(10);
+            return view('master.includes.checklist_area_data', compact('privileges', 'checklistAreas', 'checklistAreaCount', 'serviceModules'))->render();
+        }
+>>>>>>> d9f24451c857d8e067c00c4af4c4b45fe30ea269
         return view('master.checklist-area', compact('privileges', 'checklistAreas', 'checklistAreaCount', 'serviceModules'));
     }
 
@@ -39,13 +52,13 @@ class ChecklistAreaController extends Controller
     {
         $checklistAreaID = $request->checklist_area_id;
         $rule = [
-            'checklist' => 'required',
-            'checklist_area_name' => 'required',
+            'checklist_chapter' => 'required',
+            'checklist_area' => 'required',
         ];
         $validator = Validator::make($request->all(), $rule);
         if($validator->passes()){
             $checklistArea   =   TCheckListArea::updateOrCreate(['id' => $checklistAreaID],
-                ['checklist_ch_id' => $request->checklist, 'checklist_area' => $request->checklist_area_name, 'is_active'=> $request->status == 'yes' ? '1' : 0, 'created_by'=> auth()->user()->id ]);
+                ['checklist_ch_id' => $request->checklist_chapter, 'checklist_area' => $request->checklist_area, 'is_active'=> $request->status == 'yes' ? '1' : 0, 'created_by'=> auth()->user()->id ]);
 
         return response()->json($checklistArea);
         }
@@ -56,7 +69,7 @@ class ChecklistAreaController extends Controller
 
     public function edit($id)
     {
-        $checklistArea = TCheckListArea::with('checklistChapter.serviceModule')->where('id', $id)->first();        
+        $checklistArea = TCheckListArea::with('checklistChapter.serviceModule')->where('id', $id)->first();
 
 		return response()->json($checklistArea);
     }
@@ -64,21 +77,22 @@ class ChecklistAreaController extends Controller
    //delete
     public function destroy($id)
     {
-        try {
-            $checklistArea = TCheckListArea::findOrFail($id);
+        //to check checklist area is used in checklist standard
+        $isAreaUsed = TCheckListStandard::where('checklist_area_id', $id)->exists();
+        $checklistArea = TCheckListArea::findOrFail($id);
+        $checklistArea['isAreaUsed'] = $isAreaUsed;
+        if(!$isAreaUsed){
             $checklistArea->delete();
-
-            return redirect('master/checklist-areas')->with('msg_success', 'checklist area successfully deleted');
-        } catch(\Exception $exception){
-            return redirect()->back()->with('msg_error', 'This checklist area  cannot be deleted as it is link in other data.');
         }
+        return response()->json($checklistArea);
+
     }
 
     //get chapter
     public function getChapter(Request $request)
-    {                
+    {
         $chapters = TCheckListChapter::where('module_id', $request->moduleId)->get();
         return response()->json($chapters);
     }
-    
+
 }

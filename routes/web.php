@@ -47,6 +47,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('change-password', 'HomeController@getChangePassword')->name('change-password');
     Route::post('change-password', 'HomeController@postChangePassword');
 	Route::get('/json-dropdown', 'HomeController@getDropdownLists');
+    Route::get('/json-basicstandard', 'HomeController@getBasicStandardLists');
 
     //routes for system administrations
     Route::group(['prefix' => 'system', 'namespace' => 'SystemSetting'], function() {
@@ -72,6 +73,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('checklist-standards/chapter', 'ChecklistStandardController@getChecklistArea');
         Route::resource('checklist-standards', 'ChecklistStandardController');
         Route::resource('drop-down-master', 'DropDownController');
+        Route::get('basic-standard', 'ChecklistStandardController@getBasicStandardDtls');
     });
 
     //routes for new application

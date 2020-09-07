@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\TCheckListChapter;
 use App\Models\TModuleMaster;
 use App\Models\Dropdown;
+use App\Models\TCheckListArea;
 use Validator;
 
 class ChecklistChapterController extends Controller
@@ -25,11 +26,19 @@ class ChecklistChapterController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {        
+    {
         $privileges = $request->instance();
-        $checklistChapters = TCheckListChapter::filter($request)->orderBy('checklist_ch_name')->with('serviceModule')->paginate(10);
-        $checklistChapterCount = TCheckListChapter::count();        
-        $serviceModules = TModuleMaster::whereIn('module_name', array('Tourist Standard Hotel', 'Village Home Stay', 'Restaurant'))->get();
+        $checklistChapters = TCheckListChapter::filter($request)->orderBy('id')->with('serviceModule')->paginate(10);
+        $checklistChapterCount = TCheckListChapter::count();
+        $serviceModules = TModuleMaster::whereIn('id', array('1', '2', '3', '4', '9'))->get();
+
+        if($request->ajax()){
+            $sort_by = $request->get('sortby');
+            $sort_type = $request->get('sorttype');
+            $checklistChapters = TCheckListChapter::filter($request)->orderBy($sort_by, $sort_type)->with('serviceModule')->paginate(10);
+            return view('master.includes.checklist_chapter_data', compact('privileges', 'checklistChapters', 'checklistChapterCount', 'serviceModules'))->render();
+        }
+
         return view('master.checklist-chapter', compact('privileges', 'checklistChapters', 'checklistChapterCount', 'serviceModules'));
     }
     /**
@@ -43,12 +52,12 @@ class ChecklistChapterController extends Controller
             $userID = $request->checklist_id;
             $rule = [
                 'service_module' => 'required',
-                'checklist_name' => 'required',
+                'checklist_chapter' => 'required',
             ];
             $validator = Validator::make($request->all(), $rule);
             if($validator->passes()){
                 $user   =   TCheckListChapter::updateOrCreate(['id' => $userID],
-                    ['module_id' => $request->service_module, 'checklist_ch_name' => $request->checklist_name, 'is_active'=> $request->status == 'yes' ? '1' : 0, 'created_by'=> auth()->user()->id ]);
+                    ['module_id' => $request->service_module, 'checklist_ch_name' => $request->checklist_chapter, 'is_active'=> $request->status == 'yes' ? '1' : 0, 'created_by'=> auth()->user()->id ]);
             $moduleName = $user->serviceModule->module_name;
 			return response()->json($user);
             }
@@ -67,13 +76,22 @@ class ChecklistChapterController extends Controller
    //delete
     public function destroy($id)
     {
-        try {
+        //to check checklist chapter is used in checklist area
+        $isChapterUsed = TCheckListArea::where('checklist_ch_id', $id)->exists();
+        $checklistChapter = TCheckListChapter::findOrFail($id);
+        $checklistChapter['isChapterUsed'] = $isChapterUsed;
+        if(!$isChapterUsed){
+            $checklistChapter->delete();
+        }
+        return response()->json($checklistChapter);
+
+        /*try {
             $checklistChapter = TCheckListChapter::findOrFail($id);
             $checklistChapter->delete();
 
             return redirect('master/checklist-chapters')->with('msg_success', 'checklist chapter successfully deleted');
         } catch(\Exception $exception){
             return redirect()->back()->with('msg_error', 'This checklist chapter  cannot be deleted as it is link in other data.');
-        }
+        }*/
     }
 }

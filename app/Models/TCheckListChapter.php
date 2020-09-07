@@ -31,13 +31,13 @@ class TCheckListChapter extends Model
      {
          return $query->where('is_active', self::STATUS_ACTIVE);
      }
- 
+
      public function scopeFilter($query, $request)
      {
          if ($request->has('search_text') && $request->query('search_text') != '') {
-             $query->where('checklist_ch_name', 'LIKE', '%' . $request->query('search_text') . '%')
+             $query->where('checklist_ch_name', 'LIKE', '%' . strtolower($request->query('search_text')) . '%')
              ->orWhereHas('serviceModule', function ($query1) use($request){
-                $query1->where('module_name', 'LIKE', '%' . $request->query('search_text') . '%');
+                $query1->where('module_name', 'LIKE', '%' . strtolower($request->query('search_text')) . '%');
             });
          }
      }
