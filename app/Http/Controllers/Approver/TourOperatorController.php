@@ -35,20 +35,20 @@ class TourOperatorController extends Controller
             $data['trekkingEquipments']=Services::getOfficeEquipmentInfoDetails($applicationNo,'T');
             $data['employments']=Services::getEmploymentInfoDetails($applicationNo);
             $data['transportations']=Services::getTransportationInfoDetails($applicationNo);
-            return view('services.approver.approve_to_assessment',$data);
+            return view('services.approve_application.approve_to_assessment',$data);
 
         }
         elseif($serviceId==9){
             //Tour Operator Owner Change Details
-            return view('services.approver.approve_tour_operator_owner_change',$data);
+            return view('services.approve_application.approve_tour_operator_owner_change',$data);
         }
         elseif($serviceId==10){
             //Tour Operator Name Change Details
-            return view('services.approver.approve_tour_operator_name_change',$data);
+            return view('services.approve_application.approve_tour_operator_name_change',$data);
         }
         elseif($serviceId==11){
             //Tour propriater card Details
-            return view('services.approver.approve_propreiter_card',$data);
+            return view('services.approve_application.approve_propreiter_card',$data);
         }
         elseif($serviceId==12){
             //Recommandation Letter for tour operator license
@@ -63,27 +63,27 @@ class TourOperatorController extends Controller
                 $p5="(validity of the license)";
                 $data['letterContent']="<p1 class='text-justify'>".$p1."&nbsp"."<strong>".$data['applicantInfo']->owner_name."</strong>"."&nbsp".$p2."</p>" ."<p>".$p3."&nbsp"."<strong>".$data['applicantInfo']->owner_name."</strong>"."&nbsp".$p6."&nbsp"."<strong>".$data['applicantInfo']->company_title_name ."</strong>"."</p>"."<p>".$p4."<strong>".date('m/d/yy', strtotime($data['applicantInfo']->license_date))."</strong>".$p5."</p>";
             }
-            return view('services.approver.approve_recommandation_letter_for_to_license',$data);
+            return view('services.approve_application.approve_recommandation_letter_for_to_license',$data);
         }
         elseif($serviceId==21){
             //Tour operator license clearance Details
             $data['partnerInfo']=Services::getPartnerInfoDetails($applicationNo);
-            return view('services.approver.approve_to_new _license',$data);
+            return view('services.approve_application.approve_to_new _license',$data);
         }
         elseif($serviceId==13){
             //Tour Operator License Renew Details
-            return view('services.approver.approve_to_license_renew',$data);
+            return view('services.approve_application.approve_to_license_renew',$data);
         }
         elseif($serviceId==15){
             //Tour Operator Event Registration for Travel Fairs
             $data['applicantInfos']=Services::getApplicantDetailsForTravelFairs($applicationNo);
-            return view('services/approver/approve_to_registration_travel_fairs',$data);
+            return view('services.approve_application.approve_to_registration_travel_fairs',$data);
         }
         elseif($serviceId==22){
             //Tour operator FAM Details
             $data['marketingdtls']=Services::getMarketingDetails($applicationNo);
             $data['activities']=Services::getMarketingActivityDetails($applicationNo);
-          return view('services.approver.approve_tour_operater_fam',$data);
+          return view('services.approve_application.approve_tour_operater_fam',$data);
           }
 
     }

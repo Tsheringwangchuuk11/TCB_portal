@@ -80,7 +80,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => 'application', 'namespace' => 'Application'], function() {
         Route::get('new-application', 'ServiceController@getModules');
         Route::get('get-tech-clearance-dtls/{dispatch_no}', 'ServiceController@getTechCleranceDtls');
-		Route::get('get-services', 'ServiceController@getServices');
+        Route::get('get-services', 'ServiceController@getServices');
+        Route::get('check-dispatch-number', 'ServiceController@checkDispatchNumber');
         Route::get('service-create/{page_link}', 'ServiceController@getServiceForm');
         Route::post('get-chapters', 'ServiceController@getCheckListChapter');
         Route::post('get-homestaychapters', 'ServiceController@getHomeStayCheckListChapter');
@@ -92,7 +93,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('get-companyname', 'ServiceController@getCompnayName');
         Route::get('get-homestays-details/{cid}', 'ServiceController@getVillageHomeStayDetails');
         Route::get('get-event-details/{id}/{serviceId}/{moduleId}', 'ServiceController@getEventRegisteredDetails');
-
+        Route::get('delete-data-record', 'ServiceController@deleteDataRecord');
         // fileuploads
         Route::post('documentattach', 'FileUploadController@addDocuments');
         Route::post('deletefile', 'FileUploadController@deleteFile');
@@ -109,7 +110,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => 'verification', 'namespace' => 'Approver'], function() {
         Route::get('openApplication/{applicationNo}/{serviceId}/{moduleId}', 'OpenApplicationController@openApplication');
         //tourist standard hotel
-        Route::get('tourist-standard-hotel/{applicationNo}', 'TouristStandardHotelController@getApplicationDetails')->name('touriststandardhotel');
+        Route::get('tourist-standard-hotel/{applicationNo}/{status?}', 'TouristStandardHotelController@getApplicationDetails')->name('touriststandardhotel');
         Route::post('technical-clearance', 'TouristStandardHotelController@hotelTechnicalClearanceApplication');
         Route::post('standard-hotel-assessment', 'TouristStandardHotelController@standardHotelAssessmentApplication');
         Route::post('renew-hotel-license', 'TouristStandardHotelController@hotelLicenseRenewApplication');

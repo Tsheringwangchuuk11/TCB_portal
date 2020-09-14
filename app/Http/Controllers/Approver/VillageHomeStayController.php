@@ -40,10 +40,10 @@ class VillageHomeStayController extends Controller
             }]);
         }])->where('module_id','=',$moduleId)
         ->get();
-        return view('services.approver.approve_home_stays_assessment',$data);
+        return view('services.approve_application.approve_home_stays_assessment',$data);
         }
         elseif($serviceId==7){
-            return view('services/approver/approve_home_stays_license_renew',$data);
+            return view('services.approve_application.approve_home_stays_license_renew',$data);
         }
 
     }

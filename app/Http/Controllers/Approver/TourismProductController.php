@@ -31,13 +31,13 @@ class TourismProductController extends Controller
             //Tourism product development
           $data['organizerInfo']=Services::getOrganizerInfoDetails($applicationNo);
           $data['itemsInfos']=Services::getItemInfoDetails($applicationNo);
-          return view('services.approver.approve_tourism_product_development',$data);
+          return view('services.approve_application.approve_tourism_product_development',$data);
 
       }
       elseif($serviceId==19){
              //Tourism product proposal
           $data['productInfo']=Services::getProductInfoDetails($applicationNo);
-          return view('services.approver.approve_tourism_product_proposal',$data);
+          return view('services.approve_application.approve_tourism_product_proposal',$data);
       }
     }
 

@@ -141,18 +141,16 @@ class ServiceController extends Controller
     public static function getCheckListChapter(Request $request){
         $starCategoryId=$request->star_category_id;
         $moduleId = $request->module_id;
-
         $checklistDtls =  TCheckListChapter::with(['chapterAreas' => function($q) use($starCategoryId){
             $q->with(['checkListStandards'=> function($query) use($starCategoryId){
                 $query->leftJoin('t_check_list_standard_mappings','t_check_list_standards.id','=','t_check_list_standard_mappings.checklist_id')
                     ->leftJoin('t_basic_standards','t_check_list_standard_mappings.standard_id','=','t_basic_standards.id')
                     ->where('t_check_list_standard_mappings.star_category_id','=',$starCategoryId)
                     ->where('t_check_list_standard_mappings.is_active','=','1');
-
             }]);
         }])->where('module_id','=',$request->module_id)
         ->get();
-        return view('services/hotel_checklist', compact('checklistDtls'));
+        return view('services.new_application.hotel_checklist', compact('checklistDtls','starCategoryId'));
     }
 
     public function getHomeStayCheckListChapter(Request $request){
@@ -164,7 +162,7 @@ class ServiceController extends Controller
                 }]);
             }])->where('module_id','=',$request->module_id)
             ->get();
-        return view('services/homestay_checklist', compact('checklistDtls'));
+        return view('services.new_application.homestay_checklist', compact('checklistDtls'));
     }
 
     public function  getRestaurantCheckListChapter(Request $request){
@@ -175,7 +173,7 @@ class ServiceController extends Controller
             }]);
             }])->where('module_id','=',$request->module_id)
             ->get();
-        return view('services/restaurant_checklist', compact('checklistDtls'));
+        return view('services.new_application.restaurant_checklist', compact('checklistDtls'));
      }
 
     public function getTouristHotelDetails($licenseNo){
@@ -211,8 +209,19 @@ class ServiceController extends Controller
         return view('services/registration_for_tourism_events', compact('eventdtl','serviceId','moduleId','companyTypes'));
     }
 
+    //check dispatch Number
+    public function checkDispatchNumber(Request $request){
+        $present= Services::checkDispatchNumber($request->dispatch_no);
+        return response()->json($present);
+    }
+
+    //delete record from database
+    public function deleteDataRecord(Request $request){
+      $flag= Services::deleteDataRecord($request->recordId,$request->table_name);
+      return response()->json($flag);
+    }
     public function saveNewApplication(Request $request){
-       // dd($request->all());
+       //dd($request->all());
         $application_no = $this->services->generateApplNo($request);
         DB::transaction(function () use ($request, $application_no) {
             //insert into t_application
@@ -272,16 +281,15 @@ class ServiceController extends Controller
             $data->to_date=$request->to_date;
             $data->remarks=$request->remarks;
             $data->save();
+            
             //insert into t_room_applications
-            $room_type_id=$request->room_type_id;
-		    $room_no=$request->room_no;
 		    $roomAppData = [];
-            if(isset($room_type_id)){
-                foreach($room_type_id as $key => $value){
+            if(isset($_POST['room_type_id'])){
+                foreach($request->room_type_id as $key => $value){
                 $roomAppData[] = [
                         'application_no' => $application_no,
-                          'room_type_id' => $room_type_id[$key],
-                               'room_no' => $room_no[$key],
+                          'room_type_id' => $request->room_type_id[$key],
+                               'room_no' => $request->room_no[$key],
                     ];
                  }
 
@@ -289,38 +297,39 @@ class ServiceController extends Controller
             }
 
             //insert into t_staff_applications
-            $staff_area_id=$request->staff_area_id;
-            $hotel_div_id=$request->hotel_div_id;
-            $staff_name=$request->staff_name;
-            $staff_gender=$request->staff_gender;
             $staffAppData = [];
-            if(isset($staff_area_id)){
-				foreach($staff_area_id as $key => $value)
+            if(isset($_POST['staff_cid_no'])){
+				foreach($request->staff_cid_no as $key => $value)
 				{
                     $staffAppData[] = [
-                    'application_no'  => $application_no,
-					 'staff_area_id'  => $staff_area_id[$key],
-					  'hotel_div_id'  => $hotel_div_id[$key],
-					    'staff_name'  => $staff_name[$key],
-					  'staff_gender'  => $staff_gender[$key],
+                    'application_no' => $application_no,
+					 'staff_cid_no'  => $request->staff_cid_no[$key],
+					   'staff_name'  => $request->staff_name[$key],
+					 'staff_gender'  => $request->staff_gender[$key],
+                      'staff_designation'  => $request->staff_designation[$key],
+                    'qualification'  => $request->qualification[$key],
+                       'experience'  => $request->experience[$key],
+                           'salary'  => $request->salary[$key],
+               'hospitility_relating'=> $request->hospitility_relating[$key],
                     ];
                 }
                 $this->services->insertDetails('t_staff_applications',$staffAppData);
             }
 
             //insert into t_checklist_applications
-             $checklist_id=$request->checklist_id;
-             $checklistData = [];
-            if(isset($checklist_id)){
-				foreach($checklist_id as $key => $value)
+                $checklistData = [];
+				for ($i=0; $i < count($_POST['checklist_id']); $i++)
 				{
+                   if($request->checkvalue[$i] == 1){
                     $checklistData[] = [
-                    'application_no'  => $application_no,
-					  'checklist_id'  => $checklist_id[$key]
+                        'application_no'  => $application_no,
+                        'checklist_id'  => $request->checklist_id[$i],
+                        'assessor_score_point'  => $request->assessor_score_point[$i],
+                        'assessor_rating'  => $request->assessor_rating[$i],
                     ];
+                   }
                 }
                 $this->services->insertDetails('t_checklist_applications',$checklistData);
-            }
 
              //insert into t_member_applications
              $member_name=$request->member_name;
@@ -418,8 +427,7 @@ class ServiceController extends Controller
                               'vehicle_id' => $request->vehicle_id[$key],
                         'transport_status' => $_POST['transport_status'.$index],
                                  'fitness' => $_POST['fitness'.$index1],
-
-                    ];
+                         ];
                     }
 
                 $this->services->insertDetails('t_transport_applications',$transportationData);

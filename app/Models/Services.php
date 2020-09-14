@@ -243,7 +243,7 @@ public function setToDateAttribute($value)
 	public static function getRoomDetails($applicationNo){
 		$query=DB::table('t_room_applications as t1')
 		->leftjoin('t_applications as t3','t3.application_no','=','t1.application_no')
-		->leftjoin('t_room_types as t2','t2.id','=','t1.room_type_id')
+		->select('t3.application_no','t1.id','t1.room_type_id','t1.room_no')
 		->where('t1.application_no',$applicationNo)
 		->get();
 		return $query;
@@ -261,8 +261,6 @@ public function setToDateAttribute($value)
 	public static function getStaffDetails($applicationNo){
 		$query=DB::table('t_staff_applications as t1')
 		->leftjoin('t_applications as t4','t4.application_no','=','t1.application_no')
-		->leftjoin('t_staff_areas as t2','t2.id','=','t1.staff_area_id')
-		->leftjoin('t_hotel_divisions as t3','t3.id','=','t1.hotel_div_id')
 		->where('t1.application_no',$applicationNo)
 		->get();
 		return $query;
@@ -683,4 +681,26 @@ public function setToDateAttribute($value)
 			->first();
 			return $query;
 			}
+
+		public static function checkDispatchNumber($dispatch_no){
+			$query=\DB::table('t_technical_clearances as t1')
+						->where('t1.dispatch_no',$dispatch_no)
+						->exists();
+			return  $query;
+		}
+
+		public static function deleteDataRecord($recordId,$tablename){
+		 $query=\DB::table($tablename)
+					->where('id',$recordId)
+					->delete();
+		 return $query;
+		}
+
+		public static function getCheckedRecord($applicationNo){
+			$query=\DB::table('t_checklist_applications as t1')
+						->select('t1.checklist_id','t1.assessor_score_point','t1.assessor_rating')
+						->where('application_no',$applicationNo)
+						->get();
+           return $query;
+		}
 }

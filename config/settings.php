@@ -14,6 +14,12 @@ return [
         1 => 'Yes',
         0 => 'No',
     ],
+
+    "hospitility_relating" => [
+        'Y' => 'Yes',
+        'N' => 'No',
+    ],
+
     "organizerType" => [
         'N' => 'Non-Profit',
         'P' => 'Public Agency',
@@ -25,12 +31,7 @@ return [
         'type3' => 'Type3',
     ],
 
-    "applicanttype" => [
-        'P' => 'Person',
-        'L' => 'Legal',
-        'T' => 'Third Party Representative',
-    ],
-
+   
     "eapi_users_gateway" => [
         'mbobl' => 'MBOBL',
         'mpay' => 'MPAY',
