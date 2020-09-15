@@ -187,6 +187,7 @@
                     $(element).removeClass('is-invalid');
                 }
             });
+
             $('#edit_dropdownform').validate({
                 rules: {
                     dropdown_name: {
@@ -228,6 +229,7 @@
                 $('#master_id').val(masterId);
            
         });
+
         $('#add-btn-save').click(function(e){
             if (!$("#dropdownform").valid()) {
             return false;

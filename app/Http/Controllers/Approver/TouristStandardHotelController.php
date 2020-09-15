@@ -35,7 +35,7 @@ class TouristStandardHotelController extends Controller
         if($serviceId==1){
         $data['purposes'] =Dropdown::getDropdownList("6");
         $data['accommodationtypes'] =Dropdown::getDropdownList("7");
-        return view('services.approver.approve_technical_clearance',$data);
+        return view('services.approve_application.approve_technical_clearance',$data);
         }
 
         //Tourism standard hotel assesment Details
@@ -43,7 +43,7 @@ class TouristStandardHotelController extends Controller
         $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
         $data['starCategoryLists'] = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
         $data['roomTypeLists'] = Dropdown::getDropdownList("1");
-        $data['applicationTypes'] = Dropdown::getApplicationType("8",$dropdownId[]=["31","32"]);        
+        $data['applicationTypes'] = Dropdown::getApplicationType("8",$dropdownId[]=["26","27"]);        
         $data['roomInfos']=Services::getRoomDetails($applicationNo);
         $data['staffInfos']=Services::getStaffDetails($applicationNo);
         $starCategoryId=Services::getApplicantDetails($applicationNo)->star_category_id;
@@ -125,7 +125,7 @@ class TouristStandardHotelController extends Controller
                $completedId= WorkFlowDetails::getStatus('COMPLETED');
 
             // save new technical clearance details
-            if($request->purpose_id=="22"){
+            if($request->purpose_id=="20"){
                 $data[]= [            
                     'dispatch_no'   => str_random(8),
                     'application_no'   => $request->application_no,

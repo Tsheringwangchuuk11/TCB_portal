@@ -20,10 +20,7 @@ class DropDownController extends Controller
         $this->middleware('permission:master/drop-down-master,edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:master/drop-down-master,delete', ['only' => 'destroy']);
     }
-    public function getMasterDropDown(){
-        $masterDropDownLists = Dropdown::getMasterDropDown();
-        return view('master.drop_down_list.index',compact('masterDropDownLists'));
-    }
+   
     public function index()
     {
         $masterDropDownLists = Dropdown::getMasterDropDown();
@@ -48,10 +45,10 @@ class DropDownController extends Controller
      */
     public function store(Request $request)
     {
-
+         
          $savedata = Dropdown::Create(['dropdown_name' => $request->dropdown_name,'master_id' => $request->master_id,'created_by' => auth()->user()->id]);
          $lastRecord = Dropdown::latest()->first();
-        return response()->json($lastRecord );
+         return response()->json($lastRecord); 
     }
 
     /**

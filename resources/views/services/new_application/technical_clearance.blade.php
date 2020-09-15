@@ -249,14 +249,14 @@ $(document).ready(function(){
                     dispatch_no: {
                         required: function(element) {
                             var a=$("#application_type_id").val();
-                            if(a==23){
-                                return $("#application_type_id").val() ==23;
+                            if(a==21){
+                                return $("#application_type_id").val() ==21;
 
-                             }else if(a==24){
-                                return $("#application_type_id").val() ==24;
+                             }else if(a==22){
+                                return $("#application_type_id").val() ==22;
  
                              }else{
-                            return $("#application_type_id").val() ==25;
+                            return $("#application_type_id").val() ==23;
                              }
                         }
                     }, 
@@ -367,7 +367,7 @@ $(document).ready(function(){
     });
     $('#application_type_id').on('change',function(e) {
         var application_type_id=e.target.value;
-        if(application_type_id == "22"){
+        if(application_type_id == "20"){
             $("#form_data :input").prop("disabled", false); 
             $("#new_application").show();
             $("#renewal").hide();
@@ -375,14 +375,14 @@ $(document).ready(function(){
             $("#ownership_change").hide();
             $("#dispatchNumberId").hide();
         } 
-        else if(application_type_id == "23"){
+        else if(application_type_id == "21"){
             $("#new_application").hide();
             $("#renewal").show();
             $("#change_design").hide();
             $("#ownership_change").hide();
             $("#dispatchNumberId").show();
         } 
-        else if(application_type_id == "24"){
+        else if(application_type_id == "22"){
             $("#new_application").hide();
             $("#renewal").hide();
             $("#change_design").show();
@@ -390,7 +390,7 @@ $(document).ready(function(){
             $("#dispatchNumberId").show();
 
         }
-        else if(application_type_id == "25"){
+        else if(application_type_id == "23"){
             $("#new_application").hide();
             $("#renewal").hide();
             $("#change_design").hide();

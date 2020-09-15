@@ -160,31 +160,34 @@
                 <label for="">Number of Room<span class="text-danger">*</span> </label>
             </div>
         </div>
-        @foreach($roomInfos as $roomInfo)
-        <div class="row" id="record{{ $loop->index }}">
-                <div class="form-group col-md-5">
-                    <select class="form-control" name="room_type_id[]" id="room_type_id1">
-                        <option value=""> - Select Room - </option>
-                        @foreach ($roomTypeLists as $roomTypeList)
-                        <option value="{{ $roomTypeList->id }}" {{ old('room_type_id', $roomTypeList->id) == $roomInfo->room_type_id ? 'selected' : '' }}>{{ $roomTypeList->dropdown_name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group col-md-4 offset-md-2">
-                <input type="text" class="form-control calroomtotal" name="room_no[]" value="{{$roomInfo->room_no}}" id="room_nos{{ $loop->index }}" onkeyup="TotalRoomCal()">
-                </div>
-                <div>  
-                @if($loop->iteration>=2) 
-                      <span id="remove{{ $loop->index}}" onClick="removeRoom({{ $roomInfo->id }},{{ $loop->index}})" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt fa-sm"></i> Delete</span>
-                @endif
-                </div>
-        </div>
+        <div class="add_more_row" id="add_more_row">
+            @foreach($roomInfos as $roomInfo)
+            <div class="row roomtypes" id="record{{ $loop->index }}">
+                <input type="hidden" class="form-control record_id" name="record_id[]" value="{{$roomInfo->id}}">
+                    <div class="form-group col-md-5">
+                        <select class="form-control" name="room_type_id[]" id="room_type_id1">
+                            <option value=""> - Select Room - </option>
+                            @foreach ($roomTypeLists as $roomTypeList)
+                            <option value="{{ $roomTypeList->id }}" {{ old('room_type_id', $roomTypeList->id) == $roomInfo->room_type_id ? 'selected' : '' }}>{{ $roomTypeList->dropdown_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4 offset-md-2">
+                    <input type="text" class="form-control calroomtotal" name="room_no[]" value="{{$roomInfo->room_no}}" id="room_nos{{ $loop->index }}" onkeyup="TotalRoomCal()">
+                    </div>
+            </div>
+            @if($loop->iteration>=2) 
+            <span id="remove{{ $loop->index}}" onClick="removeRoom({{ $roomInfo->id }},{{ $loop->index}})" class="btn btn-danger btn-sm" style=" margin-top:-50px; float:right">
+            <i class="fas fa-trash-alt fa-sm"></i> Delete</span>
+            @endif
         @php
         ($total +=$roomInfo->room_no);
        @endphp    
        @endforeach
         <div id="adddiv"></div>
         <span class="btn btn-success btn-sm float-right" onclick="addMoreRoom(this)"> <i class="fas fa-plus fa-sm">Add</i></span><br>
+        </div>
+       
         <div class="row">
             <div class="form-group col-md-5">
                 <label for="">Total number of rooms:&nbsp;<span id="room_total">{{ $total }}</span></label>
@@ -337,24 +340,28 @@
 <script>
         id=1;
         function addMoreRoom(this_id){
-            $("#rowId").clone().attr('id', 'rowId'+id).after("#id").appendTo("#adddiv").find("input[type='text']").val("");
-            $addRow ='<span id="remove'+id+'" class="btn-group" style=" margin-top:-50px; float:right">' 
-            +'<span id="remove" onClick="removeForm('+id+')"' 
-            +'class="btn btn-danger btn-sm"><i class="fas fa-trash-alt fa-sm"></i> Delete</span></span>'
-            +'<div id="line'+id+'"></div>';
+            var pId = $(this_id).parents("div.add_more_row").attr('id');
+            room = $('#'+pId).find('div.roomtypes').attr('id');
+            $("#"+room).clone().attr('id', room+id).after("#id").appendTo("#adddiv").find("input[type='text']").val("");
+            $addRow ='<span id="remove'+id+'" onClick="removeForm('+id+',room)" class="btn btn-danger btn-sm" style=" margin-top:-50px; float:right">' 
+            +'<i class="fas fa-trash-alt fa-sm"></i> Delete</span>';
             $('#adddiv').append($addRow);
+            $('#'+room+id).find('input.record_id').val(""); 
             id++;
-
         }
-        function removeForm(id){ 
-            var no_of_rooms=$('#rowId'+id).find("input.calroomtotal").val();
+        function removeForm(id,room){ 
+            var no_of_rooms=$('#'+room+id).find("input.calroomtotal").val();
             var total= $("#room_total").text(); 
             if (confirm('Are you sure you want to delete this form?')){
-                $('#rowId'+id).remove();
-                $('#remove'+id).remove();
-                $('#line'+id).remove();
-                var deductvalue=parseFloat(total)-parseFloat(no_of_rooms);
-                $("#room_total").html(deductvalue);
+                $('#'+room).find($("#remove"+id)).remove();
+                if (!isNaN(no_of_rooms)) {
+                    var no_of_rooms=0;
+                    var deductvalue=parseFloat(total)-parseFloat(no_of_rooms);
+                    $("#room_total").html(deductvalue);
+                }else{
+                    var deductvalue=parseFloat(total)-parseFloat(no_of_rooms);
+                    $("#room_total").html(deductvalue);
+                }
             }
         }
 

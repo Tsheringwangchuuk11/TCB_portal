@@ -52,7 +52,7 @@ class ServiceController extends Controller
             $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
             $data['starCategoryLists'] = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
             $data['roomTypeLists'] = Dropdown::getDropdownList("1");
-            $data['applicationTypes'] = Dropdown::getApplicationType("8",$dropdownId[]=["31","32"]);
+            $data['applicationTypes'] = Dropdown::getApplicationType("8",$dropdownId[]=["26","27"]);
         }
 
         //recommendation letter for import license
@@ -69,12 +69,12 @@ class ServiceController extends Controller
 
         //hotel_ownership_name_cancellation
         else if($data['idInfos']->service_id==6 && $data['idInfos']->module_id==1){
-            $data['applicationTypes'] = Dropdown::getApplicationType("8",$dropdownId[]=["33","34","35"]);
+            $data['applicationTypes'] = Dropdown::getApplicationType("8",$dropdownId[]=["28","29","30"]);
         }
         
         //home_stays_assessment
         else if($data['idInfos']->service_id==7 && $data['idInfos']->module_id==2){
-            $data['applicationTypes'] = Dropdown::getApplicationType("8",$dropdownId[]=["31","32"]);
+            $data['applicationTypes'] = Dropdown::getApplicationType("8",$dropdownId[]=["26","27"]);
             $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
             $data['relationTypes'] =  Dropdown::getDropdownList("4");
         }
@@ -86,7 +86,7 @@ class ServiceController extends Controller
 
         //restuarant_ownership_name_change
         else if($data['idInfos']->service_id==10 && $data['idInfos']->module_id==3){
-            $data['applicationTypes'] = Dropdown::getApplicationType("8",$dropdownId[]=["33","34"]);
+            $data['applicationTypes'] = Dropdown::getApplicationType("8",$dropdownId[]=["28","29"]);
         }
 
         //to_license_clearance_new _license
@@ -96,12 +96,12 @@ class ServiceController extends Controller
 
         //to_name_ownership_location_change
         else if($data['idInfos']->service_id==11 && $data['idInfos']->module_id==4){
-            $data['applicationTypes'] = Dropdown::getApplicationType("8",$dropdownId[]=["33","34","41"]);
+            $data['applicationTypes'] = Dropdown::getApplicationType("8",$dropdownId[]=["28","29","31"]);
         }
 
         //recommandation_letter_for_tourism_industry_partners
         else if($data['idInfos']->service_id==13 && $data['idInfos']->module_id==4){
-            $data['applicationTypes'] = Dropdown::getApplicationType("9",$dropdownId[]=["43","44"]);
+            $data['applicationTypes'] = Dropdown::getApplicationType("9",$dropdownId[]=["32","33"]);
             $data['eventFairDetails'] = Services::getTravelEventFairDetails();
 
         }
@@ -317,6 +317,7 @@ class ServiceController extends Controller
             }
 
             //insert into t_checklist_applications
+            if(isset($_POST['checklist_id'])){
                 $checklistData = [];
 				for ($i=0; $i < count($_POST['checklist_id']); $i++)
 				{
@@ -330,6 +331,7 @@ class ServiceController extends Controller
                    }
                 }
                 $this->services->insertDetails('t_checklist_applications',$checklistData);
+            }
 
              //insert into t_member_applications
              $member_name=$request->member_name;
