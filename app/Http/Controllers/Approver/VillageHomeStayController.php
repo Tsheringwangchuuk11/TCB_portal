@@ -11,38 +11,50 @@ use App\Models\TaskDetails;
 use App\Models\TCheckListChapter;
 class VillageHomeStayController extends Controller
 {
-    public function __construct(Services $services)
-    {
-        $this->middleware('permission:application/new-application,view', ['only' => ['index', 'show']]);
-        $this->middleware('permission:application/new-application,create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:application/new-application,edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:application/new-application,delete', ['only' => 'destroy']);
-        $this->services = $services;
-
-    }
-    public function getApplicationDetails($applicationNo){
+    
+    public function getApplicationDetails($applicationNo,$status=null){
         $data['applicantInfo']=Services::getApplicantDetails($applicationNo);
         $serviceId= $data['applicantInfo']->service_id;
         $moduleId= $data['applicantInfo']->module_id;
-        $data['documentInfos']=Services::getDocumentDetails($applicationNo);
-        $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
-        $data['relationTypes'] = Dropdown::getDropdowns("t_relation_types","id","relation_type","0","0");
 
-        if($serviceId==4){
+        if($serviceId==7){
         //Village Home stay Checklist Details
+        $data['applicationTypes'] = Dropdown::getApplicationType("8",$dropdownId[]=["26","27"]);
+        $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+        $data['relationTypes'] =  Dropdown::getDropdownList("4");
+        $data['documentInfos']=Services::getDocumentDetails($applicationNo);
         $data['membersDetls']=Services::getMembersDetails($applicationNo);
-        $data['checklistDtls'] =  TCheckListChapter::with(['chapterAreas' => function($q) use($applicationNo){
-            $q->with(['checkListStandards'=> function($query) use($applicationNo){
-                $query->leftJoin('t_check_list_standard_mappings','t_check_list_standards.id','=','t_check_list_standard_mappings.checklist_id')
-                    ->leftJoin('t_basic_standards','t_check_list_standard_mappings.standard_id','=','t_basic_standards.id')
-                    ->leftJoin('t_checklist_applications','t_check_list_standards.id','=','t_checklist_applications.checklist_id')
-                    ->where('t_checklist_applications.application_no','=',$applicationNo);
-            }]);
-        }])->where('module_id','=',$moduleId)
-        ->get();
-        return view('services.approve_application.approve_home_stays_assessment',$data);
+
+            if($status==9){
+                // page redirect to application resubmit and draft
+                $data['checklistDtls'] =  TCheckListChapter::with(['chapterAreas' => function($q){
+                    $q->with(['checkListStandards'=> function($query){
+                        $query->leftJoin('t_check_list_standard_mappings','t_check_list_standards.id','=','t_check_list_standard_mappings.checklist_id')
+                            ->leftJoin('t_basic_standards','t_check_list_standard_mappings.standard_id','=','t_basic_standards.id')
+                            ->where('t_check_list_standard_mappings.is_active','=','1');
+                    }]);
+                }])->where('module_id','=',$moduleId)
+                ->get();
+                $data['checklistrecords']=Services::getCheckedRecord($applicationNo);
+                $data['checklistrec']=Services::getCheckedRecord($applicationNo)->pluck('checklist_id')->toArray();
+                return view('services.resubmit_application.resubmit_home_stay_assessment',$data,compact('status'));
+            }else{
+                // page redirect to application approve
+                $data['checklistDtls'] =  TCheckListChapter::with(['chapterAreas' => function($q) use($applicationNo){
+                    $q->with(['checkListStandards'=> function($query) use($applicationNo){
+                        $query->leftJoin('t_check_list_standard_mappings','t_check_list_standards.id','=','t_check_list_standard_mappings.checklist_id')
+                            ->leftJoin('t_basic_standards','t_check_list_standard_mappings.standard_id','=','t_basic_standards.id')
+                            ->leftJoin('t_checklist_applications','t_check_list_standards.id','=','t_checklist_applications.checklist_id')
+                            ->where('t_checklist_applications.application_no','=',$applicationNo);
+                    }]);
+                }])->where('module_id','=',$moduleId)
+                ->get();
+                $status= WorkFlowDetails::getStatus('APPROVED')->id;
+                return view('services.approve_application.approve_home_stays_assessment',$data,compact('status'));
+            }
         }
-        elseif($serviceId==7){
+        
+        elseif($serviceId==8){
             return view('services.approve_application.approve_home_stays_license_renew',$data);
         }
 
@@ -50,6 +62,7 @@ class VillageHomeStayController extends Controller
 
      //Approval function for village Home Stay assessment application
    public function villageHomeStayAssessmentApplication(Request $request){
+    $assigned_priv_id=WorkFlowDetails::getAssignedRoleForApp($request->service_id);
     if($request->status =='APPROVED'){
         // insert into t_techt_tourist_standard_dtlsnical_clearances
         \DB::transaction(function () use ($request) {
@@ -60,6 +73,7 @@ class VillageHomeStayController extends Controller
             'module_id'   => $request->module_id,
             'cid_no'   => $request->cid_no,
             'owner_name'   => $request->owner_name,
+            'tourist_standard_name'   => $request->tourist_standard_name,
             'house_no'   => $request->house_no,
             'contact_no'   => $request->contact_no,
             'thram_no'   => $request->thram_no,
@@ -83,7 +97,7 @@ class VillageHomeStayController extends Controller
                          'tourist_standard_id' =>  $id,
                          'member_name'   => $request->member_name[$key],
                          'relation_type_id'   => $request->relation_type_id[$key],
-                         'member_age'   => $request->member_age[$key],
+                         'member_dob'   => $request->member_dob[$key],
                          'member_gender'   => $request->member_gender[$key],
                          'created_at'   => now(),
                          'updated_at'   => now(),
@@ -106,21 +120,39 @@ class VillageHomeStayController extends Controller
                $this->services->insertDetails('t_checklist_dtls',$checklistData);
            }
            
-        $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
-        $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
-                ->update(['status_id' => $approveId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
+           $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
+           $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
+                   ->update(['status_id' => $approveId->id,'role_id'=> $assigned_priv_id->role_id,'remarks' => $request->remarks]);
 
-        $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
-        $updateworkflow=TaskDetails::where('application_no',$request->application_no)
-                                ->update(['status_id' => $completedId->id]);
+           $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
+           $updateworkflow=TaskDetails::where('application_no',$request->application_no)
+                                   ->update(['status_id' => $completedId->id]); 
     });
     return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
 
-    }else{
+    } elseif($request->status =='RESUBMIT'){
+        $resubmitdId = WorkFlowDetails::getStatus('RESUBMIT');
+        $completedId= WorkFlowDetails::getStatus('COMPLETED');
+        $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
+        $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
+        ->update(['status_id' => $resubmitdId->id,'role_id'=>$assigned_priv_id->role_id,'remarks' => $request->remarks]);
+
+        $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
+        $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
+                                ->update(['status_id' => $completedId->id]);
+        return redirect('tasklist/tasklist')->with('msg_success', 'Application resend successfully');
+    }
+    else{
+
+        $completedId= WorkFlowDetails::getStatus('COMPLETED');
         $rejectId = WorkFlowDetails::getStatus('REJECTED');
         $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
         $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
-        ->update(['status_id' => $rejectId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
+        ->update(['status_id' => $rejectId->id,'role_id'=>$assigned_priv_id->role_id,'remarks' => $request->remarks]);
+
+        $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
+        $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
+                                ->update(['status_id' => $completedId->id]);
         return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
         }
     }

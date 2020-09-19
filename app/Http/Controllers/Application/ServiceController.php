@@ -21,7 +21,6 @@ class ServiceController extends Controller
         $this->middleware('permission:application/new-application,edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:application/new-application,delete', ['only' => 'destroy']);
         $this->services = $services;
-
     }
     public function getModules()
     {
@@ -39,7 +38,8 @@ class ServiceController extends Controller
     {
         $page_link=str_replace("-", '/',$page_link);
         $data['idInfos'] = Services::getIdInfo($page_link);
-        
+        $status=WorkFlowDetails::getStatus('SUBMITTED')->id;
+
         //Technical clearance
         if($data['idInfos']->service_id==1 && $data['idInfos']->module_id==1){
             $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
@@ -124,7 +124,7 @@ class ServiceController extends Controller
             $data['eventFairDetails'] = Services::getTravelEventFairDetails();
         }
 
-        return view($page_link, $data);
+        return view($page_link, $data,compact('status'));
     }
 
     public static function getCheckListArea($id)
@@ -334,21 +334,16 @@ class ServiceController extends Controller
             }
 
              //insert into t_member_applications
-             $member_name=$request->member_name;
-             $relation_type_id=$request->relation_type_id;
-             $member_age=$request->member_age;
-             $member_gender=$request->member_gender;
              $membersDetailsData = [];
-
-             if(isset($member_name)){
-				foreach($member_name as $key => $value)
+             if(isset($_POST['member_name'])){
+				foreach($request->member_name as $key => $value)
 				{
                     $membersDetailsData[] = [
                       'application_no'  => $application_no,
-                         'member_name'  => $member_name[$key],
-                    'relation_type_id'  => $relation_type_id[$key],
-                          'member_age'  => $member_age[$key],
-                       'member_gender'  => $member_gender[$key]
+                         'member_name'  => $request->member_name[$key],
+                    'relation_type_id'  => $request->relation_type_id[$key],
+                          'member_dob'  => $request->member_dob[$key],
+                       'member_gender'  => $request->member_gender[$key]
                     ];
                 }
                 $this->services->insertDetails('t_member_applications',$membersDetailsData);
@@ -557,18 +552,27 @@ class ServiceController extends Controller
              $this->services->updateDocumentDetails($documentId,$application_no);
 
             //insert into t_workflow_dtls
-            $update=new WorkFlowDetails;
-            $update->application_no=$application_no;
-            $update->status_id=WorkFlowDetails::getStatus('SUBMITTED')->id;
-            $update->user_id=auth()->user()->id;
-            $update->save();
+            if($request->status=='DRAFT'){
+                $update=new WorkFlowDetails;
+                $update->application_no=$application_no;
+                $update->status_id=WorkFlowDetails::getStatus('DRAFT')->id;
+                $update->user_id=auth()->user()->id;
+                $update->save();
 
-            //insert into t_task_dtls
-            $update=new TaskDetails;
-            $update->application_no=$application_no;
-            $update->status_id=WorkFlowDetails::getStatus('INITIATED')->id;
-            $update->assigned_priv_id=TaskDetails::getAssignPrivId($request->service_id)->id;
-            $update->save();
+            }else{
+                $update=new WorkFlowDetails;
+                $update->application_no=$application_no;
+                $update->status_id=WorkFlowDetails::getStatus('SUBMITTED')->id;
+                $update->user_id=auth()->user()->id;
+                $update->save();
+    
+                //insert into t_task_dtls
+                $update=new TaskDetails;
+                $update->application_no=$application_no;
+                $update->status_id=WorkFlowDetails::getStatus('INITIATED')->id;
+                $update->assigned_priv_id=TaskDetails::getAssignPrivId($request->service_id)->id;
+                $update->save();
+            }
 
         });
         return redirect('application/new-application')->with('appl_info', 'Your application has been submitted successfully and your application number is :'.$application_no);

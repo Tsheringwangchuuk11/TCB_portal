@@ -12,34 +12,24 @@ use App\Models\TaskDetails;
 
 class TouristStandardHotelController extends Controller
 {
-    public function __construct(Services $services)
-    {
-        $this->middleware('permission:application/new-application,view', ['only' => ['index', 'show']]);
-        $this->middleware('permission:application/new-application,create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:application/new-application,edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:application/new-application,delete', ['only' => 'destroy']);
-        $this->services = $services;
-
-    }
-
     public function getApplicationDetails($applicationNo,$status=null){
         $data['applicantInfo']=Services::getApplicantDetails($applicationNo);
         $serviceId= $data['applicantInfo']->service_id;
         $moduleId= $data['applicantInfo']->module_id;
         $starCategoryId= $data['applicantInfo']->star_category_id;
-        $data['documentInfos']=Services::getDocumentDetails($applicationNo);
-        $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
         $data['countries'] = Dropdown::getDropdownList("3");
         
         //Technical clearance Details for hotel
         if($serviceId==1){
         $data['purposes'] =Dropdown::getDropdownList("6");
         $data['accommodationtypes'] =Dropdown::getDropdownList("7");
+        $data['documentInfos']=Services::getDocumentDetails($applicationNo);
         return view('services.approve_application.approve_technical_clearance',$data);
         }
 
         //Tourism standard hotel assesment Details
         elseif($serviceId==3){
+        $data['documentInfos']=Services::getDocumentDetails($applicationNo);
         $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
         $data['starCategoryLists'] = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
         $data['roomTypeLists'] = Dropdown::getDropdownList("1");
@@ -47,7 +37,9 @@ class TouristStandardHotelController extends Controller
         $data['roomInfos']=Services::getRoomDetails($applicationNo);
         $data['staffInfos']=Services::getStaffDetails($applicationNo);
         $starCategoryId=Services::getApplicantDetails($applicationNo)->star_category_id;
-            if($status==9){
+
+            if($status==9 || $status==10){
+                // page redirect to application resubmit and draft
                 $data['checklistDtls'] =  TCheckListChapter::with(['chapterAreas' => function($q) use($starCategoryId){
                     $q->with(['checkListStandards'=> function($query) use($starCategoryId){
                         $query->leftJoin('t_check_list_standard_mappings','t_check_list_standards.id','=','t_check_list_standard_mappings.checklist_id')
@@ -59,8 +51,9 @@ class TouristStandardHotelController extends Controller
                 ->get();
                 $data['checklistrecords']=Services::getCheckedRecord($applicationNo);
                 $data['checklistrec']=Services::getCheckedRecord($applicationNo)->pluck('checklist_id')->toArray();
-                return view('services.resubmit_application.resubmit_hotels_assessment',$data);
+                return view('services.resubmit_application.resubmit_hotels_assessment',$data,compact('status'));
             }else{
+                // page redirect to application approve
                 $data['checklistDtls'] =  TCheckListChapter::with(['chapterAreas' => function($q) use($applicationNo,$starCategoryId){
                     $q->with(['checkListStandards'=> function($query) use($applicationNo,$starCategoryId){
                         $query->leftJoin('t_check_list_standard_mappings','t_check_list_standards.id','=','t_check_list_standard_mappings.checklist_id')
@@ -71,7 +64,8 @@ class TouristStandardHotelController extends Controller
                     }]);
                 }])->where('module_id','=',$moduleId)
                 ->get();
-                return view('services.approve_application.approve_hotels_assessment',$data);
+                $status= WorkFlowDetails::getStatus('APPROVED')->id;
+                return view('services.approve_application.approve_hotels_assessment',$data,compact('status'));
             }
         }
                     
@@ -292,9 +286,9 @@ class TouristStandardHotelController extends Controller
             $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
                     ->update(['status_id' => $approveId->id,'role_id'=> $assigned_priv_id->role_id,'remarks' => $request->remarks]);
 
-            /* $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
+            $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
             $updateworkflow=TaskDetails::where('application_no',$request->application_no)
-                                    ->update(['status_id' => $completedId->id]); */
+                                    ->update(['status_id' => $completedId->id]); 
         });
         return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
 

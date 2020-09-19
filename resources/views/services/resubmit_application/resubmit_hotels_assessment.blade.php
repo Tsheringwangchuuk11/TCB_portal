@@ -1,14 +1,13 @@
 @extends('layouts.manager')
 @section('page-title','Registration of Tourist Standard Hotels')
 @section('content')
-<form action="{{ url('application/save-application') }}" method="POST" files="true" id="form_data" enctype="multipart/form-data">
+<form action="{{ url('application/save-resubmit-application') }}" method="POST" files="true" id="form_data" enctype="multipart/form-data">
     @csrf
     <input type="hidden" class="form-control" name="module_id" value="{{ $applicantInfo->module_id }}">
     <input type="hidden" class="form-control" name="service_id" value="{{ $applicantInfo->service_id }}">
-    @php
-        $scorepointtotal=0;
-        $ratingpointtotal=0;
-    @endphp
+    <input type="hidden" name="service_name" value="{{ $applicantInfo->name }}" id="service_name">
+    <input type="hidden" name="module_name" value="{{ $applicantInfo->module_name }}" id="module_name">
+<div class="card">
     <div class="card">
         <div class="card-header">
             <h4 class="card-title">General Information</h4>
@@ -51,7 +50,7 @@
                 </div>
                 <div class="form-group col-md-5 offset-md-2">
                     <label for="">Hotel Name </label>
-                    <input type="text" class="form-control" name="tourist_standard_name"  value="{{ $applicantInfo->company_title_name }}" autocomplete="off">
+                    <input type="text" class="form-control" name="company_title_name"  value="{{ $applicantInfo->company_title_name }}" autocomplete="off">
                 </div>
             </div>
             <div class="row">
@@ -101,7 +100,7 @@
                 </div>
                 <div class="form-group col-md-5 offset-md-2">
                     <label for="">Number of Beds</label>
-                    <input type="text" class="form-control numeric-only" name="bed_no" value="{{ $applicantInfo->number }}" autocomplete="off">
+                    <input type="text" class="form-control" name="number" value="{{ $applicantInfo->number }}" autocomplete="off">
                 </div>
             </div>
         </div>
@@ -160,34 +159,51 @@
                 <label for="">Number of Room<span class="text-danger">*</span> </label>
             </div>
         </div>
-        <div class="add_more_row" id="add_more_row">
-            @foreach($roomInfos as $roomInfo)
-            <div class="row roomtypes" id="record{{ $loop->index }}">
-                <input type="hidden" class="form-control record_id" name="record_id[]" value="{{$roomInfo->id}}">
+        <div class="parent_div" id="parent_div">
+            @forelse ($collection as $item)
+                <div class="row roomtypes" id="record{{ $loop->index }}">
+                    <input type="hidden" class="form-control room_record_id" name="room_record_id[]" value="{{$roomInfo->id}}">
+                        <div class="form-group col-md-5">
+                            <select class="form-control" name="room_type_id[]">
+                                <option value=""> - Select Room - </option>
+                                @foreach ($roomTypeLists as $roomTypeList)
+                                <option value="{{ $roomTypeList->id }}" {{ old('room_type_id', $roomTypeList->id) == $roomInfo->room_type_id ? 'selected' : '' }}>{{ $roomTypeList->dropdown_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4 offset-md-2">
+                        <input type="text" class="form-control calroomtotal" name="room_no[]" value="{{$roomInfo->room_no}}" onkeyup="TotalRoomCal()">
+                        </div>
+                </div>
+                @if($loop->index >=1)
+                <span id="remove{{ $loop->index }}" class="btn-group" style=" margin-top:-50px; float:right">
+                    <span id="remove" onclick="removeRoom('{{ $roomInfo->id }}','{{ $loop->index }}')" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt fa-sm"></i> Delete</span>
+                </span>
+                <div id="line{{ $loop->index }}"></div>
+                @endif
+                @php
+                    ($total +=$roomInfo->room_no);
+                @endphp       
+            @empty
+                <div class="row roomtypes" id="record">
+                    <input type="hidden" class="form-control room_record_id" name="room_record_id[]">                    
                     <div class="form-group col-md-5">
-                        <select class="form-control" name="room_type_id[]" id="room_type_id1">
-                            <option value=""> - Select Room - </option>
-                            @foreach ($roomTypeLists as $roomTypeList)
-                            <option value="{{ $roomTypeList->id }}" {{ old('room_type_id', $roomTypeList->id) == $roomInfo->room_type_id ? 'selected' : '' }}>{{ $roomTypeList->dropdown_name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group col-md-4 offset-md-2">
-                    <input type="text" class="form-control calroomtotal" name="room_no[]" value="{{$roomInfo->room_no}}" id="room_nos{{ $loop->index }}" onkeyup="TotalRoomCal()">
-                    </div>
-            </div>
-            @if($loop->iteration>=2) 
-            <span id="remove{{ $loop->index}}" onClick="removeRoom({{ $roomInfo->id }},{{ $loop->index}})" class="btn btn-danger btn-sm" style=" margin-top:-50px; float:right">
-            <i class="fas fa-trash-alt fa-sm"></i> Delete</span>
-            @endif
-        @php
-        ($total +=$roomInfo->room_no);
-       @endphp    
-       @endforeach
-        <div id="adddiv"></div>
-        <span class="btn btn-success btn-sm float-right" onclick="addMoreRoom(this)"> <i class="fas fa-plus fa-sm">Add</i></span><br>
-        </div>
-       
+                            <select class="form-control" name="room_type_id[]" id="room_type_id">
+                                <option value=""> - Select Room - </option>
+                                @foreach ($roomTypeLists as $roomTypeList)
+                                <option value="{{ $roomTypeList->id }}">{{ $roomTypeList->dropdown_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4 offset-md-2">
+                            <input type="text" class="form-control calroomtotal" name="room_no[]" id="room_no" onkeyup="TotalRoomCal()">
+                        </div>
+                </div>
+            @endforelse
+            <div id="adddiv"></div>
+            <span class="btn bg-purple btn-sm float-right" onclick="addMoreRoom(this)"> <i class="fas fa-plus fa-sm"> Add New Row</i></span><br>
+         </div>
+
         <div class="row">
             <div class="form-group col-md-5">
                 <label for="">Total number of rooms:&nbsp;<span id="room_total">{{ $total }}</span></label>
@@ -215,18 +231,20 @@
                 </thead>
                 <tbody>
                     @foreach ($staffInfos as $staffInfo)
-                    <tr>
+                    @if ($loop->iteration==1)
+                      <tr>
                         <td width="1%" class="text-center">
-                            <a href="#" class="delete-row btn btn-danger btn-xs"><i class="fas fa-times"></i></a>
+                            <a href="#" class="delete-table-row btn btn-danger btn-xs"><i class="fas fa-times"></i></a>
                         </td>
                         <td width="15%">
-                            <input type="text" name="staff_cid_no[]" value="{{$staffInfo->staff_cid_no}}" class="form-control resetKeyForNew" />
+                            <input type="text" name="staff_cid_no[]" value="{{$staffInfo->staff_cid_no}}" class="form-control" />
+                            <input type="hidden" size="1" name="staff_record_id[]" value="{{ $staffInfo->id }}">
                         </td>
                         <td width="20%">
-                            <input type="text" name="staff_name[]" value="{{$staffInfo->staff_name}}" class="form-control resetKeyForNew" />
+                            <input type="text" name="staff_name[]" value="{{$staffInfo->staff_name}}" class="form-control" />
                         </td>
                         <td width="15%">
-                            <select class="form-control input-sm resetKeyForNew" name="staff_gender[]" >
+                            <select class="form-control input-sm" name="staff_gender[]" >
                                 <option value=""> </option>
                                 @foreach (config()->get('settings.gender') as $k => $v)
                                 <option value="{{ $k }}" {{ old('staff_gender', $k) == $staffInfo->staff_gender ? 'selected' : '' }}>{{ $v }}</option>
@@ -234,39 +252,83 @@
                             </select>
                         </td>
                         <td>
-                            <input type="text" name="staff_designation[]" value="{{$staffInfo->staff_designation}}" class="form-control input-sm resetKeyForNew">
+                            <input type="text" name="staff_designation[]" value="{{$staffInfo->staff_designation}}" class="form-control input-sm">
                         </td>
                         <td>
-                            <input type="text" name="qualification[]" value="{{$staffInfo->qualification}}" class="form-control input-sm resetKeyForNew">
+                            <input type="text" name="qualification[]" value="{{$staffInfo->qualification}}" class="form-control input-sm">
                         </td>
                         <td>
-                            <input type="text" name="experience[]" value="{{$staffInfo->experience}}" class="form-control input-sm resetKeyForNew">
+                            <input type="text" name="experience[]" value="{{$staffInfo->experience}}" class="form-control input-sm">
                         </td>
                         <td width="10%">
-                            <input type="text" name="salary[]" value="{{$staffInfo->salary}}" class="form-control input-sm resetKeyForNew" />
+                            <input type="text" name="salary[]" value="{{$staffInfo->salary}}" class="form-control input-sm" />
                         </td>
                         <td>
-                            <select class="form-control input-sm resetKeyForNew" name="hospitility_relating[]">
+                            <select class="form-control input-sm" name="hospitility_relating[]">
                                 <option value=""> </option>
                                 @foreach (config()->get('settings.hospitility_relating') as $k => $v)
                                 <option value="{{ $k }}" {{ old('hospitility_relating', $k) == $staffInfo->hospitility_relating ? 'selected' : '' }}>{{ $v }}</option>
                                 @endforeach
                             </select>
                         </td>
-                    </tr>
+                    </tr>  
+                    @else
+                   <tr id="row{{$loop->iteration}}">
+                    <td width="1%" class="text-center">
+                        <span class="btn btn-danger btn-xs" onclick="removeStaff('{{$loop->iteration}}','{{ $staffInfo->id }}')" ><i class="fas fa-times"></i></span>
+                    </td>
+                    <td width="15%">
+                        <input type="text" name="staff_cid_no[]" value="{{$staffInfo->staff_cid_no}}" class="form-control" />
+                        <input type="hidden" size="1" name="staff_record_id[]" value="{{ $staffInfo->id }}">
+                    </td>
+                    <td width="20%">
+                        <input type="text" name="staff_name[]" value="{{$staffInfo->staff_name}}" class="form-control" />
+                    </td>
+                    <td width="15%">
+                        <select class="form-control input-sm" name="staff_gender[]" >
+                            <option value=""> </option>
+                            @foreach (config()->get('settings.gender') as $k => $v)
+                            <option value="{{ $k }}" {{ old('staff_gender', $k) == $staffInfo->staff_gender ? 'selected' : '' }}>{{ $v }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" name="staff_designation[]" value="{{$staffInfo->staff_designation}}" class="form-control input-sm">
+                    </td>
+                    <td>
+                        <input type="text" name="qualification[]" value="{{$staffInfo->qualification}}" class="form-control input-sm">
+                    </td>
+                    <td>
+                        <input type="text" name="experience[]" value="{{$staffInfo->experience}}" class="form-control input-sm">
+                    </td>
+                    <td width="10%">
+                        <input type="text" name="salary[]" value="{{$staffInfo->salary}}" class="form-control input-sm" />
+                    </td>
+                    <td>
+                        <select class="form-control input-sm" name="hospitility_relating[]">
+                            <option value=""> </option>
+                            @foreach (config()->get('settings.hospitility_relating') as $k => $v)
+                            <option value="{{ $k }}" {{ old('hospitility_relating', $k) == $staffInfo->hospitility_relating ? 'selected' : '' }}>{{ $v }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                </tr>
+                    @endif
                     @endforeach
+                    @if ($staffInfos->isEmpty())
                     <tr>
                         <td width="1%" class="text-center">
                             <a href="#" class="delete-table-row btn btn-danger btn-xs"><i class="fas fa-times"></i></a>
                         </td>
                         <td width="15%">
-                            <input type="text" name="staff_cid_no[]" class="form-control resetKeyForNew" />
+                            <input type="hidden" size="1" name="staff_record_id[]">
+                            <input type="text" name="staff_cid_no[]" class="form-control" />
                         </td>
                         <td width="20%">
-                            <input type="text" name="staff_name[]" class="form-control resetKeyForNew" />
+                            <input type="text" name="staff_name[]" class="form-control" />
                         </td>
                         <td width="15%">
-                            <select class="form-control input-sm resetKeyForNew" name="staff_gender[]">
+                            <select class="form-control input-sm" name="staff_gender[]">
                                 <option value=""> </option>
                                 @foreach (config()->get('settings.gender') as $k => $v)
                                 <option value="{{ $k }}" {{ old('gender') == $k ? 'selected' : '' }}>{{ $v }}</option>
@@ -274,28 +336,30 @@
                             </select>
                         </td>
                         <td>
-                            <input type="text" name="staff_designation[]" class="form-control input-sm resetKeyForNew">
+                            <input type="text" name="staff_designation[]" class="form-control input-sm">
                         </td>
                         <td>
-                            <input type="text" name="qualification[]" class="form-control input-sm resetKeyForNew">
+                            <input type="text" name="qualification[]" class="form-control input-sm">
                         </td>
                         <td>
-                            <input type="text" name="experience[]" class="form-control input-sm resetKeyForNew">
+                            <input type="text" name="experience[]" class="form-control input-sm">
                         </td>
                         <td width="10%">
-                            <input type="text" name="salary[]" class="form-control input-sm resetKeyForNew" />
+                            <input type="text" name="salary[]" class="form-control input-sm" />
                         </td>
                         <td>
-                            <select class="form-control input-sm resetKeyForNew" name="hospitility_relating[]">
+                            <select class="form-control input-sm" name="hospitility_relating[]">
                                 <option value=""> </option>
-                                <option value="Y">Yes</option>
-                                <option value="N">No</option>
+                                @foreach (config()->get('settings.hospitility_relating') as $k => $v)
+                                <option value="{{ $k }}" {{ old('hospitility_relating') == $k ? 'selected' : '' }}>{{ $v }}</option>
+                                @endforeach
                             </select>
                         </td>
                     </tr>
+                    @endif
                     <tr class="notremovefornew">
                         <td class="text-right" colspan="9">
-                            <a href="#" class="add-table-row btn bg-purple btn-xs"><i class="fa fa-plus"></i> Add New Row</a>
+                            <a href="#" class="add-table-row btn bg-purple btn-sm"><i class="fa fa-plus"></i> Add New Row</a>
                         </td>
                     </tr>
                 </tbody>
@@ -304,140 +368,187 @@
     </div>
     @include('services.resubmit_application.resubmit_hotel_check_list')
     <div class="card">
-        <div class="card-header">
-             <h4 class="card-title">Document Attachment</h4>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="form-group col-md-6">
-                    <label>Title</label>
+    <div class="card-header">
+        <h4 class="card-title">File Attachment</h4>
+    </div>
+    <div class="card-body">
+        <h6> <strong>Required supporting documents:</strong></h6>
+        <ol>
+            <li>
+                <em>Please attach additional sheets where necessary like pictures of buildings</em>      
+            </li>
+        </ol>
+        @include('services/fileupload/fileupload')
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group ml-3">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" name="terms" id="exampleCheck2">
+                    I hereby:
+                    <ol>
+                        <li>
+                            Confirm the accuracy of the provided data; 
+                        </li>
+                        <li>
+                            Agree to submit upon request of the Classification Committee  additional information for classification approval/modification purposes; 
+                        </li>
+                        <li>
+                            Apply for the assignment of <b><span id="star_level"></span></b>  and verify the conformity of the accommodation establishment  to the  guideline; 
+                        </li>
+                        <li>
+                            Agree with the terms and conditions laid down in the statutes of the TCB- classification committee and the classification procedure.
+                        </li>
+                    </ol>
                 </div>
-                <div class="form-group col-md-6">
-                    <label>Download Files</label>
-                </div>
-                @forelse ($documentInfos as $documentInfo)
-                <div class="form-group col-md-6">
-                    <span>{{ $documentInfo->document_name }}</span>
-                </div>
-                <div class="form-group col-md-6">
-                    <a href="{{ url($documentInfo->upload_url) }}" class="btn btn-xs btn-info" target="_blank"><i class="fa fa-link"></i> View</a>                
-                </div>
-                @empty
-                <div class="form-group col-md-12">
-                    <p>No data availlable</p>
-                </div>
-                @endforelse                
             </div>
         </div>
-        <div class="card-footer text-center">
-            <button type="submit"class="btn btn-success"><i class="fa fa-check"></i> APPLY</button>
-            <button type="reset"class="btn btn-danger"><i class="fa fa-times"></i> RESET</button>
-        </div>
     </div>
+    <div class="card-footer text-center">
+        <button type="submit"class="btn btn-success"><i class="fa fa-check"></i> APPLY</button>
+        <button type="reset"class="btn btn-danger"><i class="fa fa-times"></i> RESET</button>
+    </div>
+</div>
 </form>
 @endsection
 @section('scripts')
-<script>
-        id=1;
-        function addMoreRoom(this_id){
-            var pId = $(this_id).parents("div.add_more_row").attr('id');
-            room = $('#'+pId).find('div.roomtypes').attr('id');
-            $("#"+room).clone().attr('id', room+id).after("#id").appendTo("#adddiv").find("input[type='text']").val("");
-            $addRow ='<span id="remove'+id+'" onClick="removeForm('+id+',room)" class="btn btn-danger btn-sm" style=" margin-top:-50px; float:right">' 
-            +'<i class="fas fa-trash-alt fa-sm"></i> Delete</span>';
-            $('#adddiv').append($addRow);
-            $('#'+room+id).find('input.record_id').val(""); 
-            id++;
-        }
-        function removeForm(id,room){ 
-            var no_of_rooms=$('#'+room+id).find("input.calroomtotal").val();
-            var total= $("#room_total").text(); 
-            if (confirm('Are you sure you want to delete this form?')){
-                $('#'+room).find($("#remove"+id)).remove();
-                if (!isNaN(no_of_rooms)) {
-                    var no_of_rooms=0;
-                    var deductvalue=parseFloat(total)-parseFloat(no_of_rooms);
-                    $("#room_total").html(deductvalue);
-                }else{
-                    var deductvalue=parseFloat(total)-parseFloat(no_of_rooms);
+    <script>
+        $(document).ready(function(){
+                    var star_category_name = $("#star_category_id  option:selected").text();
+                    $("#star_level").html(star_category_name);
+
+            });
+            id=1;
+            function addMoreRoom(this_id){
+                var parentdivId = $(this_id).parents("div.parent_div").attr('id');
+                curRow = $('#'+parentdivId).find('div.roomtypes').attr('id');
+                $("#"+curRow).clone().attr('id', curRow+id).after("#id").appendTo("#adddiv").find("input[type='text']").val("");
+                $addRow ='<span id="remove'+curRow+id+'" class="btn-group" style=" margin-top:-50px; float:right">' 
+                +'<span id="remove" onClick="removeForm('+id+',curRow)"' 
+                +'class="btn btn-danger btn-sm"><i class="fas fa-trash-alt fa-sm"></i> Delete</span></span>'
+                +'<div id="line'+curRow+id+'"></div>';
+                $('#adddiv').append($addRow);
+                $('#'+curRow+id).find('input.room_record_id').val(""); 
+                id++;
+            }
+            function removeForm(id,curRow){ 
+                var no_of_rooms=$('#'+curRow+id).find("input.calroomtotal").val();
+                var total= $("#room_total").text(); 
+                if (confirm('Are you sure you want to delete this form?')){
+                    $('#'+curRow+id).remove();
+                    $('#remove'+curRow+id).remove();
+                    $('#line'+curRow+id).remove();
+                    if (!isNaN(no_of_rooms)) {
+                        no_of_rooms=0;
+                        var deductvalue=parseFloat(total)-parseFloat(no_of_rooms);
+                    }else{
+                        var deductvalue=parseFloat(total)-parseFloat(no_of_rooms);
+                    }
                     $("#room_total").html(deductvalue);
                 }
             }
-        }
 
-        function TotalRoomCal() {
+        
+            function TotalRoomCal() {
+                var sum = 0;
+                //iterate through each textboxes and add the values
+                $(".calroomtotal").each(function () {
+                    //add only if the value is number
+                    if (!isNaN(this.value) && this.value.length != 0) {
+                        sum += parseFloat(this.value);
+                    }
+                });
+                //.toFixed() method will roundoff the final sum to 2 decimal places
+                $("#room_total").html(sum);
+            }
+
+            function removeRoom(roomId,rowId){
+                var no_of_rooms=$('#record'+rowId).find("input.calroomtotal").val();
+                var total= $("#room_total").text(); 
+                if (confirm('Are you sure you want to delete this form?')){
+                    $.ajax({
+                        url:'/application/delete-data-record',
+                        type:"GET",
+                        data: {
+                            recordId: roomId,
+                            table_name: 't_room_applications',
+                        },
+                    success: function (data) {
+                        if(data =='1'){
+                            $('#record'+rowId).remove();
+                            $('#remove'+rowId).remove();
+                            $('#line'+rowId).remove();
+                            var deductvalue=parseFloat(total)-parseFloat(no_of_rooms);
+                            $("#room_total").html(deductvalue);
+                        }else{
+                            alert("Some thing went wrong");
+                        }
+                    }
+                });
+              }
+            }
+
+            function removeStaff(rowId,staffId){
+                if (confirm('Are you sure you want to delete this form?')){
+                    $.ajax({
+                        url:'/application/delete-data-record',
+                        type:"GET",
+                        data: {
+                            recordId: staffId,
+                            table_name: 't_staff_applications',
+                        },
+                    success: function (data) {
+                        if(data =='1'){
+                            $("#row"+rowId).remove();
+                        }else{
+                            alert("Some thing went wrong");
+                        }
+                    }
+                });
+            }
+
+            }
+
+        function calculateScorePoint() {
             var sum = 0;
             //iterate through each textboxes and add the values
-            $(".calroomtotal").each(function () {
+            $(".txt").each(function () {
                 //add only if the value is number
                 if (!isNaN(this.value) && this.value.length != 0) {
                     sum += parseFloat(this.value);
                 }
             });
             //.toFixed() method will roundoff the final sum to 2 decimal places
-            $("#room_total").html(sum);
-         }
-
-         function removeRoom(roomId,rowId){
-            var no_of_rooms=$('#room_nos'+rowId).val();
-            var total= $("#room_total").text(); 
-            if (confirm('Are you sure you want to delete this form?')){
-                $.ajax({
-                    url:'/application/delete-data-record',
-                    type:"GET",
-                    data: {
-                        recordId: roomId,
-                        table_name: 't_room_applications',
-                    },
-                success: function (data) {
-                    if(data =='1'){
-                        $('#record'+rowId).remove();
-                        var deductvalue=parseFloat(total)-parseFloat(no_of_rooms);
-                       $("#room_total").html(deductvalue);
-                    }else{
-                        alert("Some thing went wrong");
-                    }
+        $("#scorepoint").html(sum);
+        }
+        $("table").on("keyup", ".txt", function () {
+            calculateScorePoint();
+        });
+        
+        function calculateBsPoint() {
+            var sum = 0;
+            //iterate through each textboxes and add the values
+            $(".bstxt").each(function () {
+                //add only if the value is number
+                if (!isNaN(this.value) && this.value.length != 0) {
+                    sum += parseFloat(this.value);
                 }
             });
-           }
-         }
-        function validatedate(){
-            var num = $("#validaty_date").val();
-            var f = new Date(num);
-            f.setFullYear (f.getFullYear() + 3 )
-            var x=  f.toLocaleDateString('en-US',{day:"2-digit",month:"2-digit",year:"numeric"})
-            $('#validaty_date').val(x);
+            //.toFixed() method will roundoff the final sum to 2 decimal places
+        $("#bspoints").html(sum);
         }
-function calculateScorePoint() {
-    var sum = 0;
-    //iterate through each textboxes and add the values
-    $(".txt").each(function () {
-        //add only if the value is number
-        if (!isNaN(this.value) && this.value.length != 0) {
-            sum += parseFloat(this.value);
-        }
-    });
-    //.toFixed() method will roundoff the final sum to 2 decimal places
- $("#scorepoint").html(sum);
-}
-$("table").on("keyup", ".txt", function () {
-    calculateScorePoint();
-});
-
-function calculateBsPoint() {
-    var sum = 0;
-    //iterate through each textboxes and add the values
-    $(".bstxt").each(function () {
-        //add only if the value is number
-        if (!isNaN(this.value) && this.value.length != 0) {
-            sum += parseFloat(this.value);
-        }
-    });
-    //.toFixed() method will roundoff the final sum to 2 decimal places
- $("#bspoints").html(sum);
-}
-$("table").on("keyup", ".bstxt", function () {
-    calculateBsPoint();
-});
-</script>
+        $("table").on("keyup", ".bstxt", function () {
+            calculateBsPoint();
+        });
+        $('input[type="checkbox"]').on('change', function(){
+            if($(this).is(":checked")){ // checkbox checked
+            currentRow = $(this).closest("tr");
+            var currentVal=currentRow.find('.chk').val('1');
+            }
+            if($(this).is(":unchecked")){ // checkbox unchecked
+            currentRow = $(this).closest("tr");
+            var currentVal=currentRow.find('.chk').val('0');
+            }
+        });
+    </script>
 @endsection

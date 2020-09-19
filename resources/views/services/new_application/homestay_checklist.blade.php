@@ -49,11 +49,9 @@
 													<td>{{ $checkListStandard->checklist_standard }}</td>
 													<td>{{ $checkListStandard->standard_code }}</td>
 													<td>
-														@if ($checkListStandard->mandatory==='1')
-														<input type="checkbox" name="checklist_id[]" value="{{$checkListStandard->checklist_id}}"><span class="text-danger">*</span>
-														@else 
-														<input type="checkbox" name="checklist_id[]" value="{{$checkListStandard->checklist_id}}">
-														@endif
+														<input type="hidden" name="checklist_id[]" class="checklist" value="{{$checkListStandard->checklist_id}}">
+														<input type="checkbox" name="check">
+														<input type="hidden" name="checkvalue[]" value="0" class="chk">
 													</td>
 													@php
 													$area = $chapterArea->checklist_area
@@ -76,3 +74,15 @@
 		</div>
 	</div>
 @endif
+<script>
+	$('input[type="checkbox"]').on('change', function(){
+        if($(this).is(":checked")){ // checkbox checked
+		currentRow = $(this).closest("tr");
+        var currentVal=currentRow.find('.chk').val('1');
+        }
+		if($(this).is(":unchecked")){ // checkbox unchecked
+		currentRow = $(this).closest("tr");
+        var currentVal=currentRow.find('.chk').val('0');
+        }
+    });
+</script>

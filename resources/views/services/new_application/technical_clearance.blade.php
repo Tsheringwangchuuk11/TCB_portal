@@ -154,62 +154,62 @@
             <div class="col-md-12">
                 <div class="form-group ml-3">
                     <div class="form-check">
-        <ol id="new_application" style="display:none">
-            <li>
-                <em><input type="checkbox" name="checkboxes" class="check-one">&nbsp;An application addressed to the Director General of TCB requesting the issuance
-                of technical clearance.</em>   
-                </em>
-            </li>
-            <li>
-                <em>
-                    <input type="checkbox" name="checkboxes"  class="check-one">&nbsp; Architectural drawings 
-                </em>
-            </li>
-        </ol>
-        <ol id="renewal" style="display:none">
-            <li>
-                <em> <input type="checkbox" name="checkboxes"  class="check-one">&nbsp; An application addressed to the Director General of TCB with clear justification
-                on renewal of technical clearance.
-                </em> 
-            </li>
-            <li>  
-                <em>  <input type="checkbox" name="checkboxes"  class="check-one">&nbsp; Surrender the previous technical clearance issued to the proponent..</em>
-            </li>
-        </ol>
-        <ol id="change_design" style="display:none">
-            <li>
-                <em> <input type="checkbox" name="checkboxes"  class="check-one">&nbsp; An application addressed to the Director General of TCB with clear justification
-                for issuance of new technical clearance.
-                </em>  
-            </li>
-            <li> 
-                <em>
-                    <input type="checkbox" name="checkboxes"  class="check-one">&nbsp; Submit the new architectural drawings
-                </em>  
-            </li>
-            <li>
-                <em>
-                    <input type="checkbox" name="checkboxes"  class="check-one">&nbsp;  Surrender the previous technical clearance issued to the proponent.
-                </em>   
-            </li>
-        </ol>
-        <ol id="ownership_change" style="display:none">
-            <li>
-                <em> <input type="checkbox" name="checkboxes"  class="check-one">&nbsp; An application addressed to the Director General of TCB with clear justification
-                for change in ownership.
-                </em> 
-            </li>
-            <li>
-                <em>
-                    <input type="checkbox" name="checkboxes"  class="check-one">&nbsp; Original copy of undertaking letter signed by both parties..
-                </em>   
-            </li>
-            <li>
-                <em>
-                    <input type="checkbox" name="checkboxes"  class="check-one">&nbsp;  Surrender the previous technical clearance issued to the proponent.   
-                </em>   
-            </li>
-        </ol>
+                        <ol id="new_application" style="display:none">
+                            <li>
+                                <em><input type="checkbox" name="checkboxes" class="check-one">&nbsp;An application addressed to the Director General of TCB requesting the issuance
+                                of technical clearance.</em>   
+                                </em>
+                            </li>
+                            <li>
+                                <em>
+                                    <input type="checkbox" name="checkboxes"  class="check-one">&nbsp; Architectural drawings 
+                                </em>
+                            </li>
+                        </ol>
+                        <ol id="renewal" style="display:none">
+                            <li>
+                                <em> <input type="checkbox" name="checkboxes"  class="check-one">&nbsp; An application addressed to the Director General of TCB with clear justification
+                                on renewal of technical clearance.
+                                </em> 
+                            </li>
+                            <li>  
+                                <em>  <input type="checkbox" name="checkboxes"  class="check-one">&nbsp; Surrender the previous technical clearance issued to the proponent..</em>
+                            </li>
+                        </ol>
+                        <ol id="change_design" style="display:none">
+                            <li>
+                                <em> <input type="checkbox" name="checkboxes"  class="check-one">&nbsp; An application addressed to the Director General of TCB with clear justification
+                                for issuance of new technical clearance.
+                                </em>  
+                            </li>
+                            <li> 
+                                <em>
+                                    <input type="checkbox" name="checkboxes"  class="check-one">&nbsp; Submit the new architectural drawings
+                                </em>  
+                            </li>
+                            <li>
+                                <em>
+                                    <input type="checkbox" name="checkboxes"  class="check-one">&nbsp;  Surrender the previous technical clearance issued to the proponent.
+                                </em>   
+                            </li>
+                        </ol>
+                        <ol id="ownership_change" style="display:none">
+                            <li>
+                                <em> <input type="checkbox" name="checkboxes"  class="check-one">&nbsp; An application addressed to the Director General of TCB with clear justification
+                                for change in ownership.
+                                </em> 
+                            </li>
+                            <li>
+                                <em>
+                                    <input type="checkbox" name="checkboxes"  class="check-one">&nbsp; Original copy of undertaking letter signed by both parties..
+                                </em>   
+                            </li>
+                            <li>
+                                <em>
+                                    <input type="checkbox" name="checkboxes"  class="check-one">&nbsp;  Surrender the previous technical clearance issued to the proponent.   
+                                </em>   
+                            </li>
+                        </ol>
                     </div>
                 </div>
             </div>

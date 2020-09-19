@@ -1,7 +1,7 @@
 @extends('layouts.manager')
 @section('page-title','Assessment And Registration Of Village Home Stays')
 @section('content')
-<form action="{{ url('application/save-application') }}" class="form-horizontal" method="POST" enctype="multipart/form-data" id="formdata">
+<form action="{{ url('application/save-application') }}" class="form-horizontal" method="POST" enctype="multipart/form-data" id="form_data">
     @csrf
     <input type="hidden" name="service_id" value="{{ $idInfos->service_id }}" id="service_id">
     <input type="hidden" name="module_id" value="{{ $idInfos->module_id }}" id="module_id">
@@ -18,26 +18,26 @@
                     <select class="form-control select2bs4" name="application_type_id" id="application_type_id" style="width: 100%;">
                         <option value="">- Select -</option>
                         @foreach ($applicationTypes as $applicationType)
-                        <option value="{{$applicationType->id}}">{{$applicationType->dropdown_name}}</option>
+                        <option value="{{$applicationType->id}}"  {{ old('application_type_id') == $applicationType->id ? 'selected' : '' }}>{{$applicationType->dropdown_name}}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="form-group col-md-5 offset-md-2">
                     <label>Home Stay Name<span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" name="applicant_name" value="{{ old('applicant_name') }}" autocomplete="off">
+                    <input type="text" class="form-control" name="company_title_name" value="{{ old('company_title_name') }}">
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-5">
-                    <div class="form-group">
-                        <label for="">Name<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control" name="applicant_name" value="{{ old('applicant_name') }}" autocomplete="off">
+                    <div class="form-group ">
+                        <label for="">CID No.<span class="text-danger"> *</span></label>
+                        <input type="text" class="form-control" name="cid_no"  value="{{ old('cid_no') }}">
                     </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
-                    <div class="form-group ">
-                        <label for="">CID No.<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control" name="cid_no"  value="{{ old('cid_no') }}" autocomplete="off">
+                    <div class="form-group">
+                        <label for="">Name<span class="text-danger"> *</span></label>
+                        <input type="text" class="form-control" name="applicant_name" value="{{ old('applicant_name') }}">
                     </div>
                 </div>
             </div>
@@ -45,13 +45,13 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="">Contact No.<span class="text-danger"> *</span> </label>
-                        <input type="text" class="form-control" name="contact_no" value="{{ old('contact_no') }}" autocomplete="off">
+                        <input type="text" class="form-control" name="contact_no" value="{{ old('contact_no') }}">
                     </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
                     <div class="form-group">
-                        <label for="">Email</label>
-                        <input type="email" class="form-control" name="email" value="{{ old('email') }}" autocomplete="off">
+                        <label for="">Email<span class="text-danger"> *</span></label>
+                        <input type="email" class="form-control" name="email" value="{{ old('email') }}">
                     </div>
                 </div>
             </div>
@@ -88,7 +88,7 @@
                 <div class="col-md-5 offset-md-2">
                     <div class="form-group">
                         <label for="">Village <span class="text-danger"> *</span></label>
-                        <select  name="village_id" class="form-control select2bs4" id="village_id" style="width: 100%;">
+                        <select  name="establishment_village_id" class="form-control select2bs4" id="village_id" style="width: 100%;">
                             <option value=""> -Select-</option>
                         </select>
                     </div>
@@ -119,19 +119,19 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="">Distance from the nearest town/urban centre (hrs or kms)<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control" name="town_distance" autocomplete="off">
+                        <input type="text" class="form-control" name="town_distance" value="{{ old('town_distance') }}">
                     </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
                     <div class="form-group">
                         <label for="">Distance from the main road (hrs or kms)<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control" name="road_distance" autocomplete="off">
+                        <input type="text" class="form-control" name="road_distance" value="{{ old('road_distance') }}">
                     </div>
                 </div>
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="">Condition of the pathway to house from the road point<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control" name="condition" autocomplete="off">
+                        <input type="text" class="form-control" name="condition" value="{{ old('condition') }}">
                     </div>
                 </div>
             </div>
@@ -162,7 +162,7 @@
                         <input type="text" class="form-control" name="member_name[]">
                     </div>
                     <div class="form-group col-md-3">
-                        <select class="form-control" name="relation_type_id[]" id="hotel_div_id">
+                        <select class="form-control" name="relation_type_id[]">
                             <option value="">- Select -</option>
                             @foreach ($relationTypes as $relationType)
                             <option value="{{ $relationType->id }}"> {{ $relationType->dropdown_name }}</option>
@@ -170,10 +170,10 @@
                         </select>
                     </div>
                     <div class="form-group col-md-3">
-                        <input type="date" class="form-control" name="member_age[]" autocomplete="off" id="staff_name">
+                        <input type="date" class="form-control" name="member_dob[]" autocomplete="off">
                     </div>
                     <div class="form-group col-md-2">
-                        <select class="form-control" name="member_gender[]" id="staff_gender">
+                        <select class="form-control" name="member_gender[]">
                             <option value="">- Select -</option>
                             @foreach (config()->get('settings.gender') as $k => $v)
                             <option value="{{ $k }}" {{ old('gender') == $k ? 'selected' : '' }}>{{ $v }}</option>
@@ -183,7 +183,7 @@
                 </div>
             </div>
             <div id="adddiv"></div>
-            <span class="btn btn-success btn-sm float-right" id="add"> <i class="fas fa-plus fa-sm">Add</i> </span>
+            <span class="btn bg-purple btn-sm float-right" id="add"> <i class="fas fa-plus fa-sm">Add New Row</i> </span>
         </div>
     </div>
     <div id="showdivid"></div>
@@ -193,30 +193,38 @@
         </div>
         <div class="card-body">
             <h6> <strong>Required supporting documents:</strong></h6>
-            <ol>
-                <li>
-                    <input type="checkbox" name=""><em> Family tree</em>
-                </li>
-                <li>
-                    <input type="checkbox" name=""> <em>Pictures of buildings</em>
-                </li>
-                <li>
-                    <input type="checkbox" name=""><em> Pictures of toilet/ bath rooms</em>
-                </li>
-                <li>
-                    <input type="checkbox" name=""><em> Pictures of guest room </em>
-                </li>
-                <li>
-                    <input type="checkbox" name=""> <em>Pictures of kitchen</em>
-                </li>
-                <li>
-                    <input type="checkbox" name=""><em> Pictures of waste management</em>
-                </li>
-                <li>
-                    <input type="checkbox" name=""><em> Pictures of dining room / living room </em>
-                </li>
-            </ol>
-            @include('services/fileupload/fileupload')
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group ml-3">
+                        <div class="form-check">
+                            <ol>
+                                <li>
+                                    <input type="checkbox" name="checkboxes"  class="check-one">&nbsp;<em> Family tree</em>
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="checkboxes"  class="check-one">&nbsp; <em>Pictures of buildings</em>
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="checkboxes"  class="check-one">&nbsp; Pictures of toilet/ bath rooms</em>
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="checkboxes"  class="check-one">&nbsp;<em> Pictures of guest room </em>
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="checkboxes"  class="check-one">&nbsp; <em>Pictures of kitchen</em>
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="checkboxes"  class="check-one">&nbsp;<em> Pictures of waste management</em>
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="checkboxes"  class="check-one">&nbsp;<em> Pictures of dining room / living room </em>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @include('services/fileupload/fileupload')
         </div>
         <div class="card-footer text-center" >
             <button type="submit"class="btn btn-success">
@@ -242,7 +250,7 @@
 		$(document).ready(function(){ 
 			id=1;
 			$("#add").click(function(){
-				$("#row").clone().attr('id', 'row'+id).after("#id").appendTo("#adddiv").find("input[type='text']").val("");
+				$("#row").clone().attr('id', 'row'+id).after("#id").appendTo("#adddiv").find("input[type='text'],select,input[type='date']").val("");
 				$addRow ='<div id="remove'+id+'" class="btn-group" style=" margin-top:-50px; float:right">' 
 				+'<span id="remove" onClick="removeForm('+id+')"' 
 				+'class="btn btn-danger btn-sm"><i class="fas fa-trash-alt fa-sm"></i> Delete</span></div>'
@@ -265,10 +273,141 @@
 					var options = {target:'#showdivid',
 					url:url,
 					type:'POST',
-					data: $("#formdata").serialize()};
-					$("#formdata").ajaxSubmit(options);
+					data: $("#form_data").serialize()};
+					$("#form_data").ajaxSubmit(options);
 			}
 		    window.onload=loadChecklistDetails();
-		});
+        });
+
+        // document check list validation
+        var chck = $('input[type=checkbox]');
+        var numItems = $('.check-one').length;
+        chck.hasClass('check-one');
+        $.validator.addMethod('check_one', function (value) {
+            return (chck.filter(':checked').length ==numItems);
+        }, 'Submit all the document mention above'); 
+
+        // form validation
+        $('#form_data').validate({
+                rules: {
+                    application_type_id: {
+                       required: true,
+                    },
+                    cid_no: {
+                        required: true,
+                        maxlength: 11,
+                        minlength: 11,
+                        digits: true,                    
+                     },
+                     checkboxes: {
+                             check_one: true,
+                    },
+                    company_title_name: {
+                        required: true,
+                    },
+                    applicant_name: {
+                        required: true,
+                    },
+                    contact_no: {
+                        required: true,
+                        digits: true,                    
+                    },
+                    email: {
+                        required: true,
+                        email: true,                    
+                    },
+                    dzongkhag_id: {
+                        required: true,
+                    },
+                    gewog_id: {
+                        required: true,
+                    },
+                    chiwog_id: {
+                        required: true,
+                    },
+                    establishment_village_id: {
+                        required: true,
+                    },
+                    thram_no: {
+                        required: true,
+                    },
+                    house_no: {
+                        required: true,
+                    },
+                    town_distance: {
+                        required: true,
+                    },
+                    road_distance: {
+                        required: true,
+                    },
+                    condition: {
+                        required: true,
+                    },
+                    
+                   },
+                messages: {
+                    application_type_id: {
+                         required: "Please select the application type",
+                    },
+                    cid_no: {
+                        required: "Please provide a cid number",
+                        maxlength: "Your cid must be 11 characters long",
+                        minlength: "Your cid must be at least 11 characters long",
+                        digits: "This field accept only digits",
+                    },
+                    applicant_name: {
+                        required: "Enter the name",
+                    },
+                    contact_no: {
+                        required: "Please provide a contact number",
+                        digits: "This field accept only digits",
+                    },
+                    email: {
+                        required: "Please enter a email address",
+                        email: "Please enter a vaild email address"
+                    },
+                    company_title_name: {
+                        required: "Please enter home stay name",
+                    },
+                    dzongkhag_id: {
+                        required: "Please select dzongkhag",
+                    },
+                    gewog_id: {
+                        required: "Please select gewog",
+                    },
+                    chiwog_id: {
+                        required: "Please select gewog",
+                    },
+                    establishment_village_id: {
+                        required: "Please select village",
+                    },
+                    thram_no: {
+                        required:"Please enter the thram number",
+                    },
+                    house_no: {
+                        required: "Please enter the house number",
+                    },
+                    town_distance: {
+                        required: "Please enter the town distance",
+                    },
+                    road_distance: {
+                        required: "Please enter the road distance",
+                    },
+                    condition: {
+                        required: "Please condtions",
+                    },
+                },
+                errorElement: 'span',
+                errorPlacement: function (error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function (element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
+                }
+         });
 	</script>
 @endsection

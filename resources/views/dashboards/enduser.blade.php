@@ -47,9 +47,17 @@
                                 <tr>
                                     <td>
                                         @if ($endUserApplicantDtl->id===9)
-                                        <a href="{{ url('verification/tourist-standard-hotel',['applicationNo'=>$endUserApplicantDtl->application_no,'status'=>$endUserApplicantDtl->id]) }}">{{ $endUserApplicantDtl->application_no }}</a>
+                                            @if($endUserApplicantDtl->module_id==1)
+                                                <a href="{{ url('verification/tourist-standard-hotel',['applicationNo'=>$endUserApplicantDtl->application_no,'status'=>$endUserApplicantDtl->id]) }}">{{ $endUserApplicantDtl->application_no }}</a>
+                                            @elseif($endUserApplicantDtl->module_id==2)
+                                                 <a href="{{ url('verification/village-homestay',['applicationNo'=>$endUserApplicantDtl->application_no,'status'=>$endUserApplicantDtl->id]) }}">{{ $endUserApplicantDtl->application_no }}</a>
+                                            @else
+                                                 <a href="{{ url('verification/restaurant',['applicationNo'=>$endUserApplicantDtl->application_no,'status'=>$endUserApplicantDtl->id]) }}">{{ $endUserApplicantDtl->application_no }}</a>
+                                            @endif
+                                        @elseif($endUserApplicantDtl->id===10)
+                                             <a href="{{ url('verification/tourist-standard-hotel',['applicationNo'=>$endUserApplicantDtl->application_no,'status'=>$endUserApplicantDtl->id]) }}">{{ $endUserApplicantDtl->application_no }}</a>
                                         @else
-                                       {{ $endUserApplicantDtl->application_no }}
+                                             {{ $endUserApplicantDtl->application_no }}
                                         @endif
                                        </td>
                                     <td>{{ $endUserApplicantDtl->module_name }}</td>

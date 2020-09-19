@@ -99,6 +99,11 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('deletefile', 'FileUploadController@deleteFile');
     });
 
+     //routes for resubmit application
+     Route::group(['prefix' => 'application', 'namespace' => 'Application'], function() {
+        Route::post('save-resubmit-application', 'ResubmitServiceController@saveResubmitApplication');
+     });
+
     //routes for task list
     Route::group(['prefix' => 'tasklist', 'namespace' => 'Tasklist'], function() {
         Route::resource('tasklist', 'TasklistController');
@@ -118,7 +123,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('hotel-name-change', 'TouristStandardHotelController@hotelNameChangeApplication');
         Route::post('hotel-license-cancel', 'TouristStandardHotelController@hotelLicenseCancelApplication');
         //village home stay
-        Route::get('village-homestay/{applicationNo}', 'VillageHomeStayController@getApplicationDetails')->name('villagehomestay');
+        Route::get('village-homestay/{applicationNo}/{status?}', 'VillageHomeStayController@getApplicationDetails')->name('villagehomestay');
         Route::post('village-home-stay-assessment', 'VillageHomeStayController@villageHomeStayAssessmentApplication');
         Route::post('village-home-stay-license-renew', 'VillageHomeStayController@villageHomeStayLicenseRenewApplication');
 

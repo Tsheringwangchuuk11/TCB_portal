@@ -172,7 +172,7 @@
             </div>
         </div>
         <div id="adddiv"></div>
-        <span class="btn btn-success btn-sm float-right" id="add"> <i class="fas fa-plus fa-sm">Add</i></span><br>
+        <span class="btn bg-purple btn-sm float-right" id="add"><i class="fas fa-plus fa-sm"> Add New Row</i></span><br>
         <div class="row">
             <div class="form-group col-md-5">
                 <label for="">Total number of rooms:&nbsp;<span id="room_total"></span></label>
@@ -238,7 +238,7 @@
                 </tr>
                 <tr class="notremovefornew">
                     <td class="text-right" colspan="9">
-                        <a href="#" class="add-table-row btn bg-purple btn-xs"><i class="fa fa-plus"></i> Add New Row</a>
+                        <a href="#" class="add-table-row btn bg-purple btn-sm"><i class="fa fa-plus"></i> Add New Row</a>
                     </td>
                 </tr>
             </tbody>
@@ -283,6 +283,7 @@
         </div>
     </div>
     <div class="card-footer text-center">
+        <button name="status" value="DRAFT" class="btn btn-info"><i class="fa fa-check"></i> SAVE TO DRAFT</button>
         <button type="submit"class="btn btn-success"><i class="fa fa-check"></i> APPLY</button>
         <button type="reset"class="btn btn-danger"><i class="fa fa-times"></i> RESET</button>
     </div>
@@ -363,7 +364,7 @@
                 });
             });
         });
-
+/* 
         $.validator.addMethod('checkScorepoint', function (value) {
             var star_category_id=$("#star_category_id").val();
                 if(star_category_id==1){
@@ -379,7 +380,7 @@
         
         $.validator.addMethod('checkBspoints', function (value) {
             return (value >= 117 && value <= 120 );
-        }, 'Your score point should be within above range');
+        }, 'Your score point should be within above range'); */
 
         $('#form_data').validate({
                 rules: {
@@ -457,12 +458,12 @@
                     establishment_village_id: {
                         required: true,
                     },
-                    scorepoint: {
+                    /* scorepoint: {
                         checkScorepoint: true,
                     },
                     bspoints: {
                         checkBspoints: true,
-                    },
+                    }, */
                    },
                 messages: {
                     application_type_id: {

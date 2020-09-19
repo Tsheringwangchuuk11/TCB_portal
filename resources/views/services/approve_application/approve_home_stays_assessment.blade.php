@@ -16,33 +16,48 @@
 					  <label for="">Application No.<span class="text-danger"> *</span></label>
 					  <input type="text" class="form-control" name="application_no" value="{{ old('application_no', $applicantInfo->application_no) }}" readonly="true">
 					</div>
-				  </div>
-				<div class="col-md-5 offset-md-2">
-				  <div class="form-group">
-					<label for="">Name<span class="text-danger"> *</span></label>
-					<input type="text" class="form-control" name="owner_name" value="{{ old('applicant_name', $applicantInfo->applicant_name) }}" autocomplete="off">
-				  </div>
 				</div>
+				<div class="form-group col-md-5 offset-md-2">
+                    <label>Registration Type <span class="text-danger">*</span></label>
+                    <select class="form-control select2bs4" name="application_type_id" id="application_type_id" style="width: 100%;">
+                        <option value="">- Select -</option>
+                        @foreach ($applicationTypes as $applicationType)
+                        <option value="{{ $applicationType->id }}" {{ old('application_type_id', $applicantInfo->application_type_id) == $applicationType->id ? 'selected' : '' }}> {{ $applicationType->dropdown_name }}</option>
+                        @endforeach
+                    </select>
+                </div>
 			  </div>
+			  <div class="row">
+                <div class="form-group col-md-5">
+                    <label>Home Stay Name<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="tourist_standard_name" value="{{ old('company_title_name',$applicantInfo->company_title_name) }}">
+				</div>
+				<div class="col-md-5 offset-md-2">
+					<div class="form-group">
+					  <label for="">Name<span class="text-danger"> *</span></label>
+					  <input type="text" class="form-control" name="owner_name" value="{{ old('applicant_name', $applicantInfo->applicant_name) }}" autocomplete="off">
+					</div>
+				  </div>
+            </div>
 			  <div class="row">
 				<div class="col-md-5">
 					<div class="form-group ">
 					  <label for="">CID No.<span class="text-danger"> *</span></label>
-					  <input type="text" class="form-control numeric-only" name="cid_no"  value="{{ old('cid_no',$applicantInfo->cid_no) }}" autocomplete="off">
+					  <input type="text" class="form-control" name="cid_no"  value="{{ old('cid_no',$applicantInfo->cid_no) }}">
 					</div>
 				  </div>
 				<div class="col-md-5 offset-md-2">
 				  <div class="form-group">
 					<label for="">Contact No.<span class="text-danger"> *</span> </label>
-					<input type="text" class="form-control numeric-only required" name="contact_no" value="{{ old('contact_no',$applicantInfo->contact_no) }}" autocomplete="off">
+					<input type="text" class="form-control" name="contact_no" value="{{ old('contact_no',$applicantInfo->contact_no) }}">
 				  </div>
 				</div>
 			  </div>
 			  <div class="row">
 				<div class="col-md-5">
 					<div class="form-group">
-					  <label for="">Email</label>
-					  <input type="email" class="form-control email" name="email" value="{{ old('email',$applicantInfo->email) }}" autocomplete="off">
+					  <label for="">Email<span class="text-danger"> *</span></label>
+					  <input type="email" class="form-control" name="email" value="{{ old('email',$applicantInfo->email) }}">
 					</div>
 				  </div>
 				<div class="col-md-5 offset-md-2">
@@ -80,7 +95,7 @@
 					<div class="form-group">
 					  <label for="">Village <span class="text-danger"> *</span></label>
 					  <select  name="village_id" class="form-control select2bs4" id="village_id" style="width: 100%;">
-						<option value="{{$applicantInfo->village_id}}"> {{$applicantInfo->village_name}}</option>
+						<option value="{{$applicantInfo->establishment_village_id}}"> {{$applicantInfo->village_name}}</option>
 					</select>
 					</div>
 				  </div>
@@ -111,19 +126,19 @@
 				<div class="col-md-5">
 				  <div class="form-group">
 					<label for="">Distance from the nearest town/urban centre (hrs or kms)<span class="text-danger"> *</span></label>
-					<input type="text" class="form-control required" name="town_distance" value="{{ $applicantInfo->house_no }}">
+					<input type="text" class="form-control" name="town_distance" value="{{ $applicantInfo->town_distance }}">
 				  </div>
 				</div>
 				<div class="col-md-5 offset-md-2">
 				  <div class="form-group">
 					<label for="">Distance from the main road (hrs or kms)<span class="text-danger"> *</span></label>
-					<input type="text" class="form-control required" name="road_distance" value="{{ $applicantInfo->road_distance }}">
+					<input type="text" class="form-control" name="road_distance" value="{{ $applicantInfo->road_distance }}">
 				  </div>
 				</div>
 				<div class="col-md-5">
 				  <div class="form-group">
 					<label for="">Condition of the pathway to house from the road point<span class="text-danger"> *</span></label>
-					<input type="text" class="form-control required" name="condition" value="{{ $applicantInfo->condition }}">
+					<input type="text" class="form-control" name="condition" value="{{ $applicantInfo->condition }}">
 				  </div>
 				</div>
 			  </div>
@@ -154,17 +169,17 @@
                     <input type="text" class="form-control" name="member_name[]" value="{{ $membersDetl->member_name }}">
                 </div>
                 <div class="form-group col-md-3">
-                    <select class="form-control" name="relation_type_id[]" id="hotel_div_id">
+                    <select class="form-control" name="relation_type_id[]">
                         <option value="">- Select -</option>
                         @foreach ($relationTypes as $relationType)
-                        <option value="{{ $relationType->id }}" {{ old('relation_type_id', $relationType->id) == $membersDetl->relation_type_id ? 'selected' : '' }}>{{ $relationType->relation_type }}</option>
+                        <option value="{{ $relationType->id }}" {{ old('relation_type_id', $relationType->id) == $membersDetl->relation_type_id ? 'selected' : '' }}>{{ $relationType->dropdown_name }}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="form-group col-md-3">
-                    <input type="text" class="form-control" name="member_age[]" autocomplete="off" value="{{ $membersDetl->member_age }}">
+                    <input type="date" class="form-control" name="member_dob[]" autocomplete="off" value="{{ $membersDetl->member_dob }}">
                 </div>
-                <div class="form-group col-md-2">
+                <div class="form-group col-md-3">
                     <select class="form-control" name="member_gender[]">
                         <option value="">- Select -</option>
                         @foreach (config()->get('settings.gender') as $k => $v)
@@ -235,30 +250,12 @@
 			 <h4 class="card-title">File Attachment</h4>
 		</div>
 		<div class="card-body">
-			<div class="row">
-                <div class="form-group col-md-6">
-                    <label>Title</label>
-                </div>
-                <div class="form-group col-md-6">
-                    <label>Download Files</label>
-                </div>
-                @forelse ($documentInfos as $documentInfo)
-                <div class="form-group col-md-6">
-                    <span>{{ $documentInfo->document_name }}</span>
-                </div>
-                <div class="form-group col-md-6">
-                    <a href="{{ url($documentInfo->upload_url) }}" class="btn btn-xs btn-info" target="_blank"><i class="fa fa-link"></i> View</a>                
-                </div>
-                @empty
-                <div class="form-group col-md-12">
-                    <p>No data availlable</p>
-                </div>
-                @endforelse                
-            </div>
+			@include('services/fileupload/fileupload')
 			<div class="row">
                 <div class="form-group col-md-5">
-                    <label for="">Remarks <span class="text-danger">*</span> </label>
-                    <textarea type="text" class="form-control" name="remarks" row="3"></textarea>
+					<label for="">Remarks <span class="text-danger">*</span> </label>
+					<textarea type="text" class="form-control" id="remarks" name="remarks" row="3"></textarea>
+                    <div id="remarks_error" class="text-danger"></div>
                 </div>
                 <div class="form-group col-md-5 offset-md-2">
                     <label for="">Inspection Date<span class="text-danger">*</span> </label>
@@ -266,28 +263,29 @@
                 </div>
             </div>
 		</div>
-		<div class="card-footer text-center" >
-            <button name="status" value="APPROVED" class="btn btn-success"><li class="fas fa-check"></li> APPROVE</button>
-            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmModal"><li class="fas fa-times"></li> REJECT</button>
+		<div class="card-footer text-center">
+			<div class="card-footer text-center">
+				<button name="status" value="APPROVED" class="btn btn-success"><li class="fas fa-check"></li> APPROVE</button>
+				<button name="status" value="RESUBMIT"  class="btn btn-warning" onclick="return requiredRemarks(this.value)"><li class="fas fa-ban"></li> RESUBMIT</button>
+				<button name="status"value="REJECTED" class="btn btn-danger" onclick="return requiredRemarks()"> <li class="fas fa-times"></li> REJECT</button>
+			</div>
 	    </div>
     </div>
-    <div class="modal fade" id="confirmModal">
-        <div class="modal-dialog">
-          <div class="modal-content bg-danger">
-            <div class="modal-header">
-              <h4 class="modal-title">Confirm Message</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span></button>
-            </div>
-            <div class="modal-body">
-              <p>Are you sure,you want to reject &hellip;</p>
-            </div>
-            <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
-              <button name="status"value="REJECTED" class="btn btn-outline-light" data-dismiss="modal">Confirm</button>
-            </div>
-          </div>
-        </div>
-      </div>
 </form>
 @endsection
+@section('scripts')
+	<script>
+		function requiredRemarks(status) {
+			$("#remarks_error").html('');
+			if($("#remarks").val() ==""){
+				if(status=="RESUBMIT"){
+					$("#remarks_error").html('Please provide reason for resubmit!');
+				}else{
+					$("#remarks_error").html('Please provide reason for rejection!');
+				}
+				return false;
+			}
+		}
+	</script>
+@endsection
+
