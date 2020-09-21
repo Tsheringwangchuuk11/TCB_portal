@@ -75,7 +75,7 @@
                         <select  name="country_id" class="form-control select2bs4" style="width: 100%;">
                             <option value=""> -Select-</option>
                             @foreach ($countries as $country)
-                            <option value="{{ $country->id }}">{{ $country->country_name }}</option>
+                            <option value="{{ $country->id }}">{{ $country->dropdown_name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -114,7 +114,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($channelTypes as $channelType)
+                            {{-- @foreach ($channelTypes as $channelType)
                             <tr>
                                 <td>{{ $channelType->channel_type}}</td>
                                 <td>
@@ -124,7 +124,7 @@
                                 <td><input type='text' name='circulation[]' class='form-control'></td>
                                 <td><input type='text' name='target_audience[]' class='form-control'></td>
                             </tr>
-                            @endforeach
+                            @endforeach --}}
                         </tbody>
                     </table>
                 </div>
@@ -166,9 +166,9 @@
                 <div class="form-group col-md-2">
                     <select class="form-control" name="channel_type[]" id="room_type_id">
                         <option value=""> - Select - </option>
-                        @foreach ($channelTypes as $channelType)
+                        {{-- @foreach ($channelTypes as $channelType)
                         <option value="{{ $channelType->id }}">{{ $channelType->channel_type }}</option>
-                        @endforeach
+                        @endforeach --}}
                     </select>
                 </div>
                 <div class="form-group col-md-2">

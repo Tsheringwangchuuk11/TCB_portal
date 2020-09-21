@@ -16,10 +16,10 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="">Recommandation Letter for<span class="text-danger">*</span> </label>
-                        <select class="form-control  select2bs4" name="letter_sample" id="letter_sample">
+                        <select class="form-control select2bs4" name="application_type_id" id="application_type_id" style="width: 100%;">
                             <option value="">- Select -</option>
-                            @foreach ($letterTypes as $letterType)
-                            <option value="{{$letterType->id}}">{{$letterType->recommandation_letter_type}}</option>
+                            @foreach ($applicationTypes as $applicationType)
+                            <option value="{{$applicationType->id}}">{{$applicationType->dropdown_name}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -147,7 +147,7 @@
 @section('scripts')
 <script>
     function getTourOperatorDetails(licenseNo){
-        $.ajax(
+        $.ajax({
               url:'/application/get-tour_operator-details/'+licenseNo,
                type: "GET",
                headers: {
@@ -166,9 +166,9 @@
      }
 
     $(document).ready(function(){
-        $('#letter_sample').on('change',function(e) {
+        $('#application_type_id').on('change',function(e) {
             var lettersample=e.target.value;
-            if(lettersample == "2"){
+            if(lettersample == "44"){
                 $("#sample2").show();
                 $("#sample1").hide();
                 $("#visainfo").show();

@@ -22,6 +22,16 @@ class WorkFlowDetails extends Model
                  ->first();
         return $query;
     }
+
+    public static function getAssignedRoleForApp($serviceId)
+    {
+       $query=\DB::table('t_role_privileges as t1')
+                 ->leftJoin('t_system_sub_menus as t2','t2.id','=','t1.system_sub_menu_id')
+                 ->select('t1.role_id')
+                 ->where('t2.service_id',$serviceId)
+                 ->first();
+        return $query;
+    }
     public static function saveWorkFlowDtlsAudit($applicationNo){
         $status = \DB::insert('INSERT INTO t_workflow_dtls_audits (
                                   workflow_dtls_id,
@@ -55,7 +65,7 @@ class WorkFlowDetails extends Model
                                 ->leftJoin('t_module_masters','t_applications.module_id','=','t_module_masters.id')
                                 ->leftJoin('t_services','t_applications.service_id','=','t_services.id')
                                 ->orderBy('t_workflow_dtls.created_at', 'asc')
-                                ->select('t_workflow_dtls.application_no','t_applications.module_id','t_module_masters.module_name','t_applications.service_id','t_services.name','t_workflow_dtls.created_at','t_status_masters.status_name','t_workflow_dtls.updated_at','t_workflow_dtls.remarks')
+                                ->select('t_workflow_dtls.application_no','t_applications.module_id','t_module_masters.module_name','t_applications.service_id','t_services.name','t_workflow_dtls.created_at','t_status_masters.id','t_status_masters.status_name','t_workflow_dtls.updated_at','t_workflow_dtls.remarks')
                                 ->where('t_workflow_dtls.user_id',$userId)
                                 ->get();
         return $applicationDtls;

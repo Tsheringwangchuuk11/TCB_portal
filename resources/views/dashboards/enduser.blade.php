@@ -40,14 +40,40 @@
                         </tr>
                     </thead>
                      @if(isset($endUserApplicantDtls))
+                     @php
+                     @endphp
                         <tbody>
                             @foreach($endUserApplicantDtls as $endUserApplicantDtl)
                                 <tr>
-                                    <td>{{ $endUserApplicantDtl->application_no }}</td>
+                                    <td>
+                                        @if ($endUserApplicantDtl->id===9)
+                                            @if($endUserApplicantDtl->module_id==1)
+                                                <a href="{{ url('verification/tourist-standard-hotel',['applicationNo'=>$endUserApplicantDtl->application_no,'status'=>$endUserApplicantDtl->id]) }}">{{ $endUserApplicantDtl->application_no }}</a>
+                                            @elseif($endUserApplicantDtl->module_id==2)
+                                                 <a href="{{ url('verification/village-homestay',['applicationNo'=>$endUserApplicantDtl->application_no,'status'=>$endUserApplicantDtl->id]) }}">{{ $endUserApplicantDtl->application_no }}</a>
+                                            @else
+                                                 <a href="{{ url('verification/restaurant',['applicationNo'=>$endUserApplicantDtl->application_no,'status'=>$endUserApplicantDtl->id]) }}">{{ $endUserApplicantDtl->application_no }}</a>
+                                            @endif
+                                        @elseif($endUserApplicantDtl->id===10)
+                                             <a href="{{ url('verification/tourist-standard-hotel',['applicationNo'=>$endUserApplicantDtl->application_no,'status'=>$endUserApplicantDtl->id]) }}">{{ $endUserApplicantDtl->application_no }}</a>
+                                        @else
+                                             {{ $endUserApplicantDtl->application_no }}
+                                        @endif
+                                       </td>
                                     <td>{{ $endUserApplicantDtl->module_name }}</td>
                                     <td>{{ $endUserApplicantDtl->name }}</td>
                                     <td>{{ $endUserApplicantDtl->created_at }}</td>
-                                    <td>{{ $endUserApplicantDtl->status_name }}</td>
+                                    <td>
+                                        @if ($endUserApplicantDtl->id===1)
+                                           <span class="text-info">{{ $endUserApplicantDtl->status_name }}</span>
+                                        @elseif($endUserApplicantDtl->id===3) 
+                                           <span class="text-success">{{ $endUserApplicantDtl->status_name }}</span>
+                                        @elseif($endUserApplicantDtl->id===4)
+                                           <span class="text-danger">{{ $endUserApplicantDtl->status_name }}</span>
+                                        @else
+                                           <span class="text-warning">{{ $endUserApplicantDtl->status_name }}</span>
+                                        @endif
+                                    </td>
                                     <td>{{ $endUserApplicantDtl->updated_at }}</td>
                                     <td>{{ $endUserApplicantDtl->remarks }}</td>
                                 </tr>

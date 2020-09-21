@@ -21,7 +21,7 @@
                 <div class="col-md-5 offset-md-2">
                     <div class="form-group">
                         <label for="">To country.<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control" name="countryId" value="{{$eventdtl->country_name}}"  readonly="true">
+                        <input type="text" class="form-control" name="countryId" value="{{$eventdtl->dropdown_name}}"  readonly="true">
                     </div>
                 </div>
             </div>
@@ -121,10 +121,9 @@
                     <label>Company Type<span class="text-danger">*</span></label>
                     <select class="form-control select2bs4" name="company_type" id="company_type" style="width: 100%;">
                         <option value="">- Select -</option>
-                        <option value=""> Tourist standard hotel </option>
-                        <option value=""> Tour operator</option>
-                        <option value=""> Air lines </option>
-                        <option value=""> Others</option>
+                        @foreach ($companyTypes as $companyType)
+                        <option value="{{$companyType->id}}">{{$companyType->dropdown_name}}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="col-md-5 offset-md-2">
@@ -196,7 +195,7 @@
     <script>
         $(document).ready(function () {
             var countryId="{!! $eventdtl->country_id !!}";
-                if(countryId==1){
+                if(countryId==7){
                     $("#showdzongkhag").show();
                     $("#showvillage").show();
                     $("#showeventlocation").hide();

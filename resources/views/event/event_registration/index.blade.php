@@ -14,26 +14,26 @@
                     <h3 class="card-title">Event List</h3>
                 </div>
                 <div class="card-body">
-                    <table id="example2" class="table table-bordered table-hover">
+                    <table id="datatableId" class="table table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th class="text-center">#</th>
                                 <th>Event Name</th>
                                 <th>Country</th>
-                                <th>Start Date</th>
-                                <th>End Date</th>
-                                <th class="text-center">Action</th>
+                                <th>Event Date</th>
+                                <th>Last Date Registration</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($events as $event)
                             <tr>
-                                <td>{{ $event->id }}</td>
+                                <td>{{ $loop->iteration}}</td>
                                 <td>{{$event->event_name}}</td>
-                                <td>{{$event->country_name}}</td>
-                                <td>{{$event->start_date}}</td>
-                                <td>{{$event->end_date}}</td>
-                                <td class="text-center">
+                                <td>{{$event->dropdown_name}}</td>
+                                <td>{{ date_format(date_create($event->start_date), "F jS Y") }} to {{ date_format(date_create($event->end_date), "F jS Y") }}</td>
+                                <td>{{ date_format(date_create($event->last_date), "F jS Y") }} </td>
+                                <td>
                                     @if ($privileges["edit"] == 1)
                                     <a href="javascript:void(0)" data-href="{{ url('events/travel-fairs-event/'. $event->id.'/edit') }}"  class="btn  btn-sm btn-info  btn-flat add-new-event" title="Edit">Edit</a>
                                     @endif
@@ -84,6 +84,14 @@
 @section('scripts')
 <script>
     $(document).ready(function(){
+        $('#datatableId').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": false,
+                "autoWidth": false,
+            });
       $('.add-new-event').on('click',function(){
             var dataURL = $(this).attr('data-href');
             $('.event').load(dataURL,function(){

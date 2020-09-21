@@ -41,32 +41,32 @@ class RestaurantController extends Controller
             }]);
         }])->where('module_id','=',$moduleId)
         ->get();
-        return view('services.approver.approve_restaurant_assessment',$data);
+        return view('services.approve_application.approve_restaurant_assessment',$data);
         }
         elseif($serviceId==5){
             //Restuarant bar license Details
-            return view('services.approver.approve_restaurant_assessment',$data);
+            return view('services.approve_application.approve_restaurant_assessment',$data);
         } 
         elseif($serviceId==7){
             //Restuarant bar license renew Details
             $data['locations'] = Dropdown::getDropdowns("t_locations","id","location_name","0","0");
-            return view('services.approver.approve_restuarant_license_renew',$data);
+            return view('services.approve_application.approve_restuarant_license_renew',$data);
         } 
         elseif($serviceId==8){
             //Restuarant bar license cancel Details
             $data['locations'] = Dropdown::getDropdowns("t_locations","id","location_name","0","0");
-            return view('services.approver.approve_restuarant_license_cancel',$data);
+            return view('services.approve_application.approve_restuarant_license_cancel',$data);
         }
 
         elseif($serviceId==9){
             //Restuarant owner change Details
             $data['locations'] = Dropdown::getDropdowns("t_locations","id","location_name","0","0");
-            return view('services.approver.approve_restuarant_owner_change',$data);
+            return view('services.approve_application.approve_restuarant_owner_change',$data);
         }  
         elseif($serviceId==10){
             //Restuarant name change Details
             $data['locations'] = Dropdown::getDropdowns("t_locations","id","location_name","0","0");
-            return view('services.approver.approve_restuarant_name_change',$data);
+            return view('services.approve_application.approve_restuarant_name_change',$data);
         }     
     }
 

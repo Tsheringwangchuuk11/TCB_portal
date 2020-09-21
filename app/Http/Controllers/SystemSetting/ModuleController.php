@@ -106,7 +106,6 @@ class ModuleController extends Controller
             TSystemSubMenu::insert($subModules);
             }
         });
-
         return redirect('system/modules')->with('msg_success', 'Module successfully created');
     }
 

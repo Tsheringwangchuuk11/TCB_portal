@@ -14,6 +14,12 @@ return [
         1 => 'Yes',
         0 => 'No',
     ],
+
+    "hospitility_relating" => [
+        'Y' => 'Yes',
+        'N' => 'No',
+    ],
+
     "organizerType" => [
         'N' => 'Non-Profit',
         'P' => 'Public Agency',
@@ -25,32 +31,9 @@ return [
         'type3' => 'Type3',
     ],
 
-    "applicanttype" => [
-        'P' => 'Person',
-        'L' => 'Legal',
-        'T' => 'Third Party Representative',
-    ],
-
+   
     "eapi_users_gateway" => [
         'mbobl' => 'MBOBL',
         'mpay' => 'MPAY',
-    ],
-    "purpose" => [
-        '1' => 'New Application',
-        '2' => 'Renewal',
-        '3' => 'Change in Ownership',
-        '4' => 'Change Design',
-    ],
-    "accommodationType" => [
-        '1' => 'Tourist Standard Hotel',
-        '2' => 'Tented Accommodation',
-    ],
-    "recommendationLetterType" => [
-        '1' => 'Recommendation Letter for chef',
-        '2' => 'Recommendation Letter for cook',
-        '3' => 'Recommendation Letter for labour',
-        '4' => 'Recommendation for Renewal of work permit',
-        '5' => 'Recommendation for Renewal of labour permit',
-
     ],
 ];

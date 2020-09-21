@@ -13,7 +13,7 @@
                 <select  name="country_id" class="form-control select2bs4" style="width: 100%;" id="countryId">
                     <option value=""> -Select-</option>
                     @foreach ($countries as $country)
-                    <option value="{{ $country->id }}">{{ $country->country_name }}</option>
+                    <option value="{{ $country->id }}">{{ $country->dropdown_name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -154,6 +154,18 @@
                 required: true,
                 digits: true,
                 },
+                dzongkhag_id: {
+                required: true,
+                },
+                gewog_id: {
+                required: true,
+                },
+                village_id: {
+                required: true,
+                },
+                event_location: {
+                required: true,
+                },
             },
             
             messages: {
@@ -187,6 +199,18 @@
                 mobile_no: {
                 required: "Please enter phone number",
                 },
+                dzongkhag_id: {
+                required: "Choose the dzongkhag",
+                },
+                gewog_id: {
+                required: "Choose the gewog",
+                },
+                village_id: {
+                required: "Choose the village",
+                },
+                event_location: {
+                required: "Enter event location",
+                },
             },
             errorElement: 'span',
             errorPlacement: function (error, element) {
@@ -203,7 +227,7 @@
     });
     $('#countryId').on('change',function(e) {
       var countryId = e.target.value;
-      if(countryId==1){
+      if(countryId==7){
          $("#displaydzongkhag").show();	
          $("#displayvillage").show();
          $("#displaylocation").hide();

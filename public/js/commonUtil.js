@@ -1,7 +1,6 @@
 
 
 $(document).ready(function () {
-
    $("#bs4-slide-carousel").carousel();
     validation.Initialize();
    $('.dzongkhagdropdown').on('change',function(e) {
@@ -72,7 +71,7 @@ $(document).ready(function () {
             },
             success:function (data) {
             $.each(data, function(key, value) {
-                  $('select[name="village_id"]').append('<option value="'+ key +'">'+ value +'</option>');
+                  $('select[name="establishment_village_id"]').append('<option value="'+ key +'">'+ value +'</option>');
                });
             }
          });
@@ -179,9 +178,10 @@ $(function () {
             $('.progress-bar').css('width', '100%');
             jQuery.each(data.data, function (index, row) {
                $('#files').append('<div class="image_wrap">'
-                  + '<input type="hidden" name="documentId[]" value="' + row.id + '"/><strong>' + row.document_name + '</strong>'
-                  + ' <span onClick="deletefile(this.id,\'' + row.id + '\',\'' + row.upload_url + '\')" id="deleteId' + count + '" class="delete-line btn btn-danger btn-sm" data-file_id="' + row.id + '">'
-                  + '<i class="fas fa-trash-alt"></i> Delete</span></div>');
+                  + '<input type="hidden" name="documentId[]" value="' + row.id + '"/><strong>' + row.document_name + '</strong> &nbsp;'
+                  + '<a href="{!! url("'+row.upload_url+'") !!}" class="btn btn-sm btn-info" target="_blank"><i class="fa fa-link"></i> View </a> &nbsp;'
+                  + '<span onClick="deletefile(this.id,\'' + row.id + '\',\'' + row.upload_url + '\')" id="deleteId' + count + '" class="delete-line btn btn-danger btn-sm" data-file_id="' + row.id + '">'
+                  + '<i class="fas fa-trash-alt fa-sm"></i> Delete</span></div>');
                count++;
             });
          } else {

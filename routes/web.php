@@ -78,8 +78,10 @@ Route::group(['middleware' => ['auth']], function () {
 
     //routes for new application
     Route::group(['prefix' => 'application', 'namespace' => 'Application'], function() {
-		Route::get('new-application', 'ServiceController@getModules');
-		Route::get('get-services', 'ServiceController@getServices');
+        Route::get('new-application', 'ServiceController@getModules');
+        Route::get('get-tech-clearance-dtls/{dispatch_no}', 'ServiceController@getTechCleranceDtls');
+        Route::get('get-services', 'ServiceController@getServices');
+        Route::get('check-dispatch-number', 'ServiceController@checkDispatchNumber');
         Route::get('service-create/{page_link}', 'ServiceController@getServiceForm');
         Route::post('get-chapters', 'ServiceController@getCheckListChapter');
         Route::post('get-homestaychapters', 'ServiceController@getHomeStayCheckListChapter');
@@ -91,11 +93,16 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('get-companyname', 'ServiceController@getCompnayName');
         Route::get('get-homestays-details/{cid}', 'ServiceController@getVillageHomeStayDetails');
         Route::get('get-event-details/{id}/{serviceId}/{moduleId}', 'ServiceController@getEventRegisteredDetails');
-
+        Route::get('delete-data-record', 'ServiceController@deleteDataRecord');
         // fileuploads
         Route::post('documentattach', 'FileUploadController@addDocuments');
         Route::post('deletefile', 'FileUploadController@deleteFile');
     });
+
+     //routes for resubmit application
+     Route::group(['prefix' => 'application', 'namespace' => 'Application'], function() {
+        Route::post('save-resubmit-application', 'ResubmitServiceController@saveResubmitApplication');
+     });
 
     //routes for task list
     Route::group(['prefix' => 'tasklist', 'namespace' => 'Tasklist'], function() {
@@ -108,7 +115,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => 'verification', 'namespace' => 'Approver'], function() {
         Route::get('openApplication/{applicationNo}/{serviceId}/{moduleId}', 'OpenApplicationController@openApplication');
         //tourist standard hotel
-        Route::get('tourist-standard-hotel/{applicationNo}', 'TouristStandardHotelController@getApplicationDetails')->name('touriststandardhotel');
+        Route::get('tourist-standard-hotel/{applicationNo}/{status?}', 'TouristStandardHotelController@getApplicationDetails')->name('touriststandardhotel');
         Route::post('technical-clearance', 'TouristStandardHotelController@hotelTechnicalClearanceApplication');
         Route::post('standard-hotel-assessment', 'TouristStandardHotelController@standardHotelAssessmentApplication');
         Route::post('renew-hotel-license', 'TouristStandardHotelController@hotelLicenseRenewApplication');
@@ -116,7 +123,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('hotel-name-change', 'TouristStandardHotelController@hotelNameChangeApplication');
         Route::post('hotel-license-cancel', 'TouristStandardHotelController@hotelLicenseCancelApplication');
         //village home stay
-        Route::get('village-homestay/{applicationNo}', 'VillageHomeStayController@getApplicationDetails')->name('villagehomestay');
+        Route::get('village-homestay/{applicationNo}/{status?}', 'VillageHomeStayController@getApplicationDetails')->name('villagehomestay');
         Route::post('village-home-stay-assessment', 'VillageHomeStayController@villageHomeStayAssessmentApplication');
         Route::post('village-home-stay-license-renew', 'VillageHomeStayController@villageHomeStayLicenseRenewApplication');
 

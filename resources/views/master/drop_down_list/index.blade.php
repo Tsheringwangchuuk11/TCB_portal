@@ -24,7 +24,6 @@
         </div>
     </div>
 </section>
-@include('layouts.include.confirm-delete')
 @endsection
 @section('scripts')
 <script>

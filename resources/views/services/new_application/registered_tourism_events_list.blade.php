@@ -27,7 +27,7 @@
                             <tr>
                                 <td>{{ $loop->iteration}}</td>
                                 <td>{{$eventFairDetail->event_name}}</td>
-                                <td>{{$eventFairDetail->country_name}}</td>
+                                <td>{{$eventFairDetail->dropdown_name}}</td>
                                 <td>{{$eventFairDetail->contact_person}}</td>
                             <td>{{$eventFairDetail->mobile_no}} / {{$eventFairDetail->email}}</td>
                                 <td>{{ date_format(date_create($eventFairDetail->start_date), "F jS Y") }} to {{ date_format(date_create($eventFairDetail->end_date), "F jS Y") }}</td>

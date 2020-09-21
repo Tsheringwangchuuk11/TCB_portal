@@ -174,7 +174,15 @@ public function setToDateAttribute($value)
 		->first(); 
 		return $query;
 	}
-
+	public static function getTechCleranceDtls($dispatch_no){
+		$query=DB::table('t_technical_clearances as t1')
+	   ->leftjoin('t_village_masters as t2','t2.id','=','t1.village_id')
+	   ->leftjoin('t_gewog_masters as t3','t3.id','=','t2.gewog_id')
+	   ->select('t1.*','t2.gewog_id','t2.village_name','t3.gewog_name','t3.dzongkhag_id')
+	   ->where('t1.dispatch_no',$dispatch_no)
+	   ->first(); 
+	   return $query;
+   }
 	public static function getVillageHomeStayDetails($cidNo){
 		$query=DB::table('t_tourist_standard_dtls as t1')
 	   ->leftjoin('t_chiwog_masters as t2','t2.id','=','t1.chiwog_id')
@@ -214,10 +222,12 @@ public function setToDateAttribute($value)
 
 	public static function getApplicantDetails($applicationNo){
 		$query=DB::table('t_applications as t1')
-		->leftjoin('t_gewog_masters as t3','t1.gewog_id','=','t3.id')
 		->leftjoin('t_chiwog_masters as t2','t2.id','=','t1.chiwog_id')
-		->leftjoin('t_village_masters as t4','t4.id','=','t1.village_id')
-		->select('t1.*','t3.dzongkhag_id','t3.gewog_name','t2.chiwog_name','t4.village_name')
+		->leftjoin('t_village_masters as t4','t4.id','=','t1.establishment_village_id')
+		->leftjoin('t_gewog_masters as t3','t4.gewog_id','=','t3.id')
+		->leftjoin('t_module_masters as t5','t5.id','=','t1.module_id')
+		->leftjoin('t_services as t6','t6.id','=','t1.service_id')
+		->select('t1.*','t3.dzongkhag_id','t3.gewog_name','t2.chiwog_name','t4.village_name','t4.gewog_id','t5.module_name','t6.name')
 		->where('t1.application_no',$applicationNo)
 		->first();
 		return $query;
@@ -235,7 +245,7 @@ public function setToDateAttribute($value)
 	public static function getRoomDetails($applicationNo){
 		$query=DB::table('t_room_applications as t1')
 		->leftjoin('t_applications as t3','t3.application_no','=','t1.application_no')
-		->leftjoin('t_room_types as t2','t2.id','=','t1.room_type_id')
+		->select('t3.application_no','t1.id','t1.room_type_id','t1.room_no')
 		->where('t1.application_no',$applicationNo)
 		->get();
 		return $query;
@@ -244,7 +254,8 @@ public function setToDateAttribute($value)
 	public static function getMembersDetails($applicationNo){
 		$query=DB::table('t_member_applications as t1')
 		->leftjoin('t_applications as t3','t3.application_no','=','t1.application_no')
-		->leftjoin('t_relation_types as t2','t2.id','=','t1.relation_type_id')
+		->leftjoin('t_dropdown_masters as t2','t2.id','=','t1.relation_type_id')
+		->select('t1.id','t1.member_name','t1.relation_type_id','t1.member_dob','t1.member_gender')
 		->where('t1.application_no',$applicationNo)
 		->get();
 		return $query;
@@ -253,8 +264,6 @@ public function setToDateAttribute($value)
 	public static function getStaffDetails($applicationNo){
 		$query=DB::table('t_staff_applications as t1')
 		->leftjoin('t_applications as t4','t4.application_no','=','t1.application_no')
-		->leftjoin('t_staff_areas as t2','t2.id','=','t1.staff_area_id')
-		->leftjoin('t_hotel_divisions as t3','t3.id','=','t1.hotel_div_id')
 		->where('t1.application_no',$applicationNo)
 		->get();
 		return $query;
@@ -279,20 +288,20 @@ public function setToDateAttribute($value)
 	public static function getTravelEventFairDetails(){
 		$sql = \DB::select('
 						SELECT a.*,
-						b.country_name
+						b.dropdown_name
 						FROM t_event_dtls a
-						LEFT JOIN t_country_masters b ON a.country_id=b.id
+						LEFT JOIN t_dropdown_lists b ON a.id=b.id
 						WHERE a.last_date >= CURDATE();
 						');
 		return $sql;
 	} 
 	public static function getEventRegisteredDetails($eventId){
 		$query=\DB::table('t_event_dtls as t1')
-		->leftjoin('t_country_masters as t2','t2.id','=','t1.country_id')
+		->leftjoin('t_dropdown_lists as t2','t2.id','=','t1.country_id')
 		->leftjoin('t_village_masters as t3','t3.id','=','t1.village_id')
 		->leftjoin('t_gewog_masters as t4','t4.id','=','t3.gewog_id')
 		->leftjoin('t_dzongkhag_masters as t5','t5.id','=','t4.dzongkhag_id')
-		->select('t1.*','t2.country_name','t3.village_name','t4.gewog_name','t5.dzongkhag_name')
+		->select('t1.*','t2.dropdown_name','t3.village_name','t4.gewog_name','t5.dzongkhag_name')
 		->where('t1.id',$eventId)
 		->first();
 	return $query;
@@ -480,14 +489,62 @@ public function setToDateAttribute($value)
 			WHERE license_no = ? ', [$license_no]);
         return $status;
 	}
+
+	public static function saveTechnicalClearanceDtlsAudit($cid_no){
+        $status = DB::insert('INSERT INTO t_technical_clearances_audit(
+			clearance_id,
+			dispatch_no,
+			application_no,
+			purpose_id,
+			cid_no,
+			name,
+			contact_no,
+			village_id,
+			accomodation_type_id,
+			proposed_rooms_no,
+			tentative_cons,
+			tentative_com,
+			drawing_date,
+			email,
+			submitted_by,
+			created_at,
+			updated_at
+			)
+			SELECT 
+			id,
+			dispatch_no,
+			application_no,
+			purpose_id,
+			cid_no,
+			name,
+			contact_no,
+			village_id,
+			accomodation_type_id,
+			proposed_rooms_no,
+			tentative_cons,
+			tentative_com,
+			drawing_date,
+			email,
+			submitted_by,
+			NOW(),
+			updated_at
+			FROM t_technical_clearances
+			WHERE cid_no = ? ', [$cid_no]);
+        return $status;
+	}
 	
-	public static function updateApplicantDtls($tableName,$filedName,$para,$data){
+	public static function updateApplicantDtls($tableName,$fielddName,$para,$data){
 		$status=DB::table($tableName)
-              ->where($filedName, $para)
-              ->update($data);
-			  return $status;
+              ->where($fielddName,$para)
+			  ->update($data);
+		return $status;
 	}
 
+	public static function updateOrSaveDetails($tableName, $data, $id){
+		$flag = DB::table($tableName)->updateOrInsert($id,$data);
+		return $flag;
+	}
+	
 	public static function saveTourOperatorDtlsAudit($license_no){
         $status = DB::insert('INSERT INTO t_operator_dtls_audit(
 			operator_dtls_id,
@@ -631,4 +688,26 @@ public function setToDateAttribute($value)
 			->first();
 			return $query;
 			}
+
+		public static function checkDispatchNumber($dispatch_no){
+			$query=\DB::table('t_technical_clearances as t1')
+						->where('t1.dispatch_no',$dispatch_no)
+						->exists();
+			return  $query;
+		}
+
+		public static function deleteDataRecord($recordId,$tablename){
+		 $query=\DB::table($tablename)
+					->where('id',$recordId)
+					->delete();
+		 return $query;
+		}
+
+		public static function getCheckedRecord($applicationNo){
+			$query=\DB::table('t_checklist_applications as t1')
+						->select('t1.id','t1.checklist_id','t1.assessor_score_point','t1.assessor_rating')
+						->where('application_no',$applicationNo)
+						->get();
+           return $query;
+		}
 }
