@@ -51,8 +51,12 @@
                                                 <a href="{{ url('verification/tourist-standard-hotel',['applicationNo'=>$endUserApplicantDtl->application_no,'status'=>$endUserApplicantDtl->id]) }}">{{ $endUserApplicantDtl->application_no }}</a>
                                             @elseif($endUserApplicantDtl->module_id==2)
                                                  <a href="{{ url('verification/village-homestay',['applicationNo'=>$endUserApplicantDtl->application_no,'status'=>$endUserApplicantDtl->id]) }}">{{ $endUserApplicantDtl->application_no }}</a>
-                                            @else
+                                             @elseif($endUserApplicantDtl->module_id==3)
                                                  <a href="{{ url('verification/restaurant',['applicationNo'=>$endUserApplicantDtl->application_no,'status'=>$endUserApplicantDtl->id]) }}">{{ $endUserApplicantDtl->application_no }}</a>
+                                            @elseif($endUserApplicantDtl->module_id==4)
+                                                 <a href="{{ url('verification/tour-operator',['applicationNo'=>$endUserApplicantDtl->application_no,'status'=>$endUserApplicantDtl->id]) }}">{{ $endUserApplicantDtl->application_no }}</a>
+                                             @else
+                                             <a href="{{ url('verification/tended-accommodation',['applicationNo'=>$endUserApplicantDtl->application_no,'status'=>$endUserApplicantDtl->id]) }}">{{ $endUserApplicantDtl->application_no }}</a>
                                             @endif
                                         @elseif($endUserApplicantDtl->id===10)
                                              <a href="{{ url('verification/tourist-standard-hotel',['applicationNo'=>$endUserApplicantDtl->application_no,'status'=>$endUserApplicantDtl->id]) }}">{{ $endUserApplicantDtl->application_no }}</a>

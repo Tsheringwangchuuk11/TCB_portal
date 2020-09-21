@@ -1,7 +1,7 @@
 @extends('layouts.manager')
 @section('page-title','Assessment And Registration Of Tourist Standard Restaurants')
 @section('content') 
-<form action="{{ url('application/save-application') }}" method="POST" id="formdata" enctype="multipart/form-data">
+<form action="{{ url('application/save-application') }}" method="POST" id="form_data" enctype="multipart/form-data">
     @csrf
     <input type="hidden" name="service_id" value="{{ $idInfos->service_id }}" id="service_id">
     <input type="hidden" name="module_id" value="{{ $idInfos->module_id }}" id="module_id">
@@ -16,13 +16,13 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="">License Number <span class="text-danger">*</span> </label>
-                        <input type="text" class="form-control" name="license_no" autocomplete="off">
+                        <input type="text" class="form-control" name="license_no" value="{{ old('license_no') }}">
                     </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
                     <div class="form-group">
                         <label for="">License Date <span class="text-danger">*</span> </label>
-                        <input type="date" class="form-control" name="license_date" autocomplete="off">
+                        <input type="date" class="form-control" name="license_date" autocomplete="off" value="{{ old('license_date') }}">
                     </div>
                 </div>
             </div>
@@ -30,26 +30,25 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="">Restaurant Name <span class="text-danger">*</span> </label>
-                        <input type="text" class="form-control" name="company_title_name" autocomplete="off">
+                        <input type="text" class="form-control" name="company_title_name" value="{{ old('company_title_name') }}">
                     </div>
                 </div>
                 <div class="form-group col-md-5 offset-md-2">
                     <label for="">CID No.<span class="text-danger">*</span> </label>
-                    <input type="text" class="form-control numeric-only" name="cid_no" autocomplete="off">
-                    <span class="text-danger">{{ $errors->first('cid_no') }}</span>
+                    <input type="text" class="form-control" name="cid_no" value="{{ old('cid_no') }}">
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="">Owner <span class="text-danger">*</span> </label>
-                        <input type="text" class="form-control" name="owner_name" autocomplete="off" required>
+                        <input type="text" class="form-control" name="owner_name" value="{{ old('owner_name') }}">
                     </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
                     <div class="form-group">
                         <label for="">Address <span class="text-danger">*</span> </label>
-                        <input type="text" class="form-control" name="address" autocomplete="off">
+                        <input type="text" class="form-control" name="address" value="{{ old('address') }}">
                     </div>
                 </div>
             </div>
@@ -57,13 +56,13 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="">Contact No <span class="text-danger">*</span> </label>
-                        <input type="text" class="form-control numeric-only" name="contact_no" autocomplete="off">
+                        <input type="text" class="form-control" name="contact_no" value="{{ old('contact_no') }}">
                     </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
                     <div class="form-group">
-                        <label for="">Fax <span class="text-danger">*</span> </label>
-                        <input type="text" class="form-control" name="fax" autocomplete="off">
+                        <label for="">Fax </label>
+                        <input type="text" class="form-control" name="fax" value="{{ old('fax') }}">
                     </div>
                 </div>
             </div>
@@ -71,112 +70,119 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="">Email <span class="text-danger">*</span> </label>
-                        <input type="email" class="form-control" name="email" autocomplete="off">
+                        <input type="email" class="form-control" name="email" value="{{ old('email') }}">
                     </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
                     <div class="form-group">
                         <label for="">Internet Homepage <span class="text-danger">*</span> </label>
-                        <input type="text" class="form-control" name="webpage_url" autocomplete="off">
+                        <input type="text" class="form-control" name="webpage_url" value="{{ old('webpage_url') }}">
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="card">
-    <div class="card-header">
-        <h4 class="card-title">Restuarant Location</h4>
-    </div>
-    <div class="card-body">
-        <div class="row">
-            <div class="col-md-5">
-                <div class="form-group">
-                    <label for="">Dzongkhag<span class="text-danger"> *</span></label>
-                    <select  name="dzongkhag_id" id="dzongkhag_id" class="form-control select2bs4 dzongkhagdropdown" style="width: 100%;">
-                        <option value=""> -Select-</option>
-                        @foreach ($dzongkhagLists as $dzongkhagList)
-                        <option value="{{ $dzongkhagList->id }}" {{ old('dzongkhag_id') == $dzongkhagList->id ? 'selected' : '' }}>{{ $dzongkhagList->dzongkhag_name }}</option>
-                        @endforeach
-                    </select>
+        <div class="card-header">
+            <h4 class="card-title">Restuarant Location</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label for="">Dzongkhag<span class="text-danger"> *</span></label>
+                        <select  name="dzongkhag_id" id="dzongkhag_id" class="form-control select2bs4 dzongkhagdropdown" style="width: 100%;">
+                            <option value=""> -Select-</option>
+                            @foreach ($dzongkhagLists as $dzongkhagList)
+                            <option value="{{ $dzongkhagList->id }}" {{ old('dzongkhag_id') == $dzongkhagList->id ? 'selected' : '' }}>{{ $dzongkhagList->dzongkhag_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-5 offset-md-2">
+                    <div class="form-group">
+                        <label for="">Gewog<span class="text-danger"> *</span></label>
+                        <select  name="gewog_id" class="form-control select2bs4 gewogdropdown" id="gewog_id" style="width: 100%;">
+                            <option value=""> -Select-</option>
+                        </select>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-5 offset-md-2">
-                <div class="form-group">
-                    <label for="">Gewog<span class="text-danger"> *</span></label>
-                    <select  name="gewog_id" class="form-control select2bs4 gewogdropdown" id="gewog_id" style="width: 100%;">
-                        <option value=""> -Select-</option>
-                    </select>
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label for="">Village<span class="text-danger"> *</span></label>
+                        <select  name="establishment_village_id" class="form-control select2bs4" id="village_id" style="width: 100%;">
+                            <option value=""> -Select-</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-5">
-                <div class="form-group">
-                    <label for="">Village<span class="text-danger"> *</span></label>
-                    <select  name="establishment_village_id" class="form-control select2bs4" id="village_id" style="width: 100%;">
-                        <option value=""> -Select-</option>
-                    </select>
-                </div>
-            </div>
-        </div>
     </div>
-</div>
     <div class="card">
         <div class="card-header">
             <h4 class="card-title">Staff Details</h4>
         </div>
-        <div class="card-body">
             <table id="staffDetail" class="table table-condensed table-striped">
                 <thead>
-                    <th class="text-center">#</th>
-                    <th>CID</th>
-                    <th>Name</th>
-                    <th>Gender</th>
+                    <th width="1%"  class="text-center">#</th>
+                    <th width="15%">CID</th>
+                    <th width="20%">Name</th>
+                    <th width="15%">Gender</th>
                     <th>Designation</th>
                     <th>Qualification</th>
                     <th>Experience</th>
-                    <th>Salary</th>
+                    <th width="10%">Salary</th>
                     <th>Hospitility relating</th>
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="text-center">
+                        <td width="1%" class="text-center">
                             <a href="#" class="delete-table-row btn btn-danger btn-xs"><i class="fas fa-times"></i></a>
                         </td>
-                        <td>
-                            <input type="text" name="" class="form-control input-sm resetKeyForNew" />
+                        <td width="15%">
+                            <input type="text" name="staff_cid_no[]" class="form-control resetKeyForNew" />
+                        </td>
+                        <td width="20%">
+                            <input type="text" name="staff_name[]" class="form-control resetKeyForNew" />
+                        </td>
+                        <td width="15%">
+                            <select class="form-control input-sm resetKeyForNew" name="staff_gender[]">
+                                <option value=""> </option>
+                                @foreach (config()->get('settings.gender') as $k => $v)
+                                <option value="{{ $k }}" {{ old('gender') == $k ? 'selected' : '' }}>{{ $v }}</option>
+                                @endforeach
+                            </select>
                         </td>
                         <td>
-                            <input type="text" name="" class="form-control input-sm resetKeyForNew" />
+                            <input type="text" name="staff_designation[]" class="form-control input-sm resetKeyForNew">
                         </td>
                         <td>
-                            <input type="text" name="" class="form-control input-sm resetKeyForNew" />
+                            <input type="text" name="qualification[]" class="form-control input-sm resetKeyForNew">
                         </td>
                         <td>
-                            <input type="text" name="" class="form-control input-sm resetKeyForNew" />
+                            <input type="text" name="experience[]" class="form-control input-sm resetKeyForNew">
+                        </td>
+                        <td width="10%">
+                            <input type="text" name="salary[]" class="form-control input-sm resetKeyForNew" />
                         </td>
                         <td>
-                            <input type="text" name="" class="form-control input-sm resetKeyForNew" />
-                        </td>
-                        <td>
-                            <input type="text" name="" class="form-control input-sm resetKeyForNew" />
-                        </td>
-                        <td>
-                            <input type="text" name="" class="form-control input-sm resetKeyForNew" />
-                        </td>
-                        <td>
-                            <input type="radio" name="hospitility" value="Y">Yes
-                            <input type="radio" name="hospitility" value="N">No
+                            <select class="form-control input-sm resetKeyForNew" name="hospitility_relating[]">
+                                <option value=""> </option>
+                                @foreach (config()->get('settings.hospitility_relating') as $k => $v)
+                                <option value="{{ $k }}" {{ old('hospitility_relating') == $k ? 'selected' : '' }}>{{ $v }}</option>
+                                @endforeach
+                            </select>
                         </td>
                     </tr>
                     <tr class="notremovefornew">
                         <td class="text-right" colspan="9">
-                            <a href="#" class="add-table-row btn bg-purple btn-xs"><i class="fa fa-plus"></i> Add New Row</a>
+                            <a href="#" class="add-table-row btn bg-purple btn-sm"><i class="fa fa-plus"></i> Add New Row</a>
                         </td>
                     </tr>
                 </tbody>
             </table>
-        </div>
     </div>
     <div id="showdivid"></div>
     <div class="card">
@@ -207,64 +213,133 @@
                 $(this).valid();
             });
         });
-        $(document).ready(function(){
-                id1=1;
-                $("#add_more").click(function(){
-                $("#addstaff").clone().attr('id', 'addstaff'+id1).after("#id").appendTo("#field_wrapper1").find("input[type='text']").val("");
-                $addRow1 ='<span id="remove1'+id1+'" class="btn-group" style=" margin-top:-50px; float:right">' 
-                +'<span id="remove1" onClick="removeForm1('+id1+')"' 
-                +'class="btn btn-danger btn-sm"><i class="fas fa-trash-alt fa-sm"></i> Delete</span></span>'
-                +'<div id="line1'+id1+'"></div>';
-                $('#field_wrapper1').append($addRow1);
-                id1++;
-            }); 
-        });
-        function removeForm1(id1){  
-                if (confirm('Are you sure you want to delete this form?')){
-                $('#addstaff'+id1).remove();
-                $('#remove1'+id1).remove();
-                $('#line1'+id1).remove();
-            }
-        }
-
-        function selectStaffArea(this_id)
-        {
-            var pId = $(this_id).parents("div.addmorerows").attr('id');
-            var staff_area_id = this_id.value;
-            geHotelDiv(staff_area_id,pId);
-        }
-
-        function geHotelDiv(staff_area_id,pId){
-            $('#'+pId).find("#hotel_div_id").empty();
-            $.ajax({
-                url:'/json-dropdown',
-                        type:"GET",
-                        data: {
-                            table_name: 't_hotel_divisions',
-                                id: 'id',
-                                name: 'hotel_div_name',
-                            parent_id: staff_area_id,
-                    parent_name_id: 'staff_area_id'					 
-                    },
-                    success: function (data) {
-                    $('#'+pId).find("#hotel_div_id").append('<option val="">-Select-</option>');
-                    $.each(data, function(key, value){
-                    $('#'+pId).find("#hotel_div_id").append('<option value="'+ key +'">'+ value +'</option>');
-                    })                     
-                }
-            });
-        }
-
         $(document).ready(function () {
             function loadChecklistDetails() {
-                var url="{{ url('application/get-restaurantchapters') }}";
+                var url="{{ url('application/get-checklist') }}";
                     var options = {target:'#showdivid',
                     url:url,
                     type:'POST',
-                    data: $("#formdata").serialize()};
-                    $("#formdata").ajaxSubmit(options);
+                    data: $("#form_data").serialize()};
+                    $("#form_data").ajaxSubmit(options);
             }
            window.onload=loadChecklistDetails();
+         });
+
+         $.validator.addMethod('checkScorepoint', function (value) {
+                    return (value >= 330);
+            }, 'Your score point should be minimum 330');
+        
+        $('#form_data').validate({
+                rules: {
+                    cid_no: {
+                        required: true,
+                        maxlength: 11,
+                        minlength: 11,
+                        digits: true,                    
+                     },
+                     license_date: {
+                        required: true,
+                    },
+                    company_title_name: {
+                        required: true,
+                    },
+                    license_no: {
+                        required: true,
+                    },
+                    owner_name: {
+                        required: true,
+                    },
+                    address: {
+                        required: true,
+                    },
+                    contact_no: {
+                        required: true,
+                        digits: true,                    
+                    },
+                    email: {
+                        required: true,
+                        email: true,                    
+                    },
+                    webpage_url: {
+                        required: true,
+                        url: true,
+                        normalizer: function( value ) {
+                        var url = value;
+                        // Check if it doesn't start with http:// or https:// or ftp://
+                        if ( url && url.substr( 0, 7 ) !== "http://"
+                            && url.substr( 0, 8 ) !== "https://"
+                            && url.substr( 0, 6 ) !== "ftp://" ) {
+                        // then prefix with http://
+                        url = "http://" + url;
+                        }
+                        // Return the new url
+                        return url;
+                        }
+                    },
+                    dzongkhag_id: {
+                        required: true,
+                    },
+                    gewog_id: {
+                        required: true,
+                    },
+                    establishment_village_id: {
+                        required: true,
+                    },
+                     scorepoint: {
+                        checkScorepoint: true,
+                    }, 
+                   },
+                messages: {
+                    cid_no: {
+                        required: "Please provide a cid number",
+                        maxlength: "Your cid must be 11 characters long",
+                        minlength: "Your cid must be at least 11 characters long",
+                        digits: "This field accept only digits",
+                    },
+                    owner_name: {
+                        required: "Enter the name",
+                    },
+                    contact_no: {
+                        required: "Please provide a contact number",
+                        digits: "This field accept only digits",
+                    },
+                    email: {
+                        required: "Please enter a email address",
+                        email: "Please enter a vaild email address"
+                    },
+                    webpage_url: {
+                        required: "Please enter webpage_url",
+                    },
+                    company_title_name: {
+                        required: "Please enter company name",
+                    },
+                    license_date: {
+                        required: "Please enter license date",
+                    },
+                    license_no: {
+                        required: "Please enter license number",
+                    },
+                    dzongkhag_id: {
+                        required: "Please select dzongkhag",
+                    },
+                    gewog_id: {
+                        required: "Please select gewog",
+                    },
+                    establishment_village_id: {
+                        required: "Please select village",
+                    },
+                },
+                errorElement: 'span',
+                errorPlacement: function (error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function (element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
+                }
          });
     </script>
 @endsection

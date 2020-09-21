@@ -1,10 +1,12 @@
 @extends('layouts.manager')
 @section('page-title','Tour Operator Assessment')
 @section('content')
-<form action="{{ url('verification/tour-operator-assessment') }}" method="POST" files="true" id="form_Id" enctype="multipart/form-data">
+<form action="{{ url('application/save-resubmit-application') }}" method="POST" files="true" id="form_data" enctype="multipart/form-data">
     @csrf
     <input type="hidden" class="form-control" name="module_id" value="{{ $applicantInfo->module_id }}">
     <input type="hidden" class="form-control" name="service_id" value="{{ $applicantInfo->service_id }}">
+    <input type="hidden" name="service_name" value="{{ $applicantInfo->name }}" id="service_name">
+    <input type="hidden" name="module_name" value="{{ $applicantInfo->module_name }}" id="module_name">
     <div class="card">
         <div class="card-header">
              <h4 class="card-title">General Information</h4>
@@ -20,7 +22,7 @@
                 <div class="col-md-5 offset-md-2">
                   <div class="form-group">
                     <label for="">Name of the Tour Company <span class="text-danger">*</span> </label>
-                    <input type="text" class="form-control" name="tourist_standard_name" value="{{ $applicantInfo->company_title_name }}">
+                    <input type="text" class="form-control" name="company_title_name" value="{{ $applicantInfo->company_title_name }}">
                   </div>
                 </div>
             </div>
@@ -100,7 +102,7 @@
             <div class="col-md-5">
                 <div class="form-group">
                     <label for="">Village<span class="text-danger"> *</span></label>
-                    <select  name="village_id" class="form-control select2bs4" id="village_id" style="width: 100%;">
+                    <select  name="establishment_village_id" class="form-control select2bs4" id="village_id" style="width: 100%;">
                         <option value="{{ $applicantInfo->establishment_village_id }}">{{ $applicantInfo->village_name }} </option>
                     </select>
                 </div>
@@ -176,44 +178,44 @@
 @endif
 <div class="card">
     <div class="card-header">
-         <h4 class="card-title">File Attachment</h4>
+        <h4 class="card-title">File Attachment</h4>
     </div>
     <div class="card-body">
-        @include('services/fileupload/fileupload')
+        <h6> <strong>Required supporting documents:</strong></h6>
         <div class="row">
-            <div class="form-group col-md-5">
-                <label for="">Remarks <span class="text-danger">*</span> </label>
-                <textarea type="text" class="form-control" id="remarks" name="remarks" row="3"></textarea>
-                <div id="remarks_error" class="text-danger"></div>
-            </div>
-            <div class="form-group col-md-5 offset-md-2">
-                <label for="">Inspection Date<span class="text-danger">*</span> </label>
-                <input type="date" class="form-control" name="inspection_date">
+            <div class="col-md-12">
+                <div class="form-group ml-3">
+                    <div class="form-check">
+                        <ol>
+                            <li>
+                                <input type="checkbox" name="checkboxes"  class="check-one">&nbsp;<em>A copy of the valid trade license.</em>
+                            </li>
+                            <li>
+                                <input type="checkbox" name="checkboxes"  class="check-one">&nbsp; <em>Office building photo</em>
+                            </li>
+                            <li>
+                                <input type="checkbox" name="checkboxes"  class="check-one">&nbsp; <em>Sign board</em>
+                            </li>
+                            <li>
+                                <input type="checkbox" name="checkboxes"  class="check-one">&nbsp;A copy of the letter of authorization from the building owner stating that the applicant is authorized to operate the office in his/her property or ownership certificate in case of own building</em>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
             </div>
         </div>
+    @include('services/fileupload/fileupload')
     </div>
-    <div class="card-footer text-center">
-        <div class="card-footer text-center">
-            <button name="status" value="APPROVED" class="btn btn-success"><li class="fas fa-check"></li> APPROVE</button>
-            <button name="status" value="RESUBMIT"  class="btn btn-warning" onclick="return requiredRemarks(this.value)"><li class="fas fa-ban"></li> RESUBMIT</button>
-            <button name="status"value="REJECTED" class="btn btn-danger" onclick="return requiredRemarks()"> <li class="fas fa-times"></li> REJECT</button>
-        </div>
+    <div class="card-footer text-center" >
+        <button type="submit"class="btn btn-success">
+            <li class="fas fa-check"></li>
+            APPLY
+        </button>
+        <button type="reset" class="btn btn-danger">
+            <li class="fas fa-times"></li>
+            RESET
+        </button>
     </div>
 </div>
 <form>
-@endsection
-@section('scripts')
-<script>
-function requiredRemarks(status) {
-   $("#remarks_error").html('');
-   if($("#remarks").val() ==""){
-       if(status=="RESUBMIT"){
-        $("#remarks_error").html('Please provide reason for resubmit!');
-       }else{
-        $("#remarks_error").html('Please provide reason for rejection!');
-       }
-       return false;
-   }
-}
-</script>
 @endsection

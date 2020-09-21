@@ -111,13 +111,14 @@ class TouristStandardHotelController extends Controller
     }
 
      //Approval function for technical clearance application
-     public function hotelTechnicalClearanceApplication(Request $request){
+     public function hotelTechnicalClearanceApplication(Request $request,Services $service){
+        $assigned_priv_id=WorkFlowDetails::getAssignedRoleForApp($request->service_id)->role_id;
         if($request->status =='APPROVED'){
            // insert into t_technical_clearances
-           \DB::transaction(function () use ($request) {
+           \DB::transaction(function () use ($request,$assigned_priv_id,$service) {
                $approveId = WorkFlowDetails::getStatus('APPROVED');
                $completedId= WorkFlowDetails::getStatus('COMPLETED');
-
+               
             // save new technical clearance details
             if($request->purpose_id=="20"){
                 $data[]= [            
@@ -177,36 +178,49 @@ class TouristStandardHotelController extends Controller
                 $updatedata=Services::updateApplicantDtls('t_technical_clearances','cid_no',$request->cid_no,$data);
             }
 
-           $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
-           $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
-                      ->update(['status_id' => $approveId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
+            $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
+            $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
+                    ->update(['status_id' => $approveId->id,'role_id'=> $assigned_priv_id,'remarks' => $request->remarks]);
 
-           $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
-           $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
-                                   ->update(['status_id' => $completedId->id]);
+            $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
+            $updateworkflow=TaskDetails::where('application_no',$request->application_no)
+                                    ->update(['status_id' => $completedId->id]); 
        });
        return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
-       }else{
-           $rejectId = WorkFlowDetails::getStatus('REJECTED');
-           $completedId= WorkFlowDetails::getStatus('COMPLETED');
+       }
+       elseif($request->status =='RESUBMIT'){
+        $resubmitdId = WorkFlowDetails::getStatus('RESUBMIT');
+        $completedId= WorkFlowDetails::getStatus('COMPLETED');
+        $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
+        $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
+        ->update(['status_id' => $resubmitdId->id,'role_id'=>$assigned_priv_id,'remarks' => $request->remarks]);
 
-           $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
-           $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
-           ->update(['status_id' => $rejectId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
+        $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
+        $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
+                                ->update(['status_id' => $completedId->id]);
+        return redirect('tasklist/tasklist')->with('msg_success', 'Application resend successfully');
+    }
+    else{
 
-           $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
-           $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
-                                   ->update(['status_id' => $completedId->id]);
-           return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
+        $completedId= WorkFlowDetails::getStatus('COMPLETED');
+        $rejectId = WorkFlowDetails::getStatus('REJECTED');
+        $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
+        $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
+        ->update(['status_id' => $rejectId->id,'role_id'=>$assigned_priv_id,'remarks' => $request->remarks]);
+
+        $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
+        $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
+                                ->update(['status_id' => $completedId->id]);
+        return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
         }
     }
     
    //Approval function for tourist stnadard hotel assessment application
-   public function standardHotelAssessmentApplication(Request $request){
-       $assigned_priv_id=WorkFlowDetails::getAssignedRoleForApp($request->service_id);
+   public function standardHotelAssessmentApplication(Request $request,Services $service){
+       $assigned_priv_id=WorkFlowDetails::getAssignedRoleForApp($request->service_id)->role_id;
         if($request->status =='APPROVED'){
             // insert into t_techt_tourist_standard_dtlsnical_clearances
-            \DB::transaction(function () use ($request) {
+            \DB::transaction(function () use ($request,$service,$assigned_priv_id) {
                 $approveId = WorkFlowDetails::getStatus('APPROVED');
                 $completedId= WorkFlowDetails::getStatus('COMPLETED');
                 $applicantdata[]= [    
@@ -244,7 +258,7 @@ class TouristStandardHotelController extends Controller
                              'updated_at'   => now(),
                     ];
                  }
-                $this->services->insertDetails('t_room_dtls',$roomInfoData);
+                $service->insertDetails('t_room_dtls',$roomInfoData);
             }
              // insert into t_staff_dtls
              $staffInfoData = [];
@@ -264,7 +278,7 @@ class TouristStandardHotelController extends Controller
                               'updated_at'   => now(),
                      ];
                   }
-                 $this->services->insertDetails('t_staff_dtls',$staffInfoData);
+                 $service->insertDetails('t_staff_dtls',$staffInfoData);
              }
 
                // insert into t_checklist_dtls
@@ -280,11 +294,11 @@ class TouristStandardHotelController extends Controller
                                 'updated_at'   => now(),
                        ];
                     }
-                   $this->services->insertDetails('t_checklist_dtls',$checklistData);
+                   $service->insertDetails('t_checklist_dtls',$checklistData);
                }
             $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
             $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
-                    ->update(['status_id' => $approveId->id,'role_id'=> $assigned_priv_id->role_id,'remarks' => $request->remarks]);
+                    ->update(['status_id' => $approveId->id,'role_id'=> $assigned_priv_id,'remarks' => $request->remarks]);
 
             $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
             $updateworkflow=TaskDetails::where('application_no',$request->application_no)
@@ -298,7 +312,7 @@ class TouristStandardHotelController extends Controller
             $completedId= WorkFlowDetails::getStatus('COMPLETED');
             $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
             $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
-            ->update(['status_id' => $resubmitdId->id,'role_id'=>$assigned_priv_id->role_id,'remarks' => $request->remarks]);
+            ->update(['status_id' => $resubmitdId->id,'role_id'=>$assigned_priv_id,'remarks' => $request->remarks]);
 
             $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
             $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
@@ -311,7 +325,7 @@ class TouristStandardHotelController extends Controller
             $rejectId = WorkFlowDetails::getStatus('REJECTED');
             $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
             $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
-            ->update(['status_id' => $rejectId->id,'role_id'=>$assigned_priv_id->role_id,'remarks' => $request->remarks]);
+            ->update(['status_id' => $rejectId->id,'role_id'=>$assigned_priv_id,'remarks' => $request->remarks]);
 
             $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
             $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)

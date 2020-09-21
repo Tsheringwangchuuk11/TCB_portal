@@ -269,7 +269,7 @@
 		}
 		$(document).ready(function () {
 			function loadChecklistDetails() {
-				var url="{{ url('application/get-homestaychapters') }}";
+				var url="{{ url('application/get-checklist') }}";
 					var options = {target:'#showdivid',
 					url:url,
 					type:'POST',

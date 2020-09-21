@@ -1,7 +1,7 @@
 @extends('layouts.manager')
-@section('page-title','Registration of Tourist Standard Hotels')
+@section('page-title','Assessment And Registration of Tented Accommodation')
 @section('content')
-<form action="{{ url('verification/standard-hotel-assessment') }}" method="POST" files="true" id="form_data" enctype="multipart/form-data">
+<form action="{{ url('verification/tented-accommdation-assessment') }}" method="POST" files="true" id="form_data" enctype="multipart/form-data">
     @csrf
     <input type="hidden" class="form-control" name="module_id" value="{{ $applicantInfo->module_id }}">
     <input type="hidden" class="form-control" name="service_id" value="{{ $applicantInfo->service_id }}">
@@ -31,49 +31,35 @@
             </div>
             <div class="row">
                 <div class="form-group col-md-5">
-                    <label>Star Category Type</label>
-                    <select class="form-control select2bs4" name="star_category_id" id="star_category_id" style="width: 100%;">
-                        <option value="">- Select -</option>
-                        @foreach ($starCategoryLists as $starCategoryList)
-                        <option value="{{ $starCategoryList->id }}" {{ old('star_category_id', $applicantInfo->star_category_id) == $starCategoryList->id ? 'selected' : '' }}> {{ $starCategoryList->star_category_name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group col-md-5 offset-md-2">
                     <label for="">License Number</label>
                     <input type="text" class="form-control" name="license_no" value="{{ $applicantInfo->license_no }}" autocomplete="off">
                 </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-md-5">
+                <div class="form-group col-md-5 offset-md-2">
                     <label for="">License Date</label>
                     <input type="date" class="form-control" name="license_date" value="{{ $applicantInfo->license_date }}" autocomplete="off">
                 </div>
-                <div class="form-group col-md-5 offset-md-2">
+            </div>
+            <div class="row">
+                <div class="form-group col-md-5">
                     <label for="">Hotel Name </label>
                     <input type="text" class="form-control" name="tourist_standard_name"  value="{{ $applicantInfo->company_title_name }}" autocomplete="off">
                 </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-md-5">
+                <div class="form-group col-md-5 offset-md-2">
                     <label for="">Owner Name</label>
                     <input type="text" class="form-control" name="owner_name" value="{{ $applicantInfo->owner_name }}" autocomplete="off">
                 </div>
-                <div class="form-group col-md-5 offset-md-2">
-                    <label for="">CID No.</label>
-                    <input type="text" class="form-control" name="cid_no" value="{{ $applicantInfo->cid_no }}" autocomplete="off">
-                </div>
             </div>
             <div class="row">
                 <div class="form-group col-md-5">
-                    <label for="">Address</label>
-                    <input type="text" class="form-control" name="address" value="{{ $applicantInfo->address }}" autocomplete="off">
+                    <label for="">CID No.</label>
+                    <input type="text" class="form-control" name="cid_no" value="{{ $applicantInfo->cid_no }}" autocomplete="off">
                 </div>
                 <div class="form-group col-md-5 offset-md-2">
                     <label for="">Contact No </label>
                     <input type="text" class="form-control" name="contact_no" value="{{ $applicantInfo->contact_no }}" autocomplete="off">
                 </div>
             </div>
+        
             <div class="row">
                 <div class="form-group col-md-5">
                     <label for="">Manager Name<span class="text-danger">*</span> </label>
@@ -278,8 +264,8 @@
                                     <td>Standard</td>
                                     <td>Score points</td>
                                     <td>Assessor’s score point</td>
-                                    <td>B/B* rating</td>
-                                    <td>Assessor’s B/B* rating</td>
+                                    <td>5* Tented rating</td>
+                                    <td>Assessor’s 5* Tented rating</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -342,25 +328,13 @@
 			<div class="row">
 				<div class="form-group col-md-5">
 					<label for="">
-						@if ($applicantInfo->star_category_id==1)
-						     Total Assessor’s score point(160-199)
-						@elseif($applicantInfo->star_category_id==2)
-						     Total Assessor’s score point(200-279)
-						@else
-					    	Total Assessor’s score point(280 +)
-                        @endif
+                        Number of Score Points	(250-370)				
                         <span id="scorepoint">: &nbsp;{{ $scorepointtotal }}</span>			
 					</label>
                 </div>
 				<div class="form-group col-md-5 offset-md-2">
 					<label for=""> 
-						@if ($applicantInfo->star_category_id==1)
-						     Total Assessor’s B/B* rating (117 out of 120)
-						@elseif($applicantInfo->star_category_id==2)
-					     	Total Assessor’s B/B* rating (145 out of 149)
-						@else
-					    	Total Assessor’s B/B* rating (162 out of 166)
-                        @endif
+                        Number of Bs (Basic standards 132/136)
                         <span id="bspoints">:&nbsp;{{ $ratingpointtotal }}</span>
 					</label>
 				</div>

@@ -14,13 +14,12 @@ use DB;
 class ServiceController extends Controller
 {
 
-    public function __construct(Services $services)
+    public function __construct()
     {
         $this->middleware('permission:application/new-application,view', ['only' => ['index', 'show']]);
         $this->middleware('permission:application/new-application,create', ['only' => ['create', 'store']]);
         $this->middleware('permission:application/new-application,edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:application/new-application,delete', ['only' => 'destroy']);
-        $this->services = $services;
     }
     public function getModules()
     {
@@ -93,7 +92,10 @@ class ServiceController extends Controller
         else if($data['idInfos']->service_id==2 && $data['idInfos']->module_id==4){
             $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
         }
-
+        //tour oprator assessment and registration
+        else if($data['idInfos']->service_id==9 && $data['idInfos']->module_id==4){
+            $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+        }
         //to_name_ownership_location_change
         else if($data['idInfos']->service_id==11 && $data['idInfos']->module_id==4){
             $data['applicationTypes'] = Dropdown::getApplicationType("8",$dropdownId[]=["28","29","31"]);
@@ -118,7 +120,13 @@ class ServiceController extends Controller
             $data['countries'] = Dropdown::getDropdownList("3");
            // $data['channelTypes'] = Dropdown::getDropdowns("t_channel_types","id","channel_type","0","0");
         }
-
+        //Tented accommodation
+        else if($data['idInfos']->service_id==3 && $data['idInfos']->module_id==9){
+            $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+            $data['starCategoryLists'] = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
+            $data['roomTypeLists'] = Dropdown::getDropdownList("1");
+            $data['applicationTypes'] = Dropdown::getApplicationType("8",$dropdownId[]=["26","27"]);
+        }
         //registered_tourism_events_list
         else {
             $data['eventFairDetails'] = Services::getTravelEventFairDetails();
@@ -138,7 +146,7 @@ class ServiceController extends Controller
         return $standard;
     }
 
-    public static function getCheckListChapter(Request $request){
+    public static function getHotelCheckList(Request $request){
         $starCategoryId=$request->star_category_id;
         $moduleId = $request->module_id;
         $checklistDtls =  TCheckListChapter::with(['chapterAreas' => function($q) use($starCategoryId){
@@ -153,7 +161,7 @@ class ServiceController extends Controller
         return view('services.new_application.hotel_checklist', compact('checklistDtls','starCategoryId'));
     }
 
-    public function getHomeStayCheckListChapter(Request $request){
+    public function getCheckList(Request $request){
             $checklistDtls =  TCheckListChapter::with(['chapterAreas' => function($q){
                 $q->with(['checkListStandards'=> function($query){
                     $query->leftJoin('t_check_list_standard_mappings','t_check_list_standards.id','=','t_check_list_standard_mappings.checklist_id')
@@ -162,19 +170,19 @@ class ServiceController extends Controller
                 }]);
             }])->where('module_id','=',$request->module_id)
             ->get();
-        return view('services.new_application.homestay_checklist', compact('checklistDtls'));
+            if($request->module_id==2){
+                return view('services.new_application.homestay_checklist', compact('checklistDtls'));
+            }elseif($request->module_id==3){
+                return view('services.new_application.restaurant_checklist', compact('checklistDtls'));
+  
+            }
+            elseif($request->module_id==9){
+                return view('services.new_application.tented_accommodation_checklist', compact('checklistDtls'));
+            }
+            else{
+                return view('services.new_application.to_checklist', compact('checklistDtls'));
+            }
     }
-
-    public function  getRestaurantCheckListChapter(Request $request){
-        $checklistDtls =  TCheckListChapter::with(['chapterAreas' => function($q){
-            $q->with(['checkListStandards'=> function($query){
-                $query->leftJoin('t_check_list_standard_mappings','t_check_list_standards.id','=','t_check_list_standard_mappings.checklist_id')
-                ->where('t_check_list_standard_mappings.is_active','=','1');
-            }]);
-            }])->where('module_id','=',$request->module_id)
-            ->get();
-        return view('services.new_application.restaurant_checklist', compact('checklistDtls'));
-     }
 
     public function getTouristHotelDetails($licenseNo){
          $data=Services::getTouristHotelDetails($licenseNo);
@@ -220,10 +228,10 @@ class ServiceController extends Controller
       $flag= Services::deleteDataRecord($request->recordId,$request->table_name);
       return response()->json($flag);
     }
-    public function saveNewApplication(Request $request){
+    public function saveNewApplication(Request $request,Services $service){
        //dd($request->all());
-        $application_no = $this->services->generateApplNo($request);
-        DB::transaction(function () use ($request, $application_no) {
+        $application_no = $service->generateApplNo($request);
+        DB::transaction(function () use ($request, $application_no,$service) {
             //insert into t_application
             $data=new Services;
             $data->application_no=$application_no;
@@ -293,7 +301,7 @@ class ServiceController extends Controller
                     ];
                  }
 
-                $this->services->insertDetails('t_room_applications',$roomAppData);
+                $service->insertDetails('t_room_applications',$roomAppData);
             }
 
             //insert into t_staff_applications
@@ -313,7 +321,7 @@ class ServiceController extends Controller
                'hospitility_relating'=> $request->hospitility_relating[$key],
                     ];
                 }
-                $this->services->insertDetails('t_staff_applications',$staffAppData);
+                $service->insertDetails('t_staff_applications',$staffAppData);
             }
 
             //insert into t_checklist_applications
@@ -330,7 +338,7 @@ class ServiceController extends Controller
                     ];
                    }
                 }
-                $this->services->insertDetails('t_checklist_applications',$checklistData);
+                $service->insertDetails('t_checklist_applications',$checklistData);
             }
 
              //insert into t_member_applications
@@ -346,7 +354,7 @@ class ServiceController extends Controller
                        'member_gender'  => $request->member_gender[$key]
                     ];
                 }
-                $this->services->insertDetails('t_member_applications',$membersDetailsData);
+                $service->insertDetails('t_member_applications',$membersDetailsData);
             }
 
              //insert into t_partner_applications
@@ -363,71 +371,20 @@ class ServiceController extends Controller
                        'partner_location'   => $request->partner_location,
                      'partner_village_id'   => $request->partner_village_id
                     ];
-                $this->services->insertDetails('t_partner_applications',$partnerDetailsData);
+                $service->insertDetails('t_partner_applications',$partnerDetailsData);
             }
 
-            //insert into office application
-		    $officeInfoData = [];
-            if(isset($_POST['office_id'])){
-                foreach($request->office_id as $key => $value){
-                $index = $_POST['office_status'][$key];
-                $officeInfoData[] = [
+            //insert tour operator check list application
+		    $tocheckdata = [];
+            if(isset($_POST['area'])){
+                foreach($request->area as $key => $value){
+                $index = $_POST['area'][$key];
+                $tocheckdata[] = [
                         'application_no'   => $application_no,
-                             'office_id'   => $request->office_id[$key],
-                         'office_status'   =>$_POST['office_status'.$index],
+                         'checklist_id'   =>$_POST['check'.$index],
                     ];
                  }
-                $this->services->insertDetails('t_office_applications',$officeInfoData);
-            }
-
-            //insert into office equipment application
-		    $officeEquipmentData = [];
-            if(isset($_POST['equipment_id'])){
-                foreach($request->equipment_id as $key => $value){
-                $index = $_POST['equipment_status'][$key];
-                $officeEquipmentData[] = [
-                          'application_no' => $application_no,
-                            'equipment_id' => $request->equipment_id[$key],
-                        'equipment_status' =>$_POST['equipment_status'.$index],
-                    ];
-                 }
-
-                $this->services->insertDetails('t_equipment_applications',$officeEquipmentData);
-            }
-
-             //insert into employment application
-		    $employmentData = [];
-            if(isset($_POST['employment_id'])){
-                foreach($request->employment_id as $key => $value){
-                    $index = $_POST['employment_status'][$key];
-                    $index = $_POST['nationality'][$key];
-
-                $employmentData[] = [
-                           'application_no'  => $application_no,
-                            'employment_id'  => $request->employment_id[$key],
-                        'employment_status'  =>$_POST['employment_status'.$index],
-                              'nationality'  =>$_POST['nationality'.$index],
-
-                    ];
-                 }
-                $this->services->insertDetails('t_employment_applications',$employmentData);
-            }
-
-            //insert into employment application
-            $transportationData = [];
-            if(isset($_POST['vehicle_id'])){
-                foreach($request->vehicle_id as $key => $value){
-                $index = $_POST['transport_status'][$key];
-                $index1 = $_POST['fitness'][$key];
-                $transportationData[] = [
-                          'application_no' => $application_no,
-                              'vehicle_id' => $request->vehicle_id[$key],
-                        'transport_status' => $_POST['transport_status'.$index],
-                                 'fitness' => $_POST['fitness'.$index1],
-                         ];
-                    }
-
-                $this->services->insertDetails('t_transport_applications',$transportationData);
+                $service->insertDetails('t_checklist_applications',$tocheckdata);
             }
 
               // insert into t_organizer_applications
@@ -442,7 +399,7 @@ class ServiceController extends Controller
                         'organizer_type'   => $request->organizer_type,
                       'amount_requested'   => $request->amount_requested
                      ];
-                 $this->services->insertDetails('t_organizer_applications',$organizerInfoData);
+                 $service->insertDetails('t_organizer_applications',$organizerInfoData);
              }
 
             //insert into employment application
@@ -457,7 +414,7 @@ class ServiceController extends Controller
                     ];
                 }
 
-                $this->services->insertDetails('t_item_applications',$eventItemData);
+                $service->insertDetails('t_item_applications',$eventItemData);
             }
 
             //insert intot_product_applications
@@ -473,7 +430,7 @@ class ServiceController extends Controller
                              'timeline'  => $request->timeline,
                          'contribution'  => $request->contribution,
                     ];
-                $this->services->insertDetails('t_product_applications',$productItemData);
+                $service->insertDetails('t_product_applications',$productItemData);
             }
 
             //insert intot t_channel_applications
@@ -488,7 +445,7 @@ class ServiceController extends Controller
                         'target_audience'  => $request->target_audience[$key],
                     ];
                 }
-                $this->services->insertDetails('t_channel_applications',$channelInfoData);
+                $service->insertDetails('t_channel_applications',$channelInfoData);
             }
 
             //insert intot t_dist_channel_applications
@@ -505,7 +462,7 @@ class ServiceController extends Controller
 
                     ];
                 }
-                $this->services->insertDetails('t_dist_channel_applications',$channelCoverageData);
+                $service->insertDetails('t_dist_channel_applications',$channelCoverageData);
             }
 
              //insert intot t_channel_applications
@@ -518,7 +475,7 @@ class ServiceController extends Controller
                                     'city'  => $request->city_name[$key],
                      ];
                  }
-                 $this->services->insertDetails('t_market_applications',$marketingInfoData);
+                 $service->insertDetails('t_market_applications',$marketingInfoData);
              }
 
               //insert intot t_activity_applications
@@ -530,7 +487,7 @@ class ServiceController extends Controller
                                'activities'  => $request->activities[$key],
                       ];
                   }
-                  $this->services->insertDetails('t_activity_applications',$marketinActivitiesData);
+                  $service->insertDetails('t_activity_applications',$marketinActivitiesData);
               }
             //insert into t_work_permit_applications
              $workpermitData = [];
@@ -545,11 +502,11 @@ class ServiceController extends Controller
                         'country_id'   => $request->nationality[$key],
                     ];
                 }
-                $this->services->insertDetails('t_work_permit_applications',$workpermitData);
+                $service->insertDetails('t_work_permit_applications',$workpermitData);
             }
             //update application_no in t_documents
              $documentId = $request->documentId;
-             $this->services->updateDocumentDetails($documentId,$application_no);
+             $service->updateDocumentDetails($documentId,$application_no);
 
             //insert into t_workflow_dtls
             if($request->status=='DRAFT'){

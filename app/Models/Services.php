@@ -382,47 +382,6 @@ public function setToDateAttribute($value)
 		->get();
 		return $query;
 	}
-
-	public static function getOfficeInfoDetails($applicationNo){
-		$query=DB::table('t_applications as t1')
-		->leftjoin('t_office_applications as t2','t2.application_no','=','t1.application_no')
-		->leftjoin('t_offices as t3','t2.office_id','=','t3.id')
-		->select('t2.id','t2.office_id','t2.office_status','t3.office_name')
-		->where('t1.application_no',$applicationNo)
-		->get();
-		return $query;
-	}
-	public static function 	getOfficeEquipmentInfoDetails($applicationNo,$equipmentType){
-		$query=DB::table('t_applications as t1')
-		->leftjoin('t_equipment_applications as t2','t2.application_no','=','t1.application_no')
-		->leftjoin('t_equipments as t3','t2.equipment_id','=','t3.id')
-		->select('t2.id','t2.equipment_id','t2.equipment_status','t3.equipment_type','t3.equipment_name')
-		->where('t1.application_no',$applicationNo)
-		->where('t3.equipment_type',$equipmentType)
-		->get();
-		return $query;
-	}
-
-	public static function getEmploymentInfoDetails($applicationNo){
-		$query=DB::table('t_applications as t1')
-		->leftjoin('t_employment_applications as t2','t2.application_no','=','t1.application_no')
-		->leftjoin('t_employments as t3','t2.employment_id','=','t3.id')
-		->select('t2.id','t2.employment_id','t2.employment_status','t2.nationality','t3.employment_name')
-		->where('t1.application_no',$applicationNo)
-		->get();
-		return $query;
-	}
-
-	public static function getTransportationInfoDetails($applicationNo){
-		$query=DB::table('t_applications as t1')
-		->leftjoin('t_transport_applications as t2','t2.application_no','=','t1.application_no')
-		->leftjoin('t_vehicles as t3','t2.vehicle_id','=','t3.id')
-		->select('t2.id','t2.vehicle_id','t2.transport_status','t2.fitness','t3.vehicle_name')
-		->where('t1.application_no',$applicationNo)
-		->get();
-		return $query;
-	}
-
 	public static function getLastInsertedId($tableName, $data){
 		 DB::table($tableName)->insert($data);
 		 $id =DB::getPdo()->lastInsertId();
@@ -708,6 +667,15 @@ public function setToDateAttribute($value)
 						->select('t1.id','t1.checklist_id','t1.assessor_score_point','t1.assessor_rating')
 						->where('application_no',$applicationNo)
 						->get();
+           return $query;
+		}
+
+		public static function getDivisonCode($serviceId){
+			$query=\DB::table('t_services as a')
+			->leftjoin('t_divisions as b','b.id','=','a.division_id')
+			->select('b.code')
+			->where('a.id',$serviceId)
+			->first();
            return $query;
 		}
 }

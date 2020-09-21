@@ -23,8 +23,8 @@
 											<td>Standard</td>
 											<td>Score points</td>
 											<td>Assessor’s score point</td>
-											<td>B/B* rating</td>
-											<td>Assessor’s B/B* rating</td>
+											<td>5* Tented</td>
+											<td>Assessor’s 5* Tented rating</td>
 											<td>Check</td>
 										</tr>
 									</thead>
@@ -86,31 +86,18 @@
 	</div>
 	<div class="card">
         <div class="card-header">
-             <h4 class="card-title">Score Points and Basic Standards(B + B*) Details</h4>
+             <h4 class="card-title">Score Points and  5* Tented Rating Details</h4>
         </div>
         <div class="card-body">
 			<div class="row">
 				<div class="form-group col-md-5">
 					<label for="">
-						@if ($starCategoryId==1)
-						     Total Assessor’s score point(160-199)
-						@elseif($starCategoryId==2)
-						     Total Assessor’s score point(200-279)
-						@else
-					    	Total Assessor’s score point(280 +)
-						@endif
-					</label>
+                     Number of Score Points	(250-370)				</label>
 					<input type="text" class="form-control" name="scorepoint" id="scorepoint" readonly>
 				</div>
 				<div class="form-group col-md-5 offset-md-2">
 					<label for=""> 
-						@if ($starCategoryId==1)
-						     Total Assessor’s B/B* rating (117 out of 120)
-						@elseif($starCategoryId==2)
-					     	Total Assessor’s B/B* rating (145 out of 149)
-						@else
-					    	Total Assessor’s B/B* rating (162 out of 166)
-						@endif
+                        Number of Bs (Basic standards 132/136)
 					</label>
 					<input type="text" class="form-control" name="bspoints" id="bspoints" readonly>
 				</div>

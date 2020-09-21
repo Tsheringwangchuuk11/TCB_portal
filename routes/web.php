@@ -83,9 +83,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('get-services', 'ServiceController@getServices');
         Route::get('check-dispatch-number', 'ServiceController@checkDispatchNumber');
         Route::get('service-create/{page_link}', 'ServiceController@getServiceForm');
-        Route::post('get-chapters', 'ServiceController@getCheckListChapter');
-        Route::post('get-homestaychapters', 'ServiceController@getHomeStayCheckListChapter');
-        Route::post('get-restaurantchapters', 'ServiceController@getRestaurantCheckListChapter');
+        Route::post('get-hotel-checklist', 'ServiceController@getHotelCheckList');
+        Route::post('get-checklist', 'ServiceController@getCheckList');
         Route::post('save-application', 'ServiceController@saveNewApplication');
         Route::post('save-grievance-application', 'ServiceController@saveGrievanceApplication');
         Route::get('get-hotel-details/{id}', 'ServiceController@getTouristHotelDetails');
@@ -128,7 +127,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('village-home-stay-license-renew', 'VillageHomeStayController@villageHomeStayLicenseRenewApplication');
 
         //restaurant
-        Route::get('restaurant/{applicationNo}', 'RestaurantController@getApplicationDetails')->name('restaurant');
+        Route::get('restaurant/{applicationNo}/{status?}', 'RestaurantController@getApplicationDetails')->name('restaurant');
         Route::post('restaurant-assessment', 'RestaurantController@restaurantAssessmentApplication');
         Route::post('restuarant-name-change', 'RestaurantController@restaurantNameChangeApplication');
         Route::post('restuarant-owner-change', 'RestaurantController@restaurantOwnerChangeApplication');
@@ -136,7 +135,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('restuarant-license-cancel', 'RestaurantController@restaurantLicenseCancelApplication');
 
        //tour operator
-        Route::get('tour-operator/{applicationNo}', 'TourOperatorController@getApplicationDetails')->name('touropertor');
+        Route::get('tour-operator/{applicationNo}/{status?}', 'TourOperatorController@getApplicationDetails')->name('touropertor');
         Route::post('operator-technical-clearance', 'TourOperatorController@tourOperatorTechnicalClearanceApplication');
         Route::post('tour-operator-assessment', 'TourOperatorController@tourOperatorAssessmentApplication');
         Route::post('proprieter-card', 'TourOperatorController@proprieterCardApplication');
@@ -159,6 +158,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('tourism-product-development/{applicationNo}', 'TourismProductController@getApplicationDetails')->name('tourismproductdevelopment');
         Route::post('tourism-product-development', 'TourismProductController@tourismProductDevelopmentApplication');
         Route::post('product-proposal', 'TourismProductController@tourismProductProposalApplication');
+
+        //tented accommodation
+        Route::get('tended-accommodation/{applicationNo}/{status?}', 'TentedAccommodationController@getApplicationDetails')->name('tendedaccommodation');
+        Route::post('tented-accommdation-assessment', 'TentedAccommodationController@tentedAccommAssessmentApplication');
 
     });
   //routes for grievance redressal

@@ -134,6 +134,19 @@ class ResubmitServiceController extends Controller
 
                  }
              }
+
+            //insert tour operator check list application
+		    $tocheckdata = [];
+            if(isset($_POST['area'])){
+                foreach($request->area as $key => $value){
+                $index = $_POST['area'][$key];
+                $tocheckdata[] = [
+                        'application_no'   => $application_no,
+                         'checklist_id'   =>$_POST['check'.$index],
+                    ];
+                 }
+                $service->insertDetails('t_checklist_applications',$tocheckdata);
+            }
  
               //insert into t_partner_applications
               $partnerDetailsData = [];

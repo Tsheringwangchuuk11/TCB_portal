@@ -50,6 +50,9 @@ class ModuleServiceSeeder extends Seeder
 
             //Tourism Event
             ['module_id' => 8, 'service_id' => 20, 'page_link' => 'services/new_application/registered_tourism_events_list'],
+
+            //Tented hotel
+            ['module_id' => 9, 'service_id' => 3, 'page_link' => 'services/new_application/tented_accommodation_assessment'],
         ]);
     }
 }

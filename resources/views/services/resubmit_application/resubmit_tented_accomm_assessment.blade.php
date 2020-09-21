@@ -1,5 +1,5 @@
 @extends('layouts.manager')
-@section('page-title','Registration of Tourist Standard Hotels')
+@section('page-title','Assessment And Registration of Tented Accommodation')
 @section('content')
 <form action="{{ url('application/save-resubmit-application') }}" method="POST" files="true" id="form_data" enctype="multipart/form-data">
     @csrf
@@ -30,43 +30,28 @@
             </div>
             <div class="row">
                 <div class="form-group col-md-5">
-                    <label>Star Category Type</label>
-                    <select class="form-control" name="star_category_id" id="star_category_id" style="width: 100%;" readonly="true">
-                        <option value="">- Select -</option>
-                        @foreach ($starCategoryLists as $starCategoryList)
-                        <option value="{{ $starCategoryList->id }}" {{ old('star_category_id', $applicantInfo->star_category_id) == $starCategoryList->id ? 'selected' : '' }}> {{ $starCategoryList->star_category_name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group col-md-5 offset-md-2">
                     <label for="">License Number</label>
                     <input type="text" class="form-control" name="license_no" value="{{ $applicantInfo->license_no }}" autocomplete="off">
                 </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-md-5">
+                <div class="form-group col-md-5 offset-md-2">
                     <label for="">License Date</label>
                     <input type="date" class="form-control" name="license_date" value="{{ $applicantInfo->license_date }}" autocomplete="off">
                 </div>
-                <div class="form-group col-md-5 offset-md-2">
+            </div>
+            <div class="row">
+                <div class="form-group col-md-5">
                     <label for="">Hotel Name </label>
                     <input type="text" class="form-control" name="company_title_name"  value="{{ $applicantInfo->company_title_name }}" autocomplete="off">
                 </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-md-5">
+                <div class="form-group col-md-5 offset-md-2">
                     <label for="">Owner Name</label>
                     <input type="text" class="form-control" name="owner_name" value="{{ $applicantInfo->owner_name }}" autocomplete="off">
                 </div>
-                <div class="form-group col-md-5 offset-md-2">
-                    <label for="">CID No.</label>
-                    <input type="text" class="form-control" name="cid_no" value="{{ $applicantInfo->cid_no }}" autocomplete="off">
-                </div>
             </div>
             <div class="row">
                 <div class="form-group col-md-5">
-                    <label for="">Address</label>
-                    <input type="text" class="form-control" name="address" value="{{ $applicantInfo->address }}" autocomplete="off">
+                    <label for="">CID No.</label>
+                    <input type="text" class="form-control" name="cid_no" value="{{ $applicantInfo->cid_no }}" autocomplete="off">
                 </div>
                 <div class="form-group col-md-5 offset-md-2">
                     <label for="">Contact No </label>
@@ -366,7 +351,7 @@
             </table>
         </div>
     </div>
-    @include('services.resubmit_application.resubmit_hotel_check_list')
+    @include('services.resubmit_application.resubmit_tented_accomm_checklist')
     <div class="card">
     <div class="card-header">
         <h4 class="card-title">File Attachment</h4>
@@ -394,7 +379,7 @@
                             Agree to submit upon request of the Classification Committee  additional information for classification approval/modification purposes; 
                         </li>
                         <li>
-                            Apply for the assignment of <b><span id="star_level"></span></b>  and verify the conformity of the accommodation establishment  to the  guideline; 
+                            Apply for the assignment of <b>Tented Accommodation</b>  and verify the conformity of the accommodation establishment  to the  guideline; 
                         </li>
                         <li>
                             Agree with the terms and conditions laid down in the statutes of the TCB- classification committee and the classification procedure.
@@ -413,11 +398,7 @@
 @endsection
 @section('scripts')
     <script>
-        $(document).ready(function(){
-                    var star_category_name = $("#star_category_id  option:selected").text();
-                    $("#star_level").html(star_category_name);
-
-            });
+       
             id=1;
             function addMoreRoom(this_id){
                 var parentdivId = $(this_id).parents("div.parent_div").attr('id');

@@ -1,5 +1,5 @@
 @extends('layouts.manager')
-@section('page-title','Assessment And Registration Of Tourist Standard Hotels')
+@section('page-title','Assessment And Registration of Tented Accommodation')
 @section('content')
 <form action="{{ url('application/save-application') }}" method="POST" files="true" id="form_data" enctype="multipart/form-data">
 @csrf
@@ -23,52 +23,37 @@
                 </select>
             </div>
             <div class="form-group col-md-5 offset-md-2">
-                <label>Star Category Type <span class="text-danger">*</span></label>
-                <select class="form-control select2bs4" name="star_category_id" id="star_category_id" style="width: 100%;">
-                    <option value="">- Select -</option>
-                    @foreach ($starCategoryLists as $starCategoryList)
-                    <option value="{{$starCategoryList->id}}">{{$starCategoryList->star_category_name}}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-5">
                 <div class="alert alert-danger alert-dismissible" id="alertTraineeMgsId" style="display: none">
                     <i class="fa fa-info-circle fa-lg"></i><strong><span id="showTraineeMsg"></span> Your dispatch number is incorrect</strong>
                 </div>
                 <label for="">Dispatch Number<span class="text-danger"> *</span><small class="text-danger">[Dispatch number mention in technical clearance letter]</small></label>
                 <input type="text" class="form-control" name="dispatch_no" value="{{ old('dispatch_no') }}" id="dispatch_no">
             </div>
-            <div class="form-group col-md-5 offset-md-2">
+        </div>
+        <div class="row">
+            <div class="form-group col-md-5">
                 <label for="">License Number <span class="text-danger">*</span> </label>
                 <input type="text" class="form-control" name="license_no" autocomplete="off">
             </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-5">
+            <div class="form-group col-md-5 offset-md-2">
                 <label for="">License Date <span class="text-danger">*</span> </label>
                 <input type="date" class="form-control" name="license_date" autocomplete="off">
             </div>
-            <div class="form-group col-md-5 offset-md-2">
+        </div>
+        <div class="row">
+            <div class="form-group col-md-5">
                 <label for="">Hotel Name <span class="text-danger">*</span> </label>
                 <input type="text" class="form-control" name="company_title_name" autocomplete="off">
             </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-5">
+            <div class="form-group col-md-5 offset-md-2">
                 <label for="">CID No.<span class="text-danger">*</span> </label>
                 <input type="text" class="form-control" name="cid_no" autocomplete="off">
             </div>
-            <div class="form-group col-md-5 offset-md-2">
-                <label for="">Owner Name<span class="text-danger">*</span> </label>
-                <input type="text" class="form-control" name="owner_name" autocomplete="off">
-            </div>
         </div>
         <div class="row">
             <div class="form-group col-md-5">
-                <label for="">Address <span class="text-danger">*</span> </label>
-                <input type="text" class="form-control" name="address" autocomplete="off">
+                <label for="">Owner Name<span class="text-danger">*</span> </label>
+                <input type="text" class="form-control" name="owner_name" autocomplete="off">
             </div>
             <div class="form-group col-md-5 offset-md-2">
                 <label for="">Contact No <span class="text-danger">*</span> </label>
@@ -272,7 +257,7 @@
                             Agree to submit upon request of the Classification Committee  additional information for classification approval/modification purposes; 
                         </li>
                         <li>
-                            Apply for the assignment of <b><span id="star_level"></span></b>  and verify the conformity of the accommodation establishment  to the  guideline; 
+                            Apply for the assignment of <b>Tented Accommodation</b>  and verify the conformity of the accommodation establishment  to the  guideline; 
                         </li>
                         <li>
                             Agree with the terms and conditions laid down in the statutes of the TCB- classification committee and the classification procedure.
@@ -324,20 +309,17 @@
         }
     </script>
     <script>
-        $(document).ready(function(){
-            $('#star_category_id').on('change',function(ev){
-                var star_category_id=$("#star_category_id").val();
-                var star_category_name = $("#star_category_id  option:selected").text();
-                $("#star_level").html(star_category_name);
-                var url="{{ url('application/get-hotel-checklist') }}";
-                var options = {target:'#showdivid',
-                url:url,
-                type:'POST',
-                data: $("#form_data").serialize()};
-                $("#form_data").ajaxSubmit(options);
-            });
-        });
-        
+         $(document).ready(function () {
+            function loadChecklistDetails() {
+                var url="{{ url('application/get-checklist') }}";
+                    var options = {target:'#showdivid',
+                    url:url,
+                    type:'POST',
+                    data: $("#form_data").serialize()};
+                    $("#form_data").ajaxSubmit(options);
+            }
+           window.onload=loadChecklistDetails();
+         });
         $(function () {
             $(document).on('change', '#dispatch_no', function(){
                 var dispatch_no=$("#dispatch_no").val();
@@ -387,9 +369,6 @@
                     application_type_id: {
                        required: true,
                     },
-                    star_category_id: {
-                       required: true,
-                    },
                     dispatch_no: {
                        required: true,
                     },
@@ -409,9 +388,6 @@
                         required: true,
                     },
                     owner_name: {
-                        required: true,
-                    },
-                    address: {
                         required: true,
                     },
                     contact_no: {
@@ -458,12 +434,12 @@
                     establishment_village_id: {
                         required: true,
                     },
-                    scorepoint: {
+                    /* scorepoint: {
                         checkScorepoint: true,
-                    },
-                    bspoints: {
+                    }, */
+                  /*   bspoints: {
                         checkBspoints: true,
-                    }, 
+                    },  */
                    },
                 messages: {
                     application_type_id: {
@@ -471,9 +447,6 @@
                     },
                     dispatch_no: {
                           required: "Please enter dispatch number",
-                    },
-                    star_category_id: {
-                    required: "Choose accommodation type",
                     },
                     cid_no: {
                         required: "Please provide a cid number",

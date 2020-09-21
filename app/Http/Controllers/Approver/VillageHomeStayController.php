@@ -61,11 +61,11 @@ class VillageHomeStayController extends Controller
     }
 
      //Approval function for village Home Stay assessment application
-   public function villageHomeStayAssessmentApplication(Request $request){
-    $assigned_priv_id=WorkFlowDetails::getAssignedRoleForApp($request->service_id);
+   public function villageHomeStayAssessmentApplication(Request $request,Services $service){
+    $assigned_priv_id=WorkFlowDetails::getAssignedRoleForApp($request->service_id)->role_id;
     if($request->status =='APPROVED'){
         // insert into t_techt_tourist_standard_dtlsnical_clearances
-        \DB::transaction(function () use ($request) {
+        \DB::transaction(function () use ($request,$service,$assigned_priv_id) {
             $approveId = WorkFlowDetails::getStatus('APPROVED');
             $completedId= WorkFlowDetails::getStatus('COMPLETED');
 
@@ -103,7 +103,7 @@ class VillageHomeStayController extends Controller
                          'updated_at'   => now(),
                 ];
              }
-            $this->services->insertDetails('t_member_dtls',$membersData);
+            $service->insertDetails('t_member_dtls',$membersData);
         }
          
            // insert into t_checklist_dtls
@@ -117,12 +117,12 @@ class VillageHomeStayController extends Controller
                             'updated_at'   => now(),
                    ];
                 }
-               $this->services->insertDetails('t_checklist_dtls',$checklistData);
+               $service->insertDetails('t_checklist_dtls',$checklistData);
            }
            
            $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
            $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
-                   ->update(['status_id' => $approveId->id,'role_id'=> $assigned_priv_id->role_id,'remarks' => $request->remarks]);
+                   ->update(['status_id' => $approveId->id,'role_id'=> $assigned_priv_id,'remarks' => $request->remarks]);
 
            $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
            $updateworkflow=TaskDetails::where('application_no',$request->application_no)
@@ -135,7 +135,7 @@ class VillageHomeStayController extends Controller
         $completedId= WorkFlowDetails::getStatus('COMPLETED');
         $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
         $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
-        ->update(['status_id' => $resubmitdId->id,'role_id'=>$assigned_priv_id->role_id,'remarks' => $request->remarks]);
+        ->update(['status_id' => $resubmitdId->id,'role_id'=>$assigned_priv_id,'remarks' => $request->remarks]);
 
         $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
         $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
@@ -148,7 +148,7 @@ class VillageHomeStayController extends Controller
         $rejectId = WorkFlowDetails::getStatus('REJECTED');
         $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
         $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
-        ->update(['status_id' => $rejectId->id,'role_id'=>$assigned_priv_id->role_id,'remarks' => $request->remarks]);
+        ->update(['status_id' => $rejectId->id,'role_id'=>$assigned_priv_id,'remarks' => $request->remarks]);
 
         $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
         $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
