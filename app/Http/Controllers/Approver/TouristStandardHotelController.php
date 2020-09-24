@@ -112,17 +112,21 @@ class TouristStandardHotelController extends Controller
 
      //Approval function for technical clearance application
      public function hotelTechnicalClearanceApplication(Request $request,Services $service){
+         dd($request->all());
         $assigned_priv_id=WorkFlowDetails::getAssignedRoleForApp($request->service_id)->role_id;
         if($request->status =='APPROVED'){
            // insert into t_technical_clearances
            \DB::transaction(function () use ($request,$assigned_priv_id,$service) {
                $approveId = WorkFlowDetails::getStatus('APPROVED');
                $completedId= WorkFlowDetails::getStatus('COMPLETED');
-               
+               $lastsequence=substr($request->application_no,7);
+               $divisioncode=Services::getDivisonCode($serviceId)->code;
+               $tcb="TCB";
+               $dispatchNo=$tcb.'/'.$divisioncode.date("Y.m.d").$lastsequence;
             // save new technical clearance details
             if($request->purpose_id=="20"){
                 $data[]= [            
-                    'dispatch_no'   => str_random(8),
+                    'dispatch_no'   => $dispatchNo,
                     'application_no'   => $request->application_no,
                     'purpose_id'   => $request->purpose_id,
                     'cid_no'   => $request->cid_no,
@@ -134,19 +138,20 @@ class TouristStandardHotelController extends Controller
                     'tentative_cons'   => DATE('Y-m-d', strtotime($request->tentative_cons)),
                     'tentative_com'   => DATE('Y-m-d', strtotime($request->tentative_com)),
                     'drawing_date'   => DATE('Y-m-d', strtotime($request->drawing_date)),
+                    'validaty_date'   =>now()->addYears(2),
                     'email'   => $request->email,
                     'submitted_by'   => $request->applicant_id,
                     'created_at'   => now(),
                     'updated_at'   => now(),
                 ];
-                $this->services->insertDetails('t_technical_clearances',$data);
+                $service->insertDetails('t_technical_clearances',$data);
             }
 
             // save new technicalclearance details
             elseif($request->purpose_id=="23"){
                 $savedatatoaudit=Services::saveTechnicalClearanceDtlsAudit($request->cid_no);
                 $data = array(
-                  'dispatch_no'   => str_random(8),
+                  'dispatch_no'   => $dispatchNo,
                   'application_no'   => $request->application_no,
                   'purpose_id'   => $request->purpose_id,
                   'tentative_com'   => DATE('Y-m-d', strtotime($request->tentative_com)),
@@ -159,7 +164,7 @@ class TouristStandardHotelController extends Controller
             elseif($request->purpose_id=="24"){
                 $savedatatoaudit=Services::saveTechnicalClearanceDtlsAudit($request->cid_no);
                 $data = array(
-                 'dispatch_no'   => str_random(8),
+                 'dispatch_no'   => $dispatchNo,
                  'application_no'   => $request->application_no,
                  'purpose_id'   => $request->purpose_id,
                  'name'   => $request->name,
@@ -171,7 +176,7 @@ class TouristStandardHotelController extends Controller
             else{
                 $savedatatoaudit=Services::saveTechnicalClearanceDtlsAudit($request->cid_no);
                 $data = array(
-                 'dispatch_no'   => str_random(8),
+                 'dispatch_no'   => $dispatchNo,
                  'application_no'   => $request->application_no,
                  'purpose_id'   => $request->purpose_id,
                 );

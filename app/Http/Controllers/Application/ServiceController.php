@@ -191,8 +191,13 @@ class ServiceController extends Controller
 
     //Technical clearance details
     public function getTechCleranceDtls($dispatch_no){
-        $data=Services::getTechCleranceDtls($dispatch_no);
-        return response()->json($data);
+        $present= Services::checkDispatchNumber($dispatch_no);
+        if($present){
+            $data=Services::getTechCleranceDtls($dispatch_no);
+            return response()->json($data);
+        }else{
+            return response()->json($present);
+        }
     }
 
     public function getVillageHomeStayDetails($cidNo){
@@ -229,7 +234,7 @@ class ServiceController extends Controller
       return response()->json($flag);
     }
     public function saveNewApplication(Request $request,Services $service){
-       //dd($request->all());
+       dd($request->all());
         $application_no = $service->generateApplNo($request);
         DB::transaction(function () use ($request, $application_no,$service) {
             //insert into t_application

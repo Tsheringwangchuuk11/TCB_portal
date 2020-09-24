@@ -30,6 +30,9 @@
                             <label for="">Dispatch Number<span class="text-danger"> *</span></label>
                             <input type="text" class="form-control" name="dispatch_no" value="{{ old('dispatch_no') }}" id="dispatch_no" onchange="getTechCleranceDetails()">
                         </div>
+                        <div class="alert alert-danger alert-dismissible" id="alertTraineeMgsId" style="display: none">
+                            <i class="fa fa-info-circle fa-lg"></i><strong><span id="showTraineeMsg"></span> Your dispatch number is incorrect</strong>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -299,7 +302,7 @@ $(document).ready(function(){
                     gewog_id: {
                         required: true,
                     },
-                    village_id: {
+                    establishment_village_id: {
                         required: true,
                     },
                    },
@@ -349,7 +352,7 @@ $(document).ready(function(){
                     gewog_id: {
                         required: "Please select gewog",
                     },
-                    village_id: {
+                    establishment_village_id: {
                         required: "Please select village",
                     },
                 },
@@ -366,9 +369,22 @@ $(document).ready(function(){
                 }
     });
     $('#application_type_id').on('change',function(e) {
+            $('#cid_no').val(''); 
+            $("#star_category_id").find('.select2bs4').val('');
+            $('#contact_no').val('');
+            $('#email').val(''); 
+            $('#number').val('');
+            $('#tentative_cons').val(''); 
+            $('#tentative_com').val('');
+            $('#drawing_date').val('');
+            $("#dzongkhag_id").val();	
+            $("#gewog_id option:gt(0)").remove();	
+            $("#village_id option:gt(0)").remove();	
+            $("#dispatch_no").val('');
+            $('#applicant_name').val(''); 
+
         var application_type_id=e.target.value;
         if(application_type_id == "20"){
-            $("#form_data :input").prop("disabled", false); 
             $("#new_application").show();
             $("#renewal").hide();
             $("#change_design").hide();
@@ -413,6 +429,7 @@ function getTechCleranceDetails(){
                 type: "GET",
                 dataType: "json",
                 success:function(data) {
+                    if(data !=false){
                     $('#record_id').val(data.id);
                     $('#star_category_id').val(data.accomodation_type_id).trigger("change");
                     $('#cid_no').val(data.cid_no);
@@ -424,29 +441,36 @@ function getTechCleranceDetails(){
                     $('#tentative_com').val(data.tentative_com);
                     $('#drawing_date').val(data.drawing_date);
                     $('#dzongkhag_id').val(data.dzongkhag_id).trigger("change");
-                    getGewogDropDown(data.dzongkhag_id,data.gewog_id);
-                    getvillageDroDown(data.gewog_id,data.village_id);                  
-                    $('#cid_no').attr('disabled', false); 
-                    $('#star_category_id').attr('disabled', false); 
-                    /* if(application_type_id==24){
-                        $('#applicant_name').removeAttr('disabled', 'disabled'); 
+                    $('#gewog_id').val(data.gewog_id);
+                    getGewogDropDown(data.dzongkhag_id,data.gewog_id,data.village_id);
+                   if(application_type_id==22){
+                        $('#applicant_name').removeAttr('readonly'); 
 
                     }else{
-                        $('#applicant_name').attr('disabled', 'disabled'); 
+                       $("#applicant_name").prop('readonly',true);
                     }
-                    $('#contact_no').attr('disabled', 'disabled'); 
-                    $('#email').attr('disabled', 'disabled'); 
-                    $('#number').attr('disabled', 'disabled'); 
-                    $('#tentative_cons').attr('disabled', 'disabled'); 
-                    $('#tentative_com').attr('disabled', 'disabled'); 
-                    $('#drawing_date').attr('disabled', 'disabled'); 
-                    $('#dzongkhag_id').attr('disabled', 'disabled'); 
-                    $('#gewog_id').attr('disabled', 'disabled'); 
-                    $('#village_id').attr('disabled', 'disabled');  */
+                    $('#cid_no').prop('readonly', true); 
+                    $('#star_category_id').prop('disabled', true); 
+                    $('#contact_no').prop("readonly", true);
+                    $('#email').prop("readonly", true); 
+                    $('#number').prop("readonly", true);
+                    $('#tentative_cons').prop("readonly", true); 
+                    $('#tentative_com').prop("readonly", true);
+                    $('#drawing_date').prop("readonly", true);
+                    $('#dzongkhag_id').prop('disabled', true);
+                    $('#gewog_id').prop("disabled", true); 
+                    $('#village_id').prop("disabled", true);
+                    }else{
+                        $('#alertTraineeMgsId').show().delay(3000).queue(function (n) {
+                            $(this).hide();
+                            n();
+                        });
+                        $("#dispatch_no").val('');
+                    }
                 } 
             });
         }
-        function getGewogDropDown(dzongkhag_id,gewog_id){
+        function getGewogDropDown(dzongkhag_id,gewog_id,village_id){
             if(dzongkhag_id){
             $("#gewog_id option:gt(0)").remove();	
          $.ajax({			   
@@ -464,8 +488,10 @@ function getTechCleranceDetails(){
                    $('select[name="gewog_id"]').append('<option value="'+ key +'">'+ value +'</option>');
                });
                $('#gewog_id').val(gewog_id).trigger("change");
+               getvillageDroDown(gewog_id,village_id);                  
              }
          });
+
         }else{
          $("#gewog_id option:gt(0)").remove();	
          $("#village_id option:gt(0)").remove();
@@ -473,7 +499,7 @@ function getTechCleranceDetails(){
         }
 
         function getvillageDroDown(gewog_id,villageId){
-            if(gewog_id){
+        if(gewog_id){
          $("#village_id option:gt(0)").remove();	
          $.ajax({			   
                   url:'/json-dropdown',

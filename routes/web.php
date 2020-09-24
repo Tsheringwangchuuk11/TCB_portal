@@ -46,7 +46,8 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::post('update-profile/{id}', 'HomeController@updateProfile');
     Route::get('change-password', 'HomeController@getChangePassword')->name('change-password');
     Route::post('change-password', 'HomeController@postChangePassword');
-	Route::get('/json-dropdown', 'HomeController@getDropdownLists');
+    Route::get('/json-dropdown', 'HomeController@getDropdownLists');
+
     Route::get('/json-basicstandard', 'HomeController@getBasicStandardLists');
 
     //routes for system administrations
