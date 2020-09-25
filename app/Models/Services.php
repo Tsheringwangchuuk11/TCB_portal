@@ -168,7 +168,9 @@ public function setToDateAttribute($value)
 	public static function getTouristHotelDetails($licenseNo){
 		 $query=DB::table('t_tourist_standard_dtls as t1')
 		->leftjoin('t_star_categories as t2','t2.id','=','t1.star_category_id')
-		->leftjoin('t_locations as t3','t3.id','=','t1.village_id')
+		->leftjoin('t_village_masters as t3','t3.id','=','t1.village_id')
+		->leftjoin('t_gewog_masters as t4','t4.id','=','t3.gewog_id')
+		->select('t1.*','t3.village_name','t4.gewog_name','t2.star_category_name','t4.dzongkhag_id')
 		->where('t1.license_no',$licenseNo)
 		->where('t1.is_active','Y')
 		->first(); 

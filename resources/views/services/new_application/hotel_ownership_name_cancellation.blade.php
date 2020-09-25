@@ -31,14 +31,13 @@
                 </div>
                 <div class="form-group col-md-5 offset-md-2">
                     <label>Star Category Type</label>
-                    <input type="text" class="form-control" name="old_star_category_id" id="old_star_category_id" readonly="true">
-                    <input type="hidden" class="form-control" name="star_category_id" id="star_category_id" readonly="true">
+                    <input type="text" class="form-control" name="star_category_id" id="star_category_id" readonly="true">
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-md-5">
                     <label for="">License Date </label>
-                    <input type="text" class="form-control" name="license_date" id="license_date" readonly="true">
+                    <input type="date" class="form-control" name="license_date" id="license_date" readonly="true">
                 </div>
                 <div class="form-group col-md-5 offset-md-2">
                     <label for="">Hotel Name </label>
@@ -85,13 +84,6 @@
                     <input type="number" class="form-control" name="number" id="number" readonly="true">
                 </div>
             </div>
-            <div class="row">
-                <div class="form-group col-md-5">
-                    <label for="">Location </label>
-                    <input type="hidden" class="form-control" name="location_id" id="location_id" readonly="true">
-                    <input type="text" class="form-control" name="location_name" id="location_name" readonly="true">
-                </div>
-            </div>
             <div id="name_change_info" style="display: none">
                 <h5>Name Change</h5>
                 <div class="row">
@@ -132,6 +124,40 @@
             </div>
         </div>
     </div>
+    <div class="card">
+    <div class="card-header">
+        <h4 class="card-title">Hotel location</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label for="">Dzongkhag<span class="text-danger"> *</span></label>
+                    <select  name="dzongkhag_id" id="dzongkhag_id" class="form-control select2bs4 dzongkhagdropdown" style="width: 100%;">
+                        <option value=""> -Select-</option>
+                        @foreach ($dzongkhagLists as $dzongkhagList)
+                        <option value="{{ $dzongkhagList->id }}" {{ old('dzongkhag_id') == $dzongkhagList->id ? 'selected' : '' }}>{{ $dzongkhagList->dzongkhag_name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-5 offset-md-2">
+                <div class="form-group">
+                    <label for="">Gewog<span class="text-danger"> *</span></label>
+                    <input type="text" class="form-control" name="gewog_name" id="gewog_name">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label for="">Village<span class="text-danger"> *</span></label>
+                    <input type="text" class="form-control" name="village_id" id="village_id">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     <div class="card">
         <div class="card-header">
             <h4 class="card-title">File Attachment</h4>
@@ -180,8 +206,8 @@
                     },
                 dataType: "json",
                 success:function(data) {
-                        $('#old_star_category_id').val(data.star_category_name);
-                        $('#star_category_id').val(data.star_category_id);
+                    console.log(data);
+                        $('#star_category_id').val(data.star_category_name);
                         $('#license_date').val(data.license_date);
                         $('#company_title_name').val(data.tourist_standard_name);
                         $('#old_owner').val(data.owner_name);
@@ -192,8 +218,9 @@
                         $('#old_email').val(data.email);
                         $('#webpage_url').val(data.webpage_url);
                         $('#number').val(data.bed_no);
-                        $('#location_id').val(data.village_id);
-                        $('#location_name').val(data.location_name);
+                        $('#dzongkhag_id').val(data.dzongkhag_id).trigger("change");
+                        $('#gewog_name').val(data.gewog_name);
+                        $('#village_name').val(data.village_name);
                     } 
                 });
             }

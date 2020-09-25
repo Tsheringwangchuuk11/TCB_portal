@@ -159,57 +159,57 @@
                     <div class="form-check">
                         <ol id="new_application" style="display:none">
                             <li>
-                                <em><input type="checkbox" name="checkboxes" class="check-one">&nbsp;An application addressed to the Director General of TCB requesting the issuance
+                                <em><input type="checkbox" name="checkboxes" class="new_application">&nbsp;An application addressed to the Director General of TCB requesting the issuance
                                 of technical clearance.</em>   
                                 </em>
                             </li>
                             <li>
                                 <em>
-                                    <input type="checkbox" name="checkboxes"  class="check-one">&nbsp; Architectural drawings 
+                                    <input type="checkbox" name="checkboxes"  class="new_application">&nbsp; Architectural drawings 
                                 </em>
                             </li>
                         </ol>
                         <ol id="renewal" style="display:none">
                             <li>
-                                <em> <input type="checkbox" name="checkboxes"  class="check-one">&nbsp; An application addressed to the Director General of TCB with clear justification
+                                <em> <input type="checkbox" name="checkboxes"  class="renewal">&nbsp; An application addressed to the Director General of TCB with clear justification
                                 on renewal of technical clearance.
                                 </em> 
                             </li>
                             <li>  
-                                <em>  <input type="checkbox" name="checkboxes"  class="check-one">&nbsp; Surrender the previous technical clearance issued to the proponent..</em>
+                                <em>  <input type="checkbox" name="checkboxes"  class="renewal">&nbsp; Surrender the previous technical clearance issued to the proponent..</em>
                             </li>
                         </ol>
                         <ol id="change_design" style="display:none">
                             <li>
-                                <em> <input type="checkbox" name="checkboxes"  class="check-one">&nbsp; An application addressed to the Director General of TCB with clear justification
+                                <em> <input type="checkbox" name="checkboxes"  class="change_design">&nbsp; An application addressed to the Director General of TCB with clear justification
                                 for issuance of new technical clearance.
                                 </em>  
                             </li>
                             <li> 
                                 <em>
-                                    <input type="checkbox" name="checkboxes"  class="check-one">&nbsp; Submit the new architectural drawings
+                                    <input type="checkbox" name="checkboxes"  class="change_design">&nbsp; Submit the new architectural drawings
                                 </em>  
                             </li>
                             <li>
                                 <em>
-                                    <input type="checkbox" name="checkboxes"  class="check-one">&nbsp;  Surrender the previous technical clearance issued to the proponent.
+                                    <input type="checkbox" name="checkboxes"  class="change_design">&nbsp;  Surrender the previous technical clearance issued to the proponent.
                                 </em>   
                             </li>
                         </ol>
                         <ol id="ownership_change" style="display:none">
                             <li>
-                                <em> <input type="checkbox" name="checkboxes"  class="check-one">&nbsp; An application addressed to the Director General of TCB with clear justification
+                                <em> <input type="checkbox" name="checkboxes"  class="ownership_change">&nbsp; An application addressed to the Director General of TCB with clear justification
                                 for change in ownership.
                                 </em> 
                             </li>
                             <li>
                                 <em>
-                                    <input type="checkbox" name="checkboxes"  class="check-one">&nbsp; Original copy of undertaking letter signed by both parties..
+                                    <input type="checkbox" name="checkboxes"  class="ownership_change">&nbsp; Original copy of undertaking letter signed by both parties..
                                 </em>   
                             </li>
                             <li>
                                 <em>
-                                    <input type="checkbox" name="checkboxes"  class="check-one">&nbsp;  Surrender the previous technical clearance issued to the proponent.   
+                                    <input type="checkbox" name="checkboxes"  class="ownership_change">&nbsp;  Surrender the previous technical clearance issued to the proponent.   
                                 </em>   
                             </li>
                         </ol>
@@ -235,11 +235,89 @@ $(document).ready(function () {
      });
 });
 $(document).ready(function(){
-      var chck = $('input[type=checkbox]');
-        chck.hasClass('check-one');
-        $.validator.addMethod('check_one', function (value) {
-            return (chck.filter(':checked').length > 1);
-        }, 'Submit all the document mention above'); 
+    $('#application_type_id').on('change',function(e) {
+            $('#cid_no').val('');
+            $("#star_category_id").val("").trigger("change.select2");        
+            $('#contact_no').val('');
+            $('#email').val(''); 
+            $('#number').val('');
+            $('#tentative_cons').val(''); 
+            $('#tentative_com').val('');
+            $('#drawing_date').val('');
+            $("#dzongkhag_id").val("").trigger("change.select2");        
+            $("#gewog_id").val("").trigger("change.select2");        
+            $("#village_id").val("").trigger("change.select2");        
+            $("#dispatch_no").val('');
+            $('#applicant_name').val(''); 
+            $('input:checkbox').removeAttr('checked');
+
+        var application_type_id=e.target.value;
+        if(application_type_id == "20"){
+            $('input').prop('readonly', false); 
+            $('select').prop('disabled', false); 
+            $("#new_application").show();
+            $("#renewal").hide();
+            $("#change_design").hide();
+            $("#ownership_change").hide();
+            $("#dispatchNumberId").hide();
+        } 
+        else if(application_type_id == "21"){
+            $("#new_application").hide();
+            $("#renewal").show();
+            $("#change_design").hide();
+            $("#ownership_change").hide();
+            $("#dispatchNumberId").show();
+        } 
+        else if(application_type_id == "22"){
+            $("#new_application").hide();
+            $("#renewal").hide();
+            $("#change_design").show();
+            $("#ownership_change").hide();           
+            $("#dispatchNumberId").show();
+
+        }
+        else if(application_type_id == "23"){
+            $("#new_application").hide();
+            $("#renewal").hide();
+            $("#change_design").hide();
+            $("#ownership_change").show();
+            $("#dispatchNumberId").show();
+        }
+    });
+    
+        
+           
+            $.validator.addMethod('check_one', function (value) {
+            var application_type_id=$("#application_type_id").val();
+                if(application_type_id==20){
+                    var chck = $('input.new_application[type=checkbox]');
+                    var numItems = $('.new_application').length;
+                    chck.hasClass('new_application');
+                    return (chck.filter(':checked').length ==numItems);
+
+                }else if(application_type_id==21){
+                    var chck = $('input.renewal[type=checkbox]');
+                    var numItems = $('.renewal').length;
+                    chck.hasClass('renewal');
+                    return (chck.filter(':checked').length ==numItems);
+
+                }
+                else if(application_type_id==22){
+                    var chck = $('input.change_design[type=checkbox]');
+                    var numItems = $('.change_design').length;
+                    chck.hasClass('change_design');
+                    return (chck.filter(':checked').length ==numItems);
+
+                }else{
+                    var chck = $('input.ownership_change[type=checkbox]');
+                    var numItems = $('.ownership_change').length;
+                    chck.hasClass('ownership_change');
+                    return (chck.filter(':checked').length ==numItems);
+
+
+                }
+            }, 'Submit all the document mention above'); 
+      
        $('#form_data').validate({
                  ignore: [],
                 rules: {
@@ -368,52 +446,6 @@ $(document).ready(function(){
                     $(element).removeClass('is-invalid');
                 }
     });
-    $('#application_type_id').on('change',function(e) {
-            $('#cid_no').val(''); 
-            $("#star_category_id").find('.select2bs4').val('');
-            $('#contact_no').val('');
-            $('#email').val(''); 
-            $('#number').val('');
-            $('#tentative_cons').val(''); 
-            $('#tentative_com').val('');
-            $('#drawing_date').val('');
-            $("#dzongkhag_id").val();	
-            $("#gewog_id option:gt(0)").remove();	
-            $("#village_id option:gt(0)").remove();	
-            $("#dispatch_no").val('');
-            $('#applicant_name').val(''); 
-
-        var application_type_id=e.target.value;
-        if(application_type_id == "20"){
-            $("#new_application").show();
-            $("#renewal").hide();
-            $("#change_design").hide();
-            $("#ownership_change").hide();
-            $("#dispatchNumberId").hide();
-        } 
-        else if(application_type_id == "21"){
-            $("#new_application").hide();
-            $("#renewal").show();
-            $("#change_design").hide();
-            $("#ownership_change").hide();
-            $("#dispatchNumberId").show();
-        } 
-        else if(application_type_id == "22"){
-            $("#new_application").hide();
-            $("#renewal").hide();
-            $("#change_design").show();
-            $("#ownership_change").hide();           
-            $("#dispatchNumberId").show();
-
-        }
-        else if(application_type_id == "23"){
-            $("#new_application").hide();
-            $("#renewal").hide();
-            $("#change_design").hide();
-            $("#ownership_change").show();
-            $("#dispatchNumberId").show();
-        }
-    });
 });
 
 function getTechCleranceDetails(){
@@ -443,14 +475,14 @@ function getTechCleranceDetails(){
                     $('#dzongkhag_id').val(data.dzongkhag_id).trigger("change");
                     $('#gewog_id').val(data.gewog_id);
                     getGewogDropDown(data.dzongkhag_id,data.gewog_id,data.village_id);
-                   if(application_type_id==22){
+                   if(application_type_id==23){
                         $('#applicant_name').removeAttr('readonly'); 
 
                     }else{
                        $("#applicant_name").prop('readonly',true);
                     }
                     $('#cid_no').prop('readonly', true); 
-                    $('#star_category_id').prop('disabled', true); 
+                    $('#star_category_id').prop('disabled', false); 
                     $('#contact_no').prop("readonly", true);
                     $('#email').prop("readonly", true); 
                     $('#number').prop("readonly", true);
@@ -459,7 +491,7 @@ function getTechCleranceDetails(){
                     $('#drawing_date').prop("readonly", true);
                     $('#dzongkhag_id').prop('disabled', true);
                     $('#gewog_id').prop("disabled", true); 
-                    $('#village_id').prop("disabled", true);
+                    $('#village_id').prop("disabled", false);
                     }else{
                         $('#alertTraineeMgsId').show().delay(3000).queue(function (n) {
                             $(this).hide();

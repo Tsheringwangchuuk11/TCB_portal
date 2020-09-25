@@ -21,10 +21,17 @@ class TouristStandardHotelController extends Controller
         
         //Technical clearance Details for hotel
         if($serviceId==1){
+        $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
         $data['purposes'] =Dropdown::getDropdownList("6");
         $data['accommodationtypes'] =Dropdown::getDropdownList("7");
         $data['documentInfos']=Services::getDocumentDetails($applicationNo);
-        return view('services.approve_application.approve_technical_clearance',$data);
+            if($status==9){
+                return view('services.resubmit_application.resubmit_technical_clearance',$data,compact('status'));
+            }else{
+                $status= WorkFlowDetails::getStatus('APPROVED')->id;
+                return view('services.approve_application.approve_technical_clearance',$data,compact('status'));
+
+            }
         }
 
         //Tourism standard hotel assesment Details
@@ -112,7 +119,7 @@ class TouristStandardHotelController extends Controller
 
      //Approval function for technical clearance application
      public function hotelTechnicalClearanceApplication(Request $request,Services $service){
-         dd($request->all());
+        // dd($request->all());
         $assigned_priv_id=WorkFlowDetails::getAssignedRoleForApp($request->service_id)->role_id;
         if($request->status =='APPROVED'){
            // insert into t_technical_clearances
@@ -120,7 +127,7 @@ class TouristStandardHotelController extends Controller
                $approveId = WorkFlowDetails::getStatus('APPROVED');
                $completedId= WorkFlowDetails::getStatus('COMPLETED');
                $lastsequence=substr($request->application_no,7);
-               $divisioncode=Services::getDivisonCode($serviceId)->code;
+               $divisioncode=Services::getDivisonCode($request->service_id)->code;
                $tcb="TCB";
                $dispatchNo=$tcb.'/'.$divisioncode.date("Y.m.d").$lastsequence;
             // save new technical clearance details
@@ -147,21 +154,30 @@ class TouristStandardHotelController extends Controller
                 $service->insertDetails('t_technical_clearances',$data);
             }
 
-            // save new technicalclearance details
-            elseif($request->purpose_id=="23"){
+            // save renew technicalclearance details
+            if($request->purpose_id=="21"){
                 $savedatatoaudit=Services::saveTechnicalClearanceDtlsAudit($request->cid_no);
                 $data = array(
                   'dispatch_no'   => $dispatchNo,
                   'application_no'   => $request->application_no,
                   'purpose_id'   => $request->purpose_id,
-                  'tentative_com'   => DATE('Y-m-d', strtotime($request->tentative_com)),
+                  'validaty_date'   =>now()->addYears(2),
                 );
                 $updatedata=Services::updateApplicantDtls('t_technical_clearances','cid_no',$request->cid_no,$data);
-
             }
 
+            // save design change technicalclearance details
+              if($request->purpose_id=="22"){
+                $savedatatoaudit=Services::saveTechnicalClearanceDtlsAudit($request->cid_no);
+                $data = array(
+                  'dispatch_no'   => $dispatchNo,
+                  'application_no'   => $request->application_no,
+                  'purpose_id'   => $request->purpose_id,
+                );
+                $updatedata=Services::updateApplicantDtls('t_technical_clearances','cid_no',$request->cid_no,$data);
+            }
             // save ownership change technicalclearance details
-            elseif($request->purpose_id=="24"){
+            if($request->purpose_id=="23"){
                 $savedatatoaudit=Services::saveTechnicalClearanceDtlsAudit($request->cid_no);
                 $data = array(
                  'dispatch_no'   => $dispatchNo,
@@ -171,18 +187,7 @@ class TouristStandardHotelController extends Controller
                  );
                  $updatedata=Services::updateApplicantDtls('t_technical_clearances','cid_no',$request->cid_no,$data);
                 }
-
-            // save desigm change technicalclearance details
-            else{
-                $savedatatoaudit=Services::saveTechnicalClearanceDtlsAudit($request->cid_no);
-                $data = array(
-                 'dispatch_no'   => $dispatchNo,
-                 'application_no'   => $request->application_no,
-                 'purpose_id'   => $request->purpose_id,
-                );
-                $updatedata=Services::updateApplicantDtls('t_technical_clearances','cid_no',$request->cid_no,$data);
-            }
-
+            //update application_no in t_documents
             $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
             $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
                     ->update(['status_id' => $approveId->id,'role_id'=> $assigned_priv_id,'remarks' => $request->remarks]);
@@ -196,6 +201,8 @@ class TouristStandardHotelController extends Controller
        elseif($request->status =='RESUBMIT'){
         $resubmitdId = WorkFlowDetails::getStatus('RESUBMIT');
         $completedId= WorkFlowDetails::getStatus('COMPLETED');
+        $documentId = $request->documentId;
+        $service->updateDocumentDetails($documentId,$request->application_no);
         $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
         $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
         ->update(['status_id' => $resubmitdId->id,'role_id'=>$assigned_priv_id,'remarks' => $request->remarks]);

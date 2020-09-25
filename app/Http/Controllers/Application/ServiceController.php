@@ -68,6 +68,7 @@ class ServiceController extends Controller
 
         //hotel_ownership_name_cancellation
         else if($data['idInfos']->service_id==6 && $data['idInfos']->module_id==1){
+            $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
             $data['applicationTypes'] = Dropdown::getApplicationType("8",$dropdownId[]=["28","29","30"]);
         }
         
@@ -234,7 +235,7 @@ class ServiceController extends Controller
       return response()->json($flag);
     }
     public function saveNewApplication(Request $request,Services $service){
-       dd($request->all());
+      // dd($request->all());
         $application_no = $service->generateApplNo($request);
         DB::transaction(function () use ($request, $application_no,$service) {
             //insert into t_application

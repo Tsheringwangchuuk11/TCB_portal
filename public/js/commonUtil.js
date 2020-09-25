@@ -136,13 +136,20 @@ $(function () {
    'use strict';
    $('#fileuploaded').fileupload({
       add: function (e, data) {
+         var serviceId = $("#service_id").val();
          var uploadErrors = [];
          var acceptFileTypes = /(\.|\/)(gif|jpe?g|png|pdf|tiff)$/i;
          if(data.originalFiles[0]['type'].length && !acceptFileTypes.test(data.originalFiles[0]['name'])) {
             uploadErrors.push(data.originalFiles[0]['name'] + ' is not alloawed. Invalid file type.');
          }
-         if(data.originalFiles[0]['size'] > 2000000) {				   
-            uploadErrors.push(data.originalFiles[0]['name'] +' is too big, ' + parseInt(data.originalFiles[0]['size'] / 1024 / 1024) + 'M.. File should be smaller than 2M.');
+         if(serviceId==1) {
+            if (data.originalFiles[0]['size'] >= 10000000) {
+               uploadErrors.push(data.originalFiles[0]['name'] + ' is too big, ' + parseInt(data.originalFiles[0]['size'] / 1024 / 1024) + 'M.. Maximum file size should be 10MB.');
+            }
+         }else {
+            if (data.originalFiles[0]['size'] > 2000000) {
+               uploadErrors.push(data.originalFiles[0]['name'] + ' is too big, ' + parseInt(data.originalFiles[0]['size'] / 1024 / 1024) + 'M.. File should be smaller than 2MB.');
+            }
          }
          if (uploadErrors.length > 0) {
             $('#msgId').html(uploadErrors);
@@ -181,7 +188,7 @@ $(function () {
                   + '<input type="hidden" name="documentId[]" value="' + row.id + '"/><strong>' + row.document_name + '</strong> &nbsp;'
                   + '<a href="{!! url("'+row.upload_url+'") !!}" class="btn btn-sm btn-info" target="_blank"><i class="fa fa-link"></i> View </a> &nbsp;'
                   + '<span onClick="deletefile(this.id,\'' + row.id + '\',\'' + row.upload_url + '\')" id="deleteId' + count + '" class="delete-line btn btn-danger btn-sm" data-file_id="' + row.id + '">'
-                  + '<i class="fas fa-trash-alt fa-sm"></i> Delete</span></div>');
+                  + '<i class="fas fa-trash-alt fa-sm"></i> Delete</span></div><br>');
                count++;
             });
          } else {

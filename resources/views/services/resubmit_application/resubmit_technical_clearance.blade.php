@@ -1,11 +1,12 @@
 @extends('layouts.manager')
 @section('page-title','Technical Clearance Registration')
 @section('content')
-<form action="{{ url('verification/technical-clearance') }}" method="POST" id="form_Id" enctype="multipart/form-data">
+<form action="{{ url('application/save-resubmit-application') }}" method="POST" files="true" id="form_data" enctype="multipart/form-data">
     @csrf
-    <input type="hidden" name="service_id" id="service_id" value="{{ $applicantInfo->service_id }}">
-    <input type="hidden" name="module_id" value="{{ $applicantInfo->module_id }}">
-    <input type="hidden" name="applicant_id" value="{{ $applicantInfo->applicant_id }}">
+    <input type="hidden" class="form-control" name="module_id" value="{{ $applicantInfo->module_id }}">
+    <input type="hidden" class="form-control" name="service_id" value="{{ $applicantInfo->service_id }}">
+    <input type="hidden" name="service_name" value="{{ $applicantInfo->name }}" id="service_name">
+    <input type="hidden" name="module_name" value="{{ $applicantInfo->module_name }}" id="module_name">
     <div class="card">
         <div class="card-header">
             <h4 class="card-title">General Information</h4>
@@ -23,10 +24,10 @@
                         <div class="col-md-5 offset-md-2">
                             <div class="form-group">
                                 <label for="" >Purpose<span class="text-danger"> *</span></label>
-                                <select class="form-control select2bs4" name="purpose_id" id="purpose_id" style="width: 100%;">
+                                <select class="form-control select2bs4" name="application_type_id" id="application_type_id" style="width: 100%;">
                                     <option value="">- Select -</option>
                                     @foreach ($purposes as $purpose)
-                                    <option value="{{ $purpose->id }}" {{ old('purpose_id', $purpose->id) == $applicantInfo->application_type_id ? 'selected' : '' }}>{{$purpose->dropdown_name}}</option>
+                                    <option value="{{ $purpose->id }}" {{ old('application_type_id', $purpose->id) == $applicantInfo->application_type_id ? 'selected' : '' }}>{{$purpose->dropdown_name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -36,10 +37,10 @@
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label for="">Accommodation Type<span class="text-danger"> *</span></label>
-                                <select class="form-control select2bs4" name="accomodation_type_id" id="accomodation_type_id" style="width: 100%;">
+                                <select class="form-control select2bs4" name="star_category_id" id="star_category_id" style="width: 100%;">
                                     <option value="">- Select -</option>
                                     @foreach ($accommodationtypes as $accommodationtype)
-                                    <option value="{{ $accommodationtype->id }}" {{ old('accomodation_type_id', $accommodationtype->id) == $applicantInfo->star_category_id ? 'selected' : '' }}>{{$accommodationtype->dropdown_name}}</option>
+                                    <option value="{{ $accommodationtype->id }}" {{ old('star_category_id', $accommodationtype->id) == $applicantInfo->star_category_id ? 'selected' : '' }}>{{$accommodationtype->dropdown_name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -47,7 +48,7 @@
                         <div class="col-md-5 offset-md-2">
                             <div class="form-group">
                                 <label for="">Name<span class="text-danger"> *</span></label>
-                                <input type="text" class="form-control" name="name" value="{{ old('name',$applicantInfo->applicant_name) }}">
+                                <input type="text" class="form-control" name="applicant_name" value="{{ old('name',$applicantInfo->applicant_name) }}">
                             </div>
                         </div>
                     </div>
@@ -69,7 +70,7 @@
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label for="">No of rooms proposed<span class="text-danger"> *</span></label>
-                                <input type="text" class="form-control" name="proposed_rooms_no" value="{{ old('proposed_rooms_no', $applicantInfo->number) }}">
+                                <input type="text" class="form-control" name="number" value="{{ old('number', $applicantInfo->number) }}">
                             </div>
                         </div>
                         <div class="col-md-5 offset-md-2">
@@ -135,7 +136,7 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="">Village<span class="text-danger"> *</span></label>
-                        <select  name="village_id" class="form-control select2bs4" id="village_id" style="width: 100%;">
+                        <select  name="establishment_village_id" class="form-control select2bs4" id="village_id" style="width: 100%;">
                             <option value="{{$applicantInfo->establishment_village_id}}">{{$applicantInfo->village_name}}</option>
                         </select>
                     </div>
@@ -144,44 +145,117 @@
         </div>
     </div>
     <div class="card">
-		<div class="card-header">
-			 <h4 class="card-title">File Attachment</h4>
-		</div>
-		<div class="card-body">
-			@include('services/fileupload/fileupload')
-			<div class="row">
-                <div class="form-group col-md-8">
-					<label for="">Remarks <span class="text-danger">*</span> </label>
-					<textarea type="text" class="form-control" id="remarks" name="remarks" row="3"></textarea>
-                    <div id="remarks_error" class="text-danger"></div>
+    <div class="card-header">
+        <h4 class="card-title">File Attachment</h4>
+    </div>
+    <div class="card-body">
+        <h6> <strong>Required supporting documents:</strong></h6>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group ml-3">
+                    <div class="form-check">
+                        <ol id="new_application" style="display:none">
+                            <li>
+                                <em><input type="checkbox" name="checkboxes" class="new_application">&nbsp;An application addressed to the Director General of TCB requesting the issuance
+                                of technical clearance.</em>   
+                                </em>
+                            </li>
+                            <li>
+                                <em>
+                                    <input type="checkbox" name="checkboxes"  class="new_application">&nbsp; Architectural drawings 
+                                </em>
+                            </li>
+                        </ol>
+                        <ol id="renewal" style="display:none">
+                            <li>
+                                <em> <input type="checkbox" name="checkboxes"  class="renewal">&nbsp; An application addressed to the Director General of TCB with clear justification
+                                on renewal of technical clearance.
+                                </em> 
+                            </li>
+                            <li>  
+                                <em>  <input type="checkbox" name="checkboxes"  class="renewal">&nbsp; Surrender the previous technical clearance issued to the proponent..</em>
+                            </li>
+                        </ol>
+                        <ol id="change_design" style="display:none">
+                            <li>
+                                <em> <input type="checkbox" name="checkboxes"  class="change_design">&nbsp; An application addressed to the Director General of TCB with clear justification
+                                for issuance of new technical clearance.
+                                </em>  
+                            </li>
+                            <li> 
+                                <em>
+                                    <input type="checkbox" name="checkboxes"  class="change_design">&nbsp; Submit the new architectural drawings
+                                </em>  
+                            </li>
+                            <li>
+                                <em>
+                                    <input type="checkbox" name="checkboxes"  class="change_design">&nbsp;  Surrender the previous technical clearance issued to the proponent.
+                                </em>   
+                            </li>
+                        </ol>
+                        <ol id="ownership_change" style="display:none">
+                            <li>
+                                <em> <input type="checkbox" name="checkboxes"  class="ownership_change">&nbsp; An application addressed to the Director General of TCB with clear justification
+                                for change in ownership.
+                                </em> 
+                            </li>
+                            <li>
+                                <em>
+                                    <input type="checkbox" name="checkboxes"  class="ownership_change">&nbsp; Original copy of undertaking letter signed by both parties..
+                                </em>   
+                            </li>
+                            <li>
+                                <em>
+                                    <input type="checkbox" name="checkboxes"  class="ownership_change">&nbsp;  Surrender the previous technical clearance issued to the proponent.   
+                                </em>   
+                            </li>
+                        </ol>
+                    </div>
                 </div>
             </div>
-		</div>
-		<div class="card-footer text-center">
-			<div class="card-footer text-center">
-				<button name="status" value="APPROVED" class="btn btn-success"><li class="fas fa-check"></li> APPROVE</button>
-				<button name="status" value="RESUBMIT"  class="btn btn-warning" onclick="return requiredRemarks(this.value)"><li class="fas fa-ban"></li> RESUBMIT</button>
-				<button name="status"value="REJECTED" class="btn btn-danger" onclick="return requiredRemarks()"> <li class="fas fa-times"></li> REJECT</button>
-			</div>
-	    </div>
+        </div>
+        @include('services/fileupload/fileupload')
     </div>
+    <!-- card body ends -->
+    <div class="card-footer text-center">
+        <button type="submit"class="btn btn-success"><i class="fa fa-check"></i> APPLY</button>
+        <button type="reset"class="btn btn-danger"><i class="fa fa-times"></i> RESET</button>
+    </div>
+</div>
 <form>
 @endsection
 @section('scripts')
 	<script>
-		function requiredRemarks(status) {
-			$("#remarks_error").html('');
-			if($("#remarks").val() ==""){
-				if(status=="RESUBMIT"){
-					$("#remarks_error").html('Please provide reason for resubmit!');
-				}else{
-					$("#remarks_error").html('Please provide reason for rejection!');
-				}
-				return false;
-			}
-		}
+		$(document).ready(function(){
+        var application_type_id=$("#application_type_id").val();
+        if(application_type_id == "20"){
+            $("#new_application").show();
+            $("#renewal").hide();
+            $("#change_design").hide();
+            $("#ownership_change").hide();
+        } 
+        else if(application_type_id == "21"){
+            $("#new_application").hide();
+            $("#renewal").show();
+            $("#change_design").hide();
+            $("#ownership_change").hide();
+        } 
+        else if(application_type_id == "22"){
+            $("#new_application").hide();
+            $("#renewal").hide();
+            $("#change_design").show();
+            $("#ownership_change").hide();           
+
+        }
+        else if(application_type_id == "23"){
+            $("#new_application").hide();
+            $("#renewal").hide();
+            $("#change_design").hide();
+            $("#ownership_change").show();
+        }
+    });
 	</script>
-@endsection
+    @endsection
 
 
 
