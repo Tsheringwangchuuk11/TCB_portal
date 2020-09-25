@@ -70,7 +70,7 @@ class ServiceController extends Controller
         else if($data['idInfos']->service_id==6 && $data['idInfos']->module_id==1){
             $data['applicationTypes'] = Dropdown::getApplicationType("8",$dropdownId[]=["28","29","30"]);
         }
-        
+
         //home_stays_assessment
         else if($data['idInfos']->service_id==7 && $data['idInfos']->module_id==2){
             $data['applicationTypes'] = Dropdown::getApplicationType("8",$dropdownId[]=["26","27"]);
@@ -174,7 +174,7 @@ class ServiceController extends Controller
                 return view('services.new_application.homestay_checklist', compact('checklistDtls'));
             }elseif($request->module_id==3){
                 return view('services.new_application.restaurant_checklist', compact('checklistDtls'));
-  
+
             }
             elseif($request->module_id==9){
                 return view('services.new_application.tented_accommodation_checklist', compact('checklistDtls'));
@@ -294,7 +294,7 @@ class ServiceController extends Controller
             $data->to_date=$request->to_date;
             $data->remarks=$request->remarks;
             $data->save();
-            
+
             //insert into t_room_applications
 		    $roomAppData = [];
             if(isset($_POST['room_type_id'])){
@@ -527,12 +527,12 @@ class ServiceController extends Controller
                 $update->status_id=WorkFlowDetails::getStatus('SUBMITTED')->id;
                 $update->user_id=auth()->user()->id;
                 $update->save();
-    
+
                 //insert into t_task_dtls
                 $update=new TaskDetails;
                 $update->application_no=$application_no;
                 $update->status_id=WorkFlowDetails::getStatus('INITIATED')->id;
-                $update->assigned_priv_id=TaskDetails::getAssignPrivId($request->service_id)->id;
+                $update->assigned_priv_id=TaskDetails::getAssignPrivId($request->service_id, 1)->id;
                 $update->save();
             }
 

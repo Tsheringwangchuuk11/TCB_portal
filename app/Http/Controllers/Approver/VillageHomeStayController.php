@@ -11,7 +11,7 @@ use App\Models\TaskDetails;
 use App\Models\TCheckListChapter;
 class VillageHomeStayController extends Controller
 {
-    
+
     public function getApplicationDetails($applicationNo,$status=null){
         $data['applicantInfo']=Services::getApplicantDetails($applicationNo);
         $serviceId= $data['applicantInfo']->service_id;
@@ -53,7 +53,7 @@ class VillageHomeStayController extends Controller
                 return view('services.approve_application.approve_home_stays_assessment',$data,compact('status'));
             }
         }
-        
+
         elseif($serviceId==8){
             return view('services.approve_application.approve_home_stays_license_renew',$data);
         }
@@ -62,14 +62,35 @@ class VillageHomeStayController extends Controller
 
      //Approval function for village Home Stay assessment application
    public function villageHomeStayAssessmentApplication(Request $request,Services $service){
-    $assigned_priv_id=WorkFlowDetails::getAssignedRoleForApp($request->service_id)->role_id;
-    if($request->status =='APPROVED'){
+       $roles = auth()->user()->roles()->get();
+
+       $roleId = 0;
+       foreach ($roles as $role){
+           $roleId = $role->id;
+       }
+
+    if($request->status =='VERIFIED'){
+        $verifiedId = WorkFlowDetails::getStatus('VERIFIED');
+        $releaseId= WorkFlowDetails::getStatus('INITIATED');
+        $assigned_priv_id=TaskDetails::getAssignPrivId($request->service_id, 2);
+        $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
+        $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
+            ->update(['status_id' => $verifiedId->id,'role_id'=> $roleId,'remarks' => $request->remarks]);
+
+        $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
+        $updateworkflow=TaskDetails::where('application_no',$request->application_no)
+            ->update([
+                        'status_id' => $releaseId->id,
+                        'assigned_priv_id' => $assigned_priv_id->id
+                    ]);
+        return redirect('tasklist/tasklist')->with('msg_success', 'Application has been verified successfully.');
+    } elseif($request->status =='APPROVED'){
         // insert into t_techt_tourist_standard_dtlsnical_clearances
-        \DB::transaction(function () use ($request,$service,$assigned_priv_id) {
+        \DB::transaction(function () use ($request,$service,$roleId) {
             $approveId = WorkFlowDetails::getStatus('APPROVED');
             $completedId= WorkFlowDetails::getStatus('COMPLETED');
 
-        $applicantdata[]= [    
+        $applicantdata[]= [
             'module_id'   => $request->module_id,
             'cid_no'   => $request->cid_no,
             'owner_name'   => $request->owner_name,
@@ -105,7 +126,7 @@ class VillageHomeStayController extends Controller
              }
             $service->insertDetails('t_member_dtls',$membersData);
         }
-         
+
            // insert into t_checklist_dtls
            $checklistData = [];
            if(isset($_POST['checklist_id'])){
@@ -119,14 +140,14 @@ class VillageHomeStayController extends Controller
                 }
                $service->insertDetails('t_checklist_dtls',$checklistData);
            }
-           
+
            $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
            $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
-                   ->update(['status_id' => $approveId->id,'role_id'=> $assigned_priv_id,'remarks' => $request->remarks]);
+                   ->update(['status_id' => $approveId->id,'role_id'=> $roleId,'remarks' => $request->remarks]);
 
            $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
            $updateworkflow=TaskDetails::where('application_no',$request->application_no)
-                                   ->update(['status_id' => $completedId->id]); 
+                                   ->update(['status_id' => $completedId->id]);
     });
     return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
 
@@ -135,7 +156,7 @@ class VillageHomeStayController extends Controller
         $completedId= WorkFlowDetails::getStatus('COMPLETED');
         $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
         $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
-        ->update(['status_id' => $resubmitdId->id,'role_id'=>$assigned_priv_id,'remarks' => $request->remarks]);
+        ->update(['status_id' => $resubmitdId->id,'role_id'=>$roleId,'remarks' => $request->remarks]);
 
         $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
         $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
@@ -148,7 +169,7 @@ class VillageHomeStayController extends Controller
         $rejectId = WorkFlowDetails::getStatus('REJECTED');
         $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
         $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
-        ->update(['status_id' => $rejectId->id,'role_id'=>$assigned_priv_id,'remarks' => $request->remarks]);
+        ->update(['status_id' => $rejectId->id,'role_id'=>$roleId,'remarks' => $request->remarks]);
 
         $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
         $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
@@ -176,7 +197,7 @@ class VillageHomeStayController extends Controller
 
              );
             $updatedata=Services::updateApplicantDtls('t_tourist_standard_dtls','license_no',$request->license_no,$data);
-           
+
             $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
             $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
                     ->update(['status_id' => $approveId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
@@ -195,5 +216,5 @@ class VillageHomeStayController extends Controller
             return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
             }
 
-     }   
+     }
 }

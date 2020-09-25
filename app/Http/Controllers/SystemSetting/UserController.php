@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\TRole;
+use App\Models\Dropdown;
 
 class UserController extends Controller
 {
@@ -47,8 +48,8 @@ class UserController extends Controller
     public function create()
     {
         $roles = TRole::orderBy('id')->get();
-
-        return view('system-settings.users.create', compact('roles'));
+        $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+        return view('system-settings.users.create', $data, compact('roles'));
     }
 
     /**
@@ -84,7 +85,7 @@ class UserController extends Controller
             $user->user_status = 1;
             $user->avatar = isset($imageSource) ? $imageSource : null;
             $user->created_by = auth()->user()->id;
-
+            $user->location_id = isset($request->dzongkhag_id)? $request->dzongkhag_id : null;
             $user->save();
 
             $rolesAssigned = [];
@@ -125,9 +126,10 @@ class UserController extends Controller
     {
         $roles = TRole::orderBy('id')->get();
         $user = User::with('roles')->findOrFail($id);
-        $rolesAssigned = $user->roles->pluck('id')->toArray();
 
-        return view('system-settings.users.edit', compact('roles', 'user', 'rolesAssigned'));
+        $rolesAssigned = $user->roles->pluck('id')->toArray();
+        $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+        return view('system-settings.users.edit', $data, compact('roles', 'user', 'rolesAssigned'));
     }
 
     /**
@@ -167,7 +169,7 @@ class UserController extends Controller
             $user->phone_no = $request->phone_no;
             $user->avatar = isset($imageSource) ? $imageSource : null;
             $user->updated_by = auth()->user()->id;
-
+            $user->location_id = isset($request->dzongkhag_id)? $request->dzongkhag_id : null;
             $user->save();
 
             $rolesAssigned = [];

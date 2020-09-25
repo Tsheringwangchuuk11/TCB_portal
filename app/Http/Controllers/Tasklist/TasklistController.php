@@ -14,15 +14,19 @@ class TasklistController extends Controller
     //
     public function index()
     {
-        
+
         $user_id = auth()->user()->id;
         $releaseId = WorkFlowDetails::getStatus('INITIATED');
         $claimId = WorkFlowDetails::getStatus('CLAIMED');
         $roles  = auth()->user()->roles()->pluck('role_id')->toArray();
-        //dd(sizeof($roles));
+        $location_id = 0;
+        if (!is_null(auth()->user()->location_id)){
+            $location_id = auth()->user()->location_id;
+        }
+
         $privilegeIds = TRolePrivilege::whereIn('role_id', $roles)->orderBy('system_sub_menu_id', 'asc')->select('system_sub_menu_id')->get();
-        $groupTasklists = TaskDetails::getTasklists($privilegeIds, $releaseId->id, 0);
-        $myTasklists = TaskDetails::getTasklists($privilegeIds,$claimId->id, $user_id);
+        $groupTasklists = TaskDetails::getTasklists($privilegeIds, $releaseId->id, 0, $location_id);
+        $myTasklists = TaskDetails::getTasklists($privilegeIds,$claimId->id, $user_id, $location_id);
         return view('services.tasklist.tasklist',compact('groupTasklists','myTasklists'));
     }
     public function claimApplication(Request $request){
