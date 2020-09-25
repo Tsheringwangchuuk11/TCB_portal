@@ -1,13 +1,13 @@
 @extends('layouts.manager')
 @section('page-title', 'Edit User')
-@section('buttons')    
+@section('buttons')
     <a href="{{ url('system/users')}}" class="btn bg-olive btn-sm btn-flat"><i class="fas fa-reply"></i> Back to User List</a>
 @endsection
 @section('content')
 <form action="{{ url('system/users/' . $user->id) }}" method="POST" enctype="multipart/form-data">
 @csrf
 @method('PUT')
-	<div class="col-md-12">	
+	<div class="col-md-12">
 		<div class="card card-secondary">
 			<div class="card-header">
 				<h3 class="card-title">General Information</h3>
@@ -16,13 +16,13 @@
 				<div class="row">
 					<div class="col-md-5">
 						<div class="form-group">
-							<label for="">Name *</label>
+                            <label for="">Name <code>*</code></label>
 							<input type="text" name="user_name" class="form-control required" value="{{ old('name', $user->user_name) }}" />
 						</div>
 					</div>
 					<div class="col-md-5 offset-md-2">
 						<div class="form-group">
-							<label for="">Phone No. *</label>
+                            <label for="">Phone No. <code>*</code></label>
 							<input type="text" name="phone_no" class="form-control required" value="{{ old('phone_no', $user->phone_no) }}" />
 						</div>
 					</div>
@@ -30,13 +30,13 @@
 				<div class="row">
 					<div class="col-md-5">
 						<div class="form-group">
-							<label for="">Email *</label>
+                            <label for="">Email <code>*</code></label>
 							<input type="email" name="email" class="form-control required email" value="{{ old('email', $user->email) }}" />
 						</div>
 					</div>
 					<div class="col-md-5 offset-md-2">
 						<div class="form-group">
-							<label for="">User Id *</label>
+                            <label for="">User Id <code>*</code></label>
 							<input type="text" name="user_id" class="form-control required" value="{{ old('user_id', $user->user_id) }}" />
 						</div>
 					</div>
@@ -44,10 +44,17 @@
 				<div class="row">
 					<div class="col-md-5">
 						<div class="form-group">
-							<span class="profile-picture">
+							{{--<span class="profile-picture">
 								<label for="main_photo">Current Profile Picture</label>
-								<img src="{{ URL::to('dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image">								
-							</span>
+								<img src="{{ URL::to('dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image">
+							</span>--}}
+                            <label for="dzongkhag">Dzongkhag</label>
+                            <select  name="dzongkhag_id" id="dzongkhag_id" class="form-control select2bs4 dzongkhag" style="width: 100%;">
+                                <option value=""> -Select-</option>
+                                @foreach ($dzongkhagLists as $dzongkhagList)
+                                    <option value="{{ $dzongkhagList->id }}" {{ old('dzongkhag_id', $dzongkhagList->id) == $user->location_id ? 'selected' : '' }}>{{ $dzongkhagList->dzongkhag_name }}</option>
+                                @endforeach
+                            </select>
 						</div>
 					</div>
 					<div class="col-md-5 offset-md-2">
@@ -62,12 +69,12 @@
 								<span class="input-group-text" id="">Upload</span>
 								</div>
 							</div>
-						</div>	
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>	
+	</div>
 	<div class="col-md-12">
 		<div class="card card-secondary">
 			<div class="card-header">

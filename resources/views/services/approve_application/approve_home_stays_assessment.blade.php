@@ -78,7 +78,7 @@
 					  <label for="">Gewog<span class="text-danger"> *</span></label>
 						  <select  name="gewog_id" class="form-control select2bs4 gewogdropdown" id="gewog_id" style="width: 100%;">
 						  <option value="">{{$applicantInfo->gewog_name}}</option>
-						  </select>                
+						  </select>
 					</div>
 				  </div>
 				<div class="col-md-5 offset-md-2">
@@ -222,7 +222,7 @@
                     $area = '';
                     @endphp
                     @foreach ($chapter->chapterAreas as $chapterArea)
-                        @foreach ($chapterArea->checkListStandards as $checkListStandard) 
+                        @foreach ($chapterArea->checkListStandards as $checkListStandard)
                                 <tr>
                                     @if ($area != $chapterArea->checklist_area)
                                     <td rowspan="{{ sizeOf($chapterArea->checkListStandards) }}">{{ $chapterArea->checklist_area }}</td>
@@ -231,9 +231,9 @@
                                     <td>{{ $checkListStandard->standard_code }}</td>
                                     @php
                                     $area = $chapterArea->checklist_area
-                                    @endphp 
+                                    @endphp
                                 </tr>
-                        @endforeach  
+                        @endforeach
                     @endforeach
                 </tbody>
                 </table>
@@ -265,7 +265,11 @@
 		</div>
 		<div class="card-footer text-center">
 			<div class="card-footer text-center">
-				<button name="status" value="APPROVED" class="btn btn-success"><li class="fas fa-check"></li> APPROVE</button>
+                @if(is_null(auth()->user()->location_id))
+				    <button name="status" value="APPROVED" class="btn btn-success"><li class="fas fa-check"></li> APPROVE</button>
+                @else
+                    <button name="status" value="VERIFIED" class="btn btn-success"><li class="fas fa-check"></li> VERIFY</button>
+                @endif
 				<button name="status" value="RESUBMIT"  class="btn btn-warning" onclick="return requiredRemarks(this.value)"><li class="fas fa-ban"></li> RESUBMIT</button>
 				<button name="status"value="REJECTED" class="btn btn-danger" onclick="return requiredRemarks()"> <li class="fas fa-times"></li> REJECT</button>
 			</div>

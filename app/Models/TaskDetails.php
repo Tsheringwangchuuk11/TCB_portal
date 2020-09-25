@@ -8,22 +8,28 @@ class TaskDetails extends Model
 {
     protected $table='t_task_dtls';
 
-    public static function getAssignPrivId($serviceId)
+    public static function getAssignPrivId($serviceId, $orderBy)
     {
        $query=\DB::table('t_system_sub_menus as t1')
                  ->select('id')
                  ->where('service_id',$serviceId)
+                 ->where('display_order', $orderBy)
                  ->first();
         return $query;
     }
-    public static function getTasklists($priviligeIds, $statusId, $userId){
+    public static function getTasklists($priviligeIds, $statusId, $userId, $location_id){
         $query = \DB::table('t_task_dtls')
             ->leftJoin('t_workflow_dtls', 't_task_dtls.application_no', '=', 't_workflow_dtls.application_no')
             ->leftJoin('t_applications','t_task_dtls.application_no','=','t_applications.application_no')
             ->leftJoin('t_module_masters','t_applications.module_id','=','t_module_masters.id')
             ->leftJoin('t_services','t_applications.service_id','=','t_services.id')
-            ->leftJoin('t_status_masters','t_workflow_dtls.status_id','=','t_status_masters.id')
-            ->whereIn('t_task_dtls.assigned_priv_id',$priviligeIds)
+            ->leftJoin('t_status_masters','t_workflow_dtls.status_id','=','t_status_masters.id');
+        if ($location_id != 0){
+            $query  ->leftJoin('t_village_masters','t_applications.establishment_village_id','=','t_village_masters.id')
+                    ->leftJoin('t_gewog_masters','t_village_masters.gewog_id','=','t_gewog_masters.id')
+                    ->where('t_gewog_masters.dzongkhag_id', '=', $location_id);
+        }
+        $query->whereIn('t_task_dtls.assigned_priv_id',$priviligeIds)
             ->where('t_task_dtls.status_id','=',$statusId);
         if ($userId != 0){
             $query->where('t_task_dtls.user_id', '=', $userId);
