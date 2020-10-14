@@ -9,13 +9,27 @@
                     <h3 class="card-title">Dropdown Master</h3>
                 </div>
                 <div class="card-body">
-                    <div class="form-group">
-                        <label for="name">Master Name</label>
-                        <select class="form-control" name="master_name" id="master_name" style="width: 100%;" onchange="getmasterdropdownlist()">
-                            @foreach ($masterDropDownLists as $masterDropDownList)
-                            <option value="{{$masterDropDownList->id}}">{{$masterDropDownList->master_name}}</option>
-                            @endforeach
-                        </select>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="name">Master Name</label>
+                                <select class="form-control" name="master_name" id="master_name" style="width: 100%;" onchange="getmasterdropdownlist()">
+                                    @foreach ($masterDropDownLists as $masterDropDownList)
+                                    <option value="{{$masterDropDownList->id}}">{{$masterDropDownList->master_name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="display: none" id="product_types">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="name">Product Types</label>
+                                <select class="form-control select2bs4" name="dropdown_name" id="dropdown_name" style="width: 100%;">
+                                    <option value=""> -Select-</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -32,7 +46,41 @@
     })
     function getmasterdropdownlist() {
      var masterId=$("#master_name").val();
-     $('#dataResult').load('{{url("master/drop-down-master/")}}/'+masterId);
+     if(masterId == 12){
+        $('#dataResult').load('{{url("master/drop-down-master/")}}/'+masterId);
+        $("#product_types").show();
+        if(masterId){
+         $("#dropdown_name option:gt(0)").remove();	
+         $.ajax({			   
+            url:'/json-dropdown',
+            type:"GET",
+            data: {
+               table_name: 't_dropdown_lists',
+                       id: 'id',
+                     name: 'dropdown_name',
+                parent_id: masterId,
+           parent_name_id: 'master_id'					 
+            },
+            success:function (data) {
+            $.each(data, function(key, value) {
+               $('select[name="dropdown_name"]').append('<option value="'+ key +'">'+ value +'</option>');
+            });
+            }
+         });
+      }else{
+         $("#dropdown_name option:gt(0)").remove();	
+      }	
+     }else{
+      $("#product_types").hide();
+      $('#dataResult').load('{{url("master/drop-down-master/")}}/'+masterId);
+     }
     }
+
+
+     $('#dropdown_name').on('change',function(e) {
+      var dropdownId= e.target.value;
+      $('#dataResult').load('{{url("master/producttypes/")}}/'+dropdownId);
+   });
+
 </script>
 @endsection

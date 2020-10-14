@@ -11,34 +11,39 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-md-12">
-                    <div class="row">
-                        <div class="col-md-5">
-                            <div class="form-group">
-                                <label for="" >Name<span class="text-danger"> *</span></label>
-                                <input type="text" class="form-control" name="applicant_name" value="{{ old('applicant_name') }}" autocomplete="off">
-                            </div>
-                        </div>
-                        <div class="col-md-5 offset-md-2">
-                            <div class="form-group">
-                                <label for="">Contact No.<span class="text-danger"> *</span></label>
-                                <input type="text" class="form-control" name="contact_no" value="{{ old('contact_no') }}" autocomplete="off">
-                            </div>
-                        </div>
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label for="" >Name<span class="text-danger"> *</span></label>
+                        <input type="text" class="form-control" name="applicant_name" value="{{ old('applicant_name') }}" autocomplete="off">
                     </div>
-                    <div class="row">
-                        <div class="col-md-5">
-                            <div class="form-group">
-                                <label for="">Email<span class="text-danger"> *</span></label>
-                                <input type="text" name="email" class="form-control" value="{{ old('email') }}" autocomplete="off">
-                            </div>
-                        </div>
-                        <div class="col-md-5 offset-md-2">
-                            <div class="form-group">
-                                <label for="">Address<span class="text-danger"> *</span></label>
-                                <textarea type="text" name="address" class="form-control" row="3" value="{{ old('nationality') }}"></textarea>
-                            </div>
-                        </div>
+                </div>
+                <div class="col-md-5 offset-md-2">
+                    <div class="form-group">
+                        <label for="">CID<span class="text-danger"> *</span></label>
+                        <input type="text" class="form-control" name="cid_no" value="{{ old('cid_no') }}" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label for="">Email<span class="text-danger"> *</span></label>
+                        <input type="text" name="email" class="form-control" value="{{ old('email') }}" autocomplete="off">
+                    </div>
+                </div>
+                <div class="col-md-5 offset-md-2">
+                    <div class="form-group">
+                        <label for="">Contact No.<span class="text-danger"> *</span></label>
+                        <input type="text" class="form-control" name="contact_no" value="{{ old('contact_no') }}" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label for="">Address<span class="text-danger"> *</span></label>
+                        <textarea type="text" name="address" class="form-control" row="3" value="{{ old('nationality') }}"></textarea>
                     </div>
                 </div>
             </div>
@@ -60,33 +65,62 @@
                         </div>
                         <div class="col-md-5 offset-md-2">
                             <div class="form-group">
-                                <label for="">Location<span class="text-danger"> *</span></label>
-                                <input type="text" class="form-control" name="location" value="{{ old('location') }}" autocomplete="off">
+                                <label for="">Implementing modality<span class="text-danger"> *</span></label>
+                                <input type="text" name="modality" class="form-control" value="{{ old('modality') }}" autocomplete="off">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-5">
                             <div class="form-group">
-                                <label for="">Implementing modality<span class="text-danger"> *</span></label>
-                                <input type="text" name="email" class="form-control" value="{{ old('email') }}" autocomplete="off">
+                                <label for="">Product Summary<span class="text-danger"> *</span></label>
+                                <textarea type="text" name="product_des" class="form-control" row="3" value="{{ old('product_des') }}"></textarea>
                             </div>
                         </div>
                         <div class="col-md-5 offset-md-2">
                             <div class="form-group">
-                                <label for="">Product Summary<span class="text-danger"> *</span></label>
-                                <textarea type="text" name="address" class="form-control" row="3" value="{{ old('nationality') }}"></textarea>
+                                <label for=""> Activities and/or results framework<span class="text-danger"> *</span></label>
+                                <textarea type="text" name="activities_results" class="form-control" row="3" value="{{ old('activities_results') }}"></textarea>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-5">
-                            <div class="form-group">
-                                <label for=""> Activities and/or results framework<span class="text-danger"> *</span></label>
-                                <textarea type="text" name="address" class="form-control" row="3" value="{{ old('nationality') }}"></textarea>
-                            </div>
-                        </div>
-                        
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">Product Location</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label for="">Dzongkhag<span class="text-danger"> *</span></label>
+                        <select  name="dzongkhag_id" id="dzongkhag_id" class="form-control select2bs4 dzongkhagdropdown" style="width: 100%;">
+                            <option value=""> -Select-</option>
+                            @foreach ($dzongkhagLists as $dzongkhagList)
+                            <option value="{{ $dzongkhagList->id }}" {{ old('dzongkhag_id') == $dzongkhagList->id ? 'selected' : '' }}>{{ $dzongkhagList->dzongkhag_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-5 offset-md-2">
+                    <div class="form-group">
+                        <label for="">Gewog<span class="text-danger"> *</span></label>
+                        <select  name="gewog_id" class="form-control select2bs4 gewogdropdown" id="gewog_id" style="width: 100%;">
+                            <option value=""> -Select-</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label for="">Village<span class="text-danger"> *</span></label>
+                        <select  name="establishment_village_id" class="form-control select2bs4" id="village_id" style="width: 100%;">
+                            <option value=""> -Select-</option>
+                        </select>
                     </div>
                 </div>
             </div>

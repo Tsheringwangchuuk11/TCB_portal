@@ -197,14 +197,6 @@ public function setToDateAttribute($value)
 	   ->first(); 
 	   return $query;
    }
-
-	public static function getTourOperatorDetails($licenseNo){
-		 $query=DB::table('t_operator_dtls as t1')
-		->where('t1.license_no',$licenseNo)
-		->where('t1.is_active','Y')
-		->first(); 
-		return $query;
-	}
 	public function insertDetails($tableName,$data){
 		 $flag=DB::table($tableName)->insert($data);	
 		 return $flag;
@@ -227,9 +219,28 @@ public function setToDateAttribute($value)
 		->leftjoin('t_chiwog_masters as t2','t2.id','=','t1.chiwog_id')
 		->leftjoin('t_village_masters as t4','t4.id','=','t1.establishment_village_id')
 		->leftjoin('t_gewog_masters as t3','t4.gewog_id','=','t3.id')
+		->leftjoin('t_village_masters as t7','t7.id','=','t1.permanent_village_id')
+		->leftjoin('t_gewog_masters as t8','t7.gewog_id','=','t8.id')
 		->leftjoin('t_module_masters as t5','t5.id','=','t1.module_id')
 		->leftjoin('t_services as t6','t6.id','=','t1.service_id')
-		->select('t1.*','t3.dzongkhag_id','t3.gewog_name','t2.chiwog_name','t4.village_name','t4.gewog_id','t5.module_name','t6.name')
+		->select('t1.*','t3.dzongkhag_id','t3.gewog_name','t2.chiwog_name','t4.village_name','t4.gewog_id','t5.module_name','t6.name','t8.dzongkhag_id as permanent_dzongkhag_id',
+		't8.gewog_name as permanent_gewog_name','t7.village_name as permanent_village_name')
+		->where('t1.application_no',$applicationNo)
+		->first();
+		return $query;
+	}
+
+	public static function getTONameOwnerLocationChangeDetails($applicationNo){
+		$query=DB::table('t_applications as t1')
+		->leftjoin('t_chiwog_masters as t2','t2.id','=','t1.chiwog_id')
+		->leftjoin('t_village_masters as t4','t4.id','=','t1.establishment_village_id')
+		->leftjoin('t_gewog_masters as t3','t4.gewog_id','=','t3.id')
+		->leftjoin('t_village_masters as t7','t7.id','=','t1.new_village_id')
+		->leftjoin('t_gewog_masters as t8','t7.gewog_id','=','t8.id')
+		->leftjoin('t_module_masters as t5','t5.id','=','t1.module_id')
+		->leftjoin('t_services as t6','t6.id','=','t1.service_id')
+		->select('t1.*','t3.dzongkhag_id','t3.gewog_name','t2.chiwog_name','t4.village_name','t4.gewog_id','t5.module_name','t6.name','t8.dzongkhag_id as new_dzongkhag_id',
+		't8.gewog_name as new_gewog_name','t7.village_name as new_village_name')
 		->where('t1.application_no',$applicationNo)
 		->first();
 		return $query;
@@ -238,7 +249,11 @@ public function setToDateAttribute($value)
 	public static function getApplicantDetailsForTravelFairs($applicationNo){
 		$query=DB::table('t_applications as t1')
 		->leftjoin('t_event_dtls as t2','t2.id','=','t1.event_id')
-		->select('t1.service_id','t1.module_id','t1.application_no','t1.applicant_name','t1.cid_no','t1.contact_no','t1.email','t1.company_title_name','t1.date','t2.*')
+		->leftjoin('t_village_masters as t3','t3.id','=','t2.village_id')
+		->leftjoin('t_gewog_masters as t4','t4.id','=','t3.gewog_id')
+		->select('t1.service_id','t1.module_id','t1.application_no','t1.applicant_name','t1.cid_no','t1.contact_no','t1.email',
+		't1.company_title_name','t1.number', 't1.application_type_id','t3.village_name','t4.gewog_name','t4.dzongkhag_id',
+		't1.webpage_url','t2.*')
 		->where('t1.application_no',$applicationNo)
 		->first();
 		return $query;
@@ -315,19 +330,34 @@ public function setToDateAttribute($value)
 		->leftjoin('t_village_masters as t3','t3.id','=','t2.partner_village_id')
 		->leftjoin('t_gewog_masters as t4','t4.id','=','t3.gewog_id')
 		->leftjoin('t_dzongkhag_masters as t5','t5.id','=','t4.dzongkhag_id')
-		->select('t2.partner_name','t2.partner_cid_no','t2.partner_gender','t2.partner_dob','t2.partner_flat_no',
-		't2.partner_building_no','t2.partner_location','t2.partner_village_id','t3.village_name','t3.gewog_id','t4.gewog_name','t4.dzongkhag_id')
+		->select('t2.id','t2.partner_name','t2.partner_email','t2.partner_cid_no','t2.partner_gender','t2.partner_dob','t2.partner_village_id','t3.village_name','t3.gewog_id','t4.gewog_name','t4.dzongkhag_id')
 		->where('t1.application_no',$applicationNo)
 		->first();
 		return $query;
 	}
 
+	public static function getTourismIndustryPartnerDtls($applicationNo){
+		$query=DB::table('t_applications as t1')
+		->leftjoin('t_partner_applications as t2','t2.application_no','=','t1.application_no')
+		->leftjoin('t_event_dtls as t6','t6.id','=','t2.event_id')
+		->leftjoin('t_village_masters as t3','t3.id','=','t6.village_id')
+		->leftjoin('t_gewog_masters as t4','t4.id','=','t3.gewog_id')
+		->leftjoin('t_dzongkhag_masters as t5','t5.id','=','t4.dzongkhag_id')
+		->leftjoin('t_dropdown_lists as t7','t7.id','=','t6.country_id')
+		->select('t2.*','t6.*','t3.village_name','t4.gewog_name','t5.dzongkhag_name','t7.dropdown_name')
+		->where('t1.application_no',$applicationNo)
+		->get();
+		return $query;
+	}
 	public static function getProductInfoDetails($applicationNo){
 		$query=DB::table('t_applications as t1')
 		->leftjoin('t_product_applications as t2','t2.application_no','=','t1.application_no')
-		->select('t2.type','t2.location','t2.objective','t2.product_des','t2.project_cost',
-		't2.timeline','t2.contribution')
-		->where('t1.application_no',$applicationNo)
+		->leftjoin('t_village_masters as t3','t3.id','=','t2.village_id')
+		->leftjoin('t_gewog_masters as t4','t4.id','=','t3.gewog_id')
+		->leftjoin('t_dzongkhag_masters as t5','t5.id','=','t4.dzongkhag_id')
+		->leftjoin('t_product_types_master as t6','t6.id','=','t2.product_type_id')
+		->select('t2.*','t3.village_name','t3.gewog_id','t4.dzongkhag_id','t4.gewog_name','t5.dzongkhag_name','t6.product_name','t6.dropdown_id')
+		->where('t2.application_no',$applicationNo)
 		->first();
 		return $query;
 	}
@@ -363,23 +393,6 @@ public function setToDateAttribute($value)
 		$query=DB::table('t_applications as t1')
 		->leftjoin('t_activity_applications as t2','t2.application_no','=','t1.application_no')
 		->select('t2.activities')
-		->where('t1.application_no',$applicationNo)
-		->get();
-		return $query;
-	}
-	
-	public static function getOrganizerInfoDetails($applicationNo){
-		$query=DB::table('t_applications as t1')
-		->leftjoin('t_organizer_applications as t2','t2.application_no','=','t1.application_no')
-		->select('t2.id','t2.organizer_name','t2.organizer_address','t2.organizer_phone','t2.organizer_email','t2.organizer_type','t2.amount_requested')
-		->where('t1.application_no',$applicationNo)
-		->first();
-		return $query;
-	}
-	public static function getItemInfoDetails($applicationNo){
-		$query=DB::table('t_applications as t1')
-		->leftjoin('t_item_applications as t2','t2.application_no','=','t1.application_no')
-		->select('t2.id','t2.items_name','t2.item_costs')
 		->where('t1.application_no',$applicationNo)
 		->get();
 		return $query;
@@ -451,7 +464,133 @@ public function setToDateAttribute($value)
         return $status;
 	}
 
-	public static function saveTechnicalClearanceDtlsAudit($cid_no){
+
+
+	public static function saveHomeStayDtlsAudit($cid_no){
+		$status = DB::insert('INSERT INTO t_tourist_standard_dtls_audit(
+			tourist_standard_id,
+			module_id,
+			cid_no,
+			owner_name,
+			license_no,
+			license_date,
+			tourist_standard_name,
+			contact_no,
+			email,
+			address,
+			fax,
+			webpage_url,
+			bed_no,
+			thram_no,
+			house_no,
+			town_distance,
+			road_distance,
+			`condition`,
+			village_id,
+			chiwog_id,
+			star_category_id,
+			inspection_date,
+			validaty_date,
+			updated_at,
+			created_at,
+			is_active
+			)
+			SELECT 
+			id,
+			module_id,
+			cid_no,
+			owner_name,
+			license_no,
+			license_date,
+			tourist_standard_name,
+			contact_no,
+			email,
+			address,
+			fax,
+			webpage_url,
+			bed_no,
+			thram_no,
+			house_no,
+			town_distance,
+			road_distance,
+			`condition`,
+			village_id,
+			chiwog_id,
+			star_category_id,
+			inspection_date,
+			validaty_date,
+			updated_at,
+			NOW(),
+			is_active
+			FROM t_tourist_standard_dtls
+			WHERE cid_no = ? ', [$cid_no]);
+        return $status;
+	}
+
+	public static function saveWorkPermitDtlsAudit($dispatch_no){
+		$status = DB::insert('INSERT INTO t_work_permit_dtls_audit(
+			work_permit_id,
+			application_type_id,
+			license_no,
+			company_name,
+			cid_no,
+			email,
+			total_worker,
+			country_id,
+			from_date,
+			village_id,
+			to_date,
+			dispatch_no,
+			created_at,
+			updated_at
+			)
+			SELECT 
+			id,
+			application_type_id,
+			license_no,
+			company_name,
+			cid_no,
+			email,
+			total_worker,
+			country_id,
+			from_date,
+			village_id,
+			to_date,
+			dispatch_no,
+			NOW(),
+			updated_at
+			FROM t_work_permit_dtls
+			WHERE dispatch_no = ? ', [$dispatch_no]);
+        return $status;
+	}
+
+	public static function saveForeignWorkerDtlsAudit($passport_no){
+		$status = DB::insert('INSERT INTO t_foreign_worker_dtls_audit(
+				foreign_worker_id,
+				work_permit_id,
+				passport_no,
+				name,
+				start_date,
+				end_date,
+				nationality,
+				created_at,
+				updated_at
+				)
+				SELECT 
+				id,
+				work_permit_id,
+				passport_no,
+				name,
+				start_date,
+				end_date,
+				nationality,
+				now(),
+				updated_at
+				FROM t_foreign_worker_dtls
+				WHERE passport_no = ? ', [$passport_no]);
+        return $status;
+	}
+	public static function saveTechnicalClearanceDtlsAudit($dispatch_no){
         $status = DB::insert('INSERT INTO t_technical_clearances_audit(
 			clearance_id,
 			dispatch_no,
@@ -492,7 +631,7 @@ public function setToDateAttribute($value)
 			NOW(),
 			updated_at
 			FROM t_technical_clearances
-			WHERE cid_no = ? ', [$cid_no]);
+			WHERE dispatch_no = ? ', [$dispatch_no]);
         return $status;
 	}
 	
@@ -609,7 +748,7 @@ public function setToDateAttribute($value)
 				FROM t_workflow_dtls a
 				LEFT JOIN t_task_dtls b ON a.application_no=b.application_no
 				LEFT JOIN t_role_privileges c ON b.assigned_priv_id=c.system_sub_menu_id
-				WHERE a.status_id='4' AND c.role_id='".$roles."') AS totalrejected ) t1;
+				WHERE a.status_id='4' AND c.role_id='') AS totalrejected ) t1;
 		 ");
 	return $query;	
 	}
@@ -652,13 +791,31 @@ public function setToDateAttribute($value)
 			return $query;
 			}
 
-		public static function checkDispatchNumber($dispatch_no){
-			$query=\DB::table('t_technical_clearances as t1')
-						->where('t1.dispatch_no',$dispatch_no)
-						->exists();
-			return  $query;
+		public static function checkDispatchNumber($tableName,$fielddName,$para){
+			$status=\DB::table($tableName)
+			  ->where($fielddName,$para)
+			  ->exists();
+	 	    return $status;
 		}
-
+		public static function getWorkPermitDtls($dispatch_no){
+			$query=\DB::table('t_work_permit_dtls as t1')
+			       ->leftjoin('t_village_masters as t2','t2.id','=','t1.village_id')
+		           ->leftjoin('t_gewog_masters as t3','t3.id','=','t2.gewog_id')
+		           ->leftjoin('t_dzongkhag_masters as t4','t4.id','=','t3.dzongkhag_id')
+				   ->select('t1.license_no','t1.company_name','t1.cid_no','t1.email','t1.total_worker','t1.country_id','t1.from_date','t1.village_id',
+				   't1.to_date','t2.gewog_id','t3.dzongkhag_id')
+				   ->where('t1.dispatch_no',$dispatch_no)
+				   ->first();
+			return $query;
+		}
+		
+		public static function getIndividaulForeignWorkerDtls($passport_no){
+			$query=\DB::table('t_foreign_worker_dtls as t1')
+				   ->select('t1.*')
+				   ->where('t1.passport_no',$passport_no)
+				   ->first();
+			return $query;
+		}
 		public static function deleteDataRecord($recordId,$tablename){
 		 $query=\DB::table($tablename)
 					->where('id',$recordId)
@@ -681,5 +838,50 @@ public function setToDateAttribute($value)
 			->where('a.id',$serviceId)
 			->first();
            return $query;
+		}
+
+		public static function getForeignWorkerDtls($applicationNo){
+			$query=\DB::table('t_foreign_worker_applications as a')
+			->select('a.*')
+			->get();
+           return $query;
+		}
+
+		public static function getLetterContent($application_no,$service_id,$module_id){
+			$query=\DB::table('t_applications as a')
+			->leftjoin('t_workflow_dtls as b','b.application_no','=','a.application_no')
+			->leftjoin('t_technical_clearances as c','c.application_no','=' ,'a.application_no')
+			->leftjoin('t_dropdown_lists as d','d.id','=', 'c.accomodation_type_id')
+			->leftjoin('t_letter_masters as e','e.service_id','=','a.service_id')
+			->leftjoin('t_village_masters as f' ,'f.id' ,'=','c.village_id')
+			->leftjoin('t_gewog_masters as g','g.id', '=','f.gewog_id')
+			->leftjoin('t_dzongkhag_masters as h','h.id','=','g.dzongkhag_id')
+			->leftjoin('t_technical_clearances_audit as j','j.clearance_id','=','c.id')
+			->select('a.application_no','c.dispatch_no','c.name','c.cid_no','c.proposed_rooms_no','d.dropdown_name','e.*','c.purpose_id',DB::raw('DATE_FORMAT(b.created_at,"%d/%m/%Y") as submit_date'),'j.name as old_owner',
+			'f.village_name','g.gewog_name','h.dzongkhag_name',DB::raw('DATE_FORMAT(c.validaty_date,"%d/%m/%Y") as validaty_date'))
+			->where('b.status_id','3')
+			->where('a.application_no',$application_no)
+ 	     	->where('e.service_id',$service_id)
+			->where('e.module_id',$module_id)
+			->first();
+			return $query;	
+		}
+
+		public static function getcertificationContent($application_no,$service_id,$module_id){
+
+
+$query=\DB::table('t_applications as a')
+			->leftjoin('t_workflow_dtls as b','b.application_no','=','a.application_no')
+			->leftjoin('t_tourist_standard_dtls as c','c.module_id','=' ,'a.module_id')
+			->leftjoin('t_village_masters as d','d.id','=', 'c.village_id')
+			->leftjoin('t_gewog_masters as e','e.id','=','d.gewog_id')
+			->leftjoin('t_dzongkhag_masters as f' ,'f.id' ,'=','e.dzongkhag_id')
+			->select('c.star_category_id','c.tourist_standard_name','c.cid_no','c.owner_name','d.village_name','e.gewog_name','f.dzongkhag_name',DB::raw('DATE_FORMAT(c.validaty_date,"%D %M,%Y") as validaty_date'))
+			->where('b.status_id','3')
+			->where('a.application_no',$application_no)
+ 	     	->where('a.service_id',$service_id)
+			->where('a.module_id',$module_id)
+			->first();
+			return $query;
 		}
 }

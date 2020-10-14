@@ -55,7 +55,15 @@ class VillageHomeStayController extends Controller
         }
 
         elseif($serviceId==8){
-            return view('services.approve_application.approve_home_stays_license_renew',$data);
+           $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+           $data['documentInfos']=Services::getDocumentDetails($applicationNo);
+            if($status==9){
+            return view('services.resubmit_application.resubmit_home_stays_license_cancel',$data,compact('status'));
+            }else{
+                $status= WorkFlowDetails::getStatus('APPROVED')->id;
+                return view('services.approve_application.approve_home_stays_license_cancel',$data,compact('status'));
+ 
+            }
         }
 
     }
@@ -178,43 +186,60 @@ class VillageHomeStayController extends Controller
         }
     }
 
-     //Approval function for village Home stays license renew application
-     public function villageHomeStayLicenseRenewApplication(Request $request){
+     //Approval function for village Home stays license cancel application
+     public function villageHomeStayLicenseCancelApplication(Request $request){
+
+        $roles = auth()->user()->roles()->get();
+        $roleId = 0;
+        foreach ($roles as $role){
+            $roleId = $role->id;
+        }
         if($request->status =='APPROVED'){
-            // insert into t_tourist_standard_dtls
-            \DB::transaction(function () use ($request) {
-
-                $approveId = WorkFlowDetails::getStatus('APPROVED');
-                $completedId= WorkFlowDetails::getStatus('COMPLETED');
-
-            //save data to t_tourist_standard_dtls_autit
-            $savedatatoaudit=Services::saveTouristStandardHotelDtlsAudit($request->license_no);
-
-              //update data to t_tourist_standard_dtls
-              $data = array(
-                'validaty_date'=>date('Y-m-d',strtotime($request->validaty_date .'+3 years'))
-
-
-             );
-            $updatedata=Services::updateApplicantDtls('t_tourist_standard_dtls','license_no',$request->license_no,$data);
-
+           \DB::transaction(function () use ($request,$roleId) {
+               $approveId = WorkFlowDetails::getStatus('APPROVED');
+               $completedId= WorkFlowDetails::getStatus('COMPLETED');
+            // hotel license cancellation
+                $savedatatoaudit=Services::saveHomeStayDtlsAudit($request->cid_no);
+                $data = array(
+                  'is_active' => 'N',
+               );
+            $updatedata=Services::updateApplicantDtls('t_tourist_standard_dtls','cid_no',$request->cid_no,$data);
             $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
             $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
-                    ->update(['status_id' => $approveId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
+                    ->update(['status_id' => $approveId->id,'role_id'=> $roleId,'remarks' => $request->remarks]);
 
             $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
             $updateworkflow=TaskDetails::where('application_no',$request->application_no)
-                                    ->update(['status_id' => $completedId->id]);
-        });
-        return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
+                                    ->update(['status_id' => $completedId->id]); 
+       });
+       return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
+       }
+       elseif($request->status =='RESUBMIT'){
+        $resubmitdId = WorkFlowDetails::getStatus('RESUBMIT');
+        $completedId= WorkFlowDetails::getStatus('COMPLETED');
+        $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
+        $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
+        ->update(['status_id' => $resubmitdId->id,'role_id'=>$roleId,'remarks' => $request->remarks]);
 
-        }else{
-            $rejectId = WorkFlowDetails::getStatus('REJECTED');
-            $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
-            $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
-            ->update(['status_id' => $rejectId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
-            return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
-            }
+        $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
+        $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
+                                ->update(['status_id' => $completedId->id]);
+        return redirect('tasklist/tasklist')->with('msg_success', 'Application resend successfully');
+    }
+    else{
 
+        $completedId= WorkFlowDetails::getStatus('COMPLETED');
+        $rejectId = WorkFlowDetails::getStatus('REJECTED');
+        $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
+        $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
+        ->update(['status_id' => $rejectId->id,'role_id'=>$roleId,'remarks' => $request->remarks]);
+
+        $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
+        $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
+                                ->update(['status_id' => $completedId->id]);
+        return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
+        }
+
+        
      }
 }

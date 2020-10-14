@@ -50,7 +50,7 @@
                     <div class="col-md-5 offset-md-2">
                         <div class="form-group">
                             <label for="">CID No.<span class="text-danger"> *</span></label>
-                            <input type="text" class="form-control" name="cid_no" value="{{ old('cid_no') }}" autocomplete="off" id="cid_no">
+                            <input type="text" class="form-control" name="cid_no" value="{{ old('cid_no') }}" autocomplete="off" id="cid_no" onchange="api_webservices(this.value)">
                         </div>
                     </div>
                 </div>
@@ -287,36 +287,36 @@ $(document).ready(function(){
     
         
            
-            $.validator.addMethod('check_one', function (value) {
-            var application_type_id=$("#application_type_id").val();
-                if(application_type_id==20){
-                    var chck = $('input.new_application[type=checkbox]');
-                    var numItems = $('.new_application').length;
-                    chck.hasClass('new_application');
-                    return (chck.filter(':checked').length ==numItems);
+    $.validator.addMethod('check_one', function (value) {
+    var application_type_id=$("#application_type_id").val();
+        if(application_type_id==20){
+            var chck = $('input.new_application[type=checkbox]');
+            var numItems = $('.new_application').length;
+            chck.hasClass('new_application');
+            return (chck.filter(':checked').length ==numItems);
 
-                }else if(application_type_id==21){
-                    var chck = $('input.renewal[type=checkbox]');
-                    var numItems = $('.renewal').length;
-                    chck.hasClass('renewal');
-                    return (chck.filter(':checked').length ==numItems);
+        }else if(application_type_id==21){
+            var chck = $('input.renewal[type=checkbox]');
+            var numItems = $('.renewal').length;
+            chck.hasClass('renewal');
+            return (chck.filter(':checked').length ==numItems);
 
-                }
-                else if(application_type_id==22){
-                    var chck = $('input.change_design[type=checkbox]');
-                    var numItems = $('.change_design').length;
-                    chck.hasClass('change_design');
-                    return (chck.filter(':checked').length ==numItems);
+        }
+        else if(application_type_id==22){
+            var chck = $('input.change_design[type=checkbox]');
+            var numItems = $('.change_design').length;
+            chck.hasClass('change_design');
+            return (chck.filter(':checked').length ==numItems);
 
-                }else{
-                    var chck = $('input.ownership_change[type=checkbox]');
-                    var numItems = $('.ownership_change').length;
-                    chck.hasClass('ownership_change');
-                    return (chck.filter(':checked').length ==numItems);
+        }else{
+            var chck = $('input.ownership_change[type=checkbox]');
+            var numItems = $('.ownership_change').length;
+            chck.hasClass('ownership_change');
+            return (chck.filter(':checked').length ==numItems);
 
 
-                }
-            }, 'Submit all the document mention above'); 
+        }
+    }, 'Submit all the document mention above'); 
       
        $('#form_data').validate({
                  ignore: [],

@@ -268,7 +268,7 @@
         </div>
     </div>
     <div class="card-footer text-center">
-        <button name="status" value="DRAFT" class="btn btn-info"><i class="fa fa-check"></i> SAVE TO DRAFT</button>
+        <button name="status" value="DRAFT" class="btn btn-info"><i class="fa fa-save"></i> SAVE TO DRAFT</button>
         <button type="submit"class="btn btn-success"><i class="fa fa-check"></i> APPLY</button>
         <button type="reset"class="btn btn-danger"><i class="fa fa-times"></i> RESET</button>
     </div>

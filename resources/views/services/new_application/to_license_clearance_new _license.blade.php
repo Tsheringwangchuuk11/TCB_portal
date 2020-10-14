@@ -16,7 +16,7 @@
               <div class="col-md-5">
                 <div class="form-group">
                   <label for="">CID No <span class="text-danger"> *</span></label>
-                  <input type="text" class="form-control numeric-only" name="cid_no" autocomplete="off">
+                  <input type="text" class="form-control" name="cid_no" autocomplete="off">
                 </div>
               </div>
                 <div class="col-md-5 offset-md-2">
@@ -30,7 +30,7 @@
                 <div class="col-md-5">
                   <div class="form-group">
                     <label for="">DOB <span class="text-danger"> *</span></label>
-                    <input type="date" class="form-control" name="dob" id="date_of_birth" autocomplete="off" placeholder="Select Date">
+                    <input type="date" class="form-control" name="dob" id="date_of_birth" autocomplete="off">
                   </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
@@ -49,7 +49,7 @@
                 <div class="col-md-5">
                   <div class="form-group">
                     <label for="">Dzongkhag<span class="text-danger"> *</span></label>
-                    <select  name="dzongkhag_id" id="dzongkhag_id" class="form-control select2bs4 dzongkhagdropdown" style="width: 100%;">
+                    <select  name="dzongkhag_id" class="form-control select2bs4 permanentdzongkhagdropdown" style="width: 100%;">
                         <option value=""> -Select-</option>
                         @foreach ($dzongkhagLists as $dzongkhagList)
                           <option value="{{ $dzongkhagList->id }}">{{ $dzongkhagList->dzongkhag_name }}</option>
@@ -60,7 +60,7 @@
                 <div class="col-md-5 offset-md-2">
                   <div class="form-group">
                     <label for="">Gewog<span class="text-danger"> *</span></label>
-                    <select  name="gewog_id" class="form-control select2bs4 gewogdropdown" id="gewog_id" style="width: 100%;">
+                    <select  name="permanent_gewog_id" class="form-control select2bs4 permanentgewogdropdown" id="permanent_gewog_id" style="width: 100%;">
                       <option value=""> -Select-</option>
                     </select>   
                   </div>
@@ -70,9 +70,15 @@
                 <div class="col-md-5">
                   <div class="form-group">
                     <label for="">Village<span class="text-danger"> *</span></label>
-                    <select  name="village_id" class="form-control select2bs4" id="village_id" style="width: 100%;">
+                    <select  name="permanent_village_id" class="form-control select2bs4" id="permanent_village_id" style="width: 100%;">
                       <option value=""> -Select-</option>
                     </select>
+                  </div>
+                </div>
+                <div class="col-md-5 offset-md-2">
+                  <div class="form-group">
+                    <label for="">Email<span class="text-danger"> *</span></label>
+                    <input type="email" class="form-control" name="email" autocomplete="off">
                   </div>
                 </div>
               </div>
@@ -110,7 +116,7 @@
                 <div class="col-md-5">
                   <div class="form-group">
                     <label for="">DOB<span class="text-danger"> *</span></label>
-                    <input type="date" class="form-control" name="partner_dob" id="pdate_of_birth" autocomplete="off" placeholder="Select date">
+                    <input type="date" class="form-control" name="partner_dob" id="pdate_of_birth" autocomplete="off">
                   </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
@@ -155,6 +161,12 @@
                     </select>
                   </div>
                 </div>
+                <div class="col-md-5 offset-md-2">
+                  <div class="form-group">
+                    <label for="">Email<span class="text-danger"> *</span></label>
+                    <input type="email" class="form-control" name="partner_email" autocomplete="off">
+                  </div>
+                </div>
               </div>
         </div>
     </div>
@@ -191,7 +203,7 @@
                 <div class="col-md-5 offset-md-2">
                   <div class="form-group">
                     <label for="">Dzongkhag<span class="text-danger"> *</span></label>
-                    <select  name="dzongkhag_id" id="partner_dzongkhag_id" class="form-control select2bs4 partnerdzongkhagdropdown" style="width: 100%;">
+                    <select  name="dzongkhag_id" id="partner_dzongkhag_id" class="form-control select2bs4 dzongkhagdropdown" style="width: 100%;">
                         <option value=""> -Select-</option>
                         @foreach ($dzongkhagLists as $dzongkhagList)
                           <option value="{{ $dzongkhagList->id }}">{{ $dzongkhagList->dzongkhag_name }}</option>
@@ -204,7 +216,7 @@
                 <div class="col-md-5">
                   <div class="form-group">
                     <label for="">Gewog<span class="text-danger"> *</span></label>
-                    <select  name="gewog_id" class="form-control select2bs4 partnergewogropdown" id="partner_gewog_id" style="width: 100%;">
+                    <select  name="gewog_id" class="form-control select2bs4 gewogdropdown" id="gewog_id" style="width: 100%;">
                       <option value=""> -Select-</option>
                     </select>  
                   </div>
@@ -212,7 +224,7 @@
                 <div class="col-md-5 offset-md-2">
                   <div class="form-group">
                     <label for="">Village <span class="text-danger"> *</span></label>
-                    <select  name="partner_village_id" class="form-control select2bs4" id="partner_village_id" style="width: 100%;">
+                    <select  name="establishment_village_id" class="form-control select2bs4" id="village_id" style="width: 100%;">
                       <option value=""> -Select-</option>
                     </select>
                   </div>
@@ -241,6 +253,7 @@
         </div>
         <div class="card-body">
             <h6> Required supporting documents:</h6>
+            <ol>
               <li>
                 <em>Copy of Citizenship Identity Card</em>      
               </li>
@@ -285,6 +298,7 @@
   $('#checkboxId').click(function() {
     $("#partnerInfo").toggle(this.checked);
 });
+
 function checkCompanyName(companyName){
   $.ajax({
             url:'/application/get-companyname',

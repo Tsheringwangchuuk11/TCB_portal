@@ -42,7 +42,7 @@
         @if ($documentInfos->count() > 0)
             @foreach ($documentInfos as $documentInfo)
                 <div class="col-md-10" id="{{$loop->iteration}}" >
-                    <span><strong>{{ $documentInfo->document_name }} </strong> &nbsp;<a href="{{ url($documentInfo->upload_url) }}" class="btn btn-sm btn-info" target="_blank"><i class="fa fa-link"></i> View</a>  </span>&nbsp;
+                    <span><strong>{{ $documentInfo->document_name }} </strong> &nbsp;<a href="{{ url($documentInfo->upload_url) }}" class="btn btn-sm btn-info" target="_blank">&nbsp;<i class="fa fa-download"></i> View</a>  </span>&nbsp;
                 </div><br>
             @endforeach
         @endif

@@ -6,76 +6,133 @@
    <input type="hidden" name="service_id" value="{{ $applicantInfos->module_id }}">
    <input type="hidden" name="module_id" value="{{ $applicantInfos->module_id }}">
    <div class="card">
-      <div class="card-header">
-         <h3 class="card-title">Event Details</h3>
-      </div>
-      <!-- /.card-header -->
-      <div class="card-body">
-         <div class="row">
-            <div class="col-md-12">
-               <div class="row">
-                  <div class="col-md-5">
-                     <div class="form-group">
+        <div class="card-header">
+            <h4 class="card-title">Event Details</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group">
                         <label for="" >Event Name<span class="text-danger"> *</span></label>
-                        <input type="hidden" class="form-control" name="event_id" value="{{ $applicantInfos->id }}">
-                        <input type="text" class="form-control" name="event_name" value="{{ $applicantInfos->event_name }}">
-                     </div>
+                        <input type="hidden" class="form-control" name="event_id" value="{{ $applicantInfos->id }}" id="eventId">
+                        <input type="text" class="form-control" name="event_name" value="{{ $applicantInfos->event_name }}" readonly="true">
+                    </div>
+                </div>
+                <div class="col-md-5 offset-md-2">
+                  <div class="form-group">
+                     <label for="">To country.<span class="text-danger"> *</span></label>
+                     <select  name="country" class="form-control select2bs4" style="width: 100%;">
+                        <option value=""> -Select-</option>
+                        @foreach ($countries as $country)
+                        <option value="{{ $country->id }}" {{ old('country_id', $country->id) == $applicantInfos->country_id ? 'selected' : '' }}>{{ $country->dropdown_name }}</option>
+                        @endforeach
+                     </select>
                   </div>
-                  <div class="col-md-5 offset-md-2">
-                     <div class="form-group">
-                        <label for="">To country.<span class="text-danger"> *</span></label>
-                        <select  name="country" class="form-control select2bs4" style="width: 100%;">
-                           <option value=""> -Select-</option>
-                           @foreach ($countries as $country)
-                           <option value="{{ $country->id }}" {{ old('country_id', $country->id) == $applicantInfos->country_id ? 'selected' : '' }}>{{ $country->country_name }}</option>
-                           @endforeach
-                        </select>
-                     </div>
-                  </div>
-               </div>
+                </div>
+            </div>
+            @if ($applicantInfos->country_id ==7)
                <div class="row">
                   <div class="col-md-5">
-                     <div class="form-group">
-                        <label for="">location<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control" name="locationName"  value="{{ $applicantInfos->event_location }}">
-                     </div>
+                        <div class="form-group">
+                           <label for="">Dzongkhag<span class="text-danger"> *</span></label>
+                           <select  name="dzongkhag_id" id="dzongkhag_id" class="form-control select2bs4 dzongkhagdropdown" style="width: 100%;">
+                              <option value=""> -Select-</option>
+                              @foreach ($dzongkhagLists as $dzongkhagList)
+                              <option value="{{ $dzongkhagList->id }}" {{ old('dzongkhag_id', $applicantInfos->dzongkhag_id) == $dzongkhagList->id ? 'selected' : '' }}> {{ $dzongkhagList->dzongkhag_name }}</option>
+                              @endforeach
+                           </select>
+                        </div>
                   </div>
                   <div class="col-md-5 offset-md-2">
-                     <div class="form-group">
-                        <label for="">Event Start Date<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control" name="fromdate"  value="{{ $applicantInfos->start_date }}">
-                     </div>
+                        <div class="form-group">
+                           <label for="">Gewog<span class="text-danger"> *</span></label>
+                           <select  name="gewog_id" class="form-control select2bs4 gewogdropdown" id="gewog_id" style="width: 100%;">
+                              <option value="">{{ $applicantInfos->gewog_name }} </option>
+                           </select>
+                        </div>
                   </div>
                </div>
-               <div class="row">
-                  <div class="col-md-5">
-                     <div class="form-group">
-                        <label for="">Event End Date<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control" name="todate"  value="{{ $applicantInfos->end_date }}">
-                     </div>
+            @endif
+            <div class="row">
+               @if ($applicantInfos->country_id ==7)
+               <div class="col-md-5">
+                  <div class="form-group">
+                      <label for="">Village<span class="text-danger"> *</span></label>
+                      <select  name="village_id" class="form-control select2bs4" id="village_id" style="width: 100%;">
+                          <option value="{{ $applicantInfos->village_id }}">{{ $applicantInfos->village_name }} </option>
+                      </select>
                   </div>
-                  <div class="col-md-5 offset-md-2">
-                     <div class="form-group">
-                        <label for="">Last Date Of Registration<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control" name="lastdate"  value="{{ $applicantInfos->last_date }}">
-                     </div>
+              </div>
+            @else
+              <div class="col-md-5">
+               <div class="form-group">
+                  <label for="">location<span class="text-danger"> *</span></label>
+                  <input type="text" class="form-control" name="locationName"  value="{{ $applicantInfos->event_location }}">
+               </div>
+            </div>
+            @endif
+            <div class="col-md-5 offset-md-2">
+               <div class="form-group">
+                  <label for="">Event Start Date<span class="text-danger"> *</span></label>
+                  <input type="date" class="form-control" name="fromdate"  value="{{ $applicantInfos->start_date }}">
+               </div>
+            </div>
+            </div>
+            <div class="row">
+               <div class="col-md-5">
+                  <div class="form-group">
+                     <label for="">Event End Date<span class="text-danger"> *</span></label>
+                     <input type="date" class="form-control" name="todate"  value="{{ $applicantInfos->end_date }}">
                   </div>
                </div>
-               <div class="row">
-                  <div class="col-md-12">
-                     <div class="form-group">
-                        <label for="">Event Details<span class="text-danger"> *</span></label>
-                        <textarea class="form-control" name="event_dtls">{{ $applicantInfos->event_dtls }}</textarea>
-                     </div>
+               <div class="col-md-5 offset-md-2">
+                  <div class="form-group">
+                     <label for="">Last Date Of Registration<span class="text-danger"> *</span></label>
+                     <input type="date" class="form-control" name="lastdate"  value="{{ $applicantInfos->last_date }}">
                   </div>
                </div>
             </div>
-         </div>
-      </div>
-   </div>
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label for="">Website<span class="text-danger"> *</span></label>
+                        <input type="text" class="form-control" name="web_site" value="{{$applicantInfos->web_site}}" readonly="true">
+                    </div>
+                </div>
+                <div class="col-md-5 offset-md-2">
+                  <div class="form-group">
+                      <label for="">Contact Person<span class="text-danger"> *</span></label>
+                      <input type="text" class="form-control" name="contact_person" value="{{$applicantInfos->contact_person}}" readonly="true">
+                  </div>
+              </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label for="">Email<span class="text-danger"> *</span></label>
+                        <input type="text" class="form-control" name="contact_person_email" value="{{$applicantInfos->email}}" readonly="true">
+                    </div>
+                </div>
+                <div class="col-md-5 offset-md-2">
+                  <div class="form-group">
+                      <label for="">Contact No<span class="text-danger"> *</span></label>
+                      <input type="text" class="form-control" name="mobile_no" value="{{$applicantInfos->mobile_no}}" readonly="true">
+                  </div>
+              </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="">Event Details<span class="text-danger"> *</span></label>
+                    <textarea class="form-control" name="event_dtls" readonly="true">{{$applicantInfos->event_dtls}}</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
    <div class="card">
       <div class="card-header">
-         <h4 class="card-title">Tour Operators Details</h4>
+         <h4 class="card-title">Applicant Details</h4>
       </div>
       <div class="col-md-9"></div>
       <div class="card-body">
@@ -90,33 +147,52 @@
                   </div>
                   <div class="col-md-5 offset-md-2">
                      <div class="form-group">
+                        <label for="">Company Type<span class="text-danger"> *</span></label>
+                        <select  name="company_type" class="form-control select2bs4" style="width: 100%;">
+                           <option value=""> -Select-</option>
+                           @foreach ($companyTypes as $companyType)
+                           <option value="{{ $companyType->id }}" {{ old('company_type', $companyType->id) == $applicantInfos->application_type_id ? 'selected' : '' }}>{{ $companyType->dropdown_name }}</option>
+                           @endforeach
+                        </select>
+                     </div>
+                   </div>
+               </div>
+               <div class="row">
+                  <div class="col-md-5">
+                     <div class="form-group">
                         <label for="">Name<span class="text-danger"> *</span></label>
                         <input type="text" class="form-control" name="name" value="{{ $applicantInfos->applicant_name }}">
                      </div>
                   </div>
-               </div>
-               <div class="row">
-                  <div class="col-md-5">
+                  <div class="col-md-5 offset-md-2">
                      <div class="form-group">
                         <label for="">CID No.<span class="text-danger"> *</span></label>
                         <input type="text" class="form-control" name="cid_no" value="{{ $applicantInfos->cid_no }}">
                      </div>
                   </div>
-                  <div class="col-md-5 offset-md-2">
-                     <div class="form-group">
-                        <label for="">Contact No.<span class="text-danger"> *</span></label>
-                        <input type="text" name="contact_no" class="form-control numeric-only" value="{{ $applicantInfos->contact_no }}">
-                     </div>
-                  </div>
                </div>
                <div class="row">
                   <div class="col-md-5">
+                     <div class="form-group">
+                        <label for="">Contact No.<span class="text-danger"> *</span></label>
+                        <input type="text" name="contact_no" class="form-control" value="{{ $applicantInfos->contact_no }}">
+                     </div>
+                  </div>
+                  <div class="col-md-5 offset-md-2">
                      <div class="form-group">
                         <label for="">Email<span class="text-danger"> *</span></label>
                         <input type="email" name="email" class="form-control email" value="{{ $applicantInfos->email }}" >
                      </div>
                   </div>
-                  <div class="col-md-5 offset-md-2">
+               </div>
+               <div class="row">
+                     <div class="col-md-5">
+                        <div class="form-group">
+                           <label for="">Passport Number<span class="text-danger"> *</span></label>
+                           <input type="text" name="passport_no" class="form-control" value="{{ $applicantInfos->number }}">
+                        </div>
+                     </div>
+                     <div class="col-md-5 offset-md-2">
                      <div class="form-group">
                         <label for="">Company Name<span class="text-danger"> *</span></label>
                         <input type="text" name="company_name" class="form-control" value="{{ $applicantInfos->company_title_name }}">
@@ -126,48 +202,34 @@
                <div class="row">
                   <div class="col-md-5">
                      <div class="form-group">
-                        <label for="">Date Of Registration<span class="text-danger"> *</span></label>
-                        <input type="date" class="form-control" name="date_of_registration" value="{{ $applicantInfos->date }}">
+                        <label for="">Company Website<span class="text-danger"> *</span></label>
+                        <input type="text" name="webpage_url" class="form-control" value="{{ $applicantInfos->webpage_url }}">
                      </div>
                   </div>
-               </div>
-               <div class="row">
-                  <div class="form-group col-md-12">
-                     <label for="">Remarks <span class="text-danger">*</span> </label>
-                     <textarea type="text" class="form-control" name="remarks" row="3"></textarea>
+                  <div class="form-group col-md-5 offset-md-2">
+                        <label for="">Remarks <span class="text-danger">*</span> </label>
+                        <textarea type="text" class="form-control" id="remarks" name="remarks" row="3"></textarea>
+                        <div id="remarks_error" class="text-danger"></div>
                   </div>
                </div>
             </div>
          </div>
       </div>
-      <div class="card-footer text-center">
-         <button name="status" value="APPROVED" class="btn btn-success">
-            <li class="fas fa-check"></li>
-            APPROVE
-         </button>
-         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmModal">
-            <li class="fas fa-times"></li>
-            REJECT
-         </button>
-      </div>
+         <div class="card-footer text-center">
+             <button name="status" value="APPROVED" class="btn btn-success"><li class="fas fa-check"></li> APPROVE</button>
+             <button name="status"value="REJECTED" class="btn btn-danger" onclick="return requiredRemarks()"> <li class="fas fa-times"></li> REJECT</button>
+         </div>
    </div>
 </form>
-<div class="modal fade" id="confirmModal">
-   <div class="modal-dialog">
-      <div class="modal-content bg-danger">
-         <div class="modal-header">
-            <h4 class="modal-title">Confirm Message</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span></button>
-         </div>
-         <div class="modal-body">
-            <p>Are you sure,you want to reject &hellip;</p>
-         </div>
-         <div class="modal-footer justify-content-between">
-            <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
-            <button name="status"value="REJECTED" class="btn btn-outline-light" data-dismiss="modal">Confirm</button>
-         </div>
-      </div>
-   </div>
-</div>
+@endsection
+@section('scripts')
+    <script>
+      function requiredRemarks(status) {
+        $("#remarks_error").html('');
+        if($("#remarks").val() ==""){
+            $("#remarks_error").html('Please provide reason for rejection!');
+            return false;
+           }
+        }
+    </script>
 @endsection

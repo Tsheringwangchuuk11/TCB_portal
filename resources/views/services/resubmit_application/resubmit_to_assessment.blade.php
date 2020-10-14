@@ -144,9 +144,10 @@
                                         <td>{{ $chapterArea->checklist_area }}</td>
                                         @endif
                                             @if (in_array( $checkListStandard->checklist_id, $checklistrec))
-                                            <td>{{ $checkListStandard->checklist_standard }}
+                                            <td>
+                                                <input type="hidden" name="checklist_record_id[]" value="{{ $checklistrecords[$i]->id }}">
+                                                {{ $checkListStandard->checklist_standard }}
                                                 <input type="radio" name="check{{ $chapterArea->id }}" value="{{ $checkListStandard->checklist_id}}" {{ $checklistrecords[$i]->checklist_id  ==  $checkListStandard->checklist_id ? 'checked':'' }}>
-
                                             </td>
                                                @php 
 												($i++) 

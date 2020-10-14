@@ -19,6 +19,7 @@
                             <div class="form-group">
                                 <label for="" >Application Number<span class="text-danger"> *</span></label>
                                 <input type="text" class="form-control" name="application_no" value="{{ old('application_no',$applicantInfo->application_no) }}" readonly="true">
+                                <input type="hidden" class="form-control" name="dispatch_no" value="{{ old('dispatch_no',$applicantInfo->dispatch_no) }}">
                             </div>
                         </div>
                         <div class="col-md-5 offset-md-2">

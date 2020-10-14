@@ -23,15 +23,14 @@
                 </select>
             </div>
         </div>
-        <h5 id="oldowner" style="display: none">Previous Owner Information</h5>
         <div class="row">
             <div class="form-group col-md-5">
                 <label for="">License Number <span class="text-danger"> *</span> </label>
-                <input type="text" class="form-control" name="license_no" onchange="getOwnerChangeDetails(this.value)">
+                <input type="text" class="form-control" name="license_no" onchange="getRestaurantDetails(this.value)">
             </div>
             <div class="form-group col-md-5 offset-md-2">
                 <label for="">License Date </label>
-                <input type="text" class="form-control" name="license_date" id="license_date" readonly="true">
+                <input type="date" class="form-control" name="license_date" id="license_date" readonly="true">
             </div>
         </div>
         <div class="row">
@@ -41,23 +40,23 @@
             </div>
             <div class="form-group col-md-5 offset-md-2">
                 <label for="">Owner Name</label>
-                <input type="text" class="form-control" name="old_owner" id="old_owner" readonly="true">
+                <input type="text" class="form-control" name="owner_name" id="owner_name" readonly="true">
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-5">
                 <label for="">CID No. </label>
-                <input type="text" class="form-control" name="old_cid_no" id="old_cid_no" readonly="true">
+                <input type="text" class="form-control" name="cid_no" id="cid_no" readonly="true">
             </div>
             <div class="form-group col-md-5 offset-md-2">
                 <label for="">Address </label>
-                <input type="text" class="form-control" name="old_address" id="old_address" readonly="true">
+                <input type="text" class="form-control" name="address" id="address" readonly="true">
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-5">
                 <label for="">Contact No. </label>
-                <input type="text" class="form-control" name="old_contact_no" id="old_contact_no" readonly="true">
+                <input type="text" class="form-control" name="contact_no" id="contact_no" readonly="true">
             </div>
             <div class="form-group col-md-5 offset-md-2">
                 <label for="">Fax </label>
@@ -67,58 +66,94 @@
         <div class="row">
             <div class="form-group col-md-5">
                 <label for="">Email </label>
-                <input type="email" class="form-control" name="old_email" id="old_email" readonly="true">
+                <input type="email" class="form-control" name="email" id="email" readonly="true">
             </div>
             <div class="form-group col-md-5 offset-md-2">
                 <label for="">Internet Homepage </label>
                 <input type="text" class="form-control" name="webpage_url" id="webpage_url" readonly="true">
             </div>
         </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title">Hotel location</h4>
+    </div>
+    <div class="card-body">
         <div class="row">
-            <div class="form-group col-md-5">
-                <label for="">Location </label>
-                <input type="hidden" class="form-control" name="location_id" id="location_id" readonly="true">
-                <input type="text" class="form-control" name="location_name" id="location_name" readonly="true">
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label for="">Dzongkhag<span class="text-danger"> *</span></label>
+                    <select  name="dzongkhag_id" id="dzongkhag_id" class="form-control select2bs4 dzongkhagdropdown" style="width: 100%;">
+                        <option value=""> -Select-</option>
+                        @foreach ($dzongkhagLists as $dzongkhagList)
+                        <option value="{{ $dzongkhagList->id }}" {{ old('dzongkhag_id') == $dzongkhagList->id ? 'selected' : '' }}>{{ $dzongkhagList->dzongkhag_name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-5 offset-md-2">
+                <div class="form-group">
+                    <label for="">Gewog<span class="text-danger"> *</span></label>
+                    <input type="text" class="form-control" name="gewog_name" id="gewog_name" readonly="true">
+                </div>
             </div>
         </div>
-        <div id="name_change_info" style="display: none">
-            <h5>Name Change</h5>
+        <div class="row">
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label for="">Village<span class="text-danger"> *</span></label>
+                    <input type="text" class="form-control" name="village_name" id="village_name" readonly="true">
+                    <input type="hidden" class="form-control" name="establishment_village_id" id="village_id">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card"  id="name_change_info" style="display: none">
+    <div class="card-header">
+        <h4 class="card-tile"> New Restaurant Name</h4>
+    </div>
+    <div class="card-body">
             <div class="row">
                 <div class="form-group col-md-5">
                     <label for="">New Name <span class="text-danger"> *</span> </label>
-                    <input type="text" class="form-control" name="company_title_name">
+                    <input type="text" class="form-control" name="company_name_one">
                 </div>
             </div>
-        </div>
-        <div id="newowner" style="display:none">
-            <h5>New Owner Information</h5>
+    </div>
+</div>
+<div class="card"  id="newowner" style="display: none">
+    <div class="card-header">
+        <h4 class="card-tile">New Owner Information</h4>
+    </div>
+    <div class="card-body">
             <div class="row">
                 <div class="form-group col-md-5">
                     <label for="">Owner Name <span class="text-danger"> *</span></label>
-                    <input type="text" class="form-control" name="owner_name">
+                    <input type="text" class="form-control" name="new_owner_name">
                 </div>
                 <div class="form-group col-md-5 offset-md-2">
                     <label for="">CID No. <span class="text-danger"> *</span></label>
-                    <input type="text" class="form-control" name="cid_no">
+                    <input type="text" class="form-control" name="new_cid_no">
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-md-5">
                     <label for="">Address <span class="text-danger"> *</span></label>
-                    <input type="text" class="form-control" name="address">
+                    <input type="text" class="form-control" name="new_address">
                 </div>
                 <div class="form-group col-md-5 offset-md-2">
                     <label for="">Contact No.<span class="text-danger"> *</span></label>
-                    <input type="text" class="form-control" name="contact_no">
+                    <input type="text" class="form-control" name="new_contact_no">
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-md-5">
                     <label for="">Email <span class="text-danger"> *</span></label>
-                    <input type="email" class="form-control" name="email">
+                    <input type="email" class="form-control" name="new_email">
                 </div>
             </div>
-        </div>
     </div>
 </div>
 <div class="card">
@@ -143,7 +178,15 @@
             </li>
         </ol>
         <ol id="name_change" style="display:none">
-            <li></li>
+            <li>  
+                <em>CID copy</em>
+            </li>
+            <li>  
+                <em>Business license</em>
+            </li>
+            <li>  
+                <em>Tax clearance </em>
+            </li>
         </ol>
         @include('services/fileupload/fileupload')
     </div>
@@ -154,11 +197,10 @@
     </div>
 </div>
 </form>
-</div>
 @endsection
 @section('scripts')
     <script>
-        function getOwnerChangeDetails(licenseNo){
+        function getRestaurantDetails(licenseNo){
             $.ajax({
                 url:'/application/get-hotel-details/'+licenseNo,
                 type: "GET",
@@ -167,47 +209,38 @@
                     },
                 dataType: "json",
                 success:function(data) {
-                    $('#old_star_category_id').val(data.star_category_name);
-                    $('#star_category_id').val(data.star_category_id);
                     $('#license_date').val(data.license_date);
                     $('#company_title_name').val(data.tourist_standard_name);
-                    $('#old_owner').val(data.owner_name);
-                    $('#old_cid_no').val(data.cid_no);
-                    $('#old_contact_no').val(data.contact_no);
-                    $('#old_address').val(data.address);
+                    $('#owner_name').val(data.owner_name);
+                    $('#cid_no').val(data.cid_no);
+                    $('#contact_no').val(data.contact_no);
+                    $('#address').val(data.address);
                     $('#fax').val(data.fax);
-                    $('#old_email').val(data.email);
+                    $('#email').val(data.email);
                     $('#webpage_url').val(data.webpage_url);
-                    $('#number').val(data.bed_no);
-                    $('#location_id').val(data.village_id);
-                    $('#location_name').val(data.location_name);
+                    $('#dzongkhag_id').val(data.dzongkhag_id).trigger("change");
+                    $('#gewog_name').val(data.gewog_name);
+                    $('#village_name').val(data.village_name);
+                    $('#village_id').val(data.village_id);
                 } 
             });
         }
         $(document).ready(function(){
-            $('#application_type').on('change',function(e) {
+            $('#application_type_id').on('change',function(e) {
                 var application_type=e.target.value;
-                if(application_type == "1"){
-                    $("#newowner").show();
-                    $("#oldowner").show();
-                    $("#ownership_change").show();
-                    $("#name_change").hide();
-                    $("#name_change_info").hide();
-                } 
-                else if(application_type == "2"){
-                    $("#newowner").hide();
-                    $("#oldowner").hide();
-                    $("#ownership_change").hide();
-                    $("#name_change").show();
+                if(application_type == "28"){
                     $("#name_change_info").show();
-                } 
-                else if(application_type == "3"){
-                    $("#newowner").hide();
-                    $("#oldowner").hide();
+                    $("#name_change").show();
                     $("#ownership_change").hide();
-                    $("#name_change").hide();
+                    $("#newowner").hide();
+                } 
+                else {
+                    $("#ownership_change").show();
+                    $("#newowner").show();
                     $("#name_change_info").hide();
-                }
+                    $("#name_change").hide();
+                } 
+               
             });
         });
     </script>

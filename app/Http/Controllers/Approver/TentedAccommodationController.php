@@ -60,10 +60,14 @@ class TentedAccommodationController extends Controller
 
   //Approval function tented accommodation assessment application
    public function tentedAccommAssessmentApplication(Request $request,Services $service){
-    $assigned_priv_id=WorkFlowDetails::getAssignedRoleForApp($request->service_id)->role_id;
+    $roles = auth()->user()->roles()->get();
+    $roleId = 0;
+    foreach ($roles as $role){
+        $roleId = $role->id;
+    }
      if($request->status =='APPROVED'){
          // insert into t_techt_tourist_standard_dtlsnical_clearances
-         \DB::transaction(function () use ($request,$service,$assigned_priv_id) {
+         \DB::transaction(function () use ($request,$service,$roleId) {
              $approveId = WorkFlowDetails::getStatus('APPROVED');
              $completedId= WorkFlowDetails::getStatus('COMPLETED');
              $applicantdata[]= [    
@@ -139,7 +143,7 @@ class TentedAccommodationController extends Controller
             }
          $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
          $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
-                 ->update(['status_id' => $approveId->id,'role_id'=> $assigned_priv_id,'remarks' => $request->remarks]);
+                 ->update(['status_id' => $approveId->id,'role_id'=> $roleId,'remarks' => $request->remarks]);
 
          $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
          $updateworkflow=TaskDetails::where('application_no',$request->application_no)
@@ -153,7 +157,7 @@ class TentedAccommodationController extends Controller
          $completedId= WorkFlowDetails::getStatus('COMPLETED');
          $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
          $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
-         ->update(['status_id' => $resubmitdId->id,'role_id'=> $assigned_priv_id,'remarks' => $request->remarks]);
+         ->update(['status_id' => $resubmitdId->id,'role_id'=> $roleId,'remarks' => $request->remarks]);
 
          $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
          $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
@@ -166,7 +170,7 @@ class TentedAccommodationController extends Controller
          $rejectId = WorkFlowDetails::getStatus('REJECTED');
          $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
          $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
-         ->update(['status_id' => $rejectId->id,'role_id'=>$assigned_priv_id,'remarks' => $request->remarks]);
+         ->update(['status_id' => $rejectId->id,'role_id'=>$roleId,'remarks' => $request->remarks]);
 
          $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
          $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)

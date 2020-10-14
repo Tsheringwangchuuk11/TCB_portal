@@ -30,7 +30,13 @@ div.container {
 }
 
 div.hr {
-    border-bottom: 0.5px solid #bbb;
+    border-bottom: 1px solid #bbb;
+}
+#footer{
+    position: absolute;
+    bottom: 0;
+    height: 60px;
+    width: 100%;
 }
 
 table {
@@ -93,3 +99,4 @@ table{margin-bottom:15px;}
 table.small{
     border:none;
 }
+

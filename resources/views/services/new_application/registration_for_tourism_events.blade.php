@@ -55,7 +55,7 @@
                 <div class="col-md-5 offset-md-2">
                     <div class="form-group">
                         <label for="">Event Start Date<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control" name="fromdate" value="{{$eventdtl->start_date}}" readonly="true">
+                        <input type="date" class="form-control" name="fromdate" value="{{$eventdtl->start_date}}" readonly="true">
                     </div>
                 </div>
             </div>
@@ -63,13 +63,13 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="">Event End Date<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control" name="todate" value="{{$eventdtl->end_date}}" readonly="true">
+                        <input type="date" class="form-control" name="todate" value="{{$eventdtl->end_date}}" readonly="true">
                     </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
                     <div class="form-group">
                         <label for="">Last Date Of Registration<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control" name="lastdate" value="{{$eventdtl->last_date}}" readonly="true">
+                        <input type="date" class="form-control" name="lastdate" value="{{$eventdtl->last_date}}" readonly="true">
                     </div>
                 </div>
             </div>
@@ -77,7 +77,7 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="">Website<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control" name="webpage_url" value="{{$eventdtl->web_site}}" readonly="true">
+                        <input type="text" class="form-control" name="web_site" value="{{$eventdtl->web_site}}" readonly="true">
                     </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
@@ -91,7 +91,7 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="">Email<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control" name="email" value="{{$eventdtl->email}}" readonly="true">
+                        <input type="text" class="form-control" name="contact_person_email" value="{{$eventdtl->email}}" readonly="true">
                     </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
@@ -119,7 +119,7 @@
             <div class="row">
                 <div class="form-group col-md-5">
                     <label>Company Type<span class="text-danger">*</span></label>
-                    <select class="form-control select2bs4" name="company_type" id="company_type" style="width: 100%;">
+                    <select class="form-control select2bs4" name="application_type_id" id="application_type_id" style="width: 100%;">
                         <option value="">- Select -</option>
                         @foreach ($companyTypes as $companyType)
                         <option value="{{$companyType->id}}">{{$companyType->dropdown_name}}</option>
@@ -137,7 +137,7 @@
             <div class="col-md-5">
                 <div class="form-group">
                     <label for="">Name<span class="text-danger"> *</span></label>
-                    <input type="text" class="form-control" name="applicant_name" id="app_name" value="{{ old('applicant_name') }}" autocomplete="off" id="applicant_name">
+                    <input type="text" class="form-control" name="applicant_name" value="{{ old('applicant_name') }}" autocomplete="off" id="applicant_name">
                 </div>
             </div>
             <div class="col-md-5 offset-md-2">
@@ -151,13 +151,13 @@
             <div class="col-md-5">
                 <div class="form-group">
                     <label for="">Passport No<span class="text-danger"> *</span></label>
-                    <input type="text" class="form-control" name="passport_no" value="{{ old('passport_no') }}" autocomplete="off" id="passport_no">
+                    <input type="text" class="form-control" name="number" value="{{ old('number') }}" autocomplete="off">
                 </div>
             </div>
             <div class="col-md-5 offset-md-2">
                 <div class="form-group">
                     <label for="">Email<span class="text-danger"> *</span></label>
-                    <input type="text" class="form-control" name="email" value="{{ old('email') }}" autocomplete="off" id="email">
+                    <input type="text" class="form-control" name="email" value="{{ old('email') }}" autocomplete="off">
                 </div>
             </div>
         </div>
@@ -165,13 +165,13 @@
             <div class="col-md-5">
                 <div class="form-group">
                     <label for="">Company Name<span class="text-danger"> *</span></label>
-                    <input type="text" name="company_title_name" id="company_title_name" class="form-control" value="{{ old('contact_no') }}" id="lastDate" autocomplete="off">
+                    <input type="text" name="company_title_name" id="company_title_name" class="form-control" value="{{ old('contact_no') }}"  autocomplete="off">
                 </div>
             </div>
             <div class="col-md-5 offset-md-2">
                 <div class="form-group">
                     <label for="">Company Website<span class="text-danger"> *</span></label>
-                    <input type="text" class="form-control" name="webpage_url" value="{{ old('email') }}" autocomplete="off" id="email">
+                    <input type="text" class="form-control" name="webpage_url" value="{{ old('webpage_url') }}" autocomplete="off">
                 </div>
             </div>
         </div>
@@ -179,7 +179,7 @@
             <div class="col-md-5">
                 <div class="form-group">
                     <label for="">Remarks<span class="text-danger"> *</span></label>
-                    <textarea type="text" class="form-control" name="remarks" value="{{ old('number') }}" autocomplete="off" ></textarea>
+                    <textarea type="text" class="form-control" name="remarks" value="{{ old('remarks') }}" autocomplete="off" ></textarea>
                 </div>
             </div>
         </div>

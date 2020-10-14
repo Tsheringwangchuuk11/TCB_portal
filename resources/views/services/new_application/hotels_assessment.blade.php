@@ -58,11 +58,11 @@
         <div class="row">
             <div class="form-group col-md-5">
                 <label for="">CID No.<span class="text-danger">*</span> </label>
-                <input type="text" class="form-control" name="cid_no" autocomplete="off">
+                <input type="text" class="form-control" name="cid_no" autocomplete="off" onchange="api_webservices(this.value)">
             </div>
             <div class="form-group col-md-5 offset-md-2">
                 <label for="">Owner Name<span class="text-danger">*</span> </label>
-                <input type="text" class="form-control" name="owner_name" autocomplete="off">
+                <input type="text" class="form-control" name="owner_name" autocomplete="off" id="applicant_id">
             </div>
         </div>
         <div class="row">
@@ -283,7 +283,7 @@
         </div>
     </div>
     <div class="card-footer text-center">
-        <button name="status" value="DRAFT" class="btn btn-info"><i class="fa fa-check"></i> SAVE TO DRAFT</button>
+        <button name="status" value="DRAFT" class="btn btn-info"><i class="fa fa-save"></i> SAVE TO DRAFT</button>
         <button type="submit"class="btn btn-success"><i class="fa fa-check"></i> APPLY</button>
         <button type="reset"class="btn btn-danger"><i class="fa fa-times"></i> RESET</button>
     </div>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Dropdown;
 use App\Models\Services;
+use App\Models\WorkFlowDetails;
 use Validator;
 use App\Models\FileUpload;
 use DB;
@@ -15,37 +16,15 @@ class HomeController extends Controller
     {
     	return view('frontend.index');
     }
-
-    public function feedBack(){
-        $data['idInfos'] = Services::getIdInfo('services/grievance');
-        $data['letterTypes'] = Dropdown::getDropdowns("t_recommandation_letter_masters","id","recommandation_letter_type","0","0");
-        $data['serviceproviders'] = Dropdown::getDropdowns("t_service_providers","id","service_provider_name","0","0");
-        $data['locations'] = Dropdown::getDropdowns("t_locations","id","location_name","0","0");
-        return view('services/public_feed_back',$data);
-    }
-
-    public function addDocuments(Request $request,FileUpload $file_model)
-	{
-		$validation = Validator::make($request->all(), [
-			'filename' => 'required|mimes:jpeg,png,jpg,gif,pdf|max:2048'
-		   ]);
-		   if($validation->passes())
-		   {
-				$document = $file_model->getFileUploadDtls($request);
-				return  response()->json(['status'=>'true','data'=>$document]);          
-			}
-			else{
-			 return response()->json(['status'=>'false','message'   => $validation->errors()->all()]);   
-			}
-    	}
-	public function deleteFile(Request $request,FileUpload $file_model){
-		if($request->id){
-			$file_model->deleteFile($request);
-			$data = 'success';
-			return response()->json($data);
-		}
-    }
     
+    public function feedBack(){
+        $status=WorkFlowDetails::getStatus('SUBMITTED')->id;
+        $data['idInfos'] = Services::getIdInfo('services/new_application/grievance');
+        $data['serviceproviders'] =Dropdown::getDropdownList("5");
+        $data['applicantTypes'] =Dropdown::getDropdownList("2");
+
+        return view('services.new_application.public_feed_back',$data,compact('status'));
+    }
     public function saveGrievanceApplication(Request $request,Services $services){
         $application_no = $services->generateApplNo($request);
          DB::transaction(function () use ($request, $application_no,$services) {

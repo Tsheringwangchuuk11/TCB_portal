@@ -70,6 +70,7 @@ class ResubmitServiceController extends Controller
              'from_date'=> $request->from_date,
              'to_date'=> $request->to_date,
              'remarks'=> $request->remarks,
+             'dispatch_no'=> $request->dispatch_no,
              ];
             $satus=Services::updateApplicantDtls('t_applications','application_no',$request->application_no,$data);
 
@@ -136,99 +137,85 @@ class ResubmitServiceController extends Controller
              }
 
             //insert tour operator check list application
-		    $tocheckdata = [];
             if(isset($_POST['area'])){
                 foreach($request->area as $key => $value){
                 $index = $_POST['area'][$key];
-                $tocheckdata[] = [
+                $tocheckdata = [
                         'application_no'   => $application_no,
                          'checklist_id'   =>$_POST['check'.$index],
                     ];
+                    $satus=Services::updateOrSaveDetails('t_checklist_applications',$tocheckdata, ['id'=>$request->checklist_record_id[$key]] );
                  }
-                $service->insertDetails('t_checklist_applications',$tocheckdata);
             }
  
               //insert into t_partner_applications
-              $partnerDetailsData = [];
               if(isset($_POST['partner_name'])){
-                     $partnerDetailsData[] = [
+                     $partnerDetailsData= [
                           'application_no'   => $application_no,
                             'partner_name'   => $request->partner_name,
                           'partner_cid_no'   => $request->partner_cid_no,
                           'partner_gender'   => $request->partner_gender,
                              'partner_dob'   => date('Y-m-d', strtotime($request->partner_dob)),
-                         'partner_flat_no'   => $request->partner_flat_no,
-                     'partner_building_no'   => $request->partner_building_no,
-                        'partner_location'   => $request->partner_location,
-                      'partner_village_id'   => $request->partner_village_id
+                      'partner_village_id'   => $request->partner_village_id,
+                      'partner_email'   => $request->partner_email
                      ];
-                 $services->insertDetails('t_partner_applications',$partnerDetailsData);
+                 $satus=Services::updateOrSaveDetails('t_partner_applications',$partnerDetailsData, ['id'=>$request->partner_record_id[$key]] );
              }
- 
-             //insert into office application
-             $officeInfoData = [];
-             if(isset($_POST['office_id'])){
-                 foreach($request->office_id as $key => $value){
-                 $index = $_POST['office_status'][$key];
-                 $officeInfoData[] = [
-                         'application_no'   => $application_no,
-                              'office_id'   => $request->office_id[$key],
-                          'office_status'   =>$_POST['office_status'.$index],
+
+              //insert tourism partner details into t_partner_applications
+              if(isset($_POST['event_id'])){
+                foreach($request->member_name as $key => $value)
+                {
+                    $tourismindustrypatner = [
+                        'application_no'   => $application_no,
+                        'partner_name'   => $request->partner_name[$key],
+                      'partner_cid_no'   => $request->partner_cid_no[$key],
+                       'partner_email'   => $request->partner_email[$key],
+                  'partner_contact_no'   => $request->partner_contact_no[$key],
+                  'partner_designation'  => $request->partner_designation[$key],
+                  'partner_passport_no'  => $request->partner_passport_no[$key],
+                             'event_id'  => $request->event_id[$key],
+                    ];
+                   $satus=Services::updateOrSaveDetails('t_partner_applications',$tourismindustrypatner, ['id'=>$request->partner_record_id[$key]] );
+                }
+            }
+
+             //insert EOI and new tourism product development info into t_product_applications
+             if(isset($_POST['product_type'])){
+                 $productItemData = [
+                    'application_no' => $application_no,
+                    'product_type'=>$request->product_type,
+                    'modality'=>$request->modality,
+                    'village_id'=>$request->establishment_village_id,
+                    'activities_results'  => $request->activities_results,
+                    'product_des'  => $request->product_des,
+                    'objective'  => $request->objective,
+                    'product_des'  => $request->product_des,
+                    'project_cost'  => $request->project_cost,
+                    'start_date'  => $request->start_date,
+                    'end_date'  => $request->end_date,
+                    'contribution'  => $request->contribution,
                      ];
-                  }
-                 $services->insertDetails('t_office_applications',$officeInfoData);
+                 $satus=Services::updateOrSaveDetails('t_product_applications',$productItemData, ['id'=>$request->record_id] );
+
              }
- 
-             //insert into office equipment application
-             $officeEquipmentData = [];
-             if(isset($_POST['equipment_id'])){
-                 foreach($request->equipment_id as $key => $value){
-                 $index = $_POST['equipment_status'][$key];
-                 $officeEquipmentData[] = [
-                           'application_no' => $application_no,
-                             'equipment_id' => $request->equipment_id[$key],
-                         'equipment_status' =>$_POST['equipment_status'.$index],
-                     ];
-                  }
- 
-                 $services->insertDetails('t_equipment_applications',$officeEquipmentData);
-             }
- 
-              //insert into employment application
-             $employmentData = [];
-             if(isset($_POST['employment_id'])){
-                 foreach($request->employment_id as $key => $value){
-                     $index = $_POST['employment_status'][$key];
-                     $index = $_POST['nationality'][$key];
- 
-                 $employmentData[] = [
-                            'application_no'  => $application_no,
-                             'employment_id'  => $request->employment_id[$key],
-                         'employment_status'  =>$_POST['employment_status'.$index],
-                               'nationality'  =>$_POST['nationality'.$index],
- 
-                     ];
-                  }
-                 $services->insertDetails('t_employment_applications',$employmentData);
-             }
- 
-             //insert into employment application
-             $transportationData = [];
-             if(isset($_POST['vehicle_id'])){
-                 foreach($request->vehicle_id as $key => $value){
-                 $index = $_POST['transport_status'][$key];
-                 $index1 = $_POST['fitness'][$key];
-                 $transportationData[] = [
-                           'application_no' => $application_no,
-                               'vehicle_id' => $request->vehicle_id[$key],
-                         'transport_status' => $_POST['transport_status'.$index],
-                                  'fitness' => $_POST['fitness'.$index1],
-                          ];
-                     }
- 
-                 $services->insertDetails('t_transport_applications',$transportationData);
-             }
- 
+
+               //insert existing tourism product development info into t_product_applications
+               if(isset($_POST['product_type_id'])){
+                $productItemData = [
+                    'application_no' => $application_no,
+                    'product_type_id'=>$request->product_type_id,
+                         'village_id'=>$request->establishment_village_id,
+                         'objective'  => $request->objective,
+                      'product_des'  => $request->product_des,
+                     'project_cost'  => $request->project_cost,
+                        'start_date'  => $request->start_date,
+                     'end_date'  => $request->end_date,
+                     'contribution'  => $request->contribution,
+                    ];
+                $satus=Services::updateOrSaveDetails('t_product_applications',$productItemData, ['id'=>$request->record_id] );
+
+            }
                // insert into t_organizer_applications
                $organizerInfoData = [];
                if(isset($_POST['organizer_name'])){
@@ -243,7 +230,7 @@ class ResubmitServiceController extends Controller
                       ];
                   $services->insertDetails('t_organizer_applications',$organizerInfoData);
               }
- 
+
              //insert into employment application
              $eventItemData = [];
              if(isset($_POST['items_name'])){
@@ -259,7 +246,9 @@ class ResubmitServiceController extends Controller
                  $services->insertDetails('t_item_applications',$eventItemData);
              }
  
-             //insert intot_product_applications
+
+
+             //insert into t_product_applications
              $productItemData = [];
              if(isset($_POST['type'])){
                  $productItemData[] = [
@@ -331,21 +320,22 @@ class ResubmitServiceController extends Controller
                    }
                    $services->insertDetails('t_activity_applications',$marketinActivitiesData);
                }
-             //insert into t_work_permit_applications
-              $workpermitData = [];
-              if(isset($_POST['passport_no'])){
-                 foreach($request->passport_no as $key => $value){
-                     $workpermitData[] = [
-                          'application_no'   => $application_no,
-                            'name'   => $request->name[$key],
-                          'passport_no'   => $request->passport_no[$key],
-                          'start_date'   => date('Y-m-d', strtotime($request->start_date[$key])),
-                           'end_date'   => date('Y-m-d', strtotime($request->end_date[$key])),
-                         'country_id'   => $request->nationality[$key],
-                     ];
-                 }
-                 $services->insertDetails('t_work_permit_applications',$workpermitData);
-             }
+
+            //insert into t_foreign_worker_applications
+            if(isset($_POST['passport_no'])){
+                foreach($request->passport_no as $key => $value){
+                    $workpermitData = [
+                        'application_no'   => $request->application_no,
+                        'name'   => $request->name[$key],
+                        'passport_no'   => $request->passport_no[$key],
+                        'start_date'   => date('Y-m-d', strtotime($request->start_date[$key])),
+                        'end_date'   => date('Y-m-d', strtotime($request->end_date[$key])),
+                        'nationality'   => $request->nationality[$key],
+                    ];
+                    $satus=Services::updateOrSaveDetails('t_foreign_worker_applications',$workpermitData, ['id'=>$request->worker_record_id[$key]] );
+                }
+            }
+
              //update application_no in t_documents
               $documentId = $request->documentId;
               $services->updateDocumentDetails($documentId,$application_no);
@@ -360,8 +350,9 @@ class ResubmitServiceController extends Controller
             //insert into t_task_dtls
             $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($application_no);
             $initiatedId=WorkFlowDetails::getStatus('INITIATED')->id;
+            $assigned_priv_id=TaskDetails::getAssignPrivId($request->service_id, 1)->id;
             $updatetaskdtls=TaskDetails::where('application_no',$application_no)
-                                    ->update(['status_id' =>$initiatedId ]);
+                                    ->update(['status_id' =>$initiatedId,'assigned_priv_id'=>$assigned_priv_id ]);
  
          });  
          return redirect('dashboard')->with('appl_info', 'Your application has been submitted successfully and your application number is :'.$application_no);

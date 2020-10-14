@@ -67,6 +67,14 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                      <label for="">Email<span class="text-danger">*</span> </label>
+                      <input type="email" class="form-control" name="email"  value="{{ $applicantInfo->email }}">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

@@ -10,6 +10,7 @@ use App\Models\WorkFlowDetails;
 use App\Models\TaskDetails;
 use App\Models\TCheckListChapter;
 use App\Models\TCheckListStandard;
+use PDF;
 use DB;
 class ServiceController extends Controller
 {
@@ -63,13 +64,16 @@ class ServiceController extends Controller
         else if($data['idInfos']->service_id==5 && $data['idInfos']->module_id==1){
             $data['countries'] = Dropdown::getDropdownList("3");
             $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
-            $data['recommendation_letter_types'] =  Dropdown::getApplicationType("9",$dropdownId[]=["36","37","38","39","40"]);
+            $data['workpermitTypes'] = Dropdown::getDropdownList("11");
+
+            //$data['recommendation_letter_types'] =  Dropdown::getApplicationType("9",$dropdownId[]=["36","37","38","39","40"]);
         }
 
         //hotel_ownership_name_cancellation
         else if($data['idInfos']->service_id==6 && $data['idInfos']->module_id==1){
             $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
             $data['applicationTypes'] = Dropdown::getApplicationType("8",$dropdownId[]=["28","29","30"]);
+            $data['starCategoryLists'] = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
         }
 
         //home_stays_assessment
@@ -79,6 +83,11 @@ class ServiceController extends Controller
             $data['relationTypes'] =  Dropdown::getDropdownList("4");
         }
 
+         //home_stays registration cancel
+         else if($data['idInfos']->service_id==8 && $data['idInfos']->module_id==2){
+            $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+        }
+
         //restuarants_assessment
         else if($data['idInfos']->service_id==9 && $data['idInfos']->module_id==3){
             $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
@@ -86,11 +95,16 @@ class ServiceController extends Controller
 
         //restuarant_ownership_name_change
         else if($data['idInfos']->service_id==10 && $data['idInfos']->module_id==3){
+            $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
             $data['applicationTypes'] = Dropdown::getApplicationType("8",$dropdownId[]=["28","29"]);
         }
 
         //to_license_clearance_new _license
         else if($data['idInfos']->service_id==2 && $data['idInfos']->module_id==4){
+            $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+        }
+         // recommendation letter for import license-tour operator
+         else if($data['idInfos']->service_id==4 && $data['idInfos']->module_id==4){
             $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
         }
         //tour oprator assessment and registration
@@ -100,15 +114,36 @@ class ServiceController extends Controller
         //to_name_ownership_location_change
         else if($data['idInfos']->service_id==11 && $data['idInfos']->module_id==4){
             $data['applicationTypes'] = Dropdown::getApplicationType("8",$dropdownId[]=["28","29","31"]);
+            $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
         }
 
+        //issuance of propreiter card
+        else if($data['idInfos']->service_id==12 && $data['idInfos']->module_id==4){
+            $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+        }
         //recommandation_letter_for_tourism_industry_partners
         else if($data['idInfos']->service_id==13 && $data['idInfos']->module_id==4){
             $data['applicationTypes'] = Dropdown::getApplicationType("9",$dropdownId[]=["32","33"]);
             $data['eventFairDetails'] = Services::getTravelEventFairDetails();
 
         }
-
+        //Tour operator license clearance for tour operator 
+        else if($data['idInfos']->service_id==14 && $data['idInfos']->module_id==4){
+            $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+        }
+         //EOI for Tourism Product Development 
+         else if($data['idInfos']->service_id==15 && $data['idInfos']->module_id==5){
+            $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+        }
+         //New Tourism Product Development Proposal
+         else if($data['idInfos']->service_id==16 && $data['idInfos']->module_id==5){
+            $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+        }
+        //Existing Tourism Product Development proposal
+        else if($data['idInfos']->service_id==17 && $data['idInfos']->module_id==5){
+            $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+            $data['productTypes'] = Dropdown::getDropdownList("12");
+        }
         //grievance
         else if($data['idInfos']->service_id==18 && $data['idInfos']->module_id==6){
             $data['serviceproviders'] =Dropdown::getDropdownList("5");
@@ -192,7 +227,7 @@ class ServiceController extends Controller
 
     //Technical clearance details
     public function getTechCleranceDtls($dispatch_no){
-        $present= Services::checkDispatchNumber($dispatch_no);
+        $present= Services::checkDispatchNumber('t_technical_clearances','dispatch_no',$request->dispatch_no);
         if($present){
             $data=Services::getTechCleranceDtls($dispatch_no);
             return response()->json($data);
@@ -205,12 +240,6 @@ class ServiceController extends Controller
         $data=Services::getVillageHomeStayDetails($cidNo);
         return response()->json($data);
     }
-
-    public function getTourOperatorDetails($licenseNo){
-        $data=Services::getTourOperatorDetails($licenseNo);
-        return response()->json($data);
-    }
-
      public function getCompnayName(Request $request){
          $companyName=$request->companyName;
          $checkPresent=Services:: checkCompanyNameExists($companyName);
@@ -218,17 +247,44 @@ class ServiceController extends Controller
      }
 
      public function getEventRegisteredDetails($eventId,$serviceId,$moduleId){
-        $eventdtl = Services::getEventRegisteredDetails($eventId);
-        $companyTypes= Dropdown::getDropdownList("10");
-        return view('services/registration_for_tourism_events', compact('eventdtl','serviceId','moduleId','companyTypes'));
+        $data['eventdtl'] = Services::getEventRegisteredDetails($eventId);
+        $data['countries'] =Dropdown::getDropdownList("3");
+        $data['companyTypes']=Dropdown::getDropdownList("10");
+        return view('services.new_application.registration_for_tourism_events',$data,compact('serviceId','moduleId'));
     }
 
     //check dispatch Number
     public function checkDispatchNumber(Request $request){
-        $present= Services::checkDispatchNumber($request->dispatch_no);
+        $present= Services::checkDispatchNumber('t_technical_clearances','dispatch_no',$request->dispatch_no);
         return response()->json($present);
     }
 
+    //check tourism partner cid Number
+    public function checkPartnerCIDNumber(Request $request){
+        $present= Services::checkDispatchNumber('t_travel_fair_dtls','cid_no',$request->partner_cid_no);
+        return response()->json($present);
+    }
+    
+    //get the work permit dtls
+    public function getWorkPermitDtls(Request $request){
+        $present= Services::checkDispatchNumber('t_work_permit_dtls','dispatch_no',$request->dispatch_no);
+        if($present){
+           $data= Services::getWorkPermitDtls($request->dispatch_no);
+            return response()->json($data);
+        }else{
+            return response()->json(['status' => 'false']);
+        }      
+    }
+    //get foreign worker details
+    public static function getForeignWorkerDtls(Request $request){
+        $present= Services::checkDispatchNumber('t_foreign_worker_dtls','passport_no',$request->passport_no);
+        if($present){
+           $data= Services::getIndividaulForeignWorkerDtls($request->passport_no);
+            return response()->json($data);
+        }else{
+            return response()->json(['status' => 'false']);
+        }  
+    }
     //delete record from database
     public function deleteDataRecord(Request $request){
       $flag= Services::deleteDataRecord($request->recordId,$request->table_name);
@@ -294,6 +350,7 @@ class ServiceController extends Controller
             $data->from_date=$request->from_date;
             $data->to_date=$request->to_date;
             $data->remarks=$request->remarks;
+            $data->dispatch_no=$request->dispatch_no;
             $data->save();
 
             //insert into t_room_applications
@@ -363,21 +420,37 @@ class ServiceController extends Controller
                 $service->insertDetails('t_member_applications',$membersDetailsData);
             }
 
-             //insert into t_partner_applications
+            //insert into t_partner_applications
              $partnerDetailsData = [];
-             if(isset($_POST['partner_name'])){
+             if(isset($_POST['partner_cid_no'])){
                     $partnerDetailsData[] = [
                          'application_no'   => $application_no,
                            'partner_name'   => $request->partner_name,
                          'partner_cid_no'   => $request->partner_cid_no,
                          'partner_gender'   => $request->partner_gender,
                             'partner_dob'   => date('Y-m-d', strtotime($request->partner_dob)),
-                        'partner_flat_no'   => $request->partner_flat_no,
-                    'partner_building_no'   => $request->partner_building_no,
-                       'partner_location'   => $request->partner_location,
-                     'partner_village_id'   => $request->partner_village_id
+                          'partner_email'   => $request->partner_email,
+                     'partner_village_id'   => $request->partner_village_id,
                     ];
                 $service->insertDetails('t_partner_applications',$partnerDetailsData);
+            }
+
+            //insert tourism industry partner dtls into t_partner_applications
+             $tourismindustrypatner = [];
+             if(isset($_POST['event_id'])){
+                foreach($request->event_id as $key => $value){
+                    $tourismindustrypatner[] = [
+                         'application_no'   => $application_no,
+                           'partner_name'   => $request->partner_name[$key],
+                         'partner_cid_no'   => $request->partner_cid_no[$key],
+                          'partner_email'   => $request->partner_email[$key],
+                     'partner_contact_no'   => $request->partner_contact_no[$key],
+                     'partner_designation'  => $request->partner_designation[$key],
+                     'partner_passport_no'  => $request->partner_passport_no[$key],
+                                'event_id'  => $request->event_id[$key],
+                    ];
+                }
+                $service->insertDetails('t_partner_applications',$tourismindustrypatner);
             }
 
             //insert tour operator check list application
@@ -408,7 +481,7 @@ class ServiceController extends Controller
                  $service->insertDetails('t_organizer_applications',$organizerInfoData);
              }
 
-            //insert into employment application
+            //insert into item application
             $eventItemData = [];
             if(isset($_POST['items_name'])){
                 foreach($request->items_name as $key => $value){
@@ -423,21 +496,42 @@ class ServiceController extends Controller
                 $service->insertDetails('t_item_applications',$eventItemData);
             }
 
-            //insert intot_product_applications
+            //insert EOI and new tourism product info into t_product_applications
             $productItemData = [];
-            if(isset($_POST['type'])){
+            if(isset($_POST['product_type'])){
                 $productItemData[] = [
                         'application_no' => $application_no,
-                                 'type'  => $request->type,
-                             'location'  => $request->location,
-                            'objective'  => $request->objective,
-                          'product_des'  => $request->product_des,
-                         'project_cost'  => $request->project_cost,
-                             'timeline'  => $request->timeline,
-                         'contribution'  => $request->contribution,
+                        'product_type'=>$request->product_type,
+                        'modality'=>$request->modality,
+                        'village_id'=>$request->establishment_village_id,
+                        'activities_results'  => $request->activities_results,
+                        'product_des'  => $request->product_des,
+                        'objective'  => $request->objective,
+                        'product_des'  => $request->product_des,
+                        'project_cost'  => $request->project_cost,
+                        'start_date'  => $request->start_date,
+                        'end_date'  => $request->end_date,
+                        'contribution'  => $request->contribution,
                     ];
                 $service->insertDetails('t_product_applications',$productItemData);
             }
+
+             //insert existing product proposal  info into t_product_applications
+             $productItemData = [];
+             if(isset($_POST['product_type_id'])){
+                 $productItemData[] = [
+                         'application_no' => $application_no,
+                         'product_type_id'=>$request->product_type_id,
+                              'village_id'=>$request->establishment_village_id,
+                              'objective'  => $request->objective,
+                           'product_des'  => $request->product_des,
+                          'project_cost'  => $request->project_cost,
+                             'start_date'  => $request->start_date,
+                          'end_date'  => $request->end_date,
+                          'contribution'  => $request->contribution,
+                     ];
+                 $service->insertDetails('t_product_applications',$productItemData);
+             }
 
             //insert intot t_channel_applications
             $channelInfoData = [];
@@ -495,7 +589,7 @@ class ServiceController extends Controller
                   }
                   $service->insertDetails('t_activity_applications',$marketinActivitiesData);
               }
-            //insert into t_work_permit_applications
+            //insert into t_foreign_worker_applications
              $workpermitData = [];
              if(isset($_POST['passport_no'])){
                 foreach($request->passport_no as $key => $value){
@@ -505,10 +599,10 @@ class ServiceController extends Controller
                          'passport_no'   => $request->passport_no[$key],
                          'start_date'   => date('Y-m-d', strtotime($request->start_date[$key])),
                           'end_date'   => date('Y-m-d', strtotime($request->end_date[$key])),
-                        'country_id'   => $request->nationality[$key],
+                        'nationality'   => $request->nationality[$key],
                     ];
                 }
-                $service->insertDetails('t_work_permit_applications',$workpermitData);
+                $service->insertDetails('t_foreign_worker_applications',$workpermitData);
             }
             //update application_no in t_documents
              $documentId = $request->documentId;
@@ -580,5 +674,27 @@ class ServiceController extends Controller
           }
         });
         return redirect('application/new-application')->with('appl_info', 'Your application has been submitted successfully and your application number is :'.$application_no);
+    }
+
+    public function printRecommendationLetter($application_no,$service_id,$module_id){
+        if($service_id==1 && $module_id==1){
+            $data=Services::getLetterContent($application_no,$service_id,$module_id);
+            $find = array("number_of_rooms","accommodation_type","owner","village_name","gewog_name","dzongkhag_name","vilidation_date","submit_date","old_owner");
+            $replace  = array($data->proposed_rooms_no,$data->dropdown_name,$data->name,$data->village_name,$data->gewog_name,$data->dzongkhag_name,$data->validaty_date,$data->submit_date,$data->old_owner);
+            $arr = array($data->body);
+            $body=str_replace($find,$replace,$arr);
+            $pdf = PDF::loadView('recommendation_letter.recommendation_letter',compact('data','body'));
+            return $pdf->stream('Recommendation Letter-'.str_random(4).'.pdf');
+        }
+        else if($service_id==3 && $module_id==1){
+            $data=Services::getcertificationContent($application_no,$service_id,$module_id);
+            $pdf = PDF::loadView('certification.hotel.hotel_certification',compact('data'));
+            return $pdf->stream('certification-'.str_random(4).'.pdf');
+        }
+        else if($service_id==7 && $module_id==2){
+            $data=Services::getcertificationContent($application_no,$service_id,$module_id);
+            $pdf = PDF::loadView('certification.home_stay.home_stay_certification',compact('data'));
+            return $pdf->stream('certification-'.str_random(4).'.pdf');
+        }
     }
 }

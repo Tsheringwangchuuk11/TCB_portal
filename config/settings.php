@@ -31,6 +31,11 @@ return [
         'type3' => 'Type3',
     ],
 
+    "director_info" => [
+        'name' => 'DORJI DHRADHUL',
+        'title' => 'DIRECTOR GENERAL',
+    ],
+
    
     "eapi_users_gateway" => [
         'mbobl' => 'MBOBL',

@@ -264,16 +264,14 @@
             </div>
 		</div>
 		<div class="card-footer text-center">
-			<div class="card-footer text-center">
-                @if(is_null(auth()->user()->location_id))
-				    <button name="status" value="APPROVED" class="btn btn-success"><li class="fas fa-check"></li> APPROVE</button>
-                @else
-                    <button name="status" value="VERIFIED" class="btn btn-success"><li class="fas fa-check"></li> VERIFY</button>
-                @endif
-				<button name="status" value="RESUBMIT"  class="btn btn-warning" onclick="return requiredRemarks(this.value)"><li class="fas fa-ban"></li> RESUBMIT</button>
-				<button name="status"value="REJECTED" class="btn btn-danger" onclick="return requiredRemarks()"> <li class="fas fa-times"></li> REJECT</button>
-			</div>
-	    </div>
+			@if(is_null(auth()->user()->location_id))
+				<button name="status" value="APPROVED" class="btn btn-success"><li class="fas fa-check"></li> APPROVE</button>
+			@else
+				<button name="status" value="VERIFIED" class="btn btn-success"><li class="fas fa-check"></li> VERIFY</button>
+			@endif
+			<button name="status" value="RESUBMIT"  class="btn btn-warning" onclick="return requiredRemarks(this.value)"><li class="fas fa-ban"></li> RESUBMIT</button>
+			<button name="status"value="REJECTED" class="btn btn-danger" onclick="return requiredRemarks()"> <li class="fas fa-times"></li> REJECT</button>
+		</div>
     </div>
 </form>
 @endsection

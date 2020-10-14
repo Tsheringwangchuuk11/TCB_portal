@@ -65,7 +65,7 @@ class WorkFlowDetails extends Model
                                 ->leftJoin('t_module_masters','t_applications.module_id','=','t_module_masters.id')
                                 ->leftJoin('t_services','t_applications.service_id','=','t_services.id')
                                 ->orderBy('t_workflow_dtls.created_at', 'asc')
-                                ->select('t_workflow_dtls.application_no','t_applications.module_id','t_module_masters.module_name','t_applications.service_id','t_services.name','t_workflow_dtls.created_at','t_status_masters.id','t_status_masters.status_name','t_workflow_dtls.updated_at','t_workflow_dtls.remarks')
+                                ->select('t_workflow_dtls.application_no','t_applications.module_id','t_module_masters.module_name','t_applications.service_id','t_services.name',\DB::raw('DATE_FORMAT(t_workflow_dtls.created_at,"%d/%m/%Y") as created_at'),'t_status_masters.id','t_status_masters.status_name',\DB::raw('DATE_FORMAT(t_workflow_dtls.updated_at,"%d/%m/%Y") as updated_at'),'t_workflow_dtls.remarks')
                                 ->where('t_workflow_dtls.user_id',$userId)
                                 ->get();
         return $applicationDtls;

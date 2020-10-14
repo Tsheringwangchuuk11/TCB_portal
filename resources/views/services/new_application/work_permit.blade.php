@@ -11,53 +11,88 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-md-12">
-                    <div class="row">
-                        <div class="col-md-5">
-                            <div class="form-group">
-                                <label for="" >Recommendationn Letter Type<span class="text-danger"> *</span></label>
-                                <select class="form-control select2bs4" name="application_type_id" id="application_type_id" style="width: 100%;">
-                                    <option value="">- Select -</option>
-                                    @foreach ($recommendation_letter_types as $recommendation_letter_type)
-                                    <option value="{{$recommendation_letter_type->id}}">{{$recommendation_letter_type->dropdown_name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label for="" >Recommendationn Letter Type<span class="text-danger"> *</span></label>
+                        <select class="form-control select2bs4" name="application_type_id" id="application_type_id" style="width: 100%;">
+                            <option value="">- Select -</option>
+                            @foreach ($workpermitTypes as $workpermitType)
+                            <option value="{{$workpermitType->id}}">{{$workpermitType->dropdown_name}}</option>
+                            @endforeach
+                        </select>
                     </div>
-                    <div class="row">
-                        <div class="col-md-5">
+                </div>
+                <div class="col-md-5 offset-md-2" id="dispatchNo" style="display:none">
+                    <div class="form-group">
+                        <label for="" >Dispatch No<span class="text-danger"> *</span></label>
+                        <input type="text" class="form-control" name="dispatch_no" id="dispatch_no" onchange="getWorkPermitDetails(this.value)">
+                    </div>
+                    <div class="alert alert-danger alert-dismissible" id="alertTraineeMgsId" style="display: none">
+                        <i class="fa fa-info-circle fa-lg"></i><strong><span id="showTraineeMsg"></span> Your dispatch number is incorrect</strong>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5">
+                <div class="form-group">
+                    <label for="" >License No<span class="text-danger"> *</span></label>
+                    <input type="text" class="form-control" name="license_no" value="{{ old('license_no') }}" autocomplete="off" id="license_no">
+                </div>
+                </div>
+                <div class="col-md-5 offset-md-2">
+                    <div class="form-group">
+                        <label for="" >Comapany Name<span class="text-danger"> *</span></label>
+                        <input type="text" class="form-control" name="company_title_name" value="{{ old('company_title_name') }}" id="company_title_name" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label for="" >CID<span class="text-danger"> *</span></label>
+                        <input type="text" class="form-control" name="cid_no" value="{{ old('cid_no') }}" id="cid_no" autocomplete="off">
+                    </div>
+                </div>
+                <div class="col-md-5 offset-md-2">
+                    <div class="form-group">
+                        <label for="" >Email<span class="text-danger"> *</span></label>
+                        <input type="text" class="form-control" name="email" value="{{ old('email') }}" id="email" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            <div style="display: none" id="workerId">
+                <div class="row">
+                    <div class="col-md-5">
                         <div class="form-group">
-                            <label for="" >License No<span class="text-danger"> *</span></label>
-                            <input type="text" class="form-control" name="license_no" value="{{ old('license_no') }}" autocomplete="off">
-                        </div>
-                        </div>
-                        <div class="col-md-5 offset-md-2">
-                            <div class="form-group">
-                                <label for="" >Comapany Name<span class="text-danger"> *</span></label>
-                                <input type="text" class="form-control" name="company_title_name" value="{{ old('company_title_name') }}" autocomplete="off">
-                            </div>
-                    </div>
-                    </div>
-                    <div class="row" style="display: true" id="workerId">
-                        <div class="col-md-5">
-                            <div class="form-group">
-                                <label for="" >Total workers<span class="text-danger"> *</span></label>
-                                <input type="text" class="form-control" name="number" value="{{ old('number') }}" autocomplete="off">
-                            </div>
-                        </div>
-                        <div class="col-md-5 offset-md-2">
-                            <div class="form-group">
-                                <label for="" >Nationality<span class="text-danger"> *</span></label>
-                                <select  name="country_id" class="form-control select2bs4" style="width: 100%;">
-                                    <option value=""> -Select-</option>
-                                    @foreach ($countries as $country)
-                                    <option value="{{ $country->id }}">{{ $country->dropdown_name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                            <label for="" >Total workers<span class="text-danger"> *</span></label>
+                            <input type="text" class="form-control" name="number" value="{{ old('number') }}" id="number" autocomplete="off">
                         </div>
                     </div>
+                    <div class="col-md-5 offset-md-2">
+                        <div class="form-group">
+                            <label for="" >Nationality<span class="text-danger"> *</span></label>
+                            <select  name="country_id" id="country_id" class="form-control select2bs4" style="width: 100%;">
+                                <option value=""> -Select-</option>
+                                @foreach ($countries as $country)
+                                <option value="{{ $country->id }}">{{ $country->dropdown_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                    <div class="form-group">
+                        <label for="" >From Date<span class="text-danger"> *</span></label>
+                        <input type="date" class="form-control" name="from_date" value="{{ old('from_date') }}" id="from_date" autocomplete="off">
+                    </div>
+                    </div>
+                    <div class="col-md-5 offset-md-2">
+                        <div class="form-group">
+                            <label for="" >To Date<span class="text-danger"> *</span></label>
+                            <input type="date" class="form-control" name="to_date" value="{{ old('to_date') }}" id="to_date" autocomplete="off">
+                        </div>
+                </div>
                 </div>
             </div>
         </div>
@@ -103,18 +138,21 @@
     <div id="personalDtl" style="display:none">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title">Personal Details</h4>
+                <h4 class="card-title">Foreign worker Personal Details</h4>
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="" >Name<span class="text-danger"> *</span></label>
-                        </div>
+                    <div class="alert alert-danger alert-dismissible" id="alertPassportMgsId" style="display: none">
+                        <i class="fa fa-info-circle fa-lg"></i><strong><span id="showPassportMsg"></span> Your passport number is incorrect</strong>
                     </div>
                     <div class="col-md-2">
                         <div class="form-group">
                             <label for="" >Passport No.<span class="text-danger"> *</span></label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="" >Name<span class="text-danger"> *</span></label>
                         </div>
                     </div>
                     <div class="col-md-2">
@@ -133,31 +171,31 @@
                         </div>
                     </div>
                 </div>
-                <div id="rowId">
-                <div class="row">
+                <div id="rowId" class="parent_div">
+                <div class="row foreignworkerdtl">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <input type="text" class="form-control passport_no" name="passport_no[]" onchange="getForeignWorkerDtls(this)">
+                        </div>
+                    </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <input type="text" class="form-control" name="name[]" value="{{ old('name') }}">
+                            <input type="text" class="form-control name" name="name[]" value="{{ old('name') }}">
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="form-group">
-                            <input type="text" class="form-control" name="passport_no[]">
+                            <input type="date" name="start_date[]" class="form-control start_date">
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="form-group">
-                            <input type="date" name="start_date[]" class="form-control">
+                            <input type="date" name="end_date[]" class="form-control end_date" value="{{ old('end_date') }}">
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="form-group">
-                            <input type="date" name="end_date[]" class="form-control" value="{{ old('end_date') }}">
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <select  name="nationality[]" class="form-control" style="width: 100%;">
+                            <select  name="nationality[]" class="form-control nationality" style="width: 100%;">
                                 <option value=""> -Select-</option>
                                 @foreach ($countries as $country)
                                 <option value="{{ $country->id }}">{{ $country->dropdown_name }}</option>
@@ -207,15 +245,15 @@
 @endsection
 @section('scripts')
     <script>
+        id=1;
         $(document).ready(function () {
             $('.select2bs4').on('change', function () {
                 $(this).valid();
             });
         });
         $(document).ready(function(){ 
-            id=1;
             $("#add").click(function(){
-                $("#rowId").clone().attr('id', 'rowId'+id).after("#id").appendTo("#adddiv").find("input[type='text']").val("");
+                $("#rowId").clone().attr('id', 'rowId'+id).after("#id").appendTo("#adddiv").find("input[type='text']","input[type='date']").val("");
                 $addRow ='<span id="remove'+id+'" class="btn-group" style=" margin-top:-50px; float:right">' 
                 +'<span id="remove" onClick="removeForm('+id+')"' 
                 +'class="btn btn-danger btn-sm"><i class="fas fa-trash-alt fa-sm"></i> Delete</span></span>'
@@ -236,11 +274,26 @@
         $(document).ready(function(){
             $('#application_type_id').on('change',function(e) {
                 var application_type_id=e.target.value;
-                if(application_type_id == "38" || application_type_id == "40"){
+                if(application_type_id == "38"){
                     $("#personalDtl").hide();
+                    $("#workerId").show();
+                    $("#dispatchNo").hide();
+                }
+                else if(application_type_id == "40"){
+                    $("#personalDtl").hide();
+                    $("#workerId").show();
+                    $("#dispatchNo").show();
+                } 
+                else if(application_type_id == "41"){
+                    $("#personalDtl").show();
+                    $("#workerId").hide();
+                    $("#dispatchNo").show();
                 } 
                 else{
                     $("#personalDtl").show();
+                    $("#workerId").hide();
+                    $("#dispatchNo").hide();
+
                 } 
             });
             $('#form_data').validate({
@@ -314,6 +367,145 @@
                 }
             });
         });
+
+        function getWorkPermitDetails(dispatch_no){
+            var application_type_id=$("#application_type_id").val();
+            $.ajax({
+                        url:'/application/get-work-permit-dtls',
+                        type: "GET",
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            data: {
+                                dispatch_no: dispatch_no,
+                            },
+                        success:function(data) {
+                            console.log(data);
+                            if(data.status=='false'){
+                                $('#alertTraineeMgsId').show().delay(3000).queue(function (n) {
+                                $(this).hide();
+                                n();
+                                    });
+                                $('#dispatch_no').val('');
+                                $('#cid_no').val('');
+                                $('#license_no').val('');
+                                $('#email').val('');
+                                $('#company_title_name').val('');
+                                    if(application_type_id==40){
+                                    $('#number').val('');
+                                    $('#from_date').val('');
+                                    $('#to_date').val('');
+                                    $('#country_id  option:gt(0)').remove();
+                                    }
+                                $('#dzongkhag_id option:gt(0)').remove();
+                                $('#gewog_id option:gt(0)').remove();
+                                $('#village_id option:gt(0)').remove();
+                             }else{
+                            $('#cid_no').val(data.cid_no);
+                            $('#license_no').val(data.license_no);
+                            $('#email').val(data.email);
+                            $('#company_title_name').val(data.company_name);
+                            if(application_type_id==40){
+                                $('#number').val(data.total_worker);
+                                $('#country_id').val(data.country_id).trigger("change");
+                            }
+                            $('#dzongkhag_id').val(data.dzongkhag_id).trigger("change");
+                            getGewogDropDown(data.dzongkhag_id,data.gewog_id,data.village_id);
+                        }
+                    }
+                });
+        }
+
+        function getForeignWorkerDtls(this_id){
+            var application_type_id=$("#application_type_id").val();
+            var passport_no=$(this_id).val();
+            var parentdivId = $(this_id).parents("div.parent_div").attr('id');
+            curRow = $('#'+parentdivId).find('div.foreignworkerdtl');
+             if(application_type_id==41){
+            $.ajax({
+                        url:'/application/get-foreign-worker-dtls',
+                        type: "GET",
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            data: {
+                                passport_no: passport_no,
+                            },
+                        success:function(data) {
+                            console.log(data);
+                            if(data.status=='false'){
+                                $('#alertPassportMgsId').show().delay(3000).queue(function (n) {
+                                $(this).hide();
+                                n();
+                                });
+                            curRow.find('.passport_no').val('');
+                            curRow.find('.name').val('');
+                            curRow.find('.start_date').val('');
+                            curRow.find('.end_date').val('');
+                            curRow.find('.nationality option:gt(0)').remove();
+                             }else{
+                            curRow.find('.name').val(data.name);
+                            curRow.find('.start_date').val(data.start_date);
+                            curRow.find('.nationality').val(data.nationality).trigger("change");
+
+                        }
+                    }
+                });
+            } 
+        }
+
+        function getGewogDropDown(dzongkhag_id,gewog_id,village_id){
+            if(dzongkhag_id){
+            $("#gewog_id option:gt(0)").remove();	
+         $.ajax({			   
+                  url:'/json-dropdown',
+                  type:"GET",
+                  data: {
+                     table_name: 't_gewog_masters',
+                           id: 'id',
+                           name: 'gewog_name',
+                     parent_id: dzongkhag_id,
+               parent_name_id: 'dzongkhag_id'					 
+            },
+            success:function (data) {
+            $.each(data, function(key, value) {
+                   $('select[name="gewog_id"]').append('<option value="'+ key +'">'+ value +'</option>');
+               });
+               $('#gewog_id').val(gewog_id).trigger("change");
+               getvillageDroDown(gewog_id,village_id);                  
+             }
+         });
+
+        }else{
+         $("#gewog_id option:gt(0)").remove();	
+         $("#village_id option:gt(0)").remove();
+        }
+        }
+
+        function getvillageDroDown(gewog_id,villageId){
+        if(gewog_id){
+         $("#village_id option:gt(0)").remove();	
+         $.ajax({			   
+                  url:'/json-dropdown',
+                  type:"GET",
+                  data: {
+                     table_name: 't_village_masters',
+                           id: 'id',
+                           name: 'village_name',
+                     parent_id: gewog_id,
+               parent_name_id: 'gewog_id'					 
+            },
+            success:function (data) {
+            $.each(data, function(key, value) {
+                  $('select[name="establishment_village_id"]').append('<option value="'+ key +'">'+ value +'</option>');
+               });
+               $('#village_id').val(villageId).trigger("change");
+            }
+         });
+        }else{
+         $("#village_id option:gt(0)").remove();	
+      }
+    }
     </script>
 @endsection
 

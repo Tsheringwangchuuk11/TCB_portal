@@ -22,6 +22,8 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <!-- Jquery fileupload -->
     <link href="{{ asset('fileupload/jquery.fileupload.css') }}" rel="stylesheet" type="text/css">
+     <!-- DataTables -->
+     <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
     <style>
         .show > .dropdown-menu {
             /* left: 50%; */
@@ -118,9 +120,11 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item px-2"><a href="{{ url('about_us') }}" class="nav-link  text-white">ABOUT US</a>
                     </li>
-                <li class="nav-item px-2"><a href="{{ url('report/public-report') }}" class="nav-link  text-white">REPORTS</a>
+                    <li class="nav-item px-2"><a href="{{ url('report/public-report') }}" class="nav-link  text-white">REPORTS</a>
                     </li>
                     <li class="nav-item px-2"><a href="{{ url('contact_us') }}" class="nav-link  text-white">CONTACT</a>
+                    </li>
+                    <li class="nav-item px-2"><a href="{{ url('training-registration') }}" class="nav-link  text-white">TRAINING REGISTRATION</a>
                     </li>
                 </ul>
             </div>
@@ -182,6 +186,11 @@
 <!-- jquery-validation -->
 <script src="{{ asset('plugins/jquery-validation/jquery.validate.min.js') }}"></script>
 <script src="{{ asset('plugins/jquery-validation/additional-methods.min.js') }}"></script>
+{{-- data tables --}}
+<script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script>
+<!-- CommonUtil -->
+<script src="{{ asset('js/commonUtil.js') }}"></script>
 <!-- high charts -->
 <script src="{{ asset('plugins/highcharts/highcharts.js') }}"></script>
 <script src="{{ asset('plugins/highcharts/exporting.js') }}"></script>
