@@ -69,7 +69,12 @@ class TrainingRegistration extends Model
     
     public static function getCourseDtlsToEdit($id){
         $query=DB::table('t_course_dtls as t1')
-                  ->select('t1.*')
+                  ->select('t1.*',
+                            DB::raw('DATE_FORMAT(t1.course_start_date,"%d/%m/%Y") as course_start_date'), 
+                            DB::raw('DATE_FORMAT(t1.course_end_date,"%d/%m/%Y") as course_end_date'),
+                            DB::raw('DATE_FORMAT(t1.app_start_date,"%d/%m/%Y") as app_start_date'), 
+                            DB::raw('DATE_FORMAT(t1.app_end_date,"%d/%m/%Y") as app_end_date')
+                            )
                   ->where('t1.id',$id)
                   ->first();
         return $query;

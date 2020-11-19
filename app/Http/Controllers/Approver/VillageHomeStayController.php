@@ -9,6 +9,9 @@ use App\Models\WorkFlowDetails;
 use App\Models\Dropdown;
 use App\Models\TaskDetails;
 use App\Models\TCheckListChapter;
+use Illuminate\Support\Facades\Notification;
+use Carbon\Carbon;
+use App\Notifications\EndUserNotification;
 class VillageHomeStayController extends Controller
 {
 
@@ -156,6 +159,12 @@ class VillageHomeStayController extends Controller
            $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
            $updateworkflow=TaskDetails::where('application_no',$request->application_no)
                                    ->update(['status_id' => $completedId->id]);
+        //Email send notifications
+        if ($request->email) {
+            $when = Carbon::now()->addMinutes(1);
+            Notification::route('mail', $request->email) 
+            ->notify((new EndUserNotification($request->email, $request->owner_name, $request->application_no, 'Approved',$request->service_name))->delay($when));
+        }
     });
     return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
 
@@ -169,6 +178,12 @@ class VillageHomeStayController extends Controller
         $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
         $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
                                 ->update(['status_id' => $completedId->id]);
+        //Email send notifications
+        if ($request->email) {
+            $when = Carbon::now()->addMinutes(1);
+            Notification::route('mail', $request->email) 
+            ->notify((new EndUserNotification($request->email, $request->owner_name, $request->application_no, 'Resubmit',$request->service_name))->delay($when));
+        }
         return redirect('tasklist/tasklist')->with('msg_success', 'Application resend successfully');
     }
     else{
@@ -182,6 +197,12 @@ class VillageHomeStayController extends Controller
         $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
         $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
                                 ->update(['status_id' => $completedId->id]);
+        //Email send notifications
+        if ($request->email) {
+            $when = Carbon::now()->addMinutes(1);
+            Notification::route('mail', $request->email) 
+            ->notify((new EndUserNotification($request->email, $request->owner_name, $request->application_no, 'Rejected',$request->service_name))->delay($when));
+        }
         return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
         }
     }
@@ -211,6 +232,12 @@ class VillageHomeStayController extends Controller
             $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
             $updateworkflow=TaskDetails::where('application_no',$request->application_no)
                                     ->update(['status_id' => $completedId->id]); 
+            //Email send notifications
+            if ($request->email) {
+                $when = Carbon::now()->addMinutes(1);
+                Notification::route('mail', $request->email) 
+                ->notify((new EndUserNotification($request->email, $request->owner_name, $request->application_no, 'Approved',$request->service_name))->delay($when));
+            }
        });
        return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
        }
@@ -224,6 +251,12 @@ class VillageHomeStayController extends Controller
         $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
         $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
                                 ->update(['status_id' => $completedId->id]);
+        //Email send notifications
+        if ($request->email) {
+            $when = Carbon::now()->addMinutes(1);
+            Notification::route('mail', $request->email) 
+            ->notify((new EndUserNotification($request->email, $request->owner_name, $request->application_no, 'Resubmit',$request->service_name))->delay($when));
+        }
         return redirect('tasklist/tasklist')->with('msg_success', 'Application resend successfully');
     }
     else{
@@ -237,9 +270,13 @@ class VillageHomeStayController extends Controller
         $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
         $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
                                 ->update(['status_id' => $completedId->id]);
+        //Email send notifications
+        if ($request->email) {
+            $when = Carbon::now()->addMinutes(1);
+            Notification::route('mail', $request->email) 
+            ->notify((new EndUserNotification($request->email, $request->owner_name, $request->application_no, 'Rejected',$request->service_name))->delay($when));
+        }
         return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
         }
-
-        
      }
 }

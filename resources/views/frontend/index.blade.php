@@ -1,11 +1,27 @@
 @extends('frontend/layouts/template')
 @section('content')
+<style>
+    #mapcontainer {
+    height: 500px; 
+    width: 800px; 
+    margin: 0 auto; 
+    }
+    .loading {
+    margin-top: 10em;
+    text-align: center;
+    color: gray;
+    }
+    .highcharts-credits {
+    display: none !important;
+    }
+</style>
     <div class="col-8 offset-md-2 d-flex justify-content-center pt-3">
         <h2 class="text-warning">KEY HIGHLIGHTS</h2>
     </div>
     <div class="container">
         <div class="row d-flex justify-content-center pt-2">
-            <div class="col-md-4">
+            <div id="mapcontainer"></div>
+            {{-- <div class="col-md-4">
                 <div class="card">
                     <div class="card-body">
                         <div class="text-center text-bold">
@@ -44,9 +60,8 @@
                         </small>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
-
         <div class="row d-flex justify-content-center mb-3 pt-4">
             <div class="col-md-4">
                 <div class="card">
@@ -105,7 +120,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-body">
@@ -160,8 +174,29 @@
                 </div>
             </div>
         </div>
+        <div class="row d-flex justify-content-center pt-2">
+            <div class="col-12 col-sm-6 col-md-4">
+              <div class="info-box mb-4">
+                <span class="info-box-icon bg-success elevation-1"><i class="fas fa-users"></i></span>
+                <div class="info-box-content">
+                  <span class="info-box-text text-bold ">OUTBOUND TOURISM 2020</span>
+                  <span class="info-box-number">Total: 760</span>
+                  <a href="{{ url('report/public-report') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4">
+              <div class="info-box mb-4">
+                <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
+                <div class="info-box-content">
+                  <span class="info-box-text text-bold">DOMESTIC TOURISM 2020</span>
+                  <span class="info-box-number">Total: 2,000</span>
+                  <a href="{{ url('report/public-report') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
+            </div>
+        </div>
     </div>
-
     <div class="container">
             <div class="col-md-12">
                 <div class="card">
@@ -173,7 +208,7 @@
                                 <div class="info-box elevation-0">
                                     <div class="info-box-content">
                                         <span class="bg-white elevation-0"><i class="fas fa-2x fa-bed text-olive"></i></span>
-                                        <span class="info-box-text">Tourist Standard Hotel</span>
+                                    <span class="info-box-text"><a href="{{ url('application/new-application') }}" class="text-reset">Tourist Standard Hotel</a></span>
                                     </div>
                                 </div>
                             </div>
@@ -181,7 +216,7 @@
                                 <div class="info-box elevation-0">
                                     <div class="info-box-content">
                                         <span class="bg-white elevation-0"><i class="fas fa-2x fa-home text-olive"></i></span>
-                                        <span class="info-box-text">Village Home Stay</span>
+                                        <span class="info-box-text"><a href="{{ url('application/new-application') }}" class="text-reset">Village Home Stay </a></span>
                                     </div>
                                 </div>
                             </div>
@@ -189,7 +224,7 @@
                                 <div class="info-box elevation-0">
                                     <div class="info-box-content">
                                         <span class="bg-white elevation-0"><i class="fas fa-2x fa-utensils text-olive"></i></span>
-                                        <span class="info-box-text">Restaurant</span>
+                                        <span class="info-box-text"><a href="{{ url('application/new-application') }}" class="text-reset">Restaurant</a></span>
                                     </div>
                                 </div>
                             </div>
@@ -198,7 +233,7 @@
                                 <div class="info-box elevation-0">
                                     <div class="info-box-content">
                                         <span class="bg-white elevation-0"><i class="fas fa-2x fa-address-card text-olive"></i></span>
-                                        <span class="info-box-text">Tour Operator</span>
+                                        <span class="info-box-text"><a href="{{ url('application/new-application') }}" class="text-reset">Tour Operator</a></span>
                                     </div>
                                 </div>
                             </div>
@@ -206,7 +241,7 @@
                                 <div class="info-box elevation-0">
                                     <div class="info-box-content">
                                         <span class="bg-white elevation-0"><i class="fas fa-2x fa-calendar-check text-olive"></i></span>
-                                        <span class="info-box-text">Tourism Product</span>
+                                        <span class="info-box-text"><a href="{{ url('application/new-application') }}" class="text-reset">Tourism Product</a></span>
                                     </div>
                                 </div>
                             </div>
@@ -214,7 +249,7 @@
                                 <div class="info-box elevation-0">
                                     <div class="info-box-content">
                                         <span class="bg-white elevation-0"><i class="fas fa-2x fa-balance-scale-right text-olive"></i></span>
-                                        <span class="info-box-text">Grievance Redressal</span>
+                                        <span class="info-box-text"><a href="{{ url('application/new-application') }}" class="text-reset">Grievance Redressal</a></span>
                                     </div>
                                 </div>
                             </div>
@@ -226,7 +261,6 @@
                 </div>
             </div>
     </div>
-
     <div class="container-fluid bg-light">
         <div class="text-center h2 p-3 font-weight-bold"> OTHER SERVICES
         </div>
@@ -275,4 +309,240 @@
             </div>
         </div>
     </div>
+<!-- high maps -->
+<script src="{{ asset('plugins/highcharts/highmaps.js') }}"></script> 
+<script src="{{ asset('plugins/highcharts/world.js') }}"></script> 
+<script>
+    data=[
+	{
+		"name": "Afghanistan",
+		"value": 53,
+	},
+    {
+		"name": "Bhutan",
+		"value": 53,
+	},
+    {
+		"name": "Australia",
+		"value": 6,
+	},
+	{
+		"name": "Bangladesh",
+		"value": 1251,
+	},
+	
+	{
+		"name": "Bhutan",
+		"value": 20,
+	},
+	{
+		"name": "Canada",
+		"value": 3,
+	},
+	{
+		"name": "Switzerland",
+		"value": 211,
+	},
+	{
+		"name": "China",
+		"value": 146,
+	},
+	{
+		"name": "Congo, Rep.",
+		"value": 15,
+	},
+
+	{
+		"name": "Germany",
+		"value": 236,
+	},
+	
+	{
+		"name": "Denmark",
+		"value": 135,
+	},
+	{
+		"name": "United Kingdom",
+		"value": 271,
+	},
+	{
+		"name": "Hong Kong SAR, China",
+		"value": 6987,
+	},
+	
+	{
+		"name": "Indonesia",
+		"value": 144,
+	},
+	{
+		"name": "India",
+		"value": 445,
+	},
+
+	{
+		"name": "Italy",
+		"value": 206,
+	},
+	{
+		"name": "Jamaica",
+		"value": 266,
+	},
+	{
+		"name": "Jordan",
+		"value": 106,
+	},
+	{
+		"name": "Japan",
+		"value": 348,
+	},
+	{
+		"name": "Kazakhstan",
+		"value": 6,
+	},
+	{
+		"name": "Kenya",
+		"value": 85,
+	},
+	{
+		"name": "Kyrgyz Republic",
+		"value": 31,
+	},
+	{
+		"name": "Cambodia",
+		"value": 89,
+	},
+	{
+		"name": "Korea, Rep.",
+		"value": 525,
+	},
+	{
+		"name": "Kuwait",
+		"value": 227,
+	},
+	{
+		"name": "Sri Lanka",
+		"value": 338,
+	},
+
+	{
+		"name": "Macao SAR, China",
+		"value": 20405,
+	},
+	{
+		"name": "Maldives",
+		"value": 1425,
+	},
+	{
+		"name": "Mexico",
+		"value": 65,
+	},
+	
+	{
+		"name": "Malaysia",
+		"value": 94,
+	},
+	{
+		"name": "Netherlands",
+		"value": 505,
+	},
+	{
+		"name": "Norway",
+		"value": 14,
+	},
+	{
+		"name": "Nepal",
+		"value": 202,
+	},
+	{
+		"name": "New Zealand",
+		"value": 17,
+	},
+	{
+		"name": "Pakistan",
+		"value": 250,
+	},
+	{
+		"name": "Philippines",
+		"value": 346,
+	},
+	{
+		"name": "Korea, Dem. People’s Rep.",
+		"value": 210,
+	},
+	{
+		"name": "Qatar",
+		"value": 221,
+	},
+	{
+		"name": "Singapore",
+		"value": 7908,
+	},
+	{
+		"name": "Sweden",
+		"value": 24,
+	},
+	{
+		"name": "Swaziland",
+		"value": 78,
+	},
+	{
+		"name": "Thailand",
+		"value": 134,
+	},
+
+	{
+		"name": "United States",
+		"value": 35,
+	},
+]
+// Prevent logarithmic errors in color calulcation
+total=2000;
+ data.forEach(function (p) {
+  p.value = (p.value < 1 ? 1 : p.value);
+}); 
+// Initiate the chart
+Highcharts.mapChart('mapcontainer', {
+title: {
+    text: ' INBOUND TOURISM 2020'
+  },
+  legend: {
+    title: {
+      text: 'Total Visitors :' + total,
+      style: {
+        color: ( // theme
+          Highcharts.defaultOptions &&
+          Highcharts.defaultOptions.legend &&
+          Highcharts.defaultOptions.legend.title &&
+          Highcharts.defaultOptions.legend.title.style &&
+          Highcharts.defaultOptions.legend.title.style.color
+        ) || 'black'
+      }
+    }
+  },
+mapNavigation: {
+    enabled: true,
+    buttonOptions: {
+        verticalAlign: 'bottom'
+    }
+},
+colorAxis: {
+    min: 1,
+    max: 1000,
+    type: 'logarithmic'
+},
+series: [{
+    data: data,
+    mapData: Highcharts.maps['custom/world'],
+    joinBy: ['name', 'name'],
+    name: 'Total Tourist',
+    borderColor: 'black',
+    borderWidth: 0.2,
+    states: {
+        hover: {
+            borderWidth: 1
+        }
+    },
+    }]
+});
+</script>
 @endsection

@@ -5,6 +5,8 @@
     @csrf
     <input type="hidden" class="form-control" name="module_id" value="{{ $applicantInfo->module_id }}">
     <input type="hidden" class="form-control" name="service_id" value="{{ $applicantInfo->service_id }}">
+    <input type="hidden" class="form-control" name="service_name" value="{{ $applicantInfo->name }}">
+    <input type="hidden" name="application_type_id" value="{{ $applicantInfo->application_type_id }}" id="application_type_id">
     <div class="card">
         <div class="card-header">
              <h4 class="card-title">Personal Information</h4>
@@ -27,14 +29,19 @@
             <div class="row">
                 <div class="col-md-5">
                   <div class="form-group">
-                    <label for="">CID No <span class="text-danger"> *</span></label>
+                    <label for="">Citizen ID <span class="text-danger"> *</span></label>
                     <input type="text" class="form-control" name="cid_no" value="{{ $applicantInfo->cid_no }}">
                   </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
                     <div class="form-group">
                       <label for="">DOB <span class="text-danger"> *</span></label>
-                      <input type="date" class="form-control" name="dob" value="{{ $applicantInfo->dob }}">
+                      <div class="input-group date" id="dob" data-target-input="nearest">
+                        <input type="text" name="dob" class="form-control datetimepicker-input" data-target="#dob" value="{{ $applicantInfo->dob}}">
+                        <div class="input-group-append" data-target="#dob" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                    </div>
                     </div>
                   </div>
               </div>
@@ -91,7 +98,7 @@
               </div>
         </div>
     </div>
-@if ($partnerInfo)
+@if(is_null($partnerInfo))
     <div class="card">
         <div class="card-header">
              <h4 class="card-title">Partner’s General Information (In case of partnership)</h4>
@@ -106,7 +113,7 @@
                 </div>
                 <div class="col-md-5 offset-md-2">
                   <div class="form-group">
-                    <label for="">CID No.<span class="text-danger"> *</span></label>
+                    <label for="">Citizen ID<span class="text-danger"> *</span></label>
                     <input type="text" class="form-control" name="partner_cid_no" value="{{ $partnerInfo->partner_cid_no }}">
                   </div>
                 </div>
@@ -115,7 +122,12 @@
                 <div class="col-md-5">
                   <div class="form-group">
                     <label for="">DOB<span class="text-danger"> *</span></label>
-                    <input type="date" class="form-control" name="partner_dob" value="{{ $partnerInfo->partner_dob }}">
+                    <div class="input-group date" id="partner_dob" data-target-input="nearest">
+                      <input type="text" name="partner_dob" class="form-control datetimepicker-input" data-target="#partner_dob" value="{{ $partnerInfo->partner_dob}}">
+                      <div class="input-group-append" data-target="#partner_dob" data-toggle="datetimepicker">
+                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                      </div>
+                  </div>
                   </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
@@ -258,7 +270,7 @@
                   </div>
                   <div class="form-group col-md-5 offset-md-2">
                       <label for="">Reference No<span class="text-danger">*</span> </label>
-                      <input type="date" class="form-control" name="reference_no">
+                      <input type="text" class="form-control" name="reference_no">
                   </div>
               </div>
       </div>
@@ -273,6 +285,14 @@
 @endsection
 @section('scripts')
 	<script>
+    $(document).ready(function(){
+    $('#dob').datetimepicker({
+        format: 'DD/MM/YYYY',
+    });
+    $('#partner_dob').datetimepicker({
+        format: 'DD/MM/YYYY',
+    });
+});
 		function requiredRemarks(status) {
 			$("#remarks_error").html('');
 			if($("#remarks").val() ==""){

@@ -5,6 +5,8 @@
 @csrf
 <input type="hidden" class="form-control" name="module_id" value="{{ $applicantInfo->module_id }}">
 <input type="hidden" class="form-control" name="service_id" value="{{ $applicantInfo->service_id }}">
+<input type="hidden" class="form-control" name="service_name" value="{{ $applicantInfo->name }}">
+
 <div class="card">
     <div class="card-header">
         <h4 class="card-title">Proponent Details</h4>
@@ -18,7 +20,7 @@
                     <input type="text" class="form-control" name="application_no" value="{{$applicantInfo->application_no}}" readonly="true">
                     </div>
                     <div class="form-group col-md-5 offset-md-2">
-                        <label for="">CID<span class="text-danger">*</span> </label>
+                        <label for="">Citizen ID<span class="text-danger">*</span> </label>
                     <input type="text" class="form-control" name="cid_no" value="{{$applicantInfo->cid_no}}" autocomplete="off">
                     </div>
                 </div>
@@ -85,13 +87,24 @@
             </div>
             <div class="form-group col-md-5 offset-md-2">
                 <label for="">Start Date<span class="text-danger">*</span></label>
-                <input type="date" class="form-control" name="start_date" value="{{$productInfo->start_date}}" autocomplete="off">  
+                <div class="input-group date" id="start_date" data-target-input="nearest">
+                    <input type="text" name="start_date" class="form-control datetimepicker-input" data-target="#start_date" value="{{ $productInfo->start_date }}">
+                    <div class="input-group-append" data-target="#start_date" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-5">
                 <label for="">End Date<span class="text-danger">*</span></label>
                 <input type="date" class="form-control" name="end_date" value="{{$productInfo->end_date}}" autocomplete="off">  
+                <div class="input-group date" id="end_date" data-target-input="nearest">
+                    <input type="text" name="end_date" class="form-control datetimepicker-input" data-target="#end_date" value="{{ $productInfo->end_date }}">
+                    <div class="input-group-append" data-target="#end_date" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
             </div>
             <div class="form-group col-md-5 offset-md-2">
                 <label for="">Contribution to tourism industry<span class="text-danger">*</span></label>
@@ -166,6 +179,14 @@
 @endsection
 @section('scripts')
 <script>
+    $(document).ready(function(){
+        $('#start_date').datetimepicker({
+            format: 'DD/MM/YYYY',
+        });
+        $('#end_date').datetimepicker({
+            format: 'DD/MM/YYYY',
+        });
+    });
     function requiredRemarks(status) {
 			$("#remarks_error").html('');
 			if($("#remarks").val() ==""){

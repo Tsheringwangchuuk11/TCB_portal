@@ -5,6 +5,8 @@
     @csrf
     <input type="hidden" class="form-control" name="module_id" value="{{ $applicantInfo->module_id }}">
     <input type="hidden" class="form-control" name="service_id" value="{{ $applicantInfo->service_id }}">
+    <input type="hidden" class="form-control" name="service_name" value="{{ $applicantInfo->name }}">
+
 <div class="card">
     <div class="card-header">
         <h4 class="card-title">General Information</h4>
@@ -59,7 +61,7 @@
                             <input type="text" class="form-control" name="owner_name" value="{{ $applicantInfo->owner_name }}">
                         </div>
                         <div class="form-group col-md-5 offset-md-2">
-                            <label for="">CID No. </label>
+                            <label for="">Citizen ID</label>
                             <input type="text" class="form-control" name="cid_no" value="{{ $applicantInfo->cid_no }}">
                         </div>
                     </div>

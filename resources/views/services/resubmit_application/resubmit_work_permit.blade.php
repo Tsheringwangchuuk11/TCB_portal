@@ -49,7 +49,7 @@
                     <div class="row">
                         <div class="col-md-5">
                         <div class="form-group">
-                            <label for="" >CID<span class="text-danger"> *</span></label>
+                            <label for="" >Citizen ID<span class="text-danger"> *</span></label>
                             <input type="text" class="form-control" name="cid_no" value="{{ $applicantInfo->cid_no}}" autocomplete="off">
                         </div>
                         </div>
@@ -84,13 +84,23 @@
                             <div class="col-md-5">
                             <div class="form-group">
                                 <label for="" >From Date<span class="text-danger"> *</span></label>
-                                <input type="date" class="form-control" name="from_date" value="{{ old('from_date',$applicantInfo->from_date) }}" autocomplete="off">
+                                <div class="input-group date" id="from_date" data-target-input="nearest">
+                                    <input type="text" name="from_date" class="form-control datetimepicker-input" data-target="#from_date" value="{{ $applicantInfo->from_date}}">
+                                    <div class="input-group-append" data-target="#from_date" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div> 
                             </div>
                             </div>
                             <div class="col-md-5 offset-md-2">
                                 <div class="form-group">
                                     <label for="" >To Date<span class="text-danger"> *</span></label>
-                                    <input type="date" class="form-control" name="to_date" value="{{ old('to_date',$applicantInfo->to_date) }}" autocomplete="off">
+                                    <div class="input-group date" id="to_date" data-target-input="nearest">
+                                        <input type="text" name="to_date" class="form-control datetimepicker-input" data-target="#to_date" value="{{ $applicantInfo->to_date}}">
+                                        <div class="input-group-append" data-target="#from_date" data-toggle="datetimepicker">
+                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                        </div>
+                                    </div> 
                                 </div>
                         </div>
                         </div>
@@ -285,6 +295,14 @@
 @endsection
 @section('scripts')
     <script>
+        $(document).ready(function(){
+            $('#from_date').datetimepicker({
+                format: 'DD/MM/YYYY',
+            });
+            $('#to_date').datetimepicker({
+                format: 'DD/MM/YYYY',
+            });
+        });
         id=1;
                 function addMoreWorker(this_id){
                     var parentdivId = $(this_id).parents("div.parent_div").attr('id');

@@ -28,7 +28,7 @@
             </div>
         </div>
     @endif
-    <div class="col-md-8">
+    <div class="col-md-10">
     @if ($status==9 || $status==10)
         @if ($documentInfos->count() > 0)
             @foreach ($documentInfos as $documentInfo)

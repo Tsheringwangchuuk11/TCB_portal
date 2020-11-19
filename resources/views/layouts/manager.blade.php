@@ -8,7 +8,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>@yield('title')</title>
-
+        <link rel="shortcut icon" href="{{ URL::to('img/favicon.png') }}">
 
 		<!-- Styles -->
             <!-- Font Awesome Icons -->

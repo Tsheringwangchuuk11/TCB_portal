@@ -9,6 +9,10 @@ use App\Models\WorkFlowDetails;
 use App\Models\Dropdown;
 use App\Models\TaskDetails;
 use App\Models\TCheckListChapter;
+use Illuminate\Support\Facades\Notification;
+use Carbon\Carbon;
+use App\Notifications\EndUserNotification;
+
 class RestaurantController extends Controller
 {
     public function getApplicationDetails($applicationNo,$status=null){
@@ -137,6 +141,12 @@ class RestaurantController extends Controller
             $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
             $updateworkflow=TaskDetails::where('application_no',$request->application_no)
                                     ->update(['status_id' => $completedId->id]); 
+            //Email send notifications
+            if ($request->email) {
+                $when = Carbon::now()->addMinutes(1);
+                Notification::route('mail', $request->email) //Sending mail to trainer
+                ->notify((new EndUserNotification($request->email, $request->owner_name, $request->application_no, 'Approved',$request->service_name))->delay($when));
+            }
             });
             return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
         }
@@ -150,6 +160,12 @@ class RestaurantController extends Controller
             $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
             $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
                                     ->update(['status_id' => $completedId->id]);
+            //Email send notifications
+            if ($request->email) {
+                $when = Carbon::now()->addMinutes(1);
+                Notification::route('mail', $request->email) //Sending mail to trainer
+                ->notify((new EndUserNotification($request->email, $request->owner_name, $$request->application_no, 'Resubmit',$request->service_name))->delay($when));
+            }
             return redirect('tasklist/tasklist')->with('msg_success', 'Application resend successfully');
         }
         else{
@@ -163,6 +179,12 @@ class RestaurantController extends Controller
             $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
             $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
                                     ->update(['status_id' => $completedId->id]);
+            //Email send notifications
+            if ($request->email) {
+                $when = Carbon::now()->addMinutes(1);
+                Notification::route('mail', $request->email) //Sending mail to trainer
+                ->notify((new EndUserNotification($request->email, $request->owner_name, $$request->application_no, 'Rejected',$request->service_name))->delay($when));
+            }
             return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
             }
         }
@@ -207,6 +229,12 @@ class RestaurantController extends Controller
             $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
             $updateworkflow=TaskDetails::where('application_no',$request->application_no)
                                     ->update(['status_id' => $completedId->id]); 
+            //Email send notifications
+            if ($request->email) {
+                $when = Carbon::now()->addMinutes(1);
+                Notification::route('mail', $request->email) //Sending mail to trainer
+                ->notify((new EndUserNotification($request->email, $request->owner_name, $request->application_no, 'Approved',$request->service_name))->delay($when));
+            }
        });
        return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
        }
@@ -220,6 +248,13 @@ class RestaurantController extends Controller
         $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
         $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
                                 ->update(['status_id' => $completedId->id]);
+
+        //Email send notifications
+        if ($request->email) {
+            $when = Carbon::now()->addMinutes(1);
+            Notification::route('mail', $request->email) //Sending mail to trainer
+            ->notify((new EndUserNotification($request->email, $request->owner_name, $request->application_no, 'Resubmit',$request->service_name))->delay($when));
+        }
         return redirect('tasklist/tasklist')->with('msg_success', 'Application resend successfully');
     }
     else{
@@ -233,9 +268,15 @@ class RestaurantController extends Controller
         $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
         $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
                                 ->update(['status_id' => $completedId->id]);
+
+        //Email send notifications
+        if ($request->email) {
+            $when = Carbon::now()->addMinutes(1);
+            Notification::route('mail', $request->email) //Sending mail to trainer
+            ->notify((new EndUserNotification($request->email, $request->owner_name, $request->application_no, 'Reject',$request->service_name))->delay($when));
+        }
         return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
         }
-
     }
        
 }

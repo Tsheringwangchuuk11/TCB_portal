@@ -3,7 +3,7 @@
 @section('buttons')
 <div class="card-tools pull-right">
     <a href="{{	url('report/assessment-reports/'.$application->application_no.'/'.$application->module_id.'?print=pdf&'. Request::getQueryString()) }}" class="btn btn-sm btn-danger btn-flat" target="_blank"><i class="fa fa-print"></i> Print PDF</a>    
-    <a href="{{	url('report/assessment-reports/'.$application->application_no.'?print=excel&'. Request::getQueryString()) }}" class="btn btn-sm btn-success btn-flat" target="_blank"><i class="fa fa-file-excel"></i></i> Export to Excel</a>    
+    <a href="{{	url('report/assessment-reports/'.$application->application_no.'/'.$application->module_id.'?print=excel&'. Request::getQueryString()) }}" class="btn btn-sm btn-success btn-flat" target="_blank"><i class="fa fa-file-excel"></i></i> Export to Excel</a>    
     <a href="{{url('report/assessment-reports')}}" class="btn bg-olive btn-sm btn-flat"><i class="fa fa-reply"></i> Back</a>
 </div>
 @endsection
@@ -139,12 +139,12 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            {{$familyDetail->relation_type}}
+                            {{$familyDetail->dropdown_name}}
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            {{$familyDetail->member_age}}
+                            {{$familyDetail->member_dob}}
                         </div>
                     </div> 
                     <div class="col-md-3">

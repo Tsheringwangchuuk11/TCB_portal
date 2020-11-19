@@ -1,34 +1,11 @@
 @extends('layouts.pdf')
 @section('title', 'Village Home Stay Assessment')
 @section('extra_styles')
-<style>
-    table,th,td {
-        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-        /* border-collapse: collapse; */
-        width: 100%;
-        border: 1px solid black;
-
-    }
-   
-    #container {
-        padding-top: 20px;
-        padding-bottom: 20px;
-    }   
-
-    hr {
-        color: #ddd;
-    } 
-    .page-break {
-    page-break-after: always;
-} 
- 
-</style>
 @endsection
 @section('content')
-    <p class="print-title text-center">Hotel Assessment</p>
+    <h4>Village Home Stay Assessment</h4>
     <hr>	
-    <div id="container">
-        <h6 class="text-center">Applicants Detail</h6> 
+        <h4>Applicants Detail</h4> 
         <table>            
             <tr>  
                 <td width="50%">
@@ -42,7 +19,7 @@
                             <td width="50%">: {{ $application->applicant_name }}</td>
                         </tr>
                         <tr>
-                            <th width="50%">CID No</th>                            
+                            <th width="50%">Citizen ID</th>                            
                             <td class="text-left">: {{  $application->cid_no }}</td>                            
                         </tr>
                         <tr>
@@ -61,14 +38,15 @@
                             <th width="50%">Gewog</th>                            
                             <td class="text-left">: {{  $application->gewog_name }}</td>                            
                         </tr>
+                        <tr>
+                            <th width="30%">Chiwog  </th>
+                            <td width="70%">: {{ $application->chiwog_name }}</td>
+                        </tr>
                     </table>
                 </td>
                 <td width="50%">
                     <table>
-                        <tr>
-                            <th width="50%">Chiwog  </th>
-                            <td width="50%">: {{ $application->chiwog_name }}</td>
-                        </tr>
+                        
                         <tr>
                             <th width="50%">Village :</th>
                             <td width="50%">: {{ $application->village_name}}</td>
@@ -98,11 +76,11 @@
             </tr>
         </table>
         <hr>
-        <h6 class="text-center">Details Of The Family Members Residing In The Same House</h6> 
+        <h4>Details Of The Family Members Residing In The Same House</h4> 
         <table>
             <tr>
             <td width="100%">
-                <table  border='1'>
+                <table>
                     <tr>
                         <th width="25%">Name</th>
                         <th width="25%">Relationship with the applicant</th>
@@ -112,8 +90,8 @@
                     @foreach ($familyDetails as $familyDetail)
                     <tr>
                         <td width="25%">{{$familyDetail->member_name}}</td>
-                        <td width="25%">{{$familyDetail->relation_type}}</td>
-                        <td width="25%">{{$familyDetail->member_age}}</td>
+                        <td width="25%">{{$familyDetail->dropdown_name}}</td>
+                        <td width="25%">{{$familyDetail->member_dob}}</td>
                         @if ($familyDetail->member_gender==='M')
                         <td width="25%">Male</td>
                     @else
@@ -128,8 +106,8 @@
     <hr>
     @if ($data->count() > 0)    
     @foreach ($data as $chapter)
-    <h6 class="text-center">{{$chapter->checklist_ch_name}}</h6> 
-        <table border='1'>
+    <h4>{{$chapter->checklist_ch_name}}</h4> 
+        <table class="main">
         <thead>
             <tr>
                 <th>Area</th>
@@ -147,9 +125,7 @@
                             $standardlengh=$checkListStandard->count();
                         @endphp
                         <tr>
-                            {{-- @if ($area != $chapterArea->checklist_area) --}}
                             <td> {{ $chapterArea->checklist_area }} </td>
-                            {{-- @endif --}}
                             <td>{{ $checkListStandard->checklist_standard }}</td>
                             <td>{{ $checkListStandard->standard_code }}</td>
                             @php

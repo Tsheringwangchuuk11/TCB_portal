@@ -5,6 +5,8 @@
 @csrf
 <input type="hidden" name="service_id" value="{{ $idInfos->service_id }}" id="service_id">
 <input type="hidden" name="module_id" value="{{ $idInfos->module_id }}" id="module_id">
+<input type="hidden" name="service_name" value="{{ $idInfos->name }}" id="service_name">
+<input type="hidden" name="module_name" value="{{ $idInfos->module_name }}" id="module_name">
 <input type="hidden" name="record_id" id="record_id">
 <div class="card">
     <div class="card-header">
@@ -49,8 +51,9 @@
                     </div>
                     <div class="col-md-5 offset-md-2">
                         <div class="form-group">
-                            <label for="">CID No.<span class="text-danger"> *</span></label>
+                            <label for="">Citizen ID<span class="text-danger"> * </span></label>
                             <input type="text" class="form-control" name="cid_no" value="{{ old('cid_no') }}" autocomplete="off" id="cid_no" onchange="api_webservices(this.value)">
+                            <span id="webserviceError" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
@@ -78,7 +81,7 @@
                     </div>
                     <div class="col-md-5 offset-md-2">
                         <div class="form-group">
-                            <label for="">No of rooms proposed<span class="text-danger"> *</span></label>
+                            <label for="">No. of rooms proposed<span class="text-danger"> *</span></label>
                             <input type="text" class="form-control" name="number" value="{{ old('number') }}" id="number" autocomplete="off" >
                         </div>
                     </div>
@@ -87,13 +90,23 @@
                     <div class="col-md-5">
                         <div class="form-group">
                             <label for="">Tentative construction date<span class="text-danger"> *</span> </label>
-                            <input type="date" name="tentative_cons" class="form-control" value="{{ old('tentative_cons') }}" id="tentative_cons" autocomplete="off">
+                            <div class="input-group date" id="tentative_cons" data-target-input="nearest">
+                                <input type="text" name="tentative_cons" class="form-control datetimepicker-input" data-target="#tentative_cons" value="{{ old('tentative_cons') }}">
+                                <div class="input-group-append" data-target="#tentative_cons" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-5 offset-md-2">
                         <div class="form-group">
                             <label for="">Tentative completion of the construction<span class="text-danger"> *</span></label>
-                            <input type="date" class="form-control" name="tentative_com" value="{{ old('tentative_com') }}" id="tentative_com" autocomplete="off" >
+                            <div class="input-group date" id="tentative_com" data-target-input="nearest">
+                                <input type="text" name="tentative_com" class="form-control datetimepicker-input" data-target="#tentative_com" value="{{ old('tentative_com') }}">
+                                <div class="input-group-append" data-target="#tentative_com" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -101,7 +114,12 @@
                     <div class="col-md-5">
                         <div class="form-group">
                             <label for="">Drawing submission date<span class="text-danger"> *</span></label>
-                            <input type="date" class="form-control" name="drawing_date" value="{{ old('drawing_date') }}" id="drawing_date" autocomplete="off" >
+                            <div class="input-group date" id="drawing_date" data-target-input="nearest">
+                                <input type="text" name="drawing_date" class="form-control datetimepicker-input" data-target="#drawing_date" value="{{ old('drawing_date') }}">
+                                <div class="input-group-append" data-target="#drawing_date" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -233,6 +251,15 @@ $(document).ready(function () {
    $('.select2bs4').on('change', function () {
       $(this).valid();
      });
+    $('#tentative_cons').datetimepicker({
+        format: 'DD/MM/YYYY',
+    });
+    $('#tentative_com').datetimepicker({
+        format: 'DD/MM/YYYY'
+    });
+    $('#drawing_date').datetimepicker({
+        format: 'DD/MM/YYYY'
+    });
 });
 $(document).ready(function(){
     $('#application_type_id').on('change',function(e) {
@@ -317,7 +344,6 @@ $(document).ready(function(){
 
         }
     }, 'Submit all the document mention above'); 
-      
        $('#form_data').validate({
                  ignore: [],
                 rules: {

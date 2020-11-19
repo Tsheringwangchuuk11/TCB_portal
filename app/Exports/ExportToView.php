@@ -23,6 +23,6 @@ class ExportToView implements FromView, ShouldAutoSize
 
     public function view(): View
     {
-        return view('report.excel.' . $this->view, $this->data);
+       return view($this->view, $this->data);
     }
 }

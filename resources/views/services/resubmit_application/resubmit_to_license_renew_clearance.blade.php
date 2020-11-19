@@ -7,6 +7,7 @@
     <input type="hidden" class="form-control" name="service_id" value="{{ $applicantInfo->service_id }}">
     <input type="hidden" name="service_name" value="{{ $applicantInfo->name }}" id="service_name">
     <input type="hidden" name="module_name" value="{{ $applicantInfo->module_name }}" id="module_name">
+    <input type="hidden" name="application_type_id" value="{{ $applicantInfo->application_type_id }}" id="application_type_id">
     <div class="card">
         <div class="card-header">
              <h4 class="card-title">General Information</h4>
@@ -64,7 +65,7 @@
                   </div>
                 <div class="col-md-5 offset-md-2">
                   <div class="form-group">
-                    <label for="">Owner CID<span class="text-danger">*</span> </label>
+                    <label for="">Owner Citizen ID<span class="text-danger">*</span> </label>
                     <input type="text" class="form-control" name="cid_no" value="{{ $applicantInfo->cid_no }}">
                   </div>
                 </div>

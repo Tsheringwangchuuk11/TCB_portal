@@ -10,6 +10,10 @@ use App\Models\Dropdown;
 use App\Models\TCheckListChapter;
 use App\Models\TechnicalClearance;
 use App\Models\TaskDetails;
+use Illuminate\Support\Facades\Notification;
+use Carbon\Carbon;
+use App\Notifications\EndUserNotification;
+
 class TourismProductController extends Controller
 {
     public function __construct(Services $services)
@@ -105,7 +109,13 @@ class TourismProductController extends Controller
     
              $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
              $updateworkflow=TaskDetails::where('application_no',$request->application_no)
-                                     ->update(['status_id' => $completedId->id]); 
+                                     ->update(['status_id' => $completedId->id]);
+            //Email send notifications
+            if ($request->email) {
+                $when = Carbon::now()->addMinutes(1);
+                Notification::route('mail', $request->email) 
+                ->notify((new EndUserNotification($request->email, $request->name, $request->application_no, 'Approved',$request->service_name))->delay($when));
+            } 
          });
          return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
          }
@@ -119,6 +129,12 @@ class TourismProductController extends Controller
              $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
              $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
                                      ->update(['status_id' => $completedId->id]);
+            //Email send notifications
+            if ($request->email) {
+                $when = Carbon::now()->addMinutes(1);
+                Notification::route('mail', $request->email) 
+                ->notify((new EndUserNotification($request->email, $request->name, $request->application_no, 'Resubmit',$request->service_name))->delay($when));
+            }
              return redirect('tasklist/tasklist')->with('msg_success', 'Application resend successfully');
          }
          else{
@@ -132,8 +148,14 @@ class TourismProductController extends Controller
              $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
              $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
                                      ->update(['status_id' => $completedId->id]);
-             return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
-             }
+            //Email send notifications
+            if ($request->email) {
+                $when = Carbon::now()->addMinutes(1);
+                Notification::route('mail', $request->email) 
+                ->notify((new EndUserNotification($request->email, $request->name, $request->application_no, 'Rejected',$request->service_name))->delay($when));
+            }
+         return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
+        }
    }
 
     //Approval function for new tourism product development application
@@ -184,8 +206,8 @@ class TourismProductController extends Controller
                 'objective'  => $request->objective,
                 'product_des'  => $request->product_des,
                 'project_cost'  => $request->project_cost,
-                'start_date'  => $request->start_date,
-                'end_date'  => $request->end_date,
+                'start_date'  =>date('Y-m-d', strtotime($request->start_date)),  
+                'end_date'  => date('Y-m-d', strtotime($request->end_date)),  
                 'contribution'  => $request->contribution,
             ]; 
             $service->insertDetails('t_product_dtls',$productdtlsData); 
@@ -197,6 +219,12 @@ class TourismProductController extends Controller
             $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
             $updateworkflow=TaskDetails::where('application_no',$request->application_no)
                                     ->update(['status_id' => $completedId->id]);
+            //Email send notifications
+            if ($request->email) {
+                $when = Carbon::now()->addMinutes(1);
+                Notification::route('mail', $request->email) 
+                ->notify((new EndUserNotification($request->email, $request->name, $request->application_no, 'Approved',$request->service_name))->delay($when));
+            }
      });
      return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
  
@@ -210,7 +238,13 @@ class TourismProductController extends Controller
          $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
          $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
                                  ->update(['status_id' => $completedId->id]);
-         return redirect('tasklist/tasklist')->with('msg_success', 'Application resend successfully');
+        //Email send notifications
+        if ($request->email) {
+            $when = Carbon::now()->addMinutes(1);
+            Notification::route('mail', $request->email) 
+            ->notify((new EndUserNotification($request->email, $request->name, $request->application_no, 'Resubmit',$request->service_name))->delay($when));
+        }
+        return redirect('tasklist/tasklist')->with('msg_success', 'Application resend successfully');
      }
      else{
  
@@ -223,10 +257,15 @@ class TourismProductController extends Controller
          $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
          $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
                                  ->update(['status_id' => $completedId->id]);
+        //Email send notifications
+        if ($request->email) {
+            $when = Carbon::now()->addMinutes(1);
+            Notification::route('mail', $request->email) 
+            ->notify((new EndUserNotification($request->email, $request->name, $request->application_no, 'Rejected',$request->service_name))->delay($when));
+        }
          return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
          }
-       
-        }
+    }
 
     //Approval function for existing tourism product Proposal application
     public function existingTourismProductProposal(Request $request,Services $service){
@@ -276,8 +315,8 @@ class TourismProductController extends Controller
                 'objective'  => $request->objective,
                 'product_des'  => $request->product_des,
                 'project_cost'  => $request->project_cost,
-                'start_date'  => $request->start_date,
-                'end_date'  => $request->end_date,
+                'start_date'  =>date('Y-m-d', strtotime($request->start_date)),   
+                'end_date'  => date('Y-m-d', strtotime($request->end_date)),  
                 'contribution'  => $request->contribution,
             ]; 
             $service->insertDetails('t_product_dtls',$productdtlsData); 
@@ -289,6 +328,12 @@ class TourismProductController extends Controller
             $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
             $updateworkflow=TaskDetails::where('application_no',$request->application_no)
                                     ->update(['status_id' => $completedId->id]);
+            //Email send notifications
+            if ($request->email) {
+                $when = Carbon::now()->addMinutes(1);
+                Notification::route('mail', $request->email) 
+                ->notify((new EndUserNotification($request->email, $request->name, $request->application_no, 'Approvded',$request->service_name))->delay($when));
+            }
      });
      return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
  
@@ -302,6 +347,12 @@ class TourismProductController extends Controller
          $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
          $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
                                  ->update(['status_id' => $completedId->id]);
+        //Email send notifications
+        if ($request->email) {
+            $when = Carbon::now()->addMinutes(1);
+            Notification::route('mail', $request->email) 
+            ->notify((new EndUserNotification($request->email, $request->name, $request->application_no, 'Resubmit',$request->service_name))->delay($when));
+        }
          return redirect('tasklist/tasklist')->with('msg_success', 'Application resend successfully');
      }
      else{
@@ -315,6 +366,12 @@ class TourismProductController extends Controller
          $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
          $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
                                  ->update(['status_id' => $completedId->id]);
+        //Email send notifications
+        if ($request->email) {
+            $when = Carbon::now()->addMinutes(1);
+            Notification::route('mail', $request->email) 
+            ->notify((new EndUserNotification($request->email, $request->name, $request->application_no, 'Rejected',$request->service_name))->delay($when));
+        }          
          return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
          }
     }

@@ -56,7 +56,7 @@
                     <div class="row">
                         <div class="col-md-5">
                             <div class="form-group">
-                                <label for="">CID No.<span class="text-danger"> *</span></label>
+                                <label for="">Citizen ID<span class="text-danger"> *</span></label>
                                 <input type="text" class="form-control" name="cid_no" value="{{ old('cid_no', $applicantInfo->cid_no) }}">
                             </div>
                         </div>

@@ -10,27 +10,42 @@
                     @foreach($courseTypes as $courseType)
                     <option value="{{ $courseType->id }}" {{ old('course_type_id', $coursedtl->course_type_id) == $courseType->id ? 'selected' : '' }}> {{ $courseType->dropdown_name }}</option>
                     @endforeach
-                  </select>
+                </select>
             </div>
         </div>
         <div class="col-md-5 offset-md-2">
             <div class="form-group">
                 <label for="">Course Start Date</label>
-            <input type="date" id= "course_start_date" name="course_start_date" value="{{$coursedtl->course_start_date}}" class="form-control">
+                <div class="input-group date" id="course_start_date" data-target-input="nearest">
+                    <input type="text" name="course_start_date" class="form-control datetimepicker-input" data-target="#course_start_date" value="{{$coursedtl->course_start_date}}">
+                    <div class="input-group-append" data-target="#course_start_date" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-5">
             <div class="form-group">
-                <label for="">Course End Date</label>
-                <input type="date" id= "course_end_date" name="course_end_date" value="{{$coursedtl->course_end_date}}" class="form-control">
+            <label for="">Course End Date</label>
+            <div class="input-group date" id="course_end_date" data-target-input="nearest">
+                <input type="text" name="course_end_date" class="form-control datetimepicker-input" data-target="#course_end_date" value="{{$coursedtl->course_end_date}}">
+                <div class="input-group-append" data-target="#course_end_date" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                </div>
+            </div>
             </div>
         </div>
         <div class="col-md-5 offset-md-2">
             <div class="form-group">
                 <label for="">Application Start Date</label>
-                <input type="date" id= "app_start_date" name="app_start_date"  value="{{$coursedtl->app_start_date}}" class="form-control">
+                <div class="input-group date" id="app_start_date" data-target-input="nearest">
+                    <input type="text" name="app_start_date" class="form-control datetimepicker-input" data-target="#app_start_date" value="{{$coursedtl->app_start_date}}">
+                    <div class="input-group-append" data-target="#app_start_date" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -38,7 +53,12 @@
         <div class="col-md-5">
             <div class="form-group">
                 <label for="">Application End Date</label>
-                <input type="date" id= "app_end_date" name="app_end_date" value="{{$coursedtl->app_end_date}}" class="form-control">
+                <div class="input-group date" id="app_end_date" data-target-input="nearest">
+                    <input type="text" name="app_end_date" class="form-control datetimepicker-input" data-target="#app_end_date" value="{{$coursedtl->app_end_date}}">
+                    <div class="input-group-append" data-target="#app_end_date" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-md-5 offset-md-2">
@@ -87,6 +107,20 @@
     </div>
 </form>
 <script>
+    $(document).ready(function(){
+            $('#course_start_date').datetimepicker({
+                format: 'DD/MM/YYYY'
+            });
+            $('#course_end_date').datetimepicker({
+                format: 'DD/MM/YYYY'
+            });
+            $('#app_start_date').datetimepicker({
+                format: 'DD/MM/YYYY'
+            });
+            $('#app_end_date').datetimepicker({
+                format: 'DD/MM/YYYY'
+        });
+    });
     $(function() {
         $('#course_form').validate({
             rules: {

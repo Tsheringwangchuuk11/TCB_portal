@@ -4,7 +4,9 @@
 <form action="{{ url('verification/village-home-stay-license-cancel') }}" class="form-horizontal" method="POST" enctype="multipart/form-data" id="form_data">
     @csrf
     <input type="hidden" name="service_id" value="{{ $applicantInfo->service_id }}" id="service_id">
-    <input type="hidden" name="module_id" value="{{ $applicantInfo->module_id }}" id="module_id">
+	<input type="hidden" name="module_id" value="{{ $applicantInfo->module_id }}" id="module_id">
+	<input type="hidden" class="form-control" name="service_name" value="{{ $applicantInfo->name }}">
+
 	<div class="card">
 		<div class="card-header">
 			<h4 class="card-title">Personal Details</h4>
@@ -31,7 +33,7 @@
                 </div>
                 <div class="col-md-5 offset-md-2">
 					<div class="form-group ">
-					  <label for="">CID No.<span class="text-danger"> *</span></label>
+					  <label for="">Citizen ID<span class="text-danger"> *</span></label>
 					  <input type="text" class="form-control" name="cid_no"  value="{{ old('cid_no',$applicantInfo->cid_no) }}">
 					</div>
 				</div>

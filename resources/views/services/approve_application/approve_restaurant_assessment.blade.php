@@ -5,6 +5,8 @@
     @csrf
     <input type="hidden" name="service_id" value="{{ $applicantInfo->service_id }}" id="service_id">
     <input type="hidden" name="module_id" value="{{ $applicantInfo->module_id }}" id="module_id">
+    <input type="hidden" class="form-control" name="service_name" value="{{ $applicantInfo->name }}">
+    <input type="hidden" class="form-control" name="service_name" value="{{ $applicantInfo->name }}">
 <div class="card">
 	<div class="card-header">
 		 <h4 class="card-title">General Information</h4>
@@ -28,7 +30,12 @@
             <div class="col-md-5">
                 <div class="form-group">
                     <label for="">License Date <span class="text-danger">*</span> </label>
-                    <input type="date" class="form-control" name="license_date" value="{{ $applicantInfo->license_date }}">
+                    <div class="input-group date" id="license_date" data-target-input="nearest">
+                        <input type="text" name="license_date" class="form-control datetimepicker-input" data-target="#license_date" value="{{ $applicantInfo->license_date}}">
+                        <div class="input-group-append" data-target="#license_date" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                    </div>                
                 </div>
             </div>
             <div class="col-md-5 offset-md-2">
@@ -40,7 +47,7 @@
         </div>
         <div class="row">
             <div class="form-group col-md-5">
-                <label for="">CID No.<span class="text-danger">*</span> </label>
+                <label for="">Citizen ID<span class="text-danger">*</span> </label>
                 <input type="text" class="form-control numeric-only" name="cid_no" value="{{ $applicantInfo->cid_no }}">
             </div>
             <div class="col-md-5 offset-md-2">
@@ -294,7 +301,12 @@
             </div>
             <div class="form-group col-md-5 offset-md-2">
                 <label for="">Inspection Date<span class="text-danger">*</span> </label>
-                <input type="date" class="form-control" name="inspection_date">
+                <div class="input-group date" id="inspection_date" data-target-input="nearest">
+                    <input type="text" name="inspection_date" class="form-control datetimepicker-input" data-target="#inspection_date">
+                    <div class="input-group-append" data-target="#inspection_date" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -310,6 +322,14 @@
 @endsection
 @section('scripts')
 <script>
+    $(document).ready(function(){
+    $('#license_date').datetimepicker({
+        format: 'DD/MM/YYYY',
+    });
+    $('#inspection_date').datetimepicker({
+        format: 'DD/MM/YYYY',
+    });
+});
 function calculateScorePoint() {
     var sum = 0;
     //iterate through each textboxes and add the values

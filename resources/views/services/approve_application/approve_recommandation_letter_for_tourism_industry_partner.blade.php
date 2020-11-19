@@ -5,6 +5,7 @@
     @csrf
     <input type="hidden" class="form-control" name="module_id" value="{{ $applicantInfo->module_id }}">
     <input type="hidden" class="form-control" name="service_id" value="{{ $applicantInfo->service_id }}">
+    <input type="hidden" class="form-control" name="service_name" value="{{ $applicantInfo->name }}">
     <div class="card">
         <div class="card-header">
              <h4 class="card-title">General Information</h4>
@@ -47,7 +48,12 @@
                 <div class="col-md-5">
                     <div class="form-group">
                       <label for="">vilidity Date.<span class="text-danger">*</span> </label>
-                      <input type="date" class="form-control" name="license_date" value="{{ $applicantInfo->license_date }}">
+                      <div class="input-group date" id="validity_date" data-target-input="nearest">
+                        <input type="text" name="validity_date" class="form-control datetimepicker-input" data-target="#validity_date" value="{{ $applicantInfo->validity_date }}">
+                        <div class="input-group-append" data-target="#validity_date" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                    </div>
                     </div>
                 </div> 
                 <div class="col-md-5 offset-md-2">
@@ -61,7 +67,7 @@
             <div class="row">
               <div class="col-md-5">
                 <div class="form-group">
-                  <label for="">Owner CID<span class="text-danger">*</span> </label>
+                  <label for="">Owner Citizen ID<span class="text-danger">*</span> </label>
                   <input type="text" class="form-control" name="cid_no" value="{{ $applicantInfo->cid_no }}">
                 </div>
               </div>
@@ -173,7 +179,11 @@
                 "info": false,
                 "autoWidth": false,
             });
+          $('#validity_date').datetimepicker({
+              format: 'DD/MM/YYYY',
+          });
     })
+
         function requiredRemarks(status) {
         $("#remarks_error").html('');
         if($("#remarks").val() ==""){

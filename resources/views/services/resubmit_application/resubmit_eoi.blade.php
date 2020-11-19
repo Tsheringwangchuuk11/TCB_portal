@@ -29,7 +29,7 @@
             <div class="row">
                 <div class="col-md-5">
                     <div class="form-group">
-                      <label for="">CID<span class="text-danger">*</span> </label>
+                      <label for="">Citizen ID<span class="text-danger">*</span> </label>
                       <input type="date" class="form-control" name="cid_no" value="{{ $applicantInfo->cid_no }}">
                     </div>
                 </div> 

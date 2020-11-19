@@ -31,7 +31,7 @@
                     <div class="row">
                         <div class="col-md-5">
                             <div class="form-group">
-                                <label for="">CID No.<span class="text-danger"> *</span></label>
+                                <label for="">Citizen ID<span class="text-danger"> *</span></label>
                                 <input type="text" class="form-control" name="cid_no" value="{{ $applicantInfo->cid_no }}">
                             </div>
                         </div>
@@ -66,7 +66,12 @@
                         <div class="col-md-5 offset-md-2">
                             <div class="form-group">
                                 <label for="">validity Date<span class="text-danger"> *</span></label>
-                                <input type="date" class="form-control" name="validity_date" value="{{ $applicantInfo->validity_date }}">
+                                <div class="input-group date" id="validity_date" data-target-input="nearest">
+                                    <input type="text" name="validity_date" class="form-control datetimepicker-input" data-target="#validity_date" value="{{ $applicantInfo->validity_date}}">
+                                    <div class="input-group-append" data-target="#validity_date" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div> 
                             </div>
                         </div>
                     </div>
@@ -141,6 +146,15 @@
     </div>
 </div>
 </form>          
+@endsection
+@section('scripts')
+  <script>
+    $(document).ready(function(){
+        $('#validity_date').datetimepicker({
+            format: 'DD/MM/YYYY',
+        });
+    });
+  </script>  
 @endsection
 
 

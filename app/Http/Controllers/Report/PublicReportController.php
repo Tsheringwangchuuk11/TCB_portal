@@ -23,6 +23,9 @@ class PublicReportController extends Controller
         if($request->report_type_id==1){
             $getReport = PublicReport::getArrivalByModeOfTransporteports();
         }
+        elseif($request->report_type_id==2){
+            $getReport = PublicReport::MonthlyALoSByPurpose();
+        }
         elseif($request->report_type_id==3){
             $getReport = PublicReport::ALoSByPurpose();
         }
@@ -32,16 +35,16 @@ class PublicReportController extends Controller
         elseif($request->report_type_id==5){
             $getReport = PublicReport::getArrivalByModeOfTransporteportsByMonth();
         }
-        elseif($request->report_type_id==7){
+        elseif($request->report_type_id==6){
             $getReport = PublicReport::getALoSByMajorMarkets();
         }
-        elseif($request->report_type_id==8){
+        elseif($request->report_type_id==7){
             $getReport = PublicReport::getVDSByMajorMarkets();
         }
-        elseif($request->report_type_id==9){
+        elseif($request->report_type_id==8){
             $getReport = PublicReport::getMajorMarketsByMainPurpose();
         }
-        elseif($request->report_type_id==10){
+        elseif($request->report_type_id==9){
             $getReport = PublicReport::getVisitorbyGlobalSegmentationbyGender();
         }
         $chartArray["chart"] = [
@@ -80,7 +83,16 @@ class PublicReportController extends Controller
                 'categories'=>$month
             ];
         }
-        elseif($request->report_type_id==7 || $request->report_type_id==8 || $request->report_type_id==9 || $request->report_type_id==10){
+        elseif($request->report_type_id==2){
+            $mainPurpose=[];
+            foreach($getReport as $key=>$value){
+                $mainPurpose[] = $value->MainPurpose; 
+              }
+            $chartArray["xAxis"]=[
+                'categories'=>$mainPurpose
+            ]; 
+        }
+        elseif($request->report_type_id==6 || $request->report_type_id==7 || $request->report_type_id==8 || $request->report_type_id==9){
             $region=[];
             foreach($getReport as $key=>$value){
                 $region[] = $value->Region; 
@@ -120,7 +132,170 @@ if($request->report_type_id==1){
            ]
     ];
 }
-elseif($request->report_type_id==4 || $request->report_type_id==8){
+elseif($request->report_type_id==2){
+    $mainpurpose=[];
+    $january=[];
+    $febuary=[];
+    $march=[];
+    $april=[];
+    $may=[];
+    $june=[];
+    $july=[];
+    $august=[];
+    $september=[];
+    $october=[];
+    $november=[];
+    $december=[];
+    foreach($getReport as $key=>$value){
+        $mainpurpose[] = $value->MainPurpose; 
+        }
+    foreach($getReport as $key=>$value){
+        if( $value->Jan!=null){
+             $january[] = $value->Jan; 
+        }else{
+            $january[] = 0; 
+        }
+    }
+
+    foreach($getReport as $key=>$value){
+        if($value->Feb!=null){
+           $febuary[] = $value->Feb;
+        }else{
+            $febuary[] = 0;
+        } 
+    }
+
+    foreach($getReport as $key=>$value){
+        if($value->Feb!=null){
+            $march[] = $value->Mar; 
+        }else{
+            $march[] = 0; 
+         }
+    }
+    foreach($getReport as $key=>$value){
+        if($value->Apr!=null){
+            $april[] = $value->Apr;
+        }else{
+            $april[] = 0;
+        }
+     }
+
+    foreach($getReport as $key=>$value){
+        if($value->May!=null){
+            $may[] = $value->May; 
+        }else{
+            $may[] = 0; 
+        }
+    }
+
+    foreach($getReport as $key=>$value){
+        if($value->Jun!=null){
+            $june[] = $value->Jun; 
+
+        }else{
+            $june[] = 0; 
+        }
+    }
+
+    foreach($getReport as $key=>$value){
+        if($value->Jul!=null){
+            $july[] = $value->Jul;
+        }else{
+            $july[] = 0;
+        } 
+    
+    }
+    foreach($getReport as $key=>$value){
+        if($value->Aug!=null){
+            $august[] = $value->Aug;
+        }else{
+            $august[] =0;
+        } 
+    }
+
+    foreach($getReport as $key=>$value){
+        if($value->Sep!=null){
+            $september[] = $value->Sep;    
+        }else{
+            $september[] = $value->Sep;
+        }
+    }
+
+    foreach($getReport as $key=>$value){
+        if($value->Octo!=null){
+            $october[] = $value->Octo;    
+        }else{
+            $october[] = 0;
+        }        
+    }
+
+    foreach($getReport as $key=>$value){
+        if($value->Nov!=null){
+            $november[] = $value->Nov;    
+        }else{
+            $november[] = $value->Nov;
+        }
+    }
+
+    foreach($getReport as $key=>$value){
+        if($value->Dece!=null){
+            $december[] = $value->Dece; 
+         }else{
+            $december[] = 0; 
+         }
+    }
+    $chartArray["series"] = [
+        [
+            'name' =>'Jan',
+            'data'=>$january
+        ],
+       [
+            'name'=> 'Feb',
+            'data'=> $febuary
+       ],
+       [
+        'name'=> 'Mar',
+        'data'=> $march
+       ],
+       [
+        'name'=> 'Apr',
+        'data'=> $april
+       ],
+       [
+        'name'=> 'May',
+        'data'=> $may
+       ],
+       [
+        'name'=> 'Jun',
+        'data'=> $june
+       ],
+       [
+        'name'=> 'Jul',
+        'data'=> $july
+       ],
+       [
+        'name'=> 'Aug',
+        'data'=> $august
+       ],
+       [
+        'name'=> 'Sep',
+        'data'=> $september
+       ],
+       [
+        'name'=> 'Oct',
+        'data'=> $october
+       ],
+       [
+        'name'=> 'Nov',
+        'data'=> $november
+       ],
+       [
+        'name'=> 'Dec',
+        'data'=> $december
+        ]
+    ];
+}
+elseif($request->report_type_id==4 || $request->report_type_id==7){
     $one_two_night=[];
     $three_four_nights=[];
     $five_six_nights=[];
@@ -235,7 +410,7 @@ elseif($request->report_type_id==5){
         ]
      ];
 }
-elseif($request->report_type_id==7){
+elseif($request->report_type_id==6){
     $mean=[];
     $median=[];
 
@@ -256,7 +431,7 @@ elseif($request->report_type_id==7){
         ]
      ];
     }
-elseif($request->report_type_id==9){
+elseif($request->report_type_id==8){
     $Business=[];
     $ETE_Program=[];
     $HLR=[];
@@ -324,7 +499,7 @@ elseif($request->report_type_id==9){
         ]
     ];
 }
-elseif($request->report_type_id==10){
+elseif($request->report_type_id==9){
     
     $male=[];
     $female=[];

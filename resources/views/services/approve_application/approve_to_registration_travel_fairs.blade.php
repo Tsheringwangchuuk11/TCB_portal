@@ -5,6 +5,7 @@
    @csrf
    <input type="hidden" name="service_id" value="{{ $applicantInfos->module_id }}">
    <input type="hidden" name="module_id" value="{{ $applicantInfos->module_id }}">
+   <input type="hidden" class="form-control" name="service_name" value="{{ $applicantInfo->name }}">
    <div class="card">
         <div class="card-header">
             <h4 class="card-title">Event Details</h4>
@@ -74,7 +75,12 @@
             <div class="col-md-5 offset-md-2">
                <div class="form-group">
                   <label for="">Event Start Date<span class="text-danger"> *</span></label>
-                  <input type="date" class="form-control" name="fromdate"  value="{{ $applicantInfos->start_date }}">
+                  <div class="input-group date" id="fromdate" data-target-input="nearest">
+                     <input type="text" name="fromdate" class="form-control datetimepicker-input" data-target="#fromdate"  value="{{ $applicantInfos->start_date }}">
+                     <div class="input-group-append" data-target="#fromdate" data-toggle="datetimepicker">
+                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                     </div>
+                 </div>
                </div>
             </div>
             </div>
@@ -82,13 +88,23 @@
                <div class="col-md-5">
                   <div class="form-group">
                      <label for="">Event End Date<span class="text-danger"> *</span></label>
-                     <input type="date" class="form-control" name="todate"  value="{{ $applicantInfos->end_date }}">
+                     <div class="input-group date" id="fromdate" data-target-input="nearest">
+                        <input type="text" name="todate" class="form-control datetimepicker-input" data-target="#todate"  value="{{ $applicantInfos->end_date }}">
+                        <div class="input-group-append" data-target="#todate" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                    </div>
                   </div>
                </div>
                <div class="col-md-5 offset-md-2">
                   <div class="form-group">
                      <label for="">Last Date Of Registration<span class="text-danger"> *</span></label>
-                     <input type="date" class="form-control" name="lastdate"  value="{{ $applicantInfos->last_date }}">
+                     <div class="input-group date" id="lastdate" data-target-input="nearest">
+                        <input type="text" name="todate" class="form-control datetimepicker-input" data-target="#lastdate"  value="{{ $applicantInfos->lastdate }}">
+                        <div class="input-group-append" data-target="#lastdate" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                    </div>
                   </div>
                </div>
             </div>
@@ -166,7 +182,7 @@
                   </div>
                   <div class="col-md-5 offset-md-2">
                      <div class="form-group">
-                        <label for="">CID No.<span class="text-danger"> *</span></label>
+                        <label for="">Citizen ID<span class="text-danger"> *</span></label>
                         <input type="text" class="form-control" name="cid_no" value="{{ $applicantInfos->cid_no }}">
                      </div>
                   </div>
@@ -224,6 +240,17 @@
 @endsection
 @section('scripts')
     <script>
+      $(document).ready(function(){
+         $('#fromdate').datetimepicker({
+            format: 'DD/MM/YYYY',
+         });
+         $('#todate').datetimepicker({
+            format: 'DD/MM/YYYY',
+         });
+         $('#lastdate').datetimepicker({
+            format: 'DD/MM/YYYY',
+         });
+      });
       function requiredRemarks(status) {
         $("#remarks_error").html('');
         if($("#remarks").val() ==""){

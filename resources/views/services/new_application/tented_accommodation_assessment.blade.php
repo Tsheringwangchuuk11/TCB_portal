@@ -37,7 +37,12 @@
             </div>
             <div class="form-group col-md-5 offset-md-2">
                 <label for="">License Date <span class="text-danger">*</span> </label>
-                <input type="date" class="form-control" name="license_date" autocomplete="off">
+                <div class="input-group date" id="license_date" data-target-input="nearest">
+                    <input type="text" name="license_date" class="form-control datetimepicker-input" data-target="#license_date" value="{{ old('license_date') }}">
+                    <div class="input-group-append" data-target="#license_date" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>            
             </div>
         </div>
         <div class="row">
@@ -46,18 +51,19 @@
                 <input type="text" class="form-control" name="company_title_name" autocomplete="off">
             </div>
             <div class="form-group col-md-5 offset-md-2">
-                <label for="">CID No.<span class="text-danger">*</span> </label>
-                <input type="text" class="form-control" name="cid_no" autocomplete="off">
+                <label for="">Citizen ID<span class="text-danger">*</span> </label>
+                <input type="text" class="form-control" name="cid_no" id="cid_no1" onchange="api_webservices(this.value)">
+                <span id="webserviceError" class="text-danger"></span>
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-5">
                 <label for="">Owner Name<span class="text-danger">*</span> </label>
-                <input type="text" class="form-control" name="owner_name" autocomplete="off">
+                <input type="text" class="form-control" name="owner_name" autocomplete="off" id="applicant_name1">
             </div>
             <div class="form-group col-md-5 offset-md-2">
                 <label for="">Contact No <span class="text-danger">*</span> </label>
-                <input type="text" class="form-control" name="contact_no" autocomplete="off">
+                <input type="text" class="form-control" name="contact_no" autocomplete="off" id="contact_no">
             </div>
         </div>
         <div class="row">
@@ -280,6 +286,9 @@
         $(document).ready(function () {
             $('.select2bs4').on('change', function () {
                 $(this).valid();
+            });
+            $('#license_date').datetimepicker({
+                format: 'DD/MM/YYYY',
             });
         });
         

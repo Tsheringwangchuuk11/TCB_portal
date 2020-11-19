@@ -17,7 +17,7 @@ Auth::routes();
 
 Route::group(['namespace' => 'FrontEnd'], function () {
     Route::get('/', 'HomeController@index')->name('home');
-    Route::get('feedback', 'HomeController@feedBack')->name('feedback');
+    Route::get('tourism-grievances', 'HomeController@tourismGrievances')->name('tourism-grievances');
     Route::post('save-grievance-application', 'HomeController@saveGrievanceApplication');
     Route::get('contact_us', function(){return view('frontend.layouts.contact_us');});
     Route::get('about_us', function(){return view('frontend.layouts.about_us');});
@@ -99,6 +99,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('get-work-permit-dtls', 'ServiceController@getWorkPermitDtls');
         Route::get('get-foreign-worker-dtls', 'ServiceController@getForeignWorkerDtls');
         Route::get('check-partner-cid-no', 'ServiceController@checkPartnerCIDNumber');
+
+        //print recommendation letter
         Route::get('recommendation-letter/{application_no}/{service_id}/{module_id}', 'ServiceController@printRecommendationLetter');
     });
 
@@ -166,6 +168,8 @@ Route::group(['middleware' => ['auth']], function () {
         //tented accommodation
         Route::get('tended-accommodation/{applicationNo}/{status?}', 'TentedAccommodationController@getApplicationDetails')->name('tendedaccommodation');
         Route::post('tented-accommdation-assessment', 'TentedAccommodationController@tentedAccommAssessmentApplication');
+        Route::post('name-ownership-cancellation-for-tented-accom', 'TentedAccommodationController@tentedAccommodationNameOwnershipCancellationApplication');
+
 
         //Tourism Events
         Route::get('tourism-event/{applicationNo}', 'TourismEventController@getApplicationDetails')->name('tourismevent');
@@ -173,15 +177,18 @@ Route::group(['middleware' => ['auth']], function () {
     });
     //routes for grievance redressal
     Route::group(['prefix' => 'feedback', 'namespace' => 'FeedBack'], function() {
-        Route::get('grievance-redressal', 'GrievanceRedressalController@getGrievanceRedressalList');
+        Route::get('grievances-redressal/{applicationNo}/{status?}', 'GrievanceRedressalController@getApplicationDetails')->name('grievancesredressal');
         Route::get('openApplication/{applicationNo}', 'GrievanceRedressalController@openApplication');
+        Route::post('approved-grievance-application', 'GrievanceRedressalController@approvedGrievanceRedressalApplication');
     });
 
     //routes for report
     Route::group(['prefix' => 'report', 'namespace' => 'Report'], function() {
         Route::get('assessment-reports', 'AssessmentReportController@getAssessment');
-        Route::get('application-lists', 'AssessmentReportController@getApplicationList');
         Route::get('assessment-reports/{application_no}/{moduleId}', 'AssessmentReportController@detailAssessment');
+        Route::get('application-lists', 'CommonReportController@getApplicationList');
+        Route::get('training', 'CommonReportController@reportForTraining');
+        Route::get('registration', 'CommonReportController@reportForRegistration');
     });
 
     //statistical report

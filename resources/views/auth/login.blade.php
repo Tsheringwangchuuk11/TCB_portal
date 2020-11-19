@@ -7,7 +7,7 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="icon" href="{{ asset('css/molhr_favicon.png') }}" type="image/x-icon"/>
+    <link rel="icon" href="{{ asset('css/tcb_favicon.png') }}" type="image/x-icon"/>
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">

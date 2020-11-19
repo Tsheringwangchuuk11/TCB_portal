@@ -14,8 +14,9 @@
                 <div class="row"> 
                     <div class="col-md-5">
                         <div class="form-group">
-                            <label for="">CID<span class="text-danger "> *</span></label>
-                            <input type="text" id="applicant_cid_no" name="applicant_cid_no" class="form-control">
+                            <label for="">Citizen ID<span class="text-danger "> *</span></label>
+                            <input type="text" id="cid_no" name="applicant_cid_no" class="form-control" onchange="api_webservices(this.value)">
+                            <span id="webserviceError" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-md-5 offset-md-2">
@@ -29,13 +30,13 @@
                     <div class="col-md-5">
                         <div class="form-group">
                             <label for="">DOB<span class="text-danger "> *</span></label>
-                            <input type="date" id= "applicant_dob" name="applicant_dob" class="form-control">
+                            <input type="text" id= "applicant_dob" name="applicant_dob" class="form-control">
                         </div>
                     </div>
                     <div class="col-md-5 offset-md-2">
                         <div class="form-group">
                             <label for="">Contact No.<span class="text-danger "> *</span></label>
-                            <input type="text" id= "applicant_contact_no" name="applicant_contact_no" class="form-control">
+                            <input type="text" id= "contact_no" name="applicant_contact_no" class="form-control">
                         </div>
                     </div>
                 </div>
@@ -43,13 +44,13 @@
                     <div class="col-md-5">
                         <div class="form-group">
                             <label for="">Email<span class="text-danger "> *</span></label>
-                            <input type="email" id= "applicant_email" name="applicant_email" class="form-control">
+                            <input type="email" id= "email" name="applicant_email" class="form-control">
                         </div>
                     </div>
                     <div class="col-md-5 offset-md-2">
                         <div class="form-group">
                         <label for="">Gender<span class="text-danger "> *</span></label>
-                        <select class="form-control select2bs4" name="applicant_gender" id="applicant_gender">
+                        <select class="form-control select2bs4" name="applicant_gender" id="gender">
                             <option value="">- Select -</option>
                             @foreach (config()->get('settings.gender') as $k => $v)
                             <option value="{{ $k }}" {{ old('applicant_gender') == $k ? 'selected' : '' }}>{{ $v }}</option>
@@ -62,20 +63,13 @@
                     <div class="col-md-5">
                         <div class="form-group">
                         <label for="">Dzongkhag<span class="text-danger"> *</span></label>
-                        <select  name="applicant_dzongkhag_id" id="applicant_dzongkhag_id" class="form-control select2bs4 dzongkhagdropdown" style="width: 100%;">
-                            <option value=""> -Select-</option>
-                            @foreach ($dzongkhagLists as $dzongkhagList)
-                                <option value="{{ $dzongkhagList->id }}">{{ $dzongkhagList->dzongkhag_name }}</option>
-                            @endforeach
-                            </select>
+                        <input type="text" id= "dzongkhag_name" name="dzongkhag_name" class="form-control">
                         </div>
                     </div>
                     <div class="col-md-5 offset-md-2">
                         <div class="form-group">
                             <label for="">Gewog<span class="text-danger"> *</span></label>
-                            <select  name="gewog_id" id="gewog_id" class="form-control select2bs4 gewogdropdown" style="width: 100%;">
-                                <option value=""> -Select-</option>
-                            </select>
+                            <input type="text" id= "gewog_name" name="gewog_name" class="form-control">
                         </div>
                     </div>
                 </div>
@@ -83,9 +77,8 @@
                     <div class="col-md-5">
                         <div class="form-group">
                             <label for="">Village<span class="text-danger"> *</span></label>
-                            <select  name="establishment_village_id" id="village_id" class="form-control select2bs4" style="width: 100%;">
-                                <option value=""> -Select-</option>
-                            </select>
+                            <input type="hidden" id= "permanent_village_id" name="applicant_village_id" class="form-control">
+                            <input type="text" id= "village_name" name="village_name" class="form-control">
                         </div>
                     </div>
                     <div class="col-md-5 offset-md-2">

@@ -46,7 +46,12 @@
             <div class="row">
                 <div class="form-group col-md-5">
                     <label for="">License Date</label>
-                    <input type="date" class="form-control" name="license_date" value="{{ $applicantInfo->license_date }}" autocomplete="off">
+                    <div class="input-group date" id="license_date" data-target-input="nearest">
+                        <input type="text" name="license_date" class="form-control datetimepicker-input" data-target="#license_date" value="{{ $applicantInfo->license_date}}">
+                        <div class="input-group-append" data-target="#license_date" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                    </div> 
                 </div>
                 <div class="form-group col-md-5 offset-md-2">
                     <label for="">Hotel Name </label>
@@ -59,7 +64,7 @@
                     <input type="text" class="form-control" name="owner_name" value="{{ $applicantInfo->owner_name }}" autocomplete="off">
                 </div>
                 <div class="form-group col-md-5 offset-md-2">
-                    <label for="">CID No.</label>
+                    <label for="">Citizen ID</label>
                     <input type="text" class="form-control" name="cid_no" value="{{ $applicantInfo->cid_no }}" autocomplete="off">
                 </div>
             </div>
@@ -414,8 +419,11 @@
 @section('scripts')
     <script>
         $(document).ready(function(){
-                    var star_category_name = $("#star_category_id  option:selected").text();
-                    $("#star_level").html(star_category_name);
+            var star_category_name = $("#star_category_id  option:selected").text();
+            $("#star_level").html(star_category_name);
+            $('#license_date').datetimepicker({
+                format: 'DD/MM/YYYY',
+            });
 
             });
             id=1;

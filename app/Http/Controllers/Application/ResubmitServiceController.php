@@ -8,6 +8,9 @@ use App\Models\Services;
 use App\Models\WorkFlowDetails;
 use App\Models\TaskDetails;
 use DB;
+use Illuminate\Support\Facades\Notification;
+use Carbon\Carbon;
+use App\Notifications\EndUserNotification;
 
 class ResubmitServiceController extends Controller
 {
@@ -30,7 +33,7 @@ class ResubmitServiceController extends Controller
              'manager_name'=> $request->manager_name,
              'manager_mobile_no'=> $request->manager_mobile_no,
              'gender'=> $request->gender,
-             'dob'=> $request->dob,
+             'dob'=>date('Y-m-d', strtotime($request->dob)),
              'designation'=> $request->designation,
              'applicant_flat_no'=> $request->applicant_flat_no,
              'applicant_building_no'=> $request->applicant_building_no,
@@ -40,14 +43,14 @@ class ResubmitServiceController extends Controller
              'company_name_two'=> $request->company_name_two,
              'contact_no'=> $request->contact_no,
              'new_contact_no'=> $request->new_contact_no,
-             'tentative_cons'=> $request->tentative_cons,
-             'tentative_com'=> $request->tentative_com,
-             'drawing_date'=> $request->drawing_date,
+             'tentative_cons'=>date('Y-m-d', strtotime($request->tentative_cons)), 
+             'tentative_com'=> date('Y-m-d', strtotime($request->tentative_com)),  
+             'drawing_date'=> date('Y-m-d', strtotime($request->drawing_date)),
              'email'=> $request->email,
              'new_email'=> $request->new_email,
              'star_category_id'=> $request->star_category_id,
              'license_no'=> $request->license_no,
-             'license_date'=> $request->license_date,
+             'license_date'=> date('Y-m-d', strtotime($request->license_date)),
              'address'=> $request->address,
              'new_address'=> $request->new_address,
              'fax'=> $request->fax,
@@ -58,7 +61,7 @@ class ResubmitServiceController extends Controller
              'town_distance'=> $request->town_distance,
              'road_distance'=> $request->road_distance,
              'condition'=> $request->condition,
-             'validity_date'=> $request->validity_date,
+             'validity_date'=>date('Y-m-d', strtotime($request->validity_date)),
              'flat_no'=> $request->flat_no,
              'building_no'=> $request->building_no,
              'permanent_village_id'=> $request->permanent_village_id,
@@ -67,8 +70,8 @@ class ResubmitServiceController extends Controller
              'chiwog_id'=> $request->chiwog_id,
              'city'=> $request->city,
              'country_id'=> $request->country_id,
-             'from_date'=> $request->from_date,
-             'to_date'=> $request->to_date,
+             'from_date'=>date('Y-m-d', strtotime($request->from_date)),
+             'to_date'=>date('Y-m-d', strtotime($request->to_date)),
              'remarks'=> $request->remarks,
              'dispatch_no'=> $request->dispatch_no,
              ];
@@ -106,7 +109,7 @@ class ResubmitServiceController extends Controller
  
              //insert into t_checklist_applications
              if(isset($_POST['checklist_id'])){
-                 for ($i=0; $i < count($_POST['checklist_id']); $i++)
+                 for ($i=0; $i < sizeof($_POST['checklist_id']); $i++)
                  {
                     if($request->checkvalue[$i] == 1){
                      $checklistData = [
@@ -192,8 +195,8 @@ class ResubmitServiceController extends Controller
                     'objective'  => $request->objective,
                     'product_des'  => $request->product_des,
                     'project_cost'  => $request->project_cost,
-                    'start_date'  => $request->start_date,
-                    'end_date'  => $request->end_date,
+                    'start_date'  =>date('Y-m-d', strtotime($request->start_date)), 
+                    'end_date'  =>date('Y-m-d', strtotime($request->end_date)), 
                     'contribution'  => $request->contribution,
                      ];
                  $satus=Services::updateOrSaveDetails('t_product_applications',$productItemData, ['id'=>$request->record_id] );
@@ -209,8 +212,8 @@ class ResubmitServiceController extends Controller
                          'objective'  => $request->objective,
                       'product_des'  => $request->product_des,
                      'project_cost'  => $request->project_cost,
-                        'start_date'  => $request->start_date,
-                     'end_date'  => $request->end_date,
+                        'start_date'  => date('Y-m-d', strtotime($request->start_date)),
+                     'end_date'  => date('Y-m-d', strtotime($request->end_date)), 
                      'contribution'  => $request->contribution,
                     ];
                 $satus=Services::updateOrSaveDetails('t_product_applications',$productItemData, ['id'=>$request->record_id] );
@@ -336,9 +339,9 @@ class ResubmitServiceController extends Controller
                 }
             }
 
-             //update application_no in t_documents
-              $documentId = $request->documentId;
-              $services->updateDocumentDetails($documentId,$application_no);
+            //update application_no in t_documents
+            $documentId = $request->documentId;
+            $services->updateDocumentDetails($documentId,$application_no);
  
             //insert into t_workflow_dtls
            $submitId=WorkFlowDetails::getStatus('SUBMITTED')->id;
@@ -353,7 +356,13 @@ class ResubmitServiceController extends Controller
             $assigned_priv_id=TaskDetails::getAssignPrivId($request->service_id, 1)->id;
             $updatetaskdtls=TaskDetails::where('application_no',$application_no)
                                     ->update(['status_id' =>$initiatedId,'assigned_priv_id'=>$assigned_priv_id ]);
- 
+
+            //Email send notifications
+            if ($request->email) {
+                $when = Carbon::now()->addMinutes(1);
+                Notification::route('mail', $request->email) 
+                ->notify((new EndUserNotification($request->email, $request->applicant_name, $application_no, 'Submitted',$request->service_name))->delay($when));
+            }
          });  
          return redirect('dashboard')->with('appl_info', 'Your application has been submitted successfully and your application number is :'.$application_no);
      }

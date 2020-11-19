@@ -8,6 +8,10 @@ use App\Models\Services;
 use App\Models\WorkFlowDetails;
 use App\Models\Dropdown;
 use App\Models\TaskDetails;
+use Illuminate\Support\Facades\Notification;
+use Carbon\Carbon;
+use App\Notifications\EndUserNotification;
+
 class TourismEventController extends Controller
 {
     public function getApplicationDetails($applicationNo){
@@ -58,6 +62,12 @@ class TourismEventController extends Controller
              $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
              $updateworkflow=TaskDetails::where('application_no',$request->application_no)
                                      ->update(['status_id' => $completedId->id]); 
+           //Email send notifications
+            if ($request->email) {
+                $when = Carbon::now()->addMinutes(1);
+                Notification::route('mail', $request->email) 
+                ->notify((new EndUserNotification($request->email, $request->name, $request->application_no, 'Approved',$request->service_name))->delay($when));
+            }
          });
          return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
          }
@@ -72,7 +82,13 @@ class TourismEventController extends Controller
              $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
              $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
                                      ->update(['status_id' => $completedId->id]);
-             return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
-             }
+            //Email send notifications
+            if ($request->email) {
+                $when = Carbon::now()->addMinutes(1);
+                Notification::route('mail', $request->email) 
+                ->notify((new EndUserNotification($request->email, $request->name, $request->application_no, 'Rejected',$request->service_name))->delay($when));
+            }
+         return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
+        }
      }
 }

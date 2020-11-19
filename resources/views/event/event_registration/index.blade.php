@@ -26,7 +26,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($events as $event)
+                            @foreach ($events as $event)
                             <tr>
                                 <td>{{ $loop->iteration}}</td>
                                 <td>{{$event->event_name}}</td>
@@ -49,11 +49,7 @@
                                     @endif
                                 </td>
                             </tr>
-                            @empty
-                            <tr>
-                                <td colspan="5" class="text-danger text-center">No events to be displayed</td>
-                            </tr>
-                            @endforelse
+                            @endforeach
                         </tbody>
                     </table>
                     <br>

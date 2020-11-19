@@ -69,9 +69,9 @@ class StatisticController extends Controller
         {
 
             if ($request->query('print') == 'excel') {
-                return Excel::download(new ExportToView($data, 'arrival'), $reportTypeName.'.xlsx');
+                return Excel::download(new ExportToView($data, 'report.statistical.download_excel.arrival'), $reportTypeName.'.xlsx');
             } else {
-                $pdf = PDF::loadView('report.pdf.arrival', $data);
+                $pdf = PDF::loadView('report.statistical.download_pdf.arrival', $data);
                 return $pdf->stream($reportTypeName.'-'.str_random(4).'.pdf');
             }
         } else {
@@ -158,7 +158,7 @@ class StatisticController extends Controller
                 ]
             ];
             $data['chartArray'] = $chartArray;
-            return view('statistical-reports.arrival', $data);
+            return view('report.statistical.arrival', $data);
         }
 
     }

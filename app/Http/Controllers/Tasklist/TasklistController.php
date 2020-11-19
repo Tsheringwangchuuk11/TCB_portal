@@ -11,7 +11,6 @@ use App\Models\TaskDetails;
 
 class TasklistController extends Controller
 {
-    //
     public function index()
     {
 
@@ -23,11 +22,18 @@ class TasklistController extends Controller
         if (!is_null(auth()->user()->location_id)){
             $location_id = auth()->user()->location_id;
         }
-
         $privilegeIds = TRolePrivilege::whereIn('role_id', $roles)->orderBy('system_sub_menu_id', 'asc')->select('system_sub_menu_id')->get();
-        $groupTasklists = TaskDetails::getTasklists($privilegeIds, $releaseId->id, 0, $location_id);
-        $myTasklists = TaskDetails::getTasklists($privilegeIds,$claimId->id, $user_id, $location_id);
+        $sub_menu_id = TRolePrivilege::whereIn('role_id', $roles)->orderBy('system_sub_menu_id', 'asc')->pluck('system_sub_menu_id')->toArray();
+        if(in_array(36, $sub_menu_id)){
+        $groupTasklists = TaskDetails::getTasklists($privilegeIds, $releaseId->id, 0, $location_id,'t_grievance_applications');
+        $myTasklists = TaskDetails::getTasklists($privilegeIds,$claimId->id, $user_id, $location_id,'t_grievance_applications');
         return view('services.tasklist.tasklist',compact('groupTasklists','myTasklists'));
+
+        }else{
+            $groupTasklists = TaskDetails::getTasklists($privilegeIds, $releaseId->id, 0, $location_id,'t_applications');
+            $myTasklists = TaskDetails::getTasklists($privilegeIds,$claimId->id, $user_id, $location_id,'t_applications');
+        return view('services.tasklist.tasklist',compact('groupTasklists','myTasklists'));
+        }
     }
     public function claimApplication(Request $request){
         $releaseId = WorkFlowDetails::getStatus('INITIATED');

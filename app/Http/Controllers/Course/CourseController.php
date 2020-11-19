@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\TrainingRegistration;
 use App\Models\Dropdown;
 use DB;
+use Illuminate\Support\Facades\Notification;
+use Carbon\Carbon;
+use App\Notifications\EndUserNotification;
 
 class CourseController extends Controller
 {
@@ -107,6 +110,26 @@ class CourseController extends Controller
             'updated_by'=>auth()->user()->id,
          );
         $updatedata=TrainingRegistration::updateDtls('t_trainee_application','application_no',$application_no,$data);
+
+        //get trainee info to send the application
+        $traineeinfo=TrainingRegistration::getViewSelectedTraineeList($application_no,$select_status);
+
+         //Email send notifications
+         if ($traineeinfo->applicant_email) {
+            $when = Carbon::now()->addMinutes(1);
+            Notification::route('mail', $traineeinfo->applicant_email) //Sending mail to trainer
+            ->notify((new EndUserNotification($traineeinfo->applicant_email, $traineeinfo->applicant_name, $application_no, 'Approved','Training'))->delay($when));
+        }
+
+        //SMS notifications
+            if ($traineeinfo->applicant_contact_no) {
+            $message="You have successfully Approved for Training".'. Your Application No. '.$application_no;
+            $message = urlencode($message);
+            $smsserver = "http://202.144.155.103/MIS_SMS/mis_sms_service.php?ph_num=".$traineeinfo->applicant_contact_no."&message=".$message;
+            $ch = curl_init($smsserver);
+            curl_exec($ch);
+            curl_close($ch);
+        }
         return redirect('course/trainee-apply-list/'.$course_dtl_id)->with('msg_success', ' Data Update successfully.');
     }
 

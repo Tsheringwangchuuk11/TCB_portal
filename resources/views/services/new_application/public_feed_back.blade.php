@@ -5,7 +5,7 @@
     <h3 class="text-default"> Tourism Grievance</h3>
 </div>
 <div class="container">
-    <form action="{{ url('application/save-grievance-application') }}" class="form-horizontal" method="POST" enctype="multipart/form-data" id="formdata">
+    <form action="{{ url('save-grievance-application') }}" class="form-horizontal" method="POST" enctype="multipart/form-data" id="form_data">
     @csrf
     <input type="hidden" name="service_id" value="{{ $idInfos->service_id }}" id="service_id">
     <input type="hidden" name="module_id" value="{{ $idInfos->module_id }}" id="module_id">
@@ -52,7 +52,7 @@
                 <div class="col-md-5 offset-md-2">
                     <div class="form-group">
                         <label for="">Telephone</label>
-                        <input type="number" class="form-control" name="complainant_telephone_no" value="{{ old('complainant_telephone_no') }}" autocomplete="off">
+                        <input type="text" class="form-control" name="complainant_telephone_no" value="{{ old('complainant_telephone_no') }}" autocomplete="off">
                     </div>
                 </div>
             </div>
@@ -60,7 +60,7 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="">Mobile Number <span class="text-danger">*</span> </label>
-                        <input type="number" class="form-control" name="complainant_mobile_no" value="{{ old('complainant_mobile_no') }}" autocomplete="off">
+                        <input type="text" class="form-control" name="complainant_mobile_no" value="{{ old('complainant_mobile_no') }}" autocomplete="off">
                     </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
@@ -100,13 +100,13 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="">Telephone</label>
-                        <input type="number" class="form-control" name="respondent_telephone_no" value="{{ old('respondent_telephone_no') }}" autocomplete="off">
+                        <input type="text" class="form-control" name="respondent_telephone_no" value="{{ old('respondent_telephone_no') }}" autocomplete="off">
                     </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
                     <div class="form-group">
                         <label for="">Mobile Number <span class="text-danger">*</span> </label>
-                        <input type="number" class="form-control" name="respondent_mobile_no" value="{{ old('respondent_mobile_no') }}" autocomplete="off">
+                        <input type="text" class="form-control" name="respondent_mobile_no" value="{{ old('respondent_mobile_no') }}" autocomplete="off">
                     </div>
                 </div>
             </div>
@@ -176,18 +176,12 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="">Location <span class="text-danger">*</span> </label>
-                        <select class="form-control select2bs4" name="location_id">
-                            <option value="">- Select -</option>
-                            {{-- @foreach ($locations as $location)
-                            <option value="{{$location->id}}" {{ old('location_id')}}>{{$location->location_name}}</option>
-                            @endforeach --}}
+                        <select class="form-control select2bs4" name="location_id" id="location_id" style="width: 100%;">
+                            <option value=""> -Select-</option>
+                            @foreach ($dzongkhagLists as $dzongkhagList)
+                            <option value="{{ $dzongkhagList->id }}" {{ old('dzongkhag_id') == $dzongkhagList->id ? 'selected' : '' }}>{{ $dzongkhagList->dzongkhag_name }}</option>
+                            @endforeach
                         </select>
-                    </div>
-                </div>
-                <div class="col-md-5 offset-md-2">
-                    <div class="form-group">
-                        <label for="">Date <span class="text-danger">*</span> </label>
-                        <input type="date" name="date" class="form-control" value="{{ old('date') }}">
                     </div>
                 </div>
             </div>
@@ -229,34 +223,49 @@
             $("#showlist").hide();
         }
     });
-$('#formdata').validate({
+  });
+$('#form_data').validate({
       ignore: [],
       rules: {
         complainant_email: {
             required: true,
             email: true,
          },
-        
-         applicant_type: {
-            required: true,
-         },
-         respondent_name: {
+         applicant_type_id: {
             required: true,
          },
          complainant_name: {
-            required: false,
+            required: function(element) {
+                var a=$("#applicant_type_id").val();
+                if(a==4){
+                    return $("#applicant_type_id").val() ==4;
+                    }
+            }
+        }, 
+        representative_name: {
+            required: function(element) {
+                var a=$("#applicant_type_id").val();
+                if(a==5){
+                    return $("#applicant_type_id").val() ==5;
+                    }
+                if(a==6){
+                    return $("#applicant_type_id").val() ==6;
+                 }
+            }
+        }, 
+         respondent_name: {
+            required: true,
          },
          complainant_address: {
             required: true,
          },
-         representative_name: {
-            required: false,
-         },
          complainant_telephone_no: {
             required: true,
+            digits:true,
          },
          complainant_mobile_no: {
             required: true,
+            digit:true,
          },
          service_provider_id: {
             required: true,
@@ -268,9 +277,6 @@ $('#formdata').validate({
             required: true,
          },
          location_id: {
-            required: true,
-         },
-         date: {
             required: true,
          },
          respondent_email: {

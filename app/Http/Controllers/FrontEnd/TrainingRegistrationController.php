@@ -9,6 +9,9 @@ use App\Models\Dropdown;
 use App\Models\WorkFlowDetails;
 use App\Models\Services;
 use DB;
+use Illuminate\Support\Facades\Notification;
+use Carbon\Carbon;
+use App\Notifications\EndUserNotification;
 
 class TrainingRegistrationController extends Controller
 {
@@ -41,7 +44,7 @@ class TrainingRegistrationController extends Controller
                        'applicant_contact_no'   => $request->applicant_contact_no,
                        'applicant_email'   => $request->applicant_email,
                        'applicant_gender'   => $request->applicant_gender,
-                       'applicant_village_id'   => $request->establishment_village_id,
+                       'applicant_village_id'   => $request->applicant_village_id,
                        'present_working_address'   => $request->present_working_address,
                        'created_at'   => now(),
                     ];
@@ -50,7 +53,14 @@ class TrainingRegistrationController extends Controller
 
              //update application_no in t_documents
              $service->updateDocumentDetails($request->documentId,$application_no);
+
+            //Email send notifications
+            if ($request->applicant_email) {
+                $when = Carbon::now()->addMinutes(1);
+                Notification::route('mail', $request->applicant_email) //Sending mail to trainer
+                ->notify((new EndUserNotification($request->applicant_email, $request->applicant_name, $application_no, 'Submitted',$request->service_name))->delay($when));
+            }
         });
-        return redirect('/')->with('appl_info', 'Your application has been submitted successfully');
+        return view('layouts.include.application_successful',compact('application_no'));
     }
 }

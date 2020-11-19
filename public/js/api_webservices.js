@@ -24,14 +24,8 @@ function api_webservices(cid_no) {
 
                 //date of birth
                 $("#dob").val(data.dob);
-                //permanent village
-                $("#permanent_village_id").val(data.permanentVillageserialno);
                 //gender
-                if (data.gender == 'M') {
-                    $("#M").prop("checked", true);
-                } else {
-                    $("#F").prop("checked", true);
-                }
+                $('#gender').val(data.gender).trigger("change");
                 //mobile no
                 $("#contact_no").val(data.mobileNumber);
                 //dzongkhag
@@ -41,7 +35,7 @@ function api_webservices(cid_no) {
                 $("#gewog_id").val(data.gewogSerialno);
                 $("#gewog_name").val(data.gewogName);
                 //village
-                $("#village_id").val(data.permanentVillageserialno);
+                $("#permanent_village_id").val(data.permanentVillageserialno);
                 $("#village_name").val(data.permanentVillagename);
 
                 //clear message
@@ -59,7 +53,7 @@ function api_webservices(cid_no) {
                 $("#dzongkhag_name").val('');
                 $("#gewog_id").val('');
                 $("#gewog_name").val('');
-                $("#village_id").val('');
+                $("#permanent_village_id").val('');
                 $("#village_name").val('');
 
                 $("#webserviceError").html('CID No ' + cid_no + ' is invalid, Please enter correct CID No!');

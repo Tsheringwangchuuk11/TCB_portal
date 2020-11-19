@@ -134,6 +134,7 @@
                     application_no:applicationNo,
                 },
                 success:function (data) {
+                    console.log(data);
                     if(data.status = 'true'){
                         $('#spnGroupTaskMsg').html(data.msg);
                         $('#alertGroupId').show().delay(3000).queue(function (n) {

@@ -5,6 +5,7 @@
     @csrf
     <input type="hidden" class="form-control" name="module_id" value="{{ $applicantInfo->module_id }}">
     <input type="hidden" class="form-control" name="service_id" value="{{ $applicantInfo->service_id }}">
+    <input type="hidden" class="form-control" name="service_name" value="{{ $applicantInfo->name }}">
 <div class="card">
     <div class="card-header">
         <h4 class="card-title"> Recommendation Letter for Import License</h4>
@@ -30,12 +31,17 @@
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label  for="" >License Date<span class="text-danger"> *</span></label>
-                                <input type="date" class="form-control" name="license_date" value="{{ $applicantInfo->license_date}}">
+                                <div class="input-group date" id="license_date" data-target-input="nearest">
+                                    <input type="text" name="license_date" class="form-control datetimepicker-input" data-target="#license_date" value="{{ $applicantInfo->license_date}}">
+                                    <div class="input-group-append" data-target="#license_date" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-5 offset-md-2">
                             <div class="form-group">
-                                <label for="">Hptel Name<span class="text-danger"> *</span></label>
+                                <label for="">Company Name<span class="text-danger"> *</span></label>
                                 <input type="text" class="form-control" name="company_name" value="{{ $applicantInfo->company_title_name }}">
                             </div>
                         </div>
@@ -43,7 +49,7 @@
                     <div class="row">
                         <div class="col-md-5">
                             <div class="form-group">
-                                <label for="">CID No.<span class="text-danger"> *</span></label>
+                                <label for="">Citizen ID<span class="text-danger"> *</span></label>
                                 <input type="text" class="form-control" name="cid_no" value="{{ $applicantInfo->cid_no }}">
                             </div>
                         </div>
@@ -136,6 +142,11 @@
 @endsection
 @section('scripts')
     <script>
+    $(document).ready(function(){
+        $('#license_date').datetimepicker({
+            format: 'DD/MM/YYYY',
+        });
+    }); 
         function requiredRemarks(status) {
         $("#remarks_error").html('');
         if($("#remarks").val() ==""){

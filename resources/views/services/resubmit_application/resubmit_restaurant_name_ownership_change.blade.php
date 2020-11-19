@@ -36,7 +36,12 @@
                         </div>
                         <div class="form-group col-md-5 offset-md-2">
                             <label for="">License Date <span class="text-danger"> *</span> </label>
-                            <input type="date" class="form-control" name="license_date" value="{{ $applicantInfo->license_date }}">
+                            <div class="input-group date" id="license_date" data-target-input="nearest">
+                                <input type="text" name="license_date" class="form-control datetimepicker-input" data-target="#license_date" value="{{ $applicantInfo->license_date}}">
+                                <div class="input-group-append" data-target="#license_date" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>                             
                         </div>
                     </div>
                     <div class="row">
@@ -55,7 +60,7 @@
                             <input type="text" class="form-control" name="address" value="{{ $applicantInfo->address }}">
                         </div>
                         <div class="form-group col-md-5 offset-md-2">
-                            <label for="">CID No. </label>
+                            <label for="">Citizen ID</label>
                             <input type="text" class="form-control" name="cid_no" value="{{ $applicantInfo->cid_no }}">
                         </div>
                     </div>
@@ -229,6 +234,9 @@
                     $("#name_change_info").hide();
                     $("#name_change").hide();
                 } 
+                $('#license_date').datetimepicker({
+                    format: 'DD/MM/YYYY',
+                });
         });
     </script>
 @endsection

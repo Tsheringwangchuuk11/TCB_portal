@@ -54,7 +54,7 @@ class PublicReport extends Model
         $query = \DB::select("
         SELECT
         a.MonthEn, 
-        SUM(IF(a.Mode_Entry<>'Land',1,0)) air,
+        SUM(IF(a.Mode_Entry='Air',1,0)) air,
         SUM(IF(a.Mode_Entry='Land',1,0)) land,
         COUNT(a.Mode_Entry) total
         FROM t_admin_data a
@@ -109,6 +109,28 @@ class PublicReport extends Model
         return $query;
     }
 
+    public static function MonthlyALoSByPurpose(){
+        $query = \DB::select("
+                    SELECT 
+                    a.MainPurpose,
+                    ROUND(AVG(CASE a.MonthEn WHEN 'Jan' THEN a.Nights END)) Jan,
+                    ROUND(AVG(CASE a.MonthEn WHEN 'Feb' THEN a.Nights END)) Feb,
+                    ROUND(AVG(CASE a.MonthEn WHEN 'Mar' THEN a.Nights END)) Mar,
+                    ROUND(AVG(CASE a.MonthEn WHEN 'Apr' THEN a.Nights END)) Apr,
+                    ROUND(AVG(CASE a.MonthEn WHEN 'May' THEN a.Nights END)) May,
+                    ROUND(AVG(CASE a.MonthEn WHEN 'Jun' THEN a.Nights END)) Jun,
+                    ROUND(AVG(CASE a.MonthEn WHEN 'Jul' THEN a.Nights END)) Jul,
+                    ROUND(AVG(CASE a.MonthEn WHEN 'Aug' THEN a.Nights END)) Aug,
+                    ROUND(AVG(CASE a.MonthEn WHEN 'Sep' THEN a.Nights END)) Sep,
+                    ROUND(AVG(CASE a.MonthEn WHEN 'Oct' THEN a.Nights END)) Octo,
+                    ROUND(AVG(CASE a.MonthEn WHEN 'Nov' THEN a.Nights END)) Nov,
+                    ROUND(AVG(CASE a.MonthEn WHEN 'Dec' THEN a.Nights END)) Dece
+                FROM
+                    t_admin_data a WHERE a.MainPurpose <> 'Paro'
+                GROUP BY a.MainPurpose ; 
+            ");
+        return $query;
+      }
     public static function getMajorMarketsByMainPurpose(){
         $query = \DB::select("
         SELECT 
@@ -126,9 +148,7 @@ class PublicReport extends Model
         GROUP BY a.Region;
         ");
         return $query;
-
     }
-
     public static function getALoSByMajorMarkets(){
         $query = \DB::select("
         SELECT 

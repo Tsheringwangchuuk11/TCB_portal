@@ -107,10 +107,8 @@
 
     <div class="container">
         <div class="text-center"><a href="/"><img src="{{ URL::to('img/tcblogo/tcb_header.jpg') }}" class="w-100"
-                                                  alt="Tourism Portal"></a></div>
+                                                  alt="Tourism Bhutan Portal"></a></div>
     </div>
-
-
     <nav class="navbar navbar-expand-sm navbar-light bg-primary-2" id="myNavbar">
         <div class="container"><a href="/" class="navbar-brand text-white">&nbsp;<i class="fas fa-home"></i></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNav"
@@ -118,14 +116,11 @@
                     class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="mainNav">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item px-2"><a href="{{ url('about_us') }}" class="nav-link  text-white">ABOUT US</a>
-                    </li>
-                    <li class="nav-item px-2"><a href="{{ url('report/public-report') }}" class="nav-link  text-white">REPORTS</a>
-                    </li>
-                    <li class="nav-item px-2"><a href="{{ url('contact_us') }}" class="nav-link  text-white">CONTACT</a>
-                    </li>
-                    <li class="nav-item px-2"><a href="{{ url('training-registration') }}" class="nav-link  text-white">TRAINING REGISTRATION</a>
-                    </li>
+                    <li class="nav-item px-2"><a href="{{ url('about_us') }}" class="nav-link  text-white">ABOUT US</a></li>
+                    <li class="nav-item px-2"><a href="{{ url('report/public-report') }}" class="nav-link  text-white">REPORTS</a></li>
+                    <li class="nav-item px-2"><a href="{{ url('contact_us') }}" class="nav-link  text-white">CONTACT</a></li>
+                    <li class="nav-item px-2"><a href="{{ url('training-registration') }}" class="nav-link  text-white">TRAINING REGISTRATION</a></li>
+                    <li class="nav-item px-2"><a href="{{ route('tourism-grievances') }}" class="nav-link  text-white">TOURISM GRIEVANCES</a></li>
                 </ul>
             </div>
         </div>
@@ -150,7 +145,7 @@
             <div class="col-sm-3 pr-4 text-center">
                 <h5>Information</h5>
                 <a href="#" class="text-white-50 text-sm">Contact Us</a> <br>
-                <a href="{{ route('feedback') }}" class="text-white-50 text-sm">Feedback</a> <br>
+                <a href="#" class="text-white-50 text-sm">Feedback</a> <br>
                 <a href="#" class="text-white-50 text-sm">Sitemap</a> <br>
                 <a href="#" class="text-white-50 text-sm">Policies & Disclaimer</a>
             </div>
@@ -191,12 +186,8 @@
 <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script>
 <!-- CommonUtil -->
 <script src="{{ asset('js/commonUtil.js') }}"></script>
-<!-- high charts -->
-<script src="{{ asset('plugins/highcharts/highcharts.js') }}"></script>
-<script src="{{ asset('plugins/highcharts/exporting.js') }}"></script>
-<script src="{{ asset('plugins/highcharts/export-data.js') }}"></script>
-<script src="{{ asset('plugins/highcharts/accessibility.js') }}"></script>
-
+{{--APIs--}}
+<script src="{{ asset('js/api_webservices.js') }}"></script>
 @yield('scripts')
 </body>
 <script>

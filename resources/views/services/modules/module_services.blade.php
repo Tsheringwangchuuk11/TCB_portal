@@ -41,6 +41,10 @@
 @endsection
 @section('scripts')
 <script>
+  $(document).ready(function () {
+    var dropDown = document.getElementById("modules_id");
+    dropDown.selectedIndex = 0;
+  });
     function loadServices(id)
     {
       var modules_id=id;

@@ -223,8 +223,17 @@ public function setToDateAttribute($value)
 		->leftjoin('t_gewog_masters as t8','t7.gewog_id','=','t8.id')
 		->leftjoin('t_module_masters as t5','t5.id','=','t1.module_id')
 		->leftjoin('t_services as t6','t6.id','=','t1.service_id')
-		->select('t1.*','t3.dzongkhag_id','t3.gewog_name','t2.chiwog_name','t4.village_name','t4.gewog_id','t5.module_name','t6.name','t8.dzongkhag_id as permanent_dzongkhag_id',
-		't8.gewog_name as permanent_gewog_name','t7.village_name as permanent_village_name')
+		->select('t1.*',
+				DB::raw('DATE_FORMAT(t1.dob,"%d/%m/%Y") as dob'), 
+				DB::raw('DATE_FORMAT(t1.tentative_cons,"%d/%m/%Y") as tentative_cons'), 
+				DB::raw('DATE_FORMAT(t1.tentative_com,"%d/%m/%Y") as tentative_com'), 
+				DB::raw('DATE_FORMAT(t1.drawing_date,"%d/%m/%Y") as drawing_date'), 
+				DB::raw('DATE_FORMAT(t1.license_date,"%d/%m/%Y") as license_date'), 
+				DB::raw('DATE_FORMAT(t1.validity_date,"%d/%m/%Y") as validity_date'), 
+				DB::raw('DATE_FORMAT(t1.from_date,"%d/%m/%Y") as from_date'), 
+				DB::raw('DATE_FORMAT(t1.from_date,"%d/%m/%Y") as to_date'), 
+				't3.dzongkhag_id','t3.gewog_name','t2.chiwog_name','t4.village_name','t4.gewog_id','t5.module_name','t6.name','t8.dzongkhag_id as permanent_dzongkhag_id',
+				't8.gewog_name as permanent_gewog_name','t7.village_name as permanent_village_name')
 		->where('t1.application_no',$applicationNo)
 		->first();
 		return $query;
@@ -239,8 +248,9 @@ public function setToDateAttribute($value)
 		->leftjoin('t_gewog_masters as t8','t7.gewog_id','=','t8.id')
 		->leftjoin('t_module_masters as t5','t5.id','=','t1.module_id')
 		->leftjoin('t_services as t6','t6.id','=','t1.service_id')
-		->select('t1.*','t3.dzongkhag_id','t3.gewog_name','t2.chiwog_name','t4.village_name','t4.gewog_id','t5.module_name','t6.name','t8.dzongkhag_id as new_dzongkhag_id',
-		't8.gewog_name as new_gewog_name','t7.village_name as new_village_name')
+		->select('t1.*',DB::raw('DATE_FORMAT(t1.license_date,"%d/%m/%Y") as license_date'), 
+			't3.dzongkhag_id','t3.gewog_name','t2.chiwog_name','t4.village_name','t4.gewog_id','t5.module_name','t6.name','t8.dzongkhag_id as new_dzongkhag_id',
+			't8.gewog_name as new_gewog_name','t7.village_name as new_village_name')
 		->where('t1.application_no',$applicationNo)
 		->first();
 		return $query;
@@ -252,8 +262,12 @@ public function setToDateAttribute($value)
 		->leftjoin('t_village_masters as t3','t3.id','=','t2.village_id')
 		->leftjoin('t_gewog_masters as t4','t4.id','=','t3.gewog_id')
 		->select('t1.service_id','t1.module_id','t1.application_no','t1.applicant_name','t1.cid_no','t1.contact_no','t1.email',
-		't1.company_title_name','t1.number', 't1.application_type_id','t3.village_name','t4.gewog_name','t4.dzongkhag_id',
-		't1.webpage_url','t2.*')
+			't1.company_title_name','t1.number', 't1.application_type_id','t3.village_name','t4.gewog_name','t4.dzongkhag_id',
+			't1.webpage_url','t2.*',
+			DB::raw('DATE_FORMAT(t2.last_date,"%d/%m/%Y") as last_date'), 
+			DB::raw('DATE_FORMAT(t2.start_date,"%d/%m/%Y") as start_date'),
+			DB::raw('DATE_FORMAT(t2.end_date,"%d/%m/%Y") as end_date')
+		    )
 		->where('t1.application_no',$applicationNo)
 		->first();
 		return $query;
@@ -330,7 +344,8 @@ public function setToDateAttribute($value)
 		->leftjoin('t_village_masters as t3','t3.id','=','t2.partner_village_id')
 		->leftjoin('t_gewog_masters as t4','t4.id','=','t3.gewog_id')
 		->leftjoin('t_dzongkhag_masters as t5','t5.id','=','t4.dzongkhag_id')
-		->select('t2.id','t2.partner_name','t2.partner_email','t2.partner_cid_no','t2.partner_gender','t2.partner_dob','t2.partner_village_id','t3.village_name','t3.gewog_id','t4.gewog_name','t4.dzongkhag_id')
+		->select('t2.id','t2.partner_name','t2.partner_email','t2.partner_cid_no','t2.partner_gender',DB::raw('DATE_FORMAT(t2.partner_dob,"%d/%m/%Y") as partner_dob'), 
+		't2.partner_village_id','t3.village_name','t3.gewog_id','t4.gewog_name','t4.dzongkhag_id')
 		->where('t1.application_no',$applicationNo)
 		->first();
 		return $query;
@@ -356,7 +371,10 @@ public function setToDateAttribute($value)
 		->leftjoin('t_gewog_masters as t4','t4.id','=','t3.gewog_id')
 		->leftjoin('t_dzongkhag_masters as t5','t5.id','=','t4.dzongkhag_id')
 		->leftjoin('t_product_types_master as t6','t6.id','=','t2.product_type_id')
-		->select('t2.*','t3.village_name','t3.gewog_id','t4.dzongkhag_id','t4.gewog_name','t5.dzongkhag_name','t6.product_name','t6.dropdown_id')
+		->select('t2.*',
+				DB::raw('DATE_FORMAT(t2.start_date,"%d/%m/%Y") as start_date'), 
+				DB::raw('DATE_FORMAT(t2.end_date,"%d/%m/%Y") as end_date'), 
+		       't3.village_name','t3.gewog_id','t4.dzongkhag_id','t4.gewog_name','t5.dzongkhag_name','t6.product_name','t6.dropdown_id')
 		->where('t2.application_no',$applicationNo)
 		->first();
 		return $query;
@@ -693,6 +711,8 @@ public function setToDateAttribute($value)
 
 	public static function getGrievanceDetails($applicationNo){
 		$query=DB::table('t_grievance_applications as t1')
+		->leftjoin('t_workflow_dtls as t2','t2.application_no','=','t1.application_no')
+		->select('t1.*',\DB::raw('DATE_FORMAT(t2.created_at,"%Y-%m-%d") as created_at'),'t2.remarks')
 		->where('t1.application_no',$applicationNo)
 		->first();
 		return $query;
@@ -847,41 +867,86 @@ public function setToDateAttribute($value)
            return $query;
 		}
 
-		public static function getLetterContent($application_no,$service_id,$module_id){
+		public static function getHotelTechnicalClearanceLetterContent($application_no,$service_id,$module_id){
 			$query=\DB::table('t_applications as a')
-			->leftjoin('t_workflow_dtls as b','b.application_no','=','a.application_no')
-			->leftjoin('t_technical_clearances as c','c.application_no','=' ,'a.application_no')
-			->leftjoin('t_dropdown_lists as d','d.id','=', 'c.accomodation_type_id')
-			->leftjoin('t_letter_masters as e','e.service_id','=','a.service_id')
-			->leftjoin('t_village_masters as f' ,'f.id' ,'=','c.village_id')
-			->leftjoin('t_gewog_masters as g','g.id', '=','f.gewog_id')
-			->leftjoin('t_dzongkhag_masters as h','h.id','=','g.dzongkhag_id')
-			->leftjoin('t_technical_clearances_audit as j','j.clearance_id','=','c.id')
-			->select('a.application_no','c.dispatch_no','c.name','c.cid_no','c.proposed_rooms_no','d.dropdown_name','e.*','c.purpose_id',DB::raw('DATE_FORMAT(b.created_at,"%d/%m/%Y") as submit_date'),'j.name as old_owner',
-			'f.village_name','g.gewog_name','h.dzongkhag_name',DB::raw('DATE_FORMAT(c.validaty_date,"%d/%m/%Y") as validaty_date'))
-			->where('b.status_id','3')
-			->where('a.application_no',$application_no)
- 	     	->where('e.service_id',$service_id)
-			->where('e.module_id',$module_id)
-			->first();
+					->leftjoin('t_workflow_dtls as b','b.application_no','=','a.application_no')
+					->leftjoin('t_technical_clearances as c','c.application_no','=' ,'a.application_no')
+					->leftjoin('t_dropdown_lists as d','d.id','=', 'c.accomodation_type_id')
+					->leftjoin('t_letter_masters as e','e.service_id','=','a.service_id')
+					->leftjoin('t_village_masters as f' ,'f.id' ,'=','c.village_id')
+					->leftjoin('t_gewog_masters as g','g.id', '=','f.gewog_id')
+					->leftjoin('t_dzongkhag_masters as h','h.id','=','g.dzongkhag_id')
+					->leftjoin('t_technical_clearances_audit as j','j.clearance_id','=','c.id')
+					->select('a.application_no','c.dispatch_no','c.name','c.cid_no','c.proposed_rooms_no','d.dropdown_name','e.*','c.purpose_id',DB::raw('DATE_FORMAT(b.created_at,"%d/%m/%Y") as submit_date'),'j.name as old_owner',
+					'f.village_name','g.gewog_name','h.dzongkhag_name',DB::raw('DATE_FORMAT(c.validaty_date,"%d/%m/%Y") as validaty_date'))
+					->where('b.status_id','3')
+					->where('a.application_no',$application_no)
+					->where('e.service_id',$service_id)
+					->where('e.module_id',$module_id)
+					->first();
+			return $query;	
+		}
+
+		public static function getOperatorLicenseClearanceLetterContent(){
+			$query=\DB::table('t_applications as a')
+					->leftjoin('t_workflow_dtls as b','b.application_no','=','a.application_no')
+					->leftjoin('t_technical_clearances as c','c.application_no','=' ,'a.application_no')
+					->leftjoin('t_dropdown_lists as d','d.id','=', 'c.accomodation_type_id')
+					->leftjoin('t_letter_masters as e','e.service_id','=','a.service_id')
+					->leftjoin('t_village_masters as f' ,'f.id' ,'=','c.village_id')
+					->leftjoin('t_gewog_masters as g','g.id', '=','f.gewog_id')
+					->leftjoin('t_dzongkhag_masters as h','h.id','=','g.dzongkhag_id')
+					->leftjoin('t_technical_clearances_audit as j','j.clearance_id','=','c.id')
+					->select('a.application_no','c.dispatch_no','c.name','c.cid_no','c.proposed_rooms_no','d.dropdown_name','e.*','c.purpose_id',DB::raw('DATE_FORMAT(b.created_at,"%d/%m/%Y") as submit_date'),'j.name as old_owner',
+					'f.village_name','g.gewog_name','h.dzongkhag_name',DB::raw('DATE_FORMAT(c.validaty_date,"%d/%m/%Y") as validaty_date'))
+					->where('b.status_id','3')
+					->where('a.application_no',$application_no)
+					->where('e.service_id',$service_id)
+					->where('e.module_id',$module_id)
+					->first();
 			return $query;	
 		}
 
 		public static function getcertificationContent($application_no,$service_id,$module_id){
-
-
-$query=\DB::table('t_applications as a')
-			->leftjoin('t_workflow_dtls as b','b.application_no','=','a.application_no')
-			->leftjoin('t_tourist_standard_dtls as c','c.module_id','=' ,'a.module_id')
-			->leftjoin('t_village_masters as d','d.id','=', 'c.village_id')
-			->leftjoin('t_gewog_masters as e','e.id','=','d.gewog_id')
-			->leftjoin('t_dzongkhag_masters as f' ,'f.id' ,'=','e.dzongkhag_id')
-			->select('c.star_category_id','c.tourist_standard_name','c.cid_no','c.owner_name','d.village_name','e.gewog_name','f.dzongkhag_name',DB::raw('DATE_FORMAT(c.validaty_date,"%D %M,%Y") as validaty_date'))
-			->where('b.status_id','3')
-			->where('a.application_no',$application_no)
- 	     	->where('a.service_id',$service_id)
-			->where('a.module_id',$module_id)
-			->first();
+			$query=\DB::table('t_applications as a')
+						->leftjoin('t_workflow_dtls as b','b.application_no','=','a.application_no')
+						->leftjoin('t_tourist_standard_dtls as c','c.module_id','=' ,'a.module_id')
+						->leftjoin('t_village_masters as d','d.id','=', 'c.village_id')
+						->leftjoin('t_gewog_masters as e','e.id','=','d.gewog_id')
+						->leftjoin('t_dzongkhag_masters as f' ,'f.id' ,'=','e.dzongkhag_id')
+						->select('c.star_category_id','c.tourist_standard_name','c.cid_no','c.owner_name','d.village_name','e.gewog_name','f.dzongkhag_name',DB::raw('DATE_FORMAT(c.validaty_date,"%D %M,%Y") as validaty_date'))
+						->where('b.status_id','3')
+						->where('a.application_no',$application_no)
+						->where('a.service_id',$service_id)
+						->where('a.module_id',$module_id)
+						->first();
 			return $query;
+		}
+
+		public static function getChapterId($application_no,$moduleId, $starCategoryId){
+			$sql = \DB::table('t_checklist_applications as a')
+						->leftJoin('t_check_list_standards as b','b.id','=','a.checklist_id')
+						->leftJoin('t_check_list_areas as c','c.id','=','b.checklist_area_id')
+						->leftJoin('t_check_list_chapters as d','d.id','=','c.checklist_ch_id')
+						->leftJoin('t_check_list_standard_mappings as e','e.checklist_id','=','b.id')
+						->select(\DB::raw('DISTINCT(c.checklist_ch_id) as chapterId'))
+						->where('a.application_no',$application_no)
+						->where('d.module_id',$moduleId)
+						->where('e.star_category_id',$starCategoryId)
+						->pluck('chapterId');
+			return $sql;
+		}
+
+		public static function getTentedAccomChapterId($application_no,$moduleId){
+			$sql = \DB::table('t_checklist_applications as a')
+						->leftJoin('t_check_list_standards as b','b.id','=','a.checklist_id')
+						->leftJoin('t_check_list_areas as c','c.id','=','b.checklist_area_id')
+						->leftJoin('t_check_list_chapters as d','d.id','=','c.checklist_ch_id')
+						->leftJoin('t_check_list_standard_mappings as e','e.checklist_id','=','b.id')
+						->select(\DB::raw('DISTINCT(c.checklist_ch_id) as chapterId'))
+						->where('a.application_no',$application_no)
+						->where('d.module_id',$moduleId)
+						->pluck('chapterId');
+			return $sql;
 		}
 }

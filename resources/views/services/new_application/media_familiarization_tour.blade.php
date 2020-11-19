@@ -21,7 +21,7 @@
                 </div>
                 <div class="col-md-5 offset-md-2">
                     <div class="form-group">
-                        <label for="">CID <span class="text-danger"> *</span></label>
+                        <label for="">Citizen ID<span class="text-danger"> *</span></label>
                         <input type="text" class="form-control" name="cid_no" autocomplete="off">
                     </div>
                 </div>

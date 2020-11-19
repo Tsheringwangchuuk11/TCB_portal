@@ -21,11 +21,12 @@
             </thead>
             <tbody>
                 @foreach($coursedtllists as $coursedtllist)
+                @if ($coursedtllist->id!=null)
                 <tr>
                     <td>{{$loop->iteration}}</td>
                     <td>{{ $coursedtllist->dropdown_name }}</td>
-                    <td>{{ date_format(date_create($coursedtllist->app_start_date), "F jS Y") }} to {{ date_format(date_create($coursedtllist->app_end_date), "F jS Y") }}</td>
-                    <td>{{ date_format(date_create($coursedtllist->course_start_date), "F jS Y") }} to {{ date_format(date_create($coursedtllist->course_end_date), "F jS Y") }}</td>
+                    <td>{{ date_format(date_create($coursedtllist->app_start_date), "F jS Y") }} to {{ date_format(date_create($coursedtllist->app_end_date), "F jS Y") }}</td> 
+                    <td>{{ date_format(date_create($coursedtllist->course_start_date), "F jS Y") }} to {{ date_format(date_create($coursedtllist->course_end_date), "F jS Y") }}</td> 
                     <td>{{ $coursedtllist->dzongkhag_name }}</td>
                     <td>{{ $coursedtllist->total_slot }}</td>
                     <td>{{ $coursedtllist->contact_person }}</td>
@@ -36,6 +37,7 @@
                     <td><a class="badge badge-pill badge-info" href="{{ url('registration-for-training/'. $coursedtllist->id) }}"> Apply</a></td>
                     @endif
                 </tr>
+                @endif
                 @endforeach
             </tbody>
         </table>
