@@ -43,6 +43,10 @@ class OpenApplicationController extends Controller
             //Media familiarization tour Details
             return redirect()->route('media',[$applicationNo]);
         }
+        elseif($moduleId==8){
+            //Tourism Event Details
+            return redirect()->route('tourismevent',[$applicationNo]);
+        }
         elseif($moduleId==9){
             //Media familiarization tour Details
             return redirect()->route('tendedaccommodation',[$applicationNo]);

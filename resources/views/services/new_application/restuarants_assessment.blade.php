@@ -22,7 +22,12 @@
                 <div class="col-md-5 offset-md-2">
                     <div class="form-group">
                         <label for="">License Date <span class="text-danger">*</span> </label>
-                        <input type="date" class="form-control" name="license_date" autocomplete="off" value="{{ old('license_date') }}">
+                        <div class="input-group date" id="license_date" data-target-input="nearest">
+                            <input type="text" name="license_date" class="form-control datetimepicker-input" data-target="#license_date" value="{{ old('license_date') }}">
+                            <div class="input-group-append" data-target="#license_date" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -34,15 +39,16 @@
                     </div>
                 </div>
                 <div class="form-group col-md-5 offset-md-2">
-                    <label for="">CID No.<span class="text-danger">*</span> </label>
-                    <input type="text" class="form-control" name="cid_no" value="{{ old('cid_no') }}">
+                    <label for="">Citizen ID<span class="text-danger">*</span> </label>
+                    <input type="text" class="form-control" name="cid_no" id="cid_no" value="{{ old('cid_no') }}" onchange="api_webservices(this.value)">
+                    <span id="webserviceError" class="text-danger"></span>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="">Owner <span class="text-danger">*</span> </label>
-                        <input type="text" class="form-control" name="owner_name" value="{{ old('owner_name') }}">
+                        <input type="text" class="form-control" name="owner_name" value="{{ old('owner_name') }}" id="applicant_name">
                     </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
@@ -56,7 +62,7 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="">Contact No <span class="text-danger">*</span> </label>
-                        <input type="text" class="form-control" name="contact_no" value="{{ old('contact_no') }}">
+                        <input type="text" class="form-control" name="contact_no" value="{{ old('contact_no') }}" id="contact_no">
                     </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
@@ -142,13 +148,13 @@
                             <a href="#" class="delete-table-row btn btn-danger btn-xs"><i class="fas fa-times"></i></a>
                         </td>
                         <td width="15%">
-                            <input type="text" name="staff_cid_no[]" class="form-control resetKeyForNew" />
+                            <input type="text" name="staff_cid_no[]" class="form-control">
                         </td>
                         <td width="20%">
-                            <input type="text" name="staff_name[]" class="form-control resetKeyForNew" />
+                            <input type="text" name="staff_name[]" class="form-control" />
                         </td>
                         <td width="15%">
-                            <select class="form-control input-sm resetKeyForNew" name="staff_gender[]">
+                            <select class="form-control input-sm" name="staff_gender[]">
                                 <option value=""> </option>
                                 @foreach (config()->get('settings.gender') as $k => $v)
                                 <option value="{{ $k }}" {{ old('gender') == $k ? 'selected' : '' }}>{{ $v }}</option>
@@ -156,19 +162,19 @@
                             </select>
                         </td>
                         <td>
-                            <input type="text" name="staff_designation[]" class="form-control input-sm resetKeyForNew">
+                            <input type="text" name="staff_designation[]" class="form-control input-sm">
                         </td>
                         <td>
-                            <input type="text" name="qualification[]" class="form-control input-sm resetKeyForNew">
+                            <input type="text" name="qualification[]" class="form-control input-sm">
                         </td>
                         <td>
-                            <input type="text" name="experience[]" class="form-control input-sm resetKeyForNew">
+                            <input type="text" name="experience[]" class="form-control input-sm">
                         </td>
                         <td width="10%">
-                            <input type="text" name="salary[]" class="form-control input-sm resetKeyForNew" />
+                            <input type="text" name="salary[]" class="form-control input-sm" />
                         </td>
                         <td>
-                            <select class="form-control input-sm resetKeyForNew" name="hospitility_relating[]">
+                            <select class="form-control input-sm" name="hospitility_relating[]">
                                 <option value=""> </option>
                                 @foreach (config()->get('settings.hospitility_relating') as $k => $v)
                                 <option value="{{ $k }}" {{ old('hospitility_relating') == $k ? 'selected' : '' }}>{{ $v }}</option>
@@ -211,6 +217,9 @@
         $(document).ready(function () {
             $('.select2bs4').on('change', function () {
                 $(this).valid();
+            });
+            $('#license_date').datetimepicker({
+                format: 'DD/MM/YYYY'
             });
         });
         $(document).ready(function () {

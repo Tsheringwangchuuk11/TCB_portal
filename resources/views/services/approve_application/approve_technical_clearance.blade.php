@@ -3,9 +3,10 @@
 @section('content')
 <form action="{{ url('verification/technical-clearance') }}" method="POST" id="form_Id" enctype="multipart/form-data">
     @csrf
-    <input type="hidden" name="service_id" value="{{ $applicantInfo->module_id }}">
+    <input type="hidden" name="service_id" id="service_id" value="{{ $applicantInfo->service_id }}">
     <input type="hidden" name="module_id" value="{{ $applicantInfo->module_id }}">
     <input type="hidden" name="applicant_id" value="{{ $applicantInfo->applicant_id }}">
+    <input type="hidden" class="form-control" name="service_name" value="{{ $applicantInfo->name }}">
     <div class="card">
         <div class="card-header">
             <h4 class="card-title">General Information</h4>
@@ -18,6 +19,7 @@
                             <div class="form-group">
                                 <label for="" >Application Number<span class="text-danger"> *</span></label>
                                 <input type="text" class="form-control" name="application_no" value="{{ old('application_no',$applicantInfo->application_no) }}" readonly="true">
+                                <input type="hidden" class="form-control" name="dispatch_no" value="{{ old('dispatch_no',$applicantInfo->dispatch_no) }}">
                             </div>
                         </div>
                         <div class="col-md-5 offset-md-2">
@@ -54,7 +56,7 @@
                     <div class="row">
                         <div class="col-md-5">
                             <div class="form-group">
-                                <label for="">CID No.<span class="text-danger"> *</span></label>
+                                <label for="">Citizen ID<span class="text-danger"> *</span></label>
                                 <input type="text" class="form-control" name="cid_no" value="{{ old('cid_no', $applicantInfo->cid_no) }}">
                             </div>
                         </div>
@@ -75,7 +77,13 @@
                         <div class="col-md-5 offset-md-2">
                             <div class="form-group">
                                 <label for="">Tentative construction<span class="text-danger"> *</span> </label>
-                                <input type="date" name="tentative_cons" class="form-control" value="{{ old('tentative_cons', $applicantInfo->tentative_cons) }}">
+                                <div class="input-group date" id="tentative_cons" data-target-input="nearest">
+                                    <input type="text" name="tentative_cons" class="form-control datetimepicker-input" data-target="#tentative_cons" value="{{ old('tentative_cons', $applicantInfo->tentative_cons) }}">
+                                    <div class="input-group-append" data-target="#tentative_cons" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -83,13 +91,23 @@
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label for="">Tentative completion of the construction<span class="text-danger"> *</span></label>
-                                <input type="date" class="form-control" name="tentative_com" value="{{ old('tentative_com', $applicantInfo->tentative_com) }}">
+                                <div class="input-group date" id="tentative_com" data-target-input="nearest">
+                                    <input type="text" name="tentative_com" class="form-control datetimepicker-input" data-target="#tentative_com" value="{{ old('tentative_com',$applicantInfo->tentative_com) }}">
+                                    <div class="input-group-append" data-target="#tentative_com" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-5 offset-md-2">
                             <div class="form-group">
                                 <label for="">Drawing submission date<span class="text-danger"> *</span></label>
-                                <input type="date" class="form-control" name="drawing_date" value="{{ old('drawing_date', $applicantInfo->drawing_date) }}">
+                                <div class="input-group date" id="drawing_date" data-target-input="nearest">
+                                    <input type="text" name="drawing_date" class="form-control datetimepicker-input" data-target="#drawing_date" value="{{ old('drawing_date', $applicantInfo->drawing_date) }}">
+                                    <div class="input-group-append" data-target="#drawing_date" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -144,67 +162,54 @@
         </div>
     </div>
     <div class="card">
-        <div class="card-header">
-            <h4 class="card-title">Document Attachment</h4>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="form-group col-md-6">
-                    <label>Title</label>
-                </div>
-                <div class="form-group col-md-6">
-                    <label>Download Files</label>
-                </div>
-                @forelse ($documentInfos as $documentInfo)
-                <div class="form-group col-md-6">
-                    <span>{{ $documentInfo->document_name }}</span>
-                </div>
-                <div class="form-group col-md-6">
-                    <a href="{{ url($documentInfo->upload_url) }}" class="btn btn-xs btn-info" target="_blank"><i class="fa fa-link"></i> View</a>                
-                </div>
-                @empty
-                <div class="form-group col-md-12">
-                    <p>No data availlable</p>
-                </div>
-                @endforelse                
-            </div>
-            <div class="row">
-                <div class="form-group col-md-5">
-                    <label for="">Remarks <span class="text-danger">*</span> </label>
-                    <textarea type="text" class="form-control" name="remarks" row="3"></textarea>
+		<div class="card-header">
+			 <h4 class="card-title">File Attachment</h4>
+		</div>
+		<div class="card-body">
+			@include('services/fileupload/fileupload')
+			<div class="row">
+                <div class="form-group col-md-8">
+					<label for="">Remarks <span class="text-danger">*</span> </label>
+					<textarea type="text" class="form-control" id="remarks" name="remarks" row="3"></textarea>
+                    <div id="remarks_error" class="text-danger"></div>
                 </div>
             </div>
-        </div>
-        <div class="card-footer text-center">
-            <button name="status" value="APPROVED" class="btn btn-success">
-                <li class="fas fa-check"></li>
-                APPROVE
-            </button>
-            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmModal">
-                <li class="fas fa-times"></li>
-                REJECT
-            </button>
-        </div>
-    </div>
-    <div class="modal fade" id="confirmModal">
-        <div class="modal-dialog">
-            <div class="modal-content bg-danger">
-                <div class="modal-header">
-                    <h4 class="modal-title">Confirm Message</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span></button>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure,you want to reject &hellip;</p>
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
-                    <button name="status" value="REJECTED" class="btn btn-outline-light" data-dismiss="modal">Confirm</button>
-                </div>
-            </div>
-        </div>
+		</div>
+		<div class="card-footer text-center">
+			<div class="card-footer text-center">
+				<button name="status" value="APPROVED" class="btn btn-success"><li class="fas fa-check"></li> APPROVE</button>
+				<button name="status" value="RESUBMIT"  class="btn btn-warning" onclick="return requiredRemarks(this.value)"><li class="fas fa-ban"></li> RESUBMIT</button>
+				<button name="status"value="REJECTED" class="btn btn-danger" onclick="return requiredRemarks()"> <li class="fas fa-times"></li> REJECT</button>
+			</div>
+	    </div>
     </div>
 <form>
+@endsection
+@section('scripts')
+	<script>
+        $(document).ready(function(){
+            $('#tentative_cons').datetimepicker({
+                format: 'DD/MM/YYYY',
+            });
+            $('#tentative_com').datetimepicker({
+                format: 'DD/MM/YYYY'
+            });
+            $('#drawing_date').datetimepicker({
+                format: 'DD/MM/YYYY'
+            });
+        });
+        function requiredRemarks(status) {
+			$("#remarks_error").html('');
+			if($("#remarks").val() ==""){
+				if(status=="RESUBMIT"){
+					$("#remarks_error").html('Please provide reason for resubmit!');
+				}else{
+					$("#remarks_error").html('Please provide reason for rejection!');
+				}
+				return false;
+			}
+		}
+	</script>
 @endsection
 
 

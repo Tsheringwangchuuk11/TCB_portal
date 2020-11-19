@@ -2,7 +2,6 @@
 
 $(document).ready(function () {
    $("#bs4-slide-carousel").carousel();
-    validation.Initialize();
    $('.dzongkhagdropdown').on('change',function(e) {
       var dzongkhag_id = e.target.value;
       if(dzongkhag_id){
@@ -27,6 +26,32 @@ $(document).ready(function () {
          $("#gewog_id option:gt(0)").remove();	
          $("#chiwog_id option:gt(0)").remove();
          $("#village_id option:gt(0)").remove();
+      }		 
+   });
+
+   $('.permanentdzongkhagdropdown').on('change',function(e) {
+      var dzongkhag_id = e.target.value;
+      if(dzongkhag_id){
+         $("#permanent_gewog_id option:gt(0)").remove();	
+         $.ajax({			   
+                  url:'/json-dropdown',
+                  type:"GET",
+                  data: {
+                     table_name: 't_gewog_masters',
+                           id: 'id',
+                           name: 'gewog_name',
+                     parent_id: dzongkhag_id,
+               parent_name_id: 'dzongkhag_id'					 
+            },
+            success:function (data) {
+            $.each(data, function(key, value) {
+                   $('select[name="permanent_gewog_id"]').append('<option value="'+ key +'">'+ value +'</option>');
+               });
+             }
+         });
+      }else{
+         $("#permanent_gewog_id option:gt(0)").remove();	
+         $("#permanent_village_id option:gt(0)").remove();
       }		 
    });
 
@@ -77,6 +102,31 @@ $(document).ready(function () {
          });
       }else{
          $("#village_id option:gt(0)").remove();	
+      }		 
+   });
+
+   $('.permanentgewogdropdown').on('change',function(e) {
+      var gewog_id = e.target.value;
+      if(gewog_id){
+         $("#permanent_village_id option:gt(0)").remove();	
+         $.ajax({			   
+                  url:'/json-dropdown',
+                  type:"GET",
+                  data: {
+                     table_name: 't_village_masters',
+                           id: 'id',
+                           name: 'village_name',
+                     parent_id: gewog_id,
+               parent_name_id: 'gewog_id'					 
+            },
+            success:function (data) {
+            $.each(data, function(key, value) {
+                  $('select[name="permanent_village_id"]').append('<option value="'+ key +'">'+ value +'</option>');
+               });
+            }
+         });
+      }else{
+         $("#permanent_village_id option:gt(0)").remove();	
       }		 
    });
     
@@ -136,13 +186,20 @@ $(function () {
    'use strict';
    $('#fileuploaded').fileupload({
       add: function (e, data) {
+         var serviceId = $("#service_id").val();
          var uploadErrors = [];
          var acceptFileTypes = /(\.|\/)(gif|jpe?g|png|pdf|tiff)$/i;
          if(data.originalFiles[0]['type'].length && !acceptFileTypes.test(data.originalFiles[0]['name'])) {
             uploadErrors.push(data.originalFiles[0]['name'] + ' is not alloawed. Invalid file type.');
          }
-         if(data.originalFiles[0]['size'] > 2000000) {				   
-            uploadErrors.push(data.originalFiles[0]['name'] +' is too big, ' + parseInt(data.originalFiles[0]['size'] / 1024 / 1024) + 'M.. File should be smaller than 2M.');
+         if(serviceId==1) {
+            if (data.originalFiles[0]['size'] >= 10000000) {
+               uploadErrors.push(data.originalFiles[0]['name'] + ' is too big, ' + parseInt(data.originalFiles[0]['size'] / 1024 / 1024) + 'M.. Maximum file size should be 10MB.');
+            }
+         }else {
+            if (data.originalFiles[0]['size'] > 2000000) {
+               uploadErrors.push(data.originalFiles[0]['name'] + ' is too big, ' + parseInt(data.originalFiles[0]['size'] / 1024 / 1024) + 'M.. File should be smaller than 2MB.');
+            }
          }
          if (uploadErrors.length > 0) {
             $('#msgId').html(uploadErrors);
@@ -164,7 +221,7 @@ $(function () {
          $('.progress-bar').css('width', percentComplete + '0%');
      },
     
-      url: '/application/documentattach',
+      url: '/documentattach',
       type: 'POST',
       headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -179,9 +236,9 @@ $(function () {
             jQuery.each(data.data, function (index, row) {
                $('#files').append('<div class="image_wrap">'
                   + '<input type="hidden" name="documentId[]" value="' + row.id + '"/><strong>' + row.document_name + '</strong> &nbsp;'
-                  + '<a href="{!! url("'+row.upload_url+'") !!}" class="btn btn-sm btn-info" target="_blank"><i class="fa fa-link"></i> View </a> &nbsp;'
+                  + '<a href="#" onClick="viewfiles(this.id,\'' + row.upload_url + '\')" class="btn btn-sm btn-info"><i class="fa fa-link"></i> View </a> &nbsp;'
                   + '<span onClick="deletefile(this.id,\'' + row.id + '\',\'' + row.upload_url + '\')" id="deleteId' + count + '" class="delete-line btn btn-danger btn-sm" data-file_id="' + row.id + '">'
-                  + '<i class="fas fa-trash-alt fa-sm"></i> Delete</span></div>');
+                  + '<i class="fas fa-trash-alt fa-sm"></i> Delete</span></div><br>');
                count++;
             });
          } else {
@@ -210,7 +267,7 @@ function deletefile(id,fileId,url){
       var fileId = fileId;
       var url = url;
       $.ajax({
-            url  : '/application/deletefile',
+            url  : '/deletefile',
             type : "POST",
             headers: {
                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -226,516 +283,11 @@ function deletefile(id,fileId,url){
    }
 }
 
-//Script for approve the application
-function approveOrRejectApplication(status) {
-   var form= $("#formId");
-     $.ajax({
-         type: form.attr('method'),
-         url: form.attr('action'),
-         data: form.serialize()+"&status="+status,
-         success: function (data) {
-           $('#successMsg').html(data.msg);
-           $('#showMsg').show().delay(3000).queue(function (n) {
-             $(this).hide();
-             n();
-           });
-           setTimeout(function(){
-             window.location.replace = "{{ url('tasklist/tasklist') }}";
-          }, 5000); 
-         } 
-     });
- }
-// form validation
-var validation = function () {
-   $('#formdata').validate({
-      ignore: [],
-      rules: {
-         email: {
-            required: true,
-            email: true,
-         },
-         cid_no: {
-            required: true,
-            maxlength: 11,
-            minlength: 11,
-            digits: true,
-         },
-         applicant_name: {
-            required: true,
-         },
-         fax: {
-            required: true,
-         },
-         location: {
-            required:true
-         },
-         dzongkhag_id: {
-            required:true
-         },
-         gewog_id: {
-            required:true
-         },
-         financial_year: {
-            required:true
-         },
-         chiwog_id: {
-            required:true
-         },
-         village_id: {
-            required:true
-         },
-         contact_no: {
-            required: true,
-            digits: true,
-            maxlength: 8
-         },
-         number: {
-            required: true,
-            digits: true,
-         },
-         tentative_cons: {
-            required: true,
-         },
-         tentative_com: {
-            required: true,
-         },
-         drawing_date:{
-            required: true,
-         },
-         respondent_mobile_no:{
-            required: true,
-         },
-         star_category_id: {
-            required: true,
-         },
-         license_no: {
-            required:true,
-         },
-         license_date: {
-            required:true,
-         },
-         company_title_name: {
-            required:true,
-         },
-         owner_name: {
-            required:true,
-         },
-         address: {
-            required:true,
-         },
-         thram_no: {
-            required:true,
-         },
-         house_no: {
-            required:true,
-         },
-         town_distance: {
-            required:true,
-         },
-         road_distance: {
-            required:true,
-         },
-         condition: {
-            required:true,
-         },
-         validity_date: {
-            required:true
-         },
-         city: {
-            required:true
-         },
-         type: {
-            required:true
-         },
-         applicant_type: {
-            required:true
-         },
-         designation: {
-            required:true
-         },
-         country_id: {
-            required:true
-         },
-         from_date: {
-            required:true
-         },
-         to_date: {
-            required:true
-         },
-         complainant_name: {
-            required:false,
-         },
-         respondent_telephone_no: {
-            required:true,
-         },
-         complainant_address: {
-            required:true,
-         },
-         complainant_telephone_no: {
-            required:true,
-         },
-         claim_summary: {
-            required:true,
-         },
-         organizer_name: {
-            required:true,
-         },
-         objective: {
-            required:true,
-         },
-         product_des: {
-            required:true,
-         },
-         webpage_url: {
-            required: true,
-            url: true,
-            normalizer: function( value ) {
-            var url = value;
-            // Check if it doesn't start with http:// or https:// or ftp://
-            if ( url && url.substr( 0, 7 ) !== "http://"
-                  && url.substr( 0, 8 ) !== "https://"
-                  && url.substr( 0, 6 ) !== "ftp://" ) {
-               // then prefix with http://
-               url = "http://" + url;
-            }
-            // Return the new url
-            return url;
-            }
-         },
-         location_id: {
-            required:true,
-         },
-         terms: {
-            required:true,
-         },
+function viewfiles(id, url) {
+   window.open(url, '_blank')
+}
 
-         complainant_mobile_no:{
-            required:true,
-         },
-         complainant_email:{
-            required:true,
-         },
-         respondent_email:{
-            required:true,
-         },
-         respondent_address:{
-            required:true,
-         },
-         service_provider_id:{
-            required:true,
-         },
-         respondent_name:{
-            required:true,
-         },
-         remedy_sought:{
-            required:true,
-         },
-         date:{
-            required:true,
-         },
-         organizer_address:{
-            required:true,
-         },
-         organizer_email:{
-            required:true,
-         },
-         organizer_phone:{
-            required:true,
-         },
-         organizer_type:{
-            required:true,
-         },
-         amount_requested:{
-            required:true,
-         },
-         project_cost:{
-            required:true,
-         },
-         letter_sample:{
-            required:true,
-         },
-         timeline:{
-            required:true,
-         },
-         contribution:{
-            required:true,
-         },
-          /*'room_type_id[]': {
-            required:true,
-         },
-         
-        'room_no[]': {
-           required: true,
-           digits: true,
-         },
-         'staff_area_id[]': {
-           required:true
-         },
-         'hotel_div_id[]': {
-            required:true
-         },
-         'staff_name[]': {
-            required:true,
-         },
-         'staff_gender[]': {
-            required:true,
-         },
-         'member_name[]': {
-            required:true,
-         },
-         'relation_type_id[]': {
-            required:true,
-         },
-         'member_age[]': {
-            required: true,
-            digits: true,
-         },
-         'member_gender[]': {
-            required:true,
-         }, */
-      },
-      messages: {
-         email: {
-            required: "Please enter a email address",
-            email: "Please enter a vaild email address"
-         },
-         cid_no: {
-            required: "Please provide a cid number",
-            maxlength: "Your cid must be 11 characters long",
-            minlength: "Your cid must be at least 11 characters long",
 
-            digits: "This field accept only digits",
-
-         },
-
-         applicant_name: {
-            required: "Please provide a name",
-         },
-         complainant_address: {
-            required: "Please provide complainant address",
-         },
-         applicant_type: {
-            required: "Please select applicant type",
-         },
-         designation: {
-            required: "Please provide designation",
-         },
-         fax: {
-            required: "Please provide a fax number",
-         },
-         location: {
-            required: "Please provide a location",
-         },
-         complainant_telephone_no: {
-            required: "Please provide complainant telephone number",
-         },
-         dzongkhag_id: {
-            required: "Please select dzongkhag",
-         },
-         city: {
-            required: "Please select city",
-         },
-         from_date: {
-            required: "Please select from date",
-         },
-         to_date: {
-            required: "Please select to date",
-         },
-         country_id: {
-            required: "Please select country",
-         },
-         gewog_id: {
-            required: "Please select gewog",
-         },
-         chiwog_id: {
-            required: "Please select chiwog",
-         },
-         product_des: {
-            required: "Please select chiwog",
-         },
-         village_id: {
-            required: "Please select village",
-         },
-         contact_no: {
-            required: "Please provide contact number",
-            digits: "This field accept only digits",
-            maxlength: "Phone number field accept only 8 digits",
-         },
-        
-         tentative_cons: {
-            required: "Please provide tentative construction ",
-         },
-         tentative_com: {
-            required: "Please provide tentative completion of the construction ",
-         },
-         drawing_date: {
-            required: "Please provide drawing date",
-         },
-         star_category_id: {
-            required: "Please select the star category",
-         },
-         license_no: {
-            required: "Please provide the license number",
-         },
-         license_date: {
-            required: "Please provide the license date",
-         },
-         company_title_name: {
-            required: "This field is required",
-         },
-         owner_name: {
-            required: "This field is required",
-         },
-         service_provider_id: {
-            required: "This field is required",
-         },
-         financial_year: {
-            required: "This field is required",
-         },
-         complainant_mobile_no: {
-            required: "This field is required",
-         },
-         complainant_mobile_no: {
-            required: "This field is required",
-         },
-         type: {
-            required: "This field is required",
-         },
-         date: {
-            required: "This field is required",
-         },
-         organizer_type: {
-            required: "This field is required",
-         },
-         respondent_name: {
-            required: "This field is required",
-         },
-         respondent_email: {
-            required: "This field is required",
-         },
-         complainant_email: {
-            required: "This field is required",
-         },
-         claim_summary: {
-            required: "This field is required",
-         },
-         organizer_phone: {
-            required: "This field is required",
-         },
-         amount_requested: {
-            required: "This field is required",
-         },
-         address: {
-            required: "Please provide the address",
-         },
-         thram_no: {
-            required: "Please provide the thram number",
-         },
-         organizer_email: {
-            required: "Please provide the thram number",
-         },
-         house_no: {
-            required: "Please provide the house number",
-         },
-         town_distance: {
-            required: "This field is required",
-         },
-         road_distance: {
-            required: "This field is required",
-         },
-         project_cost: {
-            required: "This field is required",
-         },
-         objective: {
-            required: "This field is required",
-         },
-         condition: {
-            required: "This field is required",
-         },
-         validity_date: {
-            required: "This field is required",
-         },
-         respondent_address: {
-            required: "This field is required",
-         },
-         remedy_sought: {
-            required: "This field is required",
-         }, 
-         organizer_name: {
-            required: "This field is required",
-         },
-         contribution: {
-            required: "This field is required",
-         },
-         organizer_address: {
-            required: "This field is required",
-         },
-         timeline: {
-            required: "This field is required",
-         },
-         letter_sample: {
-            required: "This field is required",
-         },
-         webpage_url: {
-            required: "Please provide the url",
-         },
-         respondent_mobile_no: {
-            required: "Please provide the url",
-         },
-         location_id: {
-            required: "Please select the location",
-         },
-
-         terms: {
-            required:"Please accept our terms",
-         },
-        'room_type_id[]':{
-            required: "Please select the room type",
-         },
-         /*
-        'room_no[]': {
-           required: "Please provide number of rooms",
-           digits: "This field accept only digits",
-         },
-         'staff_area_id[]': {
-            required: "Please select the area",
-         },
-         'hotel_div_id[]': {
-            required: "Please select the division",
-         },
-         'staff_name[]': {
-            required: "Please provide staff name",
-         },
-         'staff_gender[]': {
-            required: "Please select the gender",
-         },
-         'member_name[]': {
-            required: "Please select the gender",
-         },
-         'relation_type_id[]': {
-            required: "Please select the gender",
-         },
-         'member_age[]': {
-            required: "Please select the gender",
-            digits: "This field accept only digits",
-         },
-         'member_gender[]': {
-            required: "Please select the gender",
-         } */
-      },
-      errorElement: 'span',
-      errorPlacement: function (error, element) {
-         error.addClass('invalid-feedback');
-         element.closest('.form-group').append(error);
-      },
-      highlight: function (element, errorClass, validClass) {
-         $(element).addClass('is-invalid');
-      },
-      unhighlight: function (element, errorClass, validClass) {
-         $(element).removeClass('is-invalid');
-      }
-   });
-}();
 
 
  

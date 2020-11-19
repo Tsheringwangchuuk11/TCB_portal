@@ -8,7 +8,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>@yield('title')</title>
-
+        <link rel="shortcut icon" href="{{ URL::to('img/favicon.png') }}">
 
 		<!-- Styles -->
             <!-- Font Awesome Icons -->
@@ -40,7 +40,6 @@
         <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css')}}">
          <!-- high chart -->
          <link rel="stylesheet" href="{{ asset('css/highchart.css')}}">
-
         <style>
             .hide{
                 display: none;

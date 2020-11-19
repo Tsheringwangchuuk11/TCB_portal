@@ -44,7 +44,7 @@
             <div class="row">
                 <div class="col-md-5">
                   <div class="form-group">
-                    <label for="">Owner CID<span class="text-danger">*</span> </label>
+                    <label for="">Owner Citizen ID<span class="text-danger">*</span> </label>
                     <input type="text" class="form-control" name="cid_no" value="{{ $applicantInfo->cid_no }}">
                   </div>
                 </div>
@@ -144,9 +144,10 @@
                                         <td>{{ $chapterArea->checklist_area }}</td>
                                         @endif
                                             @if (in_array( $checkListStandard->checklist_id, $checklistrec))
-                                            <td>{{ $checkListStandard->checklist_standard }}
+                                            <td>
+                                                <input type="hidden" name="checklist_record_id[]" value="{{ $checklistrecords[$i]->id }}">
+                                                {{ $checkListStandard->checklist_standard }}
                                                 <input type="radio" name="check{{ $chapterArea->id }}" value="{{ $checkListStandard->checklist_id}}" {{ $checklistrecords[$i]->checklist_id  ==  $checkListStandard->checklist_id ? 'checked':'' }}>
-
                                             </td>
                                                @php 
 												($i++) 

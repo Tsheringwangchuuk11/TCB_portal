@@ -37,6 +37,7 @@
                             <th>Current Status</th>
                             <th>Approved Date</th>
                             <th>Remarks</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                      @if(isset($endUserApplicantDtls))
@@ -48,18 +49,20 @@
                                     <td>
                                         @if ($endUserApplicantDtl->id===9)
                                             @if($endUserApplicantDtl->module_id==1)
-                                                <a href="{{ url('verification/tourist-standard-hotel',['applicationNo'=>$endUserApplicantDtl->application_no,'status'=>$endUserApplicantDtl->id]) }}">{{ $endUserApplicantDtl->application_no }}</a>
+                                                <a href="{{ url('verification/tourist-standard-hotel',['applicationNo'=>$endUserApplicantDtl->application_no,'status'=>$endUserApplicantDtl->id]) }}"><span class="text-warning">{{ $endUserApplicantDtl->application_no }}</span></a>
                                             @elseif($endUserApplicantDtl->module_id==2)
-                                                 <a href="{{ url('verification/village-homestay',['applicationNo'=>$endUserApplicantDtl->application_no,'status'=>$endUserApplicantDtl->id]) }}">{{ $endUserApplicantDtl->application_no }}</a>
+                                                 <a href="{{ url('verification/village-homestay',['applicationNo'=>$endUserApplicantDtl->application_no,'status'=>$endUserApplicantDtl->id]) }}"><span class="text-warning">{{ $endUserApplicantDtl->application_no }}</span></a>
                                              @elseif($endUserApplicantDtl->module_id==3)
-                                                 <a href="{{ url('verification/restaurant',['applicationNo'=>$endUserApplicantDtl->application_no,'status'=>$endUserApplicantDtl->id]) }}">{{ $endUserApplicantDtl->application_no }}</a>
+                                                 <a href="{{ url('verification/restaurant',['applicationNo'=>$endUserApplicantDtl->application_no,'status'=>$endUserApplicantDtl->id]) }}"><span class="text-warning">{{ $endUserApplicantDtl->application_no }}</span></a>
                                             @elseif($endUserApplicantDtl->module_id==4)
-                                                 <a href="{{ url('verification/tour-operator',['applicationNo'=>$endUserApplicantDtl->application_no,'status'=>$endUserApplicantDtl->id]) }}">{{ $endUserApplicantDtl->application_no }}</a>
+                                                 <a href="{{ url('verification/tour-operator',['applicationNo'=>$endUserApplicantDtl->application_no,'status'=>$endUserApplicantDtl->id]) }}"><span class="text-warning">{{ $endUserApplicantDtl->application_no }}</span></a>
+                                             @elseif($endUserApplicantDtl->module_id==5)
+                                                 <a href="{{ url('verification/tourism-product-development',['applicationNo'=>$endUserApplicantDtl->application_no,'status'=>$endUserApplicantDtl->id]) }}"><span class="text-warning">{{ $endUserApplicantDtl->application_no }}</span></a>
                                              @else
-                                             <a href="{{ url('verification/tended-accommodation',['applicationNo'=>$endUserApplicantDtl->application_no,'status'=>$endUserApplicantDtl->id]) }}">{{ $endUserApplicantDtl->application_no }}</a>
+                                             <a href="{{ url('verification/tended-accommodation',['applicationNo'=>$endUserApplicantDtl->application_no,'status'=>$endUserApplicantDtl->id]) }}"><span class="text-warning">{{ $endUserApplicantDtl->application_no }}</span></a>
                                             @endif
                                         @elseif($endUserApplicantDtl->id===10)
-                                             <a href="{{ url('verification/tourist-standard-hotel',['applicationNo'=>$endUserApplicantDtl->application_no,'status'=>$endUserApplicantDtl->id]) }}">{{ $endUserApplicantDtl->application_no }}</a>
+                                             <a href="{{ url('verification/tourist-standard-hotel',['applicationNo'=>$endUserApplicantDtl->application_no,'status'=>$endUserApplicantDtl->id]) }}"><span class="text-info">{{ $endUserApplicantDtl->application_no }}</span></span></a>
                                         @else
                                              {{ $endUserApplicantDtl->application_no }}
                                         @endif
@@ -69,17 +72,24 @@
                                     <td>{{ $endUserApplicantDtl->created_at }}</td>
                                     <td>
                                         @if ($endUserApplicantDtl->id===1)
-                                           <span class="text-info">{{ $endUserApplicantDtl->status_name }}</span>
+                                        <span class="badge badge-pill badge-primary">{{ $endUserApplicantDtl->status_name }}</span>
                                         @elseif($endUserApplicantDtl->id===3) 
-                                           <span class="text-success">{{ $endUserApplicantDtl->status_name }}</span>
+                                        <span class="badge badge-pill badge-success">{{ $endUserApplicantDtl->status_name }}</span>
                                         @elseif($endUserApplicantDtl->id===4)
-                                           <span class="text-danger">{{ $endUserApplicantDtl->status_name }}</span>
+                                        <span class="badge badge-pill badge-danger">{{ $endUserApplicantDtl->status_name }}</span>
+                                        @elseif($endUserApplicantDtl->id===9)
+                                        <span class="badge badge-pill badge-warning">{{ $endUserApplicantDtl->status_name }}</span>
                                         @else
-                                           <span class="text-warning">{{ $endUserApplicantDtl->status_name }}</span>
+                                        <span class="badge badge-pill badge-info">{{ $endUserApplicantDtl->status_name }}</span>
                                         @endif
                                     </td>
                                     <td>{{ $endUserApplicantDtl->updated_at }}</td>
                                     <td>{{ $endUserApplicantDtl->remarks }}</td>
+                                    <td>
+                                        @if ($endUserApplicantDtl->id===3)
+                                        <a href="{{	url('application/recommendation-letter',['applicationNo'=>$endUserApplicantDtl->application_no,'service_id'=>$endUserApplicantDtl->service_id,'module_id'=>$endUserApplicantDtl->module_id]) }}" class="btn btn-xs btn-info btn-flat" target="_blank"><i class="fa fa-print"></i> Print</a> 
+                                        @endif   
+                                    </td>
                                 </tr>
                                 @endforeach
                         </tbody>

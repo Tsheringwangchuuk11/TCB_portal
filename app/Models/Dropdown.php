@@ -82,5 +82,13 @@ class Dropdown extends Model
         }
         $value = $db_table->orderBy( 'id','asc')->pluck('standard_code',  'id')->all();
         return $value;
-    }
+	}
+	
+	public static function getCourseStatus($statusId){
+		$query=\DB::table('t_course_status_type as t1')
+					->select('t1.id','t1.course_status_name')
+					->whereIn('t1.id',$statusId)
+					->get();
+  	     return $query;
+	}
 }

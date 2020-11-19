@@ -4,7 +4,9 @@
 <form action="{{ url('verification/village-home-stay-assessment') }}" class="form-horizontal" method="POST" enctype="multipart/form-data" id="form_data">
     @csrf
     <input type="hidden" name="service_id" value="{{ $applicantInfo->service_id }}" id="service_id">
-    <input type="hidden" name="module_id" value="{{ $applicantInfo->module_id }}" id="module_id">
+	<input type="hidden" name="module_id" value="{{ $applicantInfo->module_id }}" id="module_id">
+	<input type="hidden" class="form-control" name="service_name" value="{{ $applicantInfo->name }}">
+
 	<div class="card">
 		<div class="card-header">
 			<h4 class="card-title">Personal Details</h4>
@@ -42,7 +44,7 @@
 			  <div class="row">
 				<div class="col-md-5">
 					<div class="form-group ">
-					  <label for="">CID No.<span class="text-danger"> *</span></label>
+					  <label for="">Citizen ID<span class="text-danger"> *</span></label>
 					  <input type="text" class="form-control" name="cid_no"  value="{{ old('cid_no',$applicantInfo->cid_no) }}">
 					</div>
 				  </div>
@@ -259,26 +261,34 @@
                 </div>
                 <div class="form-group col-md-5 offset-md-2">
                     <label for="">Inspection Date<span class="text-danger">*</span> </label>
-                    <input type="date" class="form-control" name="inspection_date">
+					<div class="input-group date" id="inspection_date" data-target-input="nearest">
+						<input type="text" name="inspection_date" class="form-control datetimepicker-input" data-target="#inspection_date" value="{{ $productInfo->start_date }}">
+						<div class="input-group-append" data-target="#inspection_date" data-toggle="datetimepicker">
+							<div class="input-group-text"><i class="fa fa-calendar"></i></div>
+						</div>
+					</div>
                 </div>
             </div>
 		</div>
 		<div class="card-footer text-center">
-			<div class="card-footer text-center">
-                @if(is_null(auth()->user()->location_id))
-				    <button name="status" value="APPROVED" class="btn btn-success"><li class="fas fa-check"></li> APPROVE</button>
-                @else
-                    <button name="status" value="VERIFIED" class="btn btn-success"><li class="fas fa-check"></li> VERIFY</button>
-                @endif
-				<button name="status" value="RESUBMIT"  class="btn btn-warning" onclick="return requiredRemarks(this.value)"><li class="fas fa-ban"></li> RESUBMIT</button>
-				<button name="status"value="REJECTED" class="btn btn-danger" onclick="return requiredRemarks()"> <li class="fas fa-times"></li> REJECT</button>
-			</div>
-	    </div>
+			@if(is_null(auth()->user()->location_id))
+				<button name="status" value="APPROVED" class="btn btn-success"><li class="fas fa-check"></li> APPROVE</button>
+			@else
+				<button name="status" value="VERIFIED" class="btn btn-success"><li class="fas fa-check"></li> VERIFY</button>
+			@endif
+			<button name="status" value="RESUBMIT"  class="btn btn-warning" onclick="return requiredRemarks(this.value)"><li class="fas fa-ban"></li> RESUBMIT</button>
+			<button name="status"value="REJECTED" class="btn btn-danger" onclick="return requiredRemarks()"> <li class="fas fa-times"></li> REJECT</button>
+		</div>
     </div>
 </form>
 @endsection
 @section('scripts')
 	<script>
+		$(document).ready(function(){
+			$('#inspection_date').datetimepicker({
+				format: 'DD/MM/YYYY',
+			});
+		});
 		function requiredRemarks(status) {
 			$("#remarks_error").html('');
 			if($("#remarks").val() ==""){

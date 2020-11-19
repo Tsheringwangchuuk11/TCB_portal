@@ -35,7 +35,7 @@ class ModuleServiceSeeder extends Seeder
             ['module_id' => 4, 'service_id' => 12, 'page_link' => 'services/new_application/propreiter_card'],
             ['module_id' => 4, 'service_id' => 13, 'page_link' => 'services/new_application/recommandation_letter_for_tourism_industry_partners'],
             ['module_id' => 4, 'service_id' => 4, 'page_link' => 'services/new_application/to_recommendation_letter_for_import_license'],
-            ['module_id' => 4, 'service_id' => 14, 'page_link' => 'services/new_application/to_license_renew'],
+            ['module_id' => 4, 'service_id' => 14, 'page_link' => 'services/new_application/to_license_renew_clearance'],
 
             //Tourism Product
             ['module_id' => 5, 'service_id' => 15, 'page_link' => 'services/new_application/eoi'],

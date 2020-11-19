@@ -59,7 +59,12 @@
         <div class="col-md-5 offset-md-2">
             <div class="form-group">
                 <label for="">Event Start Date <span class="text-danger"> *</span></label>
-                <input type="date" id= "eventstartDate" name="start_date" class="form-control">
+                <div class="input-group date" id="eventstartDate" data-target-input="nearest">
+                    <input type="text" name="start_date" class="form-control datetimepicker-input" data-target="#eventstartDate">
+                    <div class="input-group-append" data-target="#eventstartDate" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -67,13 +72,23 @@
         <div class="col-md-5">
             <div class="form-group">
                 <label for="">Event End Date <span class="text-danger"> *</span></label>
-                <input type="date" id= "eventendDate" name="end_date" class="form-control">
+                <div class="input-group date" id="eventendDate" data-target-input="nearest">
+                    <input type="text" name="end_date" class="form-control datetimepicker-input" data-target="#eventendDate">
+                    <div class="input-group-append" data-target="#eventendDate" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-md-5 offset-md-2">
             <div class="form-group">
                 <label for="">Late Date Of Registration <span class="text-danger"> *</span></label>
-                <input type="date" id= "eventlastDate" name="last_date" class="form-control">
+                <div class="input-group date" id="eventlastDate" data-target-input="nearest">
+                    <input type="text" name="last_date" class="form-control datetimepicker-input" data-target="#eventlastDate">
+                    <div class="input-group-append" data-target="#eventlastDate" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -119,6 +134,18 @@
     </div>
 </form>
 <script>
+    $(document).ready(function(){
+            $('#eventstartDate').datetimepicker({
+                format: 'DD/MM/YYYY'
+            });
+            $('#eventendDate').datetimepicker({
+                format: 'DD/MM/YYYY'
+            });
+            $('#eventlastDate').datetimepicker({
+                format: 'DD/MM/YYYY'
+            });
+    });
+    
     $(function() {
         $('#event_form').validate({
             rules: {

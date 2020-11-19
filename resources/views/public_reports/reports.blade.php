@@ -94,7 +94,12 @@
             </div>
     </div>
 @endsection
+<!-- high charts -->
 @section('scripts')
+<script src="{{ asset('plugins/highcharts/highcharts.js') }}"></script>
+<script src="{{ asset('plugins/highcharts/exporting.js') }}"></script>
+<script src="{{ asset('plugins/highcharts/export-data.js') }}"></script>
+<script src="{{ asset('plugins/highcharts/accessibility.js') }}"></script> 
     <script>
         $(function () {
             //Initialize Select2 Elements
@@ -107,7 +112,6 @@
 
         });
     </script>
-
     <script>
         $(document).ready(function () {
             generateReports();

@@ -50,7 +50,7 @@
             </div>
             <div class="row">
                 <div class="form-group col-md-5">
-                    <label for="">CID No.</label>
+                    <label for="">Citizen ID</label>
                     <input type="text" class="form-control" name="cid_no" value="{{ $applicantInfo->cid_no }}" autocomplete="off">
                 </div>
                 <div class="form-group col-md-5 offset-md-2">

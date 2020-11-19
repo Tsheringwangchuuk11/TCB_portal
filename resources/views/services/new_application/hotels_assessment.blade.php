@@ -48,7 +48,12 @@
         <div class="row">
             <div class="form-group col-md-5">
                 <label for="">License Date <span class="text-danger">*</span> </label>
-                <input type="date" class="form-control" name="license_date" autocomplete="off">
+                <div class="input-group date" id="license_date" data-target-input="nearest">
+                    <input type="text" name="license_date" class="form-control datetimepicker-input" data-target="#license_date" value="{{ old('license_date') }}">
+                    <div class="input-group-append" data-target="#license_date" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
             </div>
             <div class="form-group col-md-5 offset-md-2">
                 <label for="">Hotel Name <span class="text-danger">*</span> </label>
@@ -57,12 +62,12 @@
         </div>
         <div class="row">
             <div class="form-group col-md-5">
-                <label for="">CID No.<span class="text-danger">*</span> </label>
-                <input type="text" class="form-control" name="cid_no" autocomplete="off">
+                <label for="">Citizen ID<span class="text-danger">*</span> </label>
+                <input type="text" class="form-control" name="cid_no" autocomplete="off" onchange="api_webservices(this.value)" id="cid_no">
             </div>
             <div class="form-group col-md-5 offset-md-2">
                 <label for="">Owner Name<span class="text-danger">*</span> </label>
-                <input type="text" class="form-control" name="owner_name" autocomplete="off">
+                <input type="text" class="form-control" name="owner_name" autocomplete="off" id="applicant_name">
             </div>
         </div>
         <div class="row">
@@ -160,7 +165,7 @@
         </div>
         <div class="row" id="rowId">
             <div class="form-group col-md-5">
-                <select class="form-control" name="room_type_id[]" id="room_type_id">
+                <select class="form-control room_type_id" name="room_type_id[]" id="room_type_id">
                     <option value=""> - Select Room - </option>
                     @foreach ($roomTypeLists as $roomTypeList)
                     <option value="{{ $roomTypeList->id }}">{{ $roomTypeList->dropdown_name }}</option>
@@ -202,13 +207,13 @@
                         <a href="#" class="delete-table-row btn btn-danger btn-xs"><i class="fas fa-times"></i></a>
                     </td>
                     <td width="15%">
-                        <input type="text" name="staff_cid_no[]" class="form-control resetKeyForNew" />
+                        <input type="text" name="staff_cid_no[]" class="form-control" />
                     </td>
                     <td width="20%">
-                        <input type="text" name="staff_name[]" class="form-control resetKeyForNew" />
+                        <input type="text" name="staff_name[]" class="form-control" />
                     </td>
                     <td width="15%">
-                        <select class="form-control input-sm resetKeyForNew" name="staff_gender[]">
+                        <select class="form-control input-sm" name="staff_gender[]">
                             <option value=""> </option>
                             @foreach (config()->get('settings.gender') as $k => $v)
                             <option value="{{ $k }}" {{ old('gender') == $k ? 'selected' : '' }}>{{ $v }}</option>
@@ -216,19 +221,19 @@
                         </select>
                     </td>
                     <td>
-                        <input type="text" name="staff_designation[]" class="form-control input-sm resetKeyForNew">
+                        <input type="text" name="staff_designation[]" class="form-control input-sm">
                     </td>
                     <td>
-                        <input type="text" name="qualification[]" class="form-control input-sm resetKeyForNew">
+                        <input type="text" name="qualification[]" class="form-control input-sm">
                     </td>
                     <td>
-                        <input type="text" name="experience[]" class="form-control input-sm resetKeyForNew">
+                        <input type="text" name="experience[]" class="form-control input-sm">
                     </td>
                     <td width="10%">
-                        <input type="text" name="salary[]" class="form-control input-sm resetKeyForNew" />
+                        <input type="text" name="salary[]" class="form-control input-sm" />
                     </td>
                     <td>
-                        <select class="form-control input-sm resetKeyForNew" name="hospitility_relating[]">
+                        <select class="form-control input-sm" name="hospitility_relating[]">
                             <option value=""> </option>
                             @foreach (config()->get('settings.hospitility_relating') as $k => $v)
                             <option value="{{ $k }}" {{ old('hospitility_relating') == $k ? 'selected' : '' }}>{{ $v }}</option>
@@ -283,7 +288,7 @@
         </div>
     </div>
     <div class="card-footer text-center">
-        <button name="status" value="DRAFT" class="btn btn-info"><i class="fa fa-check"></i> SAVE TO DRAFT</button>
+        <button name="status" value="DRAFT" class="btn btn-info"><i class="fa fa-save"></i> SAVE TO DRAFT</button>
         <button type="submit"class="btn btn-success"><i class="fa fa-check"></i> APPLY</button>
         <button type="reset"class="btn btn-danger"><i class="fa fa-times"></i> RESET</button>
     </div>
@@ -295,6 +300,9 @@
         $(document).ready(function () {
             $('.select2bs4').on('change', function () {
                 $(this).valid();
+            });
+            $('#license_date').datetimepicker({
+                format: 'DD/MM/YYYY',
             });
         });
         
@@ -359,6 +367,7 @@
                                 $(this).hide();
                                 n();
                             });
+                            $("#dispatch_no").val('');
                         }
                     }
                 });
@@ -379,9 +388,17 @@
             }, 'Your score point should be within above range');
         
         $.validator.addMethod('checkBspoints', function (value) {
-            return (value >= 117 && value <= 120 );
+            var star_category_id=$("#star_category_id").val();
+            if(star_category_id==1){
+                    return (value >= 117 && value <= 120 );
+                }
+                if(star_category_id==2){
+                    return (value >= 145 && value <= 149 );
+                }
+                if(star_category_id==3){
+                    return (value >= 162 && value <= 166 );
+                }
         }, 'Your score point should be within above range');
-
         $('#form_data').validate({
                 rules: {
                     application_type_id: {
@@ -464,7 +481,10 @@
                     bspoints: {
                         checkBspoints: true,
                     }, 
-                   },
+                    terms:{
+                        required: true,
+                    }
+                },
                 messages: {
                     application_type_id: {
                          required: "Please select the application type",
@@ -524,6 +544,9 @@
                     establishment_village_id: {
                         required: "Please select village",
                     },
+                    terms: {
+						required:"Please accept our terms",
+					},
                 },
                 errorElement: 'span',
                 errorPlacement: function (error, element) {

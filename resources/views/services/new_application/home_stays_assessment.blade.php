@@ -30,14 +30,15 @@
             <div class="row">
                 <div class="col-md-5">
                     <div class="form-group ">
-                        <label for="">CID No.<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control" name="cid_no"  value="{{ old('cid_no') }}">
+                        <label for="">Citizen ID<span class="text-danger"> *</span></label>
+                        <input type="text" class="form-control" name="cid_no"  id="cid_no" value="{{ old('cid_no') }}" onchange="api_webservices(this.value)">
+                        <span id="webserviceError" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
                     <div class="form-group">
                         <label for="">Name<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control" name="applicant_name" value="{{ old('applicant_name') }}">
+                        <input type="text" class="form-control" name="applicant_name" id="applicant_name" value="{{ old('applicant_name') }}">
                     </div>
                 </div>
             </div>
@@ -45,7 +46,7 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="">Contact No.<span class="text-danger"> *</span> </label>
-                        <input type="text" class="form-control" name="contact_no" value="{{ old('contact_no') }}">
+                        <input type="text" class="form-control" name="contact_no" id="contact_name" value="{{ old('contact_no') }}">
                     </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
@@ -170,8 +171,8 @@
                         </select>
                     </div>
                     <div class="form-group col-md-3">
-                        <input type="date" class="form-control" name="member_dob[]" autocomplete="off">
-                    </div>
+                       <input type="date" class="form-control" name="member_dob[]" autocomplete="off">
+                   </div>
                     <div class="form-group col-md-2">
                         <select class="form-control" name="member_gender[]">
                             <option value="">- Select -</option>

@@ -18,15 +18,18 @@ class FileUpload extends Model
     // save file
     public function getFileUploadDtls($request)
     {
-		if($file = $request->file('filename')){
+        if($file = $request->file('filename')){
             $module_name = $request->module_name;
             $service_name = $request->service_name;        
             $randomString=str_random(8);
             $fileOriginName = $file->getClientOriginalName();
             $fileName = time() . '-' . $randomString . '.' . $file->getClientOriginalExtension();
             $fileextension = $file->getClientOriginalExtension(); //get file extension
-            
-            $filepath = $module_name.'/'.$service_name.'/';
+            if($request->service_id==21){
+                $filepath =$service_name.'/';
+            }else{
+               $filepath = $module_name.'/'.$service_name.'/';
+            }
             $file->move(public_path('MyDocument').'/'. $filepath, $fileName);//make folder MyDocument			
             $uploadurl ='MyDocument'.'/'.$filepath.$fileName;
 

@@ -5,6 +5,7 @@
     @csrf
     <input type="hidden" class="form-control" name="module_id" value="{{ $applicantInfo->module_id }}">
     <input type="hidden" class="form-control" name="service_id" value="{{ $applicantInfo->service_id }}">
+    <input type="hidden" class="form-control" name="service_name" value="{{ $applicantInfo->name }}">
     <input type="hidden" class="form-control" name="fam_type" value="T">
     <div class="card">
         <div class="card-header">

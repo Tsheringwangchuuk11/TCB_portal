@@ -6,6 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Report extends Model
 {
+    public static function getModule($dropdownId){
+		$query=\DB::table('t_module_masters as t1')
+					->select('t1.id','t1.module_name')
+					->whereIn('t1.id',$dropdownId)
+					->get();
+  	     return $query;
+	}
 
     public static function getAssessmentReportList(){
         $query=\DB::table('t_workflow_dtls')
@@ -13,20 +20,23 @@ class Report extends Model
                 ->leftJoin('t_status_masters','t_workflow_dtls.status_id','=','t_status_masters.id')
                 ->leftJoin('t_module_masters','t_applications.module_id','=','t_module_masters.id')
                 ->leftJoin('t_services','t_applications.service_id','=','t_services.id')
-                ->select('t_workflow_dtls.application_no','t_module_masters.module_name','t_applications.cid_no', 't_applications.owner_name','t_applications.module_id','t_applications.applicant_name','t_services.name','t_workflow_dtls.created_at','t_status_masters.status_name','t_workflow_dtls.updated_at','t_workflow_dtls.remarks')
-                ->whereIn('t_applications.module_id', array('1', '2', '3', '4'))
-                ->where('t_services.id', '4')
+                ->select('t_workflow_dtls.application_no','t_module_masters.module_name','t_applications.cid_no', 't_applications.owner_name','t_applications.module_id','t_applications.applicant_name','t_services.name',
+                     \DB::raw('DATE_FORMAT(t_workflow_dtls.created_at,"%d/%m/%Y") as created_at'),'t_status_masters.status_name','t_workflow_dtls.updated_at','t_workflow_dtls.remarks')
+                ->whereIn('t_applications.module_id', array('1', '2', '3', '4','9'))
+                ->whereIn('t_services.id',array('3','7','9'))
                 ->where('t_workflow_dtls.status_id','=', '1')
                 ->orderBy('t_workflow_dtls.created_at', 'asc');
         return $query;
     }
 
-    public static function getDetailAssessment($application_no){
+    public static function getHotelDetailAssessment($application_no){
         $query=\DB::table('t_applications as t1')
                    ->leftJoin('t_star_categories as t2','t2.module_id', '=', 't1.module_id')
-                   ->leftJoin('t_locations as t3','t3.id', '=', 't1.location_id')
+                   ->leftJoin('t_village_masters as t3','t3.id', '=', 't1.establishment_village_id')
+                   ->leftJoin('t_gewog_masters as t5','t5.id', '=', 't3.gewog_id')
+                   ->leftJoin('t_dzongkhag_masters as t6','t6.id', '=', 't5.dzongkhag_id')
                    ->leftJoin('t_workflow_dtls as t4','t4.application_no', '=', 't1.application_no')
-                   ->select('t1.*','t2.star_category_name','t3.location_name') 
+                   ->select('t1.*','t2.star_category_name','t3.village_name','t5.gewog_name','t6.dzongkhag_name') 
                    ->where('t1.application_no','=', $application_no)
                    ->where('t4.status_id','=', '1')
                    ->first();  
@@ -36,9 +46,9 @@ class Report extends Model
     public static function getRoomDetailAssessment($application_no){
         $query=\DB::table('t_applications as t1')
                    ->leftJoin('t_room_applications as t2','t2.application_no', '=', 't1.application_no')
-                   ->leftJoin('t_room_types as t3','t3.id', '=', 't2.room_type_id')
+                   ->leftJoin('t_dropdown_lists as t3','t3.id', '=', 't2.room_type_id')
                    ->leftJoin('t_workflow_dtls as t4','t4.application_no', '=', 't1.application_no')
-                   ->select('t3.room_name','t2.room_no') 
+                   ->select('t3.dropdown_name','t2.room_no') 
                    ->where('t2.application_no','=', $application_no)
                    ->where('t4.status_id','=', '1')
                    ->get();  
@@ -48,10 +58,8 @@ class Report extends Model
     public static function getstaffDetailAssessment($application_no){
         $query=\DB::table('t_applications as t1')
                    ->leftJoin('t_staff_applications as t2','t2.application_no', '=', 't1.application_no')
-                   ->leftJoin('t_staff_areas as t3','t3.id', '=', 't2.staff_area_id')
                    ->leftJoin('t_workflow_dtls as t4','t4.application_no', '=', 't1.application_no')
-                   ->leftJoin('t_hotel_divisions as t5','t5.id', '=', 't2.hotel_div_id')
-                   ->select('t2.staff_name','t2.staff_gender','t3.staff_area_name','t5.hotel_div_name') 
+                   ->select('t2.*') 
                    ->where('t2.application_no','=', $application_no)
                    ->where('t4.status_id','=', '1')
                    ->get();  
@@ -60,9 +68,9 @@ class Report extends Model
 
      public static function getVillageHomeStayDetailAssessment($application_no){
         $query=\DB::table('t_applications as t1')
-                ->leftJoin('t_village_masters as t2','t2.id', '=', 't1.village_id')
+                ->leftJoin('t_village_masters as t2','t2.id', '=', 't1.establishment_village_id')
                 ->leftJoin('t_chiwog_masters as t3','t3.id', '=', 't1.chiwog_id')
-                ->leftJoin('t_gewog_masters as t5','t5.id', '=', 't1.gewog_id')
+                ->leftJoin('t_gewog_masters as t5','t5.id', '=', 't2.gewog_id')
                 ->leftJoin('t_dzongkhag_masters as t6','t6.id', '=', 't5.dzongkhag_id')
                 ->leftJoin('t_workflow_dtls as t4','t4.application_no', '=', 't1.application_no')
                 ->select('t1.*','t2.village_name','t3.chiwog_name','t5.gewog_name','t6.dzongkhag_name') 
@@ -74,36 +82,38 @@ class Report extends Model
     public static function getFamilyDetailAssessment($application_no){
         $query=\DB::table('t_applications as t1')
                     ->leftJoin('t_member_applications as t2','t2.application_no', '=', 't1.application_no')
-                    ->leftJoin('t_relation_types as t3','t3.id', '=', 't2.relation_type_id')
+                    ->leftJoin('t_dropdown_lists as t3','t3.id', '=', 't2.relation_type_id')
                     ->leftJoin('t_workflow_dtls as t4','t4.application_no', '=', 't1.application_no')
-                    ->select('t2.member_name','t2.member_age','t2.member_gender','t3.relation_type') 
+                    ->select('t2.member_name',\DB::raw('TIMESTAMPDIFF(YEAR, t2.member_dob, CURRENT_DATE) as member_dob'),'t2.member_gender','t3.dropdown_name') 
                     ->where('t2.application_no','=', $application_no)
                     ->where('t4.status_id','=', '1')
                     ->get();  
         return $query;  
-
     }
 
     public static function getRestuarantDetailAssessment ($application_no){
         $query=\DB::table('t_applications as t1')
-                    ->leftJoin('t_locations as t3','t3.id', '=', 't1.location_id')
+                    ->leftJoin('t_village_masters as t3','t3.id', '=', 't1.establishment_village_id')
+                    ->leftJoin('t_gewog_masters as t5','t5.id', '=', 't3.gewog_id')
+                    ->leftJoin('t_dzongkhag_masters as t6','t6.id', '=', 't5.dzongkhag_id')
                     ->leftJoin('t_workflow_dtls as t4','t4.application_no', '=', 't1.application_no')
-                    ->select('t1.*','t3.location_name') 
+                    ->select('t1.*','t3.village_name','t5.gewog_name','t6.dzongkhag_name') 
                     ->where('t1.application_no','=', $application_no)
                     ->where('t4.status_id','=', '1')
                     ->first();  
         return $query;   
-
     } 
     public static function getTourOperatorDetailAssessment ($application_no){
         $query=\DB::table('t_applications as t1')
+                    ->leftJoin('t_village_masters as t3','t3.id', '=', 't1.establishment_village_id')
+                    ->leftJoin('t_gewog_masters as t5','t5.id', '=', 't3.gewog_id')
+                    ->leftJoin('t_dzongkhag_masters as t6','t6.id', '=', 't5.dzongkhag_id')
                     ->leftJoin('t_workflow_dtls as t4','t4.application_no', '=', 't1.application_no')
-                    ->select('t1.*') 
+                    ->select('t1.*','t3.village_name','t5.gewog_name','t6.dzongkhag_name') 
                     ->where('t1.application_no','=', $application_no)
                     ->where('t4.status_id','=', '1')
                     ->first();  
         return $query;   
-
     } 
 
     public static function getOfficeInfoDetails($applicationNo){
@@ -165,8 +175,6 @@ class Report extends Model
                 ->pluck('totalsubmitted');
         return $applications;
     } 
-
-    
     public static function getApplicationApprovedList (){
         $applications = \DB::table('t_workflow_dtls')
                     ->leftJoin('t_applications','t_workflow_dtls.application_no','=','t_applications.application_no')
@@ -308,5 +316,48 @@ class Report extends Model
                         ->where('t_applications.service_id',$service)
                         ->pluck('totalrejected');
             return $applications;
+        }
+
+        public static function getCourseCompletedTraineeList($request){
+                $sql = \DB::select("SELECT
+                        a.*,
+                        c.dropdown_name,
+                        b.course_start_date,
+                        b.course_end_date,
+                        d.dzongkhag_name
+                        FROM t_trainee_application a
+                        LEFT JOIN t_course_dtls b ON a.course_dtl_id=b.id
+                        LEFT JOIN t_dropdown_lists c ON b.course_type_id=c.id
+                        LEFT JOIN t_dzongkhag_masters d ON b.dzongkhag_id=d.id
+                        WHERE IF('".$request->course_type_id."'='',1=1,b.course_type_id='".$request->course_type_id."')
+                        AND IF('".$request->dzongkhag_id."'='',1=1,b.dzongkhag_id='".$request->dzongkhag_id."')
+                        AND IF('".$request->gender."'='',1=1,a.applicant_gender='".$request->gender."')
+                        AND IF('".$request->from_date."'='',1=1,b.course_start_date='".$request->to_date."')
+                        AND IF('".$request->gender."'='',1=1,b.course_end_date='".$request->gender."')
+                ");
+                return $sql;
+        }
+        public static function getRegisteredHotelList($request){
+            $from_date = $request->from_date;
+            $to_date = $request->to_date;
+            $sql = \DB::select("SELECT
+                        a.*,
+                        b.star_category_name,
+                        c.village_name,
+                        d.gewog_name,
+                        e.dzongkhag_name
+                        FROM t_tourist_standard_dtls a
+                        LEFT JOIN t_star_categories b ON a.star_category_id=b.id
+                        LEFT JOIN t_village_masters c ON a.village_id=c.id
+                        LEFT JOIN t_gewog_masters d ON c.gewog_id=d.id
+                        LEFT JOIN t_dzongkhag_masters e ON d.id=e.id
+                        WHERE IF('".$request->module_id."'='',1=1,a.module_id='".$request->module_id."')
+                        AND IF('".$request->star_category_id."'='',1=1,a.star_category_id='".$request->star_category_id."')
+                        AND IF('".$request->dzongkhag_id."'='',1=1,d.dzongkhag_id='".$request->dzongkhag_id."')
+                        AND IF('".$request->gewog_id."'='',1=1,c.gewog_id='".$request->gewog_id."')
+                        AND IF('".$request->village_id."'='',1=1,a.village_id='".$request->village_id."')
+                        AND IF('".$from_date."'='',1=1,DATE(a.created_at) >='".$from_date."')
+                        AND IF('".$to_date."'='',1=1,DATE(a.created_at) <='".$to_date."')                    ");
+             return $sql;
         }
 }

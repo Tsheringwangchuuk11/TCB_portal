@@ -1,6 +1,5 @@
 //pull DCRC data
 function api_webservices(cid_no) {
-    alert(cid_no);
     $("#loading").show();
     $.ajax({
         type: "GET",
@@ -21,20 +20,14 @@ function api_webservices(cid_no) {
                 if (data.lastName) {
                     $app_name += ' ' + data.lastName;
                 }
-                $("#app_name").val($app_name);
+                $("#applicant_name").val($app_name);
 
                 //date of birth
                 $("#dob").val(data.dob);
-                //permanent village
-                $("#permanent_village_id").val(data.permanentVillageserialno);
                 //gender
-                if (data.gender == 'M') {
-                    $("#M").prop("checked", true);
-                } else {
-                    $("#F").prop("checked", true);
-                }
+                $('#gender').val(data.gender).trigger("change");
                 //mobile no
-                $("#contact_number").val(data.mobileNumber);
+                $("#contact_no").val(data.mobileNumber);
                 //dzongkhag
                 $("#dzongkhag_id").val(data.dzongkhagSerialno);
                 $("#dzongkhag_name").val(data.dzongkhagName);
@@ -42,7 +35,7 @@ function api_webservices(cid_no) {
                 $("#gewog_id").val(data.gewogSerialno);
                 $("#gewog_name").val(data.gewogName);
                 //village
-                $("#village_id").val(data.permanentVillageserialno);
+                $("#permanent_village_id").val(data.permanentVillageserialno);
                 $("#village_name").val(data.permanentVillagename);
 
                 //clear message
@@ -50,17 +43,17 @@ function api_webservices(cid_no) {
 
             } else {
                 $("#cid_no").val('');
-                $("#app_name").val('');
+                $("#applicant_name").val('');
                 $("#dob").val('');
                 $("#permanent_village_id").val('');
                 $("#M").prop("checked", false);
                 $("#F").prop("checked", false);
-                $("#contact_number").val('');
+                $("#contact_no").val('');
                 $("#dzongkhag_id").val('');
                 $("#dzongkhag_name").val('');
                 $("#gewog_id").val('');
                 $("#gewog_name").val('');
-                $("#village_id").val('');
+                $("#permanent_village_id").val('');
                 $("#village_name").val('');
 
                 $("#webserviceError").html('CID No ' + cid_no + ' is invalid, Please enter correct CID No!');

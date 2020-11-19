@@ -5,6 +5,8 @@
 @csrf
 <input type="hidden" name="service_id" value="{{ $idInfos->service_id }}" id="service_id">
 <input type="hidden" name="module_id" value="{{ $idInfos->module_id }}" id="module_id">
+<input type="hidden" name="service_name" value="{{ $idInfos->name }}" id="service_name">
+<input type="hidden" name="module_name" value="{{ $idInfos->module_name }}" id="module_name">
 <input type="hidden" name="record_id" id="record_id">
 <div class="card">
     <div class="card-header">
@@ -49,8 +51,9 @@
                     </div>
                     <div class="col-md-5 offset-md-2">
                         <div class="form-group">
-                            <label for="">CID No.<span class="text-danger"> *</span></label>
-                            <input type="text" class="form-control" name="cid_no" value="{{ old('cid_no') }}" autocomplete="off" id="cid_no">
+                            <label for="">Citizen ID<span class="text-danger"> * </span></label>
+                            <input type="text" class="form-control" name="cid_no" value="{{ old('cid_no') }}" autocomplete="off" id="cid_no" onchange="api_webservices(this.value)">
+                            <span id="webserviceError" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
@@ -78,7 +81,7 @@
                     </div>
                     <div class="col-md-5 offset-md-2">
                         <div class="form-group">
-                            <label for="">No of rooms proposed<span class="text-danger"> *</span></label>
+                            <label for="">No. of rooms proposed<span class="text-danger"> *</span></label>
                             <input type="text" class="form-control" name="number" value="{{ old('number') }}" id="number" autocomplete="off" >
                         </div>
                     </div>
@@ -87,13 +90,23 @@
                     <div class="col-md-5">
                         <div class="form-group">
                             <label for="">Tentative construction date<span class="text-danger"> *</span> </label>
-                            <input type="date" name="tentative_cons" class="form-control" value="{{ old('tentative_cons') }}" id="tentative_cons" autocomplete="off">
+                            <div class="input-group date" id="tentative_cons" data-target-input="nearest">
+                                <input type="text" name="tentative_cons" class="form-control datetimepicker-input" data-target="#tentative_cons" value="{{ old('tentative_cons') }}">
+                                <div class="input-group-append" data-target="#tentative_cons" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-5 offset-md-2">
                         <div class="form-group">
                             <label for="">Tentative completion of the construction<span class="text-danger"> *</span></label>
-                            <input type="date" class="form-control" name="tentative_com" value="{{ old('tentative_com') }}" id="tentative_com" autocomplete="off" >
+                            <div class="input-group date" id="tentative_com" data-target-input="nearest">
+                                <input type="text" name="tentative_com" class="form-control datetimepicker-input" data-target="#tentative_com" value="{{ old('tentative_com') }}">
+                                <div class="input-group-append" data-target="#tentative_com" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -101,7 +114,12 @@
                     <div class="col-md-5">
                         <div class="form-group">
                             <label for="">Drawing submission date<span class="text-danger"> *</span></label>
-                            <input type="date" class="form-control" name="drawing_date" value="{{ old('drawing_date') }}" id="drawing_date" autocomplete="off" >
+                            <div class="input-group date" id="drawing_date" data-target-input="nearest">
+                                <input type="text" name="drawing_date" class="form-control datetimepicker-input" data-target="#drawing_date" value="{{ old('drawing_date') }}">
+                                <div class="input-group-append" data-target="#drawing_date" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -159,57 +177,57 @@
                     <div class="form-check">
                         <ol id="new_application" style="display:none">
                             <li>
-                                <em><input type="checkbox" name="checkboxes" class="check-one">&nbsp;An application addressed to the Director General of TCB requesting the issuance
+                                <em><input type="checkbox" name="checkboxes" class="new_application">&nbsp;An application addressed to the Director General of TCB requesting the issuance
                                 of technical clearance.</em>   
                                 </em>
                             </li>
                             <li>
                                 <em>
-                                    <input type="checkbox" name="checkboxes"  class="check-one">&nbsp; Architectural drawings 
+                                    <input type="checkbox" name="checkboxes"  class="new_application">&nbsp; Architectural drawings 
                                 </em>
                             </li>
                         </ol>
                         <ol id="renewal" style="display:none">
                             <li>
-                                <em> <input type="checkbox" name="checkboxes"  class="check-one">&nbsp; An application addressed to the Director General of TCB with clear justification
+                                <em> <input type="checkbox" name="checkboxes"  class="renewal">&nbsp; An application addressed to the Director General of TCB with clear justification
                                 on renewal of technical clearance.
                                 </em> 
                             </li>
                             <li>  
-                                <em>  <input type="checkbox" name="checkboxes"  class="check-one">&nbsp; Surrender the previous technical clearance issued to the proponent..</em>
+                                <em>  <input type="checkbox" name="checkboxes"  class="renewal">&nbsp; Surrender the previous technical clearance issued to the proponent..</em>
                             </li>
                         </ol>
                         <ol id="change_design" style="display:none">
                             <li>
-                                <em> <input type="checkbox" name="checkboxes"  class="check-one">&nbsp; An application addressed to the Director General of TCB with clear justification
+                                <em> <input type="checkbox" name="checkboxes"  class="change_design">&nbsp; An application addressed to the Director General of TCB with clear justification
                                 for issuance of new technical clearance.
                                 </em>  
                             </li>
                             <li> 
                                 <em>
-                                    <input type="checkbox" name="checkboxes"  class="check-one">&nbsp; Submit the new architectural drawings
+                                    <input type="checkbox" name="checkboxes"  class="change_design">&nbsp; Submit the new architectural drawings
                                 </em>  
                             </li>
                             <li>
                                 <em>
-                                    <input type="checkbox" name="checkboxes"  class="check-one">&nbsp;  Surrender the previous technical clearance issued to the proponent.
+                                    <input type="checkbox" name="checkboxes"  class="change_design">&nbsp;  Surrender the previous technical clearance issued to the proponent.
                                 </em>   
                             </li>
                         </ol>
                         <ol id="ownership_change" style="display:none">
                             <li>
-                                <em> <input type="checkbox" name="checkboxes"  class="check-one">&nbsp; An application addressed to the Director General of TCB with clear justification
+                                <em> <input type="checkbox" name="checkboxes"  class="ownership_change">&nbsp; An application addressed to the Director General of TCB with clear justification
                                 for change in ownership.
                                 </em> 
                             </li>
                             <li>
                                 <em>
-                                    <input type="checkbox" name="checkboxes"  class="check-one">&nbsp; Original copy of undertaking letter signed by both parties..
+                                    <input type="checkbox" name="checkboxes"  class="ownership_change">&nbsp; Original copy of undertaking letter signed by both parties..
                                 </em>   
                             </li>
                             <li>
                                 <em>
-                                    <input type="checkbox" name="checkboxes"  class="check-one">&nbsp;  Surrender the previous technical clearance issued to the proponent.   
+                                    <input type="checkbox" name="checkboxes"  class="ownership_change">&nbsp;  Surrender the previous technical clearance issued to the proponent.   
                                 </em>   
                             </li>
                         </ol>
@@ -233,13 +251,99 @@ $(document).ready(function () {
    $('.select2bs4').on('change', function () {
       $(this).valid();
      });
+    $('#tentative_cons').datetimepicker({
+        format: 'DD/MM/YYYY',
+    });
+    $('#tentative_com').datetimepicker({
+        format: 'DD/MM/YYYY'
+    });
+    $('#drawing_date').datetimepicker({
+        format: 'DD/MM/YYYY'
+    });
 });
 $(document).ready(function(){
-      var chck = $('input[type=checkbox]');
-        chck.hasClass('check-one');
-        $.validator.addMethod('check_one', function (value) {
-            return (chck.filter(':checked').length > 1);
-        }, 'Submit all the document mention above'); 
+    $('#application_type_id').on('change',function(e) {
+            $('#cid_no').val('');
+            $("#star_category_id").val("").trigger("change.select2");        
+            $('#contact_no').val('');
+            $('#email').val(''); 
+            $('#number').val('');
+            $('#tentative_cons').val(''); 
+            $('#tentative_com').val('');
+            $('#drawing_date').val('');
+            $("#dzongkhag_id").val("").trigger("change.select2");        
+            $("#gewog_id").val("").trigger("change.select2");        
+            $("#village_id").val("").trigger("change.select2");        
+            $("#dispatch_no").val('');
+            $('#applicant_name').val(''); 
+            $('input:checkbox').removeAttr('checked');
+
+        var application_type_id=e.target.value;
+        if(application_type_id == "20"){
+            $('input').prop('readonly', false); 
+            $('select').prop('disabled', false); 
+            $("#new_application").show();
+            $("#renewal").hide();
+            $("#change_design").hide();
+            $("#ownership_change").hide();
+            $("#dispatchNumberId").hide();
+        } 
+        else if(application_type_id == "21"){
+            $("#new_application").hide();
+            $("#renewal").show();
+            $("#change_design").hide();
+            $("#ownership_change").hide();
+            $("#dispatchNumberId").show();
+        } 
+        else if(application_type_id == "22"){
+            $("#new_application").hide();
+            $("#renewal").hide();
+            $("#change_design").show();
+            $("#ownership_change").hide();           
+            $("#dispatchNumberId").show();
+
+        }
+        else if(application_type_id == "23"){
+            $("#new_application").hide();
+            $("#renewal").hide();
+            $("#change_design").hide();
+            $("#ownership_change").show();
+            $("#dispatchNumberId").show();
+        }
+    });
+    
+        
+           
+    $.validator.addMethod('check_one', function (value) {
+    var application_type_id=$("#application_type_id").val();
+        if(application_type_id==20){
+            var chck = $('input.new_application[type=checkbox]');
+            var numItems = $('.new_application').length;
+            chck.hasClass('new_application');
+            return (chck.filter(':checked').length ==numItems);
+
+        }else if(application_type_id==21){
+            var chck = $('input.renewal[type=checkbox]');
+            var numItems = $('.renewal').length;
+            chck.hasClass('renewal');
+            return (chck.filter(':checked').length ==numItems);
+
+        }
+        else if(application_type_id==22){
+            var chck = $('input.change_design[type=checkbox]');
+            var numItems = $('.change_design').length;
+            chck.hasClass('change_design');
+            return (chck.filter(':checked').length ==numItems);
+
+        }else{
+            var chck = $('input.ownership_change[type=checkbox]');
+            var numItems = $('.ownership_change').length;
+            chck.hasClass('ownership_change');
+            return (chck.filter(':checked').length ==numItems);
+
+
+        }
+    }, 'Submit all the document mention above'); 
        $('#form_data').validate({
                  ignore: [],
                 rules: {
@@ -368,52 +472,6 @@ $(document).ready(function(){
                     $(element).removeClass('is-invalid');
                 }
     });
-    $('#application_type_id').on('change',function(e) {
-            $('#cid_no').val(''); 
-            $("#star_category_id").find('.select2bs4').val('');
-            $('#contact_no').val('');
-            $('#email').val(''); 
-            $('#number').val('');
-            $('#tentative_cons').val(''); 
-            $('#tentative_com').val('');
-            $('#drawing_date').val('');
-            $("#dzongkhag_id").val();	
-            $("#gewog_id option:gt(0)").remove();	
-            $("#village_id option:gt(0)").remove();	
-            $("#dispatch_no").val('');
-            $('#applicant_name').val(''); 
-
-        var application_type_id=e.target.value;
-        if(application_type_id == "20"){
-            $("#new_application").show();
-            $("#renewal").hide();
-            $("#change_design").hide();
-            $("#ownership_change").hide();
-            $("#dispatchNumberId").hide();
-        } 
-        else if(application_type_id == "21"){
-            $("#new_application").hide();
-            $("#renewal").show();
-            $("#change_design").hide();
-            $("#ownership_change").hide();
-            $("#dispatchNumberId").show();
-        } 
-        else if(application_type_id == "22"){
-            $("#new_application").hide();
-            $("#renewal").hide();
-            $("#change_design").show();
-            $("#ownership_change").hide();           
-            $("#dispatchNumberId").show();
-
-        }
-        else if(application_type_id == "23"){
-            $("#new_application").hide();
-            $("#renewal").hide();
-            $("#change_design").hide();
-            $("#ownership_change").show();
-            $("#dispatchNumberId").show();
-        }
-    });
 });
 
 function getTechCleranceDetails(){
@@ -443,14 +501,14 @@ function getTechCleranceDetails(){
                     $('#dzongkhag_id').val(data.dzongkhag_id).trigger("change");
                     $('#gewog_id').val(data.gewog_id);
                     getGewogDropDown(data.dzongkhag_id,data.gewog_id,data.village_id);
-                   if(application_type_id==22){
+                   if(application_type_id==23){
                         $('#applicant_name').removeAttr('readonly'); 
 
                     }else{
                        $("#applicant_name").prop('readonly',true);
                     }
                     $('#cid_no').prop('readonly', true); 
-                    $('#star_category_id').prop('disabled', true); 
+                    $('#star_category_id').prop('disabled', false); 
                     $('#contact_no').prop("readonly", true);
                     $('#email').prop("readonly", true); 
                     $('#number').prop("readonly", true);
@@ -459,7 +517,7 @@ function getTechCleranceDetails(){
                     $('#drawing_date').prop("readonly", true);
                     $('#dzongkhag_id').prop('disabled', true);
                     $('#gewog_id').prop("disabled", true); 
-                    $('#village_id').prop("disabled", true);
+                    $('#village_id').prop("disabled", false);
                     }else{
                         $('#alertTraineeMgsId').show().delay(3000).queue(function (n) {
                             $(this).hide();

@@ -9,6 +9,9 @@ use App\Models\WorkFlowDetails;
 use App\Models\Dropdown;
 use App\Models\TCheckListChapter;
 use App\Models\TaskDetails;
+use Illuminate\Support\Facades\Notification;
+use Carbon\Carbon;
+use App\Notifications\EndUserNotification;
 
 class TouristStandardHotelController extends Controller
 {
@@ -21,10 +24,19 @@ class TouristStandardHotelController extends Controller
         
         //Technical clearance Details for hotel
         if($serviceId==1){
+        $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
         $data['purposes'] =Dropdown::getDropdownList("6");
         $data['accommodationtypes'] =Dropdown::getDropdownList("7");
         $data['documentInfos']=Services::getDocumentDetails($applicationNo);
-        return view('services.approve_application.approve_technical_clearance',$data);
+            if($status==9){
+                // page redirect to application resubmit
+                return view('services.resubmit_application.resubmit_technical_clearance',$data,compact('status'));
+            }else{
+                // page redirect to application approve
+                $status= WorkFlowDetails::getStatus('APPROVED')->id;
+                return view('services.approve_application.approve_technical_clearance',$data,compact('status'));
+
+            }
         }
 
         //Tourism standard hotel assesment Details
@@ -64,65 +76,78 @@ class TouristStandardHotelController extends Controller
                     }]);
                 }])->where('module_id','=',$moduleId)
                 ->get();
+                $chapterId=Services::getChapterId($applicationNo,$moduleId, $starCategoryId)->toArray();                 
                 $status= WorkFlowDetails::getStatus('APPROVED')->id;
-                return view('services.approve_application.approve_hotels_assessment',$data,compact('status'));
+                return view('services.approve_application.approve_hotels_assessment',$data,compact('status','chapterId'));
             }
         }
                     
         //Recommendation letter for import license
-        if($serviceId==4){
+        else if($serviceId==4){
+            $data['documentInfos']=Services::getDocumentDetails($applicationNo);
             $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
-            return view('services.approve_application.approve_recommendation_letter_for_import_license',$data);
+                if($status==9){
+                    // page redirect to resubmit application
+                    return view('services.resubmit_application.resubmit_hotel_recommendation_letter_for_import_license',$data,compact('status'));
+                }else{
+                    // page redirect to application approve
+                    $status= WorkFlowDetails::getStatus('APPROVED')->id;
+                    return view('services.approve_application.approve_hotel_recommendation_letter_for_import_license',$data,compact('status'));
             }
+        }
 
         //Recommendation letter for work permit
-        if($serviceId==5){
+        else if($serviceId==5){
+            $data['documentInfos']=Services::getDocumentDetails($applicationNo);
+            $data['countries'] = Dropdown::getDropdownList("3");
             $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
-            return view('services.approve_application.approve_work_permit',$data);
-            }
+            $data['workpermitTypes'] = Dropdown::getDropdownList("11");
+            $data['workerdtls'] = Services::getForeignWorkerDtls($applicationNo);
+
+            if($status==9){
+                // page redirect to resubmit application
+                return view('services.resubmit_application.resubmit_work_permit',$data,compact('status'));
+            }else{
+                // page redirect to application approve
+                $status= WorkFlowDetails::getStatus('APPROVED')->id;
+                return view('services.approve_application.approve_work_permit',$data,compact('status'));
+             }
+        }
 
         //Tourism standard hotel license renew Details   
-        elseif($serviceId==7){
-            $data['locations'] = Dropdown::getDropdowns("t_locations","id","location_name","0","0");
+        else if($serviceId==6){
+            $data['documentInfos']=Services::getDocumentDetails($applicationNo);
+            $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
             $data['starCategoryLists'] = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
-            return view('services.approve_application.approve_hotel_license_renew',$data);
-        }
-
-        //Tourism standard hotel license cancel Details
-        elseif($serviceId==8){
-            $data['locations'] = Dropdown::getDropdowns("t_locations","id","location_name","0","0");
-            $data['starCategoryLists'] = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
-            return view('services.approve_application.approve_hotels_license_cancel',$data);
-        }
-            
-        //Tourism standard hotel ownership change Details
-        elseif($serviceId==9){
-            $data['locations'] = Dropdown::getDropdowns("t_locations","id","location_name","0","0");
-            $data['starCategoryLists'] = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
-            return view('services.approve_application.approve_hotel_ownership_change',$data);
-        }
-
-        //Tourism standard hotel name change Details
-        elseif($serviceId==10){
-            $data['locations'] = Dropdown::getDropdowns("t_locations","id","location_name","0","0");
-            $data['starCategoryLists'] = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
-            return view('services.approve_application.approve_hotel_name_change',$data);
+            $data['applicationTypes'] = Dropdown::getApplicationType("8",$dropdownId[]=["28","29","30"]);
+            if($status==9){
+                 // page redirect to resubmit application
+                return view('services.resubmit_application.resubmit_name_ownership_cancellation_for_hotel',$data,compact('status'));
+            }else{
+                 // page redirect to application approve
+                 $status= WorkFlowDetails::getStatus('APPROVED')->id;
+                return view('services.approve_application.approve_name_ownership_cancellation_for_hotel',$data,compact('status'));
+            }
         }
     }
 
      //Approval function for technical clearance application
      public function hotelTechnicalClearanceApplication(Request $request,Services $service){
-         dd($request->all());
-        $assigned_priv_id=WorkFlowDetails::getAssignedRoleForApp($request->service_id)->role_id;
+        // dd($request->all());
+        $roles = auth()->user()->roles()->get();
+        $roleId = 0;
+        foreach ($roles as $role){
+            $roleId = $role->id;
+        }
         if($request->status =='APPROVED'){
            // insert into t_technical_clearances
-           \DB::transaction(function () use ($request,$assigned_priv_id,$service) {
+           \DB::transaction(function () use ($request,$roleId,$service) {
                $approveId = WorkFlowDetails::getStatus('APPROVED');
                $completedId= WorkFlowDetails::getStatus('COMPLETED');
                $lastsequence=substr($request->application_no,7);
-               $divisioncode=Services::getDivisonCode($serviceId)->code;
+               $divisioncode=Services::getDivisonCode($request->service_id)->code;
                $tcb="TCB";
-               $dispatchNo=$tcb.'/'.$divisioncode.date("Y.m.d").$lastsequence;
+               $dispatchNo=$tcb.'-'.$divisioncode.date("Y.m.d").$lastsequence;
             // save new technical clearance details
             if($request->purpose_id=="20"){
                 $data[]= [            
@@ -147,62 +172,77 @@ class TouristStandardHotelController extends Controller
                 $service->insertDetails('t_technical_clearances',$data);
             }
 
-            // save new technicalclearance details
-            elseif($request->purpose_id=="23"){
-                $savedatatoaudit=Services::saveTechnicalClearanceDtlsAudit($request->cid_no);
+            // save renew technicalclearance details
+            if($request->purpose_id=="21"){
+                $savedatatoaudit=Services::saveTechnicalClearanceDtlsAudit($request->dispatch_no);
                 $data = array(
                   'dispatch_no'   => $dispatchNo,
                   'application_no'   => $request->application_no,
                   'purpose_id'   => $request->purpose_id,
-                  'tentative_com'   => DATE('Y-m-d', strtotime($request->tentative_com)),
+                  'validaty_date'   =>now()->addYears(2),
+                  'updated_at'   => now(),
                 );
-                $updatedata=Services::updateApplicantDtls('t_technical_clearances','cid_no',$request->cid_no,$data);
-
+                $updatedata=Services::updateApplicantDtls('t_technical_clearances','dispatch_no',$request->dispatch_no,$data);
             }
 
+            // save design change technicalclearance details
+              if($request->purpose_id=="22"){
+                $savedatatoaudit=Services::saveTechnicalClearanceDtlsAudit($request->dispatch_no);
+                $data = array(
+                  'dispatch_no'   => $dispatchNo,
+                  'application_no'   => $request->application_no,
+                  'purpose_id'   => $request->purpose_id,
+                  'updated_at'   => now(),
+                );
+                $updatedata=Services::updateApplicantDtls('t_technical_clearances','dispatch_no',$request->dispatch_no,$data);
+            }
             // save ownership change technicalclearance details
-            elseif($request->purpose_id=="24"){
-                $savedatatoaudit=Services::saveTechnicalClearanceDtlsAudit($request->cid_no);
+            if($request->purpose_id=="23"){
+                $savedatatoaudit=Services::saveTechnicalClearanceDtlsAudit($request->dispatch_no);
                 $data = array(
                  'dispatch_no'   => $dispatchNo,
                  'application_no'   => $request->application_no,
                  'purpose_id'   => $request->purpose_id,
                  'name'   => $request->name,
+                 'updated_at'   => now(),
                  );
-                 $updatedata=Services::updateApplicantDtls('t_technical_clearances','cid_no',$request->cid_no,$data);
+                 $updatedata=Services::updateApplicantDtls('t_technical_clearances','dispatch_no',$request->dispatch_no,$data);
                 }
-
-            // save desigm change technicalclearance details
-            else{
-                $savedatatoaudit=Services::saveTechnicalClearanceDtlsAudit($request->cid_no);
-                $data = array(
-                 'dispatch_no'   => $dispatchNo,
-                 'application_no'   => $request->application_no,
-                 'purpose_id'   => $request->purpose_id,
-                );
-                $updatedata=Services::updateApplicantDtls('t_technical_clearances','cid_no',$request->cid_no,$data);
-            }
-
+            //update application_no in t_documents
             $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
             $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
-                    ->update(['status_id' => $approveId->id,'role_id'=> $assigned_priv_id,'remarks' => $request->remarks]);
+                    ->update(['status_id' => $approveId->id,'role_id'=> $roleId,'remarks' => $request->remarks]);
 
             $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
             $updateworkflow=TaskDetails::where('application_no',$request->application_no)
                                     ->update(['status_id' => $completedId->id]); 
+            //Email send notifications
+            if ($request->email) {
+                $when = Carbon::now()->addMinutes(1);
+                Notification::route('mail', $request->email) 
+                ->notify((new EndUserNotification($request->email, $request->name, $request->application_no, 'Approved',$request->service_name))->delay($when));
+            }
        });
        return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
        }
        elseif($request->status =='RESUBMIT'){
         $resubmitdId = WorkFlowDetails::getStatus('RESUBMIT');
         $completedId= WorkFlowDetails::getStatus('COMPLETED');
+        $documentId = $request->documentId;
+        $service->updateDocumentDetails($documentId,$request->application_no);
         $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
         $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
-        ->update(['status_id' => $resubmitdId->id,'role_id'=>$assigned_priv_id,'remarks' => $request->remarks]);
+        ->update(['status_id' => $resubmitdId->id,'role_id'=>$roleId,'remarks' => $request->remarks]);
 
         $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
         $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
                                 ->update(['status_id' => $completedId->id]);
+        //Email send notifications
+        if ($request->email) {
+            $when = Carbon::now()->addMinutes(1);
+            Notification::route('mail', $request->email) 
+            ->notify((new EndUserNotification($request->email, $request->name, $request->application_no, 'Resubmit',$request->service_name))->delay($when));
+        }
         return redirect('tasklist/tasklist')->with('msg_success', 'Application resend successfully');
     }
     else{
@@ -211,21 +251,31 @@ class TouristStandardHotelController extends Controller
         $rejectId = WorkFlowDetails::getStatus('REJECTED');
         $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
         $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
-        ->update(['status_id' => $rejectId->id,'role_id'=>$assigned_priv_id,'remarks' => $request->remarks]);
+        ->update(['status_id' => $rejectId->id,'role_id'=>$roleId,'remarks' => $request->remarks]);
 
         $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
         $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
                                 ->update(['status_id' => $completedId->id]);
+        //Email send notifications
+        if ($request->email) {
+            $when = Carbon::now()->addMinutes(1);
+            Notification::route('mail', $request->email) 
+            ->notify((new EndUserNotification($request->email, $request->name, $request->application_no, 'Rejected',$request->service_name))->delay($when));
+        }
         return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
         }
     }
     
    //Approval function for tourist stnadard hotel assessment application
    public function standardHotelAssessmentApplication(Request $request,Services $service){
-       $assigned_priv_id=WorkFlowDetails::getAssignedRoleForApp($request->service_id)->role_id;
+        $roles = auth()->user()->roles()->get();
+        $roleId = 0;
+        foreach ($roles as $role){
+            $roleId = $role->id;
+        }
         if($request->status =='APPROVED'){
             // insert into t_techt_tourist_standard_dtlsnical_clearances
-            \DB::transaction(function () use ($request,$service,$assigned_priv_id) {
+            \DB::transaction(function () use ($request,$service,$roleId) {
                 $approveId = WorkFlowDetails::getStatus('APPROVED');
                 $completedId= WorkFlowDetails::getStatus('COMPLETED');
                 $applicantdata[]= [    
@@ -303,11 +353,17 @@ class TouristStandardHotelController extends Controller
                }
             $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
             $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
-                    ->update(['status_id' => $approveId->id,'role_id'=> $assigned_priv_id,'remarks' => $request->remarks]);
+                    ->update(['status_id' => $approveId->id,'role_id'=> $roleId,'remarks' => $request->remarks]);
 
             $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
             $updateworkflow=TaskDetails::where('application_no',$request->application_no)
-                                    ->update(['status_id' => $completedId->id]); 
+                                    ->update(['status_id' => $completedId->id]);
+            //Email send notifications
+            if ($request->email) {
+                $when = Carbon::now()->addMinutes(1);
+                Notification::route('mail', $request->email) 
+                ->notify((new EndUserNotification($request->email, $request->owner_name, $request->application_no, 'Approved',$request->service_name))->delay($when));
+            }
         });
         return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
 
@@ -317,11 +373,17 @@ class TouristStandardHotelController extends Controller
             $completedId= WorkFlowDetails::getStatus('COMPLETED');
             $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
             $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
-            ->update(['status_id' => $resubmitdId->id,'role_id'=>$assigned_priv_id,'remarks' => $request->remarks]);
+            ->update(['status_id' => $resubmitdId->id,'role_id'=>$roleId,'remarks' => $request->remarks]);
 
             $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
             $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
                                     ->update(['status_id' => $completedId->id]);
+            //Email send notifications
+            if ($request->email) {
+                $when = Carbon::now()->addMinutes(1);
+                Notification::route('mail', $request->email) 
+                ->notify((new EndUserNotification($request->email, $request->owner_name, $request->application_no, 'Resubmit',$request->service_name))->delay($when));
+            }
             return redirect('tasklist/tasklist')->with('msg_success', 'Application resend successfully');
         }
         else{
@@ -330,166 +392,339 @@ class TouristStandardHotelController extends Controller
             $rejectId = WorkFlowDetails::getStatus('REJECTED');
             $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
             $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
-            ->update(['status_id' => $rejectId->id,'role_id'=>$assigned_priv_id,'remarks' => $request->remarks]);
+            ->update(['status_id' => $rejectId->id,'role_id'=>$roleId,'remarks' => $request->remarks]);
 
             $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
             $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
                                     ->update(['status_id' => $completedId->id]);
+            //Email send notifications
+            if ($request->email) {
+                $when = Carbon::now()->addMinutes(1);
+                Notification::route('mail', $request->email) 
+                ->notify((new EndUserNotification($request->email, $request->owner_name, $request->application_no, 'Rejected',$request->service_name))->delay($when));
+            }
             return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
             }
         }
 
-     //Approval function for tourist standard hotel licexnse renew application
-     public function hotelLicenseRenewApplication(Request $request){
+     //Approval function for tourist standard name,ownership change and cancellation application
+     public function hotelNameOwnershipCancellationApplication(Request $request){
+        $roles = auth()->user()->roles()->get();
+        $roleId = 0;
+        foreach ($roles as $role){
+            $roleId = $role->id;
+        }
         if($request->status =='APPROVED'){
-            // insert into t_tourist_standard_dtls
-            \DB::transaction(function () use ($request) {
-
-                $approveId = WorkFlowDetails::getStatus('APPROVED');
-                $completedId= WorkFlowDetails::getStatus('COMPLETED');
-
-            //save data to t_tourist_standard_dtls_autit
-            $savedatatoaudit=Services::saveTouristStandardHotelDtlsAudit($request->license_no);
-
-              //update data to t_tourist_standard_dtls
-              $data = array(
-                'validaty_date'=>date('Y-m-d',strtotime($request->validaty_date .'+3 years'))
-
-
-             );
-            $updatedata=Services::updateApplicantDtls('t_tourist_standard_dtls','license_no',$request->license_no,$data);
-           
-            $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
-            $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
-                    ->update(['status_id' => $approveId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
-
-            $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
-            $updateworkflow=TaskDetails::where('application_no',$request->application_no)
-                                    ->update(['status_id' => $completedId->id]);
-        });
-        return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
-
-        }else{
-            $rejectId = WorkFlowDetails::getStatus('REJECTED');
-            $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
-            $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
-            ->update(['status_id' => $rejectId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
-            return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
-            }
-
-     }   
-   
-    //Approval function for tourist standard hotel owner change application
-     public function hotelOwnerShipChangeApplication(Request $request){
-        if($request->status =='APPROVED'){
-            // insert into t_tourist_standard_dtls
-            \DB::transaction(function () use ($request) {
-
-                $approveId = WorkFlowDetails::getStatus('APPROVED');
-                $completedId= WorkFlowDetails::getStatus('COMPLETED');
-
-            //save data to t_tourist_standard_dtls_autit
-            $savedatatoaudit=Services::saveTouristStandardHotelDtlsAudit($request->license_no);
-
-              //update data to t_tourist_standard_dtls
-              $data = array(
-                'owner_name' => $request->owner_name,
-                'cid_no' => $request->cid_no,
-                'address' => $request->address, 
-                'contact_no' => $request->contact_no,
-				'email' => $request->email
-             );
-             $updatedata=Services::updateApplicantDtls('t_tourist_standard_dtls','license_no',$request->license_no,$data);
-            $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
-            $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
-                    ->update(['status_id' => $approveId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
-
-            $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
-            $updateworkflow=TaskDetails::where('application_no',$request->application_no)
-                                    ->update(['status_id' => $completedId->id]);
-        });
-        return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
-        }else{
-            $rejectId = WorkFlowDetails::getStatus('REJECTED');
-            $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
-            $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
-            ->update(['status_id' => $rejectId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
-            return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
-            }
-
-     }
-
-     //Approval function for tourist standard hotel name change application
-     public function hotelNameChangeApplication(Request $request){
-        if($request->status =='APPROVED'){
-            // insert into t_tourist_standard_dtls
-            \DB::transaction(function () use ($request) {
-
-                $approveId = WorkFlowDetails::getStatus('APPROVED');
-                $completedId= WorkFlowDetails::getStatus('COMPLETED');
-
-            //save data to t_tourist_standard_dtls_autit
-            $savedatatoaudit=Services::saveTouristStandardHotelDtlsAudit($request->license_no);
-
-              //update data to t_tourist_standard_dtls
+           \DB::transaction(function () use ($request,$roleId) {
+               $approveId = WorkFlowDetails::getStatus('APPROVED');
+               $completedId= WorkFlowDetails::getStatus('COMPLETED');
+              
+            // hotel name change
+            if($request->application_type_id=="28"){
+                $savedatatoaudit=Services::saveTouristStandardHotelDtlsAudit($request->license_no);
               $data = array(
                 'tourist_standard_name' => $request->tourist_standard_name,
+                'updated_at'   => now(),
              );
              $updatedata=Services::updateApplicantDtls('t_tourist_standard_dtls','license_no',$request->license_no,$data);
-
-            $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
-            $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
-                    ->update(['status_id' => $approveId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
-
-            $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
-            $updateworkflow=TaskDetails::where('application_no',$request->application_no)
-                                    ->update(['status_id' => $completedId->id]);
-        });
-        return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
-        }else{
-            $rejectId = WorkFlowDetails::getStatus('REJECTED');
-            $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
-            $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
-            ->update(['status_id' => $rejectId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
-            return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
             }
 
-     }
-
-      //Approval function for tourist standard hotel license Cancel application
-      public function hotelLicenseCancelApplication(Request $request){
-        if($request->status =='APPROVED'){
-            // insert into t_tourist_standard_dtls
-            \DB::transaction(function () use ($request) {
-
-                $approveId = WorkFlowDetails::getStatus('APPROVED');
-                $completedId= WorkFlowDetails::getStatus('COMPLETED');
-
-            //save data to t_tourist_standard_dtls_autit
+            // hotel ownership change
+            if($request->application_type_id=="29"){
             $savedatatoaudit=Services::saveTouristStandardHotelDtlsAudit($request->license_no);
+            $data = array(
+              'owner_name' => $request->new_owner_name,
+              'cid_no' => $request->new_cid_no,
+              'address' => $request->new_address, 
+              'contact_no' => $request->new_contact_no,
+              'email' => $request->new_email,
+              'updated_at'   => now(),
+           );
+           $updatedata=Services::updateApplicantDtls('t_tourist_standard_dtls','license_no',$request->license_no,$data);
+            }
 
-              //update data to t_tourist_standard_dtls
-              $data = array(
-                'is_active' => 'N',
-             );
-             $updatedata=Services::updateApplicantDtls('t_tourist_standard_dtls','license_no',$request->license_no,$data);
+            // hotel license cancellation
+              if($request->application_type_id=="30"){
+                $savedatatoaudit=Services::saveTouristStandardHotelDtlsAudit($request->license_no);
+                $data = array(
+                  'is_active' => 'N',
+                  'updated_at'   => now(),
+               );
+               $updatedata=Services::updateApplicantDtls('t_tourist_standard_dtls','license_no',$request->license_no,$data);
+            }
 
             $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
             $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
-                    ->update(['status_id' => $approveId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
+                    ->update(['status_id' => $approveId->id,'role_id'=> $roleId,'remarks' => $request->remarks]);
+
+            $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
+            $updateworkflow=TaskDetails::where('application_no',$request->application_no)
+                                    ->update(['status_id' => $completedId->id]); 
+            //Email send notifications
+            if ($request->email) {
+                $when = Carbon::now()->addMinutes(1);
+                Notification::route('mail', $request->email) 
+                ->notify((new EndUserNotification($request->email, $request->owner_name, $request->application_no, 'Approved',$request->service_name))->delay($when));
+            }
+       });
+       return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
+       }
+       elseif($request->status =='RESUBMIT'){
+        $resubmitdId = WorkFlowDetails::getStatus('RESUBMIT');
+        $completedId= WorkFlowDetails::getStatus('COMPLETED');
+        $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
+        $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
+        ->update(['status_id' => $resubmitdId->id,'role_id'=>$roleId,'remarks' => $request->remarks]);
+
+        $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
+        $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
+                                ->update(['status_id' => $completedId->id]);
+        //Email send notifications
+        if ($request->email) {
+            $when = Carbon::now()->addMinutes(1);
+            Notification::route('mail', $request->email) 
+            ->notify((new EndUserNotification($request->email, $request->owner_name, $request->application_no, 'Resubmit',$request->service_name))->delay($when));
+        }
+        return redirect('tasklist/tasklist')->with('msg_success', 'Application resend successfully');
+    }
+    else{
+
+        $completedId= WorkFlowDetails::getStatus('COMPLETED');
+        $rejectId = WorkFlowDetails::getStatus('REJECTED');
+        $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
+        $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
+        ->update(['status_id' => $rejectId->id,'role_id'=>$roleId,'remarks' => $request->remarks]);
+
+        $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
+        $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
+                                ->update(['status_id' => $completedId->id]);
+        //Email send notifications
+        if ($request->email) {
+            $when = Carbon::now()->addMinutes(1);
+            Notification::route('mail', $request->email) 
+            ->notify((new EndUserNotification($request->email, $request->owner_name, $request->application_no, 'Rejected',$request->service_name))->delay($when));
+        }
+        return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
+        }
+
+     }   
+
+     public function importLicenseApplication(Request $request){
+        $roles = auth()->user()->roles()->get();
+        $roleId = 0;
+        foreach ($roles as $role){
+            $roleId = $role->id;
+        }
+        if($request->status =='APPROVED'){
+               $approveId = WorkFlowDetails::getStatus('APPROVED');
+               $completedId= WorkFlowDetails::getStatus('COMPLETED');
+            
+            $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
+            $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
+                    ->update(['status_id' => $approveId->id,'role_id'=> $roleId,'remarks' => $request->remarks]);
 
             $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
             $updateworkflow=TaskDetails::where('application_no',$request->application_no)
                                     ->update(['status_id' => $completedId->id]);
-        });
-        return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
-        }else{
-            $rejectId = WorkFlowDetails::getStatus('REJECTED');
-            $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
-            $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
-            ->update(['status_id' => $rejectId->id,'user_id'=>auth()->user()->id,'remarks' => $request->remarks]);
-            return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
+            //Email send notifications
+            if ($request->email) {
+                $when = Carbon::now()->addMinutes(1);
+                Notification::route('mail', $request->email) 
+                ->notify((new EndUserNotification($request->email, $request->owner_name, $request->application_no, 'Approved',$request->service_name))->delay($when));
             }
+       return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
+       }
+       elseif($request->status =='RESUBMIT'){
+        $resubmitdId = WorkFlowDetails::getStatus('RESUBMIT');
+        $completedId= WorkFlowDetails::getStatus('COMPLETED');
+        $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
+        $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
+        ->update(['status_id' => $resubmitdId->id,'role_id'=>$roleId,'remarks' => $request->remarks]);
+
+        $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
+        $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
+                                ->update(['status_id' => $completedId->id]);
+        //Email send notifications
+        if ($request->email) {
+            $when = Carbon::now()->addMinutes(1);
+            Notification::route('mail', $request->email) 
+            ->notify((new EndUserNotification($request->email, $request->owner_name, $request->application_no, 'Resubmit',$request->service_name))->delay($when));
+        }
+        return redirect('tasklist/tasklist')->with('msg_success', 'Application resend successfully');
+    }
+    else{
+
+        $completedId= WorkFlowDetails::getStatus('COMPLETED');
+        $rejectId = WorkFlowDetails::getStatus('REJECTED');
+        $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
+        $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
+        ->update(['status_id' => $rejectId->id,'role_id'=>$roleId,'remarks' => $request->remarks]);
+
+        $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
+        $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
+                                ->update(['status_id' => $completedId->id]);
+        //Email send notifications
+        if ($request->email) {
+            $when = Carbon::now()->addMinutes(1);
+            Notification::route('mail', $request->email) 
+            ->notify((new EndUserNotification($request->email, $request->owner_name, $request->application_no, 'Rejected',$request->service_name))->delay($when));
+        }
+        return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
 
      }
+    }
+
+    // work permit application
+    public function workPermitApplication(Request $request,Services $service){
+        $roles = auth()->user()->roles()->get();
+        $roleId = 0;
+        foreach ($roles as $role){
+            $roleId = $role->id;
+        }
+         if($request->status =='APPROVED'){
+             // insert into t_operator_clearances
+             \DB::transaction(function () use ($request,$service,$roleId) {
+                 $approveId = WorkFlowDetails::getStatus('APPROVED');
+                 $completedId= WorkFlowDetails::getStatus('COMPLETED');
+                 $lastsequence=substr($request->application_no,7);
+               $divisioncode=Services::getDivisonCode($request->service_id)->code;
+               $tcb="TCB";
+               $dispatchNo=$tcb.'-'.$divisioncode.date("Y.m.d").$lastsequence;
+               if($request->application_type_id==38){
+                $data[]= [    
+                    'application_type_id'   => $request->application_type_id,
+                    'license_no'   => $request->license_no,
+                    'company_name'   => $request->company_name,
+                    'cid_no'   => $request->cid_no,
+                    'email'   => $request->email,
+                    'total_worker'   => $request->total_worker,
+                    'country_id'   => $request->country_id,
+                    'from_date'   =>date('Y-m-d', strtotime($request->from_date)),
+                    'to_date'   =>date('Y-m-d', strtotime($request->to_date)),
+                    'village_id'   => $request->village_id,
+                    'dispatch_no'   =>$dispatchNo,
+                    'created_at'   => now(),
+                    'updated_at'   => now(),
+                 ];
+                 $id=Services::getLastInsertedId('t_work_permit_dtls',$data);
+                }
+                else if($request->application_type_id==39){
+                 $data[]= [    
+                    'application_type_id'   => $request->application_type_id,
+                    'license_no'   => $request->license_no,
+                    'company_name'   => $request->company_name,
+                    'cid_no'   => $request->cid_no,
+                    'email'   => $request->email,
+                    'village_id'   => $request->village_id,
+                    'dispatch_no'   =>$dispatchNo,
+                    'created_at'   => now(),
+                    'updated_at'   => now(),
+                 ];
+                $id=Services::getLastInsertedId('t_work_permit_dtls',$data);
+                //insert into t_foreign worker dtls
+                $workerdtls = [];
+                if(isset($_POST['passport_no'])){
+                        foreach($request->passport_no as $key => $value)
+                        {
+                            $workerdtls[] = [
+                            'work_permit_id' =>  $id,
+                            'passport_no'  => $request->passport_no[$key],
+                            'name'  => $request->name[$key],
+                            'start_date'  => date('Y-m-d', strtotime($request->start_date[$key])),
+                            'end_date'  =>  date('Y-m-d', strtotime($request->end_date[$key])),
+                            'nationality'  => $request->nationality[$key],
+                            'created_at'  => now(),
+                            'updated_at'  => now(),
+                            ];
+                        }
+                        $service->insertDetails('t_foreign_worker_dtls',$workerdtls);
+                    }
+                }
+                else if($request->application_type_id==40){
+                    $savedatatoaudit=Services::saveWorkPermitDtlsAudit($request->dispatch_no);
+                    $data = array(
+                    'dispatch_no' => $dispatchNo,
+                    'total_worker'   => $request->total_worker,
+                    'from_date'   =>date('Y-m-d', strtotime($request->from_date)), 
+                    'to_date'   =>date('Y-m-d', strtotime($request->to_date)), 
+                    'updated_at'  => now(),
+                     );
+                     $updatedata=Services::updateApplicantDtls('t_work_permit_dtls','dispatch_no',$request->dispatch_no,$data);
+                }else{
+                    $savedatatoaudit=Services::saveWorkPermitDtlsAudit($request->dispatch_no);
+                    $data = array(
+                    'dispatch_no' => $dispatchNo,
+                    'updated_at'  => now(),
+                     );
+                     $updatedata=Services::updateApplicantDtls('t_work_permit_dtls','dispatch_no',$request->dispatch_no,$data);
+                     if(isset($_POST['passport_no'])){
+                        foreach($request->passport_no as $key => $value)
+                        {
+
+                            $savedatatoaudit=Services::saveForeignWorkerDtlsAudit($request->passport_no[$key]);
+                            $workerdtls = [
+                            'start_date'  => date('Y-m-d', strtotime($request->start_date[$key])),
+                            'end_date'  =>  date('Y-m-d', strtotime($request->end_date[$key])),
+                            'updated_at'  => now(),
+                            ];
+                        $satus=Services::updateOrSaveDetails('t_foreign_worker_dtls',$workerdtls, ['passport_no'=>$request->passport_no[$key]] );
+                        }
+                    }
+                }
+
+             $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
+             $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
+                     ->update(['status_id' => $approveId->id,'role_id'=> $roleId,'remarks' => $request->remarks]);
+    
+             $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
+             $updateworkflow=TaskDetails::where('application_no',$request->application_no)
+                                     ->update(['status_id' => $completedId->id]); 
+            //Email send notifications
+            if ($request->email) {
+                $when = Carbon::now()->addMinutes(1);
+                Notification::route('mail', $request->email) 
+                ->notify((new EndUserNotification($request->email, $request->owner_name, $request->application_no, 'Approved',$request->service_name))->delay($when));
+            }
+         });
+         return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
+         }
+         elseif($request->status =='RESUBMIT'){
+             $resubmitdId = WorkFlowDetails::getStatus('RESUBMIT');
+             $completedId= WorkFlowDetails::getStatus('COMPLETED');
+             $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
+             $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
+             ->update(['status_id' => $resubmitdId->id,'role_id'=>$roleId,'remarks' => $request->remarks]);
+    
+             $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
+             $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
+                                     ->update(['status_id' => $completedId->id]);
+            //Email send notifications
+            if ($request->email) {
+                $when = Carbon::now()->addMinutes(1);
+                Notification::route('mail', $request->email) 
+                ->notify((new EndUserNotification($request->email, $request->owner_name, $request->application_no, 'Resubmit',$request->service_name))->delay($when));
+            }
+             return redirect('tasklist/tasklist')->with('msg_success', 'Application resend successfully');
+         }
+         else{
+    
+             $completedId= WorkFlowDetails::getStatus('COMPLETED');
+             $rejectId = WorkFlowDetails::getStatus('REJECTED');
+             $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
+             $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
+             ->update(['status_id' => $rejectId->id,'role_id'=>$roleId,'remarks' => $request->remarks]);
+    
+             $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
+             $updatetaskdtls=TaskDetails::where('application_no',$request->application_no)
+                                     ->update(['status_id' => $completedId->id]);
+            //Email send notifications
+            if ($request->email) {
+                $when = Carbon::now()->addMinutes(1);
+                Notification::route('mail', $request->email) 
+                ->notify((new EndUserNotification($request->email, $request->owner_name, $request->application_no, 'Rejected',$request->service_name))->delay($when));
+            }
+             return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
+             }
+    }
+   
 }

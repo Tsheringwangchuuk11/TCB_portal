@@ -52,7 +52,8 @@ class EventRegistration extends Model
     ->leftjoin('t_village_masters as t3','t3.id','=','t1.village_id')
     ->leftjoin('t_gewog_masters as t4','t4.id','=','t3.gewog_id')
     ->leftjoin('t_dzongkhag_masters as t5','t5.id','=','t4.dzongkhag_id')
-    ->select('t1.*','t3.gewog_id','t4.dzongkhag_id','t3.village_name','t4.gewog_name','t5.dzongkhag_name')
+    ->select('t1.*',\DB::raw('DATE_FORMAT(t1.start_date,"%d/%m/%Y") as start_date'),\DB::raw('DATE_FORMAT(t1.end_date,"%d/%m/%Y") as end_date'),\DB::raw('DATE_FORMAT(t1.last_date,"%d/%m/%Y") as last_date'),
+    't3.gewog_id','t4.dzongkhag_id','t3.village_name','t4.gewog_name','t5.dzongkhag_name')
     ->where('t1.id',$eventId)
     ->first();
   return $query;
