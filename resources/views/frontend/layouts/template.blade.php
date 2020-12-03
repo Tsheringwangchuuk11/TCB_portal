@@ -121,7 +121,6 @@
             <div class="collapse navbar-collapse" id="mainNav">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item px-2"><a href="{{ url('about_us') }}" class="nav-link  text-white">ABOUT US</a></li>
-                    <li class="nav-item px-2"><a href="{{ url('report/public-report') }}" class="nav-link  text-white">REPORTS</a></li>
                     <li class="nav-item px-2"><a href="{{ url('contact_us') }}" class="nav-link  text-white">CONTACT</a></li>
                     <li class="nav-item px-2"><a href="{{ url('training-registration') }}" class="nav-link  text-white">TRAINING REGISTRATION</a></li>
                     <li class="nav-item px-2"><a href="{{ route('tourism-grievances') }}" class="nav-link  text-white">TOURISM GRIEVANCES</a></li>
