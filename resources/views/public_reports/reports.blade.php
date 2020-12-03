@@ -226,6 +226,7 @@
                             $("#container").show();
                         } 
                         $("#loading").hide();
+                        $("#message").hide();
                     }else{
                         $("#loading").hide();
                         $("#container").hide();
