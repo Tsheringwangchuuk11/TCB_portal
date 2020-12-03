@@ -719,12 +719,13 @@ class ServiceController extends Controller
 
         // new technical clearance for hotel and tented accommodation
         if($service_id==1 && $module_id==1){
-            $data=Services::getHotelTechnicalClearanceLetterContent($application_no,$service_id,$module_id);
+            $data['content']=Services::getHotelTechnicalClearanceLetterContent($application_no,$service_id,$module_id);
+            $data['dispatch_no'] = $data['content']->dispatch_no;
             $find = array("number_of_rooms","accommodation_type","owner","village_name","gewog_name","dzongkhag_name","vilidation_date","submit_date","old_owner");
             $replace  = array($data->proposed_rooms_no,$data->dropdown_name,$data->name,$data->village_name,$data->gewog_name,$data->dzongkhag_name,$data->validaty_date,$data->submit_date,$data->old_owner);
             $arr = array($data->body);
-            $body=str_replace($find,$replace,$arr);
-            $pdf = PDF::loadView('recommendation_letter.recommendation_letter',compact('data','body'));
+            $data['body']=str_replace($find,$replace,$arr);
+            $pdf = PDF::loadView('recommendation_letter.recommendation_letter',$data);
             return $pdf->stream('Recommendation Letter-'.str_random(4).'.pdf');
         }
 
@@ -748,89 +749,100 @@ class ServiceController extends Controller
 
         // Tour Operator License Clearance-New License
         else if($service_id==2 && $module_id==4){
-            $data=Services::getOperatorLicenseClearanceLetterContent($application_no,$service_id,$module_id);
-            $find = array("number_of_rooms","accommodation_type","owner","village_name","gewog_name","dzongkhag_name","vilidation_date","submit_date","old_owner");
-            $replace  = array($data->proposed_rooms_no,$data->dropdown_name,$data->name,$data->village_name,$data->gewog_name,$data->dzongkhag_name,$data->validaty_date,$data->submit_date,$data->old_owner);
-            $arr = array($data->body);
-            $body=str_replace($find,$replace,$arr);
-            $pdf = PDF::loadView('recommendation_letter.recommendation_letter',compact('data','body'));
+            $lastsequence=substr($application_no,7);
+            $divisioncode=Services::getDivisonCode($service_id)->code;
+            $tcb="TCB";
+            $data['dispatch_no'] =$tcb.'-'.$divisioncode.date("Y.m.d").$lastsequence;
+            $data['content']=Services::getOperatorLicenseClearanceLetterContent($application_no,$service_id,$module_id);
+            $find = array("owner","village_name","gewog_name","dzongkhag_name","vilidation_date");
+            $replace  = array($data['content']->name,$data['content']->village_name,$data['content']->gewog_name,$data['content']->dzongkhag_name,$data['content']->validaty_date);
+            $arr = array($data['content']->body);
+            $data['body']=str_replace($find,$replace,$arr);
+            $pdf = PDF::loadView('recommendation_letter.recommendation_letter',$data);
             return $pdf->stream('Recommendation Letter-'.str_random(4).'.pdf');
         }
 
          //Issuance of recommendation for new tourism product development
          else if($service_id==16 && $module_id==5){
-            $data=Services::getLetterContent($application_no,$service_id,$module_id);
+            $data['content']=Services::getHotelTechnicalClearanceLetterContent($application_no,$service_id,$module_id);
+            $data['dispatch_no'] = $data['content']->dispatch_no;
             $find = array("number_of_rooms","accommodation_type","owner","village_name","gewog_name","dzongkhag_name","vilidation_date","submit_date","old_owner");
             $replace  = array($data->proposed_rooms_no,$data->dropdown_name,$data->name,$data->village_name,$data->gewog_name,$data->dzongkhag_name,$data->validaty_date,$data->submit_date,$data->old_owner);
             $arr = array($data->body);
-            $body=str_replace($find,$replace,$arr);
-            $pdf = PDF::loadView('recommendation_letter.recommendation_letter',compact('data','body'));
+            $data['body']=str_replace($find,$replace,$arr);
+            $pdf = PDF::loadView('recommendation_letter.recommendation_letter',$data);
             return $pdf->stream('Recommendation Letter-'.str_random(4).'.pdf');
         }
 
          //Tour operator license clearance for renewal of expired trade license
          else if($service_id==14 && $module_id==4){
-            $data=Services::getLetterContent($application_no,$service_id,$module_id);
+            $data['content']=Services::getHotelTechnicalClearanceLetterContent($application_no,$service_id,$module_id);
+            $data['dispatch_no'] = $data['content']->dispatch_no;
             $find = array("number_of_rooms","accommodation_type","owner","village_name","gewog_name","dzongkhag_name","vilidation_date","submit_date","old_owner");
             $replace  = array($data->proposed_rooms_no,$data->dropdown_name,$data->name,$data->village_name,$data->gewog_name,$data->dzongkhag_name,$data->validaty_date,$data->submit_date,$data->old_owner);
             $arr = array($data->body);
-            $body=str_replace($find,$replace,$arr);
-            $pdf = PDF::loadView('recommendation_letter.recommendation_letter',compact('data','body'));
+            $data['body']=str_replace($find,$replace,$arr);
+            $pdf = PDF::loadView('recommendation_letter.recommendation_letter',$data);
             return $pdf->stream('Recommendation Letter-'.str_random(4).'.pdf');
         }
 
         //Ownership change of TCB certified Tourist Hotels
          else if($service_id==6 && $module_id==1){
-            $data=Services::getLetterContent($application_no,$service_id,$module_id);
+            $data['content']=Services::getHotelTechnicalClearanceLetterContent($application_no,$service_id,$module_id);
+            $data['dispatch_no'] = $data['content']->dispatch_no;
             $find = array("number_of_rooms","accommodation_type","owner","village_name","gewog_name","dzongkhag_name","vilidation_date","submit_date","old_owner");
             $replace  = array($data->proposed_rooms_no,$data->dropdown_name,$data->name,$data->village_name,$data->gewog_name,$data->dzongkhag_name,$data->validaty_date,$data->submit_date,$data->old_owner);
             $arr = array($data->body);
-            $body=str_replace($find,$replace,$arr);
-            $pdf = PDF::loadView('recommendation_letter.recommendation_letter',compact('data','body'));
+            $data['body']=str_replace($find,$replace,$arr);
+            $pdf = PDF::loadView('recommendation_letter.recommendation_letter',$data);
             return $pdf->stream('Recommendation Letter-'.str_random(4).'.pdf');
         }
 
         //Name change of tour operators
          else if($service_id==11 && $module_id==4){
-            $data=Services::getLetterContent($application_no,$service_id,$module_id);
+            $data['content']=Services::getHotelTechnicalClearanceLetterContent($application_no,$service_id,$module_id);
+            $data['dispatch_no'] = $data['content']->dispatch_no;
             $find = array("number_of_rooms","accommodation_type","owner","village_name","gewog_name","dzongkhag_name","vilidation_date","submit_date","old_owner");
             $replace  = array($data->proposed_rooms_no,$data->dropdown_name,$data->name,$data->village_name,$data->gewog_name,$data->dzongkhag_name,$data->validaty_date,$data->submit_date,$data->old_owner);
             $arr = array($data->body);
-            $body=str_replace($find,$replace,$arr);
-            $pdf = PDF::loadView('recommendation_letter.recommendation_letter',compact('data','body'));
+            $data['body']=str_replace($find,$replace,$arr);
+            $pdf = PDF::loadView('recommendation_letter.recommendation_letter',$data);
             return $pdf->stream('Recommendation Letter-'.str_random(4).'.pdf');
         }
 
         // Recommendation for import License-Tour Operator 
         else if($service_id==4 && $module_id==4){
-            $data=Services::getLetterContent($application_no,$service_id,$module_id);
+            $data['content']=Services::getHotelTechnicalClearanceLetterContent($application_no,$service_id,$module_id);
+            $data['dispatch_no'] = $data['content']->dispatch_no;
             $find = array("number_of_rooms","accommodation_type","owner","village_name","gewog_name","dzongkhag_name","vilidation_date","submit_date","old_owner");
             $replace  = array($data->proposed_rooms_no,$data->dropdown_name,$data->name,$data->village_name,$data->gewog_name,$data->dzongkhag_name,$data->validaty_date,$data->submit_date,$data->old_owner);
             $arr = array($data->body);
-            $body=str_replace($find,$replace,$arr);
-            $pdf = PDF::loadView('recommendation_letter.recommendation_letter',compact('data','body'));
+            $data['body']=str_replace($find,$replace,$arr);
+            $pdf = PDF::loadView('recommendation_letter.recommendation_letter',$data);
             return $pdf->stream('Recommendation Letter-'.str_random(4).'.pdf');
         }
 
          // Recommendation for import license-TCB Certified Tourist Hotel 
          else if($service_id==4 && $module_id==1){
-            $data=Services::getLetterContent($application_no,$service_id,$module_id);
+            $data['content']=Services::getHotelTechnicalClearanceLetterContent($application_no,$service_id,$module_id);
+            $data['dispatch_no'] = $data['content']->dispatch_no;
             $find = array("number_of_rooms","accommodation_type","owner","village_name","gewog_name","dzongkhag_name","vilidation_date","submit_date","old_owner");
             $replace  = array($data->proposed_rooms_no,$data->dropdown_name,$data->name,$data->village_name,$data->gewog_name,$data->dzongkhag_name,$data->validaty_date,$data->submit_date,$data->old_owner);
             $arr = array($data->body);
-            $body=str_replace($find,$replace,$arr);
-            $pdf = PDF::loadView('recommendation_letter.recommendation_letter',compact('data','body'));
+            $data['body']=str_replace($find,$replace,$arr);
+            $pdf = PDF::loadView('recommendation_letter.recommendation_letter',$data);
             return $pdf->stream('Recommendation Letter-'.str_random(4).'.pdf');
         }
 
         // Facilitate Obtaining Work Permit for Hiring expatriate for TCB Certified Hotels 
         else if($service_id==5 && $module_id==1){
-            $data=Services::getLetterContent($application_no,$service_id,$module_id);
+            $data['content']=Services::getHotelTechnicalClearanceLetterContent($application_no,$service_id,$module_id);
+            $data['dispatch_no'] = $data['content']->dispatch_no;
             $find = array("number_of_rooms","accommodation_type","owner","village_name","gewog_name","dzongkhag_name","vilidation_date","submit_date","old_owner");
             $replace  = array($data->proposed_rooms_no,$data->dropdown_name,$data->name,$data->village_name,$data->gewog_name,$data->dzongkhag_name,$data->validaty_date,$data->submit_date,$data->old_owner);
             $arr = array($data->body);
-            $body=str_replace($find,$replace,$arr);
-            $pdf = PDF::loadView('recommendation_letter.recommendation_letter',compact('data','body'));
+            $data['body']=str_replace($find,$replace,$arr);
+            $pdf = PDF::loadView('recommendation_letter.recommendation_letter',$data);
             return $pdf->stream('Recommendation Letter-'.str_random(4).'.pdf');
         }
     }

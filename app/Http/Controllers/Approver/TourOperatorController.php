@@ -478,7 +478,6 @@ class TourOperatorController extends Controller
         return redirect('tasklist/tasklist')->with('msg_success', 'Application resend successfully');
     }
     else{
-
         $completedId= WorkFlowDetails::getStatus('COMPLETED');
         $rejectId = WorkFlowDetails::getStatus('REJECTED');
         $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
@@ -573,18 +572,21 @@ class TourOperatorController extends Controller
              \DB::transaction(function () use ($request,$service,$roleId) {
                  $approveId = WorkFlowDetails::getStatus('APPROVED');
                  $completedId= WorkFlowDetails::getStatus('COMPLETED');
-                 $data[]= [    
+                 $savedatatoaudit=Services::saveTourOperatorClearancesDtlsAudit($request->license_no);
+                 $data= [    
                     'name'   => $request->name,
                     'cid_no'   => $request->cid_no,
                     'email'   => $request->email,
                     'company_name'   => $request->company_name,
                     'village_id'   => $request->village_id,
                     'contact_no'   => $request->contact_no,
+                    'remarks'   => $request->remarks,
+                    'application_type_id'   => $request->application_type_id,
                     'validity_date'   =>now()->addMonths(1),
                     'created_at'   => now(),
                     'updated_at'   => now(),
                     ];
-              $id=Services::getLastInsertedId('t_operator_clearances',$data);
+             $satus=Services::updateOrSaveDetails('t_operator_clearances',$data, ['license_no'=>$request->license_no]);
              $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
              $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
                      ->update(['status_id' => $approveId->id,'role_id'=> $roleId,'remarks' => $request->remarks]);

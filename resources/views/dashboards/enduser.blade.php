@@ -48,6 +48,7 @@
                                 <tr>
                                     <td>
                                         @if ($endUserApplicantDtl->id===9)
+                                          <!--start resubmit-->
                                             @if($endUserApplicantDtl->module_id==1)
                                                 <a href="{{ url('verification/tourist-standard-hotel',['applicationNo'=>$endUserApplicantDtl->application_no,'status'=>$endUserApplicantDtl->id]) }}"><span class="text-warning">{{ $endUserApplicantDtl->application_no }}</span></a>
                                             @elseif($endUserApplicantDtl->module_id==2)
@@ -61,8 +62,12 @@
                                              @else
                                              <a href="{{ url('verification/tended-accommodation',['applicationNo'=>$endUserApplicantDtl->application_no,'status'=>$endUserApplicantDtl->id]) }}"><span class="text-warning">{{ $endUserApplicantDtl->application_no }}</span></a>
                                             @endif
+                                          <!--end resubmit-->
                                         @elseif($endUserApplicantDtl->id===10)
+                                            <!--start dratf-->
                                              <a href="{{ url('verification/tourist-standard-hotel',['applicationNo'=>$endUserApplicantDtl->application_no,'status'=>$endUserApplicantDtl->id]) }}"><span class="text-info">{{ $endUserApplicantDtl->application_no }}</span></span></a>
+                                            <!--end draft-->
+
                                         @else
                                              {{ $endUserApplicantDtl->application_no }}
                                         @endif
@@ -86,9 +91,19 @@
                                     <td>{{ $endUserApplicantDtl->updated_at }}</td>
                                     <td>{{ $endUserApplicantDtl->remarks }}</td>
                                     <td>
+                                        <!-- start Printing -->
                                         @if ($endUserApplicantDtl->id===3)
-                                        <a href="{{	url('application/recommendation-letter',['applicationNo'=>$endUserApplicantDtl->application_no,'service_id'=>$endUserApplicantDtl->service_id,'module_id'=>$endUserApplicantDtl->module_id]) }}" class="btn btn-xs btn-info btn-flat" target="_blank"><i class="fa fa-print"></i> Print</a> 
-                                        @endif   
+                                            @if ($endUserApplicantDtl->module_id==4 && $endUserApplicantDtl->service_id==2)
+                                                @if ($endUserApplicantDtl->print_validity==1)
+                                                      <a href="{{	url('application/recommendation-letter',['applicationNo'=>$endUserApplicantDtl->application_no,'service_id'=>$endUserApplicantDtl->service_id,'module_id'=>$endUserApplicantDtl->module_id]) }}" class="btn btn-xs btn-info btn-flat" data-toggle="tooltip" title="Clearance letter is valid for 1 month" target="_blank"><i class="fa fa-print"></i> Print</a> 
+                                                @else
+                                                <span class="text-danger">Validity Expired</span>
+                                                @endif
+                                            @else
+                                            <a href="{{	url('application/recommendation-letter',['applicationNo'=>$endUserApplicantDtl->application_no,'service_id'=>$endUserApplicantDtl->service_id,'module_id'=>$endUserApplicantDtl->module_id]) }}" class="btn btn-xs btn-info btn-flat" target="_blank"><i class="fa fa-print"></i> Print</a> 
+                                            @endif
+                                        @endif
+                                         <!--end Printing -->   
                                     </td>
                                 </tr>
                                 @endforeach

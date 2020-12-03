@@ -195,7 +195,7 @@
     <script>
         $(document).ready(function () {
             var countryId="{!! $eventdtl->country_id !!}";
-                if(countryId==7){
+                if(countryId==80){
                     $("#showdzongkhag").show();
                     $("#showvillage").show();
                     $("#showeventlocation").hide();

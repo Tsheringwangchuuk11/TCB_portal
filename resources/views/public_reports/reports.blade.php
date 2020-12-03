@@ -9,7 +9,7 @@
         }
 
         #container {
-            height: 550px;
+           min-height: 650px;
             border: 1px solid #161b161c;
         }
 
@@ -57,36 +57,50 @@
                                 <form action="{{ url('report/reports') }}" method="GET" id="reportForm">
                                     <div class="row">
                                         <div class="form-group col-xs-12 col-md-12">
-                                            <label class="text-success">Report Name:</label>
-                                            <select name="report_type_id" class="form-control" onchange="generateReports()">
+                                            <label class="text-success">Report Type:</label>
+                                            <select name="report_type_id" id="report_type_id" class="form-control" onchange="getReportCategory(this.value)">
                                                 @foreach ($report_types as $report_type)
-                                                    <option value="{{ $report_type->id }}">{{ $report_type->report_type }}</option>
+                                                    <option value="{{ $report_type->report_type_id }}">{{ $report_type->report_type }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
-
+                                        <div class="form-group col-xs-12 col-md-12" style="display:none" id="report_category_display"> 
+                                            <label class="text-success">Report Category:</label>
+                                            <select name="report_category_id" class="form-control" id="report_category_id" onchange="getReportName(this.value)">
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-xs-12 col-md-12">
+                                            <label class="text-success">Report Name:</label>
+                                            <select name="report_name_id" class="form-control" id="report_name_id" onchange="changeReportName()">
+                                            </select>
+                                        </div>
                                         <div class="col-xs-12 col-md-12">
                                             <label class="text-success">FILTER BY:</label>
                                         </div>
                                         <div class="col-xs-12 col-md-12">
                                             <div class="form-group">
                                                 <label>Year:</label>
-                                                <select name="year" class="select2bs4" onchange="generateReports()" style="width: 100%;">
-                                                        <option value="2019"> 2019</option>
-                                                </select>
+                                                <input type="text" name="year" class="form-control datetimepicker-input" id="year" data-toggle="datetimepicker" data-target="#year"  onchange="changeYear()"/>
                                             </div>
                                         </div>
                                     </div>
                                 </form>
                             </div>
                         </div>
-
                         <div class="col-md-9">
-                                <div class="overlay" id="loading" style="display:none"><i
-                                        class="fa fa-spinner fa-spin"></i>
+                            <div class="overlay" id="loading" style="display:none"><i
+                                    class="fa fa-spinner fa-spin"></i>
+                            </div>
+                            <div class="row"  id="message" style="display:none">
+                                <div class="col-md-12">
+                                    <div class="alert alert-success alert-dismissible">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                        <i class="fa fa-check"></i> No data available for current year <span id="current_year"></span>
+                                    </div>
                                 </div>
+                            </div>
                             <figure class="highcharts-figure">
-                                <div id="container"></div>
+                                <div id="container" style="display:none" ></div>
                             </figure>
                         </div>
                     </div>
@@ -101,23 +115,101 @@
 <script src="{{ asset('plugins/highcharts/export-data.js') }}"></script>
 <script src="{{ asset('plugins/highcharts/accessibility.js') }}"></script> 
     <script>
-        $(function () {
-            //Initialize Select2 Elements
-            $('.select2').select2();
-
-            //Initialize Select2 Elements
-            $('.select2bs4').select2({
-                theme: 'bootstrap4'
-            });
-
-        });
-    </script>
-    <script>
         $(document).ready(function () {
-            generateReports();
-        });
+            $('#year').datetimepicker({
+                viewMode: 'years',
+                    format: 'YYYY',
+                    useCurrent: false
+                }); 
+            var previous_year = new Date().getFullYear()-1 ;
+            $('#year').val(previous_year);
+            $report_type_id= "{!! $id !!}" ;
+            $('#report_type_id').val($report_type_id).trigger("change");
+        }); 
+        function  getReportCategory(report_type_id){
+                if(report_type_id == 1) {
+                        $("#report_category_id option").remove();
+                        $("#report_category_display").hide();	
+                        $("#report_name_id option").remove();
+                        $.ajax({
+                        url: '/report-dropdown',
+                        type: "GET",
+                        data: {
+                            table_name: 't_report_names',
+                            id: 'report_name_id',
+                            name: 'report_name',
+                            parent_type_value: 'T',
+                            parent_type_name: 'parent_type',
+                            parent_id: report_type_id,
+                            parent_name_id: 'report_parent_id'
+                        },
+                        success: function (data) {
+                            $.each(data, function (key, value) {
+                                $('select[name="report_name_id"]').append('<option value="' + key + '">' + value + '</option>');
+                             });
+                            generateAjaxReports();
+                            }
+                        });
+                } else {
+                       $("#report_category_id option").remove();;
+                        $("#report_category_display").show();
+                        $.ajax({
+                        url: '/json-dropdown',
+                        type: "GET",
+                        data: {
+                            table_name: 't_report_categories',
+                            id: 'report_category_id',
+                            name: 'report_category',
+                            parent_id: report_type_id,
+                            parent_name_id: 'report_type_id'
+                        },
+                        success: function (data) {
+                            $.each(data, function (key, value) {
+                                $('select[name="report_category_id"]').append('<option value="' + key + '">' + value + '</option>');
+                            });
+                            $('#report_category_id').trigger("change");
+                          }
+                      });
+                    }
+                }
+            
+        function getReportName(report_category_id) {
+            if(report_category_id){
+                        $("#report_name_id option").remove();
+                        $.ajax({
+                        url: '/report-dropdown',
+                        type: "GET",
+                        data: {
+                            table_name: 't_report_names',
+                            id: 'report_name_id',
+                            name: 'report_name',
+                            parent_type_value: 'C',
+                            parent_type_name: 'parent_type',
+                            parent_id: report_category_id,
+                            parent_name_id: 'report_parent_id'
+                        },
+                        success: function (data) {
+                            $.each(data, function (key, value) {
+                                $('select[name="report_name_id"]').append('<option value="' + key + '">' + value + '</option>');
+                            });
+                         generateAjaxReports();
+                        }
+                    });
+                }else{
+                    $("#report_name_id option").remove();
+                }
+            }
+        function changeReportName(){
+            generateAjaxReports();
+         } 
 
-        function generateReports() {
+        function changeYear(){
+            generateAjaxReports();
+         } 
+
+        function generateAjaxReports() {
+            $report_name_id=$("#report_name_id").val();
+            $year=$("#year").val();
             $("#loading").show();
             var formData = $('#reportForm');
             $.ajax({
@@ -125,13 +217,23 @@
                 url: formData.attr('action'),
                 data: formData.serialize(),
                 success: function (data) {
-                    plotGraph(data);
-                    $("#loading").hide();
+                    console.log(data);
+                    if(data!=false){
+                        if($report_name_id==12){
+                        $('#tabledata').html(data);
+                        }else{
+                            $('#container').highcharts(data);
+                            $("#container").show();
+                        } 
+                        $("#loading").hide();
+                    }else{
+                        $("#loading").hide();
+                        $("#container").hide();
+                        $("#message").show();
+                        $("#current_year").html($year);
+                    }
                 }
             });
-        }
-        function plotGraph(data){
-            $('#container').highcharts(data);
         }
     </script>
 @endsection

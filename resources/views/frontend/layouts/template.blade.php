@@ -24,6 +24,10 @@
     <link href="{{ asset('fileupload/jquery.fileupload.css') }}" rel="stylesheet" type="text/css">
      <!-- DataTables -->
      <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
+     <!-- daterange picker -->
+     <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css')}}">
+      <!-- Tempusdominus Bbootstrap 4 -->
+      <link href="{{ asset('plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet" />
     <style>
         .show > .dropdown-menu {
             /* left: 50%; */
@@ -184,6 +188,13 @@
 {{-- data tables --}}
 <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script>
+<!-- Moment Min Js -->
+<script src="{{ asset('plugins/moment/moment.min.js') }}"></script>
+<!-- date-range-picker -->
+<script src="{{ asset('plugins/daterangepicker/daterangepicker.js') }}"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="{{ asset('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+
 <!-- CommonUtil -->
 <script src="{{ asset('js/commonUtil.js') }}"></script>
 {{--APIs--}}

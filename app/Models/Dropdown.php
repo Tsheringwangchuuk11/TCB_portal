@@ -18,6 +18,15 @@ class Dropdown extends Model
 		$value = $db_table->orderBy( $id,'asc')->pluck($name,  $id)->all();
 		return $value;
 	}
+	public static function getReportDropdownList($table_name, $id, $name,$parent_type_value,$parent_type_name,$parent_id,$parent_name_id){
+		$db_table = DB::table($table_name);
+		if($parent_id != 0){
+			$db_table->where($parent_name_id, $parent_id);
+			$db_table->where($parent_type_name, $parent_type_value);
+		}
+		$value = $db_table->orderBy( $id,'asc')->pluck($name,  $id)->all();		
+		return $value;
+	}
 	public static function getDropdowns($tableName, $id, $name, $parentId, $parentNameId){
 
 		$db_table = DB::table($tableName);

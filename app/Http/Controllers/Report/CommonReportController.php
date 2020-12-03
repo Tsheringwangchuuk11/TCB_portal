@@ -51,13 +51,31 @@ class CommonReportController extends Controller
    // Application List Report
     public function getApplicationList(Request $request)
     {                      
-        $data['applications'] = DB::table('t_workflow_dtls')
+       /*  $data['applications_data'] = DB::table("t_applications")->select("t_applications.application_no","t_applications.service_id" ,"t_applications.module_id");
+        $data['grievance_data'] = DB::table("t_grievance_applications")->select("t_grievance_applications.application_no","t_grievance_applications.service_id","t_grievance_applications.module_id")
+                               ->union($data['applications_data']);
+         $data['applications'] = DB::table('t_workflow_dtls')
+                                ->joinSub($data['grievance_data'], 'uniondata', function ($join) {
+                                    $join->on('t_workflow_dtls.application_no', '=', 'uniondata.application_no');
+                                })
+                            ->leftJoin('t_status_masters','t_workflow_dtls.status_id','=','t_status_masters.id')
+                            ->leftJoin('t_module_masters','uniondata.module_id','=','t_module_masters.id')
+                            ->leftJoin('t_services','uniondata.service_id','=','t_services.id')
+                            ->orderBy('t_workflow_dtls.created_at', 'asc')
+                            ->select('t_workflow_dtls.application_no','t_module_masters.module_name',
+                              't_services.name',
+                             't_workflow_dtls.created_at','t_status_masters.status_name','t_workflow_dtls.updated_at','t_workflow_dtls.remarks');    
+dd($data['applications']); */
+       
+      $data['applications'] = DB::table('t_workflow_dtls')
                             ->leftJoin('t_applications','t_workflow_dtls.application_no','=','t_applications.application_no')
                             ->leftJoin('t_status_masters','t_workflow_dtls.status_id','=','t_status_masters.id')
                             ->leftJoin('t_module_masters','t_applications.module_id','=','t_module_masters.id')
                             ->leftJoin('t_services','t_applications.service_id','=','t_services.id')
                             ->orderBy('t_workflow_dtls.created_at', 'asc')
-                            ->select('t_workflow_dtls.application_no','t_module_masters.module_name','t_applications.license_no', 't_applications.owner_name', 't_applications.cid_no', 't_applications.applicant_name', 't_services.name','t_workflow_dtls.created_at','t_status_masters.status_name','t_workflow_dtls.updated_at','t_workflow_dtls.remarks');        
+                            ->select('t_workflow_dtls.application_no','t_module_masters.module_name','t_applications.license_no',
+                             't_applications.owner_name', 't_applications.cid_no', 't_applications.applicant_name', 't_services.name',
+                             't_workflow_dtls.created_at','t_status_masters.status_name','t_workflow_dtls.updated_at','t_workflow_dtls.remarks');  
 
         $data['totalapplication']= $data['applications']->count(); 
         $data['totalsubmitted']=Report::getApplicationSubmittedList();
@@ -118,5 +136,14 @@ class CommonReportController extends Controller
         } else {
             return view('report.common_report.application-list',$data)->with('applications',$data['applications']->paginate(10));
         }        
+    }
+
+    //Tourism Survey Report
+    public  function tourismSurvey(){
+        $data['report_types'] = Dropdown::getDropdowns('t_report_types','report_type_id','report_type','0','0');
+        return view('report.common_report.tourism_survey', $data);
+    }
+
+    public function getReportContent(Request $request){
     }
 }

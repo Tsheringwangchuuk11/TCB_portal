@@ -28,7 +28,7 @@ Route::group(['namespace' => 'FrontEnd'], function () {
 
 //public reports
 Route::group(['prefix' => 'report', 'namespace' => 'Report'], function () {
-    Route::get('public-report', 'PublicReportController@index');
+    Route::get('public-report/{id}', 'PublicReportController@index');
     Route::get('reports', 'PublicReportController@ajaxReports');
 });
 
@@ -43,6 +43,7 @@ Route::post('/deletefile', 'FileUploadController@deleteFile');
 
 //dropdown controller
 Route::get('/json-dropdown', 'DropdownController@getDropdownList');
+Route::get('/report-dropdown', 'DropdownController@getReportDropdownList');
 
 Route::group(['middleware' => ['auth']], function () {
 	Route::get('dashboard', 'HomeController@getDashboard')->name('dashboard');
@@ -189,13 +190,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('application-lists', 'CommonReportController@getApplicationList');
         Route::get('training', 'CommonReportController@reportForTraining');
         Route::get('registration', 'CommonReportController@reportForRegistration');
-    });
-
-    //statistical report
-    Route::group(['prefix' => 'statistics', 'namespace' => 'StatisticalReport'], function() {
         Route::get('arrival', 'StatisticController@index');
+        Route::get('tourism_survey', 'CommonReportController@tourismSurvey');
+        Route::get('get-report-content', 'CommonReportController@getReportContent');
     });
-
     //routes for event registration
     Route::group(['prefix' => 'events', 'namespace' => 'EventRegistation'], function() {
         Route::resource('travel-fairs-event', 'EventRegistrationController');

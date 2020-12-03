@@ -254,7 +254,7 @@
     });
     $('#countryId').on('change',function(e) {
       var countryId = e.target.value;
-      if(countryId==7){
+      if(countryId==80){
          $("#displaydzongkhag").show();	
          $("#displayvillage").show();
          $("#displaylocation").hide();

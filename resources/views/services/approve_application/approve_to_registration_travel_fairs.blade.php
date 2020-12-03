@@ -55,7 +55,7 @@
                </div>
             @endif
             <div class="row">
-               @if ($applicantInfos->country_id ==7)
+               @if ($applicantInfos->country_id ==80)
                <div class="col-md-5">
                   <div class="form-group">
                       <label for="">Village<span class="text-danger"> *</span></label>

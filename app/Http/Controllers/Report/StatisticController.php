@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\StatisticalReport;
+namespace App\Http\Controllers\Report;
 
 use App\Exports\ExportToView;
 use App\Http\Controllers\Controller;

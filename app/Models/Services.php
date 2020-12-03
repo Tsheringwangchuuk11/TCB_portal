@@ -221,6 +221,7 @@ public function setToDateAttribute($value)
 		->leftjoin('t_gewog_masters as t3','t4.gewog_id','=','t3.id')
 		->leftjoin('t_village_masters as t7','t7.id','=','t1.permanent_village_id')
 		->leftjoin('t_gewog_masters as t8','t7.gewog_id','=','t8.id')
+		->leftjoin('t_dzongkhag_masters as t9','t9.id','=','t8.dzongkhag_id')
 		->leftjoin('t_module_masters as t5','t5.id','=','t1.module_id')
 		->leftjoin('t_services as t6','t6.id','=','t1.service_id')
 		->select('t1.*',
@@ -232,7 +233,7 @@ public function setToDateAttribute($value)
 				DB::raw('DATE_FORMAT(t1.validity_date,"%d/%m/%Y") as validity_date'), 
 				DB::raw('DATE_FORMAT(t1.from_date,"%d/%m/%Y") as from_date'), 
 				DB::raw('DATE_FORMAT(t1.from_date,"%d/%m/%Y") as to_date'), 
-				't3.dzongkhag_id','t3.gewog_name','t2.chiwog_name','t4.village_name','t4.gewog_id','t5.module_name','t6.name','t8.dzongkhag_id as permanent_dzongkhag_id',
+				't3.dzongkhag_id','t3.gewog_name','t2.chiwog_name','t4.village_name','t4.gewog_id','t5.module_name','t6.name','t8.dzongkhag_id as permanent_dzongkhag_id','t9.dzongkhag_name as permanent_dzongkhag_name',
 				't8.gewog_name as permanent_gewog_name','t7.village_name as permanent_village_name')
 		->where('t1.application_no',$applicationNo)
 		->first();
@@ -420,7 +421,10 @@ public function setToDateAttribute($value)
 		 $id =DB::getPdo()->lastInsertId();
 		return $id;
 	}
-
+	public static function updateOrSaveDetails($tableName, $data, $id){
+		$flag =\DB::table($tableName)->updateOrInsert($id,$data);
+		return $flag;
+	}
 	public static function saveTouristStandardHotelDtlsAudit($license_no){
         $status = DB::insert('INSERT INTO t_tourist_standard_dtls_audit(
 			tourist_standard_id,
@@ -659,12 +663,6 @@ public function setToDateAttribute($value)
 			  ->update($data);
 		return $status;
 	}
-
-	public static function updateOrSaveDetails($tableName, $data, $id){
-		$flag = DB::table($tableName)->updateOrInsert($id,$data);
-		return $flag;
-	}
-	
 	public static function saveTourOperatorDtlsAudit($license_no){
         $status = DB::insert('INSERT INTO t_operator_dtls_audit(
 			operator_dtls_id,
@@ -698,6 +696,65 @@ public function setToDateAttribute($value)
 			NOW(),
 			is_active
 			FROM t_operator_dtls
+			WHERE license_no = ? ', [$license_no]);
+        return $status;
+	}
+
+	public static function saveTourOperatorClearancesDtlsAudit($license_no){
+        $status = DB::insert('INSERT INTO t_operator_clearances_audit(
+			operator_clearance_id,
+			application_type_id,
+			cid_no,
+			NAME,
+			gender,
+			dob,
+			email,
+			license_no,
+			applicant_flat_no,
+			applicant_building_no,
+			applicant_location,
+			company_name,
+			company_name_one,
+			company_name_two,
+			village_id,
+			location,
+			flat_no,
+			building_no,
+			postal_address,
+			contact_no,
+			reference_no,
+			remarks,
+			validity_date,
+			created_at,
+			updated_at
+			)
+			SELECT 
+			id,
+			application_type_id,
+			cid_no,
+			NAME,
+			gender,
+			dob,
+			email,
+			license_no,
+			applicant_flat_no,
+			applicant_building_no,
+			applicant_location,
+			company_name,
+			company_name_one,
+			company_name_two,
+			village_id,
+			location,
+			flat_no,
+			building_no,
+			postal_address,
+			contact_no,
+			reference_no,
+			remarks,
+			validity_date,
+			created_at,
+			NOW(),
+			FROM t_operator_clearances
 			WHERE license_no = ? ', [$license_no]);
         return $status;
 	}
@@ -887,22 +944,20 @@ public function setToDateAttribute($value)
 			return $query;	
 		}
 
-		public static function getOperatorLicenseClearanceLetterContent(){
+		public static function getOperatorLicenseClearanceLetterContent($application_no,$service_id,$module_id){
 			$query=\DB::table('t_applications as a')
 					->leftjoin('t_workflow_dtls as b','b.application_no','=','a.application_no')
-					->leftjoin('t_technical_clearances as c','c.application_no','=' ,'a.application_no')
-					->leftjoin('t_dropdown_lists as d','d.id','=', 'c.accomodation_type_id')
-					->leftjoin('t_letter_masters as e','e.service_id','=','a.service_id')
-					->leftjoin('t_village_masters as f' ,'f.id' ,'=','c.village_id')
-					->leftjoin('t_gewog_masters as g','g.id', '=','f.gewog_id')
-					->leftjoin('t_dzongkhag_masters as h','h.id','=','g.dzongkhag_id')
-					->leftjoin('t_technical_clearances_audit as j','j.clearance_id','=','c.id')
-					->select('a.application_no','c.dispatch_no','c.name','c.cid_no','c.proposed_rooms_no','d.dropdown_name','e.*','c.purpose_id',DB::raw('DATE_FORMAT(b.created_at,"%d/%m/%Y") as submit_date'),'j.name as old_owner',
-					'f.village_name','g.gewog_name','h.dzongkhag_name',DB::raw('DATE_FORMAT(c.validaty_date,"%d/%m/%Y") as validaty_date'))
+					->leftjoin('t_operator_clearances as c','c.application_type_id','=' ,'a.application_type_id')
+					->leftjoin('t_letter_masters as d','d.application_type_id','=','c.application_type_id')
+					->leftjoin('t_village_masters as e' ,'e.id' ,'=','c.village_id')
+					->leftjoin('t_gewog_masters as f','f.id', '=','e.gewog_id')
+					->leftjoin('t_dzongkhag_masters as g','g.id','=','f.dzongkhag_id')
+					->select('a.application_no','c.name','c.cid_no','c.email','c.license_no','c.contact_no','d.*',
+					'e.village_name','f.gewog_name','g.dzongkhag_name',DB::raw('DATE_FORMAT(c.validity_date,"%d/%m/%Y") as validaty_date'))
 					->where('b.status_id','3')
 					->where('a.application_no',$application_no)
-					->where('e.service_id',$service_id)
-					->where('e.module_id',$module_id)
+					->where('d.service_id',$service_id)
+					->where('d.module_id',$module_id)
 					->first();
 			return $query;	
 		}

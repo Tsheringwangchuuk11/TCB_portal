@@ -176,25 +176,37 @@
         </div>
         <div class="row d-flex justify-content-center pt-2">
             <div class="col-12 col-sm-6 col-md-4">
+                <div class="info-box mb-4">
+                  <span class="info-box-icon bg-success elevation-1"><i class="fas fa-users"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text text-bold ">INBOUND TOURISM 2020</span>
+                    <span class="info-box-number">Total: 760</span>
+                    <a href="{{ url('report/public-report/'.'1') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                  </div>
+                </div>
+              </div>
+            <div class="col-12 col-sm-6 col-md-4">
               <div class="info-box mb-4">
                 <span class="info-box-icon bg-success elevation-1"><i class="fas fa-users"></i></span>
                 <div class="info-box-content">
                   <span class="info-box-text text-bold ">OUTBOUND TOURISM 2020</span>
                   <span class="info-box-number">Total: 760</span>
-                  <a href="{{ url('report/public-report') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                  <a href="{{ url('report/public-report/'.'2') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
               </div>
             </div>
-            <div class="col-12 col-sm-6 col-md-4">
-              <div class="info-box mb-4">
-                <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
-                <div class="info-box-content">
-                  <span class="info-box-text text-bold">DOMESTIC TOURISM 2020</span>
-                  <span class="info-box-number">Total: 2,000</span>
-                  <a href="{{ url('report/public-report') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+        <div class="row d-flex justify-content-left pt-2">
+            <div class="col-12 col-sm-6 col-md-4 offset-md-2">
+                <div class="info-box mb-4">
+                  <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text text-bold">DOMESTIC TOURISM 2020</span>
+                    <span class="info-box-number">Total: 2,000</span>
+                    <a href="{{ url('report/public-report/'.'3') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                  </div>
                 </div>
               </div>
-            </div>
         </div>
     </div>
     <div class="container">

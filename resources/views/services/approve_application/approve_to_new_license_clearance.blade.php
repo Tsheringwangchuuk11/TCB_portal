@@ -98,7 +98,7 @@
               </div>
         </div>
     </div>
-@if(is_null($partnerInfo))
+@if(!is_null($partnerInfo))
     <div class="card">
         <div class="card-header">
              <h4 class="card-title">Partner’s General Information (In case of partnership)</h4>

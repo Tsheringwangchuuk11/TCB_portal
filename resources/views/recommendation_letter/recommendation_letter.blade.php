@@ -12,29 +12,29 @@
     <img src="{{ URL::to('img/tcblogo/letter_header.png') }}" width="100%" height="100%"/>
     <hr>
     <div class="row col-md-12">
-        <h6 class="float-left">{{ $data->dispatch_no }}</h6>
+        <h6 class="float-left">{{ $dispatch_no }}</h6>
         <h6 class="float-right">Date:{{ date('m/d/yy', strtotime(now())) }}</h6>
     </div><br><br>
     <div class="row col-md-12">
-        <p>{!! $data->to_address !!}</p>
+        <p>{!! $content->to_address !!}</p>
     </div><br><br>
     <div class="row col-md-12">
-        <p>Sub:<strong>{{ $data->subject }}</strong></p>
+        <p>Sub:<strong>{{ $content->subject }}</strong></p>
     </div><br>
     <div class="row col-md-12">
-        <p>Dear:{{ $data->salutation }},</p>
+        <p>Dear:{{ $content->salutation }},</p>
     </div><br>
     <div class="row col-md-12">
         <p class="justify-content">{!! $body[0] !!}</p>
     </div><br><br>
 
     <div class="row col-md-12">
-        <p>{{ $data->closing }}</p>
+        <p>{{ $content->closing }}</p>
     </div>
     <div class="row col-md-12">
         <p>
-            <img src="{{ URL::to($data->signature_path) }}" width="100px" height="50px"/><br>
-            {!! $data->subscription !!}
+            <img src="{{ URL::to($content->signature_path) }}" width="100px" height="50px"/><br>
+            {!! $content->subscription !!}
         </p>
     </div><br>
     <div id="footer">

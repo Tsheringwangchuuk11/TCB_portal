@@ -236,7 +236,7 @@ $(function () {
             jQuery.each(data.data, function (index, row) {
                $('#files').append('<div class="image_wrap">'
                   + '<input type="hidden" name="documentId[]" value="' + row.id + '"/><strong>' + row.document_name + '</strong> &nbsp;'
-                  + '<a href="#" onClick="viewfiles(this.id,\'' + row.upload_url + '\')" class="btn btn-sm btn-info"><i class="fa fa-link"></i> View </a> &nbsp;'
+                  + '<a href="#" onClick="viewfiles(this.id,\'' + row.upload_url + '\')" class="btn btn-sm btn-info" target="_blank"><i class="fa fa-link"></i> View </a> &nbsp;'
                   + '<span onClick="deletefile(this.id,\'' + row.id + '\',\'' + row.upload_url + '\')" id="deleteId' + count + '" class="delete-line btn btn-danger btn-sm" data-file_id="' + row.id + '">'
                   + '<i class="fas fa-trash-alt fa-sm"></i> Delete</span></div><br>');
                count++;
@@ -261,7 +261,7 @@ $(function () {
    });
 });
 
-function deletefile(id,fileId,url){         
+function deletefile(id, fileId, url) { 
    if (confirm('Are you sure you want to delete this file?')){
       var id = id;
       var fileId = fileId;
