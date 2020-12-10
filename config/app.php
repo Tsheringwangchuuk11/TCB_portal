@@ -53,7 +53,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'http://portal.tourism.gov.bt/'),
 
     'asset_url' => env('ASSET_URL', null),
 

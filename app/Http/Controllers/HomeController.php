@@ -77,7 +77,7 @@ class HomeController extends Controller
             );
            return view('dashboards.admin')->with('chartArray', $chartArray);
         }
-        elseif( in_array(3, $roles) || in_array(4, $roles) || in_array(5, $roles) || in_array(6, $roles) || in_array(7, $roles) || in_array(8, $roles) ) { // role check
+        elseif( in_array(3, $roles) || in_array(4, $roles) || in_array(5, $roles) || in_array(6, $roles) || in_array(7, $roles) || in_array(8, $roles)) { // role check
             $roles = auth()->user()->roles->pluck('id');
             $summarydata=Services::getApplicationSummaryData($roles[0]);
             $chartArray["chart"] = array("type" => 'pie','plotBackgroundColor' => NULL,'plotBorderWidth'=> NULL,'plotShadow'=> false );

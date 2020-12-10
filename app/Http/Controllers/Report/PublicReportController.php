@@ -196,10 +196,10 @@ class PublicReportController extends Controller
             $arrivalByAir=[];
             $arrivalByland=[];
             foreach($reportdata as $key=>$value){
-                $arrivalByAir[] = $value->air; 
+                $arrivalByAir[] = str_replace( ',', '', $value->air); 
                 }
             foreach($reportdata as $key=>$value){
-                $arrivalByland[] = $value->land; 
+                $arrivalByland[] = str_replace( ',', '', $value->land);
                 }
             $chartArray["series"] = [
                 [
@@ -1045,30 +1045,7 @@ class PublicReportController extends Controller
                         ]
                       ];
                     }
-        else if($request->report_name_id==12){
-        //in tabular formate
-        $data="<div class='dataTable_wrapper'>";
-        $data.="<table id='datatable' class='table table-bordered table-hover' style='table-layout:fixed;'>";
-        $data.="<thead><tr><th>Destination</th> <th>Holiday/Leisure/Recreation</th> <th>Visiting Friends & Relatives</th> <th>Education & Training</th> <th>Health/Medical</th><th>Religion/pilgrimage</th><th>Business and professional</th><th>Others</th></tr></thead><tbody>";
-        foreach ($reportdata as $key):
-            $data.="<tr class='odd gradeX'><td>".$key->dzongkhag_name."</td><td>".$key->holiday."</td> <td>".$key->visiting."</td> <td>".$key->education."</td><td>".$key->health."</td><td>".$key->religion."</td><td>".$key->business."</td><td>".$key->others."</td> </tr>";
-        endforeach;
-        $data.="</tbody>";
-        /* $data.="<tfoot><tr>";
-        $data.="<td></td>";
-        $data.="<td><strong> Total </strong></td>";
-        $data.="<td style='font-weight:bold; text-align:center;'></td>";
-        $data.="<td style='font-weight:bold; text-align:center;'></td>";
-        $data.="<td style='font-weight:bold; text-align:center;'></td>";
-        $data.="</tr></tfoot>"; */
-        $data.="</table></div>";
-        }
-        if($request->report_name_id==12){
-           // echo $data; exit;
-           return response()->json($data);
-        }else{
             return response()->json($chartArray)->setEncodingOptions(JSON_NUMERIC_CHECK);
-        }
     }else{
         $status=false;
         return response()->json($status);

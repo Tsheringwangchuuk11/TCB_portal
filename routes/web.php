@@ -24,6 +24,7 @@ Route::group(['namespace' => 'FrontEnd'], function () {
     Route::get('training-registration','TrainingRegistrationController@displayCourseDtlsToEndUser');
     Route::get('registration-for-training/{id}','TrainingRegistrationController@registrationForTraining');
     Route::post('save-trainee-dtls','TrainingRegistrationController@saveTraineeDtls');
+    Route::get('feedback', function(){return view('frontend.feedback');});
 });
 
 //public reports
@@ -192,7 +193,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('registration', 'CommonReportController@reportForRegistration');
         Route::get('arrival', 'StatisticController@index');
         Route::get('tourism_survey', 'CommonReportController@tourismSurvey');
-        Route::get('get-report-content', 'CommonReportController@getReportContent');
+        Route::get('get-report-content/{report_type_id}/{report_category_id}/{report_name_id}/{year}/{print?}', 'CommonReportController@getReportContent');
     });
     //routes for event registration
     Route::group(['prefix' => 'events', 'namespace' => 'EventRegistation'], function() {

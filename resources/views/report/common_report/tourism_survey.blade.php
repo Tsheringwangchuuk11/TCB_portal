@@ -1,16 +1,15 @@
 @extends('layouts.manager')
 @section('page-title', '')
 @section('buttons')
-    <a href="{{	url('report/registration?print=excel&'. Request::getQueryString()) }}" target="_blank" class="btn btn-sm btn-success btn-flat"><i class="fa fa-file-excel"></i></i> Export to Excel</a>
-    <a href="{{	url('report/registration?print=pdf&'. Request::getQueryString()) }}"  target="_blank"  class="btn btn-sm btn-danger btn-flat"><i class="fa fa-print"></i> Print PDF</a>
+<a id="excellinkId" target="_blank" class="btn btn-sm btn-success btn-flat"><i class="fa fa-file-excel"></i></i> Export to Excel</a>
+<a id="pdflinkId" class="btn btn-sm btn-danger btn-flat" target="_blank" ><i class="fa fa-print"></i> Print PDF</a>
 @endsection
 @section('content')
 <div class="card">
     <div class="card-header"> 
-        <h3 class="card-title">Tourism Survey Report</h3>                                    
+        <h3 class="card-title" id="headerId"></h3>                                    
     </div>
     <div class="card-body">
-        <form action="{{ url('report/get-report-content') }}" method="GET" id="reportForm">
             @csrf
              <div class="row">
                 <div class="col-md-3">
@@ -44,17 +43,9 @@
                     </div>
                 </div> 
             </div>   
-        </form>
     </div>
 </div>
-<div class="card">
-    <div class="card-header">  
-        <h3 class="card-title">Tourism Survey List</h3>                                             
-    </div>
-    <div class="card-body">
-        <div id="dataResult"></div>
-    </div>
-</div>
+<div id="dataResult"></div>
 @endsection
 @section('scripts')
 <!-- Page script -->
@@ -68,8 +59,12 @@
             var previous_year = new Date().getFullYear()-1 ;
             $('#year').val(previous_year);
             $('#report_type_id').trigger("change");
+            var report_type__name = $("#report_type_id  option:selected").text();
+            $("#headerId").html(report_type__name);
         });
         function  getReportCategory(report_type_id){
+            var report_type__name = $("#report_type_id  option:selected").text();
+            $("#headerId").html(report_type__name);
                 if(report_type_id == 1) {
                         $("#report_category_id option").remove();
                         $("#report_category_display").hide();	
@@ -149,8 +144,19 @@
         function changeYear(){
             generateAjaxReports();
          } 
+         
          function generateAjaxReports() {
-        }
-       
+            var report_type_id = $('#report_type_id').val();
+            var report_category_id= $('#report_category_id').val();
+            var report_name_id= $('#report_name_id').val();
+            var year= $('#year').val();
+            var pdf = document.getElementById('pdflinkId');
+            var urlforpdf = '{{ url("report/get-report-content")}}/'+report_type_id +'/'+report_category_id+'/'+report_name_id+'/'+year+'/'+ 'pdf' ;
+            pdf.href = urlforpdf;
+            var excel = document.getElementById('excellinkId');
+            var urlforexcel = '{{ url("report/get-report-content")}}/'+report_type_id +'/'+report_category_id+'/'+report_name_id+'/'+year+'/'+ 'excel' ;
+            excel.href = urlforexcel;
+            $('#dataResult').load('{{url("report/get-report-content/")}}/'+ report_type_id+'/'+report_category_id+'/'+report_name_id+'/'+year);
+         } 
 </script>
 @endsection

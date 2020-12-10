@@ -114,6 +114,7 @@
 <script src="{{ asset('plugins/highcharts/exporting.js') }}"></script>
 <script src="{{ asset('plugins/highcharts/export-data.js') }}"></script>
 <script src="{{ asset('plugins/highcharts/accessibility.js') }}"></script> 
+
     <script>
         $(document).ready(function () {
             $('#year').datetimepicker({
@@ -219,12 +220,8 @@
                 success: function (data) {
                     console.log(data);
                     if(data!=false){
-                        if($report_name_id==12){
-                        $('#tabledata').html(data);
-                        }else{
-                            $('#container').highcharts(data);
-                            $("#container").show();
-                        } 
+                        $('#container').highcharts(data);
+                        $("#container").show();
                         $("#loading").hide();
                         $("#message").hide();
                     }else{

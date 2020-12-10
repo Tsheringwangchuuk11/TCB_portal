@@ -140,15 +140,17 @@
                 <a href="https://www.doi.gov.bt"target="_blank" class="text-white-50 text-sm">Department of Immigration</a>
             </div>
             <div class="col-sm-6 text-center">
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3539.688868518874!2d89.63672361453321!3d27.47894404210028!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39e1943e00c9fcab%3A0x67a49e29e167d001!2sTourism%20Council%20of%20Bhutan!5e0!3m2!1sen!2sbt!4v1594613529846!5m2!1sen!2sbt"
-                    width="100%" height="150" frameborder="0" class="rounded" style="border:0;" allowfullscreen="" aria-hidden="false"
-                    tabindex="0"></iframe>
+                <h5>Contact Info</h5>
+                <p class="text-white-50 text-sm">
+                Tourism Council of Bhutan <br/>
+                Post Box: 126 <br/>
+                Thimphu, Bhutan<br/>
+                Tel: +975 2 323251/323252;<br>
+                </p>
             </div>
             <div class="col-sm-3 pr-4 text-center">
                 <h5>Information</h5>
-                <a href="#" class="text-white-50 text-sm">Contact Us</a> <br>
-                <a href="#" class="text-white-50 text-sm">Feedback</a> <br>
+                <a href="/feedback" class="text-white-50 text-sm">Feedback</a> <br>
                 <a href="#" class="text-white-50 text-sm">Sitemap</a> <br>
                 <a href="#" class="text-white-50 text-sm">Policies & Disclaimer</a>
             </div>

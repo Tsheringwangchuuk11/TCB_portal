@@ -24,16 +24,32 @@ class PublicReport extends Model
      if($report_type_id==1){
 		//Arrival by mode of transport by purpose(number of visitors)
         if($report_name_id==1){
-			$query = \DB::select("SELECT 
-					a.MainPurpose, 
-					SUM(IF(a.Mode_Entry='Air',1,0)) air, 
-					SUM(IF(a.Mode_Entry='Land',1,0)) land  ,
-					SUM(IF(a.Mode_Entry='Air',1,0)) + SUM(IF(a.Mode_Entry='Land',1,0)) AS total
-					FROM t_admin_data a
-					WHERE a.MainPurpose<>'Paro' 
-					GROUP BY a.MainPurpose;
+			$query = \DB::select("SELECT * FROM (SELECT t.* FROM(
+				SELECT 
+				a.MainPurpose, 
+				FORMAT(SUM(IF(a.Mode_Entry='Air',1,0)),'de_DE') air, 
+				FORMAT(SUM(IF(a.Mode_Entry='Land',1,0)),'de_DE') land  ,
+				FORMAT(SUM(IF(a.Mode_Entry='Air',1,0)) + SUM(IF(a.Mode_Entry='Land',1,0)),'de_DE') AS total
+				FROM t_admin_data a
+				WHERE a.MainPurpose<>'Paro' 
+				GROUP BY a.MainPurpose)t
+				UNION
+				(SELECT 
+				'Total' MainPurpose,
+				FORMAT(SUM(t.air),'de_DE') air,
+				FORMAT(SUM(t.land),'de_DE')land,
+				FORMAT(SUM(t.total),'de_DE')total
+				FROM
+				(
+				SELECT 
+				a.MainPurpose, 
+				FORMAT(SUM(IF(a.Mode_Entry='Air',1,0)),'de_DE') air, 
+				FORMAT(SUM(IF(a.Mode_Entry='Land',1,0)),'de_DE') land  ,
+				FORMAT(SUM(IF(a.Mode_Entry='Air',1,0)) + SUM(IF(a.Mode_Entry='Land',1,0)),'de_DE') AS total
+				FROM t_admin_data a
+				WHERE a.MainPurpose<>'Paro' 
+				GROUP BY a.MainPurpose)t))t1
 			");
-		
 		}
 		//Monthly AloS by Purpose
 		else if($report_name_id==2){
@@ -152,7 +168,8 @@ class PublicReport extends Model
 					SUM(IF(a.MainPurpose='MICE',1,0)) MICE,
 					SUM(IF(a.MainPurpose='Official',1,0)) Official,
 					SUM(IF(a.MainPurpose='Others',1,0)) Others,
-					SUM(IF(a.MainPurpose='Visiting friends and relatives/guest',1,0)) VFRG
+					SUM(IF(a.MainPurpose='Visiting friends and relatives/guest',1,0)) VFRG,
+					COUNT(a.MainPurpose)total
 					FROM t_admin_data a
 					WHERE a.MainPurpose<>'Paro'
 					GROUP BY a.Region;
@@ -235,44 +252,27 @@ class PublicReport extends Model
 							GROUP BY a.location_id )t1)t2))t3
 				");
 			 }
-			 else if($report_type_id==42){
+			 else if($report_name_id==42){
 			//Outbound total and mean visitor nights by main destionation
-				$query = \DB::select("SELECT * FROM (SELECT 
-							b.dropdown_name,
-							SUM(
-							IF(a.visitor_type_id = 317, a.value, 0)
-							) nights,
-							c.mean 
+			$query = \DB::select("SELECT 
+						b.dropdown_name,
+						SUM(IF(a.visitor_type_id = 317, a.value, 0))nights,
+						c.mean 
 						FROM
-							t_purpose_survey a 
-							LEFT JOIN t_dropdown_lists b 
-							ON a.location_id = b.id 
-							LEFT JOIN t_totexpenditure_survey c 
-							ON a.location_id = c.location_id 
-							AND a.year = c.year 
-							AND a.report_category_id = c.report_category_id 
-						WHERE a.report_category_id = $report_category_id 
-							AND a.year = $year
-						GROUP BY a.location_id 
-						UNION
-						(SELECT 
-							'Total' dropdown_name,
-							SUM(a.value)nights,
-							SUM(c.mean)mean 
-						FROM
-							t_purpose_survey a 
-							LEFT JOIN t_dropdown_lists b 
-							ON a.location_id = b.id 
-							LEFT JOIN t_totexpenditure_survey c 
-							ON a.location_id = c.location_id 
-							AND a.year = c.year 
-							AND a.report_category_id = c.report_category_id 
+						t_purpose_survey a 
+						LEFT JOIN t_dropdown_lists b 
+						ON a.location_id = b.id 
+						LEFT JOIN t_totexpenditure_survey c 
+						ON a.location_id = c.location_id 
+						AND a.year = c.year 
+						AND a.report_category_id = c.report_category_id 
 						WHERE a.report_category_id = $report_category_id
-							AND a.year = $year))t1
-					");
-			 }
+						AND a.year = $year
+						GROUP BY a.location_id ;
+					 ");
+			    }
             //Outbound overnight trips by main purpose and destionation
-			 else if($report_type_id==43){
+			 else if($report_name_id==43){
 				$query = \DB::select("SELECT 
 							b.dropdown_name,
 							SUM(IF(a.purpose_id = 318, a.value, 0)) business,
@@ -295,7 +295,7 @@ class PublicReport extends Model
 				     ");
 			 }
 			//Outbound visitors nights by main purpose and destionation
-			else if($report_type_id==44){
+			else if($report_name_id==44){
 				$query = \DB::select("SELECT 
 							b.dropdown_name,
 							SUM(IF(a.purpose_id = 318, a.value, 0)) business,
@@ -318,7 +318,7 @@ class PublicReport extends Model
 				     ");
 			 }
 	   //Outbound overnight trips by main destination by mode of transport(%)
-		else if($report_type_id==46){
+		else if($report_name_id==46){
 			$query = \DB::select("SELECT b.dropdown_name, 
 							ROUND((SUM(IF(a.transport_mode_id=326,a.value,0))/SUM(a.value))*100,2) air, 
 							ROUND((SUM(IF(a.transport_mode_id=327,a.value,0))/SUM(a.value))*100,2) car, 
@@ -333,7 +333,7 @@ class PublicReport extends Model
 							WHERE a.year = $year 
 							GROUP BY a.location_id 
 							UNION 
-							SELECT 'total' dropdown_name, 
+							SELECT 'Total' dropdown_name, 
 							ROUND((SUM(IF(a.transport_mode_id=326,a.value,0))/SUM(a.value))*100,2) air, 
 							ROUND((SUM(IF(a.transport_mode_id=327,a.value,0))/SUM(a.value))*100,2) car, 
 							ROUND((SUM(IF(a.transport_mode_id=328,a.value,0))/SUM(a.value))*100,2) others, 
@@ -347,7 +347,7 @@ class PublicReport extends Model
 				");
 			}
 		//Outbound overnight visitors by main destination and package options
-		else if($report_type_id==48){
+		else if($report_name_id==48){
 			$query = \DB::select("SELECT b.dropdown_name,
 					SUM(IF(a.package_option='Y',a.value,0)) yes_option,
 					SUM(IF(a.package_option='N',a.value,0)) no_option,
@@ -359,7 +359,7 @@ class PublicReport extends Model
 					GROUP BY a.location_id ");
 			 }
 		//Total and mean expenditure by main destination
-		else if($report_type_id==50){
+		else if($report_name_id==50){
 			$query = \DB::select("SELECT 
 						b.dropdown_name,
 						FORMAT(a.tot_expenditure/1000000,2) AS tot_expenditure ,
@@ -372,14 +372,14 @@ class PublicReport extends Model
 						AND a.year = $year 
 					GROUP BY a.location_id 
 			    ");
-		     }
 		 }
 		 //Outbound overnight total trip expenditure by main destination and item of expenditure(in Nu.Million)
-		 else if($report_type_id==52){
+		 else if($report_name_id==52){
 			$query = \DB::select("SELECT * FROM
 						(SELECT 
 						b.dropdown_name,
 						FORMAT(SUM(IF(a.exp_item_id = 344, a.value, 0))/1000000,2) tour_package,
+						FORMAT(SUM(IF(a.exp_item_id = 332, a.value, 0))/1000000,2) accommodation,
 						FORMAT(SUM(IF(a.exp_item_id = 333, a.value, 0))/1000000,2) air,
 						FORMAT(SUM(IF(a.exp_item_id = 334, a.value, 0))/1000000,2) car_rental,
 						FORMAT(SUM(IF(a.exp_item_id = 335, a.value, 0))/1000000,2) entertainment,
@@ -404,6 +404,7 @@ class PublicReport extends Model
 						(SELECT 
 						'Total' dropdown_name,
 						FORMAT(SUM(IF(a.exp_item_id = 344, a.value, 0))/1000000,2) tour_package,
+						FORMAT(SUM(IF(a.exp_item_id = 332, a.value, 0))/1000000,2) accommodation,
 						FORMAT(SUM(IF(a.exp_item_id = 333, a.value, 0))/1000000,2) air,
 						FORMAT(SUM(IF(a.exp_item_id = 334, a.value, 0))/1000000,2) car_rental,
 						FORMAT(SUM(IF(a.exp_item_id = 335, a.value, 0))/1000000,2) entertainment,
@@ -425,10 +426,11 @@ class PublicReport extends Model
 						AND a.year =$year))t");
 		 }
 		 //Outbound overnight mean trip expenditure by main destination and item of expenditure(in Nu.)
-		 else if($report_type_id==53){
+		 else if($report_name_id==53){
 			$query = \DB::select("SELECT 
 					b.dropdown_name,
 					SUM(IF(a.exp_item_id = 344, a.value, 0)) tour_package,
+					SUM(IF(a.exp_item_id = 332, a.value, 0)) accommodation,
 					SUM(IF(a.exp_item_id = 333, a.value, 0)) air,
 					SUM(IF(a.exp_item_id = 334, a.value, 0))car_rental,
 					SUM(IF(a.exp_item_id = 335, a.value, 0))entertainment,
@@ -450,11 +452,12 @@ class PublicReport extends Model
 					AND a.year =$year
 					GROUP BY a.purpose_id
 				");
+	    	 }
 		 }
 		 //Outbound Excursion/ Daytrip
 		 else{
 			 //Outbound excursion trip by purpose and sex
-			if($report_type_id==55){
+			if($report_name_id==55){
 				$query = \DB::select("SELECT 
 						b.dropdown_name,
 						SUM(IF(a.gender='M', a.value,0)) male,
@@ -471,7 +474,7 @@ class PublicReport extends Model
 					"); 
 			}
 			//Outbound overnight total trip expenditure by main destination and item of expenditure(in Nu.Million)
-			else if($report_type_id==59){
+			else if($report_name_id==59){
 				$query = \DB::select("SELECT * FROM
 							(SELECT 
 							b.dropdown_name,
@@ -518,7 +521,7 @@ class PublicReport extends Model
 				");
 			}
 			//Outbound overnight mean trip expenditure by main destination and item of expenditure(in Nu.)
-			else if($report_type_id==60){
+			else if($report_name_id==60){
 				$query = \DB::select("SELECT 
 						b.dropdown_name,
 						SUM(IF(a.exp_item_id = 334, a.value, 0))car_rental,
@@ -637,7 +640,7 @@ class PublicReport extends Model
 								ON a.location_id = b.id 
 							WHERE a.visitor_type_id = 316 
 							AND a.report_category_id = $report_category_id
-							AND a.year = $year)a ORDER BY a.dzongkhag_name ;
+							AND a.year = $year)a ORDER BY a.dzongkhag_name,a.gender ;
 				   ");
 		    	}
 			//Visitors by destination and origin Dzongkhag(Number)
@@ -705,7 +708,8 @@ class PublicReport extends Model
 							ROUND((SUM(IF(a.location_id = 17, a.value, 0))/SUM(a.value)*100),2) trongsa, 
 							ROUND((SUM(IF(a.location_id = 18, a.value, 0))/SUM(a.value)*100),2) tsirang, 
 							ROUND((SUM(IF(a.location_id = 19, a.value, 0))/SUM(a.value)*100),2) wangduephodrang, 
-							ROUND((SUM(IF(a.location_id = 20, a.value, 0))/SUM(a.value)*100),2) zhemgang  
+							ROUND((SUM(IF(a.location_id = 20, a.value, 0))/SUM(a.value)*100),2) zhemgang,
+							ROUND((SUM(a.value)/SUM(a.value)*100),0) total 
 							FROM
 							t_origin_survey a 
 							LEFT JOIN t_dzongkhag_masters b 
@@ -716,7 +720,7 @@ class PublicReport extends Model
 							GROUP BY a.origin_id 
 							UNION 
 							SELECT 
-							'total',
+							'Total',
 							ROUND((SUM(IF(a.location_id = 1, a.value, 0))/SUM(a.value)*100),2) bumthang, 
 							ROUND((SUM(IF(a.location_id = 2, a.value, 0))/SUM(a.value)*100),2) chukha, 
 							ROUND((SUM(IF(a.location_id = 3, a.value, 0))/SUM(a.value)*100),2) dagana, 
@@ -736,7 +740,8 @@ class PublicReport extends Model
 							ROUND((SUM(IF(a.location_id = 17, a.value, 0))/SUM(a.value)*100),2) trongsa, 
 							ROUND((SUM(IF(a.location_id = 18, a.value, 0))/SUM(a.value)*100),2) tsirang, 
 							ROUND((SUM(IF(a.location_id = 19, a.value, 0))/SUM(a.value)*100),2) wangduephodrang, 
-							ROUND((SUM(IF(a.location_id = 20, a.value, 0))/SUM(a.value)*100),2) zhemgang   
+							ROUND((SUM(IF(a.location_id = 20, a.value, 0))/SUM(a.value)*100),2) zhemgang ,
+							ROUND((SUM(a.value)/SUM(a.value)*100),0) total  
 							FROM
 							t_origin_survey a   
 							WHERE a.visitor_type_id = 316 
@@ -754,7 +759,7 @@ class PublicReport extends Model
 						ROUND((c.nights/d.total_nights)*100,2) nights_percent,
 						a.avg_expenditure_night,
 						a.avg_expenditure_trip,
-						a.tot_expenditure 
+						ROUND(a.tot_expenditure/1000000,2)tot_expenditure  
 					FROM
 						t_totexpenditure_survey a 
 						LEFT JOIN t_dzongkhag_masters b 
@@ -799,20 +804,20 @@ class PublicReport extends Model
 			else if($report_name_id==26){
 				$query = \DB::select("SELECT 
 							b.dropdown_name,
-							SUM(IF(a.exp_item_id = 332, a.value, 0)) accommodation,
-							SUM(IF(a.exp_item_id = 333, a.value, 0)) air,
-							SUM(IF(a.exp_item_id = 334, a.value, 0)) car_rental,
-							SUM(IF(a.exp_item_id = 335, a.value, 0)) entertainment,
-							SUM(IF(a.exp_item_id = 336, a.value, 0)) fuel_cost,
-							SUM(IF(a.exp_item_id = 337, a.value, 0)) food,
-							SUM(IF(a.exp_item_id = 338, a.value, 0)) local_transport,
-							SUM(IF(a.exp_item_id = 339, a.value, 0)) long_distance,
-							SUM(IF(a.exp_item_id = 340, a.value, 0)) medical,
-							SUM(IF(a.exp_item_id = 341, a.value, 0)) mice,
-							SUM(IF(a.exp_item_id = 342, a.value, 0)) others,
-							SUM(IF(a.exp_item_id = 343, a.value, 0)) shopping,
-							SUM(IF(a.exp_item_id = 344, a.value, 0)) tour_package,
-							SUM(a.value) total 
+							ROUND(SUM(IF(a.exp_item_id = 332, a.value, 0))/1000000,3) accommodation,
+							ROUND(SUM(IF(a.exp_item_id = 333, a.value, 0))/1000000,3) air,
+							ROUND(SUM(IF(a.exp_item_id = 334, a.value, 0))/1000000,3) car_rental,
+							ROUND(SUM(IF(a.exp_item_id = 335, a.value, 0))/1000000,3) entertainment,
+							ROUND(SUM(IF(a.exp_item_id = 336, a.value, 0))/1000000,3) fuel_cost,
+							ROUND(SUM(IF(a.exp_item_id = 337, a.value, 0))/1000000,3) food,
+							ROUND(SUM(IF(a.exp_item_id = 338, a.value, 0))/1000000,3) local_transport,
+							ROUND(SUM(IF(a.exp_item_id = 339, a.value, 0))/1000000,3) long_distance,
+							ROUND(SUM(IF(a.exp_item_id = 340, a.value, 0))/1000000,3) medical,
+							ROUND(SUM(IF(a.exp_item_id = 341, a.value, 0))/1000000,3) mice,
+							ROUND(SUM(IF(a.exp_item_id = 342, a.value, 0))/1000000,3) others,
+							ROUND(SUM(IF(a.exp_item_id = 343, a.value, 0))/1000000,3) shopping,
+							ROUND(SUM(IF(a.exp_item_id = 344, a.value, 0))/1000000,3) tour_package,
+							ROUND(SUM(a.value)/1000000,3) total 
 						FROM
 							t_tripexpenditure_survey a 
 							LEFT JOIN t_dropdown_lists b 
@@ -845,7 +850,6 @@ class PublicReport extends Model
 						LEFT JOIN t_dropdown_lists b 
 						ON a.purpose_id = b.id 
 					WHERE a.trip_type_id = 348 
-				    	AND b.dropdown_name <> 'Total'
 						AND a.report_category_id = $report_category_id 
 						AND a.year = $year 
 					GROUP BY a.purpose_id ");
@@ -878,7 +882,7 @@ class PublicReport extends Model
 						a.gender,
 						SUM(IF(a.purpose_id = 318, a.value, 0)) business, 
 						SUM(IF(a.purpose_id = 319, a.value, 0)) education, 
-						SUM(IF(a.purpose_id = 320, a.value, 0)) Health, 
+						SUM(IF(a.purpose_id = 320, a.value, 0)) health, 
 						SUM(IF(a.purpose_id = 321, a.value, 0)) holiday, 
 						SUM(IF(a.purpose_id = 322, a.value, 0)) others, 
 						SUM(IF(a.purpose_id = 323, a.value, 0)) personal, 
@@ -898,7 +902,7 @@ class PublicReport extends Model
 						a.gender,
 						SUM(IF(a.purpose_id = 318, a.value, 0)) business, 
 						SUM(IF(a.purpose_id = 319, a.value, 0)) education, 
-						SUM(IF(a.purpose_id = 320, a.value, 0)) Health, 
+						SUM(IF(a.purpose_id = 320, a.value, 0)) health, 
 						SUM(IF(a.purpose_id = 321, a.value, 0)) holiday, 
 						SUM(IF(a.purpose_id = 322, a.value, 0)) others, 
 						SUM(IF(a.purpose_id = 323, a.value, 0)) personal, 
@@ -917,7 +921,7 @@ class PublicReport extends Model
 						'total' gender,
 						SUM(IF(a.purpose_id = 318, a.value, 0)) business, 
 						SUM(IF(a.purpose_id = 319, a.value, 0)) education, 
-						SUM(IF(a.purpose_id = 320, a.value, 0)) Health, 
+						SUM(IF(a.purpose_id = 320, a.value, 0)) health, 
 						SUM(IF(a.purpose_id = 321, a.value, 0)) holiday, 
 						SUM(IF(a.purpose_id = 322, a.value, 0)) others, 
 						SUM(IF(a.purpose_id = 323, a.value, 0)) personal, 
@@ -928,7 +932,7 @@ class PublicReport extends Model
 						LEFT JOIN t_dzongkhag_masters b 
 						ON a.location_id = b.id 
 					WHERE a.report_category_id = $report_category_id  
-						AND a.year = $year)a ORDER BY a.dzongkhag_name ");
+						AND a.year = $year)a ORDER BY a.dzongkhag_name,a.gender");
 				}
 				//Daytrip(excursion) visitors and expenditure by Dzongkhag visited and purpose of visited
 				else if($report_name_id==35){
@@ -1022,64 +1026,64 @@ class PublicReport extends Model
 				//Daytrip(excursion) total trip expenditure by item of expenditure and main purpose(Nu.Million)
 				else if($report_name_id==37){
 					$query = \DB::select("SELECT t2.* FROM (SELECT t1.* FROM 
-							(SELECT 
-							b.dropdown_name,
-							FORMAT(SUM(IF(a.exp_item_id = 334, a.value, 0))/1000000,3) car_rental,
-							FORMAT(SUM(IF(a.exp_item_id = 335, a.value, 0))/1000000,3) entertainment,
-							FORMAT(SUM(IF(a.exp_item_id = 336, a.value, 0))/1000000,3) fuel_cost,
-							FORMAT(SUM(IF(a.exp_item_id = 337, a.value, 0))/1000000,3) food,
-							FORMAT(SUM(IF(a.exp_item_id = 338, a.value, 0))/1000000,3) local_transport,
-							FORMAT(SUM(IF(a.exp_item_id = 339, a.value, 0))/1000000,3) long_distance,
-							FORMAT(SUM(IF(a.exp_item_id = 340, a.value, 0))/1000000,3) medical,
-							FORMAT(SUM(IF(a.exp_item_id = 341, a.value, 0))/1000000,3)mice,
-							FORMAT(SUM(IF(a.exp_item_id = 342, a.value, 0))/1000000,3) others,
-							FORMAT(SUM(IF(a.exp_item_id = 343, a.value, 0))/1000000,3)shopping,
-							FORMAT(SUM(a.value)/1000000,3) total_expenditure
-							FROM
-							t_tripexpenditure_survey a 
-							LEFT JOIN t_dropdown_lists b 
-							ON a.purpose_id = b.id 
-							WHERE a.trip_type_id = 347
-							AND a.report_category_id = $report_category_id
-							AND a.year = $year
-							GROUP BY a.purpose_id)t1
-							UNION 
-							(SELECT 
-							'Total' dropdown_name,
-							FORMAT(SUM(car_rental),3) car_rental,
-							FORMAT(SUM(entertainment),3) entertainment,
-							FORMAT(SUM(fuel_cost),0) fuel_cost,
-							FORMAT(SUM(food),0) food,
-							FORMAT(SUM(local_transport),0) local_transport,
-							FORMAT(SUM(long_distance),0) long_distance,
-							FORMAT(SUM(medical),0) medical,
-							FORMAT(SUM(mice),0)mice,
-							FORMAT(SUM(others),0) others,
-							FORMAT(SUM(shopping),0)shopping,
-							FORMAT(SUM(total_expenditure),0) total_expenditure
-							FROM 
-							(SELECT 
-							b.dropdown_name,
-							FORMAT(SUM(IF(a.exp_item_id = 334, a.value, 0))/1000000,3) car_rental,
-							FORMAT(SUM(IF(a.exp_item_id = 335, a.value, 0))/1000000,3) entertainment,
-							FORMAT(SUM(IF(a.exp_item_id = 336, a.value, 0))/1000000,3) fuel_cost,
-							FORMAT(SUM(IF(a.exp_item_id = 337, a.value, 0))/1000000,3) food,
-							FORMAT(SUM(IF(a.exp_item_id = 338, a.value, 0))/1000000,3) local_transport,
-							FORMAT(SUM(IF(a.exp_item_id = 339, a.value, 0))/1000000,3) long_distance,
-							FORMAT(SUM(IF(a.exp_item_id = 340, a.value, 0))/1000000,3) medical,
-							FORMAT(SUM(IF(a.exp_item_id = 341, a.value, 0))/1000000,3)mice,
-							FORMAT(SUM(IF(a.exp_item_id = 342, a.value, 0))/1000000,3) others,
-							FORMAT(SUM(IF(a.exp_item_id = 343, a.value, 0))/1000000,3)shopping,
-							FORMAT(SUM(a.value)/1000000,3) total_expenditure
-							FROM
-							t_tripexpenditure_survey a 
-							LEFT JOIN t_dropdown_lists b 
-							ON a.purpose_id = b.id 
-							WHERE a.trip_type_id = 347
-							AND a.report_category_id =$report_category_id
-							AND a.year = $year
-							GROUP BY a.purpose_id)t1))t2
-					   ");
+								(SELECT 
+								b.dropdown_name,
+								FORMAT(SUM(IF(a.exp_item_id = 334, a.value, 0))/1000000,3) car_rental,
+								FORMAT(SUM(IF(a.exp_item_id = 335, a.value, 0))/1000000,3) entertainment,
+								FORMAT(SUM(IF(a.exp_item_id = 336, a.value, 0))/1000000,3) fuel_cost,
+								FORMAT(SUM(IF(a.exp_item_id = 337, a.value, 0))/1000000,3) food,
+								FORMAT(SUM(IF(a.exp_item_id = 338, a.value, 0))/1000000,3) local_transport,
+								FORMAT(SUM(IF(a.exp_item_id = 339, a.value, 0))/1000000,3) long_distance,
+								FORMAT(SUM(IF(a.exp_item_id = 340, a.value, 0))/1000000,3) medical,
+								FORMAT(SUM(IF(a.exp_item_id = 341, a.value, 0))/1000000,3)mice,
+								FORMAT(SUM(IF(a.exp_item_id = 342, a.value, 0))/1000000,3) others,
+								FORMAT(SUM(IF(a.exp_item_id = 343, a.value, 0))/1000000,3)shopping,
+								SUM(a.value)/1000000 total_expenditure
+								FROM
+								t_tripexpenditure_survey a 
+								LEFT JOIN t_dropdown_lists b 
+								ON a.purpose_id = b.id 
+								WHERE a.trip_type_id = 347
+								AND a.report_category_id =$report_category_id 
+								AND a.year = $year
+								GROUP BY a.purpose_id)t1
+								UNION 
+								(SELECT 
+								'Total' dropdown_name,
+								FORMAT(SUM(car_rental),3) car_rental,
+								FORMAT(SUM(entertainment),3) entertainment,
+								FORMAT(SUM(fuel_cost),0) fuel_cost,
+								FORMAT(SUM(food),0) food,
+								FORMAT(SUM(local_transport),0) local_transport,
+								FORMAT(SUM(long_distance),0) long_distance,
+								FORMAT(SUM(medical),0) medical,
+								FORMAT(SUM(mice),0)mice,
+								FORMAT(SUM(others),0) others,
+								FORMAT(SUM(shopping),0)shopping,
+								FORMAT(SUM(total_expenditure),3) total_expenditure
+								FROM 
+								(SELECT 
+								b.dropdown_name,
+								FORMAT(SUM(IF(a.exp_item_id = 334, a.value, 0))/1000000,3) car_rental,
+								FORMAT(SUM(IF(a.exp_item_id = 335, a.value, 0))/1000000,3) entertainment,
+								FORMAT(SUM(IF(a.exp_item_id = 336, a.value, 0))/1000000,3) fuel_cost,
+								FORMAT(SUM(IF(a.exp_item_id = 337, a.value, 0))/1000000,3) food,
+								FORMAT(SUM(IF(a.exp_item_id = 338, a.value, 0))/1000000,3) local_transport,
+								FORMAT(SUM(IF(a.exp_item_id = 339, a.value, 0))/1000000,3) long_distance,
+								FORMAT(SUM(IF(a.exp_item_id = 340, a.value, 0))/1000000,3) medical,
+								FORMAT(SUM(IF(a.exp_item_id = 341, a.value, 0))/1000000,3)mice,
+								FORMAT(SUM(IF(a.exp_item_id = 342, a.value, 0))/1000000,3) others,
+								FORMAT(SUM(IF(a.exp_item_id = 343, a.value, 0))/1000000,3)shopping,
+								SUM(a.value)/1000000 total_expenditure
+								FROM
+								t_tripexpenditure_survey a 
+								LEFT JOIN t_dropdown_lists b 
+								ON a.purpose_id = b.id 
+								WHERE a.trip_type_id = 347
+								AND a.report_category_id =$report_category_id 
+								AND a.year = $year
+								GROUP BY a.purpose_id)t1))t2
+					    ");
 					}
 				//Daytrip(excursion) visitors and expenditure by Dzongkhag visited
 				else if($report_name_id==40){
@@ -1087,7 +1091,7 @@ class PublicReport extends Model
 							b.dzongkhag_name,
 							c.visitors,
 							a.avg_expenditure_trip,
-							a.tot_expenditure 
+							FORMAT(a.tot_expenditure/1000000,3)tot_expenditure 
 							FROM
 							t_totexpenditure_survey a 
 							LEFT JOIN t_dzongkhag_masters b 

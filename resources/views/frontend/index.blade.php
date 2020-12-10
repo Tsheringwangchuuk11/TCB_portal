@@ -21,46 +21,6 @@
     <div class="container">
         <div class="row d-flex justify-content-center pt-2">
             <div id="mapcontainer"></div>
-            {{-- <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="text-center text-bold">
-                            INTERNATIONAL TOURISM 2020
-                            <div class="h6">
-                                International Tourist Arrivals
-                            </div>
-                        </div>
-                        <img src="{{ URL::to ('img/tcblogo/world-map.png') }}" class="w-100">
-                        <h5 class="text-center font-weight-bold pt-2">Total Visitors: <span class="badge bg-warning">123,900</span>
-                        </h5>
-                        <small style="font-size: 14px;">
-                            <strong>Source: TCB </strong> <br/>
-                            The total number show above is as of today's date.
-                        </small>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="text-center text-bold">
-                            REGIONAL TOURISM 2020
-                            <div class="h6">
-                                Regional Tourist Arrivals
-                            </div>
-                        </div>
-                        <img src="{{ URL::to ('img/tcblogo/regional-map.png') }}" class="w-100">
-                        <br>
-                        <h5 class="text-center font-weight-bold pt-2">Total Visitors: <span class="badge bg-warning">240,100</span>
-                        </h5>
-                        <small style="font-size: 14px;">
-                            <strong>Source: TCB </strong> <br/>
-                            The total number show above is as of today's date.
-                        </small>
-                    </div>
-                </div>
-            </div> --}}
         </div>
         <div class="row d-flex justify-content-center mb-3 pt-4">
             <div class="col-md-4">
@@ -508,7 +468,7 @@
 	},
 ]
 // Prevent logarithmic errors in color calulcation
-total=2000;
+total=123900;
  data.forEach(function (p) {
   p.value = (p.value < 1 ? 1 : p.value);
 }); 
@@ -551,6 +511,7 @@ series: [{
     borderWidth: 0.2,
     states: {
         hover: {
+            color: '#a4edba',
             borderWidth: 1
         }
     },

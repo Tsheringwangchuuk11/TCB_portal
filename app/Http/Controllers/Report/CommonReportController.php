@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Dropdown;
 use App\Models\WorkFlowDetails;
 use App\Models\Report;
+use App\PublicReport;
 use App\Exports\ExportToView;
 use Excel;
 use PDF;
@@ -38,10 +39,10 @@ class CommonReportController extends Controller
         $data['starCategoryLists'] = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
         if ($request->has('print')) {
             if ($request->query('print') == 'excel') {
-                return Excel::download(new ExportToView($data, 'report.common_report.download_excel.excel_training_report'), 'Training List Report.xlsx');
+                return Excel::download(new ExportToView($data, 'report.common_report.registration'), 'Registration List Report.xlsx');
             } else {
-    	        $pdf = PDF::loadView('report.common_report.download_pdf.pdf_training_report', $data);
-                return $pdf->stream('Training List Report-'.str_random(4).'.pdf');
+    	        $pdf = PDF::loadView('report.common_report.registration', $data);
+                return $pdf->stream('Registration List Report-'.str_random(4).'.pdf');
             }
         }else{
             return view('report.common_report.registration',$data);
@@ -50,22 +51,7 @@ class CommonReportController extends Controller
 
    // Application List Report
     public function getApplicationList(Request $request)
-    {                      
-       /*  $data['applications_data'] = DB::table("t_applications")->select("t_applications.application_no","t_applications.service_id" ,"t_applications.module_id");
-        $data['grievance_data'] = DB::table("t_grievance_applications")->select("t_grievance_applications.application_no","t_grievance_applications.service_id","t_grievance_applications.module_id")
-                               ->union($data['applications_data']);
-         $data['applications'] = DB::table('t_workflow_dtls')
-                                ->joinSub($data['grievance_data'], 'uniondata', function ($join) {
-                                    $join->on('t_workflow_dtls.application_no', '=', 'uniondata.application_no');
-                                })
-                            ->leftJoin('t_status_masters','t_workflow_dtls.status_id','=','t_status_masters.id')
-                            ->leftJoin('t_module_masters','uniondata.module_id','=','t_module_masters.id')
-                            ->leftJoin('t_services','uniondata.service_id','=','t_services.id')
-                            ->orderBy('t_workflow_dtls.created_at', 'asc')
-                            ->select('t_workflow_dtls.application_no','t_module_masters.module_name',
-                              't_services.name',
-                             't_workflow_dtls.created_at','t_status_masters.status_name','t_workflow_dtls.updated_at','t_workflow_dtls.remarks');    
-dd($data['applications']); */
+    {  
        
       $data['applications'] = DB::table('t_workflow_dtls')
                             ->leftJoin('t_applications','t_workflow_dtls.application_no','=','t_applications.application_no')
@@ -144,6 +130,19 @@ dd($data['applications']); */
         return view('report.common_report.tourism_survey', $data);
     }
 
-    public function getReportContent(Request $request){
+    public function getReportContent($report_type_id,$report_category_id,$report_name_id,$year,$print=null){
+        $data['reportname']= PublicReport::getReportName($report_name_id);
+        $data['reportdata']= PublicReport::getReportContent($report_type_id,$report_category_id,$report_name_id,$year);  
+       
+    
+        if ($print == 'excel') {
+            return Excel::download(new ExportToView(['applications' => $data['applications']->get()], 'report.common_report.download_excel.application-list'), 'Application List Report.xlsx');
+        }
+        else if($print == 'pdf'){
+            $pdf = PDF::loadView('report.common_report.download_pdf.application-list', ['applications' =>$data['applications']->get()]);
+            return $pdf->stream('application list Report-'.str_random(4).'.pdf');
+        }else{ 
+            return view('report.common_report.tourism_survey_report_content',$data,compact('report_name_id'));
+        }
     }
 }
