@@ -5,24 +5,24 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<title>certificate</title>
     </head>
-<body style="background-repeat:no-repeat; background-image: url({{asset('img/certificate/hotel_certificate.jpg') }});"> 
+<body style="background-repeat:no-repeat; background-image: url({{ url('//img/certificate/hotel_certificate.jpg') }});"> 
     <div style="margin-top: 515px;" >
         @if ($data->star_category_id==1)
             <p style="text-align:center">
                 @for ($i =0 ;  $i<3 ; $i++)
-                <img src="{{ URL::to('img/certificate/star.jpg') }}" width="18%" height="19%"/>
+                <img src="{{ public_path('img/certificate/star.jpg') }}" width="18%" height="19%"/>
                 @endfor
             </p> 
         @elseif($data->star_category_id==2)
             <p style="text-align:center">
                 @for ($i =0 ;  $i<4 ; $i++)
-                <img src="{{ URL::to('img/certificate/star.jpg') }}" width="18%" height="20%"/>
+                <img src="{{ public_path('img/certificate/star.jpg') }}" width="18%" height="20%"/>
                 @endfor
             </p> 
         @else
             <p style="text-align:center">
                 @for ($i =0 ;  $i<5 ; $i++)
-                <img src="{{ URL::to('img/certificate/star.jpg') }}" width="20%" height="20%"/>
+                <img src="{{ public_path('img/certificate/star.jpg') }}" width="20%" height="20%"/>
                 @endfor
             </p>
         @endif

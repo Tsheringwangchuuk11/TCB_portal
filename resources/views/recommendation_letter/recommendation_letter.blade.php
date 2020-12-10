@@ -9,7 +9,7 @@
 </style>
 @section('content')
 <div id="container">
-    <img src="{{ URL::to('img/tcblogo/letter_header.png') }}" width="100%" height="100%"/>
+    <img src="{{ public_path('img/tcblogo/letter_header.png') }}" width="100%" height="100%"/>
     <hr>
     <div class="row col-md-12">
         <h6 class="float-left">{{ $dispatch_no }}</h6>
@@ -33,7 +33,7 @@
     </div>
     <div class="row col-md-12">
         <p>
-            <img src="{{ URL::to($content->signature_path) }}" width="100px" height="50px"/><br>
+            <img src="{{ public_path($content->signature_path) }}" width="100px" height="50px"/><br>
             {!! $content->subscription !!}
         </p>
     </div><br>

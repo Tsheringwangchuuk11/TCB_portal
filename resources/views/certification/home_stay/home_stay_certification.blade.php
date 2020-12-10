@@ -5,7 +5,7 @@
      <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
      <title>certificate</title>
      </head>
- <body style="background-repeat:no-repeat; background-image: url({{asset('img/certificate/home_stay_certificate.jpg') }});"> 
+ <body style="background-repeat:no-repeat; background-image: url({{ url('//img/certificate/home_stay_certificate.jpg') }});"> 
     <div style="margin-top: 293px;" >
         <p style="margin-left: 60px;">Reg. No.:<b>{{$dispatchNo}}</b><span style="margin-left: 40px;">Valid till:<b>{{$data->validaty_date}}</b></span></p>
     </div>
