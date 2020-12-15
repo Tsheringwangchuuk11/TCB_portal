@@ -138,7 +138,7 @@
                                 <div class="info-box-content">
                                     <span class="info-box-text text-bold">TOURISM ENTERPRISE</span>
                                     {{-- <span class="info-box-number">Total: 7929</span> --}}
-                                    <a href="{{ url('report/public-report/'.'3') }}" class="small-box-footer text-reset">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                    <a href="{{ url('report/public-report/'.'4') }}" class="small-box-footer text-reset">More info <i class="fas fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -148,7 +148,7 @@
                                 <div class="info-box-content">
                                     <span class="info-box-text text-bold">EMPLOYMENT</span>
                                     {{-- <span class="info-box-number">Total: 2,000</span> --}}
-                                    <a href="{{ url('report/public-report/'.'3') }}" class="small-box-footer text-reset">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                    <a href="{{ url('report/public-report/'.'5') }}" class="small-box-footer text-reset">More info <i class="fas fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
                         </div>
