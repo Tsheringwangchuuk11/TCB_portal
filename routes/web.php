@@ -33,6 +33,11 @@ Route::group(['prefix' => 'report', 'namespace' => 'Report'], function () {
     Route::get('reports', 'PublicReportController@ajaxReports');
 });
 
+//public user
+Route::group(['prefix' => 'sso','namespace'=>'EndUser'], function () {
+    Route::get('enduser_dashboard', 'EnduserController@getApplicationDetails');
+});
+
 //APIs
 Route::group(['prefix' => 'api', 'namespace' => 'Api'], function () {
     Route::get('get_citizen_details', 'DcrcController@getCitizenDetails');

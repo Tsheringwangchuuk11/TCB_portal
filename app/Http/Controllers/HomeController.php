@@ -129,6 +129,11 @@ class HomeController extends Controller
         $endUserApplicantDtls = WorkFlowDetails::getEndUserApplicationDtls($userId);
         return view('dashboards.enduser', compact('endUserApplicantDtls'));
     }
+    public function getApplicationDetails()
+    {
+       // $endUserApplicantDtls = WorkFlowDetails::getEndUserApplicationDtls($userId);
+        return view('dashboards.public');
+    }
 
 
     public function getProfile(Request $request)

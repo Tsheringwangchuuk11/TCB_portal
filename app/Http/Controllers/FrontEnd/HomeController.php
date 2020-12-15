@@ -14,14 +14,17 @@ use DB;
 use Illuminate\Support\Facades\Notification;
 use Carbon\Carbon;
 use App\Notifications\EndUserNotification;
+use App\PublicReport;
+
 
 class HomeController extends Controller
 {
     public function index()
     {
-    	return view('frontend.index');
+        $year="2019";
+       // $data['visitors']=PublicReport::getVisitorsCountryWise($year);
+        return view('frontend.index');
     }
-    
     public function tourismGrievances(){
         $status=WorkFlowDetails::getStatus('SUBMITTED')->id;
         $data['idInfos'] = Services::getIdInfo('services/new_application/grievance');

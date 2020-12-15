@@ -43,7 +43,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="8" class="text-danger text-center">No data avialable to generate report.</td>
+                    <td colspan="8" class="text-danger text-center">No data available to generate report.</td>
                 </tr>
             @endforelse
         </tbody>

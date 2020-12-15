@@ -37,6 +37,9 @@
         .bg-primary-2 {
             background-color: #312e70 /*#0099cc;*/
         }
+        .box-color{
+            background-color: #5c5cff /*#0099cc;*/
+        }
     </style>
 
     <style>
@@ -122,7 +125,6 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item px-2"><a href="{{ url('about_us') }}" class="nav-link  text-white">ABOUT US</a></li>
                     <li class="nav-item px-2"><a href="{{ url('contact_us') }}" class="nav-link  text-white">CONTACT</a></li>
-                    <li class="nav-item px-2"><a href="{{ url('training-registration') }}" class="nav-link  text-white">TRAINING REGISTRATION</a></li>
                     <li class="nav-item px-2"><a href="{{ route('tourism-grievances') }}" class="nav-link  text-white">TOURISM GRIEVANCES</a></li>
                 </ul>
             </div>

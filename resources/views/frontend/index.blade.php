@@ -3,7 +3,7 @@
 <style>
     #mapcontainer {
     height: 500px; 
-    width: 800px; 
+    width: 980px; 
     margin: 0 auto; 
     }
     .loading {
@@ -19,168 +19,156 @@
         <h2 class="text-warning">KEY HIGHLIGHTS</h2>
     </div>
     <div class="container">
-        <div class="row d-flex justify-content-center pt-2">
-            <div id="mapcontainer"></div>
-        </div>
-        <div class="row d-flex justify-content-center mb-3 pt-4">
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="text-center text-bold">
-                            TOURISM RECEIPT TRENDS
-                            <div class="h6">
-                                (in USD Million)
-                            </div>
-                        </div>
-                        <table class="table table-bordered table-sm">
-                            <thead>
-                            <tr>
-                                <th>Category</th>
-                                <th>2017</th>
-                                <th>2018</th>
-                                <th>2019</th>
-                                <th>%Change</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>Gross Amount</td>
-                                <td>79.81</td>
-                                <td>85.41</td>
-                                <td>88.63</td>
-                                <td><i class="fas fa-caret-up fa-lg text-success"></i> 3.77</td>
-                            </tr>
-                            <tr>
-                                <td>Sustainable Development</td>
-                                <td>22.36</td>
-                                <td>22.63</td>
-                                <td>23.42</td>
-                                <td><i class="fas fa-caret-up fa-lg text-success"></i> 3.47</td>
-                            </tr>
-                            <tr>
-                                <td>Visa Fee</td>
-                                <td>2.43</td>
-                                <td>2.46</td>
-                                <td>2.57</td>
-                                <td><i class="fas fa-caret-up fa-lg text-success"></i> 4.49</td>
-                            </tr>
-                            <tr>
-                                <td>TDS</td>
-                                <td>1.09</td>
-                                <td>1.20</td>
-                                <td>1.24</td>
-                                <td><i class="fas fa-caret-up fa-lg text-success"></i> 3.67</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <small style="font-size: 14px;">
-                            <strong>Source: TCB </strong> <br/>
-                            Tourism earnings as show in the table above convertible currency earnings from MDPR.
-                        </small>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row d-flex justify-content-center pt-2">
+                        <div id="mapcontainer"></div>
                     </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="text-center text-bold">
-                            ARRIVAL BY TOP FIVE COUNTRIES
-                            <div class="h6">
-                                International Tourist
+                    <div class="row d-flex justify-content-center mb-3 pt-4">
+                            <div class="col-md-4">
+                                <div class="info-box border border-info text-center">
+                                    <div class="info-box-content">
+                                        <span class="info-box-number">Visitor Arrivals</span>
+                                            <span class="info-box-text">
+                                                315,599<br>
+                                            </span>
+                                        <i class="fas fa-play text-success"></i>  15 %
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="info-box mb-3 border border-info text-center">
+                                    <div class="info-box-content">
+                                        <span class=" info-box-number">Foreign Exchange Earnings</span>
+                                            <span class="info-box-text">USD $ 88.65 million<br>
+                                                <i class="fas fa-play text-success"></i>  3.79 %
+                                            </span>
+                                        <span class=" info-box-number">Direct Revenue(SDF)</span>
+                                            <span class="info-box-text">USD $ 23.42 million<br>
+                                                <i class="fas fa-play text-success"></i>  3.49 %
+                                            </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="info-box mb-3 border border-info text-center">
+                                    <div class="info-box-content">
+                                    <span class="info-box-number">Tourism Enterprises</span>
+                                        <span class="info-box-text"> Tour Operators - 3020<br>
+                                            Hotels - 160<br>
+                                            Village Homestays - 149<br>
+                                            Guides - 4600
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="col-md-4">
+                            <div class="info-box border border-info text-center">
+                                <div class="info-box-content">
+                                    <span class=" info-box-number">Average Expenditure</span>
+                                        <span class="info-box-text">
+                                            Trip Exp.$1,354<br>
+                                            Daily Exp.$235
+                                        </span>
+                                </div>
                             </div>
                         </div>
-                        <table class="table table-bordered table table-sm">
-                            <thead>
-                            <tr>
-                                <th>Rank</th>
-                                <th>Country</th>
-                                <th>Total</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>1.</td>
-                                <td>USA</td>
-                                <td><span class="badge bg-info">10,602</span></td>
-                            </tr>
-                            <tr>
-                                <td>2.</td>
-                                <td>China</td>
-                                <td><span class="badge bg-warning">7,353</span></td>
-                            </tr>
-                            <tr>
-                                <td>3.</td>
-                                <td>Singapore</td>
-                                <td><span class="badge bg-success">4,391</span></td>
-                            </tr>
-                            <tr>
-                                <td>4.</td>
-                                <td>United Kingdom</td>
-                                <td><span class="badge bg-danger">3,890</span></td>
-                            </tr>
-                            <tr>
-                                <td>5.</td>
-                                <td>Thailand</td>
-                                <td><a href="/tvet/report_courses_accredited"><span
-                                            class="badge bg-primary">3,037</span></a></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <small style="font-size: 14px;">
-                            <strong>Source: TCB </strong> <br/>
-                            Top 5 Source markets (Includes MDPR paying tourist only) in the year 2019.
-                        </small>
+                        <div class="col-md-4">
+                            <div class="info-box mb-3 border border-info text-center">
+                                <div class="info-box-content">
+                                    <span class="info-box-number">Gross Tourism Receipts</span>
+                                       <span class="info-box-text">USD $ 345.88 million
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-3">
+                            <div class="info-box mb-3 border border-info text-center">
+                                <div class="info-box-content">
+                                    <span class="info-box-number">Average Length of stay</span>
+                                         <span class="info-box-text"> 7 nights
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row d-flex justify-content-center pt-2">
-            <div class="col-12 col-sm-6 col-md-4">
-                <div class="info-box mb-4">
-                  <span class="info-box-icon bg-success elevation-1"><i class="fas fa-users"></i></span>
-                  <div class="info-box-content">
-                    <span class="info-box-text text-bold ">INBOUND TOURISM 2020</span>
-                    <span class="info-box-number">Total: 760</span>
-                    <a href="{{ url('report/public-report/'.'1') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                  </div>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row d-flex justify-content-center pt-2 ml-5 mr-5">
+                        <div class="col-12 col-sm-6 col-md-4">
+                            <div class="info-box mb-4">
+                                <span class="info-box-icon bg-info elevation-1"><i class="fas fa-plane-arrival"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text text-bold ">INBOUND TOURISM</span>
+                                    {{-- <span class="info-box-number">Total: 315,599</span> --}}
+                                    <a href="{{ url('report/public-report/'.'1') }}" class="small-box-footer text-reset">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-4">
+                            <div class="info-box mb-4">
+                                <span class="info-box-icon bg-info elevation-1"><i class="fas fa-plane-departure"></i></span>
+                                <div class="info-box-content">
+                                     <span class="info-box-text text-bold ">OUTBOUND TOURISM</span>
+                                    {{-- <span class="info-box-number">Total: 760</span> --}}
+                                    <a href="{{ url('report/public-report/'.'2') }}" class="small-box-footer text-reset">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-4">
+                            <div class="info-box mb-4">
+                                <span class="info-box-icon bg-info elevation-1"><i class="fa fa-suitcase"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text text-bold">DOMESTIC TOURISM</span>
+                                     {{-- <span class="info-box-number">Total: 2,000</span> --}}
+                                     <a href="{{ url('report/public-report/'.'3') }}" class="small-box-footer text-reset">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row d-flex justify-content-left pt-2 pt-2 ml-5 mr-5">
+                        <div class="col-12 col-sm-6 col-md-4">
+                            <div class="info-box mb-4">
+                                <span class="info-box-icon bg-info elevation-1"><i class="fas fa-sitemap"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text text-bold">TOURISM ENTERPRISE</span>
+                                    {{-- <span class="info-box-number">Total: 7929</span> --}}
+                                    <a href="{{ url('report/public-report/'.'3') }}" class="small-box-footer text-reset">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-4">
+                            <div class="info-box mb-4">
+                                <span class="info-box-icon bg-info elevation-1"><i class="fas fa-users"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text text-bold">EMPLOYMENT</span>
+                                    {{-- <span class="info-box-number">Total: 2,000</span> --}}
+                                    <a href="{{ url('report/public-report/'.'3') }}" class="small-box-footer text-reset">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
-            <div class="col-12 col-sm-6 col-md-4">
-              <div class="info-box mb-4">
-                <span class="info-box-icon bg-success elevation-1"><i class="fas fa-users"></i></span>
-                <div class="info-box-content">
-                  <span class="info-box-text text-bold ">OUTBOUND TOURISM 2020</span>
-                  <span class="info-box-number">Total: 760</span>
-                  <a href="{{ url('report/public-report/'.'2') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-              </div>
             </div>
-        </div>
-        <div class="row d-flex justify-content-left pt-2">
-            <div class="col-12 col-sm-6 col-md-4 offset-md-2">
-                <div class="info-box mb-4">
-                  <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
-                  <div class="info-box-content">
-                    <span class="info-box-text text-bold">DOMESTIC TOURISM 2020</span>
-                    <span class="info-box-number">Total: 2,000</span>
-                    <a href="{{ url('report/public-report/'.'3') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                  </div>
-                </div>
-              </div>
         </div>
     </div>
     <div class="container">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <div class="text-center text-olive h3 font-weight-bold pb-2">SERVICES
+                        <div class="text-center text-olive h3 font-weight-bold pb-2">ONLINE SERVICES
                         </div>
                         <div class="row text-center">
                             <div class="col-lg-4 col-6">
                                 <div class="info-box elevation-0">
                                     <div class="info-box-content">
                                         <span class="bg-white elevation-0"><i class="fas fa-2x fa-bed text-olive"></i></span>
-                                    <span class="info-box-text"><a href="{{ url('application/new-application') }}" class="text-reset">Tourist Standard Hotel</a></span>
+                                        <span class="info-box-text"><a href="{{ url('application/new-application') }}" class="text-reset">Tourist Standard Hotel</a></span>
                                     </div>
                                 </div>
                             </div>
@@ -200,7 +188,14 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <div class="col-lg-4 col-6">
+                                <div class="info-box elevation-0">
+                                    <div class="info-box-content">
+                                        <span class="bg-white elevation-0"><i class="fas fa-2x fa-calendar-check text-olive"></i></span>
+                                        <span class="info-box-text"><a href="{{ url('application/new-application') }}" class="text-reset">Tented Accommodation</a></span>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col-lg-4 col-6">
                                 <div class="info-box elevation-0">
                                     <div class="info-box-content">
@@ -212,7 +207,23 @@
                             <div class="col-lg-4 col-6">
                                 <div class="info-box elevation-0">
                                     <div class="info-box-content">
-                                        <span class="bg-white elevation-0"><i class="fas fa-2x fa-calendar-check text-olive"></i></span>
+                                        <span class="bg-white elevation-0"><i class="fas fa-2x fa-balance-scale-right text-olive"></i></span>
+                                        <span class="info-box-text"><a href="{{ url('application/new-application') }}" class="text-reset">Grievance Redressal</a></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-6">
+                                <div class="info-box elevation-0">
+                                    <div class="info-box-content">
+                                        <span class="bg-white elevation-0"><i class="fas fa-2x fas fa-book-open text-olive"></i></span>
+                                        <span class="info-box-text"><a href="{{ url('training-registration') }}" class="text-reset">Training Registration</a></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-6">
+                                <div class="info-box elevation-0">
+                                    <div class="info-box-content">
+                                        <span class="bg-white elevation-0"><i class="fas fa-2x fas fa-business-time text-olive"></i></span>
                                         <span class="info-box-text"><a href="{{ url('application/new-application') }}" class="text-reset">Tourism Product</a></span>
                                     </div>
                                 </div>
@@ -220,8 +231,8 @@
                             <div class="col-lg-4 col-6">
                                 <div class="info-box elevation-0">
                                     <div class="info-box-content">
-                                        <span class="bg-white elevation-0"><i class="fas fa-2x fa-balance-scale-right text-olive"></i></span>
-                                        <span class="info-box-text"><a href="{{ url('application/new-application') }}" class="text-reset">Grievance Redressal</a></span>
+                                        <span class="bg-white elevation-0"><i class="fas fa-2x fas fa-globe text-olive"></i></span>
+                                        <span class="info-box-text"><a href="{{ url('application/new-application') }}" class="text-reset">Tourism Event</a></span>
                                     </div>
                                 </div>
                             </div>
@@ -285,198 +296,342 @@
 <script src="{{ asset('plugins/highcharts/highmaps.js') }}"></script> 
 <script src="{{ asset('plugins/highcharts/world.js') }}"></script> 
 <script>
-    data=[
+data=[
 	{
-		"name": "Afghanistan",
-		"value": 53,
+		"name": "United States of America",
+		"value": 1023,
 	},
     {
-		"name": "Bhutan",
-		"value": 53,
+		"name": "Argentina",
+		"value": 24,
 	},
-    {
+	{
 		"name": "Australia",
-		"value": 6,
+		"value": 241,
+	},
+	
+	{
+		"name": "Austria",
+		"value": 39,
+	},
+	{
+		"name": "Bahrain",
+		"value": 1,
 	},
 	{
 		"name": "Bangladesh",
-		"value": 1251,
-	},
-	
-	{
-		"name": "Bhutan",
-		"value": 20,
+		"value": 125,
 	},
 	{
-		"name": "Canada",
-		"value": 3,
+		"name": "Belarus",
+		"value": 1,
 	},
 	{
-		"name": "Switzerland",
-		"value": 211,
-	},
-	{
-		"name": "China",
-		"value": 146,
-	},
-	{
-		"name": "Congo, Rep.",
-		"value": 15,
+		"name": "Belgium",
+		"value": 93,
 	},
 
 	{
-		"name": "Germany",
-		"value": 236,
+		"name": "Bolivia",
+		"value": 1,
 	},
 	
 	{
-		"name": "Denmark",
-		"value": 135,
+		"name": "Brazil",
+		"value": 95,
 	},
 	{
 		"name": "United Kingdom",
-		"value": 271,
+		"value": 477,
 	},
 	{
-		"name": "Hong Kong SAR, China",
-		"value": 6987,
+		"name": "Brunei",
+		"value": 3,
 	},
 	
 	{
-		"name": "Indonesia",
-		"value": 144,
+		"name": "Bulgaria",
+		"value": 6,
 	},
 	{
-		"name": "India",
-		"value": 445,
+		"name": "Myanmar",
+		"value": 19,
 	},
 
 	{
-		"name": "Italy",
-		"value": 206,
+		"name": "Cambodia",
+		"value": 10,
 	},
 	{
-		"name": "Jamaica",
-		"value": 266,
+		"name": "Canada",
+		"value": 128,
 	},
 	{
-		"name": "Jordan",
-		"value": 106,
+		"name": "Chile",
+		"value": 9,
 	},
 	{
 		"name": "Japan",
 		"value": 348,
 	},
 	{
-		"name": "Kazakhstan",
-		"value": 6,
+		"name": "China",
+		"value": 713,
 	},
 	{
-		"name": "Kenya",
-		"value": 85,
+		"name": "Colombia",
+		"value": 5,
 	},
 	{
-		"name": "Kyrgyz Republic",
-		"value": 31,
+		"name": "Cyprus",
+		"value": 3,
 	},
 	{
 		"name": "Cambodia",
 		"value": 89,
 	},
 	{
-		"name": "Korea, Rep.",
-		"value": 525,
+		"name": "Czech Republic",
+		"value": 4,
 	},
 	{
-		"name": "Kuwait",
-		"value": 227,
+		"name": "Denmark",
+		"value": 53,
 	},
 	{
-		"name": "Sri Lanka",
-		"value": 338,
+		"name": "Dominica",
+		"value": 1,
 	},
 
 	{
-		"name": "Macao SAR, China",
-		"value": 20405,
-	},
-	{
-		"name": "Maldives",
-		"value": 1425,
-	},
-	{
-		"name": "Mexico",
-		"value": 65,
-	},
-	
-	{
-		"name": "Malaysia",
-		"value": 94,
-	},
-	{
 		"name": "Netherlands",
-		"value": 505,
+		"value": 69,
 	},
 	{
-		"name": "Norway",
-		"value": 14,
-	},
-	{
-		"name": "Nepal",
-		"value": 202,
-	},
-	{
-		"name": "New Zealand",
-		"value": 17,
-	},
-	{
-		"name": "Pakistan",
-		"value": 250,
+		"name": "Estonia",
+		"value": 4,
 	},
 	{
 		"name": "Philippines",
-		"value": 346,
+		"value": 48,
+	},
+	
+	{
+		"name": "Finland",
+		"value": 3,
 	},
 	{
-		"name": "Korea, Dem. People’s Rep.",
-		"value": 210,
+		"name": "France",
+		"value": 141,
 	},
 	{
-		"name": "Qatar",
-		"value": 221,
+		"name": "Germany",
+		"value": 374,
 	},
 	{
-		"name": "Singapore",
-		"value": 7908,
+		"name": "Greece",
+		"value": 4,
 	},
 	{
-		"name": "Sweden",
-		"value": 24,
+		"name": "Grenada",
+		"value": 1,
 	},
 	{
-		"name": "Swaziland",
-		"value": 78,
+		"name": "Guatemala ",
+		"value": 4,
 	},
 	{
-		"name": "Thailand",
-		"value": 134,
+		"name": "Hungary",
+		"value": 9,
+	},
+	{
+		"name": "India",
+		"value": 3271,
+	},
+	{
+		"name": "Indonesia",
+		"value": 49,
+	},
+	{
+		"name": "Ireland",
+		"value": 16,
+	},
+	{
+		"name": "Israel",
+		"value": 31,
+	},
+	{
+		"name": "Italy",
+		"value": 126,
+	},
+	{
+		"name": "Japan",
+		"value": 216,
 	},
 
 	{
-		"name": "United States",
-		"value": 35,
+		"name": "Jordan",
+		"value": 3,
+	}, 
+    {
+		"name": "Kuwait",
+		"value": 2,
+	}, 
+      {
+		"name": "Laos",
+		"value": 2,
+	}, 
+    {
+		"name": "Latvia",
+		"value": 2,
+	}, 
+    {
+		"name": "Luxembourg",
+		"value": 6,
+	}, 
+    {
+		"name": "Malaysia",
+		"value": 233,
+	}, 
+    {
+		"name": "Malta",
+		"value": 18,
+	}, 
+    {
+		"name": "Mexico",
+		"value": 69,
+	}, 
+    {
+		"name": "Monaco",
+		"value": 2,
+	}, 
+    {
+		"name": "Nepal",
+		"value": 54,
 	},
+    {
+		"name": "New Zealand ",
+		"value": 29,
+	},
+    {
+		"name": "Norway",
+		"value": 16,
+	},
+    {
+		"name": "Pakistan",
+		"value": 1,
+	},
+    {
+		"name": "Poland",
+		"value": 25,
+	},
+    {
+		"name": "Portugal",
+		"value": 22,
+	},
+    {
+		"name": "Qatar",
+		"value": 1,
+	},
+    {
+		"name": "Romania",
+		"value": 2,
+	},
+    {
+		"name": "Russia",
+		"value": 46,
+	},
+    {
+		"name": "Saudi Arabia",
+		"value": 1,
+	},
+    {
+		"name": "Seychelles",
+		"value": 1,
+	},
+    {
+		"name": "Singapore",
+		"value": 235,
+	},
+    {
+		"name": "Slovakia",
+		"value": 1,
+	},
+    {
+		"name": "Slovenia",
+		"value": 2,
+	},
+    {
+		"name": "South Africa",
+		"value": 12,
+	},
+    {
+		"name": "South Korea",
+		"value": 133,
+	},
+    {
+		"name": "Spain",
+		"value": 74,
+	},
+    {
+		"name": "Sri Lanka",
+		"value": 13,
+	},
+    {
+		"name": "Sweden",
+		"value": 34,
+	},
+    {
+		"name": "Switzerland",
+		"value": 55,
+	},
+    {
+		"name": "Taiwan",
+		"value":188,
+	},
+    {
+		"name": "Thailand",
+		"value":215,
+	},
+    {
+		"name": "Turkey",
+		"value": 3,
+	},
+    {
+		"name": "Ukraine",
+		"value": 21,
+	},
+    {
+		"name": "Uruguay",
+		"value": 1,
+	},
+    {
+		"name": "Venezuela",
+		"value": 1,
+	},
+    {
+		"name": "Vietnam",
+		"value": 282,
+	},
+    {
+		"name": "Yemen",
+		"value": 1,
+	}
 ]
+
 // Prevent logarithmic errors in color calulcation
-total=123900;
+total= 315599;
  data.forEach(function (p) {
   p.value = (p.value < 1 ? 1 : p.value);
 }); 
 // Initiate the chart
 Highcharts.mapChart('mapcontainer', {
 title: {
-    text: ' INBOUND TOURISM 2020'
+    text: ' INBOUND TOURISM 2019'
   },
+  subtitle: {
+                    text: 'Provisional data'
+            },
   legend: {
     title: {
       text: 'Total Visitors :' + total,

@@ -16,6 +16,15 @@ class PublicReport extends Model
     return $query;
    }
 
+   public static function getVisitorsCountryWise($year){
+		$query=\DB::select("SELECT a.Nationality,
+				COUNT(a.Nationality) visitor FROM t_admin_data a 
+				WHERE a.year=$year
+				GROUP BY a.Nationality ;
+		");
+		return $query;
+   }
+
    public static function getReportContent($report_type_id,$report_category_id,$report_name_id,$year)
    {
       
@@ -32,6 +41,7 @@ class PublicReport extends Model
 				FORMAT(SUM(IF(a.Mode_Entry='Air',1,0)) + SUM(IF(a.Mode_Entry='Land',1,0)),'de_DE') AS total
 				FROM t_admin_data a
 				WHERE a.MainPurpose<>'Paro' 
+				AND a.year=$year
 				GROUP BY a.MainPurpose)t
 				UNION
 				(SELECT 
@@ -48,6 +58,7 @@ class PublicReport extends Model
 				FORMAT(SUM(IF(a.Mode_Entry='Air',1,0)) + SUM(IF(a.Mode_Entry='Land',1,0)),'de_DE') AS total
 				FROM t_admin_data a
 				WHERE a.MainPurpose<>'Paro' 
+				AND a.year=$year
 				GROUP BY a.MainPurpose)t))t1
 			");
 		}
@@ -69,6 +80,7 @@ class PublicReport extends Model
 					ROUND(AVG(CASE a.MonthEn WHEN 'Dec' THEN a.Nights END)) Dece
 					FROM
 					t_admin_data a WHERE a.MainPurpose <> 'Paro'
+					AND a.year=$year
 					GROUP BY a.MainPurpose ; 
 			");
 		
@@ -91,6 +103,7 @@ class PublicReport extends Model
 					ROUND(AVG(a.Nights)) mean_night
 					FROM t_admin_data a
 					WHERE a.MainPurpose<>'Paro'
+					AND a.year=$year
 					GROUP BY a.MainPurpose;
 			");
 		}
@@ -107,6 +120,7 @@ class PublicReport extends Model
 					COUNT(a.Nights) total
 					FROM t_admin_data a
 					WHERE a.MainPurpose<>'Paro'
+					AND a.year=$year
 					GROUP BY a.MainPurpose;
 			");
 		}
@@ -119,6 +133,7 @@ class PublicReport extends Model
 					COUNT(a.Mode_Entry) total
 					FROM t_admin_data a
 					WHERE a.MonthEn<>'Holiday, Leisure and Recreation'
+					AND a.year=$year
 					GROUP BY STR_TO_DATE(a.MonthEn,'%M');
 				");
 		
@@ -138,6 +153,7 @@ class PublicReport extends Model
 					ROUND(AVG(a.Nights)) mean
 					FROM t_admin_data a
 					WHERE a.MainPurpose<>'Paro'
+					AND a.year=$year
 					GROUP BY a.Region;
 			");
 		}
@@ -154,6 +170,7 @@ class PublicReport extends Model
 					COUNT(a.Nights) total
 					FROM t_admin_data a
 					WHERE a.MainPurpose<>'Paro'
+					AND a.year=$year
 					GROUP BY a.Region;
 			");
 		}
@@ -172,6 +189,7 @@ class PublicReport extends Model
 					COUNT(a.MainPurpose)total
 					FROM t_admin_data a
 					WHERE a.MainPurpose<>'Paro'
+					AND a.year=$year
 					GROUP BY a.Region;
 			");
 		}
@@ -184,6 +202,7 @@ class PublicReport extends Model
 				COUNT(a.Sex_Id) Total
 				FROM t_admin_data a
 				WHERE a.MainPurpose<>'Paro'
+				AND a.year=$year
 				GROUP BY a.Region; 
 			");
 		}

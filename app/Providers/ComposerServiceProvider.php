@@ -17,6 +17,9 @@ class ComposerServiceProvider extends ServiceProvider
         View::composer(
             'layouts.manager', 'App\Http\ViewComposers\SidebarMenuComposer'
         );
+        View::composer(
+            'layouts.enduser', 'App\Http\ViewComposers\EnduserMenuComposer'
+        );
     }
 
     /**

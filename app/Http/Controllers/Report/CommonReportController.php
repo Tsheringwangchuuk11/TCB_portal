@@ -39,9 +39,9 @@ class CommonReportController extends Controller
         $data['starCategoryLists'] = Dropdown::getDropdowns("t_star_categories","id","star_category_name","0","0");
         if ($request->has('print')) {
             if ($request->query('print') == 'excel') {
-                return Excel::download(new ExportToView($data, 'report.common_report.registration'), 'Registration List Report.xlsx');
+                return Excel::download(new ExportToView($data, 'report.common_report.download_excel.excel_registration'), 'Registration List Report.xlsx');
             } else {
-    	        $pdf = PDF::loadView('report.common_report.registration', $data);
+    	        $pdf = PDF::loadView('report.common_report.download_pdf.pdf_registration', $data);
                 return $pdf->stream('Registration List Report-'.str_random(4).'.pdf');
             }
         }else{
@@ -133,16 +133,15 @@ class CommonReportController extends Controller
     public function getReportContent($report_type_id,$report_category_id,$report_name_id,$year,$print=null){
         $data['reportname']= PublicReport::getReportName($report_name_id);
         $data['reportdata']= PublicReport::getReportContent($report_type_id,$report_category_id,$report_name_id,$year);  
-       
-    
+        $data['report_name_id']=$report_name_id;
         if ($print == 'excel') {
-            return Excel::download(new ExportToView(['applications' => $data['applications']->get()], 'report.common_report.download_excel.application-list'), 'Application List Report.xlsx');
+            return Excel::download(new ExportToView($data,'report.common_report.download_excel.excel_tourism_survey'), 'Tourism Survey Report.xlsx');
         }
         else if($print == 'pdf'){
-            $pdf = PDF::loadView('report.common_report.download_pdf.application-list', ['applications' =>$data['applications']->get()]);
-            return $pdf->stream('application list Report-'.str_random(4).'.pdf');
+            $pdf = PDF::loadView('report.common_report.download_pdf.tourism_survey', $data);
+            return $pdf->stream('Tourism Survey Report-'.str_random(4).'.pdf');
         }else{ 
-            return view('report.common_report.tourism_survey_report_content',$data,compact('report_name_id'));
+            return view('report.common_report.tourism_survey_report_content',$data);
         }
     }
 }
