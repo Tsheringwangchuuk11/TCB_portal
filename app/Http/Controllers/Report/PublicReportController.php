@@ -22,9 +22,7 @@ class PublicReportController extends Controller
         $reportname= PublicReport::getReportName($request->report_name_id);
         $data=null;
         $reportdata= PublicReport::getReportContent($request->report_type_id,$request->report_category_id,$request->report_name_id,$request->year);
-       //return response()->json($reportdata);
         if($reportdata){
-
             //Arrival by mode of transport by purpose(number of visitors)
             if($request->report_name_id==1){
                 $chartArray["chart"] = [
@@ -53,10 +51,10 @@ class PublicReportController extends Controller
                 $arrivalByland=[];
                 foreach($reportdata as $key=>$value){
                     $arrivalByAir[] = str_replace( ',', '', $value->air); 
-                    }
-                foreach($reportdata as $key=>$value){
                     $arrivalByland[] = str_replace( ',', '', $value->land);
+
                     }
+          
                 $chartArray["series"] = [
                     [
                         'name' =>'Land',
@@ -94,12 +92,6 @@ class PublicReportController extends Controller
                     ]
                 ];
                 $mainPurpose=[];
-                foreach($reportdata as $key=>$value){
-                    $mainPurpose[] = $value->MainPurpose; 
-                }
-                $chartArray["xAxis"]=[
-                    'categories'=>$mainPurpose
-                ]; 
                 $mainpurpose=[];
                 $january=[];
                 $febuary=[];
@@ -114,103 +106,75 @@ class PublicReportController extends Controller
                 $november=[];
                 $december=[];
                 foreach($reportdata as $key=>$value){
+                    $mainPurpose[] = $value->MainPurpose; 
                     $mainpurpose[] = $value->MainPurpose; 
-                    }
-                foreach($reportdata as $key=>$value){
                     if( $value->Jan!=null){
                         $january[] = $value->Jan; 
                     }else{
                         $january[] = 0; 
                     }
-                }
-
-                foreach($reportdata as $key=>$value){
                     if($value->Feb!=null){
-                    $febuary[] = $value->Feb;
-                    }else{
-                        $febuary[] = 0;
-                    } 
-                }
-        
-                foreach($reportdata as $key=>$value){
+                        $febuary[] = $value->Feb;
+                        }else{
+                            $febuary[] = 0;
+                        } 
                     if($value->Feb!=null){
                         $march[] = $value->Mar; 
                     }else{
                         $march[] = 0; 
                     }
-                }
-                foreach($reportdata as $key=>$value){
                     if($value->Apr!=null){
                         $april[] = $value->Apr;
                     }else{
                         $april[] = 0;
                     }
-                }
-        
-                foreach($reportdata as $key=>$value){
                     if($value->May!=null){
                         $may[] = $value->May; 
                     }else{
                         $may[] = 0; 
                     }
-                }
-        
-                foreach($reportdata as $key=>$value){
                     if($value->Jun!=null){
                         $june[] = $value->Jun; 
         
                     }else{
                         $june[] = 0; 
                     }
-                }
-        
-                foreach($reportdata as $key=>$value){
                     if($value->Jul!=null){
                         $july[] = $value->Jul;
                     }else{
                         $july[] = 0;
                     } 
-                
-                }
-                foreach($reportdata as $key=>$value){
                     if($value->Aug!=null){
                         $august[] = $value->Aug;
                     }else{
                         $august[] =0;
                     } 
-                }
-        
-                foreach($reportdata as $key=>$value){
+                    
                     if($value->Sep!=null){
                         $september[] = $value->Sep;    
                     }else{
                         $september[] = $value->Sep;
-                    }
-                }
-        
-                foreach($reportdata as $key=>$value){
+                    }        
                     if($value->Octo!=null){
                         $october[] = $value->Octo;    
                     }else{
                         $october[] = 0;
                     }        
-                }
         
-                foreach($reportdata as $key=>$value){
                     if($value->Nov!=null){
                         $november[] = $value->Nov;    
                     }else{
                         $november[] = $value->Nov;
                     }
-                }
-        
-                foreach($reportdata as $key=>$value){
                     if($value->Dece!=null){
                         $december[] = $value->Dece; 
                     }else{
                         $december[] = 0; 
                     }
                 }
+                $chartArray["xAxis"]=[
+                    'categories'=>$mainPurpose
+                ]; 
                 $chartArray["series"] = [
                     [
                         'name' =>'Jan',
@@ -291,29 +255,20 @@ class PublicReportController extends Controller
                     ]
                 ];
                 $mainPurpose=[];
-                foreach($reportdata as $key=>$value){
-                    $mainPurpose[] = $value->MainPurpose; 
-                }
-                $chartArray["xAxis"]=[
-                    'categories'=>$mainPurpose
-                ];
                 $visitors=[];
                 $visitors_nights=[];
                 $median_night=[];
                 $mean_night=[];
-        
                 foreach($reportdata as $key=>$value){
-                    $visitors[] = $value->visitors; 
-                    }
-                foreach($reportdata as $key=>$value){
+                    $mainPurpose[] = $value->MainPurpose; 
+                    $visitors[] = $value->visitors;
                     $visitors_nights[] = $value->visitors_nights; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $median_night[] = $value->median_night; 
-                    }
-                foreach($reportdata as $key=>$value){
-                    $mean_night[] = $value->mean_night; 
-                    }
+                    $mean_night[] = $value->mean_night;  
+                }
+                $chartArray["xAxis"]=[
+                    'categories'=>$mainPurpose
+                ];
                 $chartArray["series"] = [
                     [
                         'name' =>'Visitors',
@@ -363,12 +318,6 @@ class PublicReportController extends Controller
                     ]
                 ];
                 $mainPurpose=[];
-                foreach($reportdata as $key=>$value){
-                    $mainPurpose[] = $value->MainPurpose; 
-                }
-                $chartArray["xAxis"]=[
-                    'categories'=>$mainPurpose
-                ];
                 $one_two_night=[];
                 $three_four_nights=[];
                 $five_six_nights=[];
@@ -376,23 +325,17 @@ class PublicReportController extends Controller
                 $nine_fourteen_nights=[];
                 $fiveteennights=[];
                 foreach($reportdata as $key=>$value){
+                    $mainPurpose[] = $value->MainPurpose; 
                     $one_two_night[] = $value->one_two_nights; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $three_four_nights[] = $value->three_four_nights; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $five_six_nights[] = $value->five_six_nights; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $seven_eight_nights[] = $value->seven_eight_nights; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $nine_fourteen_nights[] = $value->nine_fourteen_nights; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $fiveteennights[] = $value->fiveteennights; 
-                    }
+                }
+                $chartArray["xAxis"]=[
+                    'categories'=>$mainPurpose
+                ];
                 $chartArray["series"] = [
                     [
                         'name'=> '3_4nights',
@@ -446,25 +389,18 @@ class PublicReportController extends Controller
                     ]
                 ];
                 $month=[];
+                $arrivalByAir=[];
+                $arrivalByland=[];
+                $total=[];
                 foreach($reportdata as $key=>$value){
                     $month[] = $value->MonthEn; 
+                    $arrivalByAir[] = $value->air; 
+                    $arrivalByland[] = $value->land; 
+                    $total[] = $value->total; 
                 }
                 $chartArray["xAxis"]=[
                     'categories'=>$month
                 ];
-                $arrivalByAir=[];
-                $arrivalByland=[];
-                $total=[];
-        
-                foreach($reportdata as $key=>$value){
-                    $arrivalByAir[] = $value->air; 
-                    }
-                foreach($reportdata as $key=>$value){
-                    $arrivalByland[] = $value->land; 
-                    }
-                foreach($reportdata as $key=>$value){
-                    $total[] = $value->total; 
-                    }
                 $chartArray["series"] = [
                     [
                         'name' =>'Land',
@@ -511,22 +447,16 @@ class PublicReportController extends Controller
                 ];
 
                 $region=[];
+                $mean=[];
+                $median=[];
                 foreach($reportdata as $key=>$value){
                     $region[] = $value->Region; 
+                    $mean[] = $value->mean; 
+                    $median[] = $value->median; 
                 }
                 $chartArray["xAxis"]=[
                     'categories'=>$region
                 ];
-
-                $mean=[];
-                $median=[];
-
-                foreach($reportdata as $key=>$value){
-                    $mean[] = $value->mean; 
-                    }
-                foreach($reportdata as $key=>$value){
-                    $median[] = $value->median; 
-                    }
                 $chartArray["series"] = [
                     [
                         'name' =>'Mean',
@@ -567,12 +497,6 @@ class PublicReportController extends Controller
                     ]
                 ];
                 $region=[];
-                foreach($reportdata as $key=>$value){
-                    $region[] = $value->Region; 
-                }
-                $chartArray["xAxis"]=[
-                    'categories'=>$region
-                ];
                 $one_two_night=[];
                 $three_four_nights=[];
                 $five_six_nights=[];
@@ -580,23 +504,17 @@ class PublicReportController extends Controller
                 $nine_fourteen_nights=[];
                 $fiveteennights=[];
                 foreach($reportdata as $key=>$value){
+                    $region[] = $value->Region; 
                     $one_two_night[] = $value->one_two_nights; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $three_four_nights[] = $value->three_four_nights; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $five_six_nights[] = $value->five_six_nights; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $seven_eight_nights[] = $value->seven_eight_nights; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $nine_fourteen_nights[] = $value->nine_fourteen_nights; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $fiveteennights[] = $value->fiveteennights; 
-                    }
+                }
+                $chartArray["xAxis"]=[
+                    'categories'=>$region
+                ];
                 $chartArray["series"] = [
                     [
                         'name'=> '3_4nights',
@@ -649,12 +567,6 @@ class PublicReportController extends Controller
                     ]
                 ];
                 $region=[];
-                foreach($reportdata as $key=>$value){
-                    $region[] = $value->Region; 
-                }
-                $chartArray["xAxis"]=[
-                    'categories'=>$region
-                ];
                 $Business=[];
                 $ETE_Program=[];
                 $HLR=[];
@@ -664,29 +576,19 @@ class PublicReportController extends Controller
                 $Others=[];
                 $VFRG=[];
                 foreach($reportdata as $key=>$value){
+                    $region[] = $value->Region;
                     $ETE_Program[] = $value->ETE_Program; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $Business[] = $value->Business; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $HLR[] = $value->HLR; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $IT[] = $value->IT; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $MICE[] = $value->MICE; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $Official[] = $value->Official; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $Others[] = $value->Others; 
-                    }
-                foreach($reportdata as $key=>$value){
-                    $VFRG[] = $value->VFRG; 
-                    }
+                    $VFRG[] = $value->VFRG;  
+                }
+                $chartArray["xAxis"]=[
+                    'categories'=>$region
+                ];
                 $chartArray["series"] = [
                     [
                         'name' =>'Business',
@@ -752,24 +654,18 @@ class PublicReportController extends Controller
                     ]
                 ];
                 $region=[];
-                foreach($reportdata as $key=>$value){
-                    $region[] = $value->Region; 
-                }
-                $chartArray["xAxis"]=[
-                    'categories'=>$region
-                ];
                 $male=[];
                 $female=[];
                 $total=[];
                 foreach($reportdata as $key=>$value){
+                    $region[] = $value->Region; 
                     $male[] = $value->Male; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $female[] = $value->Female; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $total[] = $value->Total; 
-                    }
+                }
+                $chartArray["xAxis"]=[
+                    'categories'=>$region
+                ];
                 $chartArray["series"] = [
                     [
                         'name' =>'Male',
@@ -814,12 +710,6 @@ class PublicReportController extends Controller
                     ]
                 ];
                 $dzongkhag=[];
-                foreach($reportdata as $key=>$value){
-                    $dzongkhag[] = $value->dzongkhag_name; 
-                }
-                $chartArray["xAxis"]=[
-                    'categories'=>$dzongkhag
-                ];
                 $business=[];
                 $education=[];
                 $health=[];
@@ -829,29 +719,19 @@ class PublicReportController extends Controller
                 $religion=[];
                 $visiting=[];
                 foreach($reportdata as $key=>$value){
+                    $dzongkhag[] = $value->dzongkhag_name; 
                     $business[] = $value->business; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $education[] = $value->education; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $health[] = $value->health; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $holiday[] = $value->holiday; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $others[] = $value->others; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $personal[] = $value->personal; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $religion[] = $value->religion; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $visiting[] = $value->visiting; 
-                    }
+                }
+                $chartArray["xAxis"]=[
+                    'categories'=>$dzongkhag
+                ];
                 $chartArray["series"] = [
                     [
                         'name' =>'Business and Professional',
@@ -916,12 +796,6 @@ class PublicReportController extends Controller
                     ]
                 ];
                 $dzongkhag=[];
-                foreach($reportdata as $key=>$value){
-                    $dzongkhag[] = $value->dzongkhag_name; 
-                }
-                $chartArray["xAxis"]=[
-                    'categories'=>$dzongkhag
-                ];
                 $bumthang=[];
                 $chukha=[];
                 $dagana=[];
@@ -943,65 +817,33 @@ class PublicReportController extends Controller
                 $wangduephodrang=[];
                 $zhemgang=[];
                 foreach($reportdata as $key=>$value){
+                    $dzongkhag[] = $value->dzongkhag_name;
                     $bumthang[] = $value->bumthang; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $chukha[] = $value->chukha; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $dagana[] = $value->dagana; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $gasa[] = $value->gasa; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $haa[] = $value->haa; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $lhuentse[] = $value->lhuentse; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $mongar[] = $value->mongar; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $paro[] = $value->paro; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $pemagatshel[] = $value->pemagatshel; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $punakha[] = $value->punakha; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $samdrupjongkhar[] = $value->samdrupjongkhar; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $samtse[] = $value->samtse; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $sarpang[] = $value->sarpang; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $thimphu[] = $value->thimphu; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $trashigang[] = $value->trashigang; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $trashiyangtse[] = $value->trashiyangtse; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $trongsa[] = $value->trongsa; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $tsirang[] = $value->tsirang; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $wangduephodrang[] = $value->wangduephodrang; 
-                    }
-                foreach($reportdata as $key=>$value){
-                    $zhemgang[] = $value->zhemgang; 
-                    }
+                    $zhemgang[] = $value->zhemgang;  
+                }
+                $chartArray["xAxis"]=[
+                    'categories'=>$dzongkhag
+                ];
+              
+                   
                 $chartArray["series"] = [
                     [
                         'name' =>'Bumthang',
@@ -1115,12 +957,6 @@ class PublicReportController extends Controller
                     ]
                 ];
                 $dzongkhag=[];
-                foreach($reportdata as $key=>$value){
-                    $dzongkhag[] = $value->dzongkhag_name; 
-                }
-                $chartArray["xAxis"]=[
-                    'categories'=>$dzongkhag
-                ];
                 $bumthang=[];
                 $chukha=[];
                 $dagana=[];
@@ -1142,65 +978,33 @@ class PublicReportController extends Controller
                 $wangduephodrang=[];
                 $zhemgang=[];
                 foreach($reportdata as $key=>$value){
+                    $dzongkhag[] = $value->dzongkhag_name; 
                     $bumthang[] = $value->bumthang; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $chukha[] = $value->chukha; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $dagana[] = $value->dagana; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $gasa[] = $value->gasa; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $haa[] = $value->haa; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $lhuentse[] = $value->lhuentse; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $mongar[] = $value->mongar; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $paro[] = $value->paro; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $pemagatshel[] = $value->pemagatshel; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $punakha[] = $value->punakha; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $samdrupjongkhar[] = $value->samdrupjongkhar; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $samtse[] = $value->samtse; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $sarpang[] = $value->sarpang; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $thimphu[] = $value->thimphu; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $trashigang[] = $value->trashigang; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $trashiyangtse[] = $value->trashiyangtse; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $trongsa[] = $value->trongsa; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $tsirang[] = $value->tsirang; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $wangduephodrang[] = $value->wangduephodrang; 
-                    }
-                foreach($reportdata as $key=>$value){
-                    $zhemgang[] = $value->zhemgang; 
-                    }
+                    $zhemgang[] = $value->zhemgang;
+                }
+                $chartArray["xAxis"]=[
+                    'categories'=>$dzongkhag
+                ];
+               
+                    
                 $chartArray["series"] = [
                     [
                         'name' =>'Bumthang',
@@ -1313,12 +1117,6 @@ class PublicReportController extends Controller
                     ]
                 ];
                 $dzongkhag=[];
-                foreach($reportdata as $key=>$value){
-                    $dzongkhag[] = $value->dzongkhag_name; 
-                }
-                $chartArray["xAxis"]=[
-                    'categories'=>$dzongkhag
-                ];
                 $business=[];
                 $education=[];
                 $health=[];
@@ -1328,29 +1126,21 @@ class PublicReportController extends Controller
                 $religion=[];
                 $visiting=[];
                 foreach($reportdata as $key=>$value){
+                    $dzongkhag[] = $value->dzongkhag_name; 
                     $business[] = $value->business; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $education[] = $value->education; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $health[] = $value->health; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $holiday[] = $value->holiday; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $others[] = $value->others; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $personal[] = $value->personal; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $religion[] = $value->religion; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $visiting[] = $value->visiting; 
-                    }
+                }
+                $chartArray["xAxis"]=[
+                    'categories'=>$dzongkhag
+                ];
+               
+                    
                 $chartArray["series"] = [
                     [
                         'name' =>'Business and Professional',
@@ -1415,12 +1205,6 @@ class PublicReportController extends Controller
                     ]
                 ];
                 $dzongkhag=[];
-                foreach($reportdata as $key=>$value){
-                    $dzongkhag[] = $value->dzongkhag_name; 
-                }
-                $chartArray["xAxis"]=[
-                    'categories'=>$dzongkhag
-                ];
                 $visitors=[];
                 $visitors_percent=[];
                 $nights_percent=[];
@@ -1429,26 +1213,18 @@ class PublicReportController extends Controller
                 $tot_expenditure=[];
                 $nights=[];
                 foreach($reportdata as $key=>$value){
+                    $dzongkhag[] = $value->dzongkhag_name; 
                     $visitors[] = $value->visitors; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $visitors_percent[] = $value->visitors_percent; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $nights_percent[] = $value->nights_percent; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $nights[] = $value->nights; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $avg_expenditure_night[] = $value->avg_expenditure_night; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $avg_expenditure_trip[] = $value->avg_expenditure_trip; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $tot_expenditure[] = $value->tot_expenditure; 
-                    }
+                }
+                $chartArray["xAxis"]=[
+                    'categories'=>$dzongkhag
+                ];
                 $chartArray["series"] = [
                     [
                         'name' =>'Visitors',
@@ -1510,12 +1286,7 @@ class PublicReportController extends Controller
                     ]
                 ];
                 $mainpurpose=[];
-                foreach($reportdata as $key=>$value){
-                    if($value->dropdown_name!="Total"){
-                        $mainpurpose[] = $value->dropdown_name; 
-                    }
-                }
-                    $accommodation=[];
+                $accommodation=[];
                     $air=[];
                     $car_rental=[];
                     $entertainment=[];
@@ -1528,46 +1299,25 @@ class PublicReportController extends Controller
                     $others=[];
                     $shopping=[];
                     $tour_package=[];
-    
-                    foreach($reportdata as $key=>$value){
-                        $accommodation[] = $value->accommodation; 
-                        }
-                    foreach($reportdata as $key=>$value){
-                        $air[] = $value->air; 
-                        }
-                    foreach($reportdata as $key=>$value){
-                        $car_rental[] = $value->car_rental; 
-                        }
-                    foreach($reportdata as $key=>$value){
-                        $entertainment[] = $value->entertainment; 
-                        }
-                    foreach($reportdata as $key=>$value){
-                        $fuel_cost[] = $value->fuel_cost; 
-                        }
-                    foreach($reportdata as $key=>$value){
-                        $food[] = $value->food; 
-                        }
-                    foreach($reportdata as $key=>$value){
-                        $local_transport[] = $value->local_transport; 
-                        }
-                    foreach($reportdata as $key=>$value){
-                        $long_distance[] = $value->long_distance; 
-                        }
-                    foreach($reportdata as $key=>$value){
-                        $medical[] = $value->medical; 
-                        }
-                    foreach($reportdata as $key=>$value){
-                        $mice[] = $value->mice; 
-                        }
-                    foreach($reportdata as $key=>$value){
-                        $others[] = $value->others; 
-                        }
-                    foreach($reportdata as $key=>$value){
-                        $shopping[] = $value->shopping; 
-                        }
-                    foreach($reportdata as $key=>$value){
-                        $tour_package[] = $value->tour_package; 
-                            }
+                foreach($reportdata as $key=>$value){
+                    if($value->dropdown_name!="Total"){
+                        $mainpurpose[] = $value->dropdown_name; 
+                    }
+                    $accommodation[] = $value->accommodation; 
+                    $air[] = $value->air; 
+                    $car_rental[] = $value->car_rental; 
+                    $entertainment[] = $value->entertainment; 
+                    $fuel_cost[] = $value->fuel_cost; 
+                    $food[] = $value->food; 
+                    $local_transport[] = $value->local_transport; 
+                    $long_distance[] = $value->long_distance; 
+                    $medical[] = $value->medical; 
+                    $mice[] = $value->mice; 
+                    $others[] = $value->others; 
+                    $shopping[] = $value->shopping; 
+                    $tour_package[] = $value->tour_package;
+                }
+                        
                     $chartArray["series"] = [
                         [
                             'name' =>'Accommodation',
@@ -1652,14 +1402,6 @@ class PublicReportController extends Controller
                     ]
                 ];
                 $mainpurpose=[];
-                foreach($reportdata as $key=>$value){
-                    if($value->dropdown_name!="Total"){
-                        $mainpurpose[] = $value->dropdown_name; 
-                    }
-                }
-                $chartArray["xAxis"]=[
-                    'categories'=>$mainpurpose
-                ];
                 $accommodation=[];
                 $air=[];
                 $car_rental=[];
@@ -1673,46 +1415,27 @@ class PublicReportController extends Controller
                 $others=[];
                 $shopping=[];
                 $tour_package=[];
-
                 foreach($reportdata as $key=>$value){
+                    if($value->dropdown_name!="Total"){
+                        $mainpurpose[] = $value->dropdown_name; 
+                    }
                     $accommodation[] = $value->accommodation; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $air[] = $value->air; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $car_rental[] = $value->car_rental; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $entertainment[] = $value->entertainment; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $fuel_cost[] = $value->fuel_cost; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $food[] = $value->food; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $local_transport[] = $value->local_transport; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $long_distance[] = $value->long_distance; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $medical[] = $value->medical; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $mice[] = $value->mice; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $others[] = $value->others; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $shopping[] = $value->shopping; 
-                    }
-                foreach($reportdata as $key=>$value){
                     $tour_package[] = $value->tour_package; 
-                    }
+                }
+                $chartArray["xAxis"]=[
+                    'categories'=>$mainpurpose
+                ];
                 $chartArray["series"] = [
                     [
                         'name' =>'Accommodation',
@@ -1802,20 +1525,16 @@ class PublicReportController extends Controller
                 'showFirstLabel'=> false
                 ]];
                 $dzongkhag=[];
+                $male=[];
+                $female=[];
                 foreach($reportdata as $key=>$value){
                     $dzongkhag[] = $value->dzongkhag_name; 
+                    $male[] = $value->male; 
+                    $female[] = $value->female; 
                 }
                 $chartArray["xAxis"]=[
                     'categories'=>$dzongkhag
                 ];
-                $male=[];
-                $female=[];
-                foreach($reportdata as $key=>$value){
-                    $male[] = $value->male; 
-                    }
-                foreach($reportdata as $key=>$value){
-                    $female[] = $value->female; 
-                    }
                 $chartArray["series"]= [
                         [
                         'color'=> 'rgb(158, 159, 163)',
@@ -1871,12 +1590,6 @@ class PublicReportController extends Controller
                 ]
             ];
             $dzongkhag=[];
-            foreach($reportdata as $key=>$value){
-                $dzongkhag[] = $value->dzongkhag_name; 
-            }
-            $chartArray["xAxis"]=[
-                'categories'=>$dzongkhag
-            ];
             $business=[];
             $education=[];
             $health=[];
@@ -1889,35 +1602,21 @@ class PublicReportController extends Controller
             $total_visitor=[];
             $total_expenditure=[];
             foreach($reportdata as $key=>$value){
+                $dzongkhag[] = $value->dzongkhag_name; 
                 $business[] = $value->business; 
-                }
-            foreach($reportdata as $key=>$value){
                 $education[] = $value->education; 
-                }
-            foreach($reportdata as $key=>$value){
                 $health[] = $value->health; 
-                }
-            foreach($reportdata as $key=>$value){
                 $holiday[] = $value->holiday; 
-                }
-            foreach($reportdata as $key=>$value){
                 $others[] = $value->others; 
-                }
-            foreach($reportdata as $key=>$value){
                 $personal[] = $value->personal; 
-                }
-            foreach($reportdata as $key=>$value){
                 $religion[] = $value->religion; 
-                }
-            foreach($reportdata as $key=>$value){
                 $visiting[] = $value->visiting; 
-                }
-            foreach($reportdata as $key=>$value){
                 $total_visitor[] = $value->total_visitor; 
-                }
-            foreach($reportdata as $key=>$value){
                 $total_expenditure[] = $value->total_expenditure; 
-                }
+            }
+            $chartArray["xAxis"]=[
+                'categories'=>$dzongkhag
+            ];
             $chartArray["series"] = [
                 [
                     'name' =>'Business and Professional',
@@ -1990,12 +1689,6 @@ class PublicReportController extends Controller
                 ]
             ];
             $purpose=[];
-            foreach($reportdata as $key=>$value){
-                $purpose[] = $value->dropdown_name; 
-            }
-            $chartArray["xAxis"]=[
-                'categories'=>$purpose
-            ];
             $car_rental=[];
             $entertainment=[];
             $fuel_cost=[];
@@ -2008,38 +1701,22 @@ class PublicReportController extends Controller
             $shopping=[];
             $total_expenditure=[];
             foreach($reportdata as $key=>$value){
+                $purpose[] = $value->dropdown_name; 
                 $car_rental[] = $value->car_rental; 
-                }
-            foreach($reportdata as $key=>$value){
                 $entertainment[] = $value->entertainment; 
-                }
-            foreach($reportdata as $key=>$value){
                 $fuel_cost[] = $value->fuel_cost; 
-                }
-            foreach($reportdata as $key=>$value){
                 $food[] = $value->food; 
-                }
-            foreach($reportdata as $key=>$value){
                 $local_transport[] = $value->local_transport; 
-                }
-            foreach($reportdata as $key=>$value){
                 $long_distance[] = $value->long_distance; 
-                }
-            foreach($reportdata as $key=>$value){
                 $medical[] = $value->medical; 
-                }
-            foreach($reportdata as $key=>$value){
                 $mice[] = $value->mice; 
-                }
-            foreach($reportdata as $key=>$value){
                 $others[] = $value->others; 
-                }
-            foreach($reportdata as $key=>$value){
                 $shopping[] = $value->shopping; 
-                }
-            foreach($reportdata as $key=>$value){
                 $total_expenditure[] = $value->total_expenditure; 
-                }
+            }
+            $chartArray["xAxis"]=[
+                'categories'=>$purpose
+            ];
             $chartArray["series"] = [
                 [
                     'name' =>'Car Rental',
@@ -2116,12 +1793,6 @@ class PublicReportController extends Controller
                 ]
             ];
             $purpose=[];
-            foreach($reportdata as $key=>$value){
-                $purpose[] = $value->dropdown_name; 
-            }
-            $chartArray["xAxis"]=[
-                'categories'=>$purpose
-            ];
             $car_rental=[];
             $entertainment=[];
             $fuel_cost=[];
@@ -2134,38 +1805,22 @@ class PublicReportController extends Controller
             $shopping=[];
             $total_expenditure=[];
             foreach($reportdata as $key=>$value){
+                $purpose[] = $value->dropdown_name; 
                 $car_rental[] = $value->car_rental; 
-                }
-            foreach($reportdata as $key=>$value){
                 $entertainment[] = $value->entertainment; 
-                }
-            foreach($reportdata as $key=>$value){
                 $fuel_cost[] = $value->fuel_cost; 
-                }
-            foreach($reportdata as $key=>$value){
                 $food[] = $value->food; 
-                }
-            foreach($reportdata as $key=>$value){
                 $local_transport[] = $value->local_transport; 
-                }
-            foreach($reportdata as $key=>$value){
                 $long_distance[] = $value->long_distance; 
-                }
-            foreach($reportdata as $key=>$value){
                 $medical[] = $value->medical; 
-                }
-            foreach($reportdata as $key=>$value){
                 $mice[] = $value->mice; 
-                }
-            foreach($reportdata as $key=>$value){
                 $others[] = $value->others; 
-                }
-            foreach($reportdata as $key=>$value){
                 $shopping[] = $value->shopping; 
-                }
-            foreach($reportdata as $key=>$value){
                 $total_expenditure[] = $value->total_expenditure; 
-                }
+            }
+            $chartArray["xAxis"]=[
+                'categories'=>$purpose
+            ];
             $chartArray["series"] = [
                 [
                     'name' =>'Car Rental',
@@ -2239,26 +1894,18 @@ class PublicReportController extends Controller
             ];
 
             $dzongkhag_name=[];
+            $visitors=[];
+            $avg_expenditure_trip=[];
+            $tot_expenditure=[];
             foreach($reportdata as $key=>$value){
                 $dzongkhag_name[] = $value->dzongkhag_name; 
+                $visitors[] =$value->visitors; 
+                $avg_expenditure_trip[] = $value->avg_expenditure_trip;
+                $tot_expenditure[] = $value->tot_expenditure;
             }
             $chartArray["xAxis"]=[
                 'categories'=>$dzongkhag_name
             ];
-
-            $visitors=[];
-            $avg_expenditure_trip=[];
-            $tot_expenditure=[];
-
-            foreach($reportdata as $key=>$value){
-                $visitors[] =$value->visitors; 
-                }
-            foreach($reportdata as $key=>$value){
-                $avg_expenditure_trip[] = $value->avg_expenditure_trip;
-                }
-            foreach($reportdata as $key=>$value){
-                $tot_expenditure[] = $value->tot_expenditure;
-                }
             $chartArray["series"] = [
                 [
                     'name' =>'Visitors',
@@ -2276,6 +1923,310 @@ class PublicReportController extends Controller
         }
         //Outbound overnight visitors by main destination
         else if($request->report_name_id==41){
+          /*  $chartArray["chart"] = [
+                "type" => 'variablepie',
+                ] ;
+            $chartArray["title"] =[
+                "text" => $reportname->report_name
+                ];
+            $chartArray["subtitle"]= [
+                "text"=> 'Domestic and Outbound Tourism Survey '.$request->year
+            ];
+             $chartArray["tooltip"] = [
+                'headerFormat'=> '',
+                'pointFormat'=> '<span style="color:{point.color}">\u25CF</span> <b> {point.name}</b><br/>' +
+                    'Visitors (No.): <b>{point.y}</b><br/>' +
+                    'Visitor (%): <b>{point.z}</b><br/>'
+            ];  
+           
+            $data=[];
+            foreach($reportdata as $key=>$value){
+                $data[]= array('name'=>$value->dropdown_name,'y'=>$value->visitors,'z'=>$value->percent); 
+            }
+            $chartArray["series"] =[
+                [
+                'minPointSize'=> 10,
+                    'innerSize'=>'20%',
+                    'zMin'=> 0,
+                    'name'=> 'countries',
+                    'data'=>  [
+                             [
+                            'name'=> 'Spain',
+                            'y'=> 505370,
+                            'z'=> 92.9
+                            ]
+                             ],
+                    ]
+            ]; */
+
+            $chartArray["chart"] = [
+                "type" => 'column',
+                ] ;
+            $chartArray["title"] =[
+                "text" => $reportname->report_name
+                ];
+            $chartArray["subtitle"]= [
+                "text"=> 'Domestic and Outbound Tourism Survey '.$request->year
+            ];
+            $chartArray["tooltip"] = [
+                'pointFormat'=> 'Visitor: <b>{point.y}%</b>'
+            ]; 
+            $chartArray["yAxis"]=[
+                'min'=>0,
+                'title'=> [
+                'text'=>'Visitors'
+                ],
+            ];
+            $data=[];
+            foreach($reportdata as $key=>$value){
+                $data[]= array($value->dropdown_name, $value->percent); 
+            }
+            $chartArray["xAxis"]=[
+                'type'=> 'category',
+                'labels'=> [
+                   ' rotation'=> -45,
+                    'style'=> [
+                        'fontSize'=> '13px',
+                        'fontFamily'=> 'Verdana, sans-serif'
+                    ]
+                ]
+            ];
+
+            $chartArray["series"] = [
+                [
+                   'name'=> 'Visitor',
+                    'data'=>$data,
+                   ' dataLabels'=> [
+                       'enabled'=> true,
+                        'rotation'=> -90,
+                        'color'=> '#FFFFFF',
+                        'align'=>'right',
+                        'format'=> '{point.y}', // one decimal
+                        'y'=> 10, // 10 pixels down from the top
+                        'style'=> [
+                            'fontSize'=> '13px',
+                            'fontFamily'=> 'Verdana, sans-serif'
+                        ]
+                   ]
+                ]
+            ];  
+        }
+        //Outbound total and mean visitor nights by main destionation
+        else if($request->report_name_id==42){
+            $chartArray["chart"] = [
+                "type" => 'column',
+                'plotBackgroundColor' => NULL,
+                'plotBorderWidth'=> NULL,
+                'plotShadow'=> false
+                ] ;
+            $chartArray["title"] =["text" => $reportname->report_name];
+            $chartArray["subtitle"]= ["text"=> 'Source: Tourism Survey'];
+            $chartArray["tooltip"] = [
+                'headerFormat'=>'<span style="font-size:10px">{point.key}</span><table>',
+                'pointFormat'=>'<tr><td style="color:{series.color};padding:0">{series.name}: </td>
+                <td style="padding:0"><b>{point.y} </b></td></tr>',
+                'footerFormat'=> '</table>',
+                'shared'=>true,
+                'useHTML'=> true         
+            ];
+            $chartArray["plotOptions"] =[
+                'column' =>[
+                    'pointPadding'=> 0.2,
+                    'borderWidth'=> 0
+                ]
+            ];
+            $nights=[];
+            $Mean=[];
+            $country=[];
+            foreach($reportdata as $key=>$value){
+                $Mean[] =$value->mean; 
+                $nights[] =$value->nights; 
+                $country[] =$value->dropdown_name; 
+                }
+            $chartArray["xAxis"]=[
+                'categories'=>$country
+            ];
+
+            $chartArray["series"] = [
+                [
+                    'name' =>'Nights',
+                    'data'=>$nights
+                ],
+                [
+                        'name'=> 'Mean',
+                        'data'=> $Mean
+                ]
+            ];
+        }
+
+        //Outbound overnight trips by main purpose and destionation
+        else if($request->report_name_id==43){
+            $chartArray["chart"]= [
+                'type'=> 'column'
+            ];
+            $chartArray["title"] =[
+                "text" => $reportname->report_name
+                ];
+
+            $business=[];
+            $education=[];
+            $health=[];
+            $holiday=[];
+            $others=[];
+            $personal=[];
+            $religion=[];
+            $visiting=[];
+            $country=[];
+
+            foreach($reportdata as $key=>$value){
+                $business[] =$value->business; 
+                $education[] =$value->education;
+                $health[] =$value->health; 
+                $holiday[] =$value->holiday; 
+                $others[] =$value->others; 
+                $personal[] =$value->personal; 
+                $religion[] =$value->religion; 
+                $visiting[] =$value->visiting; 
+                $country[] =$value->dropdown_name; 
+                }
+            $chartArray["xAxis"]=[
+                'categories'=>$country
+            ];
+            $chartArray["yAxis"]=[
+                'min'=>0,
+                'title'=> [
+                'text'=>'Purpose'
+                ],
+            ];
+            $chartArray[ "tooltip"]= [
+            ' pointFormat'=> '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
+            'shared'=> true
+            ];
+            $chartArray["plotOptions"] =[
+                'series'=> [
+                    'stacking'=> 'percent'
+                ]
+            ];
+            $chartArray["series"] = [
+                [
+                    'name' =>'Business',
+                    'data'=>$business
+                ],
+                [
+                        'name'=> 'Education',
+                        'data'=> $education
+                ],
+                [
+                    'name'=> 'Health',
+                    'data'=> $health
+                ],
+                [
+                    'name'=> 'Holiday',
+                    'data'=> $holiday
+                ],
+                [
+                    'name'=> 'Others',
+                    'data'=> $others
+                ],
+                [
+                    'name'=> 'Personal',
+                    'data'=> $personal
+                ],
+                [
+                    'name'=> 'Religion',
+                    'data'=> $religion
+                ],
+                [
+                    'name'=> 'Visiting',
+                    'data'=> $visiting
+                ]
+            ];
+         }
+         //Outbound visitors nights by main purpose and destionation
+        else if($request->report_name_id==44){
+            $chartArray["chart"]= [
+                'type'=> 'column'
+            ];
+            $chartArray["title"] =[
+                "text" => $reportname->report_name
+                ];
+
+            $business=[];
+            $education=[];
+            $health=[];
+            $holiday=[];
+            $others=[];
+            $personal=[];
+            $religion=[];
+            $visiting=[];
+            $country=[];
+
+            foreach($reportdata as $key=>$value){
+                $business[] =$value->business; 
+                $education[] =$value->education;
+                $health[] =$value->health; 
+                $holiday[] =$value->holiday; 
+                $others[] =$value->others; 
+                $personal[] =$value->personal; 
+                $religion[] =$value->religion; 
+                $visiting[] =$value->visiting; 
+                $country[] =$value->dropdown_name; 
+                }
+            $chartArray["xAxis"]=[
+                'categories'=>$country
+            ];
+            $chartArray["yAxis"]=[
+                'min'=>0,
+                'title'=> [
+                'text'=>'Purpose'
+                ],
+            ];
+            $chartArray[ "tooltip"]= [
+            ' pointFormat'=> '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
+            'shared'=> true
+            ];
+            $chartArray["plotOptions"] =[
+                'series'=> [
+                    'stacking'=> 'percent'
+                ]
+            ];
+            $chartArray["series"] = [
+                [
+                    'name' =>'Business',
+                    'data'=>$business
+                ],
+                [
+                        'name'=> 'Education',
+                        'data'=> $education
+                ],
+                [
+                    'name'=> 'Health',
+                    'data'=> $health
+                ],
+                [
+                    'name'=> 'Holiday',
+                    'data'=> $holiday
+                ],
+                [
+                    'name'=> 'Others',
+                    'data'=> $others
+                ],
+                [
+                    'name'=> 'Personal',
+                    'data'=> $personal
+                ],
+                [
+                    'name'=> 'Religion',
+                    'data'=> $religion
+                ],
+                [
+                    'name'=> 'Visiting',
+                    'data'=> $visiting
+                ]
+            ];
+        }
+        //Outbound overnight trips by main destination by mode of transport(%)
+		else if($request->report_name_id==46){
             $chartArray["chart"] = [
                 "type" => 'bar',
                 ] ;
@@ -2291,7 +2242,7 @@ class PublicReportController extends Controller
             $chartArray["yAxis"]=[
                 'min'=>0,
                 'title'=> [
-                'text'=>'Visitors'
+                'text'=>'Mode Of Transport(%)'
                 ],
                 'legend'=> [
                     'reversed'=>true
@@ -2303,23 +2254,569 @@ class PublicReportController extends Controller
                 ]
             ];
             $country=[];
+            $air=[];
+            $car=[];
+            $own_vehicle=[];
+            $public_transport=[];
+            $vehicle_arranged=[];
+            $total=[];
             foreach($reportdata as $key=>$value){
-                $country[] = $value->dropdown_name; 
+                $country[] = $value->dropdown_name;
+                $air[] = $value->air;
+                $own_vehicle[] = $value->own_vehicle; 
+                $car[] = $value->car;
+                $public_transport[] = $value->public_transport;
+                $vehicle_arranged[] = $value->vehicle_arranged;
+                $total[] = $value->total;
             }
             $chartArray["xAxis"]=[
                 'categories'=>$country
             ];
-            $visitors=[];
+            $chartArray["series"] = [
+                [
+                    'name' =>'Air',
+                    'data'=>$air
+                ],
+                [
+                    'name'=> 'Car',
+                    'data'=> $car
+                ],
+                [
+                    'name'=> 'Own Vehicle',
+                    'data'=> $own_vehicle
+                ],
+                [
+                    'name'=> 'Public Transport',
+                    'data'=> $public_transport
+                ],
+                [
+                    'name'=> 'Vehicle Arranged',
+                    'data'=> $vehicle_arranged
+                ],
+                [
+                    'name'=> 'Total',
+                    'data'=> $total
+                ]
+            ];
+        }
+	    //Outbound overnight visitors by main destination and package options
+        else if($request->report_name_id==48){
+            $chartArray["chart"] = [
+                "type" => 'bar',
+                ] ;
+            $chartArray["title"] =[
+                "text" => $reportname->report_name
+                ];
+            $chartArray["subtitle"]= [
+                "text"=> 'Domestic and Outbound Tourism Survey '.$request->year
+            ];
+            $chartArray["tooltip"] = [
+                'split'=> true,
+            ]; 
+            $chartArray["yAxis"]=[
+                'min'=>0,
+                'title'=> [
+                'text'=>'Package Option '
+                ],
+                'legend'=> [
+                    'reversed'=>true
+                ],
+            ];
+            $chartArray["plotOptions"] =[
+                'series'=> [
+                    'stacking'=> 'normal'
+                ]
+            ];
+            $country=[];
+            $yes_option=[];
+            $no_option=[];
+            $total=[];
             foreach($reportdata as $key=>$value){
-                $visitors[] =$value->visitors; 
-                }
+                $country[] = $value->dropdown_name; 
+                $yes_option[] = $value->yes_option; 
+                $no_option[] = $value->no_option; 
+                $total[] = $value->total; 
+            }
+            $chartArray["xAxis"]=[
+                'categories'=>$country
+            ];
+            $chartArray["series"] = [
+                [
+                    'name' =>'Package Option Yes',
+                    'data'=>$yes_option
+                ],
+                [
+                    'name'=> 'Package Option No',
+                    'data'=> $no_option
+                ],
+                [
+                    'name'=> 'Total',
+                    'data'=> $total
+                ]
+            ];
+        }
+		 //Outbound overnight total trip expenditure by main destination and item of expenditure(in Nu.Million)
+        else if($request->report_name_id==52){
+            $chartArray["chart"] = [
+                "type" => 'bar',
+                ] ;
+            $chartArray["title"] =[
+                "text" => $reportname->report_name
+                ];
+            $chartArray["subtitle"]= [
+                "text"=> 'Domestic and Outbound Tourism Survey '.$request->year
+            ];
+            $chartArray["tooltip"] = [
+                'split'=> true,
+            ]; 
+            $chartArray["yAxis"]=[
+                'min'=>0,
+                'title'=> [
+                'text'=>'Expenditure(Million)'
+                ],
+                'legend'=> [
+                    'reversed'=>true
+                ],
+            ];
+            $chartArray["plotOptions"] =[
+                'series'=> [
+                    'stacking'=> 'normal'
+                ]
+            ];
+            $purpose=[];
+            $tour_package=[];
+            $accommodation=[];
+            $air=[];
+            $car_rental=[];
+            $fuel_cost=[];
+            $food=[];
+            $local_transport=[];
+            $long_distance=[];
+            $medical=[];
+            $mice=[];
+            $others=[];
+            $shopping=[];
+            foreach($reportdata as $key=>$value){
+                $purpose[] = $value->dropdown_name; 
+                $tour_package[] = $value->tour_package; 
+                $accommodation[] = $value->accommodation; 
+                $air[] = $value->air; 
+                $car_rental[] = $value->car_rental; 
+                $fuel_cost[] = $value->fuel_cost; 
+                $food[] = $value->food; 
+                $local_transport[] = $value->local_transport; 
+                $long_distance[] = $value->long_distance; 
+                $medical[] = $value->medical; 
+                $mice[] = $value->mice; 
+                $others[] = $value->others; 
+                $shopping[] = $value->shopping; 
+            }
+            $chartArray["xAxis"]=[
+                'categories'=>$purpose
+            ];
+            $chartArray["series"] = [
+                [
+                    'name' =>'Tour Package',
+                    'data'=>$tour_package
+                ],
+                [
+                    'name'=> 'Accommodation',
+                    'data'=> $accommodation
+                ],
+                [
+                    'name'=> 'Air',
+                    'data'=> $air
+                ],
+                [
+                    'name'=> 'Car Rental',
+                    'data'=> $car_rental
+                ],
+                [
+                    'name'=> 'Fuel Cost',
+                    'data'=> $fuel_cost
+                ],
+                [
+                    'name'=> 'Food',
+                    'data'=> $food
+                ],
+                [
+                    'name'=> 'Local Transport',
+                    'data'=> $local_transport
+                ],
+                [
+                    'name'=> 'Long Distance',
+                    'data'=> $long_distance
+                ],
+                [
+                    'name'=> 'Medical',
+                    'data'=> $medical
+                ],
+                [
+                    'name'=> 'MICE',
+                    'data'=> $mice
+                ],
+                [
+                    'name'=> 'Others',
+                    'data'=> $others
+                ],
+                [
+                    'name'=> 'Shopping',
+                    'data'=> $shopping
+                ]
+            ];
+        }
+        //Outbound overnight mean trip expenditure by main destination and item of expenditure(in Nu.)
+        else if($request->report_name_id==53){
+            $chartArray["chart"] = [
+                "type" => 'bar',
+                ] ;
+            $chartArray["title"] =[
+                "text" => $reportname->report_name
+                ];
+            $chartArray["subtitle"]= [
+                "text"=> 'Domestic and Outbound Tourism Survey '.$request->year
+            ];
+            $chartArray["tooltip"] = [
+                'split'=> true,
+            ]; 
+            $chartArray["yAxis"]=[
+                'min'=>0,
+                'title'=> [
+                'text'=>'Expenditure(Nu.)'
+                ],
+                'legend'=> [
+                    'reversed'=>true
+                ],
+            ];
+            $chartArray["plotOptions"] =[
+                'series'=> [
+                    'stacking'=> 'normal'
+                ]
+            ];
+            $purpose=[];
+            $tour_package=[];
+            $accommodation=[];
+            $air=[];
+            $car_rental=[];
+            $fuel_cost=[];
+            $food=[];
+            $local_transport=[];
+            $long_distance=[];
+            $medical=[];
+            $mice=[];
+            $others=[];
+            $shopping=[];
+            foreach($reportdata as $key=>$value){
+                $purpose[] = $value->dropdown_name; 
+                $tour_package[] = $value->tour_package; 
+                $accommodation[] = $value->accommodation; 
+                $air[] = $value->air; 
+                $car_rental[] = $value->car_rental; 
+                $fuel_cost[] = $value->fuel_cost; 
+                $food[] = $value->food; 
+                $local_transport[] = $value->local_transport; 
+                $long_distance[] = $value->long_distance; 
+                $medical[] = $value->medical; 
+                $mice[] = $value->mice; 
+                $others[] = $value->others; 
+                $shopping[] = $value->shopping; 
+            }
+            $chartArray["xAxis"]=[
+                'categories'=>$purpose
+            ];
+            $chartArray["series"] = [
+                [
+                    'name' =>'Tour Package',
+                    'data'=>$tour_package
+                ],
+                [
+                    'name'=> 'Accommodation',
+                    'data'=> $accommodation
+                ],
+                [
+                    'name'=> 'Air',
+                    'data'=> $air
+                ],
+                [
+                    'name'=> 'Car Rental',
+                    'data'=> $car_rental
+                ],
+                [
+                    'name'=> 'Fuel Cost',
+                    'data'=> $fuel_cost
+                ],
+                [
+                    'name'=> 'Food',
+                    'data'=> $food
+                ],
+                [
+                    'name'=> 'Local Transport',
+                    'data'=> $local_transport
+                ],
+                [
+                    'name'=> 'Long Distance',
+                    'data'=> $long_distance
+                ],
+                [
+                    'name'=> 'Medical',
+                    'data'=> $medical
+                ],
+                [
+                    'name'=> 'MICE',
+                    'data'=> $mice
+                ],
+                [
+                    'name'=> 'Others',
+                    'data'=> $others
+                ],
+                [
+                    'name'=> 'Shopping',
+                    'data'=> $shopping
+                ]
+            ];
+        }
+        //Outbound excursion trip by purpose and sex
+         else if($request->report_name_id==55){
+            $chartArray["chart"] = [
+                "type" => 'bar',
+                ] ;
+            $chartArray["title"] =[
+                "text" => $reportname->report_name
+                ];
+            $chartArray["subtitle"]= [
+                "text"=> 'Domestic and Outbound Tourism Survey '.$request->year
+            ];
+            $chartArray["tooltip"] = [
+                'split'=> true,
+            ]; 
+            $chartArray["yAxis"]=[
+                'min'=>0,
+                'title'=> [
+                'text'=>'Purpose'
+                ],
+                'legend'=> [
+                    'reversed'=>true
+                ],
+            ];
+            $chartArray["plotOptions"] =[
+                'series'=> [
+                    'stacking'=> 'normal'
+                ]
+            ];
+            $purpose=[];
+            $male=[];
+            $female=[];
+            $total=[];
+           
+            foreach($reportdata as $key=>$value){
+                $purpose[] = $value->dropdown_name; 
+                $male[] = $value->male; 
+                $female[] = $value->female; 
+                $total[] = $value->total; 
+            }
+            $chartArray["xAxis"]=[
+                'categories'=>$purpose
+            ];
+            $chartArray["series"] = [
+                [
+                    'name' =>'Male',
+                    'data'=>$male
+                ],
+                [
+                    'name'=> 'Female',
+                    'data'=> $female
+                ],
+                [
+                    'name'=> 'Total',
+                    'data'=> $total
+                ]
+            ];
+        }
 
-                $chartArray["series"] = [
-                    [
-                        'name' =>'Visitors',
-                        'data'=>$visitors
-                    ]
-                    ];
+        //Outbound overnight total trip expenditure by main destination and item of expenditure(in Nu.Million)
+        else if($request->report_name_id==59){
+            $chartArray["chart"] = [
+                "type" => 'bar',
+                ] ;
+            $chartArray["title"] =[
+                "text" => $reportname->report_name
+                ];
+            $chartArray["subtitle"]= [
+                "text"=> 'Domestic and Outbound Tourism Survey '.$request->year
+            ];
+            $chartArray["tooltip"] = [
+                'split'=> true,
+            ]; 
+            $chartArray["yAxis"]=[
+                'min'=>0,
+                'title'=> [
+                'text'=>'Expenditure(Million)'
+                ],
+                'legend'=> [
+                    'reversed'=>true
+                ],
+            ];
+            $chartArray["plotOptions"] =[
+                'series'=> [
+                    'stacking'=> 'normal'
+                ]
+            ];
+            $purpose=[];
+            $car_rental=[];
+            $fuel_cost=[];
+            $food=[];
+            $local_transport=[];
+            $long_distance=[];
+            $medical=[];
+            $mice=[];
+            $others=[];
+            $shopping=[];
+            foreach($reportdata as $key=>$value){
+                $purpose[] = $value->dropdown_name; 
+                $car_rental[] = $value->car_rental; 
+                $fuel_cost[] = $value->fuel_cost; 
+                $food[] = $value->food; 
+                $local_transport[] = $value->local_transport; 
+                $long_distance[] = $value->long_distance; 
+                $medical[] = $value->medical; 
+                $mice[] = $value->mice; 
+                $others[] = $value->others; 
+                $shopping[] = $value->shopping; 
+            }
+            $chartArray["xAxis"]=[
+                'categories'=>$purpose
+            ];
+            $chartArray["series"] = [
+                [
+                    'name'=> 'Car Rental',
+                    'data'=> $car_rental
+                ],
+                [
+                    'name'=> 'Fuel Cost',
+                    'data'=> $fuel_cost
+                ],
+                [
+                    'name'=> 'Food',
+                    'data'=> $food
+                ],
+                [
+                    'name'=> 'Local Transport',
+                    'data'=> $local_transport
+                ],
+                [
+                    'name'=> 'Long Distance',
+                    'data'=> $long_distance
+                ],
+                [
+                    'name'=> 'Medical',
+                    'data'=> $medical
+                ],
+                [
+                    'name'=> 'MICE',
+                    'data'=> $mice
+                ],
+                [
+                    'name'=> 'Others',
+                    'data'=> $others
+                ],
+                [
+                    'name'=> 'Shopping',
+                    'data'=> $shopping
+                ]
+            ];
+        }
+
+			//Outbound overnight mean trip expenditure by main destination and item of expenditure(in Nu.)
+            else if($request->report_name_id==60){
+            $chartArray["chart"] = [
+                "type" => 'bar',
+                ] ;
+            $chartArray["title"] =[
+                "text" => $reportname->report_name
+                ];
+            $chartArray["subtitle"]= [
+                "text"=> 'Domestic and Outbound Tourism Survey '.$request->year
+            ];
+            $chartArray["tooltip"] = [
+                'split'=> true,
+            ]; 
+            $chartArray["yAxis"]=[
+                'min'=>0,
+                'title'=> [
+                'text'=>'Expenditure(Nu.)'
+                ],
+                'legend'=> [
+                    'reversed'=>true
+                ],
+            ];
+            $chartArray["plotOptions"] =[
+                'series'=> [
+                    'stacking'=> 'normal'
+                ]
+            ];
+            $purpose=[];
+            $car_rental=[];
+            $fuel_cost=[];
+            $food=[];
+            $local_transport=[];
+            $long_distance=[];
+            $medical=[];
+            $mice=[];
+            $others=[];
+            $shopping=[];
+            foreach($reportdata as $key=>$value){
+                $purpose[] = $value->dropdown_name; 
+                $car_rental[] = $value->car_rental; 
+                $fuel_cost[] = $value->fuel_cost; 
+                $food[] = $value->food; 
+                $local_transport[] = $value->local_transport; 
+                $long_distance[] = $value->long_distance; 
+                $medical[] = $value->medical; 
+                $mice[] = $value->mice; 
+                $others[] = $value->others; 
+                $shopping[] = $value->shopping; 
+            }
+            $chartArray["xAxis"]=[
+                'categories'=>$purpose
+            ];
+            $chartArray["series"] = [
+                [
+                    'name'=> 'Car Rental',
+                    'data'=> $car_rental
+                ],
+                [
+                    'name'=> 'Fuel Cost',
+                    'data'=> $fuel_cost
+                ],
+                [
+                    'name'=> 'Food',
+                    'data'=> $food
+                ],
+                [
+                    'name'=> 'Local Transport',
+                    'data'=> $local_transport
+                ],
+                [
+                    'name'=> 'Long Distance',
+                    'data'=> $long_distance
+                ],
+                [
+                    'name'=> 'Medical',
+                    'data'=> $medical
+                ],
+                [
+                    'name'=> 'MICE',
+                    'data'=> $mice
+                ],
+                [
+                    'name'=> 'Others',
+                    'data'=> $others
+                ],
+                [
+                    'name'=> 'Shopping',
+                    'data'=> $shopping
+                ]
+            ];
         }
         return response()->json($chartArray)->setEncodingOptions(JSON_NUMERIC_CHECK);
         }

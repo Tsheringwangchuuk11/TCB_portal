@@ -18,6 +18,7 @@
     <div class="col-8 offset-md-2 d-flex justify-content-center pt-3">
         <h2 class="text-warning">KEY HIGHLIGHTS</h2>
     </div>
+   
     <div class="container">
         <div class="col-md-12">
             <div class="card">
@@ -33,7 +34,7 @@
                                             <span class="info-box-text">
                                                 315,599<br>
                                             </span>
-                                        <i class="fas fa-play text-success"></i>  15 %
+                                            <i class="fa fa-arrow-up text-success" style="font-size:25px"></i> 15 %
                                     </div>
                                 </div>
                             </div>
@@ -42,11 +43,11 @@
                                     <div class="info-box-content">
                                         <span class=" info-box-number">Foreign Exchange Earnings</span>
                                             <span class="info-box-text">USD $ 88.65 million<br>
-                                                <i class="fas fa-play text-success"></i>  3.79 %
+                                                <i class="fa fa-arrow-up text-success" style="font-size:25px"></i>  3.79 %
                                             </span>
                                         <span class=" info-box-number">Direct Revenue(SDF)</span>
                                             <span class="info-box-text">USD $ 23.42 million<br>
-                                                <i class="fas fa-play text-success"></i>  3.49 %
+                                                <i class="fa fa-arrow-up text-success" style="font-size:25px"></i>  3.49 %
                                             </span>
                                     </div>
                                 </div>
@@ -296,7 +297,8 @@
 <script src="{{ asset('plugins/highcharts/highmaps.js') }}"></script> 
 <script src="{{ asset('plugins/highcharts/world.js') }}"></script> 
 <script>
-data=[
+var visitors={!! json_encode($visitors) !!};
+/* data=[
 	{
 		"name": "United States of America",
 		"value": 1023,
@@ -617,20 +619,21 @@ data=[
 		"name": "Yemen",
 		"value": 1,
 	}
-]
+] */
 
 // Prevent logarithmic errors in color calulcation
+       
 total= 315599;
- data.forEach(function (p) {
+visitors.forEach(function (p) {
   p.value = (p.value < 1 ? 1 : p.value);
 }); 
 // Initiate the chart
 Highcharts.mapChart('mapcontainer', {
 title: {
-    text: ' INBOUND TOURISM 2019'
+    text: 'INBOUND TOURISM' 
   },
   subtitle: {
-                    text: 'Provisional data'
+            text: 'Provisional data'
             },
   legend: {
     title: {
@@ -658,7 +661,7 @@ colorAxis: {
     type: 'logarithmic'
 },
 series: [{
-    data: data,
+    data: visitors,
     mapData: Highcharts.maps['custom/world'],
     joinBy: ['name', 'name'],
     name: 'Total Tourist',
@@ -669,7 +672,7 @@ series: [{
             color: '#a4edba',
             borderWidth: 1
         }
-    },
+        },
     }]
 });
 </script>

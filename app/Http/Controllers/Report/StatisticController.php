@@ -226,6 +226,6 @@ class StatisticController extends Controller
      */
     public function destroy(Statistic $statistic)
     {
-        //
+        
     }
 }

@@ -207,6 +207,7 @@
 <script>
     $(document).ready(function () {
         var appUrl = "{{ url('/') }}/";
+        var previous_year = new Date().getFullYear() ;
     });
 </script>
 </html>

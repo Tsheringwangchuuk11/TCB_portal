@@ -93,7 +93,7 @@
                             </div>
                             <div class="row"  id="message" style="display:none">
                                 <div class="col-md-12">
-                                    <div class="alert alert-success alert-dismissible">
+                                    <div class="alert alert-danger alert-dismissible">
                                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                                         <i class="fa fa-check"></i> No data available for current year <span id="current_year"></span>
                                     </div>
@@ -114,7 +114,6 @@
 <script src="{{ asset('plugins/highcharts/exporting.js') }}"></script>
 <script src="{{ asset('plugins/highcharts/export-data.js') }}"></script>
 <script src="{{ asset('plugins/highcharts/accessibility.js') }}"></script> 
-
     <script>
         $(document).ready(function () {
             $('#year').datetimepicker({

@@ -17,8 +17,8 @@ class PublicReport extends Model
    }
 
    public static function getVisitorsCountryWise($year){
-		$query=\DB::select("SELECT a.Nationality,
-				COUNT(a.Nationality) visitor FROM t_admin_data a 
+		$query=\DB::select("SELECT a.Nationality as name,
+				COUNT(a.Nationality) as value FROM t_admin_data a 
 				WHERE a.year=$year
 				GROUP BY a.Nationality ;
 		");
