@@ -20,6 +20,12 @@ return [
         'N' => 'No',
     ],
 
+    "is_publish" => [
+        'Y' => 'Yes',
+        'N' => 'No',
+    ],
+
+
     "organizerType" => [
         'N' => 'Non-Profit',
         'P' => 'Public Agency',

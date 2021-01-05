@@ -35,7 +35,7 @@
                             No
                             @endif
                         </td>
-                        <td class="text-center">
+                        <td class="btn-group">
                             @if ($privileges["edit"] == 1)
                                <a href="javascript:void(0)" id="edit_drop_down_list" data-id="{{ $productTypelist->id }}" class="btn  btn-sm btn-info  btn-flat" title="Edit">Edit</a>
                             @endif
@@ -247,7 +247,7 @@
                         $('#dropdownform').trigger("reset");
                         $('#add_dropdown_list_modal').modal('hide');
 					    var dropdownlist = '<tr id="product_id_' + data.id + '"><td class="text-center">'+ slNo +'<input type="hidden" id="hidden_id_' + data.id + '" value="'+slNo+'" /></td><td>' + data.product_name + '</td><td>' + (data.is_active == 'Y' ? 'Yes' : 'No') + '</td>';
-                            dropdownlist += '<td class="text-center"><a href="javascript:void(0)" id="edit_drop_down_list" data-id="' + data.id + '" class="btn  btn-sm btn-info  btn-flat add-dropdown_list" title="Edit">Edit</i></a> ';
+                            dropdownlist += '<td class="btn-group"><a href="javascript:void(0)" id="edit_drop_down_list" data-id="' + data.id + '" class="btn  btn-sm btn-info  btn-flat add-dropdown_list" title="Edit">Edit</i></a> ';
                             dropdownlist += '<a href="javascript:void(0)" data-id="' + data.id + '" class ="btn btn-sm btn-danger btn-flat" title="Delete" id="delete_drop_down_list"><i class="fas fa-trash"></i></a></td></tr>';
                           $('#tablebodyId').append(dropdownlist);
 			        }
@@ -279,7 +279,7 @@
                 slNo = $('#hidden_id_'+data.id).val();
                 $('#edit_dropdown_list_modal').modal('hide');
                 var dropdownlist = '<tr id="product_id' + data.id + '"><td class="text-center">'+ slNo +'<input type="hidden" id="hidden_id_' + data.id + '" value="'+slNo+'" /></td><td>' + data.product_name + '</td><td>' + (data.is_active == 'Y' ? 'Yes' : 'No') + '</td>';
-                    dropdownlist += '<td class="text-center"><a href="javascript:void(0)" id="edit_drop_down_list" data-id="' + data.id + '" class="btn  btn-sm btn-info  btn-flat add-dropdown_list" title="Edit">Edit</i></a> ';
+                    dropdownlist += '<td class="btn-group"><a href="javascript:void(0)" id="edit_drop_down_list" data-id="' + data.id + '" class="btn  btn-sm btn-info  btn-flat add-dropdown_list" title="Edit">Edit</i></a> ';
                     dropdownlist += '<a href="javascript:void(0)" data-id="' + data.id + '" class ="btn btn-sm btn-danger btn-flat" title="Delete" id="delete_drop_down_list"><i class="fas fa-trash"></i></a></td></tr>';
                     $("#product_id_" + data.id).replaceWith(dropdownlist);
 			  }

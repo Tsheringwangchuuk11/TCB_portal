@@ -63,7 +63,6 @@ class ChecklistAreaController extends Controller
     public function edit($id)
     {
         $checklistArea = TCheckListArea::with('checklistChapter.serviceModule')->where('id', $id)->first();
-
 		return response()->json($checklistArea);
     }
 

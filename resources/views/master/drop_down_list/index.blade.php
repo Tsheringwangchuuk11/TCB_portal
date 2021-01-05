@@ -31,6 +31,16 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row" style="display: none" id="keyhigh_lights">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="name">Key highlights Types</label>
+                                <select class="form-control select2bs4" name="highlight_type_id" id="highlight_type_id" style="width: 100%;">
+                                    <option value=""> -Select-</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -49,6 +59,7 @@
      if(masterId == 12){
         $('#dataResult').load('{{url("master/drop-down-master/")}}/'+masterId);
         $("#product_types").show();
+        $("#keyhigh_lights").hide();
         if(masterId){
          $("#dropdown_name option:gt(0)").remove();	
          $.ajax({			   
@@ -70,16 +81,46 @@
       }else{
          $("#dropdown_name option:gt(0)").remove();	
       }	
-     }else{
+     }
+     else if(masterId == 19){
+        $('#dataResult').load('{{url("master/drop-down-master/")}}/'+masterId);
+        $("#keyhigh_lights").show();
+        $("#product_types").hide();
+        if(masterId){
+         $("#highlight_type_id option:gt(0)").remove();	
+         $.ajax({			   
+            url:'/json-dropdown',
+            type:"GET",
+            data: {
+               table_name: 't_dropdown_lists',
+                       id: 'id',
+                     name: 'dropdown_name',
+                parent_id: masterId,
+           parent_name_id: 'master_id'					 
+            },
+            success:function (data) {
+            $.each(data, function(key, value) {
+               $('select[name="highlight_type_id"]').append('<option value="'+ key +'">'+ value +'</option>');
+            });
+            }
+         });
+      }else{
+         $("#highlight_type_id option:gt(0)").remove();	
+      }	
+     }
+     else{
       $("#product_types").hide();
       $('#dataResult').load('{{url("master/drop-down-master/")}}/'+masterId);
      }
     }
-
-
-     $('#dropdown_name').on('change',function(e) {
+    $('#dropdown_name').on('change',function(e) {
       var dropdownId= e.target.value;
       $('#dataResult').load('{{url("master/producttypes/")}}/'+dropdownId);
+   });
+
+   $('#highlight_type_id').on('change',function(e) {
+      var highlight_type_id= e.target.value;
+      $('#dataResult').load('{{url("master/highlight_types/")}}/'+highlight_type_id);
    });
 
 </script>

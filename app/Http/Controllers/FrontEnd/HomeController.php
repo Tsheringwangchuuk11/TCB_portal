@@ -22,8 +22,11 @@ class HomeController extends Controller
     public function index()
     {
         $year="2019";
-        $visitors=PublicReport::getVisitorsCountryWise($year);
-        return view('frontend.index',compact('visitors'));
+        $data['visitors']=PublicReport::getVisitorsCountryWise($year);
+        $data['totalvisitors']=PublicReport::getTotalVisitors($year);
+        $keyhighlights=PublicReport::getKeyHighLightsData($year);
+        $a= $keyhighlights->where('highlight_type_id', '351')->first();
+        return view('frontend.index',$data);
     }
     public function tourismGrievances(){
         $status=WorkFlowDetails::getStatus('SUBMITTED')->id;

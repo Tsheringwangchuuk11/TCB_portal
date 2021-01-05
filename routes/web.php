@@ -84,6 +84,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('checklist-standards', 'ChecklistStandardController');
         Route::resource('drop-down-master', 'DropDownController');
         Route::resource('producttypes', 'ProductTypesController');
+        Route::resource('highlight_types', 'KeyhighlightsController');
         Route::get('basic-standard', 'ChecklistStandardController@getBasicStandardDtls');
     });
 

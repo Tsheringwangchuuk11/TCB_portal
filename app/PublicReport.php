@@ -25,6 +25,21 @@ class PublicReport extends Model
 		return $query;
    }
 
+   public static function getTotalVisitors($year){
+	   $query=\DB::table('t_admin_data as t1')
+				   ->where('t1.year',$year)
+				   ->count();
+	   return $query;
+   }
+
+   public static function getKeyHighLightsData($year){
+		$query=\DB::table('t_key_highlights as t1')
+		    ->select('t1.*')
+			->where('t1.year',$year)
+			->get();
+		return $query;
+   }
+
    public static function getReportContent($report_type_id,$report_category_id,$report_name_id,$year)
    {
       

@@ -32,7 +32,7 @@
                                     <div class="info-box-content">
                                         <span class="info-box-number">Visitor Arrivals</span>
                                             <span class="info-box-text">
-                                                315,599<br>
+                                                <br>
                                             </span>
                                             <i class="fa fa-arrow-up text-success" style="font-size:25px"></i> 15 %
                                     </div>
@@ -298,6 +298,7 @@
 <script src="{{ asset('plugins/highcharts/world.js') }}"></script> 
 <script>
 var visitors={!! json_encode($visitors) !!};
+var total="{!! $totalvisitors !!}";
 /* data=[
 	{
 		"name": "United States of America",
@@ -622,8 +623,6 @@ var visitors={!! json_encode($visitors) !!};
 ] */
 
 // Prevent logarithmic errors in color calulcation
-       
-total= 315599;
 visitors.forEach(function (p) {
   p.value = (p.value < 1 ? 1 : p.value);
 }); 
