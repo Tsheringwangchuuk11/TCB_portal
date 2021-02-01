@@ -35,7 +35,7 @@
                                     <i class="fas fa-trash"></i>
                                     <a data-form="#frmDelete-{!! $coursedtllist->id !!}" data-title="Delete {!! $coursedtllist->dropdown_name !!}" data-message="Are you sure you want to delete this course details ?"></a>
                                     </a>
-                                    <form action="{{ url('course/delete-course/' . $coursedtllist->id) }}" method="POST" id="{{ 'frmDelete-'.$coursedtllist->id }}">
+                                    <form action="{{ ('course/delete-course/' . $coursedtllist->id) }}" method="POST" id="{{ 'frmDelete-'.$coursedtllist->id }}">
                                         @csrf
                                         @method('DELETE')
                                     </form>

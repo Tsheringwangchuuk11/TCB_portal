@@ -18,7 +18,6 @@ class PublicMenuGenerator
     public function menuAccessibleByStaticRole()
     {
         $userRoles[] =2;
-
         $menus = TSystemMenu::with(['systemSubMenus' => function ($query) use ($userRoles) {
             $query->whereIn('id', function ($q) use ($userRoles){
                 $q->select('system_sub_menu_id')->from('t_role_privileges')->where('view', 1)->whereIn('role_id', $userRoles);

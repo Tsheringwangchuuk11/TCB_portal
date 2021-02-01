@@ -61,7 +61,7 @@
               $('#list_id').focus;
               var list = "<ul>";
               $.each(data1.data,function(index,row){
-               var url = '{{ url("application/service-create", "page_link") }}';
+               var url = '{{ url("sso/service-create", "page_link") }}';
                var page_link=""+index+"";
                page_link = page_link.replace(/\//g, "-");
                url = url.replace('page_link', page_link);

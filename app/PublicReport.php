@@ -32,12 +32,38 @@ class PublicReport extends Model
 	   return $query;
    }
 
+   public static function getTotalVisitorsPerYear($current_year, $previous_year){
+	$query = \DB::select("SELECT FORMAT(((IFNULL(t.cur_year_data,0) - IFNULL(t.prev_year_data,0))/ IFNULL(t.prev_year_data,0) * 100),2) AS total_percentage 
+					FROM (SELECT
+					(SELECT 
+						a.total_no 
+					FROM
+						t_key_highlights a 
+					WHERE a.year = $current_year 
+						AND a.highlight_type_id = 349) AS cur_year_data,
+					(SELECT 
+						a.total_no 
+					FROM
+						t_key_highlights a 
+					WHERE a.year =  $previous_year
+						AND a.highlight_type_id = 349) AS prev_year_data)t ");
+	return $query;
+}
+
    public static function getKeyHighLightsData($year){
 		$query=\DB::table('t_key_highlights as t1')
 		    ->select('t1.*')
 			->where('t1.year',$year)
 			->get();
 		return $query;
+   }
+
+   public static function getReportTypes(){
+		$query=\DB::table('t_report_types as t1')
+				->select('t1.*')
+				->where('t1.is_active','Y')
+				->get();
+        return $query;
    }
 
    public static function getReportContent($report_type_id,$report_category_id,$report_name_id,$year)

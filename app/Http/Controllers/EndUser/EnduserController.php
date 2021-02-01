@@ -17,4 +17,6 @@ class EnduserController extends Controller
         $servicemodules = Dropdown::getDropdowns("t_module_masters","id","module_name","0","0");
         return view('services/modules/enduser_module_services',compact('servicemodules'));
     }
+
+    
 }

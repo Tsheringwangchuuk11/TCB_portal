@@ -121,7 +121,7 @@
                     format: 'YYYY',
                     useCurrent: false
                 }); 
-            var previous_year = new Date().getFullYear()-1 ;
+            var previous_year = new Date().getFullYear() ;
             $('#year').val(previous_year);
             $report_type_id= "{!! $id !!}" ;
             $('#report_type_id').val($report_type_id).trigger("change");

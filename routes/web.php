@@ -25,6 +25,8 @@ Route::group(['namespace' => 'FrontEnd'], function () {
     Route::get('registration-for-training/{id}','TrainingRegistrationController@registrationForTraining');
     Route::post('save-trainee-dtls','TrainingRegistrationController@saveTraineeDtls');
     Route::get('feedback', function(){return view('frontend.feedback');});
+    Route::get('getmapdata', 'HomeController@getVisitorsCountryWise');
+    Route::post('contact-post', 'HomeController@contactPost');
 });
 
 //public reports
@@ -84,7 +86,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('checklist-standards', 'ChecklistStandardController');
         Route::resource('drop-down-master', 'DropDownController');
         Route::resource('producttypes', 'ProductTypesController');
-        Route::resource('highlight_types', 'KeyhighlightsController');
         Route::get('basic-standard', 'ChecklistStandardController@getBasicStandardDtls');
     });
 
@@ -204,6 +205,36 @@ Route::group(['middleware' => ['auth']], function () {
     //routes for event registration
     Route::group(['prefix' => 'events', 'namespace' => 'EventRegistation'], function() {
         Route::resource('travel-fairs-event', 'EventRegistrationController');
+    });
+
+     // route for statistical report data entry 
+     Route::group(['prefix' => 'statistical', 'namespace' => 'StatisticalReport'], function() {
+         //key highlight
+        Route::resource('key-highlights', 'KeyHighlightsController');
+        //purpose survey
+        Route::get('purpose-survey', 'PurposeSurveyController@index');
+        Route::get('show-purpose-survey/{report_type_id}/{report_category_id}/{reportvisitor_type_id}', 'PurposeSurveyController@show');
+        Route::get('create-purpose-survey/{report_type_id}/{report_category_id}/{reportvisitor_type_id}', 'PurposeSurveyController@create');
+        Route::post('store-purpose-survey', 'PurposeSurveyController@store');
+        Route::get('edit-purpose-survey/{id}', 'PurposeSurveyController@edit');
+        Route::post('update-purpose-survey', 'PurposeSurveyController@update');
+        Route::delete('delete-purpose-survey', 'PurposeSurveyController@destroy');
+        //transportation mode
+        Route::resource('transportation', 'TransportationModeController');
+        //trip expenditure survey
+        Route::resource('trip-expenditure', 'TripExpenditureController');
+        //package option survey
+        Route::resource('package-option', 'PackageOptionController');
+        //origin survey
+        Route::resource('origin', 'OriginController');
+        //total trip expenditure survey
+        Route::get('total-trip-expenditure', 'TotalTripExpController@index');
+        Route::get('show-total-trip-exp/{report_type_id}/{reportvisitor_type_id}', 'TotalTripExpController@show');
+        Route::get('create-total-trip-exp/{report_type_id}/{reportvisitor_type_id}', 'TotalTripExpController@create');
+        Route::post('store-total-trip-exp', 'TotalTripExpController@store');
+        Route::get('edit-total-trip-exp/{id}', 'TotalTripExpController@edit');
+        Route::post('update-total-trip-exp', 'TotalTripExpController@update');
+        Route::delete('delete-total-trip-exp', 'TotalTripExpController@destroy');
     });
 
     //routes for course

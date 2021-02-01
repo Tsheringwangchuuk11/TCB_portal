@@ -15,18 +15,41 @@ use Illuminate\Support\Facades\Notification;
 use Carbon\Carbon;
 use App\Notifications\EndUserNotification;
 use App\PublicReport;
-
+use Mail;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        $year="2019";
-        $data['visitors']=PublicReport::getVisitorsCountryWise($year);
-        $data['totalvisitors']=PublicReport::getTotalVisitors($year);
-        $keyhighlights=PublicReport::getKeyHighLightsData($year);
-        $a= $keyhighlights->where('highlight_type_id', '351')->first();
+        $data['reporttypes']=PublicReport::getReportTypes();
         return view('frontend.index',$data);
+    }
+
+    public function getVisitorsCountryWise(Request $request) {
+        $visitors=PublicReport::getVisitorsCountryWise($request->year);
+        $totalvisitors=PublicReport::getTotalVisitors($request->year);
+        $keyhighlights=PublicReport::getKeyHighLightsData($request->year);
+        $is_publish= $keyhighlights->where('year',$request->year)->pluck('is_publish')->first();
+        $current_year=$request->year;
+        $previous_year= $current_year-1;
+        $p_prev_year= $previous_year-1;
+        $cur_year_percent=PublicReport::getTotalVisitorsPerYear($current_year, $previous_year);
+        $prev_year_percent=PublicReport::getTotalVisitorsPerYear($previous_year, $p_prev_year);
+        $percentage_status=""; 
+        if($cur_year_percent[0]->total_percentage > $prev_year_percent[0]->total_percentage){
+            $percentage_status="increase";
+        }else{
+            $percentage_status="decrease";
+        }
+        $msg="";
+        if(!$keyhighlights->isEmpty()){
+            if($is_publish=='Y'){
+                $msg="Final data";
+            }else{
+                $msg="Provisional data";
+            }
+        }
+        return response()->json(['visitors'=>$visitors,'totalvisitors'=>$totalvisitors,'keyhighlights'=>$keyhighlights,'msg'=> $msg,'current_percentage'=>$cur_year_percent[0]->total_percentage,'percentage_status'=>$percentage_status]);
     }
     public function tourismGrievances(){
         $status=WorkFlowDetails::getStatus('SUBMITTED')->id;
@@ -95,5 +118,19 @@ class HomeController extends Controller
             }
         });
         return view('layouts.include.application_successful',compact('application_no'));
+    }
+
+    public function contactPost(Request $request){
+        $data = array(
+            'subject' => $request->subject,
+            'email' => $request->sender_email,
+            'contact_no' => $request->contact_no,
+            'content' => $request->content,
+            );
+            Mail::send('mail', $data, function($message) use ($request){
+            $message->to('web-tutorial@programmer.net')->subject($request->subject);
+            $message->from($request->sender_email);
+            });
+        return redirect()->back()->with('success', 'Thanks for contacting me, I will get back to you soon!');
     }
 }
