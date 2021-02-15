@@ -88,5 +88,115 @@
                 $('#line'+id).remove();
             }
         }
+
+        $(document).keypress(function(event){ 
+            if(event.which != 8 && isNaN(String.fromCharCode(event.which))){
+                event.preventDefault();
+            }
+        });
+        $.validator.addMethod("purpose_id_validate", function (value, element) {
+                 var flag = true;
+                 $("[name^=purpose_id]").each(function (i, j) {
+                    $(this).parent('div').find('div.valid').remove();
+                    $(this).parent('div').find('div.valid').remove();
+                    if ($.trim($(this).val()) == '') {
+                        flag = false;
+                        $(this).parent().append('<div class="text-danger valid">Select the purpose</div>')
+                    }
+                });
+            return flag;
+            }, "");
+
+            $.validator.addMethod("exp_item_id_validate", function (value, element) {
+                 var flag = true;
+                 $("[name^=exp_item_id]").each(function (i, j) {
+                    $(this).parent('div').find('div.valid').remove();
+                    $(this).parent('div').find('div.valid').remove();
+                    if ($.trim($(this).val()) == '') {
+                        flag = false;
+                        $(this).parent().append('<div class="text-danger valid">Select exp. item</div>')
+                    }
+                });
+            return flag;
+            }, "");
+
+            $.validator.addMethod("trip_type_id_validate", function (value, element) {
+                 var flag = true;
+                 $("[name^=trip_type_id]").each(function (i, j) {
+                    $(this).parent('div').find('div.valid').remove();
+                    $(this).parent('div').find('div.valid').remove();
+                    if ($.trim($(this).val()) == '') {
+                        flag = false;
+                        $(this).parent().append('<div class="text-danger valid">Select trip type</div>')
+                    }
+                });
+            return flag;
+            }, "");
+
+            $.validator.addMethod("value_validate", function (value, element) {
+                 var flag = true;
+                 $("[name^=value]").each(function (i, j) {
+                    $(this).parent('div').find('div.valid').remove();
+                    $(this).parent('div').find('div.valid').remove();
+                    if ($.trim($(this).val()) == '') {
+                        flag = false;
+                        $(this).parent().append('<div class="text-danger valid">Enter value</div>')
+                    }
+                });
+            return flag;
+            }, "");
+
+            $.validator.addMethod("year_validate", function (value, element) {
+                 var flag = true;
+                 $("[name^=year]").each(function (i, j) {
+                    $(this).parent('div').find('div.valid').remove();
+                    $(this).parent('div').find('div.valid').remove();
+                    if ($.trim($(this).val()) == '') {
+                        flag = false;
+                        $(this).parent().append('<div class="text-danger valid">Enter year</div>')
+                    }
+                });
+            return flag;
+            }, "");
+
+            $.validator.addMethod("report_category_id_validate", function (value, element) {
+                 var flag = true;
+                 $("[name^=report_category_id]").each(function (i, j) {
+                    $(this).parent('div').find('div.valid').remove();
+                    $(this).parent('div').find('div.valid').remove();
+                    if ($.trim($(this).val()) == '') {
+                        flag = false;
+                        $(this).parent().append('<div class="text-danger valid">Select the report category </div>')
+                    }
+                });
+            return flag;
+            }, "");
+
+        $('#trip_expenditure_form').validate({
+            ignore: '',
+            onkeyup: false,
+            onclick: false,
+           // onfocusout: false,
+            rules: {
+                 "purpose_id[]": {
+                    purpose_id_validate:true
+                },
+                "exp_item_id[]": {
+                    exp_item_id_validate:true
+                },
+                "trip_type_id[]": {
+                    trip_type_id_validate:true
+                },
+                "value[]": {
+                    value_validate:true
+                },
+                "year[]": {
+                    year_validate:true
+                },
+                "report_category_id[]": {
+                    report_category_id_validate:true
+                }
+            },
+        });  
 </script>
 

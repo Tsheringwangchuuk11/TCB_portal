@@ -1,7 +1,7 @@
-<form id="key_highlights_form" action="{{ url('statistical/store-purpose-survey') }}" method="post"  enctype="multipart/form-data">
+<form id="purpose_form" action="{{ url('statistical/store-purpose-survey') }}" method="post"  enctype="multipart/form-data">
     @csrf
-    <input type="hidden" name="report_category_id"  value="{{ $report_category_id }}" class="form-control">
-    <input type="hidden" name="visitor_type_id"  value="{{ $visitor_type_id }}" class="form-control">
+    <input type="hidden" name="report_category_id"  value="{{ $report_category_id }}" id="report_category_id" class="form-control">
+    <input type="hidden" name="visitor_type_id"  value="{{ $visitor_type_id }}" id="visitor_type_id" class="form-control">
     <div class="row">
         <div class="form-group col-md-3">
             <label>Purpose<span class="text-danger">*</span></label>
@@ -102,5 +102,109 @@
                 $('#line'+id).remove();
             }
         }
+
+        $.validator.addMethod("purpose_id_validate", function (value, element) {
+                 var flag = true;
+                 $("[name^=purpose_id]").each(function (i, j) {
+                    $(this).parent('div').find('div.valid').remove();
+                    $(this).parent('div').find('div.valid').remove();
+                    if ($.trim($(this).val()) == '') {
+                        flag = false;
+                        $(this).parent().append('<div class="text-danger valid">Select the purpose</div>')
+                    }
+                });
+            return flag;
+            }, "");
+
+            $.validator.addMethod("value_validate", function (value, element) {
+                 var flag = true;
+                 $("[name^=value]").each(function (i, j) {
+                    $(this).parent('div').find('div.valid').remove();
+                    $(this).parent('div').find('div.valid').remove();
+                    if ($.trim($(this).val()) == '') {
+                        flag = false;
+                        $(this).parent().append('<div class="text-danger valid">Enter value</div>')
+                    }
+                });
+            return flag;
+            }, "");
+
+        $.validator.addMethod("location_id_validate", function (value, element) {
+                 var flag = true;
+                 $("[name^=location_id]").each(function (i, j) {
+                    $(this).parent('div').find('div.valid').remove();
+                    $(this).parent('div').find('div.valid').remove();
+                    if ($.trim($(this).val()) == '') {
+                        flag = false;
+                        $(this).parent().append('<div class="text-danger valid">Select the location</div>')
+                    }
+                });
+            return flag;
+            }, "");
+
+           
+
+            $.validator.addMethod("year_validate", function (value, element) {
+                 var flag = true;
+                 $("[name^=year]").each(function (i, j) {
+                    $(this).parent('div').find('div.valid').remove();
+                    $(this).parent('div').find('div.valid').remove();
+                    if ($.trim($(this).val()) == '') {
+                        flag = false;
+                        $(this).parent().append('<div class="text-danger valid">Enter year</div>')
+                    }
+                });
+            return flag;
+            }, "");
+
+            $.validator.addMethod("gender_validate", function (value, element) {
+                 var flag = true;
+                 $("[name^=gender]").each(function (i, j) {
+                    $(this).parent('div').find('div.valid').remove();
+                    $(this).parent('div').find('div.valid').remove();
+                    if ($.trim($(this).val()) == '') {
+                        flag = false;
+                        $(this).parent().append('<div class="text-danger valid">Select the gender</div>')
+                    }
+                });
+            return flag;
+            }, "");
+
+        $('#purpose_form').validate({
+            ignore: '',
+            onkeyup: false,
+            onclick: false,
+           // onfocusout: false,
+            rules: {
+                "purpose_id[]": {
+                    purpose_id_validate:true
+                },
+                "value[]": {
+                    value_validate:true
+                },
+                "location_id[]": {
+                    location_id_validate: {
+                    depends: function (element) {
+                        return ($("#report_category_id").val()==1 || $("#report_category_id").val()==3 || $("#report_category_id").val()==4) ? true : false;
+                        }
+                    },
+                },
+                "year[]": {
+                    year_validate:true
+                },
+                "gender[]": {
+                    gender_validate: {
+                        depends: function (element) {
+                            return ($("#report_category_id").val()==2 || $("#report_category_id").val()==3 && $("#visitor_type_id").val()==316 || $("#report_category_id").val()==4) ? true : false;
+                        }
+                    },
+                }
+            },
+        });  
+        $(document).keypress(function(event){ 
+            if(event.which != 8 && isNaN(String.fromCharCode(event.which))){
+                event.preventDefault();
+            }
+        });
 </script>
 

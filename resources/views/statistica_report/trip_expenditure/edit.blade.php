@@ -1,4 +1,4 @@
-<form id="transport_mode_form" action="{{ url('statistical/trip-expenditure/update') }}" class="form-horizontal" method="POST">
+<form id="trip_expenditure_form" action="{{ url('statistical/trip-expenditure/update') }}" class="form-horizontal" method="POST">
     <input type="hidden" class="form-control" name="record_id" value="{{$tripexpenditure->id}}">
     @csrf
     @method ('PUT')
@@ -70,28 +70,46 @@
     </div>
 </form>
 <script>
-    $(function() {
-        $('#key_highlights_form').validate({
+     $(function() {
+        $('#trip_expenditure_form').validate({
             rules: {
-                total_no: {
+                purpose_id: {
                 required: true,
                 },
                 year: {
                 required: true,
                 },
-                is_publish: {
+                exp_item_id: {
+                required: true,
+                },
+                value: {
+                required: true,
+                },
+                trip_type_id: {
+                required: true,
+                },
+                report_category_id: {
                 required: true,
                 },
             },
             messages: {
-                total_no: {
-                required: "Please enter total number",
+                purpose_id: {
+                required: "Select the purpose",
                 },
                 year: {
                 required: "Please enter year",
                 },
-                is_publish: {
-                required: "Please select the publish status",
+                exp_item_id: {
+                required: "Select expenditure item",
+                },
+                value: {
+                required: "Select visitor type",
+                },
+                trip_type_id: {
+                required: "Select trip type",
+                },
+                report_category_id: {
+                required: "Select report category",
                 },
             },
             errorElement: 'span',
@@ -107,4 +125,9 @@
             }
         });
     });
+    $(document).keypress(function(event){ 
+            if(event.which != 8 && isNaN(String.fromCharCode(event.which))){
+                event.preventDefault();
+            }
+        });
 </script>

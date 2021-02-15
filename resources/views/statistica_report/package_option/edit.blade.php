@@ -1,4 +1,4 @@
-<form id="package_option_form" action="{{ url('statistical/package-option/update') }}" class="form-horizontal" method="POST">
+<form id="eidt_package_option_form" action="{{ url('statistical/package-option/update') }}" class="form-horizontal" method="POST">
     <input type="hidden" class="form-control" name="record_id" value="{{$package_option->id}}">
     @csrf
     @method ('PUT')
@@ -47,27 +47,33 @@
 </form>
 <script>
     $(function() {
-        $('#key_highlights_form').validate({
+        $('#eidt_package_option_form').validate({
             rules: {
-                total_no: {
+                location_id: {
                 required: true,
                 },
                 year: {
                 required: true,
                 },
-                is_publish: {
+                value: {
+                required: true,
+                },
+                package_option: {
                 required: true,
                 },
             },
             messages: {
-                total_no: {
-                required: "Please enter total number",
+                location_id: {
+                required: "Please select the location ID",
                 },
                 year: {
                 required: "Please enter year",
                 },
-                is_publish: {
-                required: "Please select the publish status",
+                value: {
+                required: "Please enter value",
+                },
+                package_option: {
+                required: "Please select the package option",
                 },
             },
             errorElement: 'span',
@@ -83,4 +89,9 @@
             }
         });
     });
+    $(document).keypress(function(event){ 
+            if(event.which != 8 && isNaN(String.fromCharCode(event.which))){
+                event.preventDefault();
+            }
+        });
 </script>

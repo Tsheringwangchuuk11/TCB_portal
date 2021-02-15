@@ -1,5 +1,6 @@
-<form id="key_highlights_form" action="{{ url('statistical/update-total-trip-exp') }}" class="form-horizontal" method="POST">
+<form id="total_trip_expenditure_form" action="{{ url('statistical/update-total-trip-exp') }}" class="form-horizontal" method="POST">
     <input type="hidden" class="form-control" name="record_id" value="{{ $totaltripexplist->totexp_id }}">
+    <input type="hidden" class="form-control" name="report_category_id" id="report_category_id" value="{{ $totaltripexplist->report_category_id }}">
     @csrf
     <div class="row"> 
         <div class="col-md-5">
@@ -93,28 +94,78 @@
     </div>
 </form>
 <script>
-    $(function() {
-        $('#key_highlights_form').validate({
+     $(function() {
+        $('#total_trip_expenditure_form').validate({
             rules: {
-                total_no: {
+                avg_expenditure_trip: {
+                required: true,
+                },
+                tot_expenditure: {
                 required: true,
                 },
                 year: {
                 required: true,
                 },
-                is_publish: {
+                value: {
                 required: true,
+                },
+                location_id: {
+                        required: function(element) {
+                            var report_category_id=$("#report_category_id").val();
+                            if(report_category_id==1 || report_category_id==3 || report_category_id==4){
+                                return $("#report_category_id").val() ==1 || $("#report_category_id").val() ==3 || $("#report_category_id").val() ==4;
+                        }
+                    },
+                },
+                mean: {
+                        required: function(element) {
+                            var report_category_id=$("#report_category_id").val();
+                            if(report_category_id==1 || report_category_id==3){
+                                return $("#report_category_id").val() ==1 || $("#report_category_id").val() ==3;
+                        }
+                    },
+                },
+                avg_expenditure_night: {
+                        required: function(element) {
+                            var report_category_id=$("#report_category_id").val();
+                            if(report_category_id==3){
+                                return $("#report_category_id").val() ==3;
+                        }
+                    },
+                },
+                median: {
+                        required: function(element) {
+                            var report_category_id=$("#report_category_id").val();
+                            if(report_category_id==3){
+                                return $("#report_category_id").val() ==3;
+                        }
+                    },
                 },
             },
             messages: {
-                total_no: {
-                required: "Please enter total number",
+                avg_expenditure_trip: {
+                required: "Enter avg expenditure trip",
+                },
+                tot_expenditure: {
+                required: "Enter total expenditure",
                 },
                 year: {
                 required: "Please enter year",
                 },
-                is_publish: {
-                required: "Please select the publish status",
+                value: {
+                required: "Please enter value",
+                },
+                location_id: {
+                required: "Please select location",
+                },
+                mean: {
+                required: "Enter mean",
+                },
+                avg_expenditure_night: {
+                required: "Enter avg expenditure night",
+                },
+                median: {
+                required: "Enter median",
                 },
             },
             errorElement: 'span',
@@ -130,4 +181,9 @@
             }
         });
     });
+    $(document).keypress(function(event){ 
+            if(event.which != 8 && isNaN(String.fromCharCode(event.which))){
+                event.preventDefault();
+            }
+        });
 </script>

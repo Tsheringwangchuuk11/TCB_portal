@@ -12,7 +12,7 @@ var validation=function(){
         var message = '';
         form.find('input, textarea').each(function () {
             var curInput = $(this);
-            if ($(this).hasClass('required')) {
+            if ($(this).hasClass('requiredv')) {
                 if (!$(this).val()) {
                     requiredvalid = false;
                     curInput.parents('.form-group').removeClass('has-success');

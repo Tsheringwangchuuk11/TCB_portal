@@ -23,11 +23,17 @@ return [
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),
     ],
-
+    
     'ses' => [
         'key' => env('AWS_ACCESS_KEY_ID'),
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+   /*  'sso' => [
+        'client_id' => env('CONSUMER_KEY'),
+        'client_secret' => env('CONSUMER_SECRET'),
+        'redirect_url' => env('REDIRECT_URI'),
+        'base_url' => env('BASE_URI')
+    ], */
 ];

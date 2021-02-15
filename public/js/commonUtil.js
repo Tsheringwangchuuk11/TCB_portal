@@ -215,8 +215,9 @@ $(function () {
          $('#success').empty();
          $('.progress-bar').text('0%');
          $('.progress-bar').css('width', '0%');
+         $('#progress').show();
       },
-      uploadProgress:function(event, position, total, percentComplete){
+      uploadProgress: function (event, position, total, percentComplete) {
          $('.progress-bar').text(percentComplete + '0%');
          $('.progress-bar').css('width', percentComplete + '0%');
      },
@@ -229,16 +230,21 @@ $(function () {
       autoUpload: true,
       dataType : 'json',
       success: function (data) {
+         var baseurl = window.location.origin;
          if (data.status == 'true') {
             $('#success').html('<div class="text-success text-center"><b>'+data.success+'</b></div><br /><br />');
             $('.progress-bar').text('Uploaded');
             $('.progress-bar').css('width', '100%');
+            setTimeout(function() {
+               $('.progress-bar').css('width', '0%').attr('aria-valuenow', 0);
+               $('#progress').hide();
+            }, 3000);
             jQuery.each(data.data, function (index, row) {
-               $('#files').append('<div class="image_wrap">'
+               $('#files').append('<div class="image_wrap mb-2">'
                   + '<input type="hidden" name="documentId[]" value="' + row.id + '"/><strong>' + row.document_name + '</strong> &nbsp;'
-                  + '<a href="#" onClick="viewfiles(this.id,\'' + row.upload_url + '\')" class="btn btn-sm btn-info" target="_blank"><i class="fa fa-link"></i> View </a> &nbsp;'
+                  + '<a href=" '+baseurl+'/'+row.upload_url+'"  class="btn btn-sm btn-info" target="_blank"><i class="fa fa-link"></i> View </a> &nbsp;'
                   + '<span onClick="deletefile(this.id,\'' + row.id + '\',\'' + row.upload_url + '\')" id="deleteId' + count + '" class="delete-line btn btn-danger btn-sm" data-file_id="' + row.id + '">'
-                  + '<i class="fas fa-trash-alt fa-sm"></i> Delete</span></div><br>');
+                  + '<i class="fas fa-trash-alt fa-sm"></i> Delete</span></div>');
                count++;
             });
          } else {
@@ -249,18 +255,8 @@ $(function () {
             });
          }
       },
-
-    /*   progressall: function (e, data) {
-         var progress = parseInt(data.loaded / data.total * 100, 10);
-         $('#progress .progress-bar').css(
-            'width',
-            progress + '%'
-         );
-         setTimeout(function(){$(".progress").hide()}, 3000);
-       }  */
    });
 });
-
 function deletefile(id, fileId, url) { 
    if (confirm('Are you sure you want to delete this file?')){
       var id = id;
@@ -277,17 +273,9 @@ function deletefile(id, fileId, url) {
                if (data == "success")
                   { $('#'+id).parent('div').remove(); }
                else
-                  { alert('Something went wrong when deleteing the file, please try again'); }                        
+               { alert('Something went wrong when deleteing the file, please try again'); }                        
             }
       });
    }
 }
 
-function viewfiles(id, url) {
-   window.open(url, '_blank')
-}
-
-
-
-
- 

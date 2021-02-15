@@ -24,7 +24,7 @@
     <div class="row">
         <div class="col-md-5">
             <div class="form-group">
-            <label for="">Percent<span class="text-danger"> *</span></label>
+            <label for="">Percent<span class="text-danger"></span></label>
             <input type="text" class="form-control" name="percent" value="{{  $keyhighlights->percent }}">
             </div>
         </div>

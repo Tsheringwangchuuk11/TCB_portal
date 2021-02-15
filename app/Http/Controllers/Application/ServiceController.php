@@ -305,6 +305,7 @@ class ServiceController extends Controller
 
      // save the new application
     public function saveNewApplication(Request $request,Services $service){
+        dd('dd');
         $application_no = $service->generateApplNo($request);
         DB::transaction(function () use ($request, $application_no,$service) {
             //insert into t_application
@@ -720,10 +721,11 @@ class ServiceController extends Controller
         // new technical clearance for hotel and tented accommodation
         if($service_id==1 && $module_id==1){
             $data['content']=Services::getHotelTechnicalClearanceLetterContent($application_no,$service_id,$module_id);
+
             $data['dispatch_no'] = $data['content']->dispatch_no;
             $find = array("number_of_rooms","accommodation_type","owner","village_name","gewog_name","dzongkhag_name","vilidation_date","submit_date","old_owner");
-            $replace  = array($data->proposed_rooms_no,$data->dropdown_name,$data->name,$data->village_name,$data->gewog_name,$data->dzongkhag_name,$data->validaty_date,$data->submit_date,$data->old_owner);
-            $arr = array($data->body);
+            $replace  = array($data['content']->proposed_rooms_no,$data['content']->dropdown_name,$data['content']->name,$data['content']->village_name,$data['content']->gewog_name,$data['content']->dzongkhag_name,$data['content']->validaty_date,$data['content']->submit_date,$data['content']->old_owner);
+            $arr = array($data['content']->body);
             $data['body']=str_replace($find,$replace,$arr);
             $pdf = PDF::loadView('recommendation_letter.recommendation_letter',$data);
             return $pdf->stream('Recommendation Letter-'.str_random(4).'.pdf');

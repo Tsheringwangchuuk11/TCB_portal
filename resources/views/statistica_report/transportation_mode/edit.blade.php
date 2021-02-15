@@ -46,28 +46,34 @@
     </div>
 </form>
 <script>
-    $(function() {
-        $('#key_highlights_form').validate({
+   $(function() {
+        $('#transport_mode_form').validate({
             rules: {
-                total_no: {
+                location_id: {
                 required: true,
                 },
                 year: {
                 required: true,
                 },
-                is_publish: {
+                value: {
+                required: true,
+                },
+                transport_mode_id: {
                 required: true,
                 },
             },
             messages: {
-                total_no: {
-                required: "Please enter total number",
+                location_id: {
+                required: "Please select the location ID",
                 },
                 year: {
                 required: "Please enter year",
                 },
-                is_publish: {
-                required: "Please select the publish status",
+                value: {
+                required: "Please enter value",
+                },
+                transport_mode_id: {
+                required: "Please select the transportation mode",
                 },
             },
             errorElement: 'span',
@@ -83,4 +89,9 @@
             }
         });
     });
+    $(document).keypress(function(event){ 
+            if(event.which != 8 && isNaN(String.fromCharCode(event.which))){
+                event.preventDefault();
+            }
+        });
 </script>

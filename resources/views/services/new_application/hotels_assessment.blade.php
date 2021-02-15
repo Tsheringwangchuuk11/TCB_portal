@@ -189,17 +189,18 @@
     <div class="card-header">
         <h4 class="card-title">Staff Details</h4>
     </div>
+    <div class="row" style="overflow-x:auto;">
         <table id="staffDetail" class="table table-condensed table-striped">
             <thead>
                 <th width="1%"  class="text-center">#</th>
-                <th width="15%">CID</th>
-                <th width="20%">Name</th>
-                <th width="15%">Gender</th>
-                <th>Designation</th>
-                <th>Qualification</th>
-                <th>Experience</th>
-                <th width="10%">Salary</th>
-                <th>Hospitility relating</th>
+                <th width="15%">CID<span class="text-danger">*</span></th>
+                <th width="20%">Name<span class="text-danger">*</span></th>
+                <th width="15%">Gender<span class="text-danger">*</span></th>
+                <th>Designation<span class="text-danger">*</span></th>
+                <th>Qualification<span class="text-danger">*</span></th>
+                <th>Experience<span class="text-danger">*</span></th>
+                <th width="10%">Salary<span class="text-danger">*</span></th>
+                <th>Hospitility relating<span class="text-danger">*</span></th>
             </thead>
             <tbody>
                 <tr>
@@ -207,7 +208,7 @@
                         <a href="#" class="delete-table-row btn btn-danger btn-xs"><i class="fas fa-times"></i></a>
                     </td>
                     <td width="15%">
-                        <input type="text" name="staff_cid_no[]" class="form-control" />
+                        <input type="text" name="staff_cid_no[]" class="form-control numericOnly" />
                     </td>
                     <td width="20%">
                         <input type="text" name="staff_name[]" class="form-control" />
@@ -248,6 +249,7 @@
                 </tr>
             </tbody>
         </table>
+    </div>
 </div>
 <div id="showdivid"></div>
 <div class="card">
@@ -399,6 +401,15 @@
                     return (value >= 162 && value <= 166 );
                 }
         }, 'Your score point should be within above range');
+
+           $.validator.prototype.errorsFor = function (b) {
+                var name = this.idOrName(b);
+                var elementParent = b.parentElement;
+                return this.errors().filter(function() {
+                    return $(this).attr('for') == name && $(this).parent().is(elementParent);
+                });
+            } 
+ 
         $('#form_data').validate({
                 rules: {
                     application_type_id: {
@@ -483,7 +494,37 @@
                     }, 
                     terms:{
                         required: true,
-                    }
+                    },
+                    "room_type_id[]":{
+                        required: true,
+                    } ,
+                    "room_no[]":{
+                        required: true,
+                    } ,
+                    "staff_cid_no[]":{
+                        required: true,
+                    },
+                    "staff_name[]":{
+                        required: true,
+                    },
+                    "staff_gender[]":{
+                        required: true,
+                    },
+                    "staff_designation[]":{
+                        required: true,
+                    },
+                    "qualification[]":{
+                        required: true,
+                    },
+                    "experience[]":{
+                        required: true,
+                    },
+                    "salary[]":{
+                        required: true,
+                    },
+                    "hospitility_relating[]":{
+                        required: true,
+                    },
                 },
                 messages: {
                     application_type_id: {
@@ -546,7 +587,16 @@
                     },
                     terms: {
 						required:"Please accept our terms",
-					},
+                    },
+                    "room_type_id[]": {
+						required:"Choose room type",
+                    },
+                    "room_no[]": {
+						required:"Enter number of rooms",
+                    },
+                    "staff_cid_no[]": {
+						required:"Enter number of rooms",
+                    }
                 },
                 errorElement: 'span',
                 errorPlacement: function (error, element) {
@@ -558,9 +608,8 @@
                 },
                 unhighlight: function (element, errorClass, validClass) {
                     $(element).removeClass('is-invalid');
-                }
-         });
-
+                } 
+             });
          function TotalRoomCal() {
             var sum = 0;
             //iterate through each textboxes and add the values

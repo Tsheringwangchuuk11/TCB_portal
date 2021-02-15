@@ -37,7 +37,10 @@ Route::group(['prefix' => 'report', 'namespace' => 'Report'], function () {
 
 //public user
 Route::group(['prefix' => 'sso','namespace'=>'EndUser'], function () {
-    Route::get('enduser_dashboard', 'EnduserController@getApplicationDetails');
+/*     Route::get('enduser_dashboard', 'EnduserController@getApplicationDetails');
+ */
+Route::get('redirect', 'ApplicationTokenController@oAuthRedirect');
+Route::get('enduser_dashboard', 'ApplicationTokenController@callBack');
 });
 
 //APIs
@@ -117,7 +120,7 @@ Route::group(['middleware' => ['auth']], function () {
      Route::group(['prefix' => 'application', 'namespace' => 'Application'], function() {
         Route::post('save-resubmit-application', 'ResubmitServiceController@saveResubmitApplication');
      });
-
+     
     //routes for task list
     Route::group(['prefix' => 'tasklist', 'namespace' => 'Tasklist'], function() {
         Route::resource('tasklist', 'TasklistController');
@@ -254,7 +257,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('view-submitted-trainee-dtls/{application_no}/{status}', 'CourseController@viewSubmittedTraineeList');
         Route::post('update_status', 'CourseController@updateStatus');
     });
-
+    
     //routes for uploads excel files
     Route::group(['prefix' => 'excel', 'namespace' => 'Excel'], function() {
     Route::resource('uploads', 'ExcelUploadController');

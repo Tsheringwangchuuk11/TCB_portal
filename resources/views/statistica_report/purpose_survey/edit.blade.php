@@ -1,5 +1,7 @@
-<form id="key_highlights_form" action="{{ url('statistical/update-purpose-survey') }}" class="form-horizontal" method="POST">
+<form id="purpose_form" action="{{ url('statistical/update-purpose-survey') }}" class="form-horizontal" method="POST">
     <input type="hidden" class="form-control" name="record_id" value="{{ $purposesurveylist->id }}">
+    <input type="hidden" class="form-control" name="report_category_id" id="report_category_id" value="{{ $purposesurveylist->report_category_id }}">
+    <input type="hidden" class="form-control" name="visitor_type_id" id="visitor_type_id" value="{{ $purposesurveylist->visitor_type_id }}">
     @csrf
     <div class="row"> 
         <div class="col-md-5">
@@ -88,29 +90,49 @@
     </div>
 </form>
 <script>
-    $(function() {
-        $('#key_highlights_form').validate({
+     $(function() {
+        $('#purpose_form').validate({
             rules: {
-                total_no: {
+                purpose_id: {
                 required: true,
                 },
                 year: {
                 required: true,
                 },
-                is_publish: {
+                value: {
                 required: true,
+                },
+                location_id: {
+                        required: function(element) {
+                            var report_category_id=$("#report_category_id").val();
+                            if(report_category_id==1 || report_category_id==3 || report_category_id==4){
+                                return $("#report_category_id").val() ==1 || $("#report_category_id").val() ==3 || $("#report_category_id").val() ==4;
+                        }
+                    },
+                },
+                gender: {
+                        required: function(element) {
+                            var report_category_id=$("#report_category_id").val();
+                            var visitor_type_id=$("#visitor_type_id").val();
+                            if(report_category_id==2 || report_category_id==3 && visitor_type_id==316 || report_category_id==4){
+                                return $("#report_category_id").val() ==2 || $("#report_category_id").val() ==3 && $("#visitor_type_id").val() ==316 || $("#report_category_id").val() ==4;
+                        }
+                    },
                 },
             },
             messages: {
-                total_no: {
-                required: "Please enter total number",
+                purpose_id: {
+                required: "Please select the purpose",
                 },
                 year: {
                 required: "Please enter year",
                 },
-                is_publish: {
-                required: "Please select the publish status",
+                value: {
+                required: "Please enter value",
                 },
+                gender: {
+                required: "Please select the gender",
+                }
             },
             errorElement: 'span',
             errorPlacement: function (error, element) {
@@ -125,4 +147,9 @@
             }
         });
     });
+    $(document).keypress(function(event){ 
+            if(event.which != 8 && isNaN(String.fromCharCode(event.which))){
+                event.preventDefault();
+            }
+        });
 </script>

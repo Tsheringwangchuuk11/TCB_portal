@@ -49,7 +49,7 @@
         </div>
         @if ( $report_category_id==3)
             <div class="form-group col-md-2">
-                <input type="text" class="form-control" name="avg_expenditure_trip[]">
+                <input type="text" class="form-control" name="avg_expenditure_night[]">
             </div>
         @endif
         <div class="form-group col-md-2">
@@ -119,5 +119,168 @@
                 $('#line'+id).remove();
             }
         }
+        $.validator.addMethod("avg_expenditure_trip_validate", function (value, element) {
+                 var flag = true;
+                 $("[name^=avg_expenditure_trip]").each(function (i, j) {
+                    $(this).parent('div').find('div.valid').remove();
+                    $(this).parent('div').find('div.valid').remove();
+                    if ($.trim($(this).val()) == '') {
+                        flag = false;
+                        $(this).parent().append('<div class="text-danger valid">Enter expenditure trip</div>')
+                    }
+                });
+            return flag;
+            }, "");
+
+            $.validator.addMethod("value_validate", function (value, element) {
+                 var flag = true;
+                 $("[name^=value]").each(function (i, j) {
+                    $(this).parent('div').find('div.valid').remove();
+                    $(this).parent('div').find('div.valid').remove();
+                    if ($.trim($(this).val()) == '') {
+                        flag = false;
+                        $(this).parent().append('<div class="text-danger valid">Enter value</div>')
+                    }
+                });
+            return flag;
+            }, "");
+
+        $.validator.addMethod("location_id_validate", function (value, element) {
+                 var flag = true;
+                 $("[name^=location_id]").each(function (i, j) {
+                    $(this).parent('div').find('div.valid').remove();
+                    $(this).parent('div').find('div.valid').remove();
+                    if ($.trim($(this).val()) == '') {
+                        flag = false;
+                        $(this).parent().append('<div class="text-danger valid">Select the location</div>')
+                    }
+                });
+            return flag;
+            }, "");
+
+           
+
+            $.validator.addMethod("year_validate", function (value, element) {
+                 var flag = true;
+                 $("[name^=year]").each(function (i, j) {
+                    $(this).parent('div').find('div.valid').remove();
+                    $(this).parent('div').find('div.valid').remove();
+                    if ($.trim($(this).val()) == '') {
+                        flag = false;
+                        $(this).parent().append('<div class="text-danger valid">Enter year</div>')
+                    }
+                });
+            return flag;
+            }, "");
+
+            $.validator.addMethod("tot_expenditure_validate", function (value, element) {
+                 var flag = true;
+                 $("[name^=tot_expenditure]").each(function (i, j) {
+                    $(this).parent('div').find('div.valid').remove();
+                    $(this).parent('div').find('div.valid').remove();
+                    if ($.trim($(this).val()) == '') {
+                        flag = false;
+                        $(this).parent().append('<div class="text-danger valid">Enter total expenditure</div>')
+                    }
+                });
+            return flag;
+            }, "");
+
+            $.validator.addMethod("median_validate", function (value, element) {
+                 var flag = true;
+                 $("[name^=median]").each(function (i, j) {
+                    $(this).parent('div').find('div.valid').remove();
+                    $(this).parent('div').find('div.valid').remove();
+                    if ($.trim($(this).val()) == '') {
+                        flag = false;
+                        $(this).parent().append('<div class="text-danger valid">Enter median</div>')
+                    }
+                });
+            return flag;
+            }, "");
+
+            $.validator.addMethod("mean_validate", function (value, element) {
+                 var flag = true;
+                 $("[name^=mean]").each(function (i, j) {
+                    $(this).parent('div').find('div.valid').remove();
+                    $(this).parent('div').find('div.valid').remove();
+                    if ($.trim($(this).val()) == '') {
+                        flag = false;
+                        $(this).parent().append('<div class="text-danger valid">Enter mean</div>')
+                    }
+                });
+            return flag;
+            }, "");
+            $.validator.addMethod("avg_expenditure_night_validate", function (value, element) {
+                 var flag = true;
+                 $("[name^=avg_expenditure_night]").each(function (i, j) {
+                    $(this).parent('div').find('div.valid').remove();
+                    $(this).parent('div').find('div.valid').remove();
+                    if ($.trim($(this).val()) == '') {
+                        flag = false;
+                        $(this).parent().append('<div class="text-danger valid">Enter avg expenditure night</div>')
+                    }
+                });
+            return flag;
+            }, "");
+            
+
+        $('#total_trip_exp_form').validate({
+            ignore: '',
+            onkeyup: false,
+            onclick: false,
+           // onfocusout: false,
+            rules: {
+                "avg_expenditure_trip[]": {
+                    avg_expenditure_trip_validate:true
+                },
+                "value[]": {
+                    value_validate:true
+                },
+
+                "tot_expenditure[]": {
+                    tot_expenditure_validate:true
+                },
+
+                "avg_expenditure_night[]": {
+                    avg_expenditure_night_validate: {
+                    depends: function (element) {
+                        return ($("#report_category_id").val()==3) ? true : false;
+                        }
+                    },
+                },
+
+                "median[]": {
+                    median_validate: {
+                    depends: function (element) {
+                        return ($("#report_category_id").val()==3) ? true : false;
+                        }
+                    },
+                },
+
+                "location_id[]": {
+                    location_id_validate: {
+                    depends: function (element) {
+                        return ($("#report_category_id").val()==1 || $("#report_category_id").val()==3 || $("#report_category_id").val()==4) ? true : false;
+                        }
+                    },
+                },
+                "mean[]": {
+                    mean_validate: {
+                    depends: function (element) {
+                        return ($("#report_category_id").val()==1 || $("#report_category_id").val()==3) ? true : false;
+                        }
+                    },
+                },
+                "year[]": {
+                    year_validate:true
+                }
+            },
+        });  
+        $(document).keypress(function(event){ 
+            if(event.which != 8 && isNaN(String.fromCharCode(event.which))){
+                event.preventDefault();
+            }
+        });
 </script>
 

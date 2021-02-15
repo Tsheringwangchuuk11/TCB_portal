@@ -30,7 +30,14 @@
                             <tr>
                                 <td class="text-center">{{ $loop->iteration }}</td>
                                 <td>{{$packageoptionList->location_name}}</td>
-                                <td>{{$packageoptionList->package_option}}</td>
+                                <td>
+                                @if ($packageoptionList->package_option=='Y')
+                                   Yes
+                                    
+                                @else
+                                  No     
+                                @endif
+                                </td>
                                 <td>{{$packageoptionList->value}}</td>
                                 <td>{{$packageoptionList->year}}</td>
                                 <td>
@@ -111,6 +118,5 @@
             $('#edit_data_modal').modal({show:true});
         });
     });
-    
 </script>
 @endsection

@@ -14,16 +14,16 @@
             <label for="">Year<span class="text-danger">*</span> </label>
         </div>
     </div>
-    <div class="row" id="rowId">
+    <div class="row validation_test" id="rowId">
         <div class="form-group col-md-3">
-            <select class="form-control" name="location_id[]">
+            <select class="form-control " name="location_id[]">
                 <option value=""> - Select  - </option>
                 @foreach ($countries as $country)
                 <option value="{{ $country->id }}">{{ $country->dropdown_name }}</option>
                 @endforeach
             </select>        
         </div>
-        <div class="form-group col-md-3">
+        <div class="form-group col-md-3 test">
             <select class="form-control" name="package_option[]">
                 <option value=""> - Select  - </option>
                 @foreach (config()->get('settings.is_publish') as $k => $v)
@@ -49,6 +49,7 @@
      $(document).ready(function(){ 
         id=1;
         $("#add").click(function(){
+           // $("#rowId").find('div.valid').remove();
             $("#rowId").clone().attr('id', 'rowId'+id).after("#id").appendTo("#adddiv").find("input[type='text'],select").val("");
             $addRow ='<span id="remove'+id+'" class="btn-group" style=" margin-top:-50px; float:right">' 
             +'<span id="remove" onClick="removeForm('+id+')"' 
@@ -58,7 +59,6 @@
             id++;
             });
         });
-
         function removeForm(id){ 
             if (confirm('Are you sure you want to delete this form?')){
                 $('#rowId'+id).remove();
@@ -66,5 +66,83 @@
                 $('#line'+id).remove();
             }
         }
+
+        $.validator.addMethod("package_option_validate", function (value, element) {
+                 var flag = true;
+                 $("[name^=package_option]").each(function (i, j) {
+                    $(this).parent('div').find('div.valid').remove();
+                    $(this).parent('div').find('div.valid').remove();
+                    if ($.trim($(this).val()) == '') {
+                        flag = false;
+                        $(this).parent().append('<div class="text-danger valid">Select the package option</div>')
+                    }
+                });
+            return flag;
+            }, "");
+
+            $.validator.addMethod("location_id_validate", function (value, element) {
+                 var flag = true;
+                 $("[name^=location_id]").each(function (i, j) {
+                    $(this).parent('div').find('div.valid').remove();
+                    $(this).parent('div').find('div.valid').remove();
+                    if ($.trim($(this).val()) == '') {
+                        flag = false;
+                        $(this).parent().append('<div class="text-danger valid">Select the location</div>')
+                    }
+                });
+            return flag;
+            }, "");
+
+            $.validator.addMethod("value_validate", function (value, element) {
+                 var flag = true;
+                 $("[name^=value]").each(function (i, j) {
+                    $(this).parent('div').find('div.valid').remove();
+                    $(this).parent('div').find('div.valid').remove();
+                    if ($.trim($(this).val()) == '') {
+                        flag = false;
+                        $(this).parent().append('<div class="text-danger valid">Enter value</div>')
+                    }
+                });
+            return flag;
+            }, "");
+
+            $.validator.addMethod("year_validate", function (value, element) {
+                 var flag = true;
+                 $("[name^=year]").each(function (i, j) {
+                    $(this).parent('div').find('div.valid').remove();
+                    $(this).parent('div').find('div.valid').remove();
+                    if ($.trim($(this).val()) == '') {
+                        flag = false;
+                        $(this).parent().append('<div class="text-danger valid">Enter year</div>')
+                    }
+                });
+            return flag;
+            }, "");
+
+        $('#package_option_form').validate({
+            ignore: '',
+            onkeyup: false,
+            onclick: false,
+           // onfocusout: false,
+            rules: {
+                 "package_option[]": {
+                    package_option_validate:true
+                },
+                "location_id[]": {
+                    location_id_validate:true
+                },
+                "value[]": {
+                    value_validate:true
+                },
+                "year[]": {
+                    year_validate:true
+                }
+            },
+        });  
+        $(document).keypress(function(event){ 
+            if(event.which != 8 && isNaN(String.fromCharCode(event.which))){
+                event.preventDefault();
+            }
+        });
 </script>
 

@@ -71,27 +71,45 @@
 </form>
 <script>
     $(function() {
-        $('#key_highlights_form').validate({
+        $('#origin_form').validate({
             rules: {
-                total_no: {
+                origin_id: {
                 required: true,
                 },
                 year: {
                 required: true,
                 },
-                is_publish: {
+                visitor_type_id: {
+                required: true,
+                },
+                value: {
+                required: true,
+                },
+                location_id: {
+                required: true,
+                },
+                report_category_id: {
                 required: true,
                 },
             },
             messages: {
-                total_no: {
-                required: "Please enter total number",
+                origin_id: {
+                required: "Select the origin",
                 },
                 year: {
                 required: "Please enter year",
                 },
-                is_publish: {
-                required: "Please select the publish status",
+                visitor_type_id: {
+                required: "Select visitor type",
+                },
+                value: {
+                required: "Select visitor type",
+                },
+                location_id: {
+                required: "Select location",
+                },
+                report_category_id: {
+                required: "Select report category",
                 },
             },
             errorElement: 'span',
@@ -107,4 +125,9 @@
             }
         });
     });
+    $(document).keypress(function(event){ 
+            if(event.which != 8 && isNaN(String.fromCharCode(event.which))){
+                event.preventDefault();
+            }
+        });
 </script>

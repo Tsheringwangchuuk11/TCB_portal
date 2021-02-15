@@ -9,24 +9,24 @@
 </style>
 @section('content')
 <div id="container">
-    <img src="{{ public_path('img/tcblogo/letter_header.png') }}" width="100%" height="100%"/>
+    <img src="{{ public_path('img/tcblogo/letter_header.png') }}" width="100%">
     <hr>
     <div class="row col-md-12">
         <h6 class="float-left">{{ $dispatch_no }}</h6>
         <h6 class="float-right">Date:{{ date('m/d/yy', strtotime(now())) }}</h6>
-    </div><br><br>
+    </div>
     <div class="row col-md-12">
         <p>{!! $content->to_address !!}</p>
-    </div><br><br>
+    </div>
     <div class="row col-md-12">
         <p>Sub:<strong>{{ $content->subject }}</strong></p>
-    </div><br>
+    </div>
     <div class="row col-md-12">
         <p>Dear:{{ $content->salutation }},</p>
-    </div><br>
+    </div>
     <div class="row col-md-12">
         <p class="justify-content">{!! $body[0] !!}</p>
-    </div><br><br>
+    </div>
 
     <div class="row col-md-12">
         <p>{{ $content->closing }}</p>
@@ -36,7 +36,7 @@
             <img src="{{ public_path($content->signature_path) }}" width="100px" height="50px"/><br>
             {!! $content->subscription !!}
         </p>
-    </div><br>
+    </div>
     <div id="footer">
         <p class="text-center">
             <small>

@@ -89,5 +89,115 @@
                 $('#line'+id).remove();
             }
         }
+
+        $(document).keypress(function(event){ 
+            if(event.which != 8 && isNaN(String.fromCharCode(event.which))){
+                event.preventDefault();
+            }
+        });
+        $.validator.addMethod("origin_id_validate", function (value, element) {
+                 var flag = true;
+                 $("[name^=origin_id]").each(function (i, j) {
+                    $(this).parent('div').find('div.valid').remove();
+                    $(this).parent('div').find('div.valid').remove();
+                    if ($.trim($(this).val()) == '') {
+                        flag = false;
+                        $(this).parent().append('<div class="text-danger valid">Select the origin</div>')
+                    }
+                });
+            return flag;
+            }, "");
+
+            $.validator.addMethod("visitor_type_id_validate", function (value, element) {
+                 var flag = true;
+                 $("[name^=visitor_type_id]").each(function (i, j) {
+                    $(this).parent('div').find('div.valid').remove();
+                    $(this).parent('div').find('div.valid').remove();
+                    if ($.trim($(this).val()) == '') {
+                        flag = false;
+                        $(this).parent().append('<div class="text-danger valid">Select the visitor types</div>')
+                    }
+                });
+            return flag;
+            }, "");
+
+            $.validator.addMethod("location_id_validate", function (value, element) {
+                 var flag = true;
+                 $("[name^=location_id]").each(function (i, j) {
+                    $(this).parent('div').find('div.valid').remove();
+                    $(this).parent('div').find('div.valid').remove();
+                    if ($.trim($(this).val()) == '') {
+                        flag = false;
+                        $(this).parent().append('<div class="text-danger valid">Select the location</div>')
+                    }
+                });
+            return flag;
+            }, "");
+
+            $.validator.addMethod("value_validate", function (value, element) {
+                 var flag = true;
+                 $("[name^=value]").each(function (i, j) {
+                    $(this).parent('div').find('div.valid').remove();
+                    $(this).parent('div').find('div.valid').remove();
+                    if ($.trim($(this).val()) == '') {
+                        flag = false;
+                        $(this).parent().append('<div class="text-danger valid">Enter value</div>')
+                    }
+                });
+            return flag;
+            }, "");
+
+            $.validator.addMethod("year_validate", function (value, element) {
+                 var flag = true;
+                 $("[name^=year]").each(function (i, j) {
+                    $(this).parent('div').find('div.valid').remove();
+                    $(this).parent('div').find('div.valid').remove();
+                    if ($.trim($(this).val()) == '') {
+                        flag = false;
+                        $(this).parent().append('<div class="text-danger valid">Enter year</div>')
+                    }
+                });
+            return flag;
+            }, "");
+
+            $.validator.addMethod("report_category_id_validate", function (value, element) {
+                 var flag = true;
+                 $("[name^=report_category_id]").each(function (i, j) {
+                    $(this).parent('div').find('div.valid').remove();
+                    $(this).parent('div').find('div.valid').remove();
+                    if ($.trim($(this).val()) == '') {
+                        flag = false;
+                        $(this).parent().append('<div class="text-danger valid">Select the report category </div>')
+                    }
+                });
+            return flag;
+            }, "");
+
+        $('#origin_form').validate({
+            ignore: '',
+            onkeyup: false,
+            onclick: false,
+           // onfocusout: false,
+            rules: {
+                 "origin_id[]": {
+                    origin_id_validate:true
+                },
+                "visitor_type_id[]": {
+                    visitor_type_id_validate:true
+                },
+                "location_id[]": {
+                    location_id_validate:true
+                },
+                "value[]": {
+                    value_validate:true
+                },
+                "year[]": {
+                    year_validate:true
+                },
+                "report_category_id[]": {
+                    report_category_id_validate:true
+                }
+            },
+        });  
 </script>
 

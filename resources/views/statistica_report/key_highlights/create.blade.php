@@ -8,7 +8,7 @@
             <label for="">Total Number<span class="text-danger">*</span> </label>
         </div>
         <div class="form-group col-md-2">
-            <label for="">Percent<span class="text-danger">*</span> </label>
+            <label for="">Percent<span class="text-danger"></span> </label>
         </div>
         <div class="form-group col-md-2">
             <label for="">Year<span class="text-danger">*</span> </label>
@@ -73,17 +73,82 @@
             }
         }
 
-    $('.validate_highlight_type').each(function() {
-        $(this).rules("add", 
-            {
-                required: true,
-                messages: {
-                    required: "Name is required",
+        $.validator.addMethod("highlight_type_validate", function (value, element) {
+                 var flag = true;
+                 $("[name^=highlight_type_id]").each(function (i, j) {
+                    $(this).parent('div').find('div.valid').remove();
+                    $(this).parent('div').find('div.valid').remove();
+                    if ($.trim($(this).val()) == '') {
+                        flag = false;
+                        $(this).parent().append('<div class="text-danger valid">Select the package option</div>')
+                    }
+                });
+            return flag;
+            }, "");
+
+            $.validator.addMethod("total_no_validate", function (value, element) {
+                 var flag = true;
+                 $("[name^=total_no]").each(function (i, j) {
+                    $(this).parent('div').find('div.valid').remove();
+                    $(this).parent('div').find('div.valid').remove();
+                    if ($.trim($(this).val()) == '') {
+                        flag = false;
+                        $(this).parent().append('<div class="text-danger valid">Select the location</div>')
+                    }
+                });
+            return flag;
+            }, "");
+
+            $.validator.addMethod("is_publish_validate", function (value, element) {
+                 var flag = true;
+                 $("[name^=is_publish]").each(function (i, j) {
+                    $(this).parent('div').find('div.valid').remove();
+                    $(this).parent('div').find('div.valid').remove();
+                    if ($.trim($(this).val()) == '') {
+                        flag = false;
+                        $(this).parent().append('<div class="text-danger valid">Enter value</div>')
+                    }
+                });
+            return flag;
+            }, "");
+
+            $.validator.addMethod("year_validate", function (value, element) {
+                 var flag = true;
+                 $("[name^=year]").each(function (i, j) {
+                    $(this).parent('div').find('div.valid').remove();
+                    $(this).parent('div').find('div.valid').remove();
+                    if ($.trim($(this).val()) == '') {
+                        flag = false;
+                        $(this).parent().append('<div class="text-danger valid">Enter year</div>')
+                    }
+                });
+            return flag;
+            }, "");
+
+        $('#key_highlights_form').validate({
+            ignore: '',
+            onkeyup: false,
+            onclick: false,
+           // onfocusout: false,
+            rules: {
+                 "highlight_type_id[]": {
+                    highlight_type_validate:true
+                },
+                "total_no[]": {
+                    total_no_validate:true
+                },
+                "is_publish[]": {
+                    is_publish_validate:true
+                },
+                "year[]": {
+                    year_validate:true
                 }
+            },
+        });  
+        $(document).keypress(function(event){ 
+            if(event.which != 8 && isNaN(String.fromCharCode(event.which))){
+                event.preventDefault();
+            }
         });
-    });
-    $(function() {
-        $("#key_highlights_form").validate();
-    });
 </script>
 
