@@ -16,7 +16,7 @@ class ApplicationTokenController extends Controller
         ]);
         return redirect('https://sso.dit.gov.bt/oauth2/authorize' .$queries );
     }
-
+    
     public function callBack(Request $request){
         $http = new GuzzleHttp\Client;
         $response = $http->post('https://sso.dit.gov.bt/oauth2/token', [

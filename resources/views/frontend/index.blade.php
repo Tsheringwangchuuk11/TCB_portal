@@ -405,19 +405,19 @@
                         if(data.current_percentage!=null){
                         $("#percentId").html(data.current_percentage);
                         if(data.percentage_status=="increase"){
-                            document.getElementById("percent_classId").className = "fa fa-arrow-up text-success";
-                            document.getElementById("f_earning_classId").className = "fa fa-arrow-up text-success";
-                            document.getElementById("direct_revenue_classId").className = "fa fa-arrow-up text-success";
+                            document.getElementById("percent_classId").className = "fas fa-caret-up text-success";
+                            document.getElementById("f_earning_classId").className = "fas fa-caret-up text-success";
+                            document.getElementById("direct_revenue_classId").className = "fas fa-caret-up text-success";
                         }else{
-                            document.getElementById("percent_classId").className = "fa fa-arrow-down text-danger";
-                            document.getElementById("f_earning_classId").className = "fa fa-arrow-down text-danger";
-                            document.getElementById("direct_revenue_classId").className = "fa fa-arrow-down text-danger";
+                            document.getElementById("percent_classId").className = "fas fa-caret-down text-danger";
+                            document.getElementById("f_earning_classId").className = "fas fa-caret-down text-danger";
+                            document.getElementById("direct_revenue_classId").className = "fas fa-caret-down text-danger";
                          }
                         }else{
                             $("#percentId").html('');
-                            $("#percent_classId").removeClass("fa fa-arrow-down text-danger fa fa-arrow-up text-success");
-                            $("#f_earning_classId").removeClass("fa fa-arrow-down text-danger fa fa-arrow-up text-success");
-                            $("#direct_revenue_classId").removeClass("fa fa-arrow-down text-danger fa fa-arrow-up text-success");
+                            $("#percent_classId").removeClass("fas fa-caret-down text-danger fas fa-caret-up text-success");
+                            $("#f_earning_classId").removeClass("fas fa-caret-down text-danger fas fa-caret-up text-success");
+                            $("#direct_revenue_classId").removeClass("fas fa-caret-down text-danger fas fa-caret-up text-success");
                         }
                     }
             });

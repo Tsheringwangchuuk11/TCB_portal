@@ -36,11 +36,11 @@ Route::group(['prefix' => 'report', 'namespace' => 'Report'], function () {
 });
 
 //public user
-Route::group(['prefix' => 'sso','namespace'=>'EndUser'], function () {
+Route::group(['namespace'=>'EndUser'], function () {
 /*     Route::get('enduser_dashboard', 'EnduserController@getApplicationDetails');
  */
-Route::get('redirect', 'ApplicationTokenController@oAuthRedirect');
-Route::get('enduser_dashboard', 'ApplicationTokenController@callBack');
+Route::get('sso/redirect', 'ApplicationTokenController@oAuthRedirect');
+Route::get('sso/enduser_dashboard', 'ApplicationTokenController@callBack');
 });
 
 //APIs
