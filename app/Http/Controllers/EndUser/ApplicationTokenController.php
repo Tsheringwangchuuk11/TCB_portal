@@ -11,20 +11,20 @@ class ApplicationTokenController extends Controller
     public function oAuthRedirect(Request $request){
         $queries= http_build_query([
             'client_id'=>'MRNEQWUn8AU7ii_99B_I5ihUG80a',
-            'redirect_uri'=>'https://sso.dit.gov.bt/sso/enduser_dashboard',
+            'redirect_uri'=>'https://stg-­sso.dit.gov.bt/sso/enduser_dashboard',
             'response_type'=>'code'
         ]);
-        return redirect('https://sso.dit.gov.bt/oauth2/authorize' .$queries );
+        return redirect('https://stg-­sso.dit.gov.bt/oauth2/authorize?' .$queries );
     }
     
     public function callBack(Request $request){
         $http = new GuzzleHttp\Client;
-        $response = $http->post('https://sso.dit.gov.bt/oauth2/token', [
+        $response = $http->post('https://stg-­sso.dit.gov.bt/oauth2/token', [
             'form_params' => [
                 'grant_type' => 'client_credentials',
                 'client_id' => 'MRNEQWUn8AU7ii_99B_I5ihUG80a',
                 'client_secret' => 'WYUyM5ZMLYOe03CaSd4VEuUQ2f0a',
-                'redirect_uri' => 'https://sso.dit.gov.bt/sso/enduser_dashboard',
+                'redirect_uri' => 'https://stg-­sso.dit.gov.bt/sso/enduser_dashboard',
                 'code' => $request->code,
             ],
         ]);
