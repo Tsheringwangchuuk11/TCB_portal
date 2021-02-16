@@ -18,6 +18,7 @@ class ApplicationTokenController extends Controller
     }
     
     public function callBack(Request $request){
+        dd($request->code);
         $http = new GuzzleHttp\Client;
         $response = $http->post('https://stg-­sso.dit.gov.bt/oauth2/token', [
             'form_params' => [
