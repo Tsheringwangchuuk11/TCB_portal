@@ -14,10 +14,10 @@ class ApplicationTokenController extends Controller
             'redirect_uri'=>'http://portal.tourism.gov.bt/sso/enduser_dashboard',
             'response_type'=>'code'
         ]);
-        return redirect('https://stg-­sso.dit.gov.bt/oauth2/authorize?' .$queries );
+        return redirect('https://stg-­sso.dit.gov.bt/oauth2/authorize?'.$queries );
     }
 
-    public function callBack(Request $request){
+    /* public function callBack(Request $request){
         $http = new GuzzleHttp\Client;
         $response = $http->post('https://stg-­sso.dit.gov.bt/oauth2/token', [
             'form_params' => [
@@ -29,5 +29,5 @@ class ApplicationTokenController extends Controller
             ],
         ]);
         return json_decode((string) $response->getBody(), true);
-    } 
+    } */ 
 }
