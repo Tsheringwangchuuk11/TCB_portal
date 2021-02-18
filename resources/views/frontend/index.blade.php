@@ -26,8 +26,8 @@
                         <div class="col-md-8 offset-md-2 d-flex justify-content-center"><h5>INBOUND TOURISM <span id="yearId"></span></h5>
                         </div>
                     <div class="col-md-2 d-inline-flex">
-                        <label>Year</label> :<input type="text" name="year" class="form-control input-sm" id="year" data-toggle="datetimepicker" data-target="#year" onchange="getKeyHighLightData(this.value)"/>
-                    </div>
+                        <label>Year</label> :<select class="form-control input-sm"  name="year" id="year" onchange="getKeyHighLightData(this.value)"></select>
+                   </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12" id="mapcontainer"></div>
@@ -275,16 +275,17 @@
 <script src="{{ asset('plugins/highcharts/highmaps.js') }}"></script> 
 <script src="{{ asset('plugins/highcharts/world.js') }}"></script> 
 <script>
-    $(document).ready(function () {
-        var previous_year = new Date().getFullYear();
-        $('#year').datetimepicker({
-                viewMode: 'years',
-                    format: 'YYYY',
-                    useCurrent: true
-                }); 
-        $('#year').val(previous_year).trigger("change");
-    });
-
+     $(document).ready(function () {
+        var year = $("#year");
+        var currentYear = new Date().getFullYear();
+        for (var i = 2016; i <= currentYear; i++) {
+            var option = $("<option />");
+            option.html(i);
+            option.val(i);
+            year.append(option);
+        }
+        $('#year').val(currentYear).trigger("change");
+    });  
     function getKeyHighLightData(year){
         $("#yearId").html(year);
         $.ajax({
