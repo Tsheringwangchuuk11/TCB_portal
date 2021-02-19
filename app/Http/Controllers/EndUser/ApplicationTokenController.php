@@ -28,6 +28,7 @@ class ApplicationTokenController extends Controller
                 'code' => $request->code,
             ],
         ]);
+        dd($response);
         return json_decode((string) $response->getBody(), true);
     } 
 }
