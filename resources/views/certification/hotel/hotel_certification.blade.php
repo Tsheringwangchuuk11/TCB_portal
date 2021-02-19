@@ -5,7 +5,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<title>certificate</title>
     </head>
-<body style="background-repeat:no-repeat; background-image: url({{ url('/img/certificate/hotel_certificate.jpg') }});"> 
+<body style="background-repeat:no-repeat; background-image: url({{ public_path('img/certificate/hotel_certificate.jpg') }})"> 
     <div style="margin-top: 515px;" >
         @if ($data->star_category_id==1)
             <p style="text-align:center">

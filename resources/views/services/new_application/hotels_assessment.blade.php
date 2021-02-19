@@ -402,13 +402,13 @@
                 }
         }, 'Your score point should be within above range');
 
-           $.validator.prototype.errorsFor = function (b) {
+          /*  $.validator.prototype.errorsFor = function (b) {
                 var name = this.idOrName(b);
                 var elementParent = b.parentElement;
                 return this.errors().filter(function() {
                     return $(this).attr('for') == name && $(this).parent().is(elementParent);
                 });
-            } 
+            }  */
  
         $('#form_data').validate({
                 rules: {
