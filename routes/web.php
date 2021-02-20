@@ -40,7 +40,7 @@ Route::group(['namespace'=>'EndUser'], function () {
 /*     Route::get('enduser_dashboard', 'EnduserController@getApplicationDetails');
  */
 Route::get('sso/redirect', 'ApplicationTokenController@oAuthRedirect');
-//Route::get('sso/enduser_dashboard', 'ApplicationTokenController@callBack');
+Route::get('sso/enduser_dashboard', 'ApplicationTokenController@callBack');
 });
 
 //APIs
