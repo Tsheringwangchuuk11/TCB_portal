@@ -411,7 +411,7 @@
     </div>
     <div class="card-footer text-center">
         <button type="submit"class="btn btn-success"><i class="fa fa-check"></i> APPLY</button>
-        <button type="reset"class="btn btn-danger"><i class="fa fa-times"></i> RESET</button>
+        <button type="reset"class="btn btn-danger"><i class="fa fa-ban"></i> RESET</button>
     </div>
 </div>
 </form>
@@ -422,7 +422,7 @@
             var star_category_name = $("#star_category_id  option:selected").text();
             $("#star_level").html(star_category_name);
             $('#license_date').datetimepicker({
-                format: 'DD/MM/YYYY',
+                format: 'MM/DD/YYYY',
             });
 
             });

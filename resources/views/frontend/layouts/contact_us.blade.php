@@ -41,6 +41,12 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Name</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="name" placeholder="Name">
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label for="" class="col-sm-3 col-form-label">Email</label>
                             <div class="col-sm-8">
                                 <input type="email" class="form-control" name="sender_email" placeholder="Email">

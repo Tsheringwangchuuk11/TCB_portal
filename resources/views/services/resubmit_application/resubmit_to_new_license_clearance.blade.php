@@ -289,7 +289,7 @@
       </div>
     <div class="card-footer text-center">
         <button type="submit"class="btn btn-success"><li class="fas fa-check"></li> APPLY</button>
-        <button type="reset" class="btn btn-danger"><li class="fas fa-times"></li> RESET</button>
+        <button type="reset" class="btn btn-danger"><li class="fas fa-ban"></li> RESET</button>
     </div>
 </div>
 </form>
@@ -298,10 +298,10 @@
 	<script>
      $(document).ready(function(){
         $('#partner_dob').datetimepicker({
-            format: 'DD/MM/YYYY',
+            format: 'MM/DD/YYYY',
         });
         $('#dob').datetimepicker({
-            format: 'DD/MM/YYYY',
+            format: 'MM/DD/YYYY',
         });
     });
     $('#form_data').validate({

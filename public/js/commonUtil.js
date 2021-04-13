@@ -146,7 +146,7 @@ $(document).ready(function () {
             },
             success:function (data) {
             $.each(data, function(key, value) {
-                  $('select[name="gewog_id"]').append('<option value="'+ key +'">'+ value +'</option>');
+                  $('select[name="partner_gewog_id"]').append('<option value="'+ key +'">'+ value +'</option>');
                });
             }
          });

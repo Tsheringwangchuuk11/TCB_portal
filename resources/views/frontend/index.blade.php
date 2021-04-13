@@ -116,6 +116,8 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
+                    <div class="text-center text-olive h3 font-weight-bold pb-2">TOURISM DASHBOARD
+                    </div>
                     <div class="row d-flex pt-2 ml-5 mr-5">
                         @foreach ($reporttypes as $reporttype)
                             <div class="col-12 col-sm-6 col-md-4">
@@ -168,7 +170,7 @@
                             <div class="col-lg-4 col-6">
                                 <div class="info-box elevation-0">
                                     <div class="info-box-content">
-                                        <span class="bg-white elevation-0"><i class="fas fa-2x fa-calendar-check text-olive"></i></span>
+                                        <span class="bg-white elevation-0"><i class="fas fa-2x fa-university text-olive"></i></span>
                                         <span class="info-box-text"><a href="{{ url('application/new-application') }}" class="text-reset">Tented Accommodation</a></span>
                                     </div>
                                 </div>

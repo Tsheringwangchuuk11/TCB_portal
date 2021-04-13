@@ -135,11 +135,12 @@ class TourOperatorController extends Controller
                  $approveId = WorkFlowDetails::getStatus('APPROVED');
                  $completedId= WorkFlowDetails::getStatus('COMPLETED');
                  $data[]= [ 
-                    'application_type_id'   => $request->application_type_id,   
+                    'application_type_id'   => $request->application_type_id, 
+                    'application_no'=> $request->application_no,  
                     'cid_no'   => $request->cid_no,
                     'name'   => $request->name,
                     'gender'   => $request->gender,
-                    'dob'   => date('Y-m-d', strtotime($request->dob)),
+                    'dob'   => $service->setDateAttribute($request->dob),
                     'applicant_location'   => $request->applicant_location,
                     'email'   => $request->email,
                     'company_name'   => $request->company_name,
@@ -163,7 +164,7 @@ class TourOperatorController extends Controller
                     'partner_cid_no'   => $request->partner_cid_no,
                     'partner_gender'   => $request->partner_gender,
                     'partner_email'   => $request->partner_email,
-                    'partner_dob'   => date('Y-m-d', strtotime($request->partner_dob)),
+                    'partner_dob'   => $service->setDateAttribute($request->partner_dob),
                     'village_id'   => $request->village_id,
                     'created_at'   => now(),
                     'updated_at'   => now(),
@@ -240,16 +241,18 @@ class TourOperatorController extends Controller
                  $completedId= WorkFlowDetails::getStatus('COMPLETED');
                  $applicantdata[]= [    
                     'module_id'   => $request->module_id,
+                    'service_id'   => $request->service_id,
+                    'application_no'   => $request->application_no,
                     'cid_no'   => $request->cid_no,
                     'license_no'   => $request->license_no,
-                    'license_date'   => date('Y-m-d', strtotime($request->license_date)),
+                    'license_date'   =>$service->setDateAttribute($request->license_date),
                     'tourist_standard_name'   => $request->tourist_standard_name,
                     'owner_name'   => $request->owner_name,
                     'contact_no'   => $request->contact_no,
                     'email'   => $request->email,
                     'webpage_url'   => $request->webpage_url,
                     'village_id'   => $request->village_id,
-                    'inspection_date'   =>date('Y-m-d', strtotime($request->inspection_date)),
+                    'inspection_date'   =>$service->setDateAttribute($request->inspection_date),
                     'validaty_date'   =>now()->addYears(3),
                     'created_at'   => now(),
                     'updated_at'   => now(),
@@ -412,34 +415,75 @@ class TourOperatorController extends Controller
            \DB::transaction(function () use ($request,$roleId) {
                $approveId = WorkFlowDetails::getStatus('APPROVED');
                $completedId= WorkFlowDetails::getStatus('COMPLETED');
-              
-            // hotel name change
+               $printedId=WorkFlowDetails::getStatus('PRINTED');
+
+            // Tour oprator name change
             if($request->application_type_id=="28"){
+                $old_application_no= Services::getDataForUpdateOrEdit('t_tourist_standard_dtls','dispatch_no',$request->dispatch_no)->application_no;
+                if($old_application_no){
+                    $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($old_application_no);
+                    $updateworkflow=WorkFlowDetails::where('application_no', $old_application_no)
+                        ->update(['status_id' => $printedId->id,'remarks' => "PRINTED"]);
+                }
                 $savedatatoaudit=Services::saveTouristStandardHotelDtlsAudit($request->license_no);
+                $lastsequence=substr($request->application_no,7);
+                $divisioncode=Services::getDivisonCode($request->service_id)->code;
+                $tcb="TCB";
+                $dispatchNo=$tcb.'-'.$divisioncode.date("Y.m.d").$lastsequence;
               $data = array(
+                'application_no' => $request->application_no,
                 'tourist_standard_name' => $request->tourist_standard_name,
+                'application_type_id' => $request->application_type_id,
+                'dispatch_no'=>  $dispatchNo
              );
              $updatedata=Services::updateApplicantDtls('t_tourist_standard_dtls','license_no',$request->license_no,$data);
             }
 
-            // hotel ownership change
+            // tour operator ownership change
             if($request->application_type_id=="29"){
+            $old_application_no= Services::getDataForUpdateOrEdit('t_tourist_standard_dtls','dispatch_no',$request->dispatch_no)->application_no;
+            if($old_application_no){
+                $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($old_application_no);
+                $updateworkflow=WorkFlowDetails::where('application_no', $old_application_no)
+                    ->update(['status_id' => $printedId->id,'remarks' => "PRINTED"]);
+            }
             $savedatatoaudit=Services::saveTouristStandardHotelDtlsAudit($request->license_no);
+            $lastsequence=substr($request->application_no,7);
+            $divisioncode=Services::getDivisonCode($request->service_id)->code;
+            $tcb="TCB";
+            $dispatchNo=$tcb.'-'.$divisioncode.date("Y.m.d").$lastsequence;
             $data = array(
+              'application_no' => $request->application_no,
               'owner_name' => $request->new_owner_name,
               'cid_no' => $request->new_cid_no,
               'address' => $request->new_address, 
               'contact_no' => $request->new_contact_no,
-              'email' => $request->new_email
+              'application_type_id' => $request->application_type_id,
+              'email' => $request->new_email,
+              'dispatch_no'=>  $dispatchNo
+
            );
            $updatedata=Services::updateApplicantDtls('t_tourist_standard_dtls','license_no',$request->license_no,$data);
             }
 
-            // hotel license cancellation
+            // tour operator office location change
               if($request->application_type_id=="31"){
+                $old_application_no= Services::getDataForUpdateOrEdit('t_tourist_standard_dtls','dispatch_no',$request->dispatch_no)->application_no;
+                if($old_application_no){
+                    $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($old_application_no);
+                    $updateworkflow=WorkFlowDetails::where('application_no', $old_application_no)
+                        ->update(['status_id' => $printedId->id,'remarks' => "PRINTED"]);
+                }
                 $savedatatoaudit=Services::saveTouristStandardHotelDtlsAudit($request->license_no);
+                $lastsequence=substr($request->application_no,7);
+                $divisioncode=Services::getDivisonCode($request->service_id)->code;
+                $tcb="TCB";
+                $dispatchNo=$tcb.'-'.$divisioncode.date("Y.m.d").$lastsequence;
                 $data = array(
-                    'new_village_id' => $request->new_village_id,
+                    'application_no' => $request->application_no,
+                    'village_id' => $request->new_village_id,
+                    'application_type_id' => $request->application_type_id,
+                    'dispatch_no'=>  $dispatchNo
                 );
                $updatedata=Services::updateApplicantDtls('t_tourist_standard_dtls','license_no',$request->license_no,$data);
             }
@@ -497,29 +541,47 @@ class TourOperatorController extends Controller
         }
      }
 
-     public function recommendationLetterImportLicense(Request $request){
+     public function recommendationLetterImportLicense(Request $request,Services $service){
         $roles = auth()->user()->roles()->get();
         $roleId = 0;
         foreach ($roles as $role){
             $roleId = $role->id;
         }
         if($request->status =='APPROVED'){
-               $approveId = WorkFlowDetails::getStatus('APPROVED');
-               $completedId= WorkFlowDetails::getStatus('COMPLETED');
-            
-            $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
-            $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
-                    ->update(['status_id' => $approveId->id,'role_id'=> $roleId,'remarks' => $request->remarks]);
+            \DB::transaction(function () use ($request,$service,$roleId) {
+                $approveId = WorkFlowDetails::getStatus('APPROVED');
+                $completedId= WorkFlowDetails::getStatus('COMPLETED');
+                $lastsequence=substr($request->application_no,7);
+                $divisioncode=Services::getDivisonCode($request->service_id)->code;
+                $tcb="TCB";
+                $dispatchNo=$tcb.'-'.$divisioncode.date("Y.m.d").$lastsequence;
+                $applicantdata[]= [  
+                 'application_no'   => $request->application_no,  
+                 'cid_no'   => $request->cid_no,
+                 'license_no'   => $request->license_no,
+                 'license_date'   => $service->setDateAttribute($request->license_date),
+                 'owner_name'   => $request->owner_name,
+                 'company_name'   => $request->company_name,
+                 'contact_no'   => $request->contact_no,
+                 'email'   => $request->email,
+                 'village_id'   => $request->village_id,
+                 'dispatch_no'=>$dispatchNo
+                 ];
+                Services::getLastInsertedId('t_import_license_dtls',$applicantdata);
+                $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
+                $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
+                        ->update(['status_id' => $approveId->id,'role_id'=> $roleId,'remarks' => $request->remarks]);
 
-            $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
-            $updateworkflow=TaskDetails::where('application_no',$request->application_no)
-                                    ->update(['status_id' => $completedId->id]); 
-        //Email send notifications
-        if ($request->email) {
-            $when = Carbon::now()->addMinutes(1);
-            Notification::route('mail', $request->email) 
-            ->notify((new EndUserNotification($request->email, $request->owner_name, $request->application_no, 'Approved',$request->service_name))->delay($when));
-        }
+                $savetotaskaudit=TaskDetails::savedTaskDtlsAudit($request->application_no);
+                $updateworkflow=TaskDetails::where('application_no',$request->application_no)
+                                        ->update(['status_id' => $completedId->id]); 
+            //Email send notifications
+            if ($request->email) {
+                $when = Carbon::now()->addMinutes(1);
+                Notification::route('mail', $request->email) 
+                ->notify((new EndUserNotification($request->email, $request->owner_name, $request->application_no, 'Approved',$request->service_name))->delay($when));
+            }
+          });
        return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
        }
        elseif($request->status =='RESUBMIT'){
@@ -573,7 +635,8 @@ class TourOperatorController extends Controller
                  $approveId = WorkFlowDetails::getStatus('APPROVED');
                  $completedId= WorkFlowDetails::getStatus('COMPLETED');
                  $savedatatoaudit=Services::saveTourOperatorClearancesDtlsAudit($request->license_no);
-                 $data= [    
+                 $data= [  
+                    'application_no'   => $request->application_no,  
                     'name'   => $request->name,
                     'cid_no'   => $request->cid_no,
                     'email'   => $request->email,

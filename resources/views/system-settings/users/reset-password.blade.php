@@ -52,11 +52,11 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label for="name">New Password</label>
-                        <input type="password" name="new_password" class="form-control required" value="" />
+                        <input type="password" name="new_password" class="form-control required" autocomplete="false">
                     </div>
                     <div class="form-group">
                         <label for="name">Confirm Password</label>
-                        <input type="password" name="confirm_password" class="form-control required" value="" />
+                        <input type="password" name="confirm_password" class="form-control required" autocomplete="false"> 
                     </div>
                 </div>
                 <div class="card-footer text-center">

@@ -6,6 +6,7 @@
     <input type="hidden" class="form-control" name="module_id" value="{{ $applicantInfo->module_id }}">
     <input type="hidden" class="form-control" name="service_id" value="{{ $applicantInfo->service_id }}"> 
     <input type="hidden" class="form-control" name="service_name" value="{{ $applicantInfo->name }}">
+    <input type="hidden" class="form-control" name="dispatch_no" value="{{ $applicantInfo->dispatch_no }}">
     <div class="card">
         <div class="card-header">
              <h4 class="card-title">General Information</h4>
@@ -206,7 +207,7 @@
           <div class="col-md-5">
               <div class="form-group">
                   <label for="">Village<span class="text-danger"> *</span></label>
-                  <select  name="village_id" class="form-control select2bs4" id="village_id" style="width: 100%;">
+                  <select  name="new_village_id" class="form-control select2bs4" id="village_id" style="width: 100%;">
                       <option value="{{ $applicantInfo->new_village_id }}">{{ $applicantInfo->new_village_name }} </option>
                   </select>
               </div>
@@ -244,7 +245,7 @@
     <script>
         $(document).ready(function(){
             $('#license_date').datetimepicker({
-                format: 'DD/MM/YYYY',
+                format: 'MM/DD/YYYY',
             });
         });
         function requiredRemarks(status) {

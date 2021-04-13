@@ -144,6 +144,7 @@ class TouristStandardHotelController extends Controller
            \DB::transaction(function () use ($request,$roleId,$service) {
                $approveId = WorkFlowDetails::getStatus('APPROVED');
                $completedId= WorkFlowDetails::getStatus('COMPLETED');
+               $printedId=WorkFlowDetails::getStatus('PRINTED');
                $lastsequence=substr($request->application_no,7);
                $divisioncode=Services::getDivisonCode($request->service_id)->code;
                $tcb="TCB";
@@ -160,9 +161,9 @@ class TouristStandardHotelController extends Controller
                     'village_id'   => $request->village_id,
                     'accomodation_type_id'   => $request->accomodation_type_id,
                     'proposed_rooms_no'   => $request->proposed_rooms_no,
-                    'tentative_cons'   => DATE('Y-m-d', strtotime($request->tentative_cons)),
-                    'tentative_com'   => DATE('Y-m-d', strtotime($request->tentative_com)),
-                    'drawing_date'   => DATE('Y-m-d', strtotime($request->drawing_date)),
+                    'tentative_cons'   =>$service->setDateAttribute($request->tentative_cons),
+                    'tentative_com'   => $service->setDateAttribute($request->tentative_com),
+                    'drawing_date'   => $service->setDateAttribute($request->drawing_date),
                     'validaty_date'   =>now()->addYears(2),
                     'email'   => $request->email,
                     'submitted_by'   => $request->applicant_id,
@@ -174,6 +175,10 @@ class TouristStandardHotelController extends Controller
 
             // save renew technicalclearance details
             if($request->purpose_id=="21"){
+                $old_application_no= Services::getDataForUpdateOrEdit('t_technical_clearances','dispatch_no',$request->dispatch_no)->application_no;
+                $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($old_application_no);
+                $updateworkflow=WorkFlowDetails::where('application_no', $old_application_no)
+                    ->update(['status_id' => $printedId->id,'remarks' => "PRINTED"]);
                 $savedatatoaudit=Services::saveTechnicalClearanceDtlsAudit($request->dispatch_no);
                 $data = array(
                   'dispatch_no'   => $dispatchNo,
@@ -187,6 +192,10 @@ class TouristStandardHotelController extends Controller
 
             // save design change technicalclearance details
               if($request->purpose_id=="22"){
+                $old_application_no= Services::getDataForUpdateOrEdit('t_technical_clearances','dispatch_no',$request->dispatch_no)->application_no;
+                $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($old_application_no);
+                $updateworkflow=WorkFlowDetails::where('application_no', $old_application_no)
+                    ->update(['status_id' => $printedId->id,'remarks' => "PRINTED"]);
                 $savedatatoaudit=Services::saveTechnicalClearanceDtlsAudit($request->dispatch_no);
                 $data = array(
                   'dispatch_no'   => $dispatchNo,
@@ -198,17 +207,23 @@ class TouristStandardHotelController extends Controller
             }
             // save ownership change technicalclearance details
             if($request->purpose_id=="23"){
+                $old_application_no= Services::getDataForUpdateOrEdit('t_technical_clearances','dispatch_no',$request->dispatch_no)->application_no;
+                $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($old_application_no);
+                $updateworkflow=WorkFlowDetails::where('application_no', $old_application_no)
+                    ->update(['status_id' => $printedId->id,'remarks' => "PRINTED"]);
                 $savedatatoaudit=Services::saveTechnicalClearanceDtlsAudit($request->dispatch_no);
                 $data = array(
                  'dispatch_no'   => $dispatchNo,
                  'application_no'   => $request->application_no,
                  'purpose_id'   => $request->purpose_id,
-                 'name'   => $request->name,
+                 'name'   => $request->new_owner_name,
+                 'cid_no'   => $request->new_cid_no,
+                 'contact_no'   => $request->new_contact_no,
+                 'email'   => $request->new_email,
                  'updated_at'   => now(),
                  );
                  $updatedata=Services::updateApplicantDtls('t_technical_clearances','dispatch_no',$request->dispatch_no,$data);
-                }
-            //update application_no in t_documents
+                }   
             $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
             $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
                     ->update(['status_id' => $approveId->id,'role_id'=> $roleId,'remarks' => $request->remarks]);
@@ -274,16 +289,19 @@ class TouristStandardHotelController extends Controller
             $roleId = $role->id;
         }
         if($request->status =='APPROVED'){
-            // insert into t_techt_tourist_standard_dtlsnical_clearances
+            // insert into t_techt_tourist_standard_dtls
             \DB::transaction(function () use ($request,$service,$roleId) {
                 $approveId = WorkFlowDetails::getStatus('APPROVED');
                 $completedId= WorkFlowDetails::getStatus('COMPLETED');
-                $applicantdata[]= [    
+                $applicantdata[]= [  
+                    'application_no'   => $request->application_no,  
                     'module_id'   => $request->module_id,
+                    'service_id'   => $request->service_id,
+                    'application_type_id'   => $request->application_type_id,
                     'cid_no'   => $request->cid_no,
                     'star_category_id'   => $request->star_category_id,
                     'license_no'   => $request->license_no,
-                    'license_date'   => date('Y-m-d', strtotime($request->license_date)),
+                    'license_date'   => $service->setDateAttribute($request->license_date),
                     'tourist_standard_name'   => $request->tourist_standard_name,
                     'owner_name'   => $request->owner_name,
                     'address'   => $request->address,
@@ -295,7 +313,7 @@ class TouristStandardHotelController extends Controller
                     'webpage_url'   => $request->webpage_url,
                     'bed_no'   => $request->bed_no,
                     'village_id'   => $request->village_id,
-                    'inspection_date'   =>date('Y-m-d', strtotime($request->inspection_date)),
+                    'inspection_date'   =>$service->setDateAttribute($request->inspection_date),
                     'validaty_date'   =>now()->addYears(3),
                     'created_at'   => now(),
                     'updated_at'   => now(),
@@ -366,7 +384,6 @@ class TouristStandardHotelController extends Controller
             }
         });
         return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
-
         }
         elseif($request->status =='RESUBMIT'){
             $resubmitdId = WorkFlowDetails::getStatus('RESUBMIT');
@@ -418,12 +435,26 @@ class TouristStandardHotelController extends Controller
            \DB::transaction(function () use ($request,$roleId) {
                $approveId = WorkFlowDetails::getStatus('APPROVED');
                $completedId= WorkFlowDetails::getStatus('COMPLETED');
-              
+               $printedId=WorkFlowDetails::getStatus('PRINTED');
+
             // hotel name change
             if($request->application_type_id=="28"){
+                $old_application_no= Services::getDataForUpdateOrEdit('t_tourist_standard_dtls','dispatch_no',$request->dispatch_no)->application_no;
+                if($old_application_no){
+                    $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($old_application_no);
+                    $updateworkflow=WorkFlowDetails::where('application_no', $old_application_no)
+                        ->update(['status_id' => $printedId->id,'remarks' => "PRINTED"]);
+                }
                 $savedatatoaudit=Services::saveTouristStandardHotelDtlsAudit($request->license_no);
+                $lastsequence=substr($request->application_no,7);
+                $divisioncode=Services::getDivisonCode($request->service_id)->code;
+                $tcb="TCB";
+                $dispatchNo=$tcb.'-'.$divisioncode.date("Y.m.d").$lastsequence;
               $data = array(
+                'dispatch_no'=>  $dispatchNo,
                 'tourist_standard_name' => $request->tourist_standard_name,
+                'application_type_id'   => $request->application_type_id,
+                'application_no'=>$request->application_no,
                 'updated_at'   => now(),
              );
              $updatedata=Services::updateApplicantDtls('t_tourist_standard_dtls','license_no',$request->license_no,$data);
@@ -431,13 +462,26 @@ class TouristStandardHotelController extends Controller
 
             // hotel ownership change
             if($request->application_type_id=="29"){
+            $old_application_no= Services::getDataForUpdateOrEdit('t_tourist_standard_dtls','dispatch_no',$request->dispatch_no)->application_no;
+            if($old_application_no){
+                $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($old_application_no);
+                $updateworkflow=WorkFlowDetails::where('application_no', $old_application_no)
+                    ->update(['status_id' => $printedId->id,'remarks' => "PRINTED"]);
+            }
             $savedatatoaudit=Services::saveTouristStandardHotelDtlsAudit($request->license_no);
+            $lastsequence=substr($request->application_no,7);
+            $divisioncode=Services::getDivisonCode($request->service_id)->code;
+            $tcb="TCB";
+            $dispatchNo=$tcb.'-'.$divisioncode.date("Y.m.d").$lastsequence;
             $data = array(
+              'dispatch_no'=>  $dispatchNo,
               'owner_name' => $request->new_owner_name,
+              'application_no'=>$request->application_no,
               'cid_no' => $request->new_cid_no,
               'address' => $request->new_address, 
               'contact_no' => $request->new_contact_no,
               'email' => $request->new_email,
+              'application_type_id'   => $request->application_type_id,
               'updated_at'   => now(),
            );
            $updatedata=Services::updateApplicantDtls('t_tourist_standard_dtls','license_no',$request->license_no,$data);
@@ -448,6 +492,8 @@ class TouristStandardHotelController extends Controller
                 $savedatatoaudit=Services::saveTouristStandardHotelDtlsAudit($request->license_no);
                 $data = array(
                   'is_active' => 'N',
+                  'application_no'=>$request->application_no,
+                  'application_type_id'   => $request->application_type_id,
                   'updated_at'   => now(),
                );
                $updatedata=Services::updateApplicantDtls('t_tourist_standard_dtls','license_no',$request->license_no,$data);
@@ -508,17 +554,34 @@ class TouristStandardHotelController extends Controller
         }
 
      }   
-
-     public function importLicenseApplication(Request $request){
+   //Recommendatin letter for import license
+     public function importLicenseApplication(Request $request,Services $service){
         $roles = auth()->user()->roles()->get();
         $roleId = 0;
         foreach ($roles as $role){
             $roleId = $role->id;
         }
         if($request->status =='APPROVED'){
+            \DB::transaction(function () use ($request,$service,$roleId) {
                $approveId = WorkFlowDetails::getStatus('APPROVED');
                $completedId= WorkFlowDetails::getStatus('COMPLETED');
-            
+               $lastsequence=substr($request->application_no,7);
+               $divisioncode=Services::getDivisonCode($request->service_id)->code;
+               $tcb="TCB";
+               $dispatchNo=$tcb.'-'.$divisioncode.date("Y.m.d").$lastsequence;
+               $applicantdata[]= [  
+                'application_no'   => $request->application_no,  
+                'cid_no'   => $request->cid_no,
+                'license_no'   => $request->license_no,
+                'license_date'   => $service->setDateAttribute($request->license_date),
+                'owner_name'   => $request->owner_name,
+                'company_name'   => $request->company_name,
+                'contact_no'   => $request->contact_no,
+                'email'   => $request->email,
+                'village_id'   => $request->village_id,
+                'dispatch_no'=>$dispatchNo
+            ];
+            Services::getLastInsertedId('t_import_license_dtls',$applicantdata);
             $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
             $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
                     ->update(['status_id' => $approveId->id,'role_id'=> $roleId,'remarks' => $request->remarks]);
@@ -532,6 +595,7 @@ class TouristStandardHotelController extends Controller
                 Notification::route('mail', $request->email) 
                 ->notify((new EndUserNotification($request->email, $request->owner_name, $request->application_no, 'Approved',$request->service_name))->delay($when));
             }
+        });
        return redirect('tasklist/tasklist')->with('msg_success', 'Application approved successfully.');
        }
        elseif($request->status =='RESUBMIT'){
@@ -552,8 +616,8 @@ class TouristStandardHotelController extends Controller
         }
         return redirect('tasklist/tasklist')->with('msg_success', 'Application resend successfully');
     }
-    else{
 
+    else{
         $completedId= WorkFlowDetails::getStatus('COMPLETED');
         $rejectId = WorkFlowDetails::getStatus('REJECTED');
         $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
@@ -572,6 +636,7 @@ class TouristStandardHotelController extends Controller
         return redirect('tasklist/tasklist')->with('msg_success', 'Application reject successfully');
 
      }
+
     }
 
     // work permit application
@@ -586,6 +651,7 @@ class TouristStandardHotelController extends Controller
              \DB::transaction(function () use ($request,$service,$roleId) {
                  $approveId = WorkFlowDetails::getStatus('APPROVED');
                  $completedId= WorkFlowDetails::getStatus('COMPLETED');
+                 $printedId=WorkFlowDetails::getStatus('PRINTED');
                  $lastsequence=substr($request->application_no,7);
                $divisioncode=Services::getDivisonCode($request->service_id)->code;
                $tcb="TCB";
@@ -593,14 +659,15 @@ class TouristStandardHotelController extends Controller
                if($request->application_type_id==38){
                 $data[]= [    
                     'application_type_id'   => $request->application_type_id,
+                    'application_no'   => $request->application_no,
                     'license_no'   => $request->license_no,
                     'company_name'   => $request->company_name,
                     'cid_no'   => $request->cid_no,
                     'email'   => $request->email,
                     'total_worker'   => $request->total_worker,
                     'country_id'   => $request->country_id,
-                    'from_date'   =>date('Y-m-d', strtotime($request->from_date)),
-                    'to_date'   =>date('Y-m-d', strtotime($request->to_date)),
+                    'from_date'   =>$service->setDateAttribute($request->from_date),
+                    'to_date'   =>$service->setDateAttribute($request->to_date),
                     'village_id'   => $request->village_id,
                     'dispatch_no'   =>$dispatchNo,
                     'created_at'   => now(),
@@ -611,6 +678,7 @@ class TouristStandardHotelController extends Controller
                 else if($request->application_type_id==39){
                  $data[]= [    
                     'application_type_id'   => $request->application_type_id,
+                    'application_no'   => $request->application_no,
                     'license_no'   => $request->license_no,
                     'company_name'   => $request->company_name,
                     'cid_no'   => $request->cid_no,
@@ -641,19 +709,29 @@ class TouristStandardHotelController extends Controller
                     }
                 }
                 else if($request->application_type_id==40){
+                    $old_application_no= Services::getDataForUpdateOrEdit('t_work_permit_dtls','dispatch_no',$request->dispatch_no)->application_no;
+                    $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($old_application_no);
+                    $updateworkflow=WorkFlowDetails::where('application_no', $old_application_no)
+                        ->update(['status_id' => $printedId->id,'remarks' => "PRINTED"]);
                     $savedatatoaudit=Services::saveWorkPermitDtlsAudit($request->dispatch_no);
                     $data = array(
                     'dispatch_no' => $dispatchNo,
+                    'application_no'   => $request->application_no,
                     'total_worker'   => $request->total_worker,
-                    'from_date'   =>date('Y-m-d', strtotime($request->from_date)), 
-                    'to_date'   =>date('Y-m-d', strtotime($request->to_date)), 
+                    'from_date'   =>$service->setDateAttribute($request->from_date), 
+                    'to_date'   =>$service->setDateAttribute($request->to_date), 
                     'updated_at'  => now(),
                      );
                      $updatedata=Services::updateApplicantDtls('t_work_permit_dtls','dispatch_no',$request->dispatch_no,$data);
                 }else{
+                    $old_application_no= Services::getDataForUpdateOrEdit('t_work_permit_dtls','dispatch_no',$request->dispatch_no)->application_no;
+                    $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($old_application_no);
+                    $updateworkflow=WorkFlowDetails::where('application_no', $old_application_no)
+                        ->update(['status_id' => $printedId->id,'remarks' => "PRINTED"]);
                     $savedatatoaudit=Services::saveWorkPermitDtlsAudit($request->dispatch_no);
                     $data = array(
                     'dispatch_no' => $dispatchNo,
+                    'application_no'   => $request->application_no,
                     'updated_at'  => now(),
                      );
                      $updatedata=Services::updateApplicantDtls('t_work_permit_dtls','dispatch_no',$request->dispatch_no,$data);
@@ -671,7 +749,6 @@ class TouristStandardHotelController extends Controller
                         }
                     }
                 }
-
              $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);
              $updateworkflow=WorkFlowDetails::where('application_no',$request->application_no)
                      ->update(['status_id' => $approveId->id,'role_id'=> $roleId,'remarks' => $request->remarks]);

@@ -34,6 +34,8 @@
                 <div class="form-group">
                     <label for="">License Date.<span class="text-danger">*</span> </label>
                     <input type="date" class="form-control" name="license_date" id="license_date" readonly="true">
+                    <input type="hidden" class="form-control" name="dispatch_no" id="dispatch_no">
+
                 </div>
             </div>
         </div>
@@ -209,7 +211,7 @@
                 <em>New owner – academic transcript minimum class 10</em>
             </li>
             <li>  
-                <em>iii.	cid copy for new owner</em>
+                <em>cid copy for new owner</em>
             </li>
         </ol>
         <ol id="name_change" style="display:none">
@@ -236,7 +238,7 @@
     <!-- card body ends -->
     <div class="card-footer text-center">
         <button type="submit"class="btn btn-success"><i class="fa fa-check"></i> APPLY</button>
-        <button type="reset"class="btn btn-danger"><i class="fa fa-times"></i> RESET</button>
+        <button type="reset"class="btn btn-danger"><i class="fa fa-ban"></i> RESET</button>
     </div>
 </div>
 <form>
@@ -314,6 +316,7 @@
                     $('#gewog_name').val(data.gewog_name);
                     $('#village_name').val(data.village_name);
                     $('#village_id').val(data.village_id);
+                    $('#dispatch_no').val(data.dispatch_no);
 				} 
 				});
 			} 

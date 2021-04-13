@@ -182,38 +182,38 @@
                     </div>
                 </div>
                 <div id="rowId" class="parent_div">
-                <div class="row foreignworkerdtl">
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <input type="text" class="form-control passport_no" name="passport_no[]" onchange="getForeignWorkerDtls(this)">
+                    <div class="row foreignworkerdtl">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <input type="text" class="form-control passport_no" name="passport_no[]" onchange="getForeignWorkerDtls(this)">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input type="text" class="form-control name" name="name[]">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                            <input type="date" name="start_date[]" class="form-control start_date">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <input type="date" name="end_date[]" class="form-control end_date">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <select  name="nationality[]" class="form-control nationality" style="width: 100%;">
+                                    <option value=""> -Select-</option>
+                                    @foreach ($countries as $country)
+                                    <option value="{{ $country->id }}">{{ $country->dropdown_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <input type="text" class="form-control name" name="name[]" value="{{ old('name') }}">
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                        <input type="date" name="start_date[]" class="form-control start_date">
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <input type="date" name="end_date[]" class="form-control end_date" value="{{ old('end_date') }}">
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <select  name="nationality[]" class="form-control nationality" style="width: 100%;">
-                                <option value=""> -Select-</option>
-                                @foreach ($countries as $country)
-                                <option value="{{ $country->id }}">{{ $country->dropdown_name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                </div>
                 </div>
                 <div id="adddiv"></div>
                 <span class="btn btn-success btn-sm float-right" id="add"> <i class="fas fa-plus fa-sm">Add</i></span><br>
@@ -248,7 +248,7 @@
         <!-- card body ends -->
         <div class="card-footer text-center">
             <button type="submit"class="btn btn-success"><i class="fa fa-check"></i> APPLY</button>
-            <button type="reset"class="btn btn-danger"><i class="fa fa-times"></i> RESET</button>
+            <button type="reset"class="btn btn-danger"><i class="fa fa-ban"></i> RESET</button>
         </div>
     </div>
 </form>
@@ -261,15 +261,14 @@
                 $(this).valid();
             });
             $('#from_date').datetimepicker({
-                format: 'DD/MM/YYYY',
+                format: 'MM/DD/YYYY',
             });
             $('#to_date').datetimepicker({
-                format: 'DD/MM/YYYY',
+                format: 'MM/DD/YYYY',
             });
-        });
-        $(document).ready(function(){ 
+
             $("#add").click(function(){
-                $("#rowId").clone().attr('id', 'rowId'+id).after("#id").appendTo("#adddiv").find("input[type='text']","input[type='date']").val("");
+				$("#rowId").clone().attr('id', 'rowId'+id).after("#id").appendTo("#adddiv").find("input[type='text'],select,input[type='date']").val("");
                 $addRow ='<span id="remove'+id+'" class="btn-group" style=" margin-top:-50px; float:right">' 
                 +'<span id="remove" onClick="removeForm('+id+')"' 
                 +'class="btn btn-danger btn-sm"><i class="fas fa-trash-alt fa-sm"></i> Delete</span></span>'
@@ -277,16 +276,7 @@
                 $('#adddiv').append($addRow);
                 id++;
             });
-        });
-        function removeForm(id){  
-            if (confirm('Are you sure you want to delete this form?')){
-                $('#rowId'+id).remove();
-                $('#remove'+id).remove();
-                $('#line'+id).remove();
-            }
-        }
 
-        $(document).ready(function(){
             $('#application_type_id').on('change',function(e) {
                 var application_type_id=e.target.value;
                 if(application_type_id == "38"){
@@ -322,12 +312,42 @@
                     company_title_name: {
                        required: true,
                     },
+                    cid_no: {
+                       required: true,
+                    },
+                    email: {
+                       required: true,
+                    },
+                    dispatch_no: {
+                        required: function(element) {
+                            var a=$("#application_type_id").val();
+                            if(a==40){
+                                return $("#application_type_id").val() ==40;
+                             }else{
+                            return $("#application_type_id").val() ==41;
+                             }
+                        }
+                    },
+
                     number: {
-                        required: true,
-                        digits: true,                    
+                        required: function(element) {
+                             return $("#application_type_id").val() ==38 || $("#application_type_id").val() ==40;
+                        },
                     },
                     country_id: {
-                        required: true,
+                        required: function(element) {
+                            return $("#application_type_id").val() ==38 || $("#application_type_id").val() ==40;
+                        },
+                    },
+                    from_date: {
+                        required: function(element) {
+                            return $("#application_type_id").val() ==38 || $("#application_type_id").val() ==40;
+                        },
+                    },
+                    to_date: {
+                        required: function(element) {
+                            return $("#application_type_id").val() ==38 || $("#application_type_id").val() ==40;
+                        },
                     },
                     dzongkhag_id: {
                         required: true,
@@ -337,6 +357,31 @@
                     },
                     establishment_village_id: {
                         required: true,
+                    },
+                    "passport_no[]": {
+                        required: function(element) {
+                             return $("#application_type_id").val() ==39 || $("#application_type_id").val() ==41;
+                        },
+                    },
+                    "name[]": {
+                        required: function(element) {
+                            return $("#application_type_id").val() ==39 || $("#application_type_id").val() ==41;
+                        },
+                    },
+                    "start_date[]": {
+                        required: function(element) {
+                            return $("#application_type_id").val() ==39 || $("#application_type_id").val() ==41;
+                        },
+                    },
+                    "end_date[]": {
+                        required: function(element) {
+                            return $("#application_type_id").val() ==39 || $("#application_type_id").val() ==41;
+                        },
+                    },
+                    "nationality[]": {
+                        required: function(element) {
+                            return $("#application_type_id").val() ==39 || $("#application_type_id").val() ==41;
+                        },
                     },
                    },
                 messages: {
@@ -383,6 +428,13 @@
             });
         });
 
+        function removeForm(id){  
+            if (confirm('Are you sure you want to delete this form?')){
+                $('#rowId'+id).remove();
+                $('#remove'+id).remove();
+                $('#line'+id).remove();
+            }
+        }
         function getWorkPermitDetails(dispatch_no){
             var application_type_id=$("#application_type_id").val();
             $.ajax({
@@ -432,6 +484,7 @@
         }
 
         function getForeignWorkerDtls(this_id){
+            slert();
             var application_type_id=$("#application_type_id").val();
             var passport_no=$(this_id).val();
             var parentdivId = $(this_id).parents("div.parent_div").attr('id');

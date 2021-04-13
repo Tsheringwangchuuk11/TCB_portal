@@ -66,14 +66,15 @@ class WorkFlowDetails extends Model
 			  e.name,
 			  c.id,
 			  c.status_name,
+        a.application_type_id,
 			  DATE_FORMAT(b.created_at,"%d/%m/%Y") AS created_at,
 			  DATE_FORMAT(b.updated_at,"%d/%m/%Y") AS updated_at,
         IF(DATE_ADD(DATE_FORMAT(b.updated_at,"%Y-%m-%d"),INTERVAL 1 MONTH) > CURRENT_DATE,"1","0") AS print_validity,
 			  b.remarks
 			  FROM 
-			  (SELECT application_no,module_id,service_id FROM t_applications
+			  (SELECT application_no,module_id,service_id,application_type_id FROM t_applications
 			  UNION
-			  SELECT application_no,module_id,service_id  FROM t_grievance_applications)a
+			  SELECT application_no,module_id,service_id,"application_type_id"  FROM t_grievance_applications)a
 			  LEFT JOIN t_workflow_dtls b ON a.application_no=b.application_no
 			  LEFT JOIN t_status_masters c ON b.status_id=c.id
 			  LEFT JOIN t_module_masters d ON a.module_id=d.id

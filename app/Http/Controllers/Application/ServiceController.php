@@ -239,7 +239,7 @@ class ServiceController extends Controller
 
     //Technical clearance details
     public function getTechCleranceDtls($dispatch_no){
-        $present= Services::checkDispatchNumber('t_technical_clearances','dispatch_no',$request->dispatch_no);
+        $present= Services::checkDispatchNumber('t_technical_clearances','dispatch_no',$dispatch_no);
         if($present){
             $data=Services::getTechCleranceDtls($dispatch_no);
             return response()->json($data);
@@ -305,7 +305,6 @@ class ServiceController extends Controller
 
      // save the new application
     public function saveNewApplication(Request $request,Services $service){
-        dd('dd');
         $application_no = $service->generateApplNo($request);
         DB::transaction(function () use ($request, $application_no,$service) {
             //insert into t_application
@@ -324,7 +323,7 @@ class ServiceController extends Controller
             $data->manager_name=$request->manager_name;
             $data->manager_mobile_no=$request->manager_mobile_no;
             $data->gender=$request->gender;
-            $data->dob=date('Y-m-d', strtotime($request->dob));
+            $data->dob=$service->setDateAttribute($request->dob);
             $data->designation=$request->designation;
             $data->applicant_flat_no=$request->applicant_flat_no;
             $data->applicant_building_no=$request->applicant_building_no;
@@ -334,14 +333,14 @@ class ServiceController extends Controller
             $data->company_name_two=$request->company_name_two;
             $data->contact_no=$request->contact_no;
             $data->new_contact_no=$request->new_contact_no;
-            $data->tentative_cons=date('Y-m-d', strtotime($request->tentative_cons));
-            $data->tentative_com=date('Y-m-d', strtotime($request->tentative_com));
-            $data->drawing_date=date('Y-m-d', strtotime($request->drawing_date));
+            $data->tentative_cons=$service->setDateAttribute($request->tentative_cons);
+            $data->tentative_com=$service->setDateAttribute($request->tentative_com);
+            $data->drawing_date=$service->setDateAttribute($request->drawing_date);
             $data->email=$request->email;
             $data->new_email=$request->new_email;
             $data->star_category_id=$request->star_category_id;
             $data->license_no=$request->license_no;
-            $data->license_date=date('Y-m-d', strtotime($request->license_date));
+            $data->license_date=$service->setDateAttribute($request->license_date);
             $data->address=$request->address;
             $data->new_address=$request->new_address;
             $data->fax=$request->fax;
@@ -352,7 +351,7 @@ class ServiceController extends Controller
             $data->town_distance=$request->town_distance;
             $data->road_distance=$request->road_distance;
             $data->condition=$request->condition;
-            $data->validity_date=date('Y-m-d', strtotime($request->validity_date));
+            $data->validity_date=$service->setDateAttribute($request->validity_date);
             $data->flat_no=$request->flat_no;
             $data->building_no=$request->building_no;
             $data->permanent_village_id=$request->permanent_village_id;
@@ -361,8 +360,8 @@ class ServiceController extends Controller
             $data->chiwog_id=$request->chiwog_id;
             $data->city=$request->city;
             $data->country_id=$request->country_id;
-            $data->from_date=date('Y-m-d', strtotime($request->from_date));
-            $data->to_date=date('Y-m-d', strtotime($request->to_date));
+            $data->from_date=$service->setDateAttribute($request->from_date);
+            $data->to_date=$service->setDateAttribute($request->to_date);
             $data->remarks=$request->remarks;
             $data->dispatch_no=$request->dispatch_no;
             $data->save();
@@ -377,7 +376,6 @@ class ServiceController extends Controller
                                'room_no' => $request->room_no[$key],
                     ];
                  }
-
                 $service->insertDetails('t_room_applications',$roomAppData);
             }
 
@@ -428,7 +426,7 @@ class ServiceController extends Controller
                       'application_no'  => $application_no,
                          'member_name'  => $request->member_name[$key],
                     'relation_type_id'  => $request->relation_type_id[$key],
-                          'member_dob'  =>date('Y-m-d', strtotime($request->member_dob[$key])),
+                          'member_dob'  =>$service->setDateAttribute($request->member_dob[$key]),
                        'member_gender'  => $request->member_gender[$key]
                     ];
                 }
@@ -442,7 +440,7 @@ class ServiceController extends Controller
                            'partner_name'   => $request->partner_name,
                          'partner_cid_no'   => $request->partner_cid_no,
                          'partner_gender'   => $request->partner_gender,
-                            'partner_dob'   => date('Y-m-d', strtotime($request->partner_dob)),
+                            'partner_dob'   => $service->setDateAttribute($request->partner_dob),
                           'partner_email'   => $request->partner_email,
                      'partner_village_id'   => $request->partner_village_id,
                     ];
@@ -523,8 +521,8 @@ class ServiceController extends Controller
                         'objective'  => $request->objective,
                         'product_des'  => $request->product_des,
                         'project_cost'  => $request->project_cost,
-                        'start_date'  =>date('Y-m-d', strtotime($request->start_date)),
-                        'end_date'  => date('Y-m-d', strtotime($request->end_date)),
+                        'start_date'  =>$service->setDateAttribute($request->start_date),
+                        'end_date'  => $service->setDateAttribute($request->end_date),
                         'contribution'  => $request->contribution,
                     ];
                 $service->insertDetails('t_product_applications',$productItemData);
@@ -540,8 +538,8 @@ class ServiceController extends Controller
                               'objective'  => $request->objective,
                            'product_des'  => $request->product_des,
                           'project_cost'  => $request->project_cost,
-                             'start_date'  =>date('Y-m-d', strtotime($request->start_date)),
-                          'end_date'  => date('Y-m-d', strtotime($request->end_date)),
+                             'start_date'  =>$service->setDateAttribute($request->start_date),
+                          'end_date'  => $service->setDateAttribute($request->end_date),
                           'contribution'  => $request->contribution,
                      ];
                  $service->insertDetails('t_product_applications',$productItemData);
@@ -572,8 +570,7 @@ class ServiceController extends Controller
                          'channel_name'   => $request->channel[$key],
                          'channel_link'   => $request->channel_link[$key],
                       'channel_type_id'   => $request->channel_type[$key],
-                        'intended_date'   =>date('Y-m-d', strtotime($request->intended_date[$key])),
-
+                        'intended_date'   => $service->setDateAttribute($request->intended_date[$key]),
                     ];
                 }
                 $service->insertDetails('t_dist_channel_applications',$channelCoverageData);
@@ -605,19 +602,20 @@ class ServiceController extends Controller
               }
             //insert into t_foreign_worker_applications
              $workpermitData = [];
-             if(isset($_POST['passport_no'])){
+             if (isset($_POST['passport_no'])) {
                 foreach($request->passport_no as $key => $value){
                     $workpermitData[] = [
                          'application_no'   => $application_no,
                            'name'   => $request->name[$key],
                          'passport_no'   => $request->passport_no[$key],
-                         'start_date'   => date('Y-m-d', strtotime($request->start_date[$key])),
-                          'end_date'   => date('Y-m-d', strtotime($request->end_date[$key])),
+                         'start_date'   => $service->setDateAttribute($request->start_date[$key]),
+                          'end_date'   => $service->setDateAttribute($request->end_date[$key]),
                         'nationality'   => $request->nationality[$key],
                     ];
                 }
                 $service->insertDetails('t_foreign_worker_applications',$workpermitData);
             }
+
             //update application_no in t_documents
              $documentId = $request->documentId;
              $service->updateDocumentDetails($documentId,$application_no);
@@ -641,6 +639,7 @@ class ServiceController extends Controller
                 $update=new TaskDetails;
                 $update->application_no=$application_no;
                 $update->status_id=WorkFlowDetails::getStatus('INITIATED')->id;
+                //(display order 1 in sub menu table represent to approve or verify and 2 shows approve the application)
                 $update->assigned_priv_id=TaskDetails::getAssignPrivId($request->service_id, 1)->id;
                 $update->save();
 
@@ -716,14 +715,13 @@ class ServiceController extends Controller
     }
 
     //print recommendation letter
-    public function printRecommendationLetter($application_no,$service_id,$module_id){
+    public function printRecommendationLetter($application_no,$service_id,$module_id,$application_type_id){
 
         // new technical clearance for hotel and tented accommodation
         if($service_id==1 && $module_id==1){
             $data['content']=Services::getHotelTechnicalClearanceLetterContent($application_no,$service_id,$module_id);
-
             $data['dispatch_no'] = $data['content']->dispatch_no;
-            $find = array("number_of_rooms","accommodation_type","owner","village_name","gewog_name","dzongkhag_name","vilidation_date","submit_date","old_owner");
+            $find = array("number_of_rooms","accommodation_type","owner","village_name","gewog_name","dzongkhag_name","vilidation_date","submit_date","previous_name");
             $replace  = array($data['content']->proposed_rooms_no,$data['content']->dropdown_name,$data['content']->name,$data['content']->village_name,$data['content']->gewog_name,$data['content']->dzongkhag_name,$data['content']->validaty_date,$data['content']->submit_date,$data['content']->old_owner);
             $arr = array($data['content']->body);
             $data['body']=str_replace($find,$replace,$arr);
@@ -738,6 +736,18 @@ class ServiceController extends Controller
             return $pdf->stream('certification-'.str_random(4).'.pdf');
         }
 
+        //Recommendation letter for import license
+        else if($service_id==4 && $module_id==1){
+            $data['content']=Services::geImporttLetterContent($application_no,$service_id,$module_id);
+            $data['dispatch_no'] = $data['content']->dispatch_no;
+            $find = array("hotel_name","hotel_location");
+            $replace  = array($data['content']->company_name,$data['content']->dzongkhag_name);
+            $arr = array($data['content']->body);
+            $data['body']=str_replace($find,$replace,$arr);
+            $pdf = PDF::loadView('recommendation_letter.recommendation_letter',$data);
+            return $pdf->stream('Recommendation Letter-'.str_random(4).'.pdf');
+        }
+
         // certification for home stay
         else if($service_id==7 && $module_id==2){
             $divisioncode=Services::getDivisonCode($service_id)->code;
@@ -749,6 +759,50 @@ class ServiceController extends Controller
             return $pdf->stream('certification-'.str_random(4).'.pdf');
         }
 
+         // Facilitate Obtaining Work Permit for Hiring expatriate for TCB Certified Hotels 
+         else if($service_id==5 && $module_id==1){
+            $data['content']=Services::getWorkPermitLetterContent($application_no,$service_id,$module_id);
+            $data['dispatch_no'] = $data['content']->dispatch_no;
+            $find = array("cid","company_name","village_name","gewog_name","dzongkhag_name");
+            $replace  = array($data['content']->cid_no,$data['content']->company_name,$data['content']->village_name,$data['content']->gewog_name,$data['content']->dzongkhag_name);
+            $arr = array($data['content']->body);
+            $data['body']=str_replace($find,$replace,$arr);
+            $pdf = PDF::loadView('recommendation_letter.recommendation_letter',$data);
+            return $pdf->stream('Recommendation Letter-'.str_random(4).'.pdf');
+        }
+
+         //Ownership change/name change/cancellation  of TCB certified Tourist Hotels
+         else if($service_id==6 && $module_id==1){
+             //dd($application_type_id);
+            $data['content']=Services::getLetterContentForNameOwnershipChange($application_no,$service_id,$module_id);
+            $data['dispatch_no'] = $data['content']->dispatch_no;
+            if($application_type_id==28){
+                $find = array("oldhotelname","licenseno","newhotelname");
+                $replace  = array($data['content']->old_hotel_name,$data['content']->license_no,$data['content']->new_hotel_name);
+            }
+
+            if($application_type_id==29){
+                $find = array("hotelname","gewogname","dzongkhag","oldname","oldcid","newname","newcid");
+                $replace  = array($data['content']->new_hotel_name,$data['content']->gewog_name,$data['content']->dzongkhag_name,$data['content']->old_owner_name,$data['content']->old_cid_no,$data['content']->new_owner_name,$data['content']->new_cid_no);
+            }
+            $arr = array($data['content']->body);
+            $data['body']=str_replace($find,$replace,$arr);
+            $pdf = PDF::loadView('recommendation_letter.recommendation_letter',$data);
+            return $pdf->stream('Recommendation Letter-'.str_random(4).'.pdf');
+        }
+
+        // Recommendation for import License-Tour Operator 
+        else if($service_id==4 && $module_id==4){
+            $data['content']=Services::getHotelTechnicalClearanceLetterContent($application_no,$service_id,$module_id);
+            $data['dispatch_no'] = $data['content']->dispatch_no;
+            $find = array("number_of_rooms","accommodation_type","owner","village_name","gewog_name","dzongkhag_name","vilidation_date","submit_date","old_owner");
+            $replace  = array($data->proposed_rooms_no,$data->dropdown_name,$data->name,$data->village_name,$data->gewog_name,$data->dzongkhag_name,$data->validaty_date,$data->submit_date,$data->old_owner);
+            $arr = array($data->body);
+            $data['body']=str_replace($find,$replace,$arr);
+            $pdf = PDF::loadView('recommendation_letter.recommendation_letter',$data);
+            return $pdf->stream('Recommendation Letter-'.str_random(4).'.pdf');
+        }
+
         // Tour Operator License Clearance-New License
         else if($service_id==2 && $module_id==4){
             $lastsequence=substr($application_no,7);
@@ -756,8 +810,8 @@ class ServiceController extends Controller
             $tcb="TCB";
             $data['dispatch_no'] =$tcb.'-'.$divisioncode.date("Y.m.d").$lastsequence;
             $data['content']=Services::getOperatorLicenseClearanceLetterContent($application_no,$service_id,$module_id);
-            $find = array("owner","village_name","gewog_name","dzongkhag_name","vilidation_date");
-            $replace  = array($data['content']->name,$data['content']->village_name,$data['content']->gewog_name,$data['content']->dzongkhag_name,$data['content']->validaty_date);
+            $find = array("name","cidno","company");
+            $replace  = array($data['content']->name,$data['content']->cid_no,$data['content']->company_name);
             $arr = array($data['content']->body);
             $data['body']=str_replace($find,$replace,$arr);
             $pdf = PDF::loadView('recommendation_letter.recommendation_letter',$data);
@@ -788,37 +842,25 @@ class ServiceController extends Controller
             return $pdf->stream('Recommendation Letter-'.str_random(4).'.pdf');
         }
 
-        //Ownership change of TCB certified Tourist Hotels
-         else if($service_id==6 && $module_id==1){
-            $data['content']=Services::getHotelTechnicalClearanceLetterContent($application_no,$service_id,$module_id);
-            $data['dispatch_no'] = $data['content']->dispatch_no;
-            $find = array("number_of_rooms","accommodation_type","owner","village_name","gewog_name","dzongkhag_name","vilidation_date","submit_date","old_owner");
-            $replace  = array($data->proposed_rooms_no,$data->dropdown_name,$data->name,$data->village_name,$data->gewog_name,$data->dzongkhag_name,$data->validaty_date,$data->submit_date,$data->old_owner);
-            $arr = array($data->body);
-            $data['body']=str_replace($find,$replace,$arr);
-            $pdf = PDF::loadView('recommendation_letter.recommendation_letter',$data);
-            return $pdf->stream('Recommendation Letter-'.str_random(4).'.pdf');
-        }
+       
 
-        //Name change of tour operators
+        //Name change/location change/ownership change of tour operators
          else if($service_id==11 && $module_id==4){
-            $data['content']=Services::getHotelTechnicalClearanceLetterContent($application_no,$service_id,$module_id);
+            $data['content']=Services::getLetterContentForNameOwnershipChange($application_no,$service_id,$module_id);
             $data['dispatch_no'] = $data['content']->dispatch_no;
-            $find = array("number_of_rooms","accommodation_type","owner","village_name","gewog_name","dzongkhag_name","vilidation_date","submit_date","old_owner");
-            $replace  = array($data->proposed_rooms_no,$data->dropdown_name,$data->name,$data->village_name,$data->gewog_name,$data->dzongkhag_name,$data->validaty_date,$data->submit_date,$data->old_owner);
-            $arr = array($data->body);
-            $data['body']=str_replace($find,$replace,$arr);
-            $pdf = PDF::loadView('recommendation_letter.recommendation_letter',$data);
-            return $pdf->stream('Recommendation Letter-'.str_random(4).'.pdf');
-        }
-
-        // Recommendation for import License-Tour Operator 
-        else if($service_id==4 && $module_id==4){
-            $data['content']=Services::getHotelTechnicalClearanceLetterContent($application_no,$service_id,$module_id);
-            $data['dispatch_no'] = $data['content']->dispatch_no;
-            $find = array("number_of_rooms","accommodation_type","owner","village_name","gewog_name","dzongkhag_name","vilidation_date","submit_date","old_owner");
-            $replace  = array($data->proposed_rooms_no,$data->dropdown_name,$data->name,$data->village_name,$data->gewog_name,$data->dzongkhag_name,$data->validaty_date,$data->submit_date,$data->old_owner);
-            $arr = array($data->body);
+            if($application_type_id==28){
+            $find = array("oldname","newname");
+            $replace  = array($data['content']->old_hotel_name,$data['content']->new_hotel_name);
+            }
+            if($application_type_id==29){
+                $find = array("companyname","licenseno","oldname","oldcidno","newname","newcidno");
+                $replace  = array($data['content']->new_hotel_name,$data['content']->license_no,$data['content']->old_owner_name,$data['content']->old_cid_no,$data['content']->new_owner_name,$data['content']->new_cid_no);
+            }
+            if($application_type_id==31){
+                $find = array("companyname","licenseno","oldgewogname","olddzongkhag","newdzongkhag");
+                $replace  = array($data['content']->new_hotel_name,$data['content']->license_no,$data['content']->old_gewog_name,$data['content']->old_dzongkhag_name,$data['content']->dzongkhag_name);
+            }
+            $arr = array($data['content']->body);
             $data['body']=str_replace($find,$replace,$arr);
             $pdf = PDF::loadView('recommendation_letter.recommendation_letter',$data);
             return $pdf->stream('Recommendation Letter-'.str_random(4).'.pdf');
@@ -835,17 +877,6 @@ class ServiceController extends Controller
             $pdf = PDF::loadView('recommendation_letter.recommendation_letter',$data);
             return $pdf->stream('Recommendation Letter-'.str_random(4).'.pdf');
         }
-
-        // Facilitate Obtaining Work Permit for Hiring expatriate for TCB Certified Hotels 
-        else if($service_id==5 && $module_id==1){
-            $data['content']=Services::getHotelTechnicalClearanceLetterContent($application_no,$service_id,$module_id);
-            $data['dispatch_no'] = $data['content']->dispatch_no;
-            $find = array("number_of_rooms","accommodation_type","owner","village_name","gewog_name","dzongkhag_name","vilidation_date","submit_date","old_owner");
-            $replace  = array($data->proposed_rooms_no,$data->dropdown_name,$data->name,$data->village_name,$data->gewog_name,$data->dzongkhag_name,$data->validaty_date,$data->submit_date,$data->old_owner);
-            $arr = array($data->body);
-            $data['body']=str_replace($find,$replace,$arr);
-            $pdf = PDF::loadView('recommendation_letter.recommendation_letter',$data);
-            return $pdf->stream('Recommendation Letter-'.str_random(4).'.pdf');
-        }
+       
     }
 }

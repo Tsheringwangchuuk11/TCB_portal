@@ -202,7 +202,7 @@
         </div>
         <div class="card-footer text-center">
             <button type="submit"class="btn btn-success"><i class="fa fa-check"></i> SUBMIT</button>
-            <button type="reset"class="btn btn-danger"><i class="fa fa-times"></i> RESET</button>
+            <button type="reset"class="btn btn-danger"><i class="fa fa-ban"></i> RESET</button>
         </div>
     </div>
 </form>

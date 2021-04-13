@@ -121,7 +121,7 @@
         <!-- card body ends -->
         <div class="card-footer text-center">
             <button type="submit"class="btn btn-success"><i class="fa fa-check"></i> APPLY</button>
-            <button type="reset"class="btn btn-danger"><i class="fa fa-times"></i> RESET</button>
+            <button type="reset"class="btn btn-danger"><i class="fa fa-ban"></i> RESET</button>
         </div>
     </div>
 </form>
@@ -133,7 +133,7 @@
                 $(this).valid();
             });
             $('#license_date').datetimepicker({
-                format: 'DD/MM/YYYY',
+                format: 'MM/DD/YYYY',
             });
         });
         $(document).ready(function(){

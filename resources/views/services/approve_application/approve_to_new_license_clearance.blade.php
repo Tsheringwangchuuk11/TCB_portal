@@ -98,7 +98,7 @@
               </div>
         </div>
     </div>
-@if(!is_null($partnerInfo))
+@if(isset($partnerInfo->id))
     <div class="card">
         <div class="card-header">
              <h4 class="card-title">Partner’s General Information (In case of partnership)</h4>
@@ -287,10 +287,10 @@
 	<script>
     $(document).ready(function(){
     $('#dob').datetimepicker({
-        format: 'DD/MM/YYYY',
+        format: 'MM/DD/YYYY',
     });
     $('#partner_dob').datetimepicker({
-        format: 'DD/MM/YYYY',
+        format: 'MM/DD/YYYY',
     });
 });
 		function requiredRemarks(status) {

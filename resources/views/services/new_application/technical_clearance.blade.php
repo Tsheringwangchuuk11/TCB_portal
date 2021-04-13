@@ -90,8 +90,8 @@
                     <div class="col-md-5">
                         <div class="form-group">
                             <label for="">Tentative construction date<span class="text-danger"> *</span> </label>
-                            <div class="input-group date" id="tentative_cons" data-target-input="nearest">
-                                <input type="text" name="tentative_cons" class="form-control datetimepicker-input" data-target="#tentative_cons" value="{{ old('tentative_cons') }}">
+                            <div class="input-group date" data-target-input="nearest">
+                                <input type="text" name="tentative_cons" class="form-control datetimepicker-input" id="tentative_cons" data-target="#tentative_cons" value="{{ old('tentative_cons') }}">
                                 <div class="input-group-append" data-target="#tentative_cons" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                 </div>
@@ -101,21 +101,21 @@
                     <div class="col-md-5 offset-md-2">
                         <div class="form-group">
                             <label for="">Tentative completion of the construction<span class="text-danger"> *</span></label>
-                            <div class="input-group date" id="tentative_com" data-target-input="nearest">
-                                <input type="text" name="tentative_com" class="form-control datetimepicker-input" data-target="#tentative_com" value="{{ old('tentative_com') }}">
+                            <div class="input-group date" data-target-input="nearest">
+                                <input type="text" name="tentative_com" class="form-control datetimepicker-input" id="tentative_com" data-target="#tentative_com" value="{{ old('tentative_com') }}">
                                 <div class="input-group-append" data-target="#tentative_com" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                 </div>
-                            </div>
-                        </div>
+                            </div>                       
+                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-5">
                         <div class="form-group">
                             <label for="">Drawing submission date<span class="text-danger"> *</span></label>
-                            <div class="input-group date" id="drawing_date" data-target-input="nearest">
-                                <input type="text" name="drawing_date" class="form-control datetimepicker-input" data-target="#drawing_date" value="{{ old('drawing_date') }}">
+                            <div class="input-group date" data-target-input="nearest">
+                                <input type="text" name="drawing_date" class="form-control datetimepicker-input" id="drawing_date" data-target="#drawing_date" value="{{ old('drawing_date') }}">
                                 <div class="input-group-append" data-target="#drawing_date" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                 </div>
@@ -163,6 +163,33 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<div class="card"  id="newowner" style="display: none">
+    <div class="card-header">
+        <h4 class="card-tile">New Owner Information</h4>
+    </div>
+    <div class="card-body">
+            <div class="row">
+                <div class="form-group col-md-5">
+                    <label for="">Owner Name <span class="text-danger"> *</span></label>
+                    <input type="text" class="form-control" name="new_owner_name">
+                </div>
+                <div class="form-group col-md-5 offset-md-2">
+                    <label for="">CID No. <span class="text-danger"> *</span></label>
+                    <input type="text" class="form-control" name="new_cid_no">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-5">
+                    <label for="">Contact No.<span class="text-danger"> *</span></label>
+                    <input type="text" class="form-control" name="new_contact_no">
+                </div>
+                <div class="form-group col-md-5 offset-md-2">
+                    <label for="">Email <span class="text-danger"> *</span></label>
+                    <input type="email" class="form-control" name="new_email">
+                </div>
+            </div>
     </div>
 </div>
 <div class="card">
@@ -240,28 +267,27 @@
     <!-- card body ends -->
     <div class="card-footer text-center">
         <button type="submit"class="btn btn-success"><i class="fa fa-check"></i> APPLY</button>
-        <button type="reset"class="btn btn-danger"><i class="fa fa-times"></i> RESET</button>
+        <button type="reset"class="btn btn-danger"><i class="fa fa-ban"></i> RESET</button>
     </div>
 </div>
 </form>
 @endsection
 @section('scripts')
 <script>
-$(document).ready(function () {
-   $('.select2bs4').on('change', function () {
+
+$(document).ready(function(){
+    $('.select2bs4').on('change', function () {
       $(this).valid();
      });
     $('#tentative_cons').datetimepicker({
-        format: 'DD/MM/YYYY',
+        format: 'MM/DD/YYYY',
     });
     $('#tentative_com').datetimepicker({
-        format: 'DD/MM/YYYY'
+        format: 'MM/DD/YYYY'
     });
     $('#drawing_date').datetimepicker({
-        format: 'DD/MM/YYYY'
+        format: 'MM/DD/YYYY',
     });
-});
-$(document).ready(function(){
     $('#application_type_id').on('change',function(e) {
             $('#cid_no').val('');
             $("#star_category_id").val("").trigger("change.select2");        
@@ -287,6 +313,7 @@ $(document).ready(function(){
             $("#change_design").hide();
             $("#ownership_change").hide();
             $("#dispatchNumberId").hide();
+            $("#newowner").hide();
         } 
         else if(application_type_id == "21"){
             $("#new_application").hide();
@@ -294,6 +321,7 @@ $(document).ready(function(){
             $("#change_design").hide();
             $("#ownership_change").hide();
             $("#dispatchNumberId").show();
+            $("#newowner").hide();
         } 
         else if(application_type_id == "22"){
             $("#new_application").hide();
@@ -301,6 +329,7 @@ $(document).ready(function(){
             $("#change_design").show();
             $("#ownership_change").hide();           
             $("#dispatchNumberId").show();
+            $("#newowner").hide();
 
         }
         else if(application_type_id == "23"){
@@ -309,9 +338,10 @@ $(document).ready(function(){
             $("#change_design").hide();
             $("#ownership_change").show();
             $("#dispatchNumberId").show();
+            $("#newowner").show();
         }
     });
-    
+});  
         
            
     $.validator.addMethod('check_one', function (value) {
@@ -344,6 +374,7 @@ $(document).ready(function(){
 
         }
     }, 'Submit all the document mention above'); 
+
        $('#form_data').validate({
                  ignore: [],
                 rules: {
@@ -409,6 +440,26 @@ $(document).ready(function(){
                     establishment_village_id: {
                         required: true,
                     },
+                    new_owner_name: {
+                        required: function(element) {
+                             return $("#application_type_id").val() ==23;
+                        }
+                    }, 
+                   new_cid_no: {
+                        required: function(element) {
+                            return $("#application_type_id").val() ==23;
+                        }
+                    },
+                    new_contact_no: {
+                        required: function(element) {
+                            return $("#application_type_id").val() ==23;
+                        }
+                    }, 
+                    new_email: {
+                        required: function(element) {
+                            return $("#application_type_id").val() ==23;
+                        }
+                     }  
                    },
                 messages: {
                     application_type_id: {
@@ -472,8 +523,6 @@ $(document).ready(function(){
                     $(element).removeClass('is-invalid');
                 }
     });
-});
-
 function getTechCleranceDetails(){
         $.ajaxSetup({
                 headers: {
@@ -487,6 +536,7 @@ function getTechCleranceDetails(){
                 type: "GET",
                 dataType: "json",
                 success:function(data) {
+                    console.log(data);
                     if(data !=false){
                     $('#record_id').val(data.id);
                     $('#star_category_id').val(data.accomodation_type_id).trigger("change");
@@ -501,23 +551,6 @@ function getTechCleranceDetails(){
                     $('#dzongkhag_id').val(data.dzongkhag_id).trigger("change");
                     $('#gewog_id').val(data.gewog_id);
                     getGewogDropDown(data.dzongkhag_id,data.gewog_id,data.village_id);
-                   if(application_type_id==23){
-                        $('#applicant_name').removeAttr('readonly'); 
-
-                    }else{
-                       $("#applicant_name").prop('readonly',true);
-                    }
-                    $('#cid_no').prop('readonly', true); 
-                    $('#star_category_id').prop('disabled', false); 
-                    $('#contact_no').prop("readonly", true);
-                    $('#email').prop("readonly", true); 
-                    $('#number').prop("readonly", true);
-                    $('#tentative_cons').prop("readonly", true); 
-                    $('#tentative_com').prop("readonly", true);
-                    $('#drawing_date').prop("readonly", true);
-                    $('#dzongkhag_id').prop('disabled', true);
-                    $('#gewog_id').prop("disabled", true); 
-                    $('#village_id').prop("disabled", false);
                     }else{
                         $('#alertTraineeMgsId').show().delay(3000).queue(function (n) {
                             $(this).hide();

@@ -33,7 +33,7 @@ class ResubmitServiceController extends Controller
              'manager_name'=> $request->manager_name,
              'manager_mobile_no'=> $request->manager_mobile_no,
              'gender'=> $request->gender,
-             'dob'=>date('Y-m-d', strtotime($request->dob)),
+             'dob'=>$services->setDateAttribute($request->dob),
              'designation'=> $request->designation,
              'applicant_flat_no'=> $request->applicant_flat_no,
              'applicant_building_no'=> $request->applicant_building_no,
@@ -43,14 +43,14 @@ class ResubmitServiceController extends Controller
              'company_name_two'=> $request->company_name_two,
              'contact_no'=> $request->contact_no,
              'new_contact_no'=> $request->new_contact_no,
-             'tentative_cons'=>date('Y-m-d', strtotime($request->tentative_cons)), 
-             'tentative_com'=> date('Y-m-d', strtotime($request->tentative_com)),  
-             'drawing_date'=> date('Y-m-d', strtotime($request->drawing_date)),
+             'tentative_cons'=>$services->setDateAttribute($request->tentative_cons), 
+             'tentative_com'=>$services->setDateAttribute($request->tentative_com),  
+             'drawing_date'=>$services->setDateAttribute($request->drawing_date),
              'email'=> $request->email,
              'new_email'=> $request->new_email,
              'star_category_id'=> $request->star_category_id,
              'license_no'=> $request->license_no,
-             'license_date'=> date('Y-m-d', strtotime($request->license_date)),
+             'license_date'=>$services->setDateAttribute($request->license_date),
              'address'=> $request->address,
              'new_address'=> $request->new_address,
              'fax'=> $request->fax,
@@ -61,7 +61,7 @@ class ResubmitServiceController extends Controller
              'town_distance'=> $request->town_distance,
              'road_distance'=> $request->road_distance,
              'condition'=> $request->condition,
-             'validity_date'=>date('Y-m-d', strtotime($request->validity_date)),
+             'validity_date'=>$services->setDateAttribute($request->validity_date),
              'flat_no'=> $request->flat_no,
              'building_no'=> $request->building_no,
              'permanent_village_id'=> $request->permanent_village_id,
@@ -70,8 +70,8 @@ class ResubmitServiceController extends Controller
              'chiwog_id'=> $request->chiwog_id,
              'city'=> $request->city,
              'country_id'=> $request->country_id,
-             'from_date'=>date('Y-m-d', strtotime($request->from_date)),
-             'to_date'=>date('Y-m-d', strtotime($request->to_date)),
+             'from_date'=>$services->setDateAttribute($request->from_date),
+             'to_date'=>$services->setDateAttribute($request->to_date),
              'remarks'=> $request->remarks,
              'dispatch_no'=> $request->dispatch_no,
              ];
@@ -249,8 +249,6 @@ class ResubmitServiceController extends Controller
                  $services->insertDetails('t_item_applications',$eventItemData);
              }
  
-
-
              //insert into t_product_applications
              $productItemData = [];
              if(isset($_POST['type'])){

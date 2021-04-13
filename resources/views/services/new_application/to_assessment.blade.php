@@ -22,7 +22,7 @@
             <div class="col-md-5 offset-md-2">
                 <div class="form-group">
                     <label for="">Owner Citizen ID<span class="text-danger">*</span> </label>
-                    <input type="text" class="form-control" name="cid_no" id="cid_no" value="{{ old('cid_no') }}" onchange="api_webservices(this.value)">
+                    <input type="text" class="form-control" name="cid_no" id="cid_no1" value="{{ old('cid_no') }}" onchange="api_webservices(this.value)">
                     <span id="webserviceError" class="text-danger"></span>
                 </div>
             </div>
@@ -152,7 +152,7 @@
                 APPLY
             </button>
             <button type="reset" class="btn btn-danger">
-                <li class="fas fa-times"></li>
+                <li class="fas fa-ban"></li>
                 RESET
             </button>
         </div>
@@ -163,7 +163,7 @@
     <script>
          $(document).ready(function () {
             $('#license_date').datetimepicker({
-                format: 'DD/MM/YYYY'
+                format: 'MM/DD/YYYY'
             });
             function loadChecklistDetails() {
                 var url="{{ url('application/get-checklist') }}";

@@ -20,7 +20,7 @@ Route::group(['namespace' => 'FrontEnd'], function () {
     Route::get('tourism-grievances', 'HomeController@tourismGrievances')->name('tourism-grievances');
     Route::post('save-grievance-application', 'HomeController@saveGrievanceApplication');
     Route::get('contact_us', function(){return view('frontend.layouts.contact_us');});
-    Route::get('about_us', function(){return view('frontend.layouts.about_us');});
+    Route::get('about_us', 'HomeController@aboutUsContent');
     Route::get('training-registration','TrainingRegistrationController@displayCourseDtlsToEndUser');
     Route::get('registration-for-training/{id}','TrainingRegistrationController@registrationForTraining');
     Route::post('save-trainee-dtls','TrainingRegistrationController@saveTraineeDtls');
@@ -78,6 +78,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('backups/delete', 'BackupController@postDelete');
         Route::post('backups/remove-file/{file}', 'BackupController@postRemoveFile');
         Route::get('backups/download/{file}', 'BackupController@getDownload');
+        Route::resource('about-us-content', 'AboutUsContent');
+        Route::post('image_upload', 'AboutUsContent@upload');
+        Route::post('delete_upload_image', 'AboutUsContent@DeleteUploadImage');
     });
 
     //routes for masters
@@ -113,7 +116,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('check-partner-cid-no', 'ServiceController@checkPartnerCIDNumber');
 
         //print recommendation letter
-        Route::get('recommendation-letter/{application_no}/{service_id}/{module_id}', 'ServiceController@printRecommendationLetter');
+        Route::get('recommendation-letter/{application_no}/{service_id}/{module_id}/{application_type_id}', 'ServiceController@printRecommendationLetter');
     });
 
      //routes for resubmit application

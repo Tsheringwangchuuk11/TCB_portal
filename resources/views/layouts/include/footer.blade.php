@@ -31,6 +31,8 @@ $.widget.bridge('uibutton', $.ui.button)
 <script src="{{ asset('plugins/jquery-validation/additional-methods.min.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
+<!-- Summernote -->
+<script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
 <!-- Moment Min Js -->
 <script src="{{ asset('plugins/moment/moment.min.js') }}"></script>
 <!-- date-range-picker -->
@@ -57,6 +59,10 @@ $.widget.bridge('uibutton', $.ui.button)
 <script src="{{ asset('plugins/highcharts/accessibility.js') }}"></script>
 {{--APIs--}}
 <script src="{{ asset('js/api_webservices.js') }}"></script>
+
+
+
+
 
 
 

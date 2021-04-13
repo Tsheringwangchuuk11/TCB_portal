@@ -413,19 +413,13 @@
 <script>
 $(document).ready(function(){
     $('#license_date').datetimepicker({
-        format: 'DD/MM/YYYY',
+        format: 'MM/DD/YYYY',
     });
     $('#inspection_date').datetimepicker({
-        format: 'DD/MM/YYYY',
+        format: 'MM/DD/YYYY',
     });
 });
-function validatedate(){
-    var num = $("#validaty_date").val();
-    var f = new Date(num);
-  	 f.setFullYear (f.getFullYear() + 3 )
-     var x=  f.toLocaleDateString('en-US',{day:"2-digit",month:"2-digit",year:"numeric"})
-     $('#validaty_date').val(x);
-}
+
 function calculateScorePoint() {
     var sum = 0;
     //iterate through each textboxes and add the values

@@ -134,7 +134,7 @@
             APPLY
         </button>
         <button type="reset" class="btn btn-danger">
-            <li class="fas fa-times"></li>
+            <li class="fas fa-ban"></li>
             RESET
         </button>
     </div>

@@ -1,7 +1,7 @@
 @extends('layouts.manager')
 @section('page-title','Recommendation Letter for Import License')
 @section('content')
-<form action="{{ url('verification/import-license-for-to') }}" method="POST" files="true" id="form_data" enctype="multipart/form-data">
+<form action="{{ url('verification/import-license-for-hotel') }}" method="POST" files="true" id="form_data" enctype="multipart/form-data">
     @csrf
     <input type="hidden" class="form-control" name="module_id" value="{{ $applicantInfo->module_id }}">
     <input type="hidden" class="form-control" name="service_id" value="{{ $applicantInfo->service_id }}">
@@ -12,8 +12,6 @@
         <h4 class="card-title"> Recommendation Letter for Import License</h4>
     </div>
         <div class="card-body">
-            <div class="row">
-                <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-5">
                             <div class="form-group">
@@ -29,14 +27,12 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-5">
-                            <div class="form-group">
-                                <label  for="" >License Date<span class="text-danger"> *</span><label>
-                                <div class="input-group date" id="license_date" data-target-input="nearest">
-                                    <input type="text" name="license_date" class="form-control datetimepicker-input" data-target="#license_date" value="{{ $applicantInfo->license_date}}">
-                                    <div class="input-group-append" data-target="#license_date" data-toggle="datetimepicker">
-                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                    </div>
+                        <div class="form-group col-md-5">
+                            <label for="">License Date</label>
+                            <div class="input-group date" id="license_date" data-target-input="nearest">
+                                <input type="text" name="license_date" class="form-control datetimepicker-input" data-target="#license_date" value="{{ $applicantInfo->license_date}}">
+                                <div class="input-group-append" data-target="#license_date" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                 </div>
                             </div>
                         </div>
@@ -75,8 +71,6 @@
                             </div>
                         </div>
                     </div>
-            </div>
-        </div>
      </div>
 </div>
 <div class="card">
@@ -145,11 +139,10 @@
 <script>
     $(document).ready(function(){
     $('#license_date').datetimepicker({
-        format: 'DD/MM/YYYY',
+        format: 'MM/DD/YYYY',
     });
 });
-    <script>
-        function requiredRemarks(status) {
+    function requiredRemarks(status) {
         $("#remarks_error").html('');
         if($("#remarks").val() ==""){
             if(status=="RESUBMIT"){
@@ -159,6 +152,6 @@
             }
             return false;
         }
-        }
+    }
     </script>
 @endsection

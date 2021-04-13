@@ -17,6 +17,8 @@
         <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
         <!-- Theme style -->
         <link href="{{ asset('dist/css/adminlte.min.css') }}" rel="stylesheet" type="text/css">
+         <!-- summernote -->
+         <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.css') }}">
         <!-- overlayScrollbars -->
         <link rel="stylesheet" href="{{ asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
         <!-- iCheck for checkboxes and radio inputs -->
@@ -25,19 +27,24 @@
         <link rel="stylesheet" href="{{ asset('plugins/jqvmap/jqvmap.min.css') }}">
         <!-- IonIcons -->
         <link rel="stylesheet" href="{{ asset('css/ionicons.min.css')}}">
+       
         <!-- Google Font: Source Sans Pro -->
         <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+      
         <!-- Select2 -->
+
         <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
         <link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+         <!-- daterange picker -->
+         <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css')}}">
         <!-- Tempusdominus Bbootstrap 4 -->
         <link href="{{ asset('plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet" />
+         
         <!-- Jquery fileupload -->
         <link href="{{ asset('fileupload/jquery.fileupload.css') }}" rel="stylesheet" type="text/css">
 
         <link rel="stylesheet" href="{{ asset('css/validation.css') }}">
-        <!-- daterange picker -->
-        <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css')}}">
+       
          <!-- high chart -->
          <link rel="stylesheet" href="{{ asset('css/highchart.css')}}">
         <style>

@@ -83,7 +83,6 @@
                                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                     </div>
                                 </div>
-                                
                             </div>
                         </div>
                     </div>
@@ -161,6 +160,35 @@
             </div>
         </div>
     </div>
+    @if ($applicantInfo->application_type_id==23)
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-tile">New Owner Information</h4>
+            </div>
+            <div class="card-body">
+                    <div class="row">
+                        <div class="form-group col-md-5">
+                            <label for="">Owner Name <span class="text-danger"> *</span></label>
+                            <input type="text" class="form-control" name="new_owner_name" value="{{ $applicantInfo->new_owner_name }}">
+                        </div>
+                        <div class="form-group col-md-5 offset-md-2">
+                            <label for="">Citizen ID <span class="text-danger"> *</span></label>
+                            <input type="text" class="form-control" name="new_cid_no" value="{{ $applicantInfo->new_cid_no }}">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-5">
+                            <label for="">Contact No.<span class="text-danger"> *</span></label>
+                            <input type="text" class="form-control" name="new_contact_no" value="{{ $applicantInfo->new_contact_no }}">
+                        </div>
+                        <div class="form-group col-md-5 offset-md-2">
+                            <label for="">Email <span class="text-danger"> *</span></label>
+                            <input type="email" class="form-control" name="new_email" value="{{ $applicantInfo->new_email }}">
+                        </div>
+                    </div>
+            </div>
+        </div>
+    @endif
     <div class="card">
 		<div class="card-header">
 			 <h4 class="card-title">File Attachment</h4>
@@ -189,13 +217,13 @@
 	<script>
         $(document).ready(function(){
             $('#tentative_cons').datetimepicker({
-                format: 'DD/MM/YYYY',
+                format: 'MM/DD/YYYY',
             });
             $('#tentative_com').datetimepicker({
-                format: 'DD/MM/YYYY'
+                format: 'MM/DD/YYYY'
             });
             $('#drawing_date').datetimepicker({
-                format: 'DD/MM/YYYY'
+                format: 'MM/DD/YYYY'
             });
         });
         function requiredRemarks(status) {

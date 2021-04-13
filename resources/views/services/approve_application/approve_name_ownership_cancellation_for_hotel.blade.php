@@ -48,8 +48,9 @@
                         <div class="form-group col-md-5">
                             <label for="">License Date </label>
                             <input type="date" class="form-control" name="license_date" value="{{ $applicantInfo->license_date }}">
+                            <input type="hidden" class="form-control" name="dispatch_no" value="{{ $applicantInfo->dispatch_no }}">
                         </div>
-
+                        
                         <div class="form-group col-md-5 offset-md-2">
                             <label for="">Hotel Name </label>
                             <input type="text" class="form-control" name="company_title_name" value="{{ $applicantInfo->company_title_name }}">

@@ -15,8 +15,6 @@ use Illuminate\Support\Facades\Notification;
 use Carbon\Carbon;
 use App\Notifications\EndUserNotification;
 use App\PublicReport;
-use Mail;
-
 class HomeController extends Controller
 {
     public function index()
@@ -121,16 +119,24 @@ class HomeController extends Controller
     }
 
     public function contactPost(Request $request){
-        $data = array(
-            'subject' => $request->subject,
-            'email' => $request->sender_email,
-            'contact_no' => $request->contact_no,
-            'content' => $request->content,
-            );
-            Mail::send('mail', $data, function($message) use ($request){
-            $message->to('web-tutorial@programmer.net')->subject($request->subject);
-            $message->from($request->sender_email);
-            });
-        return redirect()->back()->with('success', 'Thanks for contacting me, I will get back to you soon!');
+        \Mail::send('frontend.layouts.contact_email',
+        array(
+            'name' => $request->get('name'),
+            'email' => $request->get('sender_email'),
+            'subject' => $request->get('subject'),
+            'phone_number' => $request->get('contact_no'),
+            'user_message' => $request->get('content'),
+        ), function($message) use ($request)
+          {
+             $message->from($request->sender_email);
+             $message->to('info@tourism.gov.bt');
+             $message->subject($request->subject);
+          });
+        return redirect()->back()->with('msg_success', 'Thanks for contacting me, I will get back to you soon!');
+    }
+
+    public function aboutUsContent(){
+        $content=Services::getAboutUsContent();
+        return view('frontend.layouts.about_us',compact('content'));
     }
 }

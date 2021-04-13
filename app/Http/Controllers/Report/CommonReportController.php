@@ -65,7 +65,8 @@ class CommonReportController extends Controller
 
         $data['totalapplication']= $data['applications']->count(); 
         $data['totalsubmitted']=Report::getApplicationSubmittedList();
-        $data['totalapproved']=Report::getApplicationApprovedList();
+       $totalApproved =Report::getApplicationApprovedList();
+        $data['totalapproved']=$totalApproved[0]->totalcount;
         $data['totalrejected']=Report::getApplicationRejectedList();
         $data['serviceModules'] = Dropdown::getDropdowns("t_module_masters","id","module_name","0","0"); 
         $data['services'] = Dropdown::getDropdowns("t_services","id","name","0","0"); 

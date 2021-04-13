@@ -176,14 +176,20 @@ class Report extends Model
         return $applications;
     } 
     public static function getApplicationApprovedList (){
-        $applications = \DB::table('t_workflow_dtls')
-                    ->leftJoin('t_applications','t_workflow_dtls.application_no','=','t_applications.application_no')
-                    ->leftJoin('t_status_masters','t_workflow_dtls.status_id','=','t_status_masters.id')
-                    ->leftJoin('t_module_masters','t_applications.module_id','=','t_module_masters.id')
-                    ->leftJoin('t_services','t_applications.service_id','=','t_services.id')
-                    ->select(\DB::raw('COUNT(t_workflow_dtls.application_no) as totalapproved'))
-                    ->where('t_workflow_dtls.status_id','3')
-                    ->pluck('totalapproved');
+
+        $applications = \DB::select("
+                        SELECT COUNT(a.application_no) AS totalcount
+                        FROM 
+                        (SELECT application_no,status_id FROM t_workflow_dtls WHERE status_id='3'
+                        UNION
+                        SELECT application_no,status_id FROM t_workflow_dtls_audits WHERE status_id='3') a
+                        LEFT JOIN t_task_dtls b ON a.application_no=b.application_no
+                        LEFT JOIN t_applications c ON a.application_no=c.application_no
+                        LEFT JOIN t_status_masters d ON a.status_id=d.id
+                        LEFT JOIN t_module_masters e ON c.module_id=e.id
+                        LEFT JOIN t_services f ON c.service_id=f.id
+                        WHERE a.status_id='3' AND b.status_id='7'
+                    ");
             return $applications;
         } 
 

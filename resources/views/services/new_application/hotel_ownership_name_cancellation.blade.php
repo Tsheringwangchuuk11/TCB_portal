@@ -42,6 +42,8 @@
                 <div class="form-group col-md-5">
                     <label for="">License Date </label>
                     <input type="date" class="form-control" name="license_date" id="license_date" readonly="true">
+                    <input type="hidden" class="form-control" name="dispatch_no" id="dispatch_no" readonly="true">
+
                 </div>
                 <div class="form-group col-md-5 offset-md-2">
                     <label for="">Hotel Name </label>
@@ -215,7 +217,7 @@
         <!-- card body ends -->
         <div class="card-footer text-center">
             <button type="submit"class="btn btn-success"><i class="fa fa-check"></i> APPLY</button>
-            <button type="reset"class="btn btn-danger"><i class="fa fa-times"></i> RESET</button>
+            <button type="reset"class="btn btn-danger"><i class="fa fa-ban"></i> RESET</button>
         </div>
     </div>
 </form>
@@ -248,6 +250,7 @@
                         $('#village_id').val(data.village_id);
                         $('#manager_name').val(data.manager_name);
                         $('#manager_mobile_no').val(data.manager_mobile_no);
+                        $('#dispatch_no').val(data.dispatch_no);
                     } 
                 });
             }

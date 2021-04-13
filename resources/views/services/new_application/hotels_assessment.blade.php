@@ -63,7 +63,7 @@
         <div class="row">
             <div class="form-group col-md-5">
                 <label for="">Citizen ID<span class="text-danger">*</span> </label>
-                <input type="text" class="form-control" name="cid_no" autocomplete="off" onchange="api_webservices(this.value)" id="cid_no">
+                <input type="text" class="form-control" name="cid_no" autocomplete="off" id="cid_no">
             </div>
             <div class="form-group col-md-5 offset-md-2">
                 <label for="">Owner Name<span class="text-danger">*</span> </label>
@@ -292,7 +292,7 @@
     <div class="card-footer text-center">
         <button name="status" value="DRAFT" class="btn btn-info"><i class="fa fa-save"></i> SAVE TO DRAFT</button>
         <button type="submit"class="btn btn-success"><i class="fa fa-check"></i> APPLY</button>
-        <button type="reset"class="btn btn-danger"><i class="fa fa-times"></i> RESET</button>
+        <button type="reset"class="btn btn-danger"><i class="fa fa-ban"></i> RESET</button>
     </div>
 </div>
 </form>
@@ -304,7 +304,7 @@
                 $(this).valid();
             });
             $('#license_date').datetimepicker({
-                format: 'DD/MM/YYYY',
+                format: 'MM/DD/YYYY',
             });
         });
         
@@ -312,7 +312,7 @@
         id=1;
         $("#add").click(function(){
             $("#rowId").clone().attr('id', 'rowId'+id).after("#id").appendTo("#adddiv").find("input[type='text']").val("");
-            $addRow ='<span id="remove'+id+'" class="btn-group" style=" margin-top:-50px; float:right">' 
+            $addRow ='<span id="remove'+id+'" class="btn-group" style="margin-top:-50px; float:right">' 
             +'<span id="remove" onClick="removeForm('+id+')"' 
             +'class="btn btn-danger btn-sm"><i class="fas fa-trash-alt fa-sm"></i> Delete</span></span>'
             +'<div id="line'+id+'"></div>';
@@ -402,15 +402,7 @@
                 }
         }, 'Your score point should be within above range');
 
-          /*  $.validator.prototype.errorsFor = function (b) {
-                var name = this.idOrName(b);
-                var elementParent = b.parentElement;
-                return this.errors().filter(function() {
-                    return $(this).attr('for') == name && $(this).parent().is(elementParent);
-                });
-            }  */
- 
-        $('#form_data').validate({
+             $('#form_data').validate({
                 rules: {
                     application_type_id: {
                        required: true,
@@ -526,7 +518,7 @@
                         required: true,
                     },
                 },
-                messages: {
+               messages: {
                     application_type_id: {
                          required: "Please select the application type",
                     },
@@ -599,17 +591,24 @@
                     }
                 },
                 errorElement: 'span',
-                errorPlacement: function (error, element) {
-                    error.addClass('invalid-feedback');
-                    element.closest('.form-group').append(error);
+                errorPlacement: function (error, element) {                  
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
                 },
                 highlight: function (element, errorClass, validClass) {
                     $(element).addClass('is-invalid');
                 },
                 unhighlight: function (element, errorClass, validClass) {
                     $(element).removeClass('is-invalid');
-                } 
+                }  
              });
+            /*  $.validator.prototype.errorsFor = function (b) {
+                var name = this.idOrName(b);
+                var elementParent = b.parentElement;
+                return this.errors().filter(function() {
+                    return $(this).attr('for') == name && $(this).parent().is(elementParent);
+                });
+            } */
          function TotalRoomCal() {
             var sum = 0;
             //iterate through each textboxes and add the values

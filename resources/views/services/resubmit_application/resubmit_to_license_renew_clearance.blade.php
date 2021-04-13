@@ -31,7 +31,12 @@
                 <div class="col-md-5">
                     <div class="form-group">
                       <label for="">License Date.<span class="text-danger">*</span> </label>
-                      <input type="date" class="form-control" name="license_date" value="{{ $applicantInfo->license_date }}">
+                      <div class="input-group date" id="license_date" data-target-input="nearest">
+                        <input type="text" name="license_date" class="form-control datetimepicker-input" data-target="#license_date" value="{{ $applicantInfo->license_date}}">
+                        <div class="input-group-append" data-target="#license_date" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                    </div>  
                     </div>
                 </div> 
                 <div class="col-md-5 offset-md-2">
@@ -139,10 +144,19 @@
     </div>
     <div class="card-footer text-center">
         <button type="submit"class="btn btn-success"><i class="fa fa-check"></i> APPLY</button>
-        <button type="reset"class="btn btn-danger"><i class="fa fa-times"></i> RESET</button>
+        <button type="reset"class="btn btn-danger"><i class="fa fa-ban"></i> RESET</button>
     </div>
 </div>
 <form>
+@endsection
+@section('scripts')
+    <script>
+        $(document).ready(function(){
+            $('#license_date').datetimepicker({
+                format: 'MM/DD/YYYY',
+            });
+        });
+    </script>
 @endsection
 
 

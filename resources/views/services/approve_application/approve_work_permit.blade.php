@@ -241,10 +241,10 @@
     <script>
     $(document).ready(function(){
         $('#from_date').datetimepicker({
-            format: 'DD/MM/YYYY',
+            format: 'MM/DD/YYYY',
         });
         $('#to_date').datetimepicker({
-            format: 'DD/MM/YYYY',
+            format: 'MM/DD/YYYY',
         });
     });
       function requiredRemarks(status) {

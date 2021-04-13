@@ -95,12 +95,14 @@
                                         @if ($endUserApplicantDtl->id===3)
                                             @if ($endUserApplicantDtl->module_id==4 && $endUserApplicantDtl->service_id==2)
                                                 @if ($endUserApplicantDtl->print_validity==1)
-                                                      <a href="{{	url('application/recommendation-letter',['applicationNo'=>$endUserApplicantDtl->application_no,'service_id'=>$endUserApplicantDtl->service_id,'module_id'=>$endUserApplicantDtl->module_id]) }}" class="btn btn-xs btn-info btn-flat" data-toggle="tooltip" title="Clearance letter is valid for 1 month" target="_blank"><i class="fa fa-print"></i> Print</a> 
+                                                      <a href="{{	url('application/recommendation-letter',['applicationNo'=>$endUserApplicantDtl->application_no,'service_id'=>$endUserApplicantDtl->service_id,'module_id'=>$endUserApplicantDtl->module_id,'application_type_id'=>$endUserApplicantDtl->application_type_id]) }}" class="btn btn-xs btn-info btn-flat" data-toggle="tooltip" title="Clearance letter is valid for 1 month" target="_blank"><i class="fa fa-print"></i> Print</a> 
                                                 @else
                                                 <span class="text-danger">Validity Expired</span>
                                                 @endif
                                             @else
-                                            <a href="{{	url('application/recommendation-letter',['applicationNo'=>$endUserApplicantDtl->application_no,'service_id'=>$endUserApplicantDtl->service_id,'module_id'=>$endUserApplicantDtl->module_id]) }}" class="btn btn-xs btn-info btn-flat" target="_blank"><i class="fa fa-print"></i> Print</a> 
+                                             @if ($endUserApplicantDtl->service_id!=18)
+                                                 <a href="{{ url('application/recommendation-letter',['applicationNo'=>$endUserApplicantDtl->application_no,'service_id'=>$endUserApplicantDtl->service_id,'module_id'=>$endUserApplicantDtl->module_id,'application_type_id'=>$endUserApplicantDtl->application_type_id]) }}" class="btn btn-xs btn-info btn-flat" target="_blank"><i class="fa fa-print"></i> Print</a> 
+                                             @endif
                                             @endif
                                         @endif
                                          <!--end Printing -->   

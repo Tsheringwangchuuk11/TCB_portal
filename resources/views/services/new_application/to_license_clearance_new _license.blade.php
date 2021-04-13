@@ -17,7 +17,7 @@
               <div class="col-md-5">
                 <div class="form-group">
                   <label for="">Citizen ID<span class="text-danger"> *</span></label>
-                  <input type="text" class="form-control" name="cid_no" id="cid_no1" onchange="api_webservices(this.value)">
+                  <input type="text" class="form-control" name="cid_no" id="cid_no" onchange="api_webservices(this.value)">
                   <span id="webserviceError" class="text-danger"></span>
                 </div>
               </div>
@@ -290,7 +290,7 @@
         </div>
         <div class="card-footer text-center">
             <button type="submit"class="btn btn-success"><li class="fas fa-check"></li> APPLY</button>
-            <button type="reset" class="btn btn-danger"><li class="fas fa-times"></li> RESET</button>
+            <button type="reset" class="btn btn-danger"><li class="fas fa-ban"></li> RESET</button>
         </div>
     </div>
 </form>
@@ -306,10 +306,10 @@ $(document).ready(function () {
                 $(this).valid();
             });
             $('#dob').datetimepicker({
-                format: 'DD/MM/YYYY',
+                format: 'MM/DD/YYYY',
             });
             $('#pdate_of_birth').datetimepicker({
-                format: 'DD/MM/YYYY',
+                format: 'MM/DD/YYYY',
             });
         });
 function checkCompanyName(companyName){

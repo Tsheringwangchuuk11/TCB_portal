@@ -151,7 +151,7 @@
     <script>
         $(document).ready(function(){
             $('#license_date').datetimepicker({
-                format: 'DD/MM/YYYY',
+                format: 'MM/DD/YYYY',
             });
         });
         function requiredRemarks(status) {

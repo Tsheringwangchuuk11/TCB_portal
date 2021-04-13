@@ -32,21 +32,22 @@
         @if ($status==9 || $status==10)
             @if ($documentInfos->count() > 0)
                 @foreach ($documentInfos as $documentInfo)
-                    <div class="col-md-10" id="{{$loop->iteration}}" >
+                    <div class="col-md-10 mb-2" id="{{$loop->iteration}}" >
                         <span><strong>{{ $documentInfo->document_name }} </strong> &nbsp;<a href="{{ url($documentInfo->upload_url) }}" class="btn btn-sm btn-info" target="_blank"><i class="fa fa-link"></i> View</a>  </span>&nbsp;
                         <button type="button" class ="btn btn-danger btn-sm" id="fileUploadId{{$loop->iteration}}" onclick ="deletefile(this.id,'{{ $documentInfo->id}}','{{ $documentInfo->upload_url}}');"><i class="fas fa-trash-alt fa-sm"></i> Delete</button>
-                    </div><br>
+                    </div>
                 @endforeach
             @endif
+           
         @elseif($status==3)
             @if ($documentInfos->count() > 0)
                 @foreach ($documentInfos as $documentInfo)
-                    <div class="col-md-10" id="{{$loop->iteration}}" >
+                    <div class="col-md-10 mb-2" id="{{$loop->iteration}}" >
                         <span><strong>{{ $documentInfo->document_name }} </strong> &nbsp;<a href="{{ url($documentInfo->upload_url) }}" class="btn btn-sm btn-info" target="_blank">&nbsp;<i class="fa fa-download"></i> View</a>  </span>&nbsp;
-                    </div><br>
+                    </div>
                 @endforeach
             @endif
-        @endif
+        @endif 
      <div class="col-md-10" id="files"></div>
         @if ($status==9 || $status==10 || $status==1)
             <div class="form-group progress"  id="progress" style="display:none">
