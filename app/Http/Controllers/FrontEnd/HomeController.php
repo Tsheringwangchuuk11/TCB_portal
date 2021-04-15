@@ -31,14 +31,33 @@ class HomeController extends Controller
         $current_year=$request->year;
         $previous_year= $current_year-1;
         $p_prev_year= $previous_year-1;
-        $cur_year_percent=PublicReport::getTotalVisitorsPerYear($current_year, $previous_year);
-        $prev_year_percent=PublicReport::getTotalVisitorsPerYear($previous_year, $p_prev_year);
+        $cur_year_percent=null;
         $percentage_status=""; 
-        if($cur_year_percent[0]->total_percentage > $prev_year_percent[0]->total_percentage){
-            $percentage_status="increase";
-        }else{
-            $percentage_status="decrease";
+        if( $current_year==2019){
+           // $percentage_status="increase";
+            $cur_year_percent=null;
         }
+        else if($current_year==2020){
+         $cur_year_percentage=PublicReport::getTotalVisitorsPerYear($current_year, $previous_year);
+         $cur_year_percent=$cur_year_percentage[0]->total_percentage;
+         if($cur_year_percent > 0){
+            $percentage_status="increase";
+         }else{
+            $percentage_status="decrease";
+         }
+        }else{
+            $cur_year_percentage=PublicReport::getTotalVisitorsPerYear($current_year, $previous_year);
+            $prev_year_percent=PublicReport::getTotalVisitorsPerYear($previous_year, $p_prev_year);
+            if($cur_year_percent !=0.00 && $cur_year_percent > $prev_year_percent[0]->total_percentage){
+             $cur_year_percent=$cur_year_percentage[0]->total_percentage;
+            $percentage_status="increase";
+            }else{
+                $percentage_status="decrease";
+                $cur_year_percent=$cur_year_percentage[0]->total_percentage;
+            }
+        } 
+    
+       
         $msg="";
         if(!$keyhighlights->isEmpty()){
             if($is_publish=='Y'){
@@ -47,8 +66,9 @@ class HomeController extends Controller
                 $msg="Provisional data";
             }
         }
-        return response()->json(['visitors'=>$visitors,'totalvisitors'=>$totalvisitors,'keyhighlights'=>$keyhighlights,'msg'=> $msg,'current_percentage'=>$cur_year_percent[0]->total_percentage,'percentage_status'=>$percentage_status]);
+        return response()->json(['visitors'=>$visitors,'totalvisitors'=>$totalvisitors,'keyhighlights'=>$keyhighlights,'msg'=> $msg,'current_percentage'=>$cur_year_percent,'percentage_status'=>$percentage_status]);
     }
+    
     public function tourismGrievances(){
         $status=WorkFlowDetails::getStatus('SUBMITTED')->id;
         $data['idInfos'] = Services::getIdInfo('services/new_application/grievance');

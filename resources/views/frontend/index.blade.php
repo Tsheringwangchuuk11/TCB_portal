@@ -14,6 +14,9 @@
     .highcharts-credits {
     display: none !important;
     }
+    .text-color{
+        color:#312e70;
+    }
 </style>
     <div class="col-8 offset-md-2 d-flex justify-content-center pt-3">
         <h2 class="text-warning">KEY HIGHLIGHTS</h2>
@@ -33,52 +36,46 @@
                         <div class="col-md-12" id="mapcontainer"></div>
                     </div>
                     <div class="row d-flex justify-content-center mb-3 pt-4">
-                            <div class="col-md-4">
-                                <div class="info-box border border-info">
-                                    <span class="info-box-icon"><i class="fas fa-users text-danger"></i></span>
-                                    <div class="info-box-content">
-                                         <span class="info-box-number"> Visitor Arrivals</span>
-                                         <span class="info-box-text" id="visitor_arrival_id"><br></span>
-                                         <i style="font-size:25px" id="percent_classId"></i> 
-                                         <span id="percentId"></span>%
-                                    </div>
+                        <div class="info-box border border-info m-2 p-4">
+                            <span class="info-box-icon"><i class="fas fa-users text-danger"></i></span>
+                            <div class="info-box-content">
+                                    <span class="info-box-number"> Visitor Arrivals</span>
+                                    <span class="info-box-text" id="visitor_arrival_id"><br></span>
+                                    <i style="font-size:25px" id="percent_classId"></i> 
+                                    <span id="percentId"></span>%
+                            </div>
+                        </div>
+                         
+                        <div class="info-box border border-info m-2 p-4">
+                            <span class="info-box-icon"><i class="fas fa-dollar-sign text-success"></i></span>
+                                <div class="info-box-content">
+                                    <span class=" info-box-number">Foreign Exchange Earnings</span>
+                                        <span class="info-box-text">
+                                            USD $<span id="f_exchange_earning"> </span> million <br>
+                                            <i style="font-size:25px" id="f_earning_classId"></i> 
+                                            <span id="f_earning_percent"></span> %
+                                        </span>
+                                    <span class=" info-box-number">Direct Revenue(SDF)</span>
+                                        <span class="info-box-text">
+                                            USD $<span id="direct_revenue"> </span> million <br>
+                                            <i style="font-size:25px" id="direct_revenue_classId"></i> 
+                                            <span id="direct_revenue_percent"> </span> %
+                                        </span>
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="info-box border border-info mb-3">
-                                    <span class="info-box-icon"><i class="fas fa-dollar-sign text-success"></i></span>
-                                    <div class="info-box-content">
-                                        <span class=" info-box-number">Foreign Exchange Earnings</span>
-                                            <span class="info-box-text">
-                                                USD $<span id="f_exchange_earning"> </span> million <br>
-                                                <i style="font-size:25px" id="f_earning_classId"></i> 
-                                                <span id="f_earning_percent"></span> %
-                                            </span>
-                                        <span class=" info-box-number">Direct Revenue(SDF)</span>
-                                            <span class="info-box-text">
-                                                USD $<span id="direct_revenue"> </span> million <br>
-                                                <i style="font-size:25px" id="direct_revenue_classId"></i> 
-                                                <span id="direct_revenue_percent"> </span> %
-                                            </span>
+                            <div class="info-box border border-info m-2 p-4">
+                                <span class="info-box-icon"><i class="fas fa-sitemap text-info"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-number">Tourism Enterprises</span>
+                                        <span class="info-box-text"> 
+                                            Tour Operators - <span id="t_operator"></span><br>
+                                            Hotels - <span id="hotels"> </span><br>
+                                            Village Homestays - <span id="home_stay"></span><br>
+                                            Guides - <span id="guide"></span>
+                                        </span>
                                     </div>
-                                  </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="info-box border border-info mb-3">
-                                    <span class="info-box-icon"><i class="fas fa-sitemap text-info"></i></span>
-                                    <div class="info-box-content">
-                                        <span class="info-box-number">Tourism Enterprises</span>
-                                            <span class="info-box-text"> 
-                                                Tour Operators - <span id="t_operator"></span><br>
-                                                Hotels - <span id="hotels"> </span><br>
-                                                Village Homestays - <span id="home_stay"></span><br>
-                                                Guides - <span id="guide"></span>
-                                            </span>
-                                        </div>
-                                  </div>
-                            </div>
-                        <div class="col-md-4">
-                            <div class="info-box border border-info mb-3">
+                                </div>
+                            <div class="info-box border border-info m-2 p-3">
                                 <span class="info-box-icon"><i class="fas fa-coins text-danger"></i></span>
                                 <div class="info-box-content">
                                     <span class=" info-box-number">Average Expenditure</span>
@@ -87,27 +84,23 @@
                                             Daily Exp.$<span id="daily_expenditure"></span>
                                         </span>
                                 </div>
-                              </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="info-box border border-info mb-3">
+                            </div>
+
+                            <div class="info-box border border-info m-2 p-3">
                                 <span class="info-box-icon"><i class="fas fa-hand-holding-usd text-success"></i></span>
                                  <div class="info-box-content">
                                     <span class="info-box-number">Gross Tourism Receipts</span>
                                         <span class="info-box-text" id="gross_tourism_receipts">
                                     </span>
                                 </div>
-                              </div>
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-3">
-                            <div class="info-box border border-info mb-3">
+                            </div>
+                            <div class="info-box border border-info  m-2 p-3">
                                 <span class="info-box-icon"><i class="fas fa-bed text-info"></i></span>
                                 <div class="info-box-content">
                                     <span class="info-box-number">Average Length of stay</span>
                                          <span class="info-box-text" id="average_length"> 
                                     </span>
                                 </div>
-                              </div>
                         </div>
                     </div>
                 </div>
@@ -229,42 +222,42 @@
         <div class="row p-2">
             <div class="col text-center">
                 <a href="https://www.tourism.gov.bt/" target="_blank" class="text-reset">
-                    <i class="fas fa-bullhorn fa-3x text-teal"></i>
+                    <i class="fas fa-bullhorn fa-3x text-color"></i>
                     <br>
                     <h5>Tourism Council Website</h5>
                 </a>
             </div>
             <div class="col text-center">
                 <a href="https://www.bhutan.travel/" target="_blank" class="text-reset">
-                    <i class="fas fa-map-marker-alt fa-3x text-danger"></i>
+                    <i class="fas fa-map-marker-alt fa-3x text-color"></i>
                     <br>
                     <h5>Bhutan Destination Website</h5>
                 </a>
             </div>
             <div class="col text-center">
                 <a href="https://gms.tourism.gov.bt/" target="_blank" class="text-reset">
-                    <i class="fas fa-certificate fa-3x text-maroon"></i>
+                    <i class="fas fa-certificate fa-3x text-color"></i>
                     <br>
                     <h5>Guide Management System</h5>
                 </a>
             </div>
             <div class="col text-center">
                 <a href="http://tashel.gov.bt/" target="_blank" class="text-reset">
-                    <i class="fab fa-cc-visa fa-3x text-success"></i>
+                    <i class="fab fa-cc-visa fa-3x text-color"></i>
                     <br>
                     <h5>Tashel Online Visa</h5>
                 </a>
             </div>
             <div class="col text-center">
                 <a href="http://tax.tashel.gov.bt" target="_blank" class="text-reset">
-                    <i class="far fa-money-bill-alt fa-3x text-info"></i>
+                    <i class="far fa-money-bill-alt fa-3x text-color"></i>
                     <br>
                     <h5>Tax Exemption System</h5>
                 </a>
             </div>
             <div class="col text-center">
                 <a href="ftp://drive.tourism.gov.bt/files" target="_blank" class="text-reset">
-                    <i class="fas fa-folder-open fa-3x text-warning"></i>
+                    <i class="fas fa-folder-open fa-3x text-color"></i>
                     <br>
                     <h5>Resource Directory</h5>
                 </a>
@@ -280,7 +273,7 @@
      $(document).ready(function () {
         var year = $("#year");
         var currentYear = new Date().getFullYear();
-        for (var i = 2016; i <= currentYear; i++) {
+        for (var i = 2019; i <= currentYear; i++) {
             var option = $("<option />");
             option.html(i);
             option.val(i);
@@ -405,17 +398,17 @@
                             $("#trip_expenditure").html('');
                             $("#daily_expenditure").html('');
                         }
-                        if(data.current_percentage!=null){
-                        $("#percentId").html(data.current_percentage);
-                        if(data.percentage_status=="increase"){
-                            document.getElementById("percent_classId").className = "fas fa-caret-up text-success";
-                            document.getElementById("f_earning_classId").className = "fas fa-caret-up text-success";
-                            document.getElementById("direct_revenue_classId").className = "fas fa-caret-up text-success";
-                        }else{
-                            document.getElementById("percent_classId").className = "fas fa-caret-down text-danger";
-                            document.getElementById("f_earning_classId").className = "fas fa-caret-down text-danger";
-                            document.getElementById("direct_revenue_classId").className = "fas fa-caret-down text-danger";
-                         }
+                        if(data.current_percentage){
+                            $("#percentId").html(data.current_percentage);
+                            if(data.percentage_status=="increase"){
+                                document.getElementById("percent_classId").className = "fas fa-caret-up text-success";
+                                document.getElementById("f_earning_classId").className = "fas fa-caret-up text-success";
+                                document.getElementById("direct_revenue_classId").className = "fas fa-caret-up text-success";
+                            }else{
+                                document.getElementById("percent_classId").className = "fas fa-caret-down text-danger";
+                                document.getElementById("f_earning_classId").className = "fas fa-caret-down text-danger";
+                                document.getElementById("direct_revenue_classId").className = "fas fa-caret-down text-danger";
+                            }
                         }else{
                             $("#percentId").html('');
                             $("#percent_classId").removeClass("fas fa-caret-down text-danger fas fa-caret-up text-success");
