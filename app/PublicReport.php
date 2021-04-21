@@ -32,14 +32,14 @@ class PublicReport extends Model
 	   return $query;
    }
 
-   public static function getTotalVisitorsPerYear($current_year, $previous_year){
-	$query = \DB::select("SELECT FORMAT(IFNULL(((t.cur_year_data - t.prev_year_data)/ (t.prev_year_data) * 100),0),2) AS total_percentage 
-	FROM (SELECT(
-	SELECT IFNULL((SELECT a.total_no FROM t_key_highlights a WHERE a.year=$current_year AND a.highlight_type_id='349'),0)) AS cur_year_data ,
-	(SELECT IFNULL((SELECT a.total_no FROM t_key_highlights a WHERE a.year= $previous_year AND a.highlight_type_id='349'),0)) AS prev_year_data
-	)t");
-	return $query;
-}
+	public static function getTotalVisitorsPerYear($current_year, $previous_year){
+		$query = \DB::select("SELECT FORMAT(IFNULL(((t.cur_year_data - t.prev_year_data)/ (t.prev_year_data) * 100),0),2) AS total_percentage 
+		FROM (SELECT(
+		SELECT IFNULL((SELECT a.total_no FROM t_key_highlights a WHERE a.year=$current_year AND a.highlight_type_id='349'),0)) AS cur_year_data ,
+		(SELECT IFNULL((SELECT a.total_no FROM t_key_highlights a WHERE a.year= $previous_year AND a.highlight_type_id='349'),0)) AS prev_year_data
+		)t");
+		return $query;
+	}
 
    public static function getKeyHighLightsData($year){
 		$query=\DB::table('t_key_highlights as t1')
