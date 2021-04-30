@@ -1,4 +1,4 @@
-@extends('layouts.manager')
+@extends('layouts.enduser')
 @section('page-title', 'Event')
 @section('content')
 <section class="content">

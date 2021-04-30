@@ -210,9 +210,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer bg-olive pb-1">
-                        <p class="text-white-50 text-lg">You can avail above services using <a href="{{ url('sso/redirect') }}" class="text-white text-uppercase font-weight-bold"><u> Single Sign-On</u></a> (SSO)- One pass for citizens to avail online government services. Register in  <a href="https://sso.dit.gov.bt"  target="_blank" class="text-white font-weight-bold"><u>DIGITAL IDENTITY SERVICE </u></a> for new. </p>
-                    </div>
                 </div>
             </div>
     </div>

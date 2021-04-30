@@ -1,4 +1,4 @@
-@extends('layouts.manager')
+@extends('layouts.enduser')
 @section('page-title','Bhutan Media Familarization')
 @section('content')
 <form action="{{ url('application/save-application') }}" method="POST" files="true" id="formdata" enctype="multipart/form-data">

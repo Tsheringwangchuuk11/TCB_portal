@@ -18,7 +18,11 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
+       
         if (Auth::guard($guard)->check()) {
+            if ('oauth' === $guard) {
+                return redirect()->route('enduser_dashboard');
+            }
             return redirect(RouteServiceProvider::HOME);
         }
 

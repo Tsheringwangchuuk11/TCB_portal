@@ -1,4 +1,4 @@
-@extends('layouts.manager')
+@extends('layouts.enduser')
 @section('page-title','Assessment And Registration of Tented Accommodation')
 @section('content')
 <form action="{{ url('application/save-application') }}" method="POST" files="true" id="form_data" enctype="multipart/form-data">

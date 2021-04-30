@@ -56,12 +56,13 @@
           data : {moduleId : modules_id},
           dataType: "JSON",
           success:function(data1) {
+            console.log(data1);
             if(data1){
               $('#list_id').empty();
               $('#list_id').focus;
               var list = "<ul>";
               $.each(data1.data,function(index,row){
-               var url = '{{ url("sso/service-create", "page_link") }}';
+               var url = '{{ url("application/service-create", "page_link") }}';
                var page_link=""+index+"";
                page_link = page_link.replace(/\//g, "-");
                url = url.replace('page_link', page_link);

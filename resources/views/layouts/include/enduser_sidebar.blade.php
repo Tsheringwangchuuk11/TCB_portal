@@ -1,7 +1,7 @@
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="{{ url('sso/enduser_dashboard') }}" class="brand-link">
+    <a href="{{ route('enduser_dashboard') }}" class="brand-link">
       <span class="brand-text font-weight-light">TCB Portal</span>
     </a>
     <!-- Sidebar -->
@@ -9,14 +9,14 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mb-3 d-flex">
         <div class="info">
-          {{-- <a href="#" class="d-block">Welcome <strong>{{ auth()->user()->user_name }}</strong></a> --}}
+          <a href="#" class="d-block">Welcome <strong>{{ auth()->user()->user_name }}</strong></a>
         </div>
       </div>
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item">
-            <a href="{{ url('sso/enduser_dashboard') }}" class="nav-link"><i class="nav-icon fas fa-tachometer-alt"></i>Dashboard</a>
+            <a href="{{ route('enduser_dashboard') }}" class="nav-link"><i class="nav-icon fas fa-tachometer-alt"></i>Dashboard</a>
           </li>
           @php $lastTopMenu = ""; @endphp
           @foreach ($menus as $menu)

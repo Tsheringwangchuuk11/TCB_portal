@@ -1,4 +1,4 @@
-@extends('layouts.manager')
+@extends('layouts.enduser')
 @section('page-title','Grievance')
 @section('content')
 <form action="{{ url('application/save-grievance-application') }}" class="form-horizontal" method="POST" enctype="multipart/form-data" id="form_data">

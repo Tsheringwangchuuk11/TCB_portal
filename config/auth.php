@@ -46,6 +46,11 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
+
+        'oauth' => [
+            'driver' => 'session',
+            'provider' => 'oauthusers',
+        ],
     ],
 
     /*
@@ -69,6 +74,11 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\User::class,
+        ],
+
+        'oauthusers' => [
+            'driver' => 'eloquent',
+            'model' => App\OauthUser::class,
         ],
 
         // 'users' => [

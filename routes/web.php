@@ -37,11 +37,44 @@ Route::group(['prefix' => 'report', 'namespace' => 'Report'], function () {
 
 //public user
 Route::group(['namespace'=>'EndUser'], function () {
-/*     Route::get('enduser_dashboard', 'EnduserController@getApplicationDetails');
- */
-Route::get('sso/redirect', 'ApplicationTokenController@oAuthRedirect');
-Route::get('sso/enduser_dashboard', 'ApplicationTokenController@callBack');
+    Route::get('sso/redirect', 'ApplicationTokenController@oAuthRedirect');
+    Route::get('sso/enduser_dashboard', 'ApplicationTokenController@callBack');
+    Route::get('signout', 'ApplicationTokenController@logout')->name('signout');
+    Route::post('sso/logout', 'ApplicationTokenController@logoutCallBack');
 });
+
+//route for the end user services
+Route::group(['middleware' => ['auth:oauth']], function () {
+    Route::group(['namespace' => 'EndUser'], function() {
+        Route::get('/enduser_dashboard', 'EnduserController@getApplicationDetails')->name('');
+    });
+    Route::group(['prefix' => 'application','namespace' => 'EndUser'], function() {
+        //route for new application
+        Route::get('new-application', 'ServiceController@getModules');
+        Route::get('get-tech-clearance-dtls/{dispatch_no}', 'ServiceController@getTechCleranceDtls');
+        Route::get('get-services', 'ServiceController@getServices');
+        Route::get('check-dispatch-number', 'ServiceController@checkDispatchNumber');
+        Route::get('service-create/{page_link}', 'ServiceController@getServiceForm');
+        Route::post('get-hotel-checklist', 'ServiceController@getHotelCheckList');
+        Route::post('get-checklist', 'ServiceController@getCheckList');
+        Route::post('save-application', 'ServiceController@saveNewApplication');
+        Route::post('save-grievance-application', 'ServiceController@saveGrievanceApplication');
+        Route::get('get-hotel-details/{id}', 'ServiceController@getTouristHotelDetails');
+        Route::get('get-companyname', 'ServiceController@getCompnayName');
+        Route::get('get-homestays-details/{cid}', 'ServiceController@getVillageHomeStayDetails');
+        Route::get('get-event-details/{id}/{serviceId}/{moduleId}', 'ServiceController@getEventRegisteredDetails');
+        Route::get('delete-data-record', 'ServiceController@deleteDataRecord');
+        Route::get('get-work-permit-dtls', 'ServiceController@getWorkPermitDtls');
+        Route::get('get-foreign-worker-dtls', 'ServiceController@getForeignWorkerDtls');
+        Route::get('check-partner-cid-no', 'ServiceController@checkPartnerCIDNumber');
+
+        //print recommendation letter
+        Route::get('recommendation-letter/{application_no}/{service_id}/{module_id}/{application_type_id}', 'ServiceController@printRecommendationLetter');
+        //route for resubmit application
+        Route::post('save-resubmit-application', 'ResubmitServiceController@saveResubmitApplication');
+    });
+});
+
 
 //APIs
 Route::group(['prefix' => 'api', 'namespace' => 'Api'], function () {
@@ -95,35 +128,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('basic-standard', 'ChecklistStandardController@getBasicStandardDtls');
     });
 
-    //routes for new application
-    Route::group(['prefix' => 'application', 'namespace' => 'Application'], function() {
-        Route::get('new-application', 'ServiceController@getModules');
-        Route::get('get-tech-clearance-dtls/{dispatch_no}', 'ServiceController@getTechCleranceDtls');
-        Route::get('get-services', 'ServiceController@getServices');
-        Route::get('check-dispatch-number', 'ServiceController@checkDispatchNumber');
-        Route::get('service-create/{page_link}', 'ServiceController@getServiceForm');
-        Route::post('get-hotel-checklist', 'ServiceController@getHotelCheckList');
-        Route::post('get-checklist', 'ServiceController@getCheckList');
-        Route::post('save-application', 'ServiceController@saveNewApplication');
-        Route::post('save-grievance-application', 'ServiceController@saveGrievanceApplication');
-        Route::get('get-hotel-details/{id}', 'ServiceController@getTouristHotelDetails');
-        Route::get('get-companyname', 'ServiceController@getCompnayName');
-        Route::get('get-homestays-details/{cid}', 'ServiceController@getVillageHomeStayDetails');
-        Route::get('get-event-details/{id}/{serviceId}/{moduleId}', 'ServiceController@getEventRegisteredDetails');
-        Route::get('delete-data-record', 'ServiceController@deleteDataRecord');
-        Route::get('get-work-permit-dtls', 'ServiceController@getWorkPermitDtls');
-        Route::get('get-foreign-worker-dtls', 'ServiceController@getForeignWorkerDtls');
-        Route::get('check-partner-cid-no', 'ServiceController@checkPartnerCIDNumber');
-
-        //print recommendation letter
-        Route::get('recommendation-letter/{application_no}/{service_id}/{module_id}/{application_type_id}', 'ServiceController@printRecommendationLetter');
-    });
-
-     //routes for resubmit application
-     Route::group(['prefix' => 'application', 'namespace' => 'Application'], function() {
-        Route::post('save-resubmit-application', 'ResubmitServiceController@saveResubmitApplication');
-     });
-     
     //routes for task list
     Route::group(['prefix' => 'tasklist', 'namespace' => 'Tasklist'], function() {
         Route::resource('tasklist', 'TasklistController');

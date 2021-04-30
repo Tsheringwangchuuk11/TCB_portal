@@ -1,4 +1,4 @@
-@extends('layouts.manager')
+@extends('layouts.enduser')
 @section('page-title','Recommendation for import license')
 @section('content')
 <form class="bootstrap-form" action="{{ url('application/save-application') }}" method="POST" enctype="multipart/form-data" id="form_data">

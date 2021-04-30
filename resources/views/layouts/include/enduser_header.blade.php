@@ -10,7 +10,7 @@
     <ul class="navbar-nav ml-auto">
       <li class="dropdown user user-menu">
           <a href="#" data-toggle="dropdown">
-              {{-- <span class="text-dark btn btn-flat btn-info btn-sm"><i class="fas fa-user"></i> {{ auth()->user()->user_name }}</span> --}}
+              <span class="text-dark btn btn-flat btn-info btn-sm"><i class="fas fa-user"></i> {{ auth()->user()->user_name }}</span>
 
           </a>
           <ul class="dropdown-menu dropdown-menu-right">
@@ -26,16 +26,12 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                   <div class="float-left">
-                  <a href="{{ url('profile')}}" class="btn btn-success btn-flat">Profile</a>
-                  </div>
-                  <div class="float-right">
-                      <a class="btn btn-danger btn-flat" href="{{ route('logout') }}"
-                          onclick="event.preventDefault();
-                          document.getElementById('logout-form').submit();">
-                      {{ __('Sign out') }}
+                      <a class="btn btn-danger btn-flat" href="https://stg-sso.dit.gov.bt/oidc/logout?post_logout_redirect_uri=https://portal.tourism.gov.bt/sso/logout& id_token_hint={{auth()->user()->id_token }}">              
+                          {{ __('Sign out') }}
                       </a>
-                      <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                      <form id="logout-form" action="{{ route('signout') }}" method="POST" style="display: none;">
                           @csrf
+                          <input type="hidden" name="id_token" value="{{auth()->user()->id_token }}">
                       </form>
                   </div>
               </li>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Application;
+namespace App\Http\Controllers\EndUser;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateServiceRequest;
 use Illuminate\Http\Request;
@@ -19,17 +19,10 @@ use App\Notifications\EndUserNotification;
 class ServiceController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware('permission:application/new-application,view', ['only' => ['index', 'show']]);
-        $this->middleware('permission:application/new-application,create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:application/new-application,edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:application/new-application,delete', ['only' => 'destroy']);
-    }
     public function getModules()
     {
         $servicemodules = Dropdown::getDropdowns("t_module_masters","id","module_name","0","0");
-        return view('services/modules/module_services',compact('servicemodules'));
+        return view('services/modules/enduser_module_services',compact('servicemodules'));
     }
 
     public function getServices(Request $request)

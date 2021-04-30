@@ -1,4 +1,4 @@
-@extends('layouts.manager')
+@extends('layouts.enduser')
 @section('page-title','Assessment And Registration Of Tour Operators Office')
 @section('content')
 <form action="{{ url('application/save-application') }}" method="POST" id="form_data" enctype="multipart/form-data">

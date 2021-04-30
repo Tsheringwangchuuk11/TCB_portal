@@ -125,17 +125,8 @@ class HomeController extends Controller
                 );
                return view('dashboards.divisionuser')->with('chartArray', $chartArray);
         }
-        $userId = auth()->user()->id;
-        $endUserApplicantDtls = WorkFlowDetails::getEndUserApplicationDtls($userId);
-        return view('dashboards.enduser', compact('endUserApplicantDtls'));
     }
-    public function getApplicationDetails()
-    {
-       // $endUserApplicantDtls = WorkFlowDetails::getEndUserApplicationDtls($userId);
-        return view('dashboards.public');
-    }
-
-
+    
     public function getProfile(Request $request)
     {
         $user = auth()->user();

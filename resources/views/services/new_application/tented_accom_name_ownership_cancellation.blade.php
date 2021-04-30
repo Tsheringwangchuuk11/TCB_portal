@@ -1,4 +1,4 @@
-@extends('layouts.manager')
+@extends('layouts.enduser')
 @section('page-title','Ownership/Name change/Cancellation for Tented Accommodation')
 @section('content')
 <form action="{{ url('application/save-application') }}" method="POST" enctype="multipart/form-data" id="form_data">

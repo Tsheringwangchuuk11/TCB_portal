@@ -106,7 +106,7 @@
                 </form>
             </div>
             <div class="col-4 text-right">
-                <div class="btn btn-sm btn-warning"><a href="{{ url('login') }}" class="text-white">
+                <div class="btn btn-sm btn-warning"><a href="{{ url('sso/redirect') }}" class="text-white">
                         <i class="fas fa-sign-in-alt"></i>&nbsp;Login</a></div>
             </div>
         </div>

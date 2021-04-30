@@ -1,4 +1,4 @@
-@extends('layouts.manager')
+@extends('layouts.endsuer')
 @section('page-title','Village Home Stay Assessment')
 @section('content')
 <form action="{{ url('application/save-resubmit-application') }}" method="POST" files="true" id="form_data" enctype="multipart/form-data">
