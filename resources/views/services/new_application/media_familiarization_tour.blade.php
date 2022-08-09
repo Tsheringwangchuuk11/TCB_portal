@@ -22,7 +22,7 @@
                 <div class="col-md-5 offset-md-2">
                     <div class="form-group">
                         <label for="">Citizen ID<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control" name="cid_no" autocomplete="off">
+                        <input type="text" class="form-control" name="cid_no" autocomplete="off" maxlength="11">
                     </div>
                 </div>
             </div>
@@ -185,29 +185,89 @@
         </div>
         <div class="card-body">
             <strong> Required supporting documents:</strong>
-            <ol>
-                <li>
-                    <em>Address your application to the Director, Tourism Council of Bhutan (In English)</em>      
-                </li>
-                <li>
-                    <em>Recommendation letter from the head of the agency (In English)
-                    </em><br>  
-                    a.Include designation/role of your staff visiting Bhutan 
-                </li>
-                <li>
-                    <em>Route your application through a registered Bhutanese tour operator </em>      
-                </li>
-                <li>
-                    <em>All members of the approved media FAM tour must meet relevant officials from the Tourism Council of Bhutan, preferably towards the end of your Bhutan trip</em>      
-                </li>
-                <li>
-                    <em>After your Bhutan visit you must submit copy/copies of your coverage to the Tourism Council of Bhutan. You can email Bhutan coverage to <a href="info@tourism.gov.bt">info@tourism.gov.bt</a><em>      
-                </li>
-                <li>
-                    <em>You hereby agree to give permission to the Tourism Council of Bhutan to use the coverage(s) (print, online and TV) on Bhutan to promote Bhutan. TCB and its partners will only use for promotion of Bhutan only.<em>      
-                </li>
-            </ol>
-            @include('services/fileupload/fileupload')
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-4">
+                    1.&nbsp;<em>Address your application to the Director, Tourism Council of Bhutan (In English)</em> 
+                    </div>
+                    <div class="col-md-3">
+                        <span class="btn bg-purple fileinput-button btn-sm">
+                            <i class="fas fa-plus fa-sm"></i>
+                            <span>Add file...</span>
+                            <input id="app_director_upload" type="file" name="filename"> 
+                        </span>
+                    </div>
+                    <div class="col-md-5" id="app_director_files"></div>
+                </div><br>
+                <div class="row">
+                    <div class="col-md-4">
+                    2.&nbsp;<em>Recommendation letter from the head of the agency (In English)
+                    <br>a.Include designation/role of your staff visiting Bhutan 
+                        </em>
+                    </div>
+                    <div class="col-md-3">
+                        <span class="btn bg-purple fileinput-button btn-sm">
+                            <i class="fas fa-plus fa-sm"></i>
+                            <span>Add file...</span>
+                            <input id="staff_desig_upload" type="file" name="filename"> 
+                        </span>
+                    </div>
+                    <div class="col-md-5" id="staff_desig_files"></div>
+                </div><br>
+                <div class="row">
+                    <div class="col-md-4">
+                        3.&nbsp;<em>Route your application through a registered Bhutanese tour operator</em>
+                    </div>
+                    <div class="col-md-3">
+                        <span class="btn bg-purple fileinput-button btn-sm">
+                            <i class="fas fa-plus fa-sm"></i>
+                            <span>Add file...</span>
+                            <input id="route_application_upload" type="file" name="filename"> 
+                        </span>
+                    </div>
+                    <div class="col-md-5" id="route_application_files"></div>
+                </div><br>
+                <div class="row">
+                    <div class="col-md-4">
+                    4.&nbsp;<em>All members of the approved media FAM tour must meet relevant officials from the Tourism Council of Bhutan, preferably towards the end of your Bhutan trip
+                    </em>
+                    </div>
+                    <div class="col-md-3">
+                        <span class="btn bg-purple fileinput-button btn-sm">
+                            <i class="fas fa-plus fa-sm"></i>
+                            <span>Add file...</span>
+                            <input id="approved_fam_upload" type="file" name="filename"> 
+                        </span>
+                    </div>
+                    <div class="col-md-5" id="approved_fam_files"></div>
+                </div><br>
+                <div class="row">
+                    <div class="col-md-5">
+                    5.&nbsp;<em>After your Bhutan visit you must submit copy/copies of your coverage to the Tourism Council of Bhutan. You can email Bhutan coverage to <a href="info@tourism.gov.bt">info@tourism.gov.bt</a></em>
+                    </div>
+                    <div class="col-md-3">
+                        <span class="btn bg-purple fileinput-button btn-sm">
+                            <i class="fas fa-plus fa-sm"></i>
+                            <span>Add file...</span>
+                            <input id="coverage_upload" type="file" name="filename"> 
+                        </span>
+                    </div>
+                    <div class="col-md-4" id="coverage_files"></div>
+                </div><br>
+                <div class="row">
+                    <div class="col-md-5">
+                    6.&nbsp;<em>You hereby agree to give permission to the Tourism Council of Bhutan to use the coverage(s) (print, online and TV) on Bhutan to promote Bhutan. TCB and its partners will only use for promotion of Bhutan only.</em>
+                    </div>
+                    <div class="col-md-3">
+                        <span class="btn bg-purple fileinput-button btn-sm">
+                            <i class="fas fa-plus fa-sm"></i>
+                            <span>Add file...</span>
+                            <input id="permission_tcb_upload" type="file" name="filename"> 
+                        </span>
+                    </div>
+                    <div class="col-md-4" id="permission_tcb_files"></div>
+                </div><br>
+            </div>
         </div>
         <div class="card-footer text-center">
             <button type="submit"class="btn btn-success btn-sm">

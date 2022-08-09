@@ -17,7 +17,7 @@
                 <div class="row">
                     <div class="form-group col-md-5">
                         <label for="">Citizen ID<span class="text-danger">*</span> </label>
-                        <input type="text" class="form-control" name="cid_no" autocomplete="off" id="cid_no" onchange="api_webservices(this.value)">
+                        <input type="text" class="form-control" name="cid_no" autocomplete="off" id="cid_no" onchange="api_webservices(this.value)" maxlength="11">
                         <span id="webserviceError" class="text-danger"></span>
                     </div>
                     <div class="form-group col-md-5 offset-md-2">
@@ -32,7 +32,7 @@
                     </div>
                     <div class="form-group col-md-5 offset-md-2">
                         <label for="">Contact Number <span class="text-danger">*</span> </label>
-                        <input type="number" class="form-control" name="contact_no" id="contact_no" autocomplete="off">
+                        <input type="number" class="form-control" name="contact_no" id="contact_no" autocomplete="off" maxlength="8">
                     </div>
                 </div>
                 <div class="row">
@@ -79,7 +79,7 @@
         </div>
         <div class="row">
             <div class="form-group col-md-5">
-                <label for=""> Project cost<span class="text-danger">*</span></label>
+                <label for=""> Project cost (In Million)<span class="text-danger">*</span></label>
                 <input type="text" class="form-control" name="project_cost" autocomplete="off">  
             </div>
             <div class="form-group col-md-5 offset-md-2">
@@ -153,19 +153,34 @@
     </div>
     <div class="card-body">
         <h6> <strong>Required supporting documents:</strong></h6>
-        <ol>
-            <li>
-                <em>An application addressed to the Director General of TCB requesting the issuance
-                of technical clearance.</em>   
-                </em>
-            </li>
-            <li>
-                <em>
-                Architectural drawings 
-                </em>
-            </li>
-        </ol>
-        @include('services/fileupload/fileupload')
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-4">
+                1.&nbsp;<em>Application from Dzongkhag</em> 
+                </div>
+                <div class="col-md-3">
+                    <span class="btn bg-purple fileinput-button btn-sm">
+                        <i class="fas fa-plus fa-sm"></i>
+                        <span>Add file...</span>
+                        <input id="dzongkhag_app_upload" type="file" name="filename"> 
+                    </span>
+                </div>
+                <div class="col-md-5" id="dzongkhag_app_files"></div>
+            </div><br>
+            <div class="row">
+                <div class="col-md-4">
+                2.&nbsp;<em>Proposal detail including budget summary</em> 
+                </div>
+                <div class="col-md-3">
+                    <span class="btn bg-purple fileinput-button btn-sm">
+                        <i class="fas fa-plus fa-sm"></i>
+                        <span>Add file...</span>
+                        <input id="project_proposal_budget_upload" type="file" name="filename"> 
+                    </span>
+                </div>
+                <div class="col-md-5" id="project_proposal_budget_files"></div>
+            </div><br>
+        </div>
     </div>
     <!-- card body ends -->
     <div class="card-footer text-center">

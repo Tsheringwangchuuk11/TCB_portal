@@ -33,6 +33,18 @@ class GrievanceRedressalController extends Controller
         return view('services/feedback/show_grievance_details',$data,compact('status','roles'));
     }
 
+    public function viewApplicationDetails($applicationNo,$status=null){
+        $status= WorkFlowDetails::getStatus('APPROVED')->id;
+        $roles = auth()->user()->roles->pluck('id')->toArray();
+        $data['applicantInfo']=Services::getGrievanceDetails($applicationNo);
+        $data['documentInfos']=Services::getGrievanceDocumentDetails($applicationNo);
+        $data['serviceproviders'] =Dropdown::getDropdownList("5");
+        $data['applicantTypes'] =Dropdown::getDropdownList("2");
+        $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+        $data['emailLists'] = Dropdown::getDropdowns("t_users","id","email","0","0");
+        return view('report/application_details/view_grievance_details',$data,compact('status','roles'));
+    }
+
     // Approve or forward the feed abck application
     public function approvedGrievanceRedressalApplication(Request $request){
         $roles = auth()->user()->roles()->get();

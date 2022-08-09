@@ -52,7 +52,7 @@
             </div>
             <div class="form-group col-md-5 offset-md-2">
                 <label for="">Citizen ID<span class="text-danger">*</span> </label>
-                <input type="text" class="form-control" name="cid_no" id="cid_no1" onchange="api_webservices(this.value)">
+                <input type="text" class="form-control" name="cid_no" id="cid_no1" onchange="api_webservices(this.value)" maxlength="11">
                 <span id="webserviceError" class="text-danger"></span>
             </div>
         </div>
@@ -63,7 +63,7 @@
             </div>
             <div class="form-group col-md-5 offset-md-2">
                 <label for="">Contact No <span class="text-danger">*</span> </label>
-                <input type="text" class="form-control" name="contact_no" autocomplete="off" id="contact_no">
+                <input type="text" class="form-control" name="contact_no" autocomplete="off" id="contact_no" maxlength="8">
             </div>
         </div>
         <div class="row">
@@ -73,7 +73,7 @@
             </div>
             <div class="form-group col-md-5 offset-md-2">
                 <label for=""> Manager Contact No <span class="text-danger">*</span> </label>
-                <input type="text" class="form-control" name="manager_mobile_no" autocomplete="off">
+                <input type="text" class="form-control" name="manager_mobile_no" autocomplete="off" maxlength="8">
             </div>
         </div>
         <div class="row">
@@ -274,8 +274,8 @@
         </div>
     </div>
     <div class="card-footer text-center">
-        <button name="status" value="DRAFT" class="btn btn-info"><i class="fa fa-save"></i> SAVE TO DRAFT</button>
-        <button type="submit"class="btn btn-success"><i class="fa fa-check"></i> APPLY</button>
+        <button name="status" value="DRAFT" id="tented_draft_button" class="btn btn-info"><i class="fa fa-save"></i> SAVE TO DRAFT</button>
+        <button type="submit" id="tented_apply_button" class="btn btn-success"><i class="fa fa-check"></i> APPLY</button>
         <button type="reset"class="btn btn-danger"><i class="fa fa-ban"></i> RESET</button>
     </div>
 </div>
@@ -373,152 +373,165 @@
             return (value >= 117 && value <= 120 );
         }, 'Your score point should be within above range');
 
-        $('#form_data').validate({
-                rules: {
-                    application_type_id: {
-                       required: true,
-                    },
-                    dispatch_no: {
-                       required: true,
-                    },
-                    cid_no: {
-                        required: true,
-                        maxlength: 11,
-                        minlength: 11,
-                        digits: true,                    
-                     },
-                     license_date: {
-                        required: true,
-                    },
-                    company_title_name: {
-                        required: true,
-                    },
-                    license_no: {
-                        required: true,
-                    },
-                    owner_name: {
-                        required: true,
-                    },
-                    contact_no: {
-                        required: true,
-                        digits: true,                    
-                    },
-                    email: {
-                        required: true,
-                        email: true,                    
-                    },
-                    number: {
-                        required: true,
-                        digits: true,                    
-                    },
-                    manager_name: {
-                        required: true,
-                    },
-                    manager_mobile_no: {
-                        required: true,
-                        digits: true,                          
-                        },
-                    webpage_url: {
-                        required: true,
-                        url: true,
-                        normalizer: function( value ) {
-                        var url = value;
-                        // Check if it doesn't start with http:// or https:// or ftp://
-                        if ( url && url.substr( 0, 7 ) !== "http://"
-                            && url.substr( 0, 8 ) !== "https://"
-                            && url.substr( 0, 6 ) !== "ftp://" ) {
-                        // then prefix with http://
-                        url = "http://" + url;
-                        }
-                        // Return the new url
-                        return url;
-                        }
-                    },
-                    dzongkhag_id: {
-                        required: true,
-                    },
-                    gewog_id: {
-                        required: true,
-                    },
-                    establishment_village_id: {
-                        required: true,
-                    },
-                    /* scorepoint: {
-                        checkScorepoint: true,
-                    }, */
-                  /*   bspoints: {
-                        checkBspoints: true,
-                    },  */
-                   },
-                messages: {
-                    application_type_id: {
-                         required: "Please select the application type",
-                    },
-                    dispatch_no: {
-                          required: "Please enter dispatch number",
-                    },
-                    cid_no: {
-                        required: "Please provide a cid number",
-                        maxlength: "Your cid must be 11 characters long",
-                        minlength: "Your cid must be at least 11 characters long",
-                        digits: "This field accept only digits",
-                    },
-                    owner_name: {
-                        required: "Enter the name",
-                    },
-                    contact_no: {
-                        required: "Please provide a contact number",
-                        digits: "This field accept only digits",
-                    },
-                    email: {
-                        required: "Please enter a email address",
-                        email: "Please enter a vaild email address"
-                    },
-                    number: {
-                        required: "Please provide number of bed",
-                        digits: "This field accept only digits",
-                    },
-                    manager_name: {
-                        required: "Enter manager name",
-                    },
-                    manager_mobile_no: {
-                        required: "Please provide a contact number",
-                        digits: "This field accept only digits",  
-                                      },
-                    webpage_url: {
-                        required: "Please enter webpage_url",
-                    },
-                    company_title_name: {
-                        required: "Please enter company name",
-                    },
-                    license_date: {
-                        required: "Please enter license date",
-                    },
-                    license_no: {
-                        required: "Please enter license number",
-                    },
-                    dzongkhag_id: {
-                        required: "Please select dzongkhag",
-                    },
-                    gewog_id: {
-                        required: "Please select gewog",
-                    },
-                    establishment_village_id: {
-                        required: "Please select village",
-                    },
-                },
-                errorElement: 'span',
-                errorPlacement: function (error, element) {
-                    error.addClass('invalid-feedback');
-                    element.closest('.form-group').append(error);
-                },
-                highlight: function (element, errorClass, validClass) {
-                    $(element).addClass('is-invalid');
-                },
-                unhighlight: function (element, errorClass, validClass) {
-                    $(element).removeClass('is-invalid');
+        $("#tented_draft_button").click(function() {
+            $.ajax({
+                url: "{{ url('application/save-application') }}",
+                type:"POST",
+                data: $("#form_data").serialize(),
+                success:function(response){
+                
                 }
-         });
+            });
+        });
+
+        $("#tented_apply_button").click(function() {
+            $('#form_data').validate({
+                    rules: {
+                        application_type_id: {
+                        required: true,
+                        },
+                        dispatch_no: {
+                        required: true,
+                        },
+                        cid_no: {
+                            required: true,
+                            maxlength: 11,
+                            minlength: 11,
+                            digits: true,                    
+                        },
+                        license_date: {
+                            required: true,
+                        },
+                        company_title_name: {
+                            required: true,
+                        },
+                        license_no: {
+                            required: true,
+                        },
+                        owner_name: {
+                            required: true,
+                        },
+                        contact_no: {
+                            required: true,
+                            digits: true,                    
+                        },
+                        email: {
+                            required: true,
+                            email: true,                    
+                        },
+                        number: {
+                            required: true,
+                            digits: true,                    
+                        },
+                        manager_name: {
+                            required: true,
+                        },
+                        manager_mobile_no: {
+                            required: true,
+                            digits: true,                          
+                            },
+                        webpage_url: {
+                            required: true,
+                            url: true,
+                            normalizer: function( value ) {
+                            var url = value;
+                            // Check if it doesn't start with http:// or https:// or ftp://
+                            if ( url && url.substr( 0, 7 ) !== "http://"
+                                && url.substr( 0, 8 ) !== "https://"
+                                && url.substr( 0, 6 ) !== "ftp://" ) {
+                            // then prefix with http://
+                            url = "http://" + url;
+                            }
+                            // Return the new url
+                            return url;
+                            }
+                        },
+                        dzongkhag_id: {
+                            required: true,
+                        },
+                        gewog_id: {
+                            required: true,
+                        },
+                        establishment_village_id: {
+                            required: true,
+                        },
+                        /* scorepoint: {
+                            checkScorepoint: true,
+                        }, */
+                    /*   bspoints: {
+                            checkBspoints: true,
+                        },  */
+                    },
+                    messages: {
+                        application_type_id: {
+                            required: "Please select the application type",
+                        },
+                        dispatch_no: {
+                            required: "Please enter dispatch number",
+                        },
+                        cid_no: {
+                            required: "Please provide a cid number",
+                            maxlength: "Your cid must be 11 characters long",
+                            minlength: "Your cid must be at least 11 characters long",
+                            digits: "This field accept only digits",
+                        },
+                        owner_name: {
+                            required: "Enter the name",
+                        },
+                        contact_no: {
+                            required: "Please provide a contact number",
+                            digits: "This field accept only digits",
+                        },
+                        email: {
+                            required: "Please enter a email address",
+                            email: "Please enter a vaild email address"
+                        },
+                        number: {
+                            required: "Please provide number of bed",
+                            digits: "This field accept only digits",
+                        },
+                        manager_name: {
+                            required: "Enter manager name",
+                        },
+                        manager_mobile_no: {
+                            required: "Please provide a contact number",
+                            digits: "This field accept only digits",  
+                                        },
+                        webpage_url: {
+                            required: "Please enter webpage_url",
+                        },
+                        company_title_name: {
+                            required: "Please enter company name",
+                        },
+                        license_date: {
+                            required: "Please enter license date",
+                        },
+                        license_no: {
+                            required: "Please enter license number",
+                        },
+                        dzongkhag_id: {
+                            required: "Please select dzongkhag",
+                        },
+                        gewog_id: {
+                            required: "Please select gewog",
+                        },
+                        establishment_village_id: {
+                            required: "Please select village",
+                        },
+                    },
+                    errorElement: 'span',
+                    errorPlacement: function (error, element) {
+                        error.addClass('invalid-feedback');
+                        element.closest('.form-group').append(error);
+                    },
+                    highlight: function (element, errorClass, validClass) {
+                        $(element).addClass('is-invalid');
+                    },
+                    unhighlight: function (element, errorClass, validClass) {
+                        $(element).removeClass('is-invalid');
+                    }
+            });
+        });
 
          function TotalRoomCal() {
             var sum = 0;

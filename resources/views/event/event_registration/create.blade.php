@@ -130,19 +130,19 @@
     </div>
     <div class="modal-footer" style="margin-bottom:-14px;">
         <button type="submit" class="btn btn-success btn-flat margin-r-5">Save</button>
-        <button type="button" class="btn btn-flat btn-close btn-danger float-left" data-dismiss="modal">Close</button>
+        <button type="button" class="float-left btn btn-flat btn-close btn-danger" data-dismiss="modal">Close</button>
     </div>
 </form>
 <script>
     $(document).ready(function(){
             $('#eventstartDate').datetimepicker({
-                format: 'DD/MM/YYYY'
+                format: 'MM/DD/YYYY'
             });
             $('#eventendDate').datetimepicker({
-                format: 'DD/MM/YYYY'
+                format: 'MM/DD/YYYY'
             });
             $('#eventlastDate').datetimepicker({
-                format: 'DD/MM/YYYY'
+                format: 'MM/DD/YYYY'
             });
     });
     

@@ -47,7 +47,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = TRole::orderBy('id')->get();
+        $roles = TRole::whereIn('id', [1, 3, 4, 5, 6, 7, 8, 9])->orderBy('id')->get();
         $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
         return view('system-settings.users.create', $data, compact('roles'));
     }

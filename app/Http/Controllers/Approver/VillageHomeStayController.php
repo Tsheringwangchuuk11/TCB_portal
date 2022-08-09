@@ -71,6 +71,62 @@ class VillageHomeStayController extends Controller
 
     }
 
+    public function viewApplicationDetails($applicationNo,$status=null){
+        $data['applicantInfo']=Services::getApplicantDetails($applicationNo);
+        $serviceId= $data['applicantInfo']->service_id;
+        $moduleId= $data['applicantInfo']->module_id;
+
+        if($serviceId==7){
+        //Village Home stay Checklist Details
+        $data['applicationTypes'] = Dropdown::getApplicationType("8",$dropdownId[]=["26","27"]);
+        $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+        $data['relationTypes'] =  Dropdown::getDropdownList("4");
+        $data['documentInfos']=Services::getDocumentDetails($applicationNo);
+        $data['membersDetls']=Services::getMembersDetails($applicationNo);
+
+            if($status==9){
+                // page redirect to application resubmit and draft
+                $data['checklistDtls'] =  TCheckListChapter::with(['chapterAreas' => function($q){
+                    $q->with(['checkListStandards'=> function($query){
+                        $query->leftJoin('t_check_list_standard_mappings','t_check_list_standards.id','=','t_check_list_standard_mappings.checklist_id')
+                            ->leftJoin('t_basic_standards','t_check_list_standard_mappings.standard_id','=','t_basic_standards.id')
+                            ->where('t_check_list_standard_mappings.is_active','=','1');
+                    }]);
+                }])->where('module_id','=',$moduleId)
+                ->get();
+                $data['checklistrecords']=Services::getCheckedRecord($applicationNo);
+                $data['checklistrec']=Services::getCheckedRecord($applicationNo)->pluck('checklist_id')->toArray();
+                return view('services.resubmit_application.resubmit_home_stay_assessment',$data,compact('status'));
+            }else{
+                // page redirect to application approve
+                $data['checklistDtls'] =  TCheckListChapter::with(['chapterAreas' => function($q) use($applicationNo){
+                    $q->with(['checkListStandards'=> function($query) use($applicationNo){
+                        $query->leftJoin('t_check_list_standard_mappings','t_check_list_standards.id','=','t_check_list_standard_mappings.checklist_id')
+                            ->leftJoin('t_basic_standards','t_check_list_standard_mappings.standard_id','=','t_basic_standards.id')
+                            ->leftJoin('t_checklist_applications','t_check_list_standards.id','=','t_checklist_applications.checklist_id')
+                            ->where('t_checklist_applications.application_no','=',$applicationNo);
+                    }]);
+                }])->where('module_id','=',$moduleId)
+                ->get();
+                $status= WorkFlowDetails::getStatus('APPROVED')->id;
+                return view('report.application_details.view_home_stays_assessment',$data,compact('status'));
+            }
+        }
+
+        elseif($serviceId==8){
+           $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+           $data['documentInfos']=Services::getDocumentDetails($applicationNo);
+            if($status==9){
+            return view('services.resubmit_application.resubmit_home_stays_license_cancel',$data,compact('status'));
+            }else{
+                $status= WorkFlowDetails::getStatus('APPROVED')->id;
+                return view('report.application_details.view_home_stays_license_cancel',$data,compact('status'));
+ 
+            }
+        }
+
+    }
+
      //Approval function for village Home Stay assessment application
    public function villageHomeStayAssessmentApplication(Request $request,Services $service){
        $roles = auth()->user()->roles()->get();
@@ -102,7 +158,10 @@ class VillageHomeStayController extends Controller
             $completedId= WorkFlowDetails::getStatus('COMPLETED');
 
         $applicantdata[]= [
+            'application_no'   => $request->application_no,  
             'module_id'   => $request->module_id,
+            'service_id'   => $request->service_id,
+            'application_type_id'   => $request->application_type_id,
             'cid_no'   => $request->cid_no,
             'owner_name'   => $request->owner_name,
             'tourist_standard_name'   => $request->tourist_standard_name,
@@ -121,7 +180,8 @@ class VillageHomeStayController extends Controller
             'updated_at'   => now(),
         ];
         $id=Services::getLastInsertedId('t_tourist_standard_dtls',$applicantdata);
-        // insert into t_room_dtls
+
+        // insert into member application dtls
         $membersData = [];
         if(isset($_POST['member_name'])){
             foreach($request->member_name as $key => $value){

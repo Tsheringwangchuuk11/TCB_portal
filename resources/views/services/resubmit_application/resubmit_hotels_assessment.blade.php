@@ -16,11 +16,11 @@
             <div class="row">
                 <div class="form-group col-md-5">
                     <label>Application No.</label>
-                    <input type="text" class="form-control" name="application_no" value="{{ $applicantInfo->application_no }}" readonly="true">
+                    <input type="text" class="form-control" name="application_no" value="{{ $applicantInfo->application_no }}"  readonly="true">
                 </div>
                 <div class="form-group col-md-5 offset-md-2">
                     <label>Registration Type <span class="text-danger">*</span></label>
-                    <select class="form-control" name="application_type_id" id="application_type_id" style="width: 100%;" readonly="true">
+                    <select class="form-control" name="application_type_id" id="application_type_id" style="width: 100%;">
                         <option value="">- Select -</option>
                         @foreach ($applicationTypes as $applicationType)
                         <option value="{{ $applicationType->id }}" {{ old('application_type_id', $applicantInfo->application_type_id) == $applicationType->id ? 'selected' : '' }}> {{ $applicationType->dropdown_name }}</option>
@@ -31,7 +31,7 @@
             <div class="row">
                 <div class="form-group col-md-5">
                     <label>Star Category Type</label>
-                    <select class="form-control" name="star_category_id" id="star_category_id" style="width: 100%;" readonly="true">
+                    <select class="form-control" name="star_category_id" id="star_category_id" style="width: 100%;">
                         <option value="">- Select -</option>
                         @foreach ($starCategoryLists as $starCategoryList)
                         <option value="{{ $starCategoryList->id }}" {{ old('star_category_id', $applicantInfo->star_category_id) == $starCategoryList->id ? 'selected' : '' }}> {{ $starCategoryList->star_category_name }}</option>
@@ -371,7 +371,12 @@
             </table>
         </div>
     </div>
-    @include('services.resubmit_application.resubmit_hotel_check_list')
+    @if ($applicantInfo->star_category_id > 0)
+        @include('services.resubmit_application.resubmit_hotel_check_list')
+    @else
+        <div id="showdivid"></div>
+    @endif
+    
     <div class="card">
     <div class="card-header">
         <h4 class="card-title">File Attachment</h4>
@@ -418,6 +423,20 @@
 @endsection
 @section('scripts')
     <script>
+        $(document).ready(function(){
+            $('#star_category_id').on('change',function(ev){
+                var star_category_id=$("#star_category_id").val();
+                var star_category_name = $("#star_category_id  option:selected").text();
+                $("#star_level").html(star_category_name);
+                var url="{{ url('application/get-hotel-checklist') }}";
+                var options = {target:'#showdivid',
+                url:url,
+                type:'POST',
+                data: $("#form_data").serialize()};
+                $("#form_data").ajaxSubmit(options);
+            });
+        });
+        
         $(document).ready(function(){
             var star_category_name = $("#star_category_id  option:selected").text();
             $("#star_level").html(star_category_name);

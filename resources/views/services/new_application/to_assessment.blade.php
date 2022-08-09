@@ -22,7 +22,7 @@
             <div class="col-md-5 offset-md-2">
                 <div class="form-group">
                     <label for="">Owner Citizen ID<span class="text-danger">*</span> </label>
-                    <input type="text" class="form-control" name="cid_no" id="cid_no1" value="{{ old('cid_no') }}" onchange="api_webservices(this.value)">
+                    <input type="text" class="form-control" name="cid_no" id="cid_no1" value="{{ old('cid_no') }}" onchange="api_webservices(this.value)" maxlength="11">
                     <span id="webserviceError" class="text-danger"></span>
                 </div>
             </div>
@@ -37,7 +37,7 @@
             <div class="col-md-5 offset-md-2">
                 <div class="form-group">
                     <label for="">Mobile No. <span class="text-danger">*</span> </label>
-                    <input type="text" class="form-control" name="contact_no" value="{{ old('contact_no') }}" id="contact_no">
+                    <input type="text" class="form-control" name="contact_no" value="{{ old('contact_no') }}" id="contact_no" maxlength="8">
                 </div>
             </div>
             
@@ -126,25 +126,70 @@
                 <div class="col-md-12">
                     <div class="form-group ml-3">
                         <div class="form-check">
-                            <ol>
-                                <li>
-                                    <input type="checkbox" name="checkboxes"  class="check-one">&nbsp;<em>A copy of the valid trade license.</em>
-                                </li>
-                                <li>
-                                    <input type="checkbox" name="checkboxes"  class="check-one">&nbsp; <em>Office building photo</em>
-                                </li>
-                                <li>
-                                    <input type="checkbox" name="checkboxes"  class="check-one">&nbsp; <em>Sign board</em>
-                                </li>
-                                <li>
-                                    <input type="checkbox" name="checkboxes"  class="check-one">&nbsp;A copy of the letter of authorization from the building owner stating that the applicant is authorized to operate the office in his/her property or ownership certificate in case of own building</em>
-                                </li>
-                            </ol>
+                            <div class="row">
+                                <div class="col-md-5">
+                                1.&nbsp;<input type="checkbox" name="checkboxes"  class="check-one" id="to_assement_trade_checkbox" onclick="to_assement_trade_check()">&nbsp;<em>A copy of the valid trade license.</em> 
+                                </div>
+                                <div class="col-md-2">
+                                    <em id="to_assement_trade_licn_files_div" style="display:none;">
+                                        <span class="btn bg-purple fileinput-button btn-sm">
+                                            <i class="fas fa-plus fa-sm"></i>
+                                            <span>Add file...</span>
+                                            <input id="to_assement_trade_licn_upload" type="file" name="filename"> 
+                                        </span>
+                                    </em>
+                                </div>
+                                <div class="col-md-5" id="to_assement_trade_licn_files"></div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-md-5">
+                                2.&nbsp;<input type="checkbox" name="checkboxes"  class="check-one" id="to_assement_office_checkbox" onclick="to_assement_office_check()">&nbsp; <em>Office building photo</em> 
+                                </div>
+                                <div class="col-md-2">
+                                    <em id="to_assement_office_build_files_div" style="display:none;">
+                                        <span class="btn bg-purple fileinput-button btn-sm">
+                                            <i class="fas fa-plus fa-sm"></i>
+                                            <span>Add file...</span>
+                                            <input id="to_assement_office_build_upload" type="file" name="filename"> 
+                                        </span>
+                                    </em>
+                                </div>
+                                <div class="col-md-5" id="to_assement_office_build_files"></div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-md-5">
+                                3.&nbsp;<input type="checkbox" name="checkboxes"  class="check-one" id="sign_board_checkbox" onclick="sign_board_check()">&nbsp; <em>Sign board</em> 
+                                </div>
+                                <div class="col-md-2">
+                                    <em id="sign_board_files_div" style="display:none;">
+                                        <span class="btn bg-purple fileinput-button btn-sm">
+                                            <i class="fas fa-plus fa-sm"></i>
+                                            <span>Add file...</span>
+                                            <input id="sign_board_upload" type="file" name="filename"> 
+                                        </span>
+                                    </em>
+                                </div>
+                                <div class="col-md-5" id="sign_board_files"></div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-md-5">
+                                4.&nbsp;<input type="checkbox" name="checkboxes"  class="check-one" id="authorization_files_checkbox" onclick="authorization_files_check()">&nbsp;A copy of the letter of authorization from the building owner stating that the applicant is authorized to operate the office in his/her property or ownership certificate in case of own building</em> 
+                                </div>
+                                <div class="col-md-2">
+                                    <em id="authorization_files_div" style="display:none;">
+                                        <span class="btn bg-purple fileinput-button btn-sm">
+                                            <i class="fas fa-plus fa-sm"></i>
+                                            <span>Add file...</span>
+                                            <input id="authorization_upload" type="file" name="filename"> 
+                                        </span>
+                                    </em>
+                                </div>
+                                <div class="col-md-5" id="authorization_files"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        @include('services/fileupload/fileupload')
         </div>
         <div class="card-footer text-center" >
             <button type="submit"class="btn btn-success">
@@ -292,5 +337,49 @@
                     $(element).removeClass('is-invalid');
                 }
          });
+         function to_assement_trade_check()
+         {
+            if($('#to_assement_trade_checkbox').is(':checked'))
+            {
+                $('#to_assement_trade_licn_files_div').show();
+            }
+            else
+            {
+                $('#to_assement_trade_licn_files_div').hide();
+            }
+         }
+         function to_assement_office_check()
+         {
+            if($('#to_assement_office_checkbox').is(':checked'))
+            {
+                $('#to_assement_office_build_files_div').show();
+            }
+            else
+            {
+                $('#to_assement_office_build_files_div').hide();
+            }
+         }
+         function sign_board_check()
+         {
+            if($('#sign_board_checkbox').is(':checked'))
+            {
+                $('#sign_board_files_div').show();
+            }
+            else
+            {
+                $('#sign_board_files_div').hide();
+            }
+         }
+         function authorization_files_check()
+         {
+            if($('#authorization_files_checkbox').is(':checked'))
+            {
+                $('#authorization_files_div').show();
+            }
+            else
+            {
+                $('#authorization_files_div').hide();
+            }
+         }
     </script>
 @endsection

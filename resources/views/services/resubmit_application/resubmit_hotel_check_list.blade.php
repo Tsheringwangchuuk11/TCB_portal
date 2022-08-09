@@ -64,7 +64,7 @@
 																@if ($checkListStandard->standard_code===null  && $checklistrecords[$i]->assessor_rating==0)
 																	<input type="hidden" name="assessor_rating[]" value="0" class="form-control input-sm bstxt">
 																@else
-																	<input type="text" name="assessor_rating[]" value="{{$checklistrecords[$i]->assessor_rating}}" class="form-control input-sm bstxt">
+																	<input type="text" name="assessor_rating[]" value="{{$checklistrecords[$i]->assessor_rating}}" class="form-control input-sm bstxt assessor_rating" readonly="readonly">
 																@endif
 															</td>
 															<td>
@@ -96,7 +96,7 @@
 																	@if ($checkListStandard->standard_code===null)
 																		<input type="hidden" name="assessor_rating[]" value="0" class="form-control input-sm bstxt">
 																	@else
-																		<input type="text" name="assessor_rating[]" class="form-control input-sm bstxt">
+																		<input type="text" name="assessor_rating[]" class="form-control input-sm bstxt assessor_rating" readonly="readonly">
 																	@endif
 																</td>
 																<td>
@@ -144,7 +144,7 @@
 						@else
 							Total Assessor’s score point(280 +)
 						@endif
-						<span id="scorepoint">: &nbsp;{{ $scorepointtotal }}</span>			
+						<input type="text" class="form-control" name="scorepoint" id="scorepoint_val" readonly>			
 					</label>
 				</div>
 				<div class="form-group col-md-5 offset-md-2">
@@ -156,10 +156,67 @@
 						@else
 							Total Assessor’s B/B* rating (162 out of 166)
 						@endif
-						<span id="bspoints">:&nbsp;{{ $ratingpointtotal }}</span>
+						<input type="text" class="form-control" name="bspoints" id="bspoints_val" readonly>
 					</label>
 				</div>
 			</div>
 		</div>
 	</div>
 @endif
+@section('scripts')
+<script>
+	$(function () {
+		var score = {{ $scorepointtotal }};
+		var bs = {{ $ratingpointtotal }};
+		$("#scorepoint_val").val(score);
+		$("#bspoints_val").val(bs);
+	});
+
+$('input[type="checkbox"]').on('change', function(){
+        if($(this).is(":checked")){ // checkbox checked
+		currentRow = $(this).closest("tr");
+        var currentVal=currentRow.find('.chk').val('1');
+		$(this).parents("tr:eq(0)").find(".assessor_rating").prop("readonly",true);
+		$(this).parents("tr:eq(0)").find(".assessor_rating").val('1');
+		calculateBsPoint();
+        }
+		if($(this).is(":unchecked")){ // checkbox unchecked
+		currentRow = $(this).closest("tr");
+        var currentVal=currentRow.find('.chk').val('0');
+		$(this).parents("tr:eq(0)").find(".assessor_rating").prop("readonly",false);
+		$(this).parents("tr:eq(0)").find(".assessor_rating").val('');
+		calculateBsPoint();
+        }
+    });
+
+	function calculateBsPoint() {
+		var sum = 0;
+		//iterate through each textboxes and add the values
+		$(".bstxt").each(function () {
+			//add only if the value is number
+			if (!isNaN(this.value) && this.value.length != 0) {
+				sum += parseFloat(this.value);
+			}
+		});
+		//.toFixed() method will roundoff the final sum to 2 decimal places
+	 	$("#bspoints_val").val(sum);
+	}
+
+	function calculateScorePoint() {
+		var sum = 0;
+		//iterate through each textboxes and add the values
+		$(".txt").each(function () {
+			//add only if the value is number
+			if (!isNaN(this.value) && this.value.length != 0) {
+				sum += parseFloat(this.value);
+			}
+		});
+		//.toFixed() method will roundoff the final sum to 2 decimal places
+	 $("#scorepoint_val").val(sum);
+	}
+	
+	$("table").on("keyup", ".txt", function () {
+		calculateScorePoint();
+	});
+</script>
+@endsection

@@ -19,7 +19,8 @@
     <!-- IonIcons -->
     <link rel="stylesheet" href="{{ asset('css/ionicons.min.css')}}">
     <!-- Google Font: Source Sans Pro -->
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <!--     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">  --> 
+
     <!-- Jquery fileupload -->
     <link href="{{ asset('fileupload/jquery.fileupload.css') }}" rel="stylesheet" type="text/css">
      <!-- DataTables -->
@@ -106,7 +107,7 @@
                 </form>
             </div>
             <div class="col-4 text-right">
-                <div class="btn btn-sm btn-warning"><a href="{{ url('sso/redirect') }}" class="text-white">
+                <div class="btn btn-sm btn-warning"><a href="{{ url('/user_login') }}" class="text-white">
                         <i class="fas fa-sign-in-alt"></i>&nbsp;Login</a></div>
             </div>
         </div>

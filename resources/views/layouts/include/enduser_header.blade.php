@@ -17,22 +17,21 @@
               <!-- User image -->
               <!-- Menu Body -->
               <li class="user-body bg-info text-center">
-                <h5></h5>
+                <h5>{{ auth()->user()->user_name }}</h5>
                 <p class="text-center">
-                   Last Login: 
+                   Last Login:{{ auth()->user()->last_login_at }}
                 </p>
                   <!-- /.row -->
               </li>
               <!-- Menu Footer-->
               <li class="user-footer">
                   <div class="float-left">
-                      <a class="btn btn-danger btn-flat" href="https://stg-sso.dit.gov.bt/oidc/logout?post_logout_redirect_uri=https://portal.tourism.gov.bt/sso/logout& id_token_hint={{auth()->user()->id_token }}">              
+                     <a href="#" class="btn btn-success btn-flat" data-dismiss="modal">Cancel</a>
+                  </div>
+                  <div class="float-right">
+                     <a class="btn btn-danger btn-flat" href="{{ route('logout') }}">              
                           {{ __('Sign out') }}
                       </a>
-                      <form id="logout-form" action="{{ route('signout') }}" method="POST" style="display: none;">
-                          @csrf
-                          <input type="hidden" name="id_token" value="{{auth()->user()->id_token }}">
-                      </form>
                   </div>
               </li>
           </ul>

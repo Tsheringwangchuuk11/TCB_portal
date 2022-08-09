@@ -9,11 +9,11 @@
                 <h6><u><b>Gentle Reminder</b></u></h6>
                 <p class="text-justify">One of the key evaluation criteria is how funding a particular Festival/Event may enhance tourism product and infrastructure development. Please indicate how your Festival/Event would contribute towards diversification of tourism product and ensuring long-term health and stability of tourism revenue generation and, especially, how it might result in future tourism activity vibrancy in the locality, leading to community benefit/ or enhanced tourism revenue generation. Quantify your projections and indicate how you propose to verify your results</p>
                 <ol>
-                    <li>Click on new applicatin in side bar</li>
+                    <li>Click on new application in side bar</li>
                     <li>It will display modules</li>
                     <li>Select the module</li>
                     <li>Choose the service</li>
-                    <li>Fill up and click appy button</li>
+                    <li>Fill up and click apply button</li>
                 </ol>
             </div>
             <!-- /.info-box-content -->
@@ -88,7 +88,12 @@
                                         <span class="badge badge-pill badge-info">{{ $endUserApplicantDtl->status_name }}</span>
                                         @endif
                                     </td>
-                                    <td>{{ $endUserApplicantDtl->updated_at }}</td>
+                                    @if ($endUserApplicantDtl->id===3)
+                                        <td>{{ $endUserApplicantDtl->updated_at }}</td>
+                                    @else
+                                        <td></td>
+                                    @endif
+
                                     <td>{{ $endUserApplicantDtl->remarks }}</td>
                                     <td>
                                         <!-- start Printing -->
@@ -139,5 +144,10 @@
             "autoWidth": false,
             });
         });
+         document.forms[0].submit();
+         function signout(id_token){
+            location.href="https://stg-sso.dit.gov.bt/oidc/logout?post_logout_redirect_uri=https://portal.tourism.gov.bt/sso/logout& id_token_hint=".id_token."";
+
+            }
     </script>
 @endsection

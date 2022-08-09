@@ -77,6 +77,67 @@ class TentedAccommodationController extends Controller
         }
     }
 
+    public function viewApplicationDetails($applicationNo,$status=null){
+        $data['applicantInfo']=Services::getApplicantDetails($applicationNo);
+        $serviceId= $data['applicantInfo']->service_id;
+        $moduleId= $data['applicantInfo']->module_id;
+        
+        //Tented Accommodation assesment Details
+        if($serviceId==6){
+            $data['documentInfos']=Services::getDocumentDetails($applicationNo);
+            $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+            $data['applicationTypes'] = Dropdown::getApplicationType("8",$dropdownId[]=["28","29","30"]);
+            if($status==9){
+                 // page redirect to resubmit application
+                return view('report.application_details.view_name_ownership_cancellation_for_tented_accom',$data,compact('status'));
+            }else{
+                 // page redirect to application approve
+                 $status= WorkFlowDetails::getStatus('APPROVED')->id;
+                return view('report.application_details.view_name_ownership_cancellation_for_tented_accom',$data,compact('status'));
+            }
+        }
+        //Name change Ownership change Cancllation for Tented Accommodation
+        else{
+            $data['documentInfos']=Services::getDocumentDetails($applicationNo);
+        $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+        $data['roomTypeLists'] = Dropdown::getDropdownList("1");
+        $data['applicationTypes'] = Dropdown::getApplicationType("8",$dropdownId[]=["26","27"]);        
+        $data['roomInfos']=Services::getRoomDetails($applicationNo);
+        $data['staffInfos']=Services::getStaffDetails($applicationNo);
+        $starCategoryId=Services::getApplicantDetails($applicationNo)->star_category_id;
+
+            if($status==9 || $status==10){
+                // page redirect to application resubmit and draft
+                $data['checklistDtls'] =  TCheckListChapter::with(['chapterAreas' => function($q) use($starCategoryId){
+                    $q->with(['checkListStandards'=> function($query) use($starCategoryId){
+                        $query->leftJoin('t_check_list_standard_mappings','t_check_list_standards.id','=','t_check_list_standard_mappings.checklist_id')
+                            ->leftJoin('t_basic_standards','t_check_list_standard_mappings.standard_id','=','t_basic_standards.id')
+                            ->where('t_check_list_standard_mappings.star_category_id','=',$starCategoryId)
+                            ->where('t_check_list_standard_mappings.is_active','=','1');
+                    }]);
+                }])->where('module_id','=',$moduleId)
+                ->get();
+                $data['checklistrecords']=Services::getCheckedRecord($applicationNo);
+                $data['checklistrec']=Services::getCheckedRecord($applicationNo)->pluck('checklist_id')->toArray();
+                return view('report.application_details.view_tented_accommodation_assessment',$data,compact('status'));
+            }else{
+                // page redirect to application approve
+                $data['checklistDtls'] =  TCheckListChapter::with(['chapterAreas' => function($q) use($applicationNo,$starCategoryId){
+                    $q->with(['checkListStandards'=> function($query) use($applicationNo,$starCategoryId){
+                        $query->leftJoin('t_check_list_standard_mappings','t_check_list_standards.id','=','t_check_list_standard_mappings.checklist_id')
+                            ->leftJoin('t_basic_standards','t_check_list_standard_mappings.standard_id','=','t_basic_standards.id')
+                            ->leftJoin('t_checklist_applications','t_check_list_standards.id','=','t_checklist_applications.checklist_id')
+                            ->where('t_checklist_applications.application_no','=',$applicationNo)
+                            ->where('t_check_list_standard_mappings.star_category_id','=',$starCategoryId);
+                    }]);
+                }])->where('module_id','=',$moduleId)
+                ->get();
+                $status= WorkFlowDetails::getStatus('APPROVED')->id;
+                return view('report.application_details.view_tented_accommodation_assessment',$data,compact('status'));
+            }
+        }
+    }
+
   //Approval function tented accommodation assessment application
    public function tentedAccommAssessmentApplication(Request $request,Services $service){
     $roles = auth()->user()->roles()->get();

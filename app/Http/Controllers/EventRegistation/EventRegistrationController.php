@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\EventRegistration;
 use Validator;
 use App\Models\Dropdown;
+use App\Models\Services;
 class EventRegistrationController extends Controller
 {
     /**
@@ -46,9 +47,23 @@ class EventRegistrationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,Services $service)
     {
-       $savedata   =   EventRegistration::Create(['event_name' => $request->event_name, 'country_id' => $request->country_id,'event_location'=> $request->event_location ,'start_date'=> date('Y-m-d', strtotime($request->start_date)),'village_id'=> $request->village_id ,'web_site'=> $request->web_site,'email'=> $request->email ,'contact_person'=> $request->contact_person,'mobile_no'=> $request->mobile_no ,'end_date'=> date('Y-m-d', strtotime($request->end_date)),'last_date'=>date('Y-m-d', strtotime($request->last_date)),'event_dtls'=> $request->event_dtls,'created_by' => auth()->user()->id]);
+       $savedata   =   EventRegistration::Create([
+           'event_name' => $request->event_name,
+            'country_id' => $request->country_id,
+            'event_location'=> $request->event_location ,
+            'start_date'=> $service->setDateAttribute($request->start_date),
+            'village_id'=> $request->village_id ,
+            'web_site'=> $request->web_site,
+            'email'=> $request->email ,
+            'contact_person'=> $request->contact_person,
+            'mobile_no'=> $request->mobile_no ,
+            'end_date'=>$service->setDateAttribute($request->end_date),
+            'last_date'=>$service->setDateAttribute($request->last_date),
+            'event_dtls'=> $request->event_dtls,
+            'created_by' => auth()->user()->id
+        ]);
        return redirect('events/travel-fairs-event')->with('msg_success', 'New event added successfully');
     }
 
@@ -90,13 +105,13 @@ class EventRegistrationController extends Controller
             'event_name' => $request->event_name,
             'country_id' =>$request->country_id,
             'event_location' =>$request->event_location,
-            'last_date' =>date('Y-m-d', strtotime($request->last_date)),
-            'start_date' =>date('Y-m-d', strtotime($request->start_date)),
+            'last_date'=>$service->setDateAttribute($request->last_date),
+            'start_date'=> $service->setDateAttribute($request->start_date),
             'web_site' =>$request->web_site,
             'email' =>$request->email,
             'contact_person' =>$request->contact_person,
             'mobile_no' =>$request->mobile_no,
-            'end_date' =>date('Y-m-d', strtotime($request->end_date)),
+            'end_date'=>$service->setDateAttribute($request->end_date),
             'village_id' =>$request->village_id,
             'event_dtls' =>$request->event_dtls,
             'updated_by' =>auth()->user()->id,

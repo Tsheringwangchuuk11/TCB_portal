@@ -146,53 +146,55 @@
 			  </div>
 		</div>
 	</div>
-	<div class="card">
-		<div class="card-header">
-			 <h4 class="card-title">Details Of The Family Members Residing In The Same House</h4>
+	@if (count($membersDetls) > 0)
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">Details Of The Family Members Residing In The Same House</h4>
+			</div>
+			<div class="card-body">
+				<div class="row">
+					<div class="form-group col-md-3">
+						<label>Name <span class="text-danger">*</span></label>
+					</div>
+					<div class="form-group col-md-3">
+						<label>Relationship with the applicant <span class="text-danger">*</span></label>
+					</div>
+					<div class="form-group col-md-3">
+						<label for="">Age <span class="text-danger">*</span> </label>
+					</div>
+					<div class="form-group col-md-3">
+						<label>Gender <span class="text-danger">*</span></label>
+					</div>
+				</div>
+				@foreach ($membersDetls as $membersDetl)
+				<div class="row">
+					<div class="form-group col-md-3">
+						<input type="text" class="form-control" name="member_name[]" value="{{ $membersDetl->member_name }}">
+					</div>
+					<div class="form-group col-md-3">
+						<select class="form-control" name="relation_type_id[]">
+							<option value="">- Select -</option>
+							@foreach ($relationTypes as $relationType)
+							<option value="{{ $relationType->id }}" {{ old('relation_type_id', $relationType->id) == $membersDetl->relation_type_id ? 'selected' : '' }}>{{ $relationType->dropdown_name }}</option>
+							@endforeach
+						</select>
+					</div>
+					<div class="form-group col-md-3">
+						<input type="date" class="form-control" name="member_dob[]" autocomplete="off" value="{{ $membersDetl->member_dob }}">
+					</div>
+					<div class="form-group col-md-3">
+						<select class="form-control" name="member_gender[]">
+							<option value="">- Select -</option>
+							@foreach (config()->get('settings.gender') as $k => $v)
+							<option value="{{ $k }}" {{ old('gender', $membersDetl->member_gender) == $k ? 'selected' : '' }}>{{ $v }}</option>
+							@endforeach
+						</select>
+					</div>
+				</div>
+				@endforeach
+			</div>
 		</div>
-		<div class="card-body">
-			<div class="row">
-				<div class="form-group col-md-3">
-					<label>Name <span class="text-danger">*</span></label>
-				</div>
-				<div class="form-group col-md-3">
-					<label>Relationship with the applicant <span class="text-danger">*</span></label>
-				</div>
-				<div class="form-group col-md-3">
-					<label for="">Age <span class="text-danger">*</span> </label>
-				</div>
-				<div class="form-group col-md-3">
-					<label>Gender <span class="text-danger">*</span></label>
-				</div>
-            </div>
-            @foreach ($membersDetls as $membersDetl)
-            <div class="row">
-                <div class="form-group col-md-3">
-                    <input type="text" class="form-control" name="member_name[]" value="{{ $membersDetl->member_name }}">
-                </div>
-                <div class="form-group col-md-3">
-                    <select class="form-control" name="relation_type_id[]">
-                        <option value="">- Select -</option>
-                        @foreach ($relationTypes as $relationType)
-                        <option value="{{ $relationType->id }}" {{ old('relation_type_id', $relationType->id) == $membersDetl->relation_type_id ? 'selected' : '' }}>{{ $relationType->dropdown_name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group col-md-3">
-                    <input type="date" class="form-control" name="member_dob[]" autocomplete="off" value="{{ $membersDetl->member_dob }}">
-                </div>
-                <div class="form-group col-md-3">
-                    <select class="form-control" name="member_gender[]">
-                        <option value="">- Select -</option>
-                        @foreach (config()->get('settings.gender') as $k => $v)
-                        <option value="{{ $k }}" {{ old('gender', $membersDetl->member_gender) == $k ? 'selected' : '' }}>{{ $v }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-            @endforeach
-		</div>
-	</div>
+	@endif
     @if ($checklistDtls->count() > 0)
 	<div class="card">
 		<div class="card-header">
@@ -211,7 +213,7 @@
     <div class="card-body">
         <div class="row">
             <div class="col-md-12">
-                <table class="table table order-list table-bordered" id="">
+                <table class="table order-list table-bordered" id="">
                 <thead>
                     <tr>
                         <td>Area</td>
@@ -262,7 +264,7 @@
                 <div class="form-group col-md-5 offset-md-2">
                     <label for="">Inspection Date<span class="text-danger">*</span> </label>
 					<div class="input-group date" id="inspection_date" data-target-input="nearest">
-						<input type="text" name="inspection_date" class="form-control datetimepicker-input" data-target="#inspection_date" value="{{ $productInfo->start_date }}">
+						<input type="text" name="inspection_date" class="form-control datetimepicker-input" data-target="#inspection_date">
 						<div class="input-group-append" data-target="#inspection_date" data-toggle="datetimepicker">
 							<div class="input-group-text"><i class="fa fa-calendar"></i></div>
 						</div>
@@ -270,7 +272,7 @@
                 </div>
             </div>
 		</div>
-		<div class="card-footer text-center">
+		<div class="text-center card-footer">
 			@if(is_null(auth()->user()->location_id))
 				<button name="status" value="APPROVED" class="btn btn-success"><li class="fas fa-check"></li> APPROVE</button>
 			@else

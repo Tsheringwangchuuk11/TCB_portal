@@ -14,7 +14,7 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="" >Event Name<span class="text-danger"> *</span></label>
-                    <input type="hidden" class="form-control" name="event_id" value="{{$eventdtl->id}}" id="eventId">
+                    <input type="hidden" class="form-control" name="tourism_event_id" value="{{$eventdtl->id}}" id="eventId">
                         <input type="text" class="form-control" name="event_name" value="{{$eventdtl->event_name}}" readonly="true">
                     </div>
                 </div>

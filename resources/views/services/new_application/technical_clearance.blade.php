@@ -52,7 +52,7 @@
                     <div class="col-md-5 offset-md-2">
                         <div class="form-group">
                             <label for="">Citizen ID<span class="text-danger"> * </span></label>
-                            <input type="text" class="form-control" name="cid_no" value="{{ old('cid_no') }}" autocomplete="off" id="cid_no" onchange="api_webservices(this.value)">
+                            <input type="text" class="form-control" name="cid_no" value="{{ old('cid_no') }}" autocomplete="off" id="cid_no" onchange="api_webservices(this.value)" maxlength="11">
                             <span id="webserviceError" class="text-danger"></span>
                         </div>
                     </div>
@@ -60,7 +60,7 @@
                 <div class="row">
                     <div class="col-md-5">
                         <div class="form-group">
-                            <label for="" >Name<span class="text-danger"> *</span></label>
+                            <label for="" >Name of the promoter/business<span class="text-danger"> *</span></label>
                             <input type="text" class="form-control" name="applicant_name" value="{{ old('applicant_name') }}" autocomplete="off" id="applicant_name">
                         </div>
                     </div>
@@ -68,7 +68,7 @@
                     <div class="col-md-5 offset-md-2">
                         <div class="form-group">
                             <label for="">Contact No.<span class="text-danger"> *</span></label>
-                            <input type="text" name="contact_no" class="form-control" value="{{ old('contact_no') }}" id="contact_no" autocomplete="off">
+                            <input type="text" name="contact_no" class="form-control" value="{{ old('contact_no') }}" id="contact_no" autocomplete="off" maxlength="8">
                         </div>
                     </div>
                 </div>
@@ -133,7 +133,7 @@
     </div>
     <div class="card-body">
         <div class="row">
-            <div class="col-md-5">
+            <div class="col-md-4">
                 <div class="form-group">
                     <label for="">Dzongkhag<span class="text-danger"> *</span></label>
                     <select  name="dzongkhag_id" id="dzongkhag_id" class="form-control select2bs4 dzongkhagdropdown" style="width: 100%;">
@@ -144,7 +144,7 @@
                     </select>
                 </div>
             </div>
-            <div class="col-md-5 offset-md-2">
+            <div class="col-md-4">
                 <div class="form-group">
                     <label for="">Gewog<span class="text-danger"> *</span></label>
                     <select  name="gewog_id" class="form-control select2bs4 gewogdropdown" id="gewog_id" style="width: 100%;">
@@ -152,9 +152,7 @@
                     </select>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-5">
+            <div class="col-md-4">
                 <div class="form-group">
                     <label for="">Village<span class="text-danger"> *</span></label>
                     <select  name="establishment_village_id" class="form-control select2bs4" id="village_id" style="width: 100%;">
@@ -163,6 +161,16 @@
                 </div>
             </div>
         </div>
+	<div class="row">
+	   <div class="form-group col-md-4">
+		<label for="">Thram Number[new]</label>
+		<input type="text" class="form-control" name="n_thramno">
+	  </div>
+	  <div class="form-group col-md-4">
+                <label for="">Plot Number[new]</label>
+                <input type="text" class="form-control" name="n_plotno">
+          </div>
+	</div>
     </div>
 </div>
 <div class="card"  id="newowner" style="display: none">
@@ -204,57 +212,56 @@
                     <div class="form-check">
                         <ol id="new_application" style="display:none">
                             <li>
-                                <em><input type="checkbox" name="checkboxes" class="new_application">&nbsp;An application addressed to the Director General of TCB requesting the issuance
-                                of technical clearance.</em>   
+                                <em><input type="checkbox" name="checkboxes" class="new_application">&nbsp;Copy of lagthram.</em>   
                                 </em>
                             </li>
                             <li>
                                 <em>
-                                    <input type="checkbox" name="checkboxes"  class="new_application">&nbsp; Architectural drawings 
+                                    <input type="checkbox" name="checkboxes"  class="new_application">&nbsp; Architectural drawings (Include only floor plan and elevations) 
                                 </em>
                             </li>
                         </ol>
                         <ol id="renewal" style="display:none">
                             <li>
-                                <em> <input type="checkbox" name="checkboxes"  class="renewal">&nbsp; An application addressed to the Director General of TCB with clear justification
-                                on renewal of technical clearance.
+                                <em> <input type="checkbox" name="checkboxes"  class="renewal">&nbsp; Copy of lagthram.
                                 </em> 
                             </li>
                             <li>  
-                                <em>  <input type="checkbox" name="checkboxes"  class="renewal">&nbsp; Surrender the previous technical clearance issued to the proponent..</em>
+                                <em>  <input type="checkbox" name="checkboxes"  class="renewal">&nbsp; Attach previous technical clearance issued to the proponent.</em>
                             </li>
+			    <li>
+				<em> <input type="checkbox" name="checkboxes" class="renewal">&nbsp; Valid copy of construction permit issued by relevant Thromde/Dzongkhag.</em>
+			    </li>
                         </ol>
                         <ol id="change_design" style="display:none">
                             <li>
-                                <em> <input type="checkbox" name="checkboxes"  class="change_design">&nbsp; An application addressed to the Director General of TCB with clear justification
-                                for issuance of new technical clearance.
+                                <em> <input type="checkbox" name="checkboxes"  class="change_design">&nbsp; Copy of lagthram
                                 </em>  
                             </li>
                             <li> 
                                 <em>
-                                    <input type="checkbox" name="checkboxes"  class="change_design">&nbsp; Submit the new architectural drawings
+                                    <input type="checkbox" name="checkboxes"  class="change_design">&nbsp; Attach new architectural drawings
                                 </em>  
                             </li>
                             <li>
                                 <em>
-                                    <input type="checkbox" name="checkboxes"  class="change_design">&nbsp;  Surrender the previous technical clearance issued to the proponent.
+                                    <input type="checkbox" name="checkboxes"  class="change_design">&nbsp; Attach previous technical clearance issued to the proponent.
                                 </em>   
                             </li>
                         </ol>
                         <ol id="ownership_change" style="display:none">
                             <li>
-                                <em> <input type="checkbox" name="checkboxes"  class="ownership_change">&nbsp; An application addressed to the Director General of TCB with clear justification
-                                for change in ownership.
+                                <em> <input type="checkbox" name="checkboxes"  class="ownership_change">&nbsp; Lagthram of new owner.
                                 </em> 
                             </li>
                             <li>
                                 <em>
-                                    <input type="checkbox" name="checkboxes"  class="ownership_change">&nbsp; Original copy of undertaking letter signed by both parties..
+                                    <input type="checkbox" name="checkboxes"  class="ownership_change">&nbsp; Copy of undertaking letter signed by both parties..
                                 </em>   
                             </li>
                             <li>
                                 <em>
-                                    <input type="checkbox" name="checkboxes"  class="ownership_change">&nbsp;  Surrender the previous technical clearance issued to the proponent.   
+                                    <input type="checkbox" name="checkboxes"  class="ownership_change">&nbsp; Attach previous technical clearance issued to the proponent.   
                                 </em>   
                             </li>
                         </ol>

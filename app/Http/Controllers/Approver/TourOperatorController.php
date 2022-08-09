@@ -122,6 +122,113 @@ class TourOperatorController extends Controller
         }
     }
 
+    public function viewApplicationDetails($applicationNo,$status=null){
+        $data['applicantInfo']=Services::getApplicantDetails($applicationNo);
+        $serviceId= $data['applicantInfo']->service_id;
+        $moduleId= $data['applicantInfo']->module_id;
+
+        if($serviceId==2){
+            //Tour operator recommendation letter for new license
+            $data['documentInfos']=Services::getDocumentDetails($applicationNo);
+            $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+            $data['partnerInfo']=Services::getPartnerInfoDetails($applicationNo);
+            if($status==9){ 
+                    return view('services.resubmit_application.resubmit_to_new_license_clearance',$data,compact('status'));
+                }
+                else{
+                $status= WorkFlowDetails::getStatus('APPROVED')->id;
+                return view('report.application_details.view_to_new_license_clearance',$data,compact('status'));
+            }
+        }
+        else if($serviceId==4){
+            //Tour operator recommendation letter for import license
+            $data['documentInfos']=Services::getDocumentDetails($applicationNo);
+            $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+            if($status==9){ 
+                    return view('services.resubmit_application.resubmit_to_recommendation_letter_for_import_license',$data,compact('status'));
+                }
+                else{
+                $status= WorkFlowDetails::getStatus('APPROVED')->id;
+                return view('report.application_details.view_to_recommendation_letter_for_import_license',$data,compact('status'));
+            }
+        }
+        else if($serviceId==9){
+            //Tour operator Assessment Details
+            $data['documentInfos']=Services::getDocumentDetails($applicationNo);
+            $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+            $data['checklistDtls'] =  TCheckListChapter::with(['chapterAreas' => function($q){
+                $q->with(['checkListStandards'=> function($query){
+                    $query->leftJoin('t_check_list_standard_mappings','t_check_list_standards.id','=','t_check_list_standard_mappings.checklist_id')
+                    ->where('t_check_list_standard_mappings.is_active','=','1');
+                }]);
+                }])->where('module_id','=',$moduleId)
+                ->get();
+            $data['checklistrecords']=Services::getCheckedRecord($applicationNo);
+            $data['checklistrec']=Services::getCheckedRecord($applicationNo)->pluck('checklist_id')->toArray();
+
+            if($status==9){ 
+                    return view('services.resubmit_application.view_to_assessment',$data,compact('status'));
+                }
+                else{
+                $status= WorkFlowDetails::getStatus('APPROVED')->id;
+                return view('report.application_details.view_to_assessment',$data,compact('status'));
+            }
+        }
+        elseif($serviceId==11){
+            //Tour Operator Owner name location Change Details
+            $data['applicantInfo']=Services::getTONameOwnerLocationChangeDetails($applicationNo);
+            $data['documentInfos']=Services::getDocumentDetails($applicationNo);
+            $data['applicationTypes'] = Dropdown::getApplicationType("8",$dropdownId[]=["28","29","31"]);
+            $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+            if($status==9){ 
+                return view('services.resubmit_application.resubmit_to_name_ownership_location_change',$data,compact('status'));
+            }
+            else{
+            $status= WorkFlowDetails::getStatus('APPROVED')->id;
+            return view('report.application_details.view_to_name_ownership_location_change',$data,compact('status'));
+           }
+        }
+
+        elseif($serviceId==12){
+            //Tour propriater card Details
+            $data['documentInfos']=Services::getDocumentDetails($applicationNo);
+            $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+            if($status==9){ 
+                return view('services.resubmit_application.resubmit_propreiter_card',$data,compact('status'));
+            }
+            else{
+            $status= WorkFlowDetails::getStatus('APPROVED')->id;
+            return view('report.application_details.view_propreiter_card',$data,compact('status'));
+           }
+        }
+        elseif($serviceId==13){
+            //Recommendation letter for tourism industry partner
+            $data['applicationTypes'] = Dropdown::getApplicationType("9",$dropdownId[]=["32","33"]);
+            $data['eventFairDetails'] = Services::getTravelEventFairDetails();
+            $data['documentInfos']=Services::getDocumentDetails($applicationNo);
+            $data['partnerInfo']=Services::getTourismIndustryPartnerDtls($applicationNo);
+            if($status==9){ 
+                return view('services.resubmit_application.resubmit_recommandation_letter_for_tourism_industry_partner',$data,compact('status'));
+            }
+            else{
+            $status= WorkFlowDetails::getStatus('APPROVED')->id;
+            return view('report.application_details.view_recommandation_letter_for_tourism_industry_partner',$data,compact('status'));
+           }
+        }
+        elseif($serviceId==14){
+            //Tour Operator License Renew Details
+            $data['documentInfos']=Services::getDocumentDetails($applicationNo);
+            $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+            if($status==9){ 
+                return view('services.resubmit_application.resubmit_to_license_renew_clearance',$data,compact('status'));
+            }
+            else{
+            $status= WorkFlowDetails::getStatus('APPROVED')->id;
+            return view('report.application_details.view_to_license_renew_clearance',$data,compact('status'));
+           }
+        }
+    }
+
      //Approval function for tour operator technical clearance application
      public function tourOperatorTechnicalClearanceApplication(Request $request,Services $service){
         $roles = auth()->user()->roles()->get();
@@ -144,8 +251,6 @@ class TourOperatorController extends Controller
                     'applicant_location'   => $request->applicant_location,
                     'email'   => $request->email,
                     'company_name'   => $request->company_name,
-                    'company_name_one'   => $request->company_name_one,
-                    'company_name_two'   => $request->company_name_two,
                     'village_id'   => $request->village_id,
                     'postal_address'   => $request->postal_address,
                     'contact_no'   => $request->contact_no,
@@ -169,7 +274,7 @@ class TourOperatorController extends Controller
                     'created_at'   => now(),
                     'updated_at'   => now(),
                 ]; 
-            $service->insertDetails('t_partner_dtls',$partnerData); 
+              $service->insertDetails('t_partner_dtls',$partnerData); 
             }
 
              $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($request->application_no);

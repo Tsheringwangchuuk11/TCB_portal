@@ -31,7 +31,7 @@
                     <div class="row">
                         <div class="col-md-5">
                             <div class="form-group">
-                                <label for="">validity Date<span class="text-danger"> *</span></label>
+                                <label for="">Validity Date<span class="text-danger"> *</span></label>
                                 <div class="input-group date" id="validity_date" data-target-input="nearest">
                                     <input type="text" name="validity_date" class="form-control datetimepicker-input" data-target="#validity_date" value="{{ old('license_date') }}">
                                     <div class="input-group-append" data-target="#validity_date" data-toggle="datetimepicker">
@@ -51,7 +51,7 @@
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label for="">Citizen ID<span class="text-danger"> *</span></label>
-                                <input type="text" class="form-control" name="cid_no" autocomplete="off">
+                                <input type="text" class="form-control" name="cid_no" autocomplete="off" maxlength="11">
                             </div>
                         </div>
                         <div class="col-md-5 offset-md-2">
@@ -117,21 +117,60 @@
         </div>
         <div class="card-body">
             <h6> <strong>Required supporting documents:</strong></h6>
-            <ol>
-                <li>
-                    <em>Valid Business License </em>      
-                </li>
-                <li>
-                    <em>Valid NOC</em>
-                </li>
-                <li>
-                    <em>BIT clearance </em>      
-                </li>
-                <li>
-                    <em>CID copy </em>      
-                </li>
-            </ol>
-            @include('services/fileupload/fileupload')
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-4">
+                    1.&nbsp;<em>Valid Business License</em> 
+                    </div>
+                    <div class="col-md-3">
+                        <span class="btn bg-purple fileinput-button btn-sm">
+                            <i class="fas fa-plus fa-sm"></i>
+                            <span>Add file...</span>
+                            <input id="proprieter_card_license_upload" type="file" name="filename"> 
+                        </span>
+                    </div>
+                    <div class="col-md-5" id="proprieter_card_license_files"></div>
+                </div><br>
+                <div class="row">
+                    <div class="col-md-4">
+                    2.&nbsp;<em>Valid NOC</em> 
+                    </div>
+                    <div class="col-md-3">
+                        <span class="btn bg-purple fileinput-button btn-sm">
+                            <i class="fas fa-plus fa-sm"></i>
+                            <span>Add file...</span>
+                            <input id="noc_upload" type="file" name="filename"> 
+                        </span>
+                    </div>
+                    <div class="col-md-5" id="noc_files"></div>
+                </div><br>
+                <div class="row">
+                    <div class="col-md-4">
+                    3.&nbsp;<em>BIT clearance</em> 
+                    </div>
+                    <div class="col-md-3">
+                        <span class="btn bg-purple fileinput-button btn-sm">
+                            <i class="fas fa-plus fa-sm"></i>
+                            <span>Add file...</span>
+                            <input id="bit_upload" type="file" name="filename"> 
+                        </span>
+                    </div>
+                    <div class="col-md-5" id="bit_files"></div>
+                </div><br>
+                <div class="row">
+                    <div class="col-md-4">
+                    4.&nbsp;<em>CID copy</em> 
+                    </div>
+                    <div class="col-md-3">
+                        <span class="btn bg-purple fileinput-button btn-sm">
+                            <i class="fas fa-plus fa-sm"></i>
+                            <span>Add file...</span>
+                            <input id="proprieter_cid_upload" type="file" name="filename"> 
+                        </span>
+                    </div>
+                    <div class="col-md-5" id="proprieter_cid_files"></div>
+                </div><br>
+            </div>
         </div>
         <!-- card body ends -->
         <div class="card-footer text-center">

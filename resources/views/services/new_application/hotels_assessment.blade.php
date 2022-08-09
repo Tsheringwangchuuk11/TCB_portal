@@ -37,7 +37,7 @@
                 <div class="alert alert-danger alert-dismissible" id="alertTraineeMgsId" style="display: none">
                     <i class="fa fa-info-circle fa-lg"></i><strong><span id="showTraineeMsg"></span> Your dispatch number is incorrect</strong>
                 </div>
-                <label for="">Dispatch Number<span class="text-danger"> *</span><small class="text-danger">[Dispatch number mention in technical clearance letter]</small></label>
+                <label for="">Dispatch Number<small class="text-danger">&nbsp;[Dispatch number mentioned in technical clearance letter]</small></label>
                 <input type="text" class="form-control" name="dispatch_no" value="{{ old('dispatch_no') }}" id="dispatch_no">
             </div>
             <div class="form-group col-md-5 offset-md-2">
@@ -63,7 +63,7 @@
         <div class="row">
             <div class="form-group col-md-5">
                 <label for="">Citizen ID<span class="text-danger">*</span> </label>
-                <input type="text" class="form-control" name="cid_no" autocomplete="off" id="cid_no">
+                <input type="text" class="form-control" name="cid_no" autocomplete="off" id="cid_no" maxlength="11">
             </div>
             <div class="form-group col-md-5 offset-md-2">
                 <label for="">Owner Name<span class="text-danger">*</span> </label>
@@ -77,7 +77,7 @@
             </div>
             <div class="form-group col-md-5 offset-md-2">
                 <label for="">Contact No <span class="text-danger">*</span> </label>
-                <input type="text" class="form-control" name="contact_no" autocomplete="off">
+                <input type="text" class="form-control" name="contact_no" autocomplete="off" maxlength="8">
             </div>
         </div>
         <div class="row">
@@ -90,6 +90,20 @@
                 <input type="text" class="form-control" name="manager_mobile_no" autocomplete="off">
             </div>
         </div>
+
+	<div class="row">
+            <div class="form-group col-md-5">
+                <label for="">Brief Description [new]<span class="text-danger">*</span> </label>
+                <input type="text" class="form-control" name="n_description" autocomplete="off">
+            </div>
+            <div class="form-group col-md-5 offset-md-2">
+                <label for=""> Hotel Booking URL [new] <span class="text-danger">*</span> </label>
+                <input type="text" class="form-control" name="n_booking" autocomplete="off">
+            </div>
+        </div>
+
+
+
         <div class="row">
             <div class="form-group col-md-5">
                 <label for="">Email <span class="text-danger">*</span> </label>
@@ -101,24 +115,51 @@
             </div>
         </div>
         <div class="row">
-            <div class="form-group col-md-5">
-                <label for="">Fax No</label>
-                <input type="text" class="form-control" name="fax" autocomplete="off">
-            </div>
-            <div class="form-group col-md-5 offset-md-2">
+	    <div class="form-group col-md-5">
                 <label for="">Number of Beds <span class="text-danger">*</span> </label>
                 <input type="text" class="form-control numeric-only" name="number" autocomplete="off">
             </div>
         </div>
     </div>
 </div>
+
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title">Other Informations</h4>
+    </div>
+    <div class="card-body">
+	<div class="row">
+            <div class="form-group col-md-5">
+                <label for="">Reachable Destination [new]<span class="text-danger">*</span> </label>
+                <input type="text" class="form-control" name="n_destination" autocomplete="off">
+            </div>
+            <div class="form-group col-md-5 offset-md-2">
+                <label for=""> Reachable Events [new] <span class="text-danger">*</span> </label>
+                <input type="text" class="form-control" name="n_events" autocomplete="off">
+            </div>
+        </div>
+	<div class="row">
+            <div class="form-group col-md-5">
+                <label for="">Additional Services (Swimming Pool, Wifi, etc) [new]<span class="text-danger">*</span> </label>
+                <input type="text" class="form-control" name="n_services" autocomplete="off">
+            </div>
+            <div class="form-group col-md-5 offset-md-2">
+                <label for=""> Hotel Policies (Payment policy, closing policy, etc) [new] <span class="text-danger">*</span> </label>
+                <input type="text" class="form-control" name="n_policy" autocomplete="off">
+            </div>
+        </div>
+      </div>
+</div>
+
+
+
 <div class="card">
     <div class="card-header">
         <h4 class="card-title">Hotel Location</h4>
     </div>
     <div class="card-body">
         <div class="row">
-            <div class="col-md-5">
+            <div class="col-md-4">
                 <div class="form-group">
                     <label for="">Dzongkhag<span class="text-danger"> *</span></label>
                     <select  name="dzongkhag_id" id="dzongkhag_id" class="form-control select2bs4 dzongkhagdropdown" style="width: 100%;">
@@ -129,7 +170,7 @@
                     </select>
                 </div>
             </div>
-            <div class="col-md-5 offset-md-2">
+            <div class="col-md-4">
                 <div class="form-group">
                     <label for="">Gewog<span class="text-danger"> *</span></label>
                     <select  name="gewog_id" class="form-control select2bs4 gewogdropdown" id="gewog_id" style="width: 100%;">
@@ -137,15 +178,24 @@
                     </select>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-5">
+            <div class="col-md-4">
                 <div class="form-group">
                     <label for="">Village<span class="text-danger"> *</span></label>
                     <select  name="establishment_village_id" class="form-control select2bs4" id="village_id" style="width: 100%;">
                         <option value=""> -Select-</option>
                     </select>
                 </div>
+            </div>
+        </div>
+
+	<div class="row">
+            <div class="form-group col-md-4">
+                <label for="">Latitude [new]<span class="text-danger">*</span> </label>
+                <input type="text" class="form-control numeric-only" name="n_latitude" autocomplete="off">
+            </div>
+            <div class="form-group col-md-4">
+                <label for=""> Longitude [new] <span class="text-danger">*</span> </label>
+                <input type="text" class="form-control numeric-only" name="n_longitude" autocomplete="off">
             </div>
         </div>
     </div>
@@ -198,9 +248,9 @@
                 <th width="15%">Gender<span class="text-danger">*</span></th>
                 <th>Designation<span class="text-danger">*</span></th>
                 <th>Qualification<span class="text-danger">*</span></th>
-                <th>Experience<span class="text-danger">*</span></th>
+                <th>Experience (In years)<span class="text-danger">*</span></th>
                 <th width="10%">Salary<span class="text-danger">*</span></th>
-                <th>Hospitility relating<span class="text-danger">*</span></th>
+                <th>Hospitility trained<span class="text-danger">*</span></th>
             </thead>
             <tbody>
                 <tr>
@@ -290,9 +340,9 @@
         </div>
     </div>
     <div class="card-footer text-center">
-        <button name="status" value="DRAFT" class="btn btn-info"><i class="fa fa-save"></i> SAVE TO DRAFT</button>
-        <button type="submit"class="btn btn-success"><i class="fa fa-check"></i> APPLY</button>
-        <button type="reset"class="btn btn-danger"><i class="fa fa-ban"></i> RESET</button>
+        <button name="status" id="draft_button" value="DRAFT" class="btn btn-info"><i class="fa fa-save"></i> SAVE TO DRAFT</button>
+        <button type="submit" id="apply_button" class="btn btn-success"><i class="fa fa-check"></i> APPLY</button>
+        <button type="reset" class="btn btn-danger"><i class="fa fa-ban"></i> RESET</button>
     </div>
 </div>
 </form>
@@ -402,6 +452,18 @@
                 }
         }, 'Your score point should be within above range');
 
+        $( "#draft_button" ).click(function() {
+            $.ajax({
+            url: "{{ url('application/save-application') }}",
+            type:"POST",
+            data: $("#form_data").serialize(),
+            success:function(response){
+            
+            }
+        });
+        });
+
+        $( "#apply_button" ).click(function() {
              $('#form_data').validate({
                 rules: {
                     application_type_id: {
@@ -411,7 +473,7 @@
                        required: true,
                     },
                     dispatch_no: {
-                       required: true,
+                       required: false,
                     },
                     cid_no: {
                         required: true,
@@ -602,6 +664,7 @@
                     $(element).removeClass('is-invalid');
                 }  
              });
+            });
             /*  $.validator.prototype.errorsFor = function (b) {
                 var name = this.idOrName(b);
                 var elementParent = b.parentElement;

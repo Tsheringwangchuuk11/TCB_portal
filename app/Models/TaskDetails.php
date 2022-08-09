@@ -30,7 +30,8 @@ class TaskDetails extends Model
                     ->where('t_gewog_masters.dzongkhag_id', '=', $location_id);
         }
         $query->whereIn('t_task_dtls.assigned_priv_id',$priviligeIds)
-            ->where('t_task_dtls.status_id','=',$statusId);
+            ->where('t_task_dtls.status_id','=',$statusId)
+	    ->where('t_workflow_dtls.status_id','!=',10);
         if ($userId != 0){
             $query->where('t_task_dtls.user_id', '=', $userId);
         }

@@ -41,7 +41,7 @@
             <div class="row">
                 <div class="form-group col-md-5">
                     <label for="">License Date </label>
-                    <input type="date" class="form-control" name="license_date" id="license_date" readonly="true">
+                    <input type="date" class="form-control" name="license_date" id="license_date">
                     <input type="hidden" class="form-control" name="dispatch_no" id="dispatch_no" readonly="true">
 
                 </div>

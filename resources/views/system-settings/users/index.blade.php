@@ -10,9 +10,9 @@
     <div class="card-header">
         <h3 class="card-title">User List</h3>
     </div>
-	<div class="card-body p-0">
+	<div class="card-body">
 		<div class="table-responsive">
-			<table class="table table-striped table-bordered m-0">
+			<table class="table table-striped table-bordered m-0" id="datatable-responsive">
 				<thead>
                     <tr>
                         <th class="text-center">#</th>
@@ -62,4 +62,11 @@
 	</div>
 </div>
 @include('layouts.include.confirm-delete')
+@endsection
+@section('scripts')
+<script>
+    $(function () {
+	$("#datatable-responsive").DataTable();
+    });
+</script>
 @endsection

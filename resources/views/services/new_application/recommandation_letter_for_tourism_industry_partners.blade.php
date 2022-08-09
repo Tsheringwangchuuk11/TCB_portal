@@ -63,7 +63,7 @@
                     <div class="col-md-5">
                         <div class="form-group">
                             <label for="">Owner Citizen ID<span class="text-danger">*</span> </label>
-                            <input type="text" class="form-control" name="cid_no" id="cid_no">
+                            <input type="text" class="form-control" name="cid_no" id="cid_no" maxlength="11">
                         </div>
                     </div>
                     <div class="col-md-5 offset-md-2">
@@ -143,26 +143,75 @@
         </div>
         <div class="card-body">
             <h6> <strong>Required supporting documents:</strong></h6>
-            <ol id="sample1">
-                <li>
-                    <em>License Copy (both sides)</em>      
-                </li>
-                <li>
-                    <em>Passport Copy</em>      
-                </li>
-            </ol>
-            <ol id="sample2" style="display: none">
-                <li>
-                    <em>License Copy (both sides)</em>      
-                </li>
-                <li>
-                    <em>Passport Copy</em>      
-                </li>
-                <li>
-                    <em>Invitation letter from the event organizer with sign & seal</em>      
-                </li>
-            </ol>
-            @include('services/fileupload/fileupload')
+            <div class="col-md-12" id="sample1">
+                <div class="row">
+                    <div class="col-md-4">
+                    1.&nbsp;<em>License Copy (both sides)</em> 
+                    </div>
+                    <div class="col-md-3">
+                        <span class="btn bg-purple fileinput-button btn-sm">
+                            <i class="fas fa-plus fa-sm"></i>
+                            <span>Add file...</span>
+                            <input id="license_copy_one_upload" type="file" name="filename"> 
+                        </span>
+                    </div>
+                    <div class="col-md-5" id="license_copy_one_files"></div>
+                </div><br>
+                <div class="row">
+                    <div class="col-md-4">
+                    2.&nbsp;<em>Passport Copy</em> 
+                    </div>
+                    <div class="col-md-3">
+                        <span class="btn bg-purple fileinput-button btn-sm">
+                            <i class="fas fa-plus fa-sm"></i>
+                            <span>Add file...</span>
+                            <input id="passport_one_upload" type="file" name="filename"> 
+                        </span>
+                    </div>
+                    <div class="col-md-5" id="passport_one_files"></div>
+                </div><br>
+            </div>
+            <div class="col-md-12" id="sample2" style="display: none">
+                <div class="row">
+                    <div class="col-md-4">
+                    1.&nbsp;<em>License Copy (both sides)</em> 
+                    </div>
+                    <div class="col-md-3">
+                        <span class="btn bg-purple fileinput-button btn-sm">
+                            <i class="fas fa-plus fa-sm"></i>
+                            <span>Add file...</span>
+                            <input id="license_copy_two_upload" type="file" name="filename"> 
+                        </span>
+                    </div>
+                    <div class="col-md-5" id="license_copy_two_files"></div>
+                </div><br>
+                <div class="row">
+                    <div class="col-md-4">
+                    2.&nbsp;<em>Passport Copy</em> 
+                    </div>
+                    <div class="col-md-3">
+                        <span class="btn bg-purple fileinput-button btn-sm">
+                            <i class="fas fa-plus fa-sm"></i>
+                            <span>Add file...</span>
+                            <input id="passport_two_upload" type="file" name="filename"> 
+                        </span>
+                    </div>
+                    <div class="col-md-5" id="passport_two_files"></div>
+                </div><br>
+                <div class="row">
+                    <div class="col-md-4">
+                    3.&nbsp;<em>Invitation letter from the event organizer with sign & seal</em> 
+                    </div>
+                    <div class="col-md-3">
+                        <span class="btn bg-purple fileinput-button btn-sm">
+                            <i class="fas fa-plus fa-sm"></i>
+                            <span>Add file...</span>
+                            <input id="invitation_letter_upload" type="file" name="filename"> 
+                        </span>
+                    </div>
+                    <div class="col-md-5" id="invitation_letter_files"></div>
+                </div><br>
+            </div>
         </div>
         <div class="card-footer text-center">
             <button type="submit"class="btn btn-success"><i class="fa fa-check"></i> APPLY</button>
@@ -213,7 +262,7 @@
             $(this).valid();
         });
         $('#validity_date').datetimepicker({
-                format: 'DD/MM/YYYY'
+                format: 'MM/DD/YYYY'
          });
     });
    

@@ -33,6 +33,19 @@ class MediaController extends Controller
         }
     }
 
+    public function viewApplicationDetails($applicationNo){
+        $data['applicantInfo']=Services::getApplicantDetails($applicationNo);
+        $serviceId= $data['applicantInfo']->service_id;
+        $data['documentInfos']=Services::getDocumentDetails($applicationNo);
+        $data['countries'] = Dropdown::getDropdowns("t_country_masters","id","country_name","0","0");
+        
+        //Media familiarization tour Details
+        $data['channelTypes'] = Dropdown::getDropdowns("t_channel_types","id","channel_type","0","0");
+        $data['channelTypesInfos']=Services::getChannelInfoDetails($applicationNo);
+        $data['channelCoverages']=Services::getChannelCoverageInfoDetails($applicationNo);
+        return view('report.application_details.view_media_familiarization_tour',$data);
+    }
+
      //Approval function for FAM application
    public function famApplication(Request $request){
     if($request->status =='APPROVED'){

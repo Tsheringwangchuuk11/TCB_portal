@@ -33,7 +33,7 @@
                     </div>
                     <div class="form-group col-md-5 offset-md-2">
                         <label for="">Citizen ID<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control" name="cid_no" id="cid_no" onchange="api_webservices(this.value)" >
+                        <input type="text" class="form-control" name="cid_no" id="cid_no" onchange="api_webservices(this.value)" maxlength="11">
                     </div>
                 </div>
                 <div class="row">
@@ -49,7 +49,7 @@
                 <div class="row">
                     <div class="form-group col-md-5">
                         <label for="">Contact No.<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control" name="contact_no" id="contact_no">
+                        <input type="text" class="form-control" name="contact_no" id="contact_no" maxlength="8">
                     </div>
                 </div>
             </div>
@@ -99,24 +99,47 @@
         </div>
         <div class="card-body">
             <h6> <strong>Required supporting documents:</strong></h6>
-            <ol>
-                <li>
-                    <em>
-                    Copy of Proforma Invoice
-                    </em>
-                </li>
-                <li>
-                    <em>
-                    Valid license copy
-                    </em>
-                </li>
-                <li>
-                    <em>
-                    Tax clearance(for established hoteliers)               
-                    </em>
-                </li>
-            </ol>
-            @include('services/fileupload/fileupload')
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-4">
+                    1.&nbsp;<em>Copy of Proforma Invoice</em> 
+                    </div>
+                    <div class="col-md-3">
+                        <span class="btn bg-purple fileinput-button btn-sm">
+                            <i class="fas fa-plus fa-sm"></i>
+                            <span>Add file...</span>
+                            <input id="proforma_invoice_upload" type="file" name="filename"> 
+                        </span>
+                    </div>
+                    <div class="col-md-5" id="proforma_invoice_files"></div>
+                </div><br>
+                <div class="row">
+                    <div class="col-md-4">
+                    2.&nbsp;<em>Valid license copy</em> 
+                    </div>
+                    <div class="col-md-3">
+                        <span class="btn bg-purple fileinput-button btn-sm">
+                            <i class="fas fa-plus fa-sm"></i>
+                            <span>Add file...</span>
+                            <input id="to_recomm_license_upload" type="file" name="filename"> 
+                        </span>
+                    </div>
+                    <div class="col-md-5" id="to_recomm_license_files"></div>
+                </div><br>
+                <div class="row">
+                    <div class="col-md-4">
+                    3.&nbsp;<em>Tax clearance(for established hoteliers)</em> 
+                    </div>
+                    <div class="col-md-3">
+                        <span class="btn bg-purple fileinput-button btn-sm">
+                            <i class="fas fa-plus fa-sm"></i>
+                            <span>Add file...</span>
+                            <input id="to_recomm_tax_clr_upload" type="file" name="filename"> 
+                        </span>
+                    </div>
+                    <div class="col-md-5" id="to_recomm_tax_clr_files"></div>
+                </div><br>
+            </div>
         </div>
         <!-- card body ends -->
         <div class="card-footer text-center">

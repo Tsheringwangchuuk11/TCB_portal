@@ -33,7 +33,7 @@
                     </div>
                     <div class="form-group col-md-5 offset-md-2">
                         <label for="">Citizen ID<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control" name="cid_no" id="cid_no">
+                        <input type="text" class="form-control" name="cid_no" id="cid_no" maxlength="11">
                     </div>
                 </div>
                 <div class="row">
@@ -49,7 +49,7 @@
                 <div class="row">
                     <div class="form-group col-md-5">
                         <label for="">Contact No.<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control" name="contact_no" id="contact_no">
+                        <input type="text" class="form-control" name="contact_no" id="contact_no" maxlength="8">
                     </div>
                 </div>
             </div>
@@ -104,19 +104,45 @@
                     <em>
                     Copy of Proforma Invoice
                     </em>
-                </li>
-                <li>
                     <em>
-                    Valid license copy
+                            <span class="btn bg-purple fileinput-button btn-sm">
+                                <i class="fas fa-plus fa-sm"></i>
+                                <span>Add files...</span>
+                                <!-- The file input field used as target for the file upload widget -->
+                                <input id="upload_file" type="file" name="filename"> 
+                            </span>
                     </em>
                 </li>
+                <div id="files"></div>
+                <br>
+                <li>
+                    <em>
+                        Valid license copy
+                    </em>
+                    <em>
+                        <span class="btn bg-purple fileinput-button btn-sm">
+                            <i class="fas fa-plus fa-sm"></i>
+                            <span>Add file...</span>
+                            <input id="license_upload" type="file" name="filename"> 
+                        </span>
+                    </em>
+                </li>
+                <div id="license_files"></div>
+                <br>
                 <li>
                     <em>
                     Tax clearance(for established hoteliers)               
                     </em>
+                    <em>
+                        <span class="btn bg-purple fileinput-button btn-sm">
+                            <i class="fas fa-plus fa-sm"></i>
+                            <span>Add file...</span>
+                            <input id="taxuploaded" type="file" name="filename"> 
+                        </span>
+                    </em>
                 </li>
+                <div id="tax_files"></div>
             </ol>
-            @include('services/fileupload/fileupload')
         </div>
         <!-- card body ends -->
         <div class="card-footer text-center">

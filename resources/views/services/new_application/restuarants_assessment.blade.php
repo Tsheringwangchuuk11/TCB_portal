@@ -47,7 +47,7 @@
             <div class="row">
                 <div class="col-md-5">
                     <div class="form-group">
-                        <label for="">Owner <span class="text-danger">*</span> </label>
+                        <label for="">Name of Owner <span class="text-danger">*</span> </label>
                         <input type="text" class="form-control" name="owner_name" value="{{ old('owner_name') }}" id="applicant_name">
                     </div>
                 </div>

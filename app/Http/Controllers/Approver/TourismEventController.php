@@ -16,7 +16,7 @@ class TourismEventController extends Controller
 {
     public function getApplicationDetails($applicationNo){
         $data['applicantInfos']=Services::getApplicantDetailsForTravelFairs($applicationNo);
-        //dd($data['applicantInfos']);
+       // dd($data['applicantInfos']);
         $serviceId= $data['applicantInfos']->service_id;
         $moduleId= $data['applicantInfos']->module_id; 
         if($serviceId==20){
@@ -25,6 +25,20 @@ class TourismEventController extends Controller
             $data['companyTypes']=Dropdown::getDropdownList("10");
             $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
             return view('services.approve_application.approve_to_registration_travel_fairs',$data);
+        }
+     }
+
+     public function viewApplicationDetails($applicationNo){
+        $data['applicantInfos']=Services::getApplicantDetailsForTravelFairs($applicationNo);
+       // dd($data['applicantInfos']);
+        $serviceId= $data['applicantInfos']->service_id;
+        $moduleId= $data['applicantInfos']->module_id; 
+        if($serviceId==20){
+            //Tourism Event Registration
+            $data['countries'] =Dropdown::getDropdownList("3");
+            $data['companyTypes']=Dropdown::getDropdownList("10");
+            $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+            return view('report.application_details.view_to_registration_travel_fairs',$data);
         }
      }
 

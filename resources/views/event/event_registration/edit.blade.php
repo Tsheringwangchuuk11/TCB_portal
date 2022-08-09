@@ -84,7 +84,7 @@
                 <div class="form-group">
                     <label for="">Late Date Of Registration <span class="text-danger"> *</span></label>
                     <div class="input-group date" id="eventlastDate" data-target-input="nearest">
-                        <input type="text" name="last_date" class="form-control datetimepicker-input" data-target="#eventlastDate" value="{{$data->last_date}}">
+                        <input type="text" name="last_date" class="form-control datetimepicker-input" data-target="#eventlastDate" value="{{ $data->last_date }}">
                         <div class="input-group-append" data-target="#eventlastDate" data-toggle="datetimepicker">
                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                         </div>
@@ -130,7 +130,7 @@
         </div>
         <div class="modal-footer" style="margin-bottom:-14px;">
             <button type="submit" class="btn btn-success btn-flat margin-r-5">Update</button>
-            <button type="button" class="btn btn-flat btn-close btn-danger float-left" data-dismiss="modal">Close</button>
+            <button type="button" class="float-left btn btn-flat btn-close btn-danger" data-dismiss="modal">Close</button>
         </div>
     </form>
     <script>
@@ -145,16 +145,19 @@
                     $("#displayvillage").hide();
                     $("#displaylocation").show();
                 }
-
            $('#eventstartDate').datetimepicker({
-                format: 'DD/MM/YYYY'
+                format: 'MM/DD/YYYY'
             });
-            $('#eventendDate').datetimepicker({
-                format: 'DD/MM/YYYY'
-            });
+
             $('#eventlastDate').datetimepicker({
-                format: 'DD/MM/YYYY'
-            });	 
+                format: 'MM/DD/YYYY'
+            });
+            
+            $('#eventendDate').datetimepicker({
+                format: 'MM/DD/YYYY'
+            });
+            
+          
          })
         $(function() {
             $('#event_form').validate({

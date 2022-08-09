@@ -52,4 +52,43 @@ class OpenApplicationController extends Controller
             return redirect()->route('tendedaccommodation',[$applicationNo]);
         }
     }
+
+    public function viewApplication($applicationNo,$serviceId,$moduleId){
+        if($moduleId==1){
+             //Tourist Standard Details             
+             return redirect()->route('touriststandardhoteldetails',[$applicationNo]);
+         }
+        if($moduleId==2){
+            //Village Home Stay Details
+            return redirect()->route('villagehomestaydetails',[$applicationNo]);
+        }
+       if($moduleId==3){
+        //Restaurant Details
+        return redirect()->route('restaurantdetails',[$applicationNo]);
+        }
+        elseif($moduleId==4){
+            //Tour Operator Details
+             return redirect()->route('touropertordetails',[$applicationNo]);
+        }
+        elseif($moduleId==5){
+            //Tourism product development
+            return redirect()->route('tourismproductdevelopmentdetails',[$applicationNo]);
+        }
+        elseif($moduleId==6){
+            // Grievances Redressal
+            return redirect()->route('grievancesredressaldetails',[$applicationNo]);
+        }
+        elseif($moduleId==7){
+            //Media familiarization tour Details
+            return redirect()->route('mediadetails',[$applicationNo]);
+        }
+        elseif($moduleId==8){
+            //Tourism Event Details
+            return redirect()->route('tourismeventdetails',[$applicationNo]);
+        }
+        elseif($moduleId==9){
+            //Media familiarization tour Details
+            return redirect()->route('tendedaccommodationdetails',[$applicationNo]);
+        }
+    }
 }

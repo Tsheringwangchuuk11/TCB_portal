@@ -23,7 +23,7 @@ class ResubmitServiceController extends Controller
              'module_id'=> $request->module_id,
              'service_id'=> $request->service_id,
              'applicant_name'=> $request->applicant_name,
-             'applicant_id'=> auth()->user()->id,
+             'applicant_id'=> auth()->user()->user_id,
              'application_type_id'=> $request->application_type_id,
              'event_id'=> $request->event_id,
              'cid_no'=> $request->cid_no,
@@ -345,7 +345,7 @@ class ResubmitServiceController extends Controller
            $submitId=WorkFlowDetails::getStatus('SUBMITTED')->id;
            $savetoaudit=WorkFlowDetails::saveWorkFlowDtlsAudit($application_no);
            $updateworkflow=WorkFlowDetails::where('application_no',$application_no)
-                      ->update(['status_id' =>$submitId,'user_id'=>auth()->user()->id,'remarks' => null]);
+                      ->update(['status_id' =>$submitId,'user_id'=>auth()->user()->user_id,'remarks' => null]);
          
  
             //insert into t_task_dtls

@@ -117,8 +117,8 @@
                     @forelse($applications as $application)
                         <tr>
                             <td class="text-center">{{ $loop->iteration }}</td>
-                            <td>{{ $application->application_no }}</td>
-                            <td>{{ $application->module_name }}</td>
+                            <td><a href="#" onclick="viewApplicationDetails('{{ $application->application_no}}','{{ $application->module_id }}','{{ $application->id }}')">{{ $application->application_no }}</a></td>
+                            <td>{{ $application->module_name }}</td> 
                             <td>{{ $application->name }}</td>
                             <td>{{ $application->applicant_name }}</td>
                             <td>{{ $application->cid_no }}</td>                                                                            
@@ -219,5 +219,11 @@
                     }]
                 }]
             });
+
+            function viewApplicationDetails(applicationNo, serviceId, moduleId)
+            {
+                var url = "{{ url('verification/viewApplication') }}"+"/"+applicationNo+"/"+moduleId+"/"+serviceId;
+                window.location.href = url;
+            }
 </script>
 @endsection

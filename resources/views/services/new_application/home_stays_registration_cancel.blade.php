@@ -16,7 +16,7 @@
                         <div class="col-md-5">
                             <div class="form-group ">
                                 <label for="">Citizen ID</label>
-                                <input type="text" class="form-control" name="cid_no" onchange="getHomeStayDetails(this.value)">
+                                <input type="text" class="form-control" name="cid_no" onchange="getHomeStayDetails(this.value)" maxlength="11">
                             </div>
                         </div>
                         <div class="col-md-5 offset-md-2">

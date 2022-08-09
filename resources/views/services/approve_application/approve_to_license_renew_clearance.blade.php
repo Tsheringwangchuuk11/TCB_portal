@@ -131,7 +131,7 @@
       @include('services/fileupload/fileupload')
       <div class="row">
           <div class="form-group col-md-8">
-              <label for="">Remarks <span class="text-danger">*</span> </label>
+              <label for="">Remarks  </label>
               <textarea type="text" class="form-control" id="remarks" name="remarks" row="3"></textarea>
               <div id="remarks_error" class="text-danger"></div>
           </div>

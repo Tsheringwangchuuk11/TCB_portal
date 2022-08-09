@@ -14,7 +14,7 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="">Citizen ID<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control" name="cid_no" value="{{ old('cid_no') }}" id="cid_no" onchange="api_webservices(this.value)">
+                        <input type="text" class="form-control" name="cid_no" value="{{ old('cid_no') }}" id="cid_no" onchange="api_webservices(this.value)" maxlength="11">
                         <span id="webserviceError" class="text-danger"></span>
                     </div>
                 </div>
@@ -35,7 +35,7 @@
                 <div class="col-md-5 offset-md-2">
                     <div class="form-group">
                         <label for="">Contact No.<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control" name="contact_no" value="{{ old('contact_no') }}" id="contact_no">
+                        <input type="text" class="form-control" name="contact_no" value="{{ old('contact_no') }}" id="contact_no" maxlength="8">
                     </div>
                 </div>
             </div>
@@ -52,7 +52,7 @@
     </div>
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title">Product Details</h4>
+            <h4 class="card-title">Product/Infrastrucrure Details</h4>
         </div>
         <div class="card-body">
             <div class="row">
@@ -60,7 +60,7 @@
                     <div class="row">
                         <div class="col-md-5">
                             <div class="form-group">
-                                <label for="" >Product Type<span class="text-danger"> *</span></label>
+                                <label for="" >Product/Infrastructure Type<span class="text-danger"> *</span></label>
                                 <input type="text" class="form-control" name="product_type" value="{{ old('product_type') }}" autocomplete="off">
                             </div>
                         </div>
@@ -74,13 +74,13 @@
                     <div class="row">
                         <div class="col-md-5">
                             <div class="form-group">
-                                <label for="">Product Summary<span class="text-danger"> *</span></label>
+                                <label for="">Product/Infrastructure Name<span class="text-danger"> *</span></label>
                                 <textarea type="text" name="product_des" class="form-control" row="3" value="{{ old('product_des') }}"></textarea>
                             </div>
                         </div>
                         <div class="col-md-5 offset-md-2">
                             <div class="form-group">
-                                <label for=""> Activities and/or results framework<span class="text-danger"> *</span></label>
+                                <label for="">Product/Infrastructure Summary<span class="text-danger"> *</span></label>
                                 <textarea type="text" name="activities_results" class="form-control" row="3" value="{{ old('activities_results') }}"></textarea>
                             </div>
                         </div>
@@ -133,19 +133,35 @@
         </div>
         <div class="card-body">
             <h6> <strong>Required supporting documents:</strong></h6>
-            <ol>
-                <li>
-                    <em>An application addressed to the Director General of TCB requesting the issuance
-                    of technical clearance.</em>   
-                    </em>
-                </li>
-                <li>
-                    <em>
-                    Architectural drawings 
-                    </em>
-                </li>
-            </ol>
-            @include('services/fileupload/fileupload')
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-4">
+                    1.&nbsp;<em>An application addressed to the Director General of TCB requesting the issuance
+                    of technical clearance.</em> 
+                    </div>
+                    <div class="col-md-3">
+                        <span class="btn bg-purple fileinput-button btn-sm">
+                            <i class="fas fa-plus fa-sm"></i>
+                            <span>Add file...</span>
+                            <input id="dg_application_upload" type="file" name="filename"> 
+                        </span>
+                    </div>
+                    <div class="col-md-5" id="dg_application_files"></div>
+                </div><br>
+                <div class="row">
+                    <div class="col-md-4">
+                    2.&nbsp;<em>Architectural drawings</em> 
+                    </div>
+                    <div class="col-md-3">
+                        <span class="btn bg-purple fileinput-button btn-sm">
+                            <i class="fas fa-plus fa-sm"></i>
+                            <span>Add file...</span>
+                            <input id="architectural_drawings_upload" type="file" name="filename"> 
+                        </span>
+                    </div>
+                    <div class="col-md-5" id="architectural_drawings_files"></div>
+                </div><br>
+            </div>
         </div>
         <!-- card body ends -->
         <div class="card-footer text-center">

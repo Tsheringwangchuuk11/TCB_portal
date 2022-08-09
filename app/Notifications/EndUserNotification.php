@@ -54,6 +54,7 @@ class EndUserNotification extends Notification
             ->greeting('Dear '. $this->app_name)
             ->line('Your application is successfully '.$this->status_name.'. The application is no. '.$this->application_no)
             ->action('Track Your Application', url(config('app.url')));
+
     }
 
     /**

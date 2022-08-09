@@ -140,7 +140,7 @@
                                 <div class="info-box elevation-0">
                                     <div class="info-box-content">
                                         <span class="bg-white elevation-0"><i class="fas fa-2x fa-bed text-olive"></i></span>
-                                        <span class="info-box-text"><a href="{{ url('application/new-application') }}" class="text-reset">Tourist Standard Hotel</a></span>
+                                        <span class="info-box-text"><a href="{{ url('sso/redirect') }}" class="text-reset">Tourist Standard Hotel</a></span>
                                     </div>
                                 </div>
                             </div>
@@ -148,7 +148,7 @@
                                 <div class="info-box elevation-0">
                                     <div class="info-box-content">
                                         <span class="bg-white elevation-0"><i class="fas fa-2x fa-home text-olive"></i></span>
-                                        <span class="info-box-text"><a href="{{ url('application/new-application') }}" class="text-reset">Village Home Stay </a></span>
+                                        <span class="info-box-text"><a href="{{ url('sso/redirect') }}" class="text-reset">Village Home Stay </a></span>
                                     </div>
                                 </div>
                             </div>
@@ -156,7 +156,7 @@
                                 <div class="info-box elevation-0">
                                     <div class="info-box-content">
                                         <span class="bg-white elevation-0"><i class="fas fa-2x fa-utensils text-olive"></i></span>
-                                        <span class="info-box-text"><a href="{{ url('application/new-application') }}" class="text-reset">Restaurant</a></span>
+                                        <span class="info-box-text"><a href="{{ url('sso/redirect') }}" class="text-reset">Restaurant</a></span>
                                     </div>
                                 </div>
                             </div>
@@ -164,7 +164,7 @@
                                 <div class="info-box elevation-0">
                                     <div class="info-box-content">
                                         <span class="bg-white elevation-0"><i class="fas fa-2x fa-university text-olive"></i></span>
-                                        <span class="info-box-text"><a href="{{ url('application/new-application') }}" class="text-reset">Tented Accommodation</a></span>
+                                        <span class="info-box-text"><a href="{{ url('sso/redirect') }}" class="text-reset">Tented Accommodation</a></span>
                                     </div>
                                 </div>
                             </div>
@@ -172,7 +172,7 @@
                                 <div class="info-box elevation-0">
                                     <div class="info-box-content">
                                         <span class="bg-white elevation-0"><i class="fas fa-2x fa-address-card text-olive"></i></span>
-                                        <span class="info-box-text"><a href="{{ url('application/new-application') }}" class="text-reset">Tour Operator</a></span>
+                                        <span class="info-box-text"><a href="{{ url('sso/redirect') }}" class="text-reset">Tour Operator</a></span>
                                     </div>
                                 </div>
                             </div>
@@ -180,7 +180,7 @@
                                 <div class="info-box elevation-0">
                                     <div class="info-box-content">
                                         <span class="bg-white elevation-0"><i class="fas fa-2x fa-balance-scale-right text-olive"></i></span>
-                                        <span class="info-box-text"><a href="{{ url('application/new-application') }}" class="text-reset">Grievance Redressal</a></span>
+                                        <span class="info-box-text"><a href="{{ url('sso/redirect') }}" class="text-reset">Grievance Redressal</a></span>
                                     </div>
                                 </div>
                             </div>
@@ -196,7 +196,7 @@
                                 <div class="info-box elevation-0">
                                     <div class="info-box-content">
                                         <span class="bg-white elevation-0"><i class="fas fa-2x fas fa-business-time text-olive"></i></span>
-                                        <span class="info-box-text"><a href="{{ url('application/new-application') }}" class="text-reset">Tourism Product</a></span>
+                                        <span class="info-box-text"><a href="{{ url('sso/redirect') }}" class="text-reset">Tourism Product</a></span>
                                     </div>
                                 </div>
                             </div>
@@ -204,7 +204,7 @@
                                 <div class="info-box elevation-0">
                                     <div class="info-box-content">
                                         <span class="bg-white elevation-0"><i class="fas fa-2x fas fa-globe text-olive"></i></span>
-                                        <span class="info-box-text"><a href="{{ url('application/new-application') }}" class="text-reset">Tourism Event</a></span>
+                                        <span class="info-box-text"><a href="{{ url('sso/redirect') }}" class="text-reset">Tourism Event</a></span>
                                     </div>
                                 </div>
                             </div>
@@ -219,42 +219,42 @@
         <div class="row p-2">
             <div class="col text-center">
                 <a href="https://www.tourism.gov.bt/" target="_blank" class="text-reset">
-                    <i class="fas fa-bullhorn fa-3x text-color"></i>
+                    <i class="fas fa-bullhorn fa-3x"></i>
                     <br>
                     <h5>Tourism Council Website</h5>
                 </a>
             </div>
             <div class="col text-center">
                 <a href="https://www.bhutan.travel/" target="_blank" class="text-reset">
-                    <i class="fas fa-map-marker-alt fa-3x text-color"></i>
+                    <i class="fas fa-map-marker-alt fa-3x"></i>
                     <br>
                     <h5>Bhutan Destination Website</h5>
                 </a>
             </div>
             <div class="col text-center">
                 <a href="https://gms.tourism.gov.bt/" target="_blank" class="text-reset">
-                    <i class="fas fa-certificate fa-3x text-color"></i>
+                    <i class="fas fa-certificate fa-3x"></i>
                     <br>
                     <h5>Guide Management System</h5>
                 </a>
             </div>
             <div class="col text-center">
                 <a href="http://tashel.gov.bt/" target="_blank" class="text-reset">
-                    <i class="fab fa-cc-visa fa-3x text-color"></i>
+                    <i class="fab fa-cc-visa fa-3x"></i>
                     <br>
                     <h5>Tashel Online Visa</h5>
                 </a>
             </div>
             <div class="col text-center">
                 <a href="http://tax.tashel.gov.bt" target="_blank" class="text-reset">
-                    <i class="far fa-money-bill-alt fa-3x text-color"></i>
+                    <i class="far fa-money-bill-alt fa-3x"></i>
                     <br>
                     <h5>Tax Exemption System</h5>
                 </a>
             </div>
             <div class="col text-center">
                 <a href="ftp://drive.tourism.gov.bt/files" target="_blank" class="text-reset">
-                    <i class="fas fa-folder-open fa-3x text-color"></i>
+                    <i class="fas fa-folder-open fa-3x"></i>
                     <br>
                     <h5>Resource Directory</h5>
                 </a>
@@ -270,13 +270,14 @@
      $(document).ready(function () {
         var year = $("#year");
         var currentYear = new Date().getFullYear();
-        for (var i = 2019; i <= currentYear; i++) {
+        var previous_year = currentYear-1;        
+    for (var i = 2019; i <= currentYear; i++) {
             var option = $("<option />");
             option.html(i);
             option.val(i);
             year.append(option);
         }
-        $('#year').val(currentYear).trigger("change");
+        $('#year').val(previous_year).trigger("change");
     });  
     function getKeyHighLightData(year){
         $("#yearId").html(year);

@@ -31,13 +31,13 @@
                 <div class="col-md-5">
                     <div class="form-group ">
                         <label for="">Citizen ID<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control" name="cid_no"  id="cid_no" value="{{ old('cid_no') }}" onchange="api_webservices(this.value)">
+                        <input type="text" class="form-control" name="cid_no"  id="cid_no" value="{{ old('cid_no') }}" onchange="api_webservices(this.value)" maxlength="11">
                         <span id="webserviceError" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
                     <div class="form-group">
-                        <label for="">Name<span class="text-danger"> *</span></label>
+                        <label for="">Name of Owner<span class="text-danger"> *</span></label>
                         <input type="text" class="form-control" name="applicant_name" id="applicant_name" value="{{ old('applicant_name') }}">
                     </div>
                 </div>
@@ -46,7 +46,7 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="">Contact No.<span class="text-danger"> *</span> </label>
-                        <input type="text" class="form-control" name="contact_no" id="contact_name" value="{{ old('contact_no') }}">
+                        <input type="text" class="form-control" name="contact_no" id="contact_name" value="{{ old('contact_no') }}" maxlength="8">
                     </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
@@ -198,34 +198,115 @@
                 <div class="col-md-12">
                     <div class="form-group ml-3">
                         <div class="form-check">
-                            <ol>
-                                <li>
-                                    <input type="checkbox" name="checkboxes"  class="check-one">&nbsp;<em> Family tree</em>
-                                </li>
-                                <li>
-                                    <input type="checkbox" name="checkboxes"  class="check-one">&nbsp; <em>Pictures of buildings</em>
-                                </li>
-                                <li>
-                                    <input type="checkbox" name="checkboxes"  class="check-one">&nbsp; Pictures of toilet/ bath rooms</em>
-                                </li>
-                                <li>
-                                    <input type="checkbox" name="checkboxes"  class="check-one">&nbsp;<em> Pictures of guest room </em>
-                                </li>
-                                <li>
-                                    <input type="checkbox" name="checkboxes"  class="check-one">&nbsp; <em>Pictures of kitchen</em>
-                                </li>
-                                <li>
-                                    <input type="checkbox" name="checkboxes"  class="check-one">&nbsp;<em> Pictures of waste management</em>
-                                </li>
-                                <li>
-                                    <input type="checkbox" name="checkboxes"  class="check-one">&nbsp;<em> Pictures of dining room / living room </em>
-                                </li>
-                            </ol>
+                        <div class="row">
+                            <div class="col-md-4">
+                            1.&nbsp;<input type="checkbox" name="checkboxes"  class="check-one" id="family_tree_checkbox" onclick="family_tree_check()">&nbsp;<em> Family tree</em> 
+                            </div>
+                            <div class="col-md-2">
+                                <em id="family_tree_files_div" style="display:none;">
+                                    <span class="btn bg-purple fileinput-button btn-sm">
+                                        <i class="fas fa-plus fa-sm"></i>
+                                        <span>Add file...</span>
+                                        <input id="family_tree_upload" type="file" name="filename"> 
+                                    </span>
+                                </em>
+                            </div>
+                            <div class="col-md-6" id="family_tree_files"></div>
+                        </div><br>
+                        <div class="row">
+                            <div class="col-md-4">
+                            2.&nbsp;<input type="checkbox" name="checkboxes"  class="check-one" id="house_checkbox" onclick="house_check()">&nbsp; <em>Pictures of house</em>
+                            </div>
+                            <div class="col-md-2">
+                                <em id="house_pic_files_div" style="display:none;">
+                                    <span class="btn bg-purple fileinput-button btn-sm">
+                                        <i class="fas fa-plus fa-sm"></i>
+                                        <span>Add file...</span>
+                                        <input id="house_pic_upload" type="file" name="filename"> 
+                                    </span>
+                                </em>
+                            </div>
+                            <div class="col-md-6" id="house_pic_files"></div>
+                        </div><br>
+                        <div class="row">
+                            <div class="col-md-4">
+                            3.&nbsp;<input type="checkbox" name="checkboxes"  class="check-one" id="toilet_bath_checkbox" onclick="toilet_bath_check()">&nbsp; Pictures of toilet/ bath rooms</em>
+                            </div>
+                            <div class="col-md-2">
+                                <em id="toilet_bath_files_div" style="display:none;">
+                                    <span class="btn bg-purple fileinput-button btn-sm">
+                                        <i class="fas fa-plus fa-sm"></i>
+                                        <span>Add file...</span>
+                                        <input id="toilet_bath_upload" type="file" name="filename"> 
+                                    </span>
+                                </em>
+                            </div>
+                            <div class="col-md-6" id="toilet_bath_files"></div>
+                        </div><br>
+                        <div class="row">
+                            <div class="col-md-4">
+                            4.&nbsp;<input type="checkbox" name="checkboxes"  class="check-one" id="guest_room_checkbox" onclick="guest_room_check()">&nbsp;<em> Pictures of guest room </em>
+                            </div>
+                            <div class="col-md-2">
+                                <em id="guest_room_files_div" style="display:none;">
+                                    <span class="btn bg-purple fileinput-button btn-sm">
+                                        <i class="fas fa-plus fa-sm"></i>
+                                        <span>Add file...</span>
+                                        <input id="guest_room_upload" type="file" name="filename"> 
+                                    </span>
+                                </em>
+                            </div>
+                            <div class="col-md-6" id="guest_room_files"></div>
+                        </div><br>
+                        <div class="row">
+                            <div class="col-md-4">
+                            5.&nbsp;<input type="checkbox" name="checkboxes"  class="check-one" id="kitchen_checkbox" onclick="kitchen_check()">&nbsp; <em>Pictures of kitchen</em>
+                            </div>
+                            <div class="col-md-2">
+                                <em id="kitchen_files_div" style="display:none;">
+                                    <span class="btn bg-purple fileinput-button btn-sm">
+                                        <i class="fas fa-plus fa-sm"></i>
+                                        <span>Add file...</span>
+                                        <input id="kitchen_file_upload" type="file" name="filename"> 
+                                    </span>
+                                </em>
+                            </div>
+                            <div class="col-md-6" id="kitchen_files"></div>
+                        </div><br>
+                        <div class="row">
+                            <div class="col-md-4">
+                            6.&nbsp;<input type="checkbox" name="checkboxes"  class="check-one" id="waste_checkbox" onclick="waste_check()">&nbsp;<em> Pictures of waste management</em>
+                            </div>
+                            <div class="col-md-2">
+                                <em id="waste_files_div" style="display:none;">
+                                    <span class="btn bg-purple fileinput-button btn-sm">
+                                        <i class="fas fa-plus fa-sm"></i>
+                                        <span>Add file...</span>
+                                        <input id="waste_file_upload" type="file" name="filename"> 
+                                    </span>
+                                </em>
+                            </div>
+                            <div class="col-md-6" id="waste_files"></div>
+                        </div><br>
+                        <div class="row">
+                            <div class="col-md-4">
+                            7.&nbsp;<input type="checkbox" name="checkboxes"  class="check-one" id="dining_living_checkbox" onclick="dining_living_check()">&nbsp;<em> Pictures of dining room / living room </em>
+                            </div>
+                            <div class="col-md-2">
+                                <em id="dining_living_files_div" style="display:none;">
+                                    <span class="btn bg-purple fileinput-button btn-sm">
+                                        <i class="fas fa-plus fa-sm"></i>
+                                        <span>Add file...</span>
+                                        <input id="dining_living_file_upload" type="file" name="filename"> 
+                                    </span>
+                                </em>
+                            </div>
+                            <div class="col-md-6" id="dining_living_files"></div>
+                        </div><br>
                         </div>
                     </div>
                 </div>
             </div>
-        @include('services/fileupload/fileupload')
         </div>
         <div class="card-footer text-center" >
             <button type="submit"class="btn btn-success">
@@ -410,5 +491,89 @@
                     $(element).removeClass('is-invalid');
                 }
          });
+
+         function family_tree_check()
+         {
+            if($('#family_tree_checkbox').is(':checked'))
+            {
+                $('#family_tree_files_div').show();
+            }
+            else
+            {
+                $('#family_tree_files_div').hide();
+            }
+         }
+
+         function house_check()
+         {
+            if($('#house_checkbox').is(':checked'))
+            {
+                $('#house_pic_files_div').show();
+            }
+            else
+            {
+                $('#house_pic_files_div').hide();
+            }
+         }
+
+         function toilet_bath_check()
+         {
+            if($('#toilet_bath_checkbox').is(':checked'))
+            {
+                $('#toilet_bath_files_div').show();
+            }
+            else
+            {
+                $('#toilet_bath_files_div').hide();
+            }
+         }
+
+         function guest_room_check()
+         {
+            if($('#guest_room_checkbox').is(':checked'))
+            {
+                $('#guest_room_files_div').show();
+            }
+            else
+            {
+                $('#guest_room_files_div').hide();
+            }
+         }
+
+         function kitchen_check()
+         {
+            if($('#kitchen_checkbox').is(':checked'))
+            {
+                $('#kitchen_files_div').show();
+            }
+            else
+            {
+                $('#kitchen_files_div').hide();
+            }
+         }
+
+         function waste_check()
+         {
+            if($('#waste_checkbox').is(':checked'))
+            {
+                $('#waste_files_div').show();
+            }
+            else
+            {
+                $('#waste_files_div').hide();
+            }
+         }
+
+         function dining_living_check()
+         {
+            if($('#dining_living_checkbox').is(':checked'))
+            {
+                $('#dining_living_files_div').show();
+            }
+            else
+            {
+                $('#dining_living_files_div').hide();
+            }
+         }
 	</script>
 @endsection

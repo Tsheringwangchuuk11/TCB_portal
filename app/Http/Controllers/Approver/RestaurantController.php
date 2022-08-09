@@ -65,6 +65,56 @@ class RestaurantController extends Controller
         }    
     }
 
+    public function viewApplicationDetails($applicationNo,$status=null){
+        $data['applicantInfo']=Services::getApplicantDetails($applicationNo);
+        $serviceId= $data['applicantInfo']->service_id;
+        $moduleId= $data['applicantInfo']->module_id;
+
+        if($serviceId==9){
+            //Restuarant Checklist Details
+            $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+            $data['documentInfos']=Services::getDocumentDetails($applicationNo);
+            $data['staffInfos']=Services::getStaffDetails($applicationNo);
+                if($status==9){
+                    $data['checklistDtls'] =  TCheckListChapter::with(['chapterAreas' => function($q){
+                        $q->with(['checkListStandards'=> function($query){
+                            $query->leftJoin('t_check_list_standard_mappings','t_check_list_standards.id','=','t_check_list_standard_mappings.checklist_id')
+                            ->where('t_check_list_standard_mappings.is_active','=','1');
+                        }]);
+                        }])->where('module_id','=',$moduleId)
+                        ->get();
+                    $data['checklistrecords']=Services::getCheckedRecord($applicationNo);
+                    $data['checklistrec']=Services::getCheckedRecord($applicationNo)->pluck('checklist_id')->toArray();   
+                    return view('report.application_details.view_restaurant_assessment',$data,compact('status'));
+                }
+                else{
+                    $data['checklistDtls'] =  TCheckListChapter::with(['chapterAreas' => function($q) use($applicationNo){
+                        $q->with(['checkListStandards'=> function($query) use($applicationNo){
+                            $query->leftJoin('t_check_list_standard_mappings','t_check_list_standards.id','=','t_check_list_standard_mappings.checklist_id')
+                                ->leftJoin('t_checklist_applications','t_check_list_standards.id','=','t_checklist_applications.checklist_id')
+                                ->where('t_checklist_applications.application_no','=',$applicationNo);
+                        }]);
+                    }])->where('module_id','=',$moduleId)
+                    ->get();
+                    $status= WorkFlowDetails::getStatus('APPROVED')->id;
+                    return view('report.application_details.view_restaurant_assessment',$data,compact('status'));
+                }
+        }
+
+        elseif($serviceId==10){
+            //Restuarant name ownership change Details
+            $data['applicationTypes'] = Dropdown::getApplicationType("8",$dropdownId[]=["28","29"]);
+            $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+            $data['documentInfos']=Services::getDocumentDetails($applicationNo);
+            if($status==9){
+            return view('report.application_details.view_restuarant_name_ownership_change',$data,compact('status'));
+            }else{
+                $status= WorkFlowDetails::getStatus('APPROVED')->id;
+                return view('report.application_details.view_restuarant_name_ownership_change',$data,compact('status'));
+            }
+        }    
+    }
+
     //Approval function for tourist stnadard restaurant assessment application
     public function restaurantAssessmentApplication(Request $request,Services $service){
         $roles = auth()->user()->roles()->get();

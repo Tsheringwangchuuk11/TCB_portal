@@ -22,17 +22,22 @@ class ApplicationTokenController extends Controller
                 CURLOPT_SSL_VERIFYPEER => false,
              ],
             'base_uri' => env('BASE_URl'),
-            'timeout'  => 2.0,
+            //'timeout'  => 2.0,
           ]);
       }
+
     public function oAuthRedirect(Request $request){
+      if($request->session()->get('expires_in') > time()){
+        return redirect()->intended('/enduser_dashboard');
+       }else{
         $queries= http_build_query([
             'response_type'=>'code',
             'scope' => 'openid',
             'client_id'=>env('CONSUMER_KEY'),
             'redirect_uri'=>env('REDIRECT_URI'),
         ]); 
-        return redirect('https://stg-sso.dit.gov.bt/oauth2/authorize?'.$queries );
+        return redirect('https://sso.dit.gov.bt/oauth2/authorize?'.$queries );
+       }
     }
 
     public function callBack(Request $request){
@@ -52,18 +57,31 @@ class ApplicationTokenController extends Controller
             $json_token = json_decode(base64_decode($id_token[1]), true);
                 $user_id=$json_token['username'];
                 $user_name=$json_token['firstName'];
+                 $request->session()->put('access_token', $json->access_token);
+                 $request->session()->put('refresh_token', $json->refresh_token);
+                 $request->session()->put('expires_in', time() + $json->expires_in);
                 $isOauthUser = OauthUser::where('user_id', $user_id)->first();
                 if($isOauthUser){
+                    $isOauthUser->id_token=$json->id_token;
+                    $isOauthUser->access_token=$json->access_token;
+                    $isOauthUser->refresh_token=$json->refresh_token;
                     $isOauthUser->last_login_at = Carbon::now()->toDateTimeString();
                     $isOauthUser->save();
                     Auth::guard('oauth')->login($isOauthUser);
                     return redirect()->intended('/enduser_dashboard');
                 }else{
-                    $createOauthUser = OauthUser::create([
-                        'user_id' =>  $user_id,
-                        'user_name' =>  $user_name
-                    ]);
-                    Auth::guard('oauth')->login($createOauthUser);
+                    $isOauthUser=new OauthUser;
+                    $isOauthUser->user_id=$user_id;
+                    $isOauthUser->user_name=$user_name;
+                    $isOauthUser->id_token=$json->id_token;
+                    $isOauthUser->access_token=$json->access_token;
+                    $isOauthUser->refresh_token=$json->refresh_token;
+                    $isOauthUser->token_type=$json->token_type;
+                    $isOauthUser->scope=$json->scope;
+                    $isOauthUser->expires_in=$request->session()->get('expires_in');
+                    $isOauthUser->last_login_at = Carbon::now()->toDateTimeString();
+                    $isOauthUser->save();
+                    Auth::guard('oauth')->login($isOauthUser);
                     return redirect()->intended('/enduser_dashboard');
                 }
             }
@@ -72,33 +90,15 @@ class ApplicationTokenController extends Controller
         } 
     } 
 
-        public function logout() {
-            $client = new Client([
-                   'curl' => [
-                       CURLOPT_SSL_VERIFYPEER => false,
-                    ],
-                 ]);
-       
-             $response = $client->request('POST', 'https://stg-sso.dit.gov.bt/oidc/logout', [
-                   'form_params' => [
-                     'post_logout_redirect_uri' => 'https://portal.tourism.gov.bt/sso/logout',
-                     'id_token_hint'=>auth()->user()->id_token,
-                    ]
-                ]);   
-            } 
-       
-      
 
-
-      public function logoutCallBack() {
+    public function logoutCallBack() {
         Auth::logout();
-        return redirect('/login');
-      }
+        return redirect('/');
+    }
 
-      private function getAuthorizationCode() {
-        return base64_encode('MRNEQWUn8AU7ii_99B_I5ihUG80a'.':'.'WYUyM5ZMLYOe03CaSd4VEuUQ2f0a');
-
-        }
+    private function getAuthorizationCode() {
+    return base64_encode('MRNEQWUn8AU7ii_99B_I5ihUG80a'.':'.'WYUyM5ZMLYOe03CaSd4VEuUQ2f0a');
+    }
 
     protected function guard()
     {

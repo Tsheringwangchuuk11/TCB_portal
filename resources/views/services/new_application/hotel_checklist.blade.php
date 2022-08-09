@@ -51,7 +51,7 @@
 														@if ($checkListStandard->standard_code===null)
 														<input type="hidden" name="assessor_rating[]" value="0" class="form-control input-sm bstxt">
 														@else
-														<input type="text" name="assessor_rating[]" class="form-control input-sm bstxt">
+														<input type="text" name="assessor_rating[]" class="form-control input-sm bstxt" id="assessor_rating" readonly="readonly">
 														@endif
 													</td>
 													<td>
@@ -147,18 +147,21 @@
 		//.toFixed() method will roundoff the final sum to 2 decimal places
 	 $("#bspoints").val(sum);
 	}
-	$("table").on("keyup", ".bstxt", function () {
-		calculateBsPoint();
-	});
 	
 	$('input[type="checkbox"]').on('change', function(){
         if($(this).is(":checked")){ // checkbox checked
 		currentRow = $(this).closest("tr");
         var currentVal=currentRow.find('.chk').val('1');
+		$(this).parents("tr:eq(0)").find("#assessor_rating").prop("readonly",true);
+		$(this).parents("tr:eq(0)").find("#assessor_rating").val('1');
+		calculateBsPoint();
         }
 		if($(this).is(":unchecked")){ // checkbox unchecked
 		currentRow = $(this).closest("tr");
         var currentVal=currentRow.find('.chk').val('0');
+		$(this).parents("tr:eq(0)").find("#assessor_rating").prop("readonly",false);
+		$(this).parents("tr:eq(0)").find("#assessor_rating").val('');
+		calculateBsPoint();
         }
     });
 </script>

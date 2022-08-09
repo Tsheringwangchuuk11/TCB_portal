@@ -5,7 +5,6 @@
    @csrf
    <input type="hidden" name="service_id" value="{{ $applicantInfos->module_id }}">
    <input type="hidden" name="module_id" value="{{ $applicantInfos->module_id }}">
-   <input type="hidden" class="form-control" name="service_name" value="{{ $applicantInfo->name }}">
    <div class="card">
         <div class="card-header">
             <h4 class="card-title">Event Details</h4>
@@ -100,7 +99,7 @@
                   <div class="form-group">
                      <label for="">Last Date Of Registration<span class="text-danger"> *</span></label>
                      <div class="input-group date" id="lastdate" data-target-input="nearest">
-                        <input type="text" name="todate" class="form-control datetimepicker-input" data-target="#lastdate"  value="{{ $applicantInfos->lastdate }}">
+                        <input type="text" name="todate" class="form-control datetimepicker-input" data-target="#lastdate"  value="{{ $applicantInfos->last_date }}">
                         <div class="input-group-append" data-target="#lastdate" data-toggle="datetimepicker">
                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                         </div>
@@ -231,7 +230,7 @@
             </div>
          </div>
       </div>
-         <div class="card-footer text-center">
+         <div class="text-center card-footer">
              <button name="status" value="APPROVED" class="btn btn-success"><li class="fas fa-check"></li> APPROVE</button>
              <button name="status"value="REJECTED" class="btn btn-danger" onclick="return requiredRemarks()"> <li class="fas fa-times"></li> REJECT</button>
          </div>

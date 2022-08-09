@@ -50,7 +50,7 @@
             <div class="col-md-5">
                 <div class="form-group">
                     <label for="">Owner Citizen ID<span class="text-danger">*</span> </label>
-                    <input type="text" class="form-control" name="cid_no" id="cid_no" autocomplete="off">
+                    <input type="text" class="form-control" name="cid_no" id="cid_no" autocomplete="off" maxlength="11">
                 </div>
             </div>
             <div class="col-md-5 offset-md-2">
@@ -117,18 +117,34 @@
     </div>
     <div class="card-body">
         <h6> <strong>Required supporting documents:</strong></h6>
-        <ol>
-            <li>
-                <em>A copy of the valid trade license.</em>      
-            </li>
-            <li>
-                <em>Valid Tax Clearance</em>      
-            </li>
-            <li>
-                <em>A copy of the letter of authorization from the building owner stating that the applicant is authorized to operate the office in his/her property or ownership certificate in case of own building</em>      
-            </li>
-        </ol>
-        @include('services/fileupload/fileupload')
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-4">
+                1.&nbsp;<em>A copy of the valid trade license.</em> 
+                </div>
+                <div class="col-md-3">
+                    <span class="btn bg-purple fileinput-button btn-sm">
+                        <i class="fas fa-plus fa-sm"></i>
+                        <span>Add file...</span>
+                        <input id="to_license_renew_trade_license_upload" type="file" name="filename"> 
+                    </span>
+                </div>
+                <div class="col-md-5" id="to_license_renew_trade_license_files"></div>
+            </div><br>
+            <div class="row">
+                <div class="col-md-4">
+                2.&nbsp;<em>Valid Tax Clearance</em> 
+                </div>
+                <div class="col-md-3">
+                    <span class="btn bg-purple fileinput-button btn-sm">
+                        <i class="fas fa-plus fa-sm"></i>
+                        <span>Add file...</span>
+                        <input id="to_license_renew_tax_clr_upload" type="file" name="filename"> 
+                    </span>
+                </div>
+                <div class="col-md-5" id="to_license_renew_tax_clr_files"></div>
+            </div><br>
+        </div>
     </div>
     <div class="card-footer text-center">
         <button type="submit"class="btn btn-success"><i class="fa fa-check"></i> APPLY</button>

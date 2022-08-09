@@ -374,7 +374,7 @@ class Services extends Model
 	}
 	public static function getLastInsertedId($tableName, $data){
 		 DB::table($tableName)->insert($data);
-		 $id =DB::getPdo()->lastInsertId();
+		$id =DB::getPdo()->lastInsertId();
 		return $id;
 	}
 	public static function updateOrSaveDetails($tableName, $data, $id){
@@ -750,10 +750,12 @@ class Services extends Model
 
 	}
 	public static function checkCompanyNameExists($companyName){
-        $query=\DB::table('t_operator_clearances as t1')
+         $query=\DB::table('t_operator_clearances as t1')
+	            	->leftjoin('t_workflow_dtls as t2','t2.application_no','=','t1.application_no')
                     ->where('t1.company_name',$companyName)
-                    ->exists();
-        return  $query;
+		   ->where('t2.status_id','3')
+                    ->exists();        
+                   return  $query;
 	}
 	
 	public static function getTotalApprovedApplication(){
@@ -941,15 +943,18 @@ class Services extends Model
 		}
 		
 		public static function getOperatorLicenseClearanceLetterContent($application_no,$service_id,$module_id){
+
 			$query=\DB::table('t_applications as a')
 					->leftjoin('t_workflow_dtls as b','b.application_no','=','a.application_no')
-					->leftjoin('t_operator_clearances as c','c.application_type_id','=' ,'a.application_type_id')
+					->leftjoin('t_operator_clearances as c','c.application_no','=' ,'a.application_no')
 					->leftjoin('t_letter_masters as d','d.application_type_id','=','c.application_type_id')
 					->leftjoin('t_village_masters as e' ,'e.id' ,'=','c.village_id')
 					->leftjoin('t_gewog_masters as f','f.id', '=','e.gewog_id')
 					->leftjoin('t_dzongkhag_masters as g','g.id','=','f.dzongkhag_id')
-					->select('a.application_no','c.name','c.cid_no','c.company_name','c.email','c.license_no','c.contact_no','d.*',
-					'e.village_name','f.gewog_name','g.dzongkhag_name',DB::raw('DATE_FORMAT(c.validity_date,"%d/%m/%Y") as validaty_date'))
+	                                ->leftjoin('t_partner_applications as p','p.application_no','=' ,'a.application_no')
+					->leftjoin('t_partner_dtls as pd','pd.operator_id','=' ,'p.id')
+					->select('pd.partner_cid_no','pd.partner_name','a.application_no','c.name','c.cid_no','c.company_name','c.email','c.license_no','c.contact_no','d.*',
+					'e.village_name','f.gewog_name','g.id as dzongkhag_id','g.dzongkhag_name',DB::raw('DATE_FORMAT(c.validity_date,"%d/%m/%Y") as validaty_date'))
 					->where('b.status_id','3')
 					->where('a.application_no',$application_no)
 					->where('d.service_id',$service_id)
@@ -957,7 +962,6 @@ class Services extends Model
 					->first();
 			return $query;	
 		}
-
 		public static function getcertificationContent($application_no,$service_id,$module_id){
 			$query=\DB::table('t_tourist_standard_dtls as a')
 						->leftjoin('t_village_masters as d','d.id','=', 'a.village_id')
@@ -966,6 +970,7 @@ class Services extends Model
 						->select('a.star_category_id','a.tourist_standard_name','a.cid_no','a.owner_name','d.village_name','e.gewog_name','f.dzongkhag_name',DB::raw('DATE_FORMAT(a.validaty_date,"%D %M,%Y") as validaty_date'))
 						->where('a.service_id',$service_id)
 						->where('a.module_id',$module_id)
+						->where('a.application_no',$application_no)
 						->first();
 			return $query;
 		}

@@ -34,19 +34,24 @@ Route::group(['prefix' => 'report', 'namespace' => 'Report'], function () {
     Route::get('public-report/{id}', 'PublicReportController@index');
     Route::get('reports', 'PublicReportController@ajaxReports');
 });
-
+//login_page_for_all_users
+Route::get('/user_login', 'MainController@user_login');
+Route::post('register', 'MainController@register');
+Route::post('/enduser_dashboard', 'MainController@checklogin');
+Route::get('/logout', 'MainController@logout')->name('logout');
 //public user
-Route::group(['namespace'=>'EndUser'], function () {
-    Route::get('sso/redirect', 'ApplicationTokenController@oAuthRedirect');
-    Route::get('sso/enduser_dashboard', 'ApplicationTokenController@callBack');
-    Route::get('signout', 'ApplicationTokenController@logout')->name('signout');
-    Route::post('sso/logout', 'ApplicationTokenController@logoutCallBack');
-});
+// Route::group(['namespace'=>'EndUser'], function () {
+//     Route::get('sso/redirect', 'ApplicationTokenController@oAuthRedirect');
+//     Route::get('sso/enduser_dashboard', 'ApplicationTokenController@callBack');
+//     Route::post('signout', 'ApplicationTokenController@logout')->name('signout');
+//     Route::get('sso/logout', 'ApplicationTokenController@logoutCallBack');
+    
+// });
 
 //route for the end user services
-Route::group(['middleware' => ['auth:oauth']], function () {
+Route::group(['middleware' => ['auth']], function () {
     Route::group(['namespace' => 'EndUser'], function() {
-        Route::get('/enduser_dashboard', 'EnduserController@getApplicationDetails')->name('');
+        Route::get('/enduser_dashboard', 'EnduserController@getApplicationDetails')->name('enduser_dashboard');
     });
     Route::group(['prefix' => 'application','namespace' => 'EndUser'], function() {
         //route for new application
@@ -138,6 +143,7 @@ Route::group(['middleware' => ['auth']], function () {
     //routes for approver
     Route::group(['prefix' => 'verification', 'namespace' => 'Approver'], function() {
         Route::get('openApplication/{applicationNo}/{serviceId}/{moduleId}', 'OpenApplicationController@openApplication');
+        Route::get('viewApplication/{applicationNo}/{serviceId}/{moduleId}', 'OpenApplicationController@viewApplication');
        
         //tourist standard hotel
         Route::get('tourist-standard-hotel/{applicationNo}/{status?}', 'TouristStandardHotelController@getApplicationDetails')->name('touriststandardhotel');
@@ -146,19 +152,23 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('name-ownership-cancellation-for-hotel', 'TouristStandardHotelController@hotelNameOwnershipCancellationApplication');
         Route::post('import-license-for-hotel', 'TouristStandardHotelController@importLicenseApplication');
         Route::post('work-permit', 'TouristStandardHotelController@workPermitApplication');
+        Route::get('tourist-standard-hotel-details/{applicationNo}/{status?}', 'TouristStandardHotelController@viewApplicationDetails')->name('touriststandardhoteldetails');
         
         //village home stay
         Route::get('village-homestay/{applicationNo}/{status?}', 'VillageHomeStayController@getApplicationDetails')->name('villagehomestay');
+        Route::get('village-homestay-details/{applicationNo}/{status?}', 'VillageHomeStayController@viewApplicationDetails')->name('villagehomestaydetails');
         Route::post('village-home-stay-assessment', 'VillageHomeStayController@villageHomeStayAssessmentApplication');
         Route::post('village-home-stay-license-cancel', 'VillageHomeStayController@villageHomeStayLicenseCancelApplication');
 
         //restaurant
         Route::get('restaurant/{applicationNo}/{status?}', 'RestaurantController@getApplicationDetails')->name('restaurant');
+        Route::get('restaurantdetails/{applicationNo}/{status?}', 'RestaurantController@viewApplicationDetails')->name('restaurantdetails');
         Route::post('restaurant-assessment', 'RestaurantController@restaurantAssessmentApplication');
         Route::post('restuarant-name-owbership-change', 'RestaurantController@restaurantNameAndOwnershipChangeApplication');
 
        //tour operator
         Route::get('tour-operator/{applicationNo}/{status?}', 'TourOperatorController@getApplicationDetails')->name('touropertor');
+        Route::get('tour-operator-details/{applicationNo}/{status?}', 'TourOperatorController@viewApplicationDetails')->name('touropertordetails');
         Route::post('operator-technical-clearance', 'TourOperatorController@tourOperatorTechnicalClearanceApplication');
         Route::post('tour-operator-assessment', 'TourOperatorController@tourOperatorAssessmentApplication');
         Route::post('proprieter-card', 'TourOperatorController@proprieterCardApplication');
@@ -175,28 +185,33 @@ Route::group(['middleware' => ['auth']], function () {
        
         //Media
         Route::get('media/{applicationNo}', 'MediaController@getApplicationDetails')->name('media');
+        Route::get('mediadetails/{applicationNo}', 'MediaController@viewApplicationDetails')->name('mediadetails');
         Route::post('fam', 'MediaController@famApplication');
         Route::post('tour-operator-fam', 'MediaController@TourOperatorfamApplication');
 
         //tourism product
         Route::get('tourism-product-development/{applicationNo}/{status?}', 'TourismProductController@getApplicationDetails')->name('tourismproductdevelopment');
+        Route::get('tourism-product-development-details/{applicationNo}/{status?}', 'TourismProductController@viewApplicationDetails')->name('tourismproductdevelopmentdetails');
         Route::post('eoi', 'TourismProductController@tourismProductEOIApplication');
         Route::post('new-tourism-product-development', 'TourismProductController@newTourismProductDevelopment');
         Route::post('existing-tourism-product-development', 'TourismProductController@existingTourismProductProposal');
 
         //tented accommodation
         Route::get('tended-accommodation/{applicationNo}/{status?}', 'TentedAccommodationController@getApplicationDetails')->name('tendedaccommodation');
+        Route::get('tended-accommodation-details/{applicationNo}/{status?}', 'TentedAccommodationController@viewApplicationDetails')->name('tendedaccommodationdetails');
         Route::post('tented-accommdation-assessment', 'TentedAccommodationController@tentedAccommAssessmentApplication');
         Route::post('name-ownership-cancellation-for-tented-accom', 'TentedAccommodationController@tentedAccommodationNameOwnershipCancellationApplication');
 
 
         //Tourism Events
         Route::get('tourism-event/{applicationNo}', 'TourismEventController@getApplicationDetails')->name('tourismevent');
+        Route::get('tourism-event-details/{applicationNo}', 'TourismEventController@viewApplicationDetails')->name('tourismeventdetails');
         Route::post('travel_fairs', 'TourismEventController@travelFairsApplication');
     });
     //routes for grievance redressal
     Route::group(['prefix' => 'feedback', 'namespace' => 'FeedBack'], function() {
         Route::get('grievances-redressal/{applicationNo}/{status?}', 'GrievanceRedressalController@getApplicationDetails')->name('grievancesredressal');
+        Route::get('grievances-redressal-details/{applicationNo}/{status?}', 'GrievanceRedressalController@viewApplicationDetails')->name('grievancesredressaldetails');
         Route::get('openApplication/{applicationNo}', 'GrievanceRedressalController@openApplication');
         Route::post('approved-grievance-application', 'GrievanceRedressalController@approvedGrievanceRedressalApplication');
     });

@@ -50,7 +50,7 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="" >Citizen ID<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control" name="cid_no" value="{{ old('cid_no') }}" id="cid_no" autocomplete="off">
+                        <input type="text" class="form-control" name="cid_no" value="{{ old('cid_no') }}" id="cid_no" autocomplete="off" maxlength="11">
                     </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
@@ -226,24 +226,47 @@
         </div>
         <div class="card-body">
             <h6> <strong>Required supporting documents:</strong></h6>
-            <ol>
-                <li>
-                    <em>
-                        valid License copy
-                    </em>
-                </li>
-                <li>
-                    <em>
-                        Tax Clearance
-                    </em>
-                </li>
-                <li>
-                    <em>
-                        CV/Skills certificate                    
-                    </em>
-                </li>
-            </ol>
-            @include('services/fileupload/fileupload')
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-3">
+                        <em>valid License copy</em> 
+                    </div>
+                    <div class="col-md-3">
+                        <span class="btn bg-purple fileinput-button btn-sm">
+                            <i class="fas fa-plus fa-sm"></i>
+                            <span>Add file...</span>
+                            <input id="work_license_upload" type="file" name="filename"> 
+                        </span>
+                    </div>
+                    <div class="col-md-6" id="work_license_files"></div>
+                </div><br>
+                <div class="row">
+                    <div class="col-md-3">
+                        <em>Copy of Technical Clearance</em> 
+                    </div>
+                    <div class="col-md-3">
+                        <span class="btn bg-purple fileinput-button btn-sm">
+                            <i class="fas fa-plus fa-sm"></i>
+                            <span>Add file...</span>
+                            <input id="work_tc_upload" type="file" name="filename"> 
+                        </span>
+                    </div>
+                    <div class="col-md-6" id="work_tc_files"></div>
+                </div><br>
+                <div class="row">
+                    <div class="col-md-3">
+                        <em>CV/Skills certificate</em> 
+                    </div>
+                    <div class="col-md-3">
+                        <span class="btn bg-purple fileinput-button btn-sm">
+                            <i class="fas fa-plus fa-sm"></i>
+                            <span>Add file...</span>
+                            <input id="work_cv_upload" type="file" name="filename"> 
+                        </span>
+                    </div>
+                    <div class="col-md-6" id="work_cv_files"></div>
+                </div>
+            </div>
         </div>
         <!-- card body ends -->
         <div class="card-footer text-center">

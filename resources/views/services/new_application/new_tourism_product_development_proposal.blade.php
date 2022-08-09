@@ -17,7 +17,7 @@
                 <div class="row">
                     <div class="form-group col-md-5">
                         <label for="">Citizen ID<span class="text-danger">*</span> </label>
-                        <input type="text" class="form-control" name="cid_no" onchange="api_webservices(this.value)">
+                        <input type="text" class="form-control" name="cid_no" onchange="api_webservices(this.value)" maxlength="11">
                         <span id="webserviceError" class="text-danger"></span>
                     </div>
                     <div class="form-group col-md-5 offset-md-2">
@@ -32,7 +32,7 @@
                     </div>
                     <div class="form-group col-md-5 offset-md-2">
                         <label for="">Contact Number <span class="text-danger">*</span> </label>
-                        <input type="text" class="form-control" name="contact_no" id="contact_no" autocomplete="off">
+                        <input type="text" class="form-control" name="contact_no" id="contact_no" autocomplete="off" maxlength="8">
                     </div>
                 </div>
                 <div class="row">
@@ -52,7 +52,7 @@
     <div class="card-body">
         <div class="row">
             <div class="form-group col-md-5">
-                <label for="">Product Types <span class="text-danger">*</span> </label>
+                <label for="">Product/Infrastructure Type <span class="text-danger">*</span> </label>
                 <input type="text" class="form-control" name="product_type" autocomplete="off">  
             </div>
             <div class="form-group col-md-5 offset-md-2">
@@ -62,11 +62,11 @@
         </div>
         <div class="row">
             <div class="form-group col-md-5">
-                <label for="">Product description in detail<span class="text-danger">*</span></label>
+                <label for="">Product/Infrastructure description in detail<span class="text-danger">*</span></label>
                 <input type="text" class="form-control" name="product_des" autocomplete="off">  
             </div>
             <div class="form-group col-md-5 offset-md-2">
-                <label for=""> Project cost<span class="text-danger">*</span></label>
+                <label for=""> Project cost (In Million)<span class="text-danger">*</span></label>
                 <input type="text" class="form-control" name="project_cost" autocomplete="off">  
             </div>
         </div>
@@ -142,19 +142,34 @@
         </div>
         <div class="card-body">
             <h6> <strong>Required supporting documents:</strong></h6>
-            <ol>
-                <li>
-                    <em>An application addressed to the Director General of TCB requesting the issuance
-                    of technical clearance.</em>   
-                    </em>
-                </li>
-                <li>
-                    <em>
-                    Architectural drawings 
-                    </em>
-                </li>
-            </ol>
-            @include('services/fileupload/fileupload')
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-4">
+                    1.&nbsp;<em>Detailed Project Proposal</em> 
+                    </div>
+                    <div class="col-md-3">
+                        <span class="btn bg-purple fileinput-button btn-sm">
+                            <i class="fas fa-plus fa-sm"></i>
+                            <span>Add file...</span>
+                            <input id="project_proposal_upload" type="file" name="filename"> 
+                        </span>
+                    </div>
+                    <div class="col-md-5" id="project_proposal_files"></div>
+                </div><br>
+                <div class="row">
+                    <div class="col-md-4">
+                    2.&nbsp;<em>Sector clearance from all relevant agencies (Note: Merge to one pdf and upload if there is more than one file)</em> 
+                    </div>
+                    <div class="col-md-3">
+                        <span class="btn bg-purple fileinput-button btn-sm">
+                            <i class="fas fa-plus fa-sm"></i>
+                            <span>Add file...</span>
+                            <input id="sector_clearance_upload" type="file" name="filename"> 
+                        </span>
+                    </div>
+                    <div class="col-md-5" id="sector_clearance_files"></div>
+                </div><br>
+            </div>
         </div>
         <!-- card body ends -->
         <div class="card-footer text-center">

@@ -11,13 +11,14 @@ class EnduserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:oauth');
+        $this->middleware('auth');
     }
 
     public function getApplicationDetails()
     {
-
+        
         $userId = auth()->user()->user_id;
+
         $endUserApplicantDtls = WorkFlowDetails::getEndUserApplicationDtls($userId);
         return view('dashboards.public',compact('endUserApplicantDtls'));
     }

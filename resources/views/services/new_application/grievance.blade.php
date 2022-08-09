@@ -56,7 +56,7 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="">Mobile Number <span class="text-danger">*</span> </label>
-                        <input type="number" class="form-control" name="complainant_mobile_no" value="{{ old('complainant_mobile_no') }}" autocomplete="off">
+                        <input type="number" class="form-control" name="complainant_mobile_no" value="{{ old('complainant_mobile_no') }}" autocomplete="off" maxlength="8">
                     </div>
                 </div>
                 <div class="col-md-5 offset-md-2">
@@ -102,7 +102,7 @@
                 <div class="col-md-5 offset-md-2">
                     <div class="form-group">
                         <label for="">Mobile Number <span class="text-danger">*</span> </label>
-                        <input type="number" class="form-control" name="respondent_mobile_no" value="{{ old('respondent_mobile_no') }}" autocomplete="off">
+                        <input type="number" class="form-control" name="respondent_mobile_no" value="{{ old('respondent_mobile_no') }}" autocomplete="off" maxlength="8">
                     </div>
                 </div>
             </div>
@@ -134,20 +134,53 @@
         </div>
         <div class="card-body">
             <h6> <strong>Required supporting documents:</strong></h6>
-            <ol>
-                <li id="showlist" style="display: none">
-                    <em>please provide a copy of the document authorizing the representation (“power of attorney”) together with the following details</em>
-                </li>
-                <li>
-                    <em>Please indicate what supporting documents you propose to submit in support of your Application and, where appropriate: (Please attach additional sheet where necessary to fully describe your evidence)</em>
-                </li>
-                <li>
-                    <em>This Claim is accompanied by:<br>
+            <div class="col-md-12">
+                <div class="row" id="showlist" style="display: none">
+                    <div class="col-md-4">
+                    1.&nbsp;<em>please provide a copy of the document authorizing the representation (“power of attorney”) together with the following details</em> 
+                    </div>
+                    <div class="col-md-3">
+                        <span class="btn bg-purple fileinput-button btn-sm">
+                            <i class="fas fa-plus fa-sm"></i>
+                            <span>Add file...</span>
+                            <input id="power_of_attorney_upload" type="file" name="filename"> 
+                        </span>
+                    </div>
+                    <div class="col-md-5" id="power_of_attorney_files"></div>
+                </div><br>
+                <div class="row">
+                    <div class="col-md-4">
+                    <em id="one_val">1.&nbsp;Please indicate what supporting documents you propose to submit in support of your Application and, where appropriate: (Please attach additional sheet where necessary to fully describe your evidence)</em> 
+                    <em id="two_val" style="display: none">2.&nbsp;Please indicate what supporting documents you propose to submit in support of your Application and, where appropriate: (Please attach additional sheet where necessary to fully describe your evidence)</em>
+                    </div>
+                    <div class="col-md-3">
+                        <span class="btn bg-purple fileinput-button btn-sm">
+                            <i class="fas fa-plus fa-sm"></i>
+                            <span>Add file...</span>
+                            <input id="grievance_support_doc_upload" type="file" name="filename"> 
+                        </span>
+                    </div>
+                    <div class="col-md-5" id="grievance_support_doc_files"></div>
+                </div><br>
+                <div class="row">
+                    <div class="col-md-4">
+                    <em id="three_val">2.&nbsp;This Claim is accompanied by:<br>
                     (a)	a copy of the contract document including email correspondences, itinerary, copy of remittance, between the Claimant and the Respondent
                     </em>
-                </li>
-            </ol>
-            @include('services/fileupload/fileupload')
+                    <em id="four_val" style="display: none">3.&nbsp;This Claim is accompanied by:<br>
+                    (a)	a copy of the contract document including email correspondences, itinerary, copy of remittance, between the Claimant and the Respondent
+                    </em>  
+                    </div>
+                    <div class="col-md-3">
+                        <span class="btn bg-purple fileinput-button btn-sm">
+                            <i class="fas fa-plus fa-sm"></i>
+                            <span>Add file...</span>
+                            <input id="contract_doc_upload" type="file" name="filename"> 
+                        </span>
+                    </div>
+                    <div class="col-md-5" id="contract_doc_files"></div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="card">
@@ -217,10 +250,18 @@
                     $("#representative").show();
                     $("#showlist").show();
                     $("#complainant").hide();
+                    $("#one_val").hide();
+                    $("#two_val").show();
+                    $("#three_val").hide();
+                    $("#four_val").show();
                 }else{
                     $("#complainant").show();
                     $("#representative").hide();
                     $("#showlist").hide();
+                    $("#one_val").show();
+                    $("#two_val").hide();
+                    $("#three_val").show();
+                    $("#four_val").hide();
                 }
             });
         });

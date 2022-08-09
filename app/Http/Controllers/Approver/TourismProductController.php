@@ -68,6 +68,49 @@ class TourismProductController extends Controller
          }
     }
 
+    public function viewApplicationDetails($applicationNo,$status=null){
+        $data['applicantInfo']=Services::getApplicantDetails($applicationNo);
+        $serviceId= $data['applicantInfo']->service_id;
+       
+        if($serviceId==15){
+            $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+            $data['productInfo']=Services::getProductInfoDetails($applicationNo);
+            $data['documentInfos']=Services::getDocumentDetails($applicationNo);
+            if($status==9){
+                return view('report.application_details.view_eoi',$data,compact('status'));
+                }else{
+                    $status= WorkFlowDetails::getStatus('APPROVED')->id;
+                    return view('report.application_details.view_eoi',$data,compact('status'));
+                }
+
+        }
+        else if($serviceId==16){
+        //new Tourism product development
+        $data['documentInfos']=Services::getDocumentDetails($applicationNo);
+        $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+        $data['productInfo']=Services::getProductInfoDetails($applicationNo);
+        if($status==9){
+            return view('report.application_details.view_new_tourism_product_development',$data,compact('status'));
+            }else{
+                $status= WorkFlowDetails::getStatus('APPROVED')->id;
+                return view('report.application_details.view_new_tourism_product_development',$data,compact('status'));
+            }
+      }
+      elseif($serviceId==17){
+        // Existing Tourism product proposal
+        $data['documentInfos']=Services::getDocumentDetails($applicationNo);
+        $data['productTypes'] = Dropdown::getDropdownList("12");
+        $data['dzongkhagLists'] = Dropdown::getDropdowns("t_dzongkhag_masters","id","dzongkhag_name","0","0");
+        $data['productInfo']=Services::getProductInfoDetails($applicationNo);
+        if($status==9){
+            return view('report.application_details.view_existing_tourism_product_proposal',$data,compact('status'));
+            }else{
+                $status= WorkFlowDetails::getStatus('APPROVED')->id;
+                return view('report.application_details.view_existing_tourism_product_proposal',$data,compact('status'));
+            }
+         }
+    }
+
     //Approval function for toueism product EOI
     public function tourismProductEOIApplication(Request $request,Services $service){
         $roles = auth()->user()->roles()->get();

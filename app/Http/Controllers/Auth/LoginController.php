@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use App\Models\WorkFlowDetails;
 
 class LoginController extends Controller
 {
@@ -133,8 +134,9 @@ class LoginController extends Controller
         foreach ($roles as $role){
             $roleId = $role->id;
         }
-
-        return '/dashboard';
+        $userId = auth()->user()->user_id;
+        $endUserApplicantDtls = WorkFlowDetails::getEndUserApplicationDtls($userId);
+        return view('dashboards.public',compact('endUserApplicantDtls'));
     }
 
     public function username()

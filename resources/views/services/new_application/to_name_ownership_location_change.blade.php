@@ -33,7 +33,7 @@
             <div class="col-md-5  offset-md-2">
                 <div class="form-group">
                     <label for="">License Date.<span class="text-danger">*</span> </label>
-                    <input type="date" class="form-control" name="license_date" id="license_date" readonly="true">
+                    <input type="date" class="form-control" name="license_date" id="license_date">
                     <input type="hidden" class="form-control" name="dispatch_no" id="dispatch_no">
 
                 </div>
@@ -207,6 +207,18 @@
                 <em>
                 Valid business license              
             </li>
+	    <li>
+		<em> Agreement with owner with legal stamp </em>
+	    </li>
+	    <li>
+		<em> Valid Tax Clearance Certificate </em>
+	    </li>
+	    <li>
+		<em> Valid Security Clearance Certificate </em>
+	    </li>
+	    <li> 
+		<em> New Owner undertaking letter</em>
+	    </li> 
             <li>  
                 <em>New owner – academic transcript minimum class 10</em>
             </li>
@@ -219,18 +231,18 @@
                 <em>License copy</em>
             </li>
             <li>
-                <em>Tax clearance copy</em>
+                <em>Copy of Valid Tax clearance Certificate</em>
             </li>
         </ol>
         <ol id="location_change" style="display:none">
             <li>
-                <em>Valid business license</em>
+                <em>Copy of Valid business license</em>
             </li>
             <li>
                 <em>Rental agreement with owner of house</em>
             </li>
             <li>
-                <em>Tax clearance certificate</em>
+                <em>Copy of Valid Tax Clearance Certificate</em>
             </li>
         </ol>
         @include('services/fileupload/fileupload')
