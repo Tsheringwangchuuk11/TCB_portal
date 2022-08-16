@@ -92,34 +92,51 @@
         </div>
 
 	<div class="row">
-            <div class="form-group col-md-5">
-                <label for="">Brief Description [new]<span class="text-danger">*</span> </label>
-                <input type="text" class="form-control" name="n_description" autocomplete="off">
+        <div class="form-group col-md-5">
+            <label for="">Brief Description [new]<span class="text-danger">*</span> </label>
+            <input type="text" class="form-control" name="n_description" autocomplete="off">
+        </div>
+        <div class="form-group col-md-5 offset-md-2">
+            <label for=""> Online Booking <span class="text-danger">*</span> </label>
+            <br>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="online_booking" id="online_booking_yes" value="yes" onclick="online_book_click(this.value)"/>
+                <label class="form-check-label" for="flexRadioDefault1"> Yes </label>
             </div>
-            <div class="form-group col-md-5 offset-md-2">
-                <label for=""> Hotel Booking URL [new] <span class="text-danger">*</span> </label>
-                <input type="text" class="form-control" name="n_booking" autocomplete="off">
+
+            <!-- Default checked radio -->
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="online_booking" id="online_booking_no" value="no" onclick="online_book_click(this.value)"/>
+                <label class="form-check-label" for="flexRadioDefault2"> No </label>
             </div>
         </div>
-
-
-
-        <div class="row">
-            <div class="form-group col-md-5">
-                <label for="">Email <span class="text-danger">*</span> </label>
-                <input type="email" class="form-control email" name="email" autocomplete="off">
-            </div>
-            <div class="form-group col-md-5 offset-md-2">
-                <label for="">Internet Homepage <span class="text-danger">*</span> </label>
-                <input type="text" class="form-control" name="webpage_url" autocomplete="off">
-            </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-5">
+            <label for=""> Hotel Booking URL [new] </label>
+            <input type="text" class="form-control" name="n_booking" autocomplete="off" id="n_booking" readonly="readonly">
         </div>
-        <div class="row">
-	    <div class="form-group col-md-5">
-                <label for="">Number of Beds <span class="text-danger">*</span> </label>
-                <input type="text" class="form-control numeric-only" name="number" autocomplete="off">
-            </div>
+        <div class="form-group col-md-5  offset-md-2">
+            <label for="">Email <span class="text-danger">*</span> </label>
+            <input type="email" class="form-control email" name="email" autocomplete="off">
         </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-5">
+            <label for="">Internet Homepage <span class="text-danger">*</span> </label>
+            <input type="text" class="form-control" name="webpage_url" autocomplete="off">
+        </div>
+        <div class="form-group col-md-5  offset-md-2">
+            <label for="">Number of Beds <span class="text-danger">*</span> </label>
+            <input type="text" class="form-control numeric-only" name="number" autocomplete="off">
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-5">
+            <label for="">Whatsapp No <span class="text-danger">*</span> </label>
+            <input type="text" class="form-control numeric-only" name="whatsapp_number" autocomplete="off" maxlength="8">
+        </div>
+    </div>
     </div>
 </div>
 
@@ -188,14 +205,14 @@
             </div>
         </div>
 
-	<div class="row">
-            <div class="form-group col-md-4">
-                <label for="">Latitude [new]<span class="text-danger">*</span> </label>
-                <input type="text" class="form-control numeric-only" name="n_latitude" autocomplete="off">
-            </div>
+	    <div class="row">
             <div class="form-group col-md-4">
                 <label for=""> Longitude [new] <span class="text-danger">*</span> </label>
                 <input type="text" class="form-control numeric-only" name="n_longitude" autocomplete="off">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="">Latitude [new]<span class="text-danger">*</span> </label>
+                <input type="text" class="form-control numeric-only" name="n_latitude" autocomplete="off">
             </div>
         </div>
     </div>
@@ -206,15 +223,18 @@
     </div>
     <div class="card-body">
         <div class="row">
-            <div class="form-group col-md-5">
+            <div class="form-group col-md-4">
                 <label>Room Type <span class="text-danger">*</span></label>
             </div>
-            <div class="form-group col-md-5 offset-md-2">
+            <div class="form-group col-md-4">
                 <label for="">Number of Room<span class="text-danger">*</span> </label>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="">Cost for Each Room<span class="text-danger">*</span> </label>
             </div>
         </div>
         <div class="row" id="rowId">
-            <div class="form-group col-md-5">
+            <div class="form-group col-md-4">
                 <select class="form-control room_type_id" name="room_type_id[]" id="room_type_id">
                     <option value=""> - Select Room - </option>
                     @foreach ($roomTypeLists as $roomTypeList)
@@ -222,8 +242,11 @@
                     @endforeach
                 </select>
             </div>
-            <div class="form-group col-md-4 offset-md-2">
+            <div class="form-group col-md-4">
                 <input type="text" class="form-control calroomtotal" name="room_no[]" id="room_no" onkeyup="TotalRoomCal()">
+            </div>
+            <div class="form-group col-md-4">
+                <input type="text" class="form-control" name="room_cost[]" id="room_cost">
             </div>
         </div>
         <div id="adddiv"></div>
@@ -235,6 +258,7 @@
         </div>
     </div>
 </div>
+
 <div class="card">
     <div class="card-header">
         <h4 class="card-title">Staff Details</h4>
@@ -683,6 +707,19 @@
             });
             //.toFixed() method will roundoff the final sum to 2 decimal places
             $("#room_total").html(sum);
+         }
+
+         function online_book_click(online_booking)
+         {
+            if(online_booking == "yes")
+            {
+                $('#n_booking').removeAttr('readonly');
+            }
+            else
+            {
+                $("#n_booking").attr('readonly','readonly');
+            }
+
          }
     </script>   
 @endsection

@@ -4072,6 +4072,82 @@ $(function () {
    });
 });
 
+$(function () {
+   'use strict';
+   $('#logo_upload').fileupload({
+      add: function (e, data) {
+         var serviceId = $("#service_id").val();
+         var uploadErrors = [];
+         var acceptFileTypes = /(\.|\/)(gif|jpe?g|png|pdf|tiff)$/i;
+         if(data.originalFiles[0]['type'].length && !acceptFileTypes.test(data.originalFiles[0]['name'])) {
+            uploadErrors.push(data.originalFiles[0]['name'] + ' is not alloawed. Invalid file type.');
+         }
+         if(serviceId==1) {
+            if (data.originalFiles[0]['size'] >= 10000000) {
+               uploadErrors.push(data.originalFiles[0]['name'] + ' is too big, ' + parseInt(data.originalFiles[0]['size'] / 1024 / 1024) + 'M.. Maximum file size should be 10MB.');
+            }
+         }else {
+            if (data.originalFiles[0]['size'] > 2000000) {
+               uploadErrors.push(data.originalFiles[0]['name'] + ' is too big, ' + parseInt(data.originalFiles[0]['size'] / 1024 / 1024) + 'M.. File should be smaller than 2MB.');
+            }
+         }
+         if (uploadErrors.length > 0) {
+            $('#msgId').html(uploadErrors);
+            $('#alertErrorId').show().delay(6000).queue(function (n) {
+                  $(this).hide();
+                  n();
+            });
+         } else {
+            data.submit();
+         }
+      },
+      beforeSend:function(){
+         $('#success').empty();
+         $('.progress-bar').text('0%');
+         $('.progress-bar').css('width', '0%');
+         $('#progress').show();
+      },
+      uploadProgress: function (event, position, total, percentComplete) {
+         $('.progress-bar').text(percentComplete + '0%');
+         $('.progress-bar').css('width', percentComplete + '0%');
+     },
+    
+      url: '/documentattach',
+      type: 'POST',
+      headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      autoUpload: true,
+      dataType : 'json',
+      success: function (data) {
+         var baseurl = window.location.origin;
+         if (data.status == 'true') {
+            $('#success').html('<div class="text-success text-center"><b>'+data.success+'</b></div><br /><br />');
+            $('.progress-bar').text('Uploaded');
+            $('.progress-bar').css('width', '100%');
+            setTimeout(function() {
+               $('.progress-bar').css('width', '0%').attr('aria-valuenow', 0);
+               $('#progress').hide();
+            }, 3000);
+            jQuery.each(data.data, function (index, row) {
+               $('#logo_files').append('<div class="image_wrap mb-2">'
+                  + '<input type="hidden" name="documentId[]" value="' + row.id + '"/><strong>' + row.document_name + '</strong> &nbsp;'
+                  + '<a href=" '+baseurl+'/'+row.upload_url+'"  class="btn btn-sm btn-info" target="_blank"><i class="fa fa-link"></i> View </a> &nbsp;'
+                  + '<span onClick="deletefile(this.id,\'' + row.id + '\',\'' + row.upload_url + '\')" id="deleteId' + count + '" class="delete-line btn btn-danger btn-sm" data-file_id="' + row.id + '">'
+                  + '<i class="fas fa-trash-alt fa-sm"></i> Delete</span></div>');
+               count++;
+            });
+         } else {
+            $('#msgId').html(data.message);
+            $('#alertErrorId').show().delay(6000).queue(function (n) {
+                  $(this).hide();
+                  n();
+            });
+         }
+      },
+   });
+});
+
 function deletefile(id, fileId, url) { 
    if (confirm('Are you sure you want to delete this file?')){
       var id = id;

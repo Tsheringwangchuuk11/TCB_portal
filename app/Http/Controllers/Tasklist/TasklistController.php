@@ -22,17 +22,19 @@ class TasklistController extends Controller
         if (!is_null(auth()->user()->location_id)){
             $location_id = auth()->user()->location_id;
         }
+        $user = auth()->user();
         $privilegeIds = TRolePrivilege::whereIn('role_id', $roles)->orderBy('system_sub_menu_id', 'asc')->select('system_sub_menu_id')->get();
         $sub_menu_id = TRolePrivilege::whereIn('role_id', $roles)->orderBy('system_sub_menu_id', 'asc')->pluck('system_sub_menu_id')->toArray();
         if(in_array(36, $sub_menu_id)){
         $groupTasklists = TaskDetails::getTasklists($privilegeIds, $releaseId->id, 0, $location_id,'t_grievance_applications');
         $myTasklists = TaskDetails::getTasklists($privilegeIds,$claimId->id, $user_id, $location_id,'t_grievance_applications');
-        return view('services.tasklist.tasklist',compact('groupTasklists','myTasklists'));
+        
+        return view('services.tasklist.tasklist',compact('groupTasklists','myTasklists','user'));
 
         }else{
             $groupTasklists = TaskDetails::getTasklists($privilegeIds, $releaseId->id, 0, $location_id,'t_applications');
             $myTasklists = TaskDetails::getTasklists($privilegeIds,$claimId->id, $user_id, $location_id,'t_applications');
-        return view('services.tasklist.tasklist',compact('groupTasklists','myTasklists'));
+        return view('services.tasklist.tasklist',compact('groupTasklists','myTasklists','user'));
         }
     }
     public function claimApplication(Request $request){
@@ -70,5 +72,28 @@ class TasklistController extends Controller
         }
         return response()->json(['status'=>'false', 'msg' => ' Application number: '.$request->application_no.' has not been unassigned']);
 
+    }
+    public function activateApplication(Request $request){
+        $releaseId = WorkFlowDetails::getStatus('INITIATED');
+        $claimId = WorkFlowDetails::getStatus('CLAIMED');
+        $data = [
+            'user_id' => auth()->user()->id,
+            'status_id' => $claimId->id
+        ];
+        // to check application already used by somebody
+        $checkAppUsed = TaskDetails::where('application_no', '=', $request->application_no)
+                                    ->whereNull('user_id')
+                                    ->where('status_id', '=', $releaseId->id)
+                                    ->exists();
+        if ($checkAppUsed){
+            if(TaskDetails::savedTaskDtlsAudit($request->application_no)){
+                TaskDetails::where('application_no', $request->application_no)->update($data);
+                return \response()->json(['status' => 'true', 'msg' => ' Application number: '.$request->application_no.' has been assigned to you']);
+            }
+        }else {
+            return response()->json(['status'=>'false', 'msg' => ' Application number: '.$request->application_no.' has been already assigned to someone']);
+        }
+
+        return response()->json(['status'=>'false', 'msg' => ' Application number: '.$request->application_no.' has not been assigned to you']);
     }
 }

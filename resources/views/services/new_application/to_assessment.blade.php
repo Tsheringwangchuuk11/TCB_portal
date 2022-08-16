@@ -75,6 +75,76 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label for="">Brief Description<span class="text-danger">*</span> </label>
+                    <input type="text" class="form-control" name="description" value="{{ old('description') }}">
+                </div>
+            </div>
+            <div class="form-group col-md-5 offset-md-2">
+                <label for=""> Online Booking <span class="text-danger">*</span> </label>
+                <br>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="online_booking" id="online_booking_yes" value="yes" onclick="online_book_click(this.value)"/>
+                    <label class="form-check-label" for="flexRadioDefault1"> Yes </label>
+                </div>
+
+                <!-- Default checked radio -->
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="online_booking" id="online_booking_no" value="no" onclick="online_book_click(this.value)"/>
+                    <label class="form-check-label" for="flexRadioDefault2"> No </label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-5">
+                <label for=""> Hotel Booking URL [new] </label>
+                <input type="text" class="form-control" name="n_booking" autocomplete="off" id="n_booking" readonly="readonly">
+            </div>
+            <div class="col-md-5 offset-md-2">
+                <div class="form-group">
+                    <label for="">Service Description<span class="text-danger">*</span> </label>
+                    <input type="text" class="form-control" name="service_description" value="{{ old('service_description') }}">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label for="">Tour Packages<span class="text-danger">*</span> </label>
+                    <input type="text" class="form-control" name="tour_packages" value="{{ old('tour_packages') }}">
+                </div>
+            </div>
+            <div class="col-md-5 offset-md-2">
+                <div class="form-group">
+                    <label for="">Pricing<span class="text-danger">*</span> </label>
+                    <input type="text" class="form-control" name="pricing" value="{{ old('pricing') }}">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label for="">Discounts<span class="text-danger">*</span> </label>
+                    <input type="text" class="form-control" name="discounts" value="{{ old('discounts') }}">
+                </div>
+            </div>
+            <div class="col-md-5 offset-md-2">
+                <div class="form-group">
+                    <label for="">Policy<span class="text-danger">*</span> </label>
+                    <input type="text" class="form-control" name="policy" value="{{ old('policy') }}">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label for="">Physical Address<span class="text-danger">*</span> </label>
+                    <input type="text" class="form-control" name="physical_address" value="{{ old('physical_address') }}">
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <div class="card">
@@ -185,6 +255,22 @@
                                     </em>
                                 </div>
                                 <div class="col-md-5" id="authorization_files"></div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-5">
+                                5.&nbsp;<input type="checkbox" name="checkboxes"  class="check-one" id="logo_files_checkbox" onclick="logo_files_check()">&nbsp;Logo</em> 
+                                </div>
+                                <div class="col-md-2">
+                                    <em id="logo_div" style="display:none;">
+                                        <span class="btn bg-purple fileinput-button btn-sm">
+                                            <i class="fas fa-plus fa-sm"></i>
+                                            <span>Add file...</span>
+                                            <input id="logo_upload" type="file" name="filename"> 
+                                        </span>
+                                    </em>
+                                </div>
+                                <div class="col-md-5" id="logo_files"></div>
                             </div>
                         </div>
                     </div>
@@ -380,6 +466,31 @@
             {
                 $('#authorization_files_div').hide();
             }
+         }
+
+         function logo_files_check()
+         {
+            if($('#logo_files_checkbox').is(':checked'))
+            {
+                $('#logo_div').show();
+            }
+            else
+            {
+                $('#logo_div').hide();
+            }
+         }
+
+         function online_book_click(online_booking)
+         {
+            if(online_booking == "yes")
+            {
+                $('#n_booking').removeAttr('readonly');
+            }
+            else
+            {
+                $("#n_booking").attr('readonly','readonly');
+            }
+
          }
     </script>
 @endsection

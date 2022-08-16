@@ -356,6 +356,24 @@ class ServiceController extends Controller
             $data->to_date=$service->setDateAttribute($request->to_date);
             $data->remarks=$request->remarks;
             $data->dispatch_no=$request->dispatch_no;
+            //new fields
+            $data->brief_description=$request->n_description;
+            $data->online_booking=$request->online_booking;
+            $data->no_of_beds=$request->no_of_beds;
+            $data->whatsapp=$request->webpage_url;
+
+            $data->reachable_destination=$request->n_destination;
+            $data->reachable_events=$request->n_events;
+            $data->additional_service=$request->n_services;
+            $data->policy=$request->n_policy;
+            $data->latitude->$request->n_latitude;
+            $data->longitude->$request->n_longitude;
+
+            $data->tour_packages->$request->tour_packages;
+            $data->pricing->$request->pricing;
+            $data->discount->$request->discount;
+            $data->physical_address->$request->physical_address;
+
             //check this two values are not in db
             // $data->n_thramno=$request->n_thramno;
             // $data->n_plotno=$request->n_plotno;
@@ -373,6 +391,7 @@ class ServiceController extends Controller
                                 'application_no' => $application_no,
                                 'room_type_id' => $request->room_type_id[$key],
                                 'room_no' => $request->room_no[$key],
+                                'cost' => $request->room_cost[$key],
                             ];
                         }
                         $service->insertDetails('t_room_applications',$roomAppData);

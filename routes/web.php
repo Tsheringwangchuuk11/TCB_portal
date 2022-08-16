@@ -84,6 +84,37 @@ Route::group(['middleware' => ['auth']], function () {
 //APIs
 Route::group(['prefix' => 'api', 'namespace' => 'Api'], function () {
     Route::get('get_citizen_details', 'DcrcController@getCitizenDetails');
+
+    //Hotels Api
+    Route::get('hotels-list', 'DcrcController@getHotelsList');
+    Route::get('hotels-details/{hotel_id}', 'DcrcController@getHotelDetails');
+    Route::get('hotels-search-category/{category_id}', 'DcrcController@getHotelCategoryList');
+    Route::get('hotels-search-region/{region_id}', 'DcrcController@getHotelRegionList');
+
+    //Home Stays Api
+    Route::get('home-stay-list', 'DcrcController@getHomeStayList');
+    Route::get('home-stay-details', 'DcrcController@getHomeStayDetails');
+    Route::get('home-stay-search-region', 'DcrcController@getHomeStayRegionList');
+
+    //Tented Accomadation Api
+    Route::get('tented-acc-list', 'DcrcController@getTentedAccList');
+    Route::get('tented-acc-details', 'DcrcController@getTentedAccDetails');
+    Route::get('tented-acc-search-region', 'DcrcController@getTentedAccRegionList');
+
+    //Motor Cycle Rental Api
+    Route::get('motor-cycle-list', 'DcrcController@getMotorCycleList');
+    Route::get('motor-cycle-details', 'DcrcController@getMotorCycleDetails');
+    Route::get('motor-cycle-search-region', 'DcrcController@getMotorCycleRegionList');
+
+    //Car Rental Api
+    Route::get('car-rental-list', 'DcrcController@getCarRentalList');
+    Route::get('car-rental-details', 'DcrcController@getCarRentalDetails');
+    Route::get('car-rental-search-region', 'DcrcController@getCarRentalRegionList');
+
+    //Bus Rental Api
+    Route::get('bus-rental-list', 'DcrcController@getBusRentalList');
+    Route::get('bus-rental-details', 'DcrcController@getBusRentalDetails');
+    Route::get('bus-rental-search-region', 'DcrcController@getBusRentalRegionList');
 });
 // fileuploads
 Route::post('/documentattach', 'FileUploadController@addDocuments');
@@ -284,6 +315,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => 'excel', 'namespace' => 'Excel'], function() {
     Route::resource('uploads', 'ExcelUploadController');
     });
+
+    
+
 });
 
 

@@ -232,6 +232,7 @@
             var url = "{{ url('verification/openApplication') }}"+"/"+applicationNo+"/"+serviceId+"/"+moduleId;
             window.location.href = url;
         }
+
     </script>
 @endsection
 

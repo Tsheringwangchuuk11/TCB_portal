@@ -46,6 +46,7 @@ class MainController extends Controller
         $data = DB::table('t_users')->where('email',$userId)->first('id');
         $roleCount = \DB::table('t_user_roles')->where('user_id', '=', $data->id)
             ->count();
+            
         $roles = DB::table('t_user_roles')->where('user_id',$data->id)->get();
 
         $roleId = 0;
